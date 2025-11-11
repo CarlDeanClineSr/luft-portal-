@@ -1,0 +1,27 @@
+# Capsule frontmatter validator (runs on PR)
+name: Capsule frontmatter validate
+on:
+  pull_request:
+    paths:
+      - 'capsules/**.md'
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Find capsules
+        run: |
+          python - <<'PY'
+          import frontmatter, glob, sys
+          ok=True
+          for f in glob.glob("capsules/*.md"):
+              post = frontmatter.load(f)
+              required = ['id','title','tags','status']
+              missing=[k for k in required if k not in post.metadata]
+              if missing:
+                  print(f"Missing {missing} in {f}")
+                  ok=False
+          if not ok:
+              sys.exit(1)
+          print("All capsules OK")
+          PY
