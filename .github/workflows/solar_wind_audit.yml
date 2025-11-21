@@ -1,0 +1,25 @@
+name: LUFT Solar Wind Audit
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Runs hourly
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch Plasma Data
+        run: curl -o data/ace_plasma_latest.json https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json
+      - name: Fetch Mag Data
+        run: curl -o data/ace_mag_latest.json https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json
+      - name: Extract Latest Entry
+        run: |
+          jq '.[-1]' data/ace_plasma_latest.json > data/ace_plasma_audit.json
+          jq '.[-1]' data/ace_mag_latest.json > data/ace_mag_audit.json
+      - name: Commit Audit
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'data/ace_*_audit.json'
+          message: 'LUFT Solar Wind Audit Update'
