@@ -141,14 +141,12 @@ jobs:
               echo "  - By: $BY nT"
               echo "  - Bz: $BZ nT"
               echo "  - Bt: $BT nT"
-              
+
               # LUFT-specific check: Flag potential void events
               # Bz < -2.0 nT and density > 8 p/cm³ indicates potential CME/void event
               if [ "$DENSITY" != "null" ] && [ "$BZ" != "null" ]; then
-                BZ_FLOAT=$(echo "$BZ" | awk '{print $1 + 0}')
-                DENSITY_FLOAT=$(echo "$DENSITY" | awk '{print $1 + 0}')
-                
-                if (( $(echo "$BZ_FLOAT < -2.0" | bc -l) )) && (( $(echo "$DENSITY_FLOAT > 8.0" | bc -l) )); then
+                # Use awk for floating point comparison (bc not available by default)
+                if awk -v bz="$BZ" -v dens="$DENSITY" 'BEGIN {exit !(bz < -2.0 && dens > 8.0)}'; then
                   echo "⚠️  LUFT EVENT TRIGGER: Potential void/CME signature detected!"
                   echo "   Bz < -2.0 nT AND density > 8 p/cm³"
                 fi
@@ -185,16 +183,15 @@ jobs:
             echo "Data may be identical to previous fetch"
           else
             # Commit with detailed message
-            git commit -m "DSCOVR L1 solar wind data update ${TIMESTAMP}
-
-          Automated data fetch from NOAA SWPC:
-          - DSCOVR real-time solar wind data (validated)
-          - Latest entry extracted for audit
-          - Plasma and magnetic field parameters validated
-
-          Workflow: dscovr_solar_wind_ingest.yml
-          Timestamp: ${TIMESTAMP}
-          Status: All validations passed ✅"
+            git commit -m "DSCOVR L1 solar wind data update ${TIMESTAMP}" \
+                       -m "Automated data fetch from NOAA SWPC" \
+                       -m "- DSCOVR real-time solar wind data (validated)" \
+                       -m "- Latest entry extracted for audit" \
+                       -m "- Plasma and magnetic field parameters validated" \
+                       -m "" \
+                       -m "Workflow: dscovr_solar_wind_ingest.yml" \
+                       -m "Timestamp: ${TIMESTAMP}" \
+                       -m "Status: All validations passed ✅"
 
             echo "✅ Changes committed to feature branch"
 

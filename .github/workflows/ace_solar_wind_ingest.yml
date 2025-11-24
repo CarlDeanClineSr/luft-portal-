@@ -173,16 +173,15 @@ jobs:
             echo "Data may be identical to previous fetch"
           else
             # Commit with detailed message
-            git commit -m "ACE solar wind data update ${TIMESTAMP}
-
-          Automated data fetch from NOAA SWPC:
-          - ACE plasma 5-minute data (validated)
-          - ACE magnetometer 5-minute data (validated)
-          - Latest entries extracted for audit
-
-          Workflow: ace_solar_wind_ingest.yml
-          Timestamp: ${TIMESTAMP}
-          Status: All validations passed ✅"
+            git commit -m "ACE solar wind data update ${TIMESTAMP}" \
+                       -m "Automated data fetch from NOAA SWPC" \
+                       -m "- ACE plasma 5-minute data (validated)" \
+                       -m "- ACE magnetometer 5-minute data (validated)" \
+                       -m "- Latest entries extracted for audit" \
+                       -m "" \
+                       -m "Workflow: ace_solar_wind_ingest.yml" \
+                       -m "Timestamp: ${TIMESTAMP}" \
+                       -m "Status: All validations passed ✅"
 
             echo "✅ Changes committed to feature branch"
 
