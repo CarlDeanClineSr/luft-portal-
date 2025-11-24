@@ -1,0 +1,234 @@
+name: DSCOVR Solar Wind Data Ingest (Robust)
+
+# This workflow automatically fetches DSCOVR L1 solar wind data from NOAA endpoints
+# - Runs hourly on schedule (can also be triggered manually)
+# - Creates data/dscovr directory if needed
+# - Downloads plasma and magnetometer data
+# - Validates JSON integrity with jq
+# - Commits to a feature branch for PR review before merging to main
+# - Logs detailed errors for troubleshooting
+
+on:
+  schedule:
+    - cron: '30 * * * *'  # Runs every hour at :30 minutes past
+  workflow_dispatch:  # Allows manual triggering from Actions tab
+
+jobs:
+  fetch-dscovr-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for proper branching
+      
+      - name: Configure Git
+        run: |
+          git config --global user.name "LUFT-bot"
+          git config --global user.email "auto@luft-portal"
+          echo "✅ Git configured successfully"
+      
+      - name: Create data/dscovr directory if needed
+        run: |
+          if [ ! -d "data/dscovr" ]; then
+            mkdir -p data/dscovr
+            echo "✅ Created data/dscovr directory"
+          else
+            echo "✅ data/dscovr directory already exists"
+          fi
+      
+      - name: Download DSCOVR Real-Time Solar Wind Data
+        id: fetch-dscovr
+        run: |
+          echo "📡 Fetching DSCOVR real-time solar wind data from NOAA..."
+          if curl -f -s -o data/dscovr/dscovr_realtime.json \
+            "https://services.swpc.noaa.gov/products/solar-wind/dscovr.json"; then
+            echo "✅ Successfully downloaded DSCOVR real-time data"
+            echo "dscovr_success=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ ERROR: Failed to download DSCOVR data from NOAA endpoint"
+            echo "Network error or endpoint unavailable"
+            echo "Endpoint: https://services.swpc.noaa.gov/products/solar-wind/dscovr.json"
+            echo "dscovr_success=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+      
+      - name: Validate DSCOVR JSON Structure
+        if: steps.fetch-dscovr.outputs.dscovr_success == 'true'
+        run: |
+          echo "🔍 Validating DSCOVR JSON structure..."
+          if jq empty data/dscovr/dscovr_realtime.json 2>&1; then
+            echo "✅ DSCOVR JSON is valid"
+            
+            # Check if it's an array with data
+            RECORD_COUNT=$(jq 'length' data/dscovr/dscovr_realtime.json)
+            echo "📊 Found $RECORD_COUNT DSCOVR records"
+            
+            if [ "$RECORD_COUNT" -gt 0 ]; then
+              echo "✅ DSCOVR data contains records"
+              
+              # Display first record structure for audit
+              echo "📋 First record structure:"
+              jq '.[0]' data/dscovr/dscovr_realtime.json
+            else
+              echo "⚠️  WARNING: DSCOVR data array is empty"
+            fi
+          else
+            echo "❌ ERROR: DSCOVR JSON is invalid or malformed"
+            echo "File contents:"
+            cat data/dscovr/dscovr_realtime.json
+            exit 2
+          fi
+      
+      - name: Extract Latest Entry for Audit
+        run: |
+          echo "📝 Extracting latest DSCOVR entry for audit log..."
+          
+          # Extract latest entry
+          if jq '.[-1]' data/dscovr/dscovr_realtime.json > data/dscovr/dscovr_latest.json; then
+            echo "✅ Latest DSCOVR entry extracted"
+            echo "Latest entry:"
+            cat data/dscovr/dscovr_latest.json
+          else
+            echo "❌ ERROR: Failed to extract latest DSCOVR entry"
+            exit 3
+          fi
+          
+          # Validate extracted entry
+          if ! jq empty data/dscovr/dscovr_latest.json 2>&1; then
+            echo "❌ ERROR: Latest DSCOVR entry is invalid JSON"
+            exit 4
+          fi
+          
+          echo "✅ Audit extraction validated successfully"
+      
+      - name: Parse and Validate Key Fields
+        run: |
+          echo "🔬 Parsing and validating key DSCOVR fields..."
+          
+          # Extract timestamp (first element in array)
+          TIMESTAMP=$(jq -r '.[0]' data/dscovr/dscovr_latest.json)
+          echo "Timestamp: $TIMESTAMP"
+          
+          # Check for critical fields (array indices based on NOAA format)
+          # Typical DSCOVR format: [time_tag, density, speed, temperature, bx, by, bz, bt]
+          FIELD_COUNT=$(jq 'length' data/dscovr/dscovr_latest.json)
+          echo "Field count: $FIELD_COUNT"
+          
+          if [ "$FIELD_COUNT" -ge 4 ]; then
+            echo "✅ DSCOVR data has expected minimum field count"
+            
+            # Display key plasma parameters
+            DENSITY=$(jq -r '.[1]' data/dscovr/dscovr_latest.json)
+            SPEED=$(jq -r '.[2]' data/dscovr/dscovr_latest.json)
+            TEMP=$(jq -r '.[3]' data/dscovr/dscovr_latest.json)
+            
+            echo "📊 Key Plasma Parameters:"
+            echo "  - Density: $DENSITY p/cm³"
+            echo "  - Speed: $SPEED km/s"
+            echo "  - Temperature: $TEMP K"
+            
+            # Validate magnetic field if present
+            if [ "$FIELD_COUNT" -ge 8 ]; then
+              BX=$(jq -r '.[4]' data/dscovr/dscovr_latest.json)
+              BY=$(jq -r '.[5]' data/dscovr/dscovr_latest.json)
+              BZ=$(jq -r '.[6]' data/dscovr/dscovr_latest.json)
+              BT=$(jq -r '.[7]' data/dscovr/dscovr_latest.json)
+              
+              echo "🧲 Magnetic Field Components:"
+              echo "  - Bx: $BX nT"
+              echo "  - By: $BY nT"
+              echo "  - Bz: $BZ nT"
+              echo "  - Bt: $BT nT"
+              
+              # LUFT-specific check: Flag potential void events
+              # Bz < -2.0 nT and density > 8 p/cm³ indicates potential CME/void event
+              if [ "$DENSITY" != "null" ] && [ "$BZ" != "null" ]; then
+                BZ_FLOAT=$(echo "$BZ" | awk '{print $1 + 0}')
+                DENSITY_FLOAT=$(echo "$DENSITY" | awk '{print $1 + 0}')
+                
+                if (( $(echo "$BZ_FLOAT < -2.0" | bc -l) )) && (( $(echo "$DENSITY_FLOAT > 8.0" | bc -l) )); then
+                  echo "⚠️  LUFT EVENT TRIGGER: Potential void/CME signature detected!"
+                  echo "   Bz < -2.0 nT AND density > 8 p/cm³"
+                fi
+              fi
+            fi
+          else
+            echo "⚠️  WARNING: DSCOVR data has fewer fields than expected"
+          fi
+      
+      - name: Generate timestamp and create feature branch
+        id: branch
+        run: |
+          TIMESTAMP=$(date -u +"%Y%m%d-%H%M%S")
+          BRANCH_NAME="data-update/dscovr-solar-wind-${TIMESTAMP}"
+          echo "branch_name=${BRANCH_NAME}" >> $GITHUB_OUTPUT
+          echo "timestamp=${TIMESTAMP}" >> $GITHUB_OUTPUT
+          echo "🌿 Will use branch: ${BRANCH_NAME}"
+      
+      - name: Commit and push to feature branch
+        run: |
+          BRANCH_NAME="${{ steps.branch.outputs.branch_name }}"
+          TIMESTAMP="${{ steps.branch.outputs.timestamp }}"
+          
+          # Create and switch to feature branch
+          git checkout -b "${BRANCH_NAME}"
+          echo "✅ Created feature branch: ${BRANCH_NAME}"
+          
+          # Stage all DSCOVR data files
+          git add data/dscovr/*.json
+          
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "ℹ️  No changes detected in DSCOVR data files"
+            echo "Data may be identical to previous fetch"
+          else
+            # Commit with detailed message
+            git commit -m "DSCOVR L1 solar wind data update ${TIMESTAMP}
+
+Automated data fetch from NOAA SWPC:
+- DSCOVR real-time solar wind data (validated)
+- Latest entry extracted for audit
+- Plasma and magnetic field parameters validated
+
+Workflow: dscovr_solar_wind_ingest.yml
+Timestamp: ${TIMESTAMP}
+Status: All validations passed ✅"
+            
+            echo "✅ Changes committed to feature branch"
+            
+            # Push feature branch
+            if git push -u origin "${BRANCH_NAME}"; then
+              echo "✅ Feature branch pushed successfully"
+              echo "🔄 Ready for PR review before merging to main"
+            else
+              echo "❌ ERROR: Failed to push feature branch"
+              echo "This may indicate a permissions issue or network problem"
+              exit 5
+            fi
+          fi
+      
+      - name: Workflow Summary
+        if: always()
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "📋 DSCOVR Solar Wind Data Ingest Summary"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "Branch: ${{ steps.branch.outputs.branch_name }}"
+          echo "Time: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          echo ""
+          if [ -f "data/dscovr/dscovr_realtime.json" ]; then
+            DSCOVR_COUNT=$(jq 'length' data/dscovr/dscovr_realtime.json 2>/dev/null || echo "0")
+            echo "DSCOVR records: $DSCOVR_COUNT"
+          fi
+          if [ -f "data/dscovr/dscovr_latest.json" ]; then
+            echo "Latest entry: ✅ Available"
+          fi
+          echo ""
+          echo "Next steps for Carl:"
+          echo "1. Review the feature branch in GitHub"
+          echo "2. Create a PR from the feature branch to main"
+          echo "3. Merge after review"
+          echo "4. Or manually trigger workflow again from Actions tab"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

@@ -1,0 +1,223 @@
+name: ACE Solar Wind Data Ingest (Robust)
+
+# This workflow automatically fetches ACE L1 solar wind data from NOAA endpoints
+# - Runs hourly on schedule (can also be triggered manually)
+# - Creates data/ace directory if needed
+# - Downloads plasma and magnetometer data
+# - Validates JSON integrity with jq
+# - Commits to a feature branch for PR review before merging to main
+# - Logs detailed errors for troubleshooting
+
+on:
+  schedule:
+    - cron: '15 * * * *'  # Runs every hour at :15 minutes past
+  workflow_dispatch:  # Allows manual triggering from Actions tab
+
+jobs:
+  fetch-ace-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for proper branching
+      
+      - name: Configure Git
+        run: |
+          git config --global user.name "LUFT-bot"
+          git config --global user.email "auto@luft-portal"
+          echo "✅ Git configured successfully"
+      
+      - name: Create data/ace directory if needed
+        run: |
+          if [ ! -d "data/ace" ]; then
+            mkdir -p data/ace
+            echo "✅ Created data/ace directory"
+          else
+            echo "✅ data/ace directory already exists"
+          fi
+      
+      - name: Download ACE Plasma Data
+        id: fetch-plasma
+        run: |
+          echo "📡 Fetching ACE plasma data from NOAA..."
+          if curl -f -s -o data/ace/ace_plasma_5min.json \
+            "https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json"; then
+            echo "✅ Successfully downloaded ACE plasma data"
+            echo "plasma_success=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ ERROR: Failed to download ACE plasma data from NOAA endpoint"
+            echo "Network error or endpoint unavailable"
+            echo "plasma_success=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+      
+      - name: Validate ACE Plasma JSON
+        if: steps.fetch-plasma.outputs.plasma_success == 'true'
+        run: |
+          echo "🔍 Validating ACE plasma JSON structure..."
+          if jq empty data/ace/ace_plasma_5min.json 2>&1; then
+            echo "✅ ACE plasma JSON is valid"
+            # Check if it's an array with data
+            RECORD_COUNT=$(jq 'length' data/ace/ace_plasma_5min.json)
+            echo "📊 Found $RECORD_COUNT plasma records"
+            if [ "$RECORD_COUNT" -gt 0 ]; then
+              echo "✅ Plasma data contains records"
+            else
+              echo "⚠️  WARNING: Plasma data array is empty"
+            fi
+          else
+            echo "❌ ERROR: ACE plasma JSON is invalid or malformed"
+            echo "File contents:"
+            cat data/ace/ace_plasma_5min.json
+            exit 2
+          fi
+      
+      - name: Download ACE Magnetometer Data
+        id: fetch-mag
+        run: |
+          echo "📡 Fetching ACE magnetometer data from NOAA..."
+          if curl -f -s -o data/ace/ace_mag_5min.json \
+            "https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json"; then
+            echo "✅ Successfully downloaded ACE magnetometer data"
+            echo "mag_success=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ ERROR: Failed to download ACE magnetometer data from NOAA endpoint"
+            echo "Network error or endpoint unavailable"
+            echo "mag_success=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+      
+      - name: Validate ACE Magnetometer JSON
+        if: steps.fetch-mag.outputs.mag_success == 'true'
+        run: |
+          echo "🔍 Validating ACE magnetometer JSON structure..."
+          if jq empty data/ace/ace_mag_5min.json 2>&1; then
+            echo "✅ ACE magnetometer JSON is valid"
+            # Check if it's an array with data
+            RECORD_COUNT=$(jq 'length' data/ace/ace_mag_5min.json)
+            echo "📊 Found $RECORD_COUNT magnetometer records"
+            if [ "$RECORD_COUNT" -gt 0 ]; then
+              echo "✅ Magnetometer data contains records"
+            else
+              echo "⚠️  WARNING: Magnetometer data array is empty"
+            fi
+          else
+            echo "❌ ERROR: ACE magnetometer JSON is invalid or malformed"
+            echo "File contents:"
+            cat data/ace/ace_mag_5min.json
+            exit 2
+          fi
+      
+      - name: Extract Latest Entry for Audit
+        run: |
+          echo "📝 Extracting latest entries for audit logs..."
+          
+          # Extract latest plasma entry
+          if jq '.[-1]' data/ace/ace_plasma_5min.json > data/ace/ace_plasma_latest.json; then
+            echo "✅ Latest plasma entry extracted"
+            echo "Plasma latest entry:"
+            cat data/ace/ace_plasma_latest.json
+          else
+            echo "❌ ERROR: Failed to extract latest plasma entry"
+            exit 3
+          fi
+          
+          # Extract latest mag entry
+          if jq '.[-1]' data/ace/ace_mag_5min.json > data/ace/ace_mag_latest.json; then
+            echo "✅ Latest magnetometer entry extracted"
+            echo "Magnetometer latest entry:"
+            cat data/ace/ace_mag_latest.json
+          else
+            echo "❌ ERROR: Failed to extract latest magnetometer entry"
+            exit 3
+          fi
+          
+          # Validate extracted entries
+          if ! jq empty data/ace/ace_plasma_latest.json 2>&1; then
+            echo "❌ ERROR: Latest plasma entry is invalid JSON"
+            exit 4
+          fi
+          if ! jq empty data/ace/ace_mag_latest.json 2>&1; then
+            echo "❌ ERROR: Latest magnetometer entry is invalid JSON"
+            exit 4
+          fi
+          
+          echo "✅ All audit extractions validated successfully"
+      
+      - name: Generate timestamp and create feature branch
+        id: branch
+        run: |
+          TIMESTAMP=$(date -u +"%Y%m%d-%H%M%S")
+          BRANCH_NAME="data-update/ace-solar-wind-${TIMESTAMP}"
+          echo "branch_name=${BRANCH_NAME}" >> $GITHUB_OUTPUT
+          echo "timestamp=${TIMESTAMP}" >> $GITHUB_OUTPUT
+          echo "🌿 Will use branch: ${BRANCH_NAME}"
+      
+      - name: Commit and push to feature branch
+        run: |
+          BRANCH_NAME="${{ steps.branch.outputs.branch_name }}"
+          TIMESTAMP="${{ steps.branch.outputs.timestamp }}"
+          
+          # Create and switch to feature branch
+          git checkout -b "${BRANCH_NAME}"
+          echo "✅ Created feature branch: ${BRANCH_NAME}"
+          
+          # Stage all ACE data files
+          git add data/ace/*.json
+          
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "ℹ️  No changes detected in ACE data files"
+            echo "Data may be identical to previous fetch"
+          else
+            # Commit with detailed message
+            git commit -m "ACE solar wind data update ${TIMESTAMP}
+
+Automated data fetch from NOAA SWPC:
+- ACE plasma 5-minute data (validated)
+- ACE magnetometer 5-minute data (validated)
+- Latest entries extracted for audit
+
+Workflow: ace_solar_wind_ingest.yml
+Timestamp: ${TIMESTAMP}
+Status: All validations passed ✅"
+            
+            echo "✅ Changes committed to feature branch"
+            
+            # Push feature branch
+            if git push -u origin "${BRANCH_NAME}"; then
+              echo "✅ Feature branch pushed successfully"
+              echo "🔄 Ready for PR review before merging to main"
+            else
+              echo "❌ ERROR: Failed to push feature branch"
+              echo "This may indicate a permissions issue or network problem"
+              exit 5
+            fi
+          fi
+      
+      - name: Workflow Summary
+        if: always()
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "📋 ACE Solar Wind Data Ingest Summary"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "Branch: ${{ steps.branch.outputs.branch_name }}"
+          echo "Time: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          echo ""
+          if [ -f "data/ace/ace_plasma_5min.json" ]; then
+            PLASMA_COUNT=$(jq 'length' data/ace/ace_plasma_5min.json 2>/dev/null || echo "0")
+            echo "Plasma records: $PLASMA_COUNT"
+          fi
+          if [ -f "data/ace/ace_mag_5min.json" ]; then
+            MAG_COUNT=$(jq 'length' data/ace/ace_mag_5min.json 2>/dev/null || echo "0")
+            echo "Magnetometer records: $MAG_COUNT"
+          fi
+          echo ""
+          echo "Next steps for Carl:"
+          echo "1. Review the feature branch in GitHub"
+          echo "2. Create a PR from the feature branch to main"
+          echo "3. Merge after review"
+          echo "4. Or manually trigger workflow again from Actions tab"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
