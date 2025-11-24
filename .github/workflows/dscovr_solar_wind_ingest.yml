@@ -26,7 +26,7 @@ jobs:
       - name: Configure Git
         run: |
           git config --global user.name "LUFT-bot"
-          git config --global user.email "auto@luft-portal"
+          git config --global user.email "noreply@github.com"
           echo "✅ Git configured successfully"
       
       - name: Create data/dscovr directory if needed
@@ -146,8 +146,8 @@ jobs:
               # Bz < -2.0 nT and density > 8 p/cm³ indicates potential CME/void event
               if [ "$DENSITY" != "null" ] && [ "$BZ" != "null" ]; then
                 # Validate that values are numeric before comparison
-                if echo "$BZ" | grep -qE '^-?[0-9]+\.?[0-9]*$' && \
-                   echo "$DENSITY" | grep -qE '^-?[0-9]+\.?[0-9]*$'; then
+                if echo "$BZ" | grep -qE '^-?[0-9]+(\.[0-9]+)?$' && \
+                   echo "$DENSITY" | grep -qE '^-?[0-9]+(\.[0-9]+)?$'; then
                   # Use awk for floating point comparison (bc not available by default)
                   if awk -v bz="$BZ" -v dens="$DENSITY" 'BEGIN {exit !(bz < -2.0 && dens > 8.0)}'; then
                     echo "⚠️  LUFT EVENT TRIGGER: Potential void/CME signature detected!"
