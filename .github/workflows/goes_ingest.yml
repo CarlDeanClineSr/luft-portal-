@@ -1,24 +1,74 @@
-name: GOES Ingest and Capsule Audit
+name: GOES Capsule Generation (DEPRECATED - See goes_data_audit.yml)
+
+# This workflow has been deprecated in favor of the robust goes_data_audit.yml workflow.
+# The goes_data_audit.yml workflow now handles:
+# 1. Creating data/goes directory
+# 2. Downloading GOES X-ray and proton flux JSON files with retry logic
+# 3. Validating JSON integrity with jq
+# 4. Pushing to feature branch for PR review
+# 5. Clear error logging
+#
+# This file is kept for backward compatibility reference but is disabled.
+# To enable capsule generation in the future, uncomment and update this workflow
+# to use the validated data from goes_data_audit.yml as input.
+
 on:
-  schedule:
-    - cron: "7 * * * *"  # Every hour at HH:07
+  # Disabled - uncomment to re-enable
+  # schedule:
+  #   - cron: "7 * * * *"  # Every hour at HH:07
+  workflow_dispatch:  # Manual trigger only
+
 jobs:
-  fetch-goes-data:
+  generate-capsule:
     runs-on: ubuntu-latest
+    if: false  # Workflow disabled - set to true to re-enable
     steps:
+      # Step 1: Checkout repository
       - name: Checkout LUFT repo
-        uses: actions/checkout@v3
-      - name: Fetch GOES JSON
+        uses: actions/checkout@v4
+
+      # Step 2: Ensure required directories exist
+      - name: Create required directories
         run: |
-          curl -s -o data/goes/latest_goes_flux.json https://services.swpc.noaa.gov/products/goes-xray-flux.json
-      - name: Capsule Template
+          echo "Creating necessary directories..."
+          mkdir -p data/goes
+          mkdir -p capsules
+          echo "✓ Directories ready"
+
+      # Step 3: Download GOES data with validation (backup if audit workflow hasn't run)
+      - name: Fetch GOES JSON with validation
         run: |
-          python scripts/goes_capsule_builder.py data/goes/latest_goes_flux.json capsules/GOES_EVENT_AUDIT_$(date +%Y-%m-%dT%H%M%S).md
-      - name: Validate Capsule Fields
+          echo "Downloading GOES X-ray flux data..."
+          
+          # Download with retry logic
+          MAX_RETRIES=3
+          RETRY_COUNT=0
+          SUCCESS=false
+          
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+            if curl -f -s -m 30 -o data/goes/latest_goes_flux.json https://services.swpc.noaa.gov/products/goes-xray-flux.json; then
+              if jq empty data/goes/latest_goes_flux.json 2>/dev/null; then
+                echo "✓ Download and validation successful"
+                SUCCESS=true
+                break
+              fi
+            fi
+            RETRY_COUNT=$((RETRY_COUNT + 1))
+            [ $RETRY_COUNT -lt $MAX_RETRIES ] && sleep 5
+          done
+          
+          if [ "$SUCCESS" != "true" ]; then
+            echo "ERROR: Failed to download GOES data after $MAX_RETRIES attempts"
+            exit 1
+          fi
+
+      # Note: Future implementation would include:
+      # - Create scripts/goes_capsule_builder.py to generate markdown capsules
+      # - Validate capsules using scripts/capsule_validator.py
+      # - Commit to feature branch (not main) for PR review
+      
+      - name: Capsule Generation (TODO)
         run: |
-          python scripts/capsule_validator.py capsules/GOES_EVENT_AUDIT_$(date +%Y-%m-%dT%H%M%S).md
-      - name: Commit Capsule
-        run: |
-          git add capsules/*.md
-          git commit -m "Add GOES capsule and audit for latest data"
-          git push
+          echo "Capsule generation not yet implemented."
+          echo "This workflow is currently disabled."
+          echo "Use goes_data_audit.yml for GOES data ingestion."

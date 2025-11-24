@@ -2,47 +2,220 @@ name: GOES Data Audit — Robust
 
 on:
   schedule:
+    # Run every hour at HH:07 to fetch latest GOES data
     - cron: "7 * * * *"
-  workflow_dispatch:
+  workflow_dispatch:  # Allow manual triggering for testing
 
 jobs:
   audit-goes-data:
     runs-on: ubuntu-latest
     steps:
+      # Step 1: Checkout the repository
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Download GOES JSON (with exit code and file validation)
+      # Step 2: Ensure data/goes directory exists before downloads
+      - name: Create data/goes directory if needed
         run: |
-          curl -s -o data/goes/latest_goes_flux.json https://services.swpc.noaa.gov/products/goes-xray-flux.json
-          if [ $? -ne 0 ]; then echo "Failed to fetch GOES data!"; exit 23; fi
-          if ! jq . data/goes/latest_goes_flux.json > /dev/null; then
-            echo "Downloaded file is invalid JSON:"
-            cat data/goes/latest_goes_flux.json
-            exit 24
+          echo "Creating data/goes directory if it doesn't exist..."
+          mkdir -p data/goes
+          echo "✓ Directory ready at data/goes"
+
+      # Step 3: Download GOES X-ray flux JSON with retry logic and validation
+      - name: Download GOES X-ray flux JSON
+        run: |
+          echo "Downloading GOES X-ray flux data from NOAA..."
+          MAX_RETRIES=3
+          RETRY_COUNT=0
+          SUCCESS=false
+          
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+            echo "Attempt $((RETRY_COUNT + 1)) of $MAX_RETRIES..."
+            
+            # Download with timeout and fail handling
+            if curl -f -s -m 30 -o data/goes/goes_xray_flux.json https://services.swpc.noaa.gov/products/goes-xray-flux.json; then
+              echo "✓ Download successful"
+              
+              # Validate JSON structure with jq
+              if jq empty data/goes/goes_xray_flux.json 2>/dev/null; then
+                echo "✓ JSON validation passed"
+                SUCCESS=true
+                break
+              else
+                echo "✗ Invalid JSON received. Content:"
+                cat data/goes/goes_xray_flux.json
+                echo "---"
+              fi
+            else
+              echo "✗ Download failed (curl exit code: $?)"
+            fi
+            
+            RETRY_COUNT=$((RETRY_COUNT + 1))
+            if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
+              echo "Retrying in 5 seconds..."
+              sleep 5
+            fi
+          done
+          
+          if [ "$SUCCESS" != "true" ]; then
+            echo "ERROR: Failed to download or validate GOES X-ray flux after $MAX_RETRIES attempts"
+            exit 1
           fi
 
-      - name: Parse latest event safely
+      # Step 4: Download GOES proton flux JSON with retry logic and validation
+      - name: Download GOES proton flux JSON
         run: |
-          jq '.[-1]' data/goes/latest_goes_flux.json > data/goes/goes_event_audit.json
-          if ! jq . data/goes/goes_event_audit.json > /dev/null; then
-            echo "Audit file is invalid JSON!"
-            cat data/goes/goes_event_audit.json
-            exit 25
+          echo "Downloading GOES proton flux data from NOAA..."
+          MAX_RETRIES=3
+          RETRY_COUNT=0
+          SUCCESS=false
+          
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+            echo "Attempt $((RETRY_COUNT + 1)) of $MAX_RETRIES..."
+            
+            # Download with timeout and fail handling
+            if curl -f -s -m 30 -o data/goes/goes_proton_flux.json https://services.swpc.noaa.gov/products/goes-proton-flux.json; then
+              echo "✓ Download successful"
+              
+              # Validate JSON structure with jq
+              if jq empty data/goes/goes_proton_flux.json 2>/dev/null; then
+                echo "✓ JSON validation passed"
+                SUCCESS=true
+                break
+              else
+                echo "✗ Invalid JSON received. Content:"
+                cat data/goes/goes_proton_flux.json
+                echo "---"
+              fi
+            else
+              echo "✗ Download failed (curl exit code: $?)"
+            fi
+            
+            RETRY_COUNT=$((RETRY_COUNT + 1))
+            if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
+              echo "Retrying in 5 seconds..."
+              sleep 5
+            fi
+          done
+          
+          if [ "$SUCCESS" != "true" ]; then
+            echo "ERROR: Failed to download or validate GOES proton flux after $MAX_RETRIES attempts"
+            exit 1
           fi
 
-      - name: Pull latest main before commit
+      # Step 5: Create audit files by extracting latest events
+      - name: Create GOES audit files
         run: |
-          git config --global user.email "auto@luft-portal"
-          git config --global user.name "LUFT-bot"
-          git pull --rebase origin main
+          echo "Creating audit files from latest GOES data..."
+          
+          # Extract latest X-ray flux event
+          if jq '.[-1]' data/goes/goes_xray_flux.json > data/goes/goes_xray_audit.json; then
+            echo "✓ Created goes_xray_audit.json"
+            
+            # Validate the audit file
+            if ! jq empty data/goes/goes_xray_audit.json 2>/dev/null; then
+              echo "✗ Generated audit file is invalid JSON!"
+              cat data/goes/goes_xray_audit.json
+              exit 1
+            fi
+          else
+            echo "✗ Failed to extract latest X-ray event"
+            exit 1
+          fi
+          
+          # Extract latest proton flux event
+          if jq '.[-1]' data/goes/goes_proton_flux.json > data/goes/goes_proton_audit.json; then
+            echo "✓ Created goes_proton_audit.json"
+            
+            # Validate the audit file
+            if ! jq empty data/goes/goes_proton_audit.json 2>/dev/null; then
+              echo "✗ Generated audit file is invalid JSON!"
+              cat data/goes/goes_proton_audit.json
+              exit 1
+            fi
+          else
+            echo "✗ Failed to extract latest proton event"
+            exit 1
+          fi
+          
+          echo "✓ All audit files created and validated successfully"
 
-      - name: Commit event audit (safe branch, avoids push conflicts)
+      # Step 6: Display summary of downloaded data
+      - name: Display data summary
         run: |
-          git checkout -b update-goes-audit || git checkout update-goes-audit
-          git add data/goes/goes_event_audit.json
-          git commit -m "GOES event audit JSON, validated"
-          git push origin update-goes-audit
+          echo "=== GOES Data Summary ==="
+          echo ""
+          echo "X-ray Flux - Latest Event:"
+          jq '.' data/goes/goes_xray_audit.json || echo "Failed to parse X-ray audit"
+          echo ""
+          echo "Proton Flux - Latest Event:"
+          jq '.' data/goes/goes_proton_audit.json || echo "Failed to parse proton audit"
+          echo ""
+          echo "==========================="
 
-      - name: PR suggestion (auto optional)
-        run: echo "Open a PR from update-goes-audit to main. Review and merge!"
+      # Step 7: Configure git for automated commits
+      - name: Configure git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Actions GOES Bot"
+
+      # Step 8: Commit to feature branch (not main) for PR review
+      - name: Commit GOES data to feature branch
+        run: |
+          echo "Preparing to commit GOES data..."
+          
+          # Create or switch to feature branch
+          BRANCH_NAME="data/goes-audit-$(date +%Y%m%d)"
+          git fetch origin || true
+          
+          if git rev-parse --verify "origin/$BRANCH_NAME" >/dev/null 2>&1; then
+            echo "Checking out existing branch: $BRANCH_NAME"
+            git checkout "$BRANCH_NAME"
+            git pull origin "$BRANCH_NAME" || true
+          else
+            echo "Creating new branch: $BRANCH_NAME"
+            git checkout -b "$BRANCH_NAME"
+          fi
+          
+          # Add GOES data files
+          git add data/goes/*.json
+          
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit - data is already up to date"
+          else
+            # Commit with timestamp
+            TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+            git commit -m "Update GOES data audit - $TIMESTAMP
+
+            - Downloaded and validated GOES X-ray flux data
+            - Downloaded and validated GOES proton flux data
+            - Created audit files with latest events
+            - All JSON files validated with jq"
+            
+            # Push to remote feature branch
+            git push -u origin "$BRANCH_NAME"
+            echo "✓ Changes committed and pushed to $BRANCH_NAME"
+          fi
+
+      # Step 9: Provide instructions for PR review
+      - name: PR Instructions
+        run: |
+          BRANCH_NAME="data/goes-audit-$(date +%Y%m%d)"
+          echo "==================================="
+          echo "GOES Data Update Complete!"
+          echo "==================================="
+          echo ""
+          echo "Next Steps:"
+          echo "1. Review the GOES data in branch: $BRANCH_NAME"
+          echo "2. Create a Pull Request from $BRANCH_NAME to main"
+          echo "3. Review the data changes in the PR"
+          echo "4. Merge when satisfied with data quality"
+          echo ""
+          echo "Branch: $BRANCH_NAME"
+          echo "Files updated:"
+          echo "  - data/goes/goes_xray_flux.json"
+          echo "  - data/goes/goes_xray_audit.json"
+          echo "  - data/goes/goes_proton_flux.json"
+          echo "  - data/goes/goes_proton_audit.json"
+          echo "==================================="
