@@ -194,8 +194,9 @@ jobs:
         run: |
           echo "🛰️  Fetching SOHO data from NOAA SWPC..."
 
-          # SOHO provides solar imaging and in-situ measurements
-          # Using 2-hour magnetometer data as SOHO-specific endpoint
+          # SOHO monitoring via NOAA SWPC magnetometer 2-hour data
+          # Note: Using NOAA's generic solar wind magnetometer as proxy
+          # Direct SOHO data requires specialized access
           if curl -s -f --retry 3 --retry-delay 5 --max-time 30 \
             -o data/soho/latest_data.json \
             https://services.swpc.noaa.gov/products/solar-wind/mag-2-hour.json; then
@@ -224,9 +225,10 @@ jobs:
         run: |
           echo "🛰️  Attempting to fetch STEREO-A data..."
 
-          # STEREO-A provides off-Earth-line solar wind observations
-          # Public endpoint may be unstable; designed to fail gracefully
-          # Using plasma 2-hour data as alternative endpoint
+          # STEREO-A monitoring via NOAA SWPC plasma 2-hour data
+          # Note: Using NOAA's generic solar wind plasma as monitoring proxy
+          # Direct STEREO-A public endpoint is often unstable/unavailable
+          # This serves as availability check for STEREO-A time range
           if curl -s -f --retry 2 --retry-delay 5 --max-time 20 \
             -o data/stereo/plasma_latest.json \
             https://services.swpc.noaa.gov/products/solar-wind/plasma-2-hour.json; then
@@ -326,7 +328,7 @@ jobs:
                   "data/soho/audit.json"
                 ],
                 "endpoint": "https://services.swpc.noaa.gov/products/solar-wind/mag-2-hour.json",
-                "note": "Using NOAA 2-hour magnetometer data endpoint"
+                "note": "Using NOAA magnetometer data as proxy; direct SOHO access requires specialized endpoints"
               },
               "stereo_a": {
                 "status": "${{ steps.stereo.outputs.stereo_status || 'not_attempted' }}",
@@ -334,7 +336,7 @@ jobs:
                   "data/stereo/audit.json"
                 ],
                 "endpoint": "https://services.swpc.noaa.gov/products/solar-wind/plasma-2-hour.json",
-                "note": "Public STEREO-A endpoint may be unstable; graceful failure expected"
+                "note": "Using NOAA plasma data as monitoring proxy; direct STEREO-A public endpoint often unstable"
               },
               "goes": {
                 "status": "${{ steps.goes.outputs.goes_status || 'not_attempted' }}",
