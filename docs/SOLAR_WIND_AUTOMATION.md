@@ -70,7 +70,8 @@ This implementation adds robust, production-ready GitHub Actions workflows to au
 
 ### LUFT-Specific Features
 1. **Event Detection:** DSCOVR workflow flags potential void/CME events
-   - Monitors: Bz < -2.0 nT AND density > 8 p/cm³
+   - Monitors: Bz < -2.0 nT AND density > 8 p/cm³ (protons per cubic centimeter)
+   - Values validated as numeric before comparison
 2. **Audit Extractions:** Latest entries preserved for quick reference
 3. **Historical Data:** Full datasets maintained for analysis
 4. **Field Validation:** Checks plasma and magnetic field parameters

@@ -149,9 +149,10 @@ Both workflows implement multiple safety layers:
 
 ### DSCOVR Event Detection
 The DSCOVR workflow includes LUFT-specific event detection:
-- Monitors for Bz < -2.0 nT AND density > 8 p/cm³
+- Monitors for Bz < -2.0 nT AND density > 8 p/cm³ (protons per cubic centimeter)
+- Validates numeric values before comparison
 - Flags potential void events or CME signatures
-- Useful for foam fraction analysis and quantum tunnel research
+- Useful for foam fraction analysis and space weather research
 
 ### Audit Trail
 Both workflows maintain audit trails:

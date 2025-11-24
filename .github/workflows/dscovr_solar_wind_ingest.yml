@@ -145,10 +145,14 @@ jobs:
               # LUFT-specific check: Flag potential void events
               # Bz < -2.0 nT and density > 8 p/cm³ indicates potential CME/void event
               if [ "$DENSITY" != "null" ] && [ "$BZ" != "null" ]; then
-                # Use awk for floating point comparison (bc not available by default)
-                if awk -v bz="$BZ" -v dens="$DENSITY" 'BEGIN {exit !(bz < -2.0 && dens > 8.0)}'; then
-                  echo "⚠️  LUFT EVENT TRIGGER: Potential void/CME signature detected!"
-                  echo "   Bz < -2.0 nT AND density > 8 p/cm³"
+                # Validate that values are numeric before comparison
+                if echo "$BZ" | grep -qE '^-?[0-9]+\.?[0-9]*$' && \
+                   echo "$DENSITY" | grep -qE '^-?[0-9]+\.?[0-9]*$'; then
+                  # Use awk for floating point comparison (bc not available by default)
+                  if awk -v bz="$BZ" -v dens="$DENSITY" 'BEGIN {exit !(bz < -2.0 && dens > 8.0)}'; then
+                    echo "⚠️  LUFT EVENT TRIGGER: Potential void/CME signature detected!"
+                    echo "   Bz = $BZ nT < -2.0 nT AND density = $DENSITY p/cm³ > 8 p/cm³"
+                  fi
                 fi
               fi
             fi
