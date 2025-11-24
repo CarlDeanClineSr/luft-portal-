@@ -171,14 +171,14 @@ jobs:
         run: |
           BRANCH_NAME="${{ steps.branch.outputs.branch_name }}"
           TIMESTAMP="${{ steps.branch.outputs.timestamp }}"
-          
+
           # Create and switch to feature branch
           git checkout -b "${BRANCH_NAME}"
           echo "✅ Created feature branch: ${BRANCH_NAME}"
-          
+
           # Stage all DSCOVR data files
           git add data/dscovr/*.json
-          
+
           # Check if there are changes to commit
           if git diff --staged --quiet; then
             echo "ℹ️  No changes detected in DSCOVR data files"
@@ -187,17 +187,17 @@ jobs:
             # Commit with detailed message
             git commit -m "DSCOVR L1 solar wind data update ${TIMESTAMP}
 
-Automated data fetch from NOAA SWPC:
-- DSCOVR real-time solar wind data (validated)
-- Latest entry extracted for audit
-- Plasma and magnetic field parameters validated
+          Automated data fetch from NOAA SWPC:
+          - DSCOVR real-time solar wind data (validated)
+          - Latest entry extracted for audit
+          - Plasma and magnetic field parameters validated
 
-Workflow: dscovr_solar_wind_ingest.yml
-Timestamp: ${TIMESTAMP}
-Status: All validations passed ✅"
-            
+          Workflow: dscovr_solar_wind_ingest.yml
+          Timestamp: ${TIMESTAMP}
+          Status: All validations passed ✅"
+
             echo "✅ Changes committed to feature branch"
-            
+
             # Push feature branch
             if git push -u origin "${BRANCH_NAME}"; then
               echo "✅ Feature branch pushed successfully"
