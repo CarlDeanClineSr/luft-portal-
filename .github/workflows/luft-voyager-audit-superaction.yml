@@ -165,9 +165,10 @@ jobs:
           echo "🛰️  Fetching DSCOVR solar wind data from NOAA SWPC..."
 
           # DSCOVR provides real-time solar wind measurements at L1
+          # Using magnetometer 7-day data as DSCOVR-specific endpoint
           if curl -s -f --retry 3 --retry-delay 5 --max-time 30 \
             -o data/dscovr/solar_wind_latest.json \
-            https://services.swpc.noaa.gov/products/solar-wind/plasma-7-day.json; then
+            https://services.swpc.noaa.gov/products/solar-wind/mag-7-day.json; then
 
             # Validate JSON integrity
             if jq empty data/dscovr/solar_wind_latest.json 2>/dev/null; then
@@ -194,10 +195,10 @@ jobs:
           echo "🛰️  Fetching SOHO data from NOAA SWPC..."
 
           # SOHO provides solar imaging and in-situ measurements
-          # Using LASCO CME catalog as SOHO data endpoint
+          # Using 2-hour magnetometer data as SOHO-specific endpoint
           if curl -s -f --retry 3 --retry-delay 5 --max-time 30 \
             -o data/soho/latest_data.json \
-            https://services.swpc.noaa.gov/products/solar-wind/mag-7-day.json; then
+            https://services.swpc.noaa.gov/products/solar-wind/mag-2-hour.json; then
 
             # Validate JSON integrity
             if jq empty data/soho/latest_data.json 2>/dev/null; then
@@ -225,10 +226,10 @@ jobs:
 
           # STEREO-A provides off-Earth-line solar wind observations
           # Public endpoint may be unstable; designed to fail gracefully
-          # Using a NOAA proxy endpoint as STEREO direct access is limited
+          # Using plasma 2-hour data as alternative endpoint
           if curl -s -f --retry 2 --retry-delay 5 --max-time 20 \
             -o data/stereo/plasma_latest.json \
-            https://services.swpc.noaa.gov/products/solar-wind/plasma-7-day.json; then
+            https://services.swpc.noaa.gov/products/solar-wind/plasma-2-hour.json; then
 
             # Validate JSON integrity
             if jq empty data/stereo/plasma_latest.json 2>/dev/null; then
@@ -317,22 +318,22 @@ jobs:
                 "data_files": [
                   "data/dscovr/solar_wind_audit.json"
                 ],
-                "endpoint": "https://services.swpc.noaa.gov/products/solar-wind/plasma-7-day.json"
+                "endpoint": "https://services.swpc.noaa.gov/products/solar-wind/mag-7-day.json"
               },
               "soho": {
                 "status": "${{ steps.soho.outputs.soho_status || 'not_attempted' }}",
                 "data_files": [
                   "data/soho/audit.json"
                 ],
-                "endpoint": "https://services.swpc.noaa.gov/products/solar-wind/mag-7-day.json",
-                "note": "Using NOAA proxy endpoint for SOHO data"
+                "endpoint": "https://services.swpc.noaa.gov/products/solar-wind/mag-2-hour.json",
+                "note": "Using NOAA 2-hour magnetometer data endpoint"
               },
               "stereo_a": {
                 "status": "${{ steps.stereo.outputs.stereo_status || 'not_attempted' }}",
                 "data_files": [
                   "data/stereo/audit.json"
                 ],
-                "endpoint": "https://services.swpc.noaa.gov/products/solar-wind/plasma-7-day.json",
+                "endpoint": "https://services.swpc.noaa.gov/products/solar-wind/plasma-2-hour.json",
                 "note": "Public STEREO-A endpoint may be unstable; graceful failure expected"
               },
               "goes": {
@@ -413,9 +414,15 @@ jobs:
 
           # Create a unique feature branch for this audit run
           BRANCH_NAME="voyager-audit-${{ steps.timestamp.outputs.audit_time_file }}"
-          git checkout -b "${BRANCH_NAME}" || git checkout "${BRANCH_NAME}"
 
-          echo "✅ Created/switched to feature branch: ${BRANCH_NAME}"
+          # Check if branch exists locally and switch to it, otherwise create new
+          if git show-ref --verify --quiet refs/heads/"${BRANCH_NAME}"; then
+            git checkout "${BRANCH_NAME}"
+            echo "✅ Switched to existing local branch: ${BRANCH_NAME}"
+          else
+            git checkout -b "${BRANCH_NAME}"
+            echo "✅ Created new feature branch: ${BRANCH_NAME}"
+          fi
 
           # Add all data files (both new and updated)
           git add data/ace/ data/dscovr/ data/soho/ data/stereo/ data/goes/
