@@ -2,7 +2,7 @@
 # Test script to validate GOES workflow logic without network calls
 # This simulates the workflow steps using mock data
 
-set -e  # Exit on any error
+set -euo pipefail  # Exit on error, undefined variables, and pipeline failures
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"

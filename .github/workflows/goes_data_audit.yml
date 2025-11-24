@@ -186,12 +186,11 @@ jobs:
           else
             # Commit with timestamp
             TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
-            git commit -m "Update GOES data audit - $TIMESTAMP
-
-            - Downloaded and validated GOES X-ray flux data
-            - Downloaded and validated GOES proton flux data
-            - Created audit files with latest events
-            - All JSON files validated with jq"
+            git commit -m "Update GOES data audit - $TIMESTAMP" \
+                       -m "- Downloaded and validated GOES X-ray flux data" \
+                       -m "- Downloaded and validated GOES proton flux data" \
+                       -m "- Created audit files with latest events" \
+                       -m "- All JSON files validated with jq"
             
             # Push to remote feature branch
             git push -u origin "$BRANCH_NAME"

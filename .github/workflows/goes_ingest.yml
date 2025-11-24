@@ -8,67 +8,41 @@ name: GOES Capsule Generation (DEPRECATED - See goes_data_audit.yml)
 # 4. Pushing to feature branch for PR review
 # 5. Clear error logging
 #
-# This file is kept for backward compatibility reference but is disabled.
-# To enable capsule generation in the future, uncomment and update this workflow
-# to use the validated data from goes_data_audit.yml as input.
+# This file is kept for backward compatibility reference only.
+# To enable capsule generation in the future, uncomment the schedule trigger below
+# and update this workflow to use the validated data from goes_data_audit.yml as input.
 
 on:
-  # Disabled - uncomment to re-enable
+  # Disabled - uncomment to re-enable scheduled runs
   # schedule:
   #   - cron: "7 * * * *"  # Every hour at HH:07
-  workflow_dispatch:  # Manual trigger only
+  workflow_dispatch:  # Manual trigger only for testing/migration
 
 jobs:
-  generate-capsule:
+  deprecated-notice:
     runs-on: ubuntu-latest
-    if: false  # Workflow disabled - set to true to re-enable
     steps:
-      # Step 1: Checkout repository
-      - name: Checkout LUFT repo
-        uses: actions/checkout@v4
-
-      # Step 2: Ensure required directories exist
-      - name: Create required directories
+      # Notice that this workflow is deprecated
+      - name: Deprecation Notice
         run: |
-          echo "Creating necessary directories..."
-          mkdir -p data/goes
-          mkdir -p capsules
-          echo "✓ Directories ready"
-
-      # Step 3: Download GOES data with validation (backup if audit workflow hasn't run)
-      - name: Fetch GOES JSON with validation
-        run: |
-          echo "Downloading GOES X-ray flux data..."
-          
-          # Download with retry logic
-          MAX_RETRIES=3
-          RETRY_COUNT=0
-          SUCCESS=false
-          
-          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-            if curl -f -s -m 30 -o data/goes/latest_goes_flux.json https://services.swpc.noaa.gov/products/goes-xray-flux.json; then
-              if jq empty data/goes/latest_goes_flux.json 2>/dev/null; then
-                echo "✓ Download and validation successful"
-                SUCCESS=true
-                break
-              fi
-            fi
-            RETRY_COUNT=$((RETRY_COUNT + 1))
-            [ $RETRY_COUNT -lt $MAX_RETRIES ] && sleep 5
-          done
-          
-          if [ "$SUCCESS" != "true" ]; then
-            echo "ERROR: Failed to download GOES data after $MAX_RETRIES attempts"
-            exit 1
-          fi
-
-      # Note: Future implementation would include:
-      # - Create scripts/goes_capsule_builder.py to generate markdown capsules
-      # - Validate capsules using scripts/capsule_validator.py
-      # - Commit to feature branch (not main) for PR review
-      
-      - name: Capsule Generation (TODO)
-        run: |
-          echo "Capsule generation not yet implemented."
-          echo "This workflow is currently disabled."
-          echo "Use goes_data_audit.yml for GOES data ingestion."
+          echo "=================================================="
+          echo "  WORKFLOW DEPRECATED"
+          echo "=================================================="
+          echo ""
+          echo "This workflow (goes_ingest.yml) has been deprecated."
+          echo ""
+          echo "Please use: goes_data_audit.yml"
+          echo ""
+          echo "The goes_data_audit.yml workflow provides:"
+          echo "  ✓ Directory creation (data/goes)"
+          echo "  ✓ GOES X-ray and proton flux downloads"
+          echo "  ✓ Retry logic for network reliability"
+          echo "  ✓ JSON validation with jq"
+          echo "  ✓ Feature branch workflow for PR review"
+          echo "  ✓ Comprehensive error logging"
+          echo ""
+          echo "For capsule generation, this workflow needs to be"
+          echo "updated to consume validated data from goes_data_audit.yml"
+          echo ""
+          echo "=================================================="
+          exit 1
