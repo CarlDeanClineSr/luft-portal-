@@ -36,6 +36,13 @@ jobs:
   voyager-audit:
     runs-on: ubuntu-latest
 
+    # Explicit permissions for GITHUB_TOKEN (security best practice)
+    # This workflow needs to:
+    # - Read repository contents (checkout code)
+    # - Write to repository (push feature branches and commits)
+    permissions:
+      contents: write
+
     steps:
       # ----------------------------------------------------------------------
       # STEP 1: Checkout Repository
