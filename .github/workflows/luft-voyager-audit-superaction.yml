@@ -229,6 +229,8 @@ jobs:
           # Note: Using NOAA's generic solar wind plasma as monitoring proxy
           # Direct STEREO-A public endpoint is often unstable/unavailable
           # This serves as availability check for STEREO-A time range
+          # Using reduced retries (--retry 2) and timeout (--max-time 20)
+          # due to expected instability of STEREO-A endpoints
           if curl -s -f --retry 2 --retry-delay 5 --max-time 20 \
             -o data/stereo/plasma_latest.json \
             https://services.swpc.noaa.gov/products/solar-wind/plasma-2-hour.json; then
@@ -499,7 +501,7 @@ jobs:
           ║  satellite audit data. Please create a Pull Request to review     ║
           ║  and merge these changes.                                         ║
           ║                                                                    ║
-          ║  Branch: voyager-audit-${{ steps.timestamp.outputs.audit_time_file }}                                  ║
+          ║  Branch: voyager-audit-${{ steps.timestamp.outputs.audit_time_file }}                     ║
           ║                                                                    ║
           ║  The PR should include:                                           ║
           ║  • Updated satellite data in data/ subdirectories                 ║
