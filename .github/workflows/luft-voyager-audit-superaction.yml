@@ -266,16 +266,18 @@ jobs:
         run: |
           echo "🛰️  Fetching GOES X-ray flux data from NOAA SWPC..."
 
+          # Updated endpoint: NOAA moved GOES data to /json/goes/primary/
+          # Using xrays-6-hour.json for recent X-ray flux measurements
+          GOES_URL="https://services.swpc.noaa.gov/json/goes/primary/xrays-6-hour.json"
+
           # First, check if GOES endpoint is healthy with a HEAD request
-          if curl -s -f --head --max-time 10 \
-            https://services.swpc.noaa.gov/products/goes-xray-flux.json > /dev/null 2>&1; then
+          if curl -s -f --head --max-time 10 "${GOES_URL}" > /dev/null 2>&1; then
 
             echo "✅ GOES endpoint health check: PASSED"
 
             # Endpoint is healthy, proceed with data fetch
             if curl -s -f --retry 3 --retry-delay 5 --max-time 30 \
-              -o data/goes/xray_flux_latest.json \
-              https://services.swpc.noaa.gov/products/goes-xray-flux.json; then
+              -o data/goes/xray_flux_latest.json "${GOES_URL}"; then
 
               # Validate JSON integrity
               if jq empty data/goes/xray_flux_latest.json 2>/dev/null; then
@@ -352,7 +354,7 @@ jobs:
                 "data_files": [
                   "data/goes/xray_flux_audit.json"
                 ],
-                "endpoint": "https://services.swpc.noaa.gov/products/goes-xray-flux.json",
+                "endpoint": "https://services.swpc.noaa.gov/json/goes/primary/xrays-6-hour.json",
                 "note": "Endpoint health checked before data fetch"
               }
             },
