@@ -1,25 +1,124 @@
-name: LUFT Solar Wind Audit
+name: LUFT Solar Wind Audit (Legacy - Enhanced)
+
+# NOTE: This is the enhanced version of the legacy workflow.
+# It maintains backward compatibility with existing file paths (data/ace_*_audit.json)
+# For new robust workflows with feature branch strategy, see:
+# - ace_solar_wind_ingest.yml (full ACE data with PR review)
+# - dscovr_solar_wind_ingest.yml (DSCOVR data with PR review)
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs hourly
+    - cron: '0 * * * *'  # Runs hourly at the top of the hour
   workflow_dispatch:
 
 jobs:
   audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
       - name: Fetch Plasma Data
-        run: curl -o data/ace_plasma_latest.json https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json
+        id: fetch-plasma
+        run: |
+          echo "📡 Fetching ACE plasma data..."
+          if curl -f -s -o data/ace_plasma_latest.json \
+            https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json; then
+            echo "✅ Plasma data downloaded"
+            echo "success=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ ERROR: Failed to download plasma data"
+            exit 1
+          fi
+      
+      - name: Validate Plasma Data
+        if: steps.fetch-plasma.outputs.success == 'true'
+        run: |
+          echo "🔍 Validating plasma JSON..."
+          if jq empty data/ace_plasma_latest.json 2>&1; then
+            COUNT=$(jq 'length' data/ace_plasma_latest.json)
+            echo "✅ Valid JSON with $COUNT records"
+          else
+            echo "❌ ERROR: Invalid plasma JSON"
+            cat data/ace_plasma_latest.json
+            exit 2
+          fi
+      
       - name: Fetch Mag Data
-        run: curl -o data/ace_mag_latest.json https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json
+        id: fetch-mag
+        run: |
+          echo "📡 Fetching ACE magnetometer data..."
+          if curl -f -s -o data/ace_mag_latest.json \
+            https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json; then
+            echo "✅ Magnetometer data downloaded"
+            echo "success=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ ERROR: Failed to download magnetometer data"
+            exit 1
+          fi
+      
+      - name: Validate Mag Data
+        if: steps.fetch-mag.outputs.success == 'true'
+        run: |
+          echo "🔍 Validating magnetometer JSON..."
+          if jq empty data/ace_mag_latest.json 2>&1; then
+            COUNT=$(jq 'length' data/ace_mag_latest.json)
+            echo "✅ Valid JSON with $COUNT records"
+          else
+            echo "❌ ERROR: Invalid magnetometer JSON"
+            cat data/ace_mag_latest.json
+            exit 2
+          fi
+      
       - name: Extract Latest Entry
         run: |
-          jq '.[-1]' data/ace_plasma_latest.json > data/ace_plasma_audit.json
-          jq '.[-1]' data/ace_mag_latest.json > data/ace_mag_audit.json
+          echo "📝 Extracting latest entries for audit..."
+          
+          if jq '.[-1]' data/ace_plasma_latest.json > data/ace_plasma_audit.json; then
+            echo "✅ Plasma audit entry extracted"
+          else
+            echo "❌ ERROR: Failed to extract plasma audit"
+            exit 3
+          fi
+          
+          if jq '.[-1]' data/ace_mag_latest.json > data/ace_mag_audit.json; then
+            echo "✅ Magnetometer audit entry extracted"
+          else
+            echo "❌ ERROR: Failed to extract magnetometer audit"
+            exit 3
+          fi
+          
+          # Validate extracted entries
+          if ! jq empty data/ace_plasma_audit.json 2>&1; then
+            echo "❌ ERROR: Plasma audit is invalid JSON"
+            exit 4
+          fi
+          
+          if ! jq empty data/ace_mag_audit.json 2>&1; then
+            echo "❌ ERROR: Magnetometer audit is invalid JSON"
+            exit 4
+          fi
+          
+          echo "✅ All audit files validated"
+          echo "Plasma latest:"
+          cat data/ace_plasma_audit.json
+          echo ""
+          echo "Magnetometer latest:"
+          cat data/ace_mag_audit.json
+      
       - name: Commit Audit
         uses: EndBug/add-and-commit@v9
         with:
           add: 'data/ace_*_audit.json'
-          message: 'LUFT Solar Wind Audit Update'
+          message: 'LUFT Solar Wind Audit Update (validated)'
+          default_author: github_actions
+      
+      - name: Summary
+        if: always()
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "LUFT Solar Wind Audit Summary"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "Time: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          echo "Files updated: data/ace_plasma_audit.json, data/ace_mag_audit.json"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
