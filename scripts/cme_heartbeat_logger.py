@@ -25,7 +25,6 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
 import argparse
 import csv
 import json
-import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -43,6 +42,25 @@ KP_STORM_THRESHOLD = 5.0       # Kp >= 5 indicates storm conditions
 DENSITY_STORM_THRESHOLD = 15.0  # p/cm³ - elevated density indicates storm
 SPEED_STORM_THRESHOLD = 500.0   # km/s - elevated speed indicates storm
 BZ_STORM_THRESHOLD = -10.0      # nT - strongly negative Bz indicates storm
+
+# Baseline solar wind parameters (quiet conditions)
+BASELINE_DENSITY = 5.0    # p/cm³ - typical quiet solar wind density
+BASELINE_SPEED = 400.0    # km/s - typical quiet solar wind speed
+BASELINE_BT = 5.0         # nT - typical quiet interplanetary magnetic field
+
+# Demo data generation parameters
+DEMO_DENSITY_MEAN = 5.0
+DEMO_DENSITY_STD = 2.0
+DEMO_SPEED_MEAN = 400.0
+DEMO_SPEED_STD = 50.0
+DEMO_BZ_MEAN = -2.0
+DEMO_BZ_STD = 3.0
+DEMO_BT_MEAN = 5.0
+DEMO_BT_STD = 2.0
+
+# Chi amplitude scaling factor (empirically derived from LUFT model)
+# Maps relative modulation (0-1) to χ range centered on 0.055
+CHI_SCALING_CENTER = 0.1  # Center point for modulation-to-chi mapping
 
 
 def get_log_filepath():
@@ -114,33 +132,28 @@ def estimate_chi_amplitude(density, speed, bt):
     Uses a simplified model based on density and speed fluctuations
     relative to baseline values.
     """
-    # Baseline values (quiet solar wind)
-    baseline_density = 5.0   # p/cm³
-    baseline_speed = 400.0   # km/s
-    baseline_bt = 5.0        # nT
-    
     chi = 0.0
     n_valid = 0
     
     if density is not None and density > 0:
-        density_mod = abs(density - baseline_density) / baseline_density
+        density_mod = abs(density - BASELINE_DENSITY) / BASELINE_DENSITY
         chi += min(density_mod, 0.3)  # Cap contribution
         n_valid += 1
     
     if speed is not None and speed > 0:
-        speed_mod = abs(speed - baseline_speed) / baseline_speed
+        speed_mod = abs(speed - BASELINE_SPEED) / BASELINE_SPEED
         chi += min(speed_mod, 0.3)
         n_valid += 1
     
     if bt is not None and bt > 0:
-        bt_mod = abs(bt - baseline_bt) / baseline_bt
+        bt_mod = abs(bt - BASELINE_BT) / BASELINE_BT
         chi += min(bt_mod, 0.3)
         n_valid += 1
     
     if n_valid > 0:
         chi = chi / n_valid  # Average modulation
-        # Scale to expected range around 0.055
-        chi = 0.055 + (chi - 0.1) * 0.5
+        # Scale to expected range around 0.055 using scaling center
+        chi = CHI_EXPECTED + (chi - CHI_SCALING_CENTER) * 0.5
         chi = max(0.01, min(chi, 0.15))  # Clamp to reasonable range
     else:
         chi = CHI_EXPECTED  # Default if no valid data
@@ -243,11 +256,11 @@ def generate_demo_entry():
     """Generate a demo log entry for testing."""
     now = datetime.now(timezone.utc)
     
-    # Simulate solar wind data with some variation
-    density = 5.0 + np.random.normal(0, 2)
-    speed = 400.0 + np.random.normal(0, 50)
-    bz = -2.0 + np.random.normal(0, 3)
-    bt = 5.0 + np.random.normal(0, 2)
+    # Simulate solar wind data with some variation using defined constants
+    density = DEMO_DENSITY_MEAN + np.random.normal(0, DEMO_DENSITY_STD)
+    speed = DEMO_SPEED_MEAN + np.random.normal(0, DEMO_SPEED_STD)
+    bz = DEMO_BZ_MEAN + np.random.normal(0, DEMO_BZ_STD)
+    bt = DEMO_BT_MEAN + np.random.normal(0, DEMO_BT_STD)
     
     chi = estimate_chi_amplitude(density, speed, bt)
     phase = estimate_phase(now.isoformat())
