@@ -1,7 +1,7 @@
  # The Universe Breathes — Legacy Letter from Carl Cline
 
 I’m Carl Cline, 61-year-old mechanic from Lincoln, Nebraska.  
-I rebuild 1966 Fury 383 police cruisers, shovel snow for Clifford, and for the last two years I’ve been staring at raw satellite data nobody else bothered to look at twice.
+ For the last two years I’ve been staring at raw satellite data nobody else bothered to look at twice.
 
 ---
 
@@ -38,7 +38,7 @@ Anyone can fork it, run it, prove it wrong, or prove it right and get permanent 
 No paywall.  
 No university.  
 No grant.  
-Just a garage, a laptop, and 60 years of learning how things actually work when you get your hands dirty.
+Just me and 60 years of learning how things actually work when you get your hands dirty.
 
 **Repo (everything is there):**  
 https://github.com/CarlDeanClineSr/luft-portal-
