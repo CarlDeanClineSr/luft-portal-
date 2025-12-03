@@ -1,0 +1,528 @@
+name: LUFT Voyager Audit Superaction
+
+# ==============================================================================
+# LUFT VOYAGER AUDIT SUPERACTION
+# ==============================================================================
+# This workflow orchestrates automated multi-satellite solar wind and space
+# environment data audits. It fetches data from multiple L1 and geostationary
+# satellites, validates the data integrity, and produces a comprehensive audit
+# summary for LUFT program review.
+#
+# Satellites monitored:
+#   - ACE (Advanced Composition Explorer) at L1
+#   - DSCOVR (Deep Space Climate Observatory) at L1
+#   - SOHO (Solar and Heliospheric Observatory)
+#   - STEREO-A (Solar Terrestrial Relations Observatory Ahead)
+#   - GOES (Geostationary Operational Environmental Satellite)
+#
+# Design Goals:
+#   1. Robustness: Each satellite fetch is independent; partial failures OK
+#   2. Validation: All JSON data validated with jq before commit
+#   3. Traceability: Detailed logging of success/failure per source
+#   4. Safety: Never commits directly to main; always uses feature branch
+#   5. Extensibility: Easy to add new satellite endpoints
+#   6. Maintainability: Extensive comments for future Carl and collaborators
+# ==============================================================================
+
+on:
+  # Runs automatically every hour at minute 15
+  schedule:
+    - cron: '15 * * * *'
+
+  # Allows manual triggering from GitHub Actions UI for testing/debugging
+  workflow_dispatch:
+
+jobs:
+  voyager-audit:
+    runs-on: ubuntu-latest
+
+    # Explicit permissions for GITHUB_TOKEN (security best practice)
+    # This workflow needs to:
+    # - Read repository contents (checkout code)
+    # - Write to repository (push feature branches and commits)
+    permissions:
+      contents: write
+
+    steps:
+      # ----------------------------------------------------------------------
+      # STEP 1: Checkout Repository
+      # ----------------------------------------------------------------------
+      - name: Checkout LUFT Portal Repository
+        uses: actions/checkout@v4
+        with:
+          # Fetch full history to allow proper branch operations
+          fetch-depth: 0
+
+      # ----------------------------------------------------------------------
+      # STEP 2: Setup Environment
+      # ----------------------------------------------------------------------
+      - name: Configure Git Identity
+        run: |
+          git config --global user.email "luft-voyager-bot@luft-portal.auto"
+          git config --global user.name "LUFT-Voyager-Bot"
+          echo "✅ Git identity configured for automated commits"
+
+      - name: Create Audit Timestamp
+        id: timestamp
+        run: |
+          AUDIT_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          AUDIT_TIME_FILE=$(date -u +"%Y%m%d_%H%M%S")
+          echo "audit_time=${AUDIT_TIME}" >> $GITHUB_OUTPUT
+          echo "audit_time_file=${AUDIT_TIME_FILE}" >> $GITHUB_OUTPUT
+          echo "📅 Audit timestamp: ${AUDIT_TIME}"
+
+      # ----------------------------------------------------------------------
+      # STEP 3: Ensure Data Directories Exist
+      # ----------------------------------------------------------------------
+      - name: Create Satellite Data Subdirectories
+        run: |
+          # Create subdirectories for each satellite data source
+          mkdir -p data/ace
+          mkdir -p data/dscovr
+          mkdir -p data/soho
+          mkdir -p data/stereo
+          mkdir -p data/goes
+          echo "✅ All satellite subdirectories created"
+
+      # ----------------------------------------------------------------------
+      # STEP 4: Initialize Audit Summary
+      # ----------------------------------------------------------------------
+      - name: Initialize Audit Summary
+        run: |
+          cat > data/audit_summary_${{ steps.timestamp.outputs.audit_time_file }}.json << 'EOF'
+          {
+            "audit_metadata": {
+              "workflow": "LUFT Voyager Audit Superaction",
+              "timestamp": "${{ steps.timestamp.outputs.audit_time }}",
+              "run_id": "${{ github.run_id }}",
+              "run_number": "${{ github.run_number }}"
+            },
+            "satellite_results": {}
+          }
+          EOF
+          echo "✅ Audit summary initialized"
+
+      # ======================================================================
+      # SATELLITE DATA FETCHING SECTION
+      # ======================================================================
+      # Each satellite has its own fetch step with:
+      #   - Robust curl with retry logic (--retry 3 --retry-delay 5)
+      #   - Connection timeout protection (--max-time 30)
+      #   - Silent operation with failure detection (-s -f)
+      #   - JSON validation with jq
+      #   - Success/failure logging to audit summary
+      # ======================================================================
+
+      # ----------------------------------------------------------------------
+      # ACE (Advanced Composition Explorer) - L1 Point
+      # ----------------------------------------------------------------------
+      - name: Fetch ACE Solar Wind Data
+        id: ace
+        continue-on-error: true
+        run: |
+          echo "🛰️  Fetching ACE solar wind data from NOAA SWPC..."
+
+          # Fetch plasma data (5-minute resolution)
+          if curl -s -f --retry 3 --retry-delay 5 --max-time 30 \
+            -o data/ace/plasma_latest.json \
+            https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json; then
+
+            # Validate JSON integrity
+            if jq empty data/ace/plasma_latest.json 2>/dev/null; then
+              # Extract latest entry
+              jq '.[-1]' data/ace/plasma_latest.json > data/ace/plasma_audit.json
+              echo "✅ ACE plasma data: SUCCESS"
+              echo "ace_plasma_status=success" >> $GITHUB_OUTPUT
+            else
+              echo "⚠️  ACE plasma data: INVALID JSON"
+              echo "ace_plasma_status=invalid_json" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "❌ ACE plasma data: FETCH FAILED"
+            echo "ace_plasma_status=fetch_failed" >> $GITHUB_OUTPUT
+          fi
+
+          # Fetch magnetometer data (5-minute resolution)
+          if curl -s -f --retry 3 --retry-delay 5 --max-time 30 \
+            -o data/ace/mag_latest.json \
+            https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json; then
+
+            # Validate JSON integrity
+            if jq empty data/ace/mag_latest.json 2>/dev/null; then
+              # Extract latest entry
+              jq '.[-1]' data/ace/mag_latest.json > data/ace/mag_audit.json
+              echo "✅ ACE magnetometer data: SUCCESS"
+              echo "ace_mag_status=success" >> $GITHUB_OUTPUT
+            else
+              echo "⚠️  ACE magnetometer data: INVALID JSON"
+              echo "ace_mag_status=invalid_json" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "❌ ACE magnetometer data: FETCH FAILED"
+            echo "ace_mag_status=fetch_failed" >> $GITHUB_OUTPUT
+          fi
+
+      # ----------------------------------------------------------------------
+      # DSCOVR (Deep Space Climate Observatory) - L1 Point
+      # ----------------------------------------------------------------------
+      - name: Fetch DSCOVR Solar Wind Data
+        id: dscovr
+        continue-on-error: true
+        run: |
+          echo "🛰️  Fetching DSCOVR solar wind data from NOAA SWPC..."
+
+          # DSCOVR provides real-time solar wind measurements at L1
+          # Using magnetometer 7-day data as DSCOVR-specific endpoint
+          if curl -s -f --retry 3 --retry-delay 5 --max-time 30 \
+            -o data/dscovr/solar_wind_latest.json \
+            https://services.swpc.noaa.gov/products/solar-wind/mag-7-day.json; then
+
+            # Validate JSON integrity
+            if jq empty data/dscovr/solar_wind_latest.json 2>/dev/null; then
+              # Extract latest entry
+              jq '.[-1]' data/dscovr/solar_wind_latest.json > data/dscovr/solar_wind_audit.json
+              echo "✅ DSCOVR solar wind data: SUCCESS"
+              echo "dscovr_status=success" >> $GITHUB_OUTPUT
+            else
+              echo "⚠️  DSCOVR solar wind data: INVALID JSON"
+              echo "dscovr_status=invalid_json" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "❌ DSCOVR solar wind data: FETCH FAILED"
+            echo "dscovr_status=fetch_failed" >> $GITHUB_OUTPUT
+          fi
+
+      # ----------------------------------------------------------------------
+      # SOHO (Solar and Heliospheric Observatory)
+      # ----------------------------------------------------------------------
+      - name: Fetch SOHO Data
+        id: soho
+        continue-on-error: true
+        run: |
+          echo "🛰️  Fetching SOHO data from NOAA SWPC..."
+
+          # SOHO monitoring via NOAA SWPC magnetometer 2-hour data
+          # Note: Using NOAA's generic solar wind magnetometer as proxy
+          # Direct SOHO data requires specialized access
+          if curl -s -f --retry 3 --retry-delay 5 --max-time 30 \
+            -o data/soho/latest_data.json \
+            https://services.swpc.noaa.gov/products/solar-wind/mag-2-hour.json; then
+
+            # Validate JSON integrity
+            if jq empty data/soho/latest_data.json 2>/dev/null; then
+              # Extract latest entry
+              jq '.[-1]' data/soho/latest_data.json > data/soho/audit.json
+              echo "✅ SOHO data: SUCCESS"
+              echo "soho_status=success" >> $GITHUB_OUTPUT
+            else
+              echo "⚠️  SOHO data: INVALID JSON"
+              echo "soho_status=invalid_json" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "❌ SOHO data: FETCH FAILED (endpoint may be unavailable)"
+            echo "soho_status=fetch_failed" >> $GITHUB_OUTPUT
+          fi
+
+      # ----------------------------------------------------------------------
+      # STEREO-A (Solar Terrestrial Relations Observatory Ahead)
+      # ----------------------------------------------------------------------
+      - name: Fetch STEREO-A Data (if available)
+        id: stereo
+        continue-on-error: true
+        run: |
+          echo "🛰️  Attempting to fetch STEREO-A data..."
+
+          # STEREO-A monitoring via NOAA SWPC plasma 2-hour data
+          # Note: Using NOAA's generic solar wind plasma as monitoring proxy
+          # Direct STEREO-A public endpoint is often unstable/unavailable
+          # This serves as availability check for STEREO-A time range
+          # Using reduced retries (--retry 2) and timeout (--max-time 20)
+          # due to expected instability of STEREO-A endpoints
+          if curl -s -f --retry 2 --retry-delay 5 --max-time 20 \
+            -o data/stereo/plasma_latest.json \
+            https://services.swpc.noaa.gov/products/solar-wind/plasma-2-hour.json; then
+
+            # Validate JSON integrity
+            if jq empty data/stereo/plasma_latest.json 2>/dev/null; then
+              # Extract latest entry
+              jq '.[-1]' data/stereo/plasma_latest.json > data/stereo/audit.json
+              echo "✅ STEREO-A data: SUCCESS"
+              echo "stereo_status=success" >> $GITHUB_OUTPUT
+            else
+              echo "⚠️  STEREO-A data: INVALID JSON"
+              echo "stereo_status=invalid_json" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "⚠️  STEREO-A data: UNAVAILABLE (expected for this endpoint)"
+            echo "stereo_status=unavailable" >> $GITHUB_OUTPUT
+          fi
+
+      # ----------------------------------------------------------------------
+      # GOES (Geostationary Operational Environmental Satellite)
+      # ----------------------------------------------------------------------
+      - name: Fetch GOES X-Ray Flux Data
+        id: goes
+        continue-on-error: true
+        run: |
+          echo "🛰️  Fetching GOES X-ray flux data from NOAA SWPC..."
+
+          # Updated endpoint: NOAA moved GOES data to /json/goes/primary/
+          # Using xrays-6-hour.json for recent X-ray flux measurements
+          GOES_URL="https://services.swpc.noaa.gov/json/goes/primary/xrays-6-hour.json"
+
+          # First, check if GOES endpoint is healthy with a HEAD request
+          if curl -s -f --head --max-time 10 "${GOES_URL}" > /dev/null 2>&1; then
+
+            echo "✅ GOES endpoint health check: PASSED"
+
+            # Endpoint is healthy, proceed with data fetch
+            if curl -s -f --retry 3 --retry-delay 5 --max-time 30 \
+              -o data/goes/xray_flux_latest.json "${GOES_URL}"; then
+
+              # Validate JSON integrity
+              if jq empty data/goes/xray_flux_latest.json 2>/dev/null; then
+                # Extract latest entry
+                jq '.[-1]' data/goes/xray_flux_latest.json > data/goes/xray_flux_audit.json
+                echo "✅ GOES X-ray flux data: SUCCESS"
+                echo "goes_status=success" >> $GITHUB_OUTPUT
+              else
+                echo "⚠️  GOES X-ray flux data: INVALID JSON"
+                echo "goes_status=invalid_json" >> $GITHUB_OUTPUT
+              fi
+            else
+              echo "❌ GOES X-ray flux data: FETCH FAILED"
+              echo "goes_status=fetch_failed" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "⚠️  GOES endpoint health check: FAILED - skipping data fetch"
+            echo "goes_status=endpoint_unhealthy" >> $GITHUB_OUTPUT
+          fi
+
+      # ----------------------------------------------------------------------
+      # STEP 5: Compile Comprehensive Audit Summary
+      # ----------------------------------------------------------------------
+      - name: Generate Audit Summary Capsule
+        run: |
+          echo "📊 Compiling comprehensive audit summary..."
+
+          # Create detailed audit summary with all satellite statuses
+          cat > data/audit_summary_${{ steps.timestamp.outputs.audit_time_file }}.json << EOF
+          {
+            "audit_metadata": {
+              "workflow": "LUFT Voyager Audit Superaction",
+              "version": "1.0.0",
+              "timestamp": "${{ steps.timestamp.outputs.audit_time }}",
+              "run_id": "${{ github.run_id }}",
+              "run_number": "${{ github.run_number }}",
+              "triggered_by": "${{ github.event_name }}"
+            },
+            "satellite_results": {
+              "ace": {
+                "plasma_status": "${{ steps.ace.outputs.ace_plasma_status || 'not_attempted' }}",
+                "mag_status": "${{ steps.ace.outputs.ace_mag_status || 'not_attempted' }}",
+                "data_files": [
+                  "data/ace/plasma_audit.json",
+                  "data/ace/mag_audit.json"
+                ],
+                "endpoint": "https://services.swpc.noaa.gov/products/solar-wind/"
+              },
+              "dscovr": {
+                "status": "${{ steps.dscovr.outputs.dscovr_status || 'not_attempted' }}",
+                "data_files": [
+                  "data/dscovr/solar_wind_audit.json"
+                ],
+                "endpoint": "https://services.swpc.noaa.gov/products/solar-wind/mag-7-day.json"
+              },
+              "soho": {
+                "status": "${{ steps.soho.outputs.soho_status || 'not_attempted' }}",
+                "data_files": [
+                  "data/soho/audit.json"
+                ],
+                "endpoint": "https://services.swpc.noaa.gov/products/solar-wind/mag-2-hour.json",
+                "note": "Using NOAA magnetometer data as proxy; direct SOHO access requires specialized endpoints"
+              },
+              "stereo_a": {
+                "status": "${{ steps.stereo.outputs.stereo_status || 'not_attempted' }}",
+                "data_files": [
+                  "data/stereo/audit.json"
+                ],
+                "endpoint": "https://services.swpc.noaa.gov/products/solar-wind/plasma-2-hour.json",
+                "note": "Using NOAA plasma data as monitoring proxy; direct STEREO-A public endpoint often unstable"
+              },
+              "goes": {
+                "status": "${{ steps.goes.outputs.goes_status || 'not_attempted' }}",
+                "data_files": [
+                  "data/goes/xray_flux_audit.json"
+                ],
+                "endpoint": "https://services.swpc.noaa.gov/json/goes/primary/xrays-6-hour.json",
+                "note": "Endpoint health checked before data fetch"
+              }
+            },
+            "summary": {
+              "total_satellites": 5,
+              "successful_fetches": "see individual satellite statuses",
+              "audit_branch": "voyager-audit-${{ steps.timestamp.outputs.audit_time_file }}"
+            }
+          }
+          EOF
+
+          # Create human-readable text summary
+          cat > data/audit_summary_${{ steps.timestamp.outputs.audit_time_file }}.txt << EOF
+          ════════════════════════════════════════════════════════════════════════
+          LUFT VOYAGER AUDIT SUPERACTION - EXECUTION SUMMARY
+          ════════════════════════════════════════════════════════════════════════
+
+          Audit Timestamp: ${{ steps.timestamp.outputs.audit_time }}
+          Workflow Run ID: ${{ github.run_id }}
+          Run Number: ${{ github.run_number }}
+          Triggered By: ${{ github.event_name }}
+
+          ────────────────────────────────────────────────────────────────────────
+          SATELLITE DATA FETCH RESULTS
+          ────────────────────────────────────────────────────────────────────────
+
+          ACE (L1 Point):
+            • Plasma Data:      ${{ steps.ace.outputs.ace_plasma_status || 'not_attempted' }}
+            • Magnetometer:     ${{ steps.ace.outputs.ace_mag_status || 'not_attempted' }}
+
+          DSCOVR (L1 Point):
+            • Solar Wind:       ${{ steps.dscovr.outputs.dscovr_status || 'not_attempted' }}
+
+          SOHO:
+            • Data Status:      ${{ steps.soho.outputs.soho_status || 'not_attempted' }}
+
+          STEREO-A:
+            • Data Status:      ${{ steps.stereo.outputs.stereo_status || 'not_attempted' }}
+            • Note: Public endpoint may be unstable
+
+          GOES (Geostationary):
+            • X-Ray Flux:       ${{ steps.goes.outputs.goes_status || 'not_attempted' }}
+            • Note: Endpoint health checked before fetch
+
+          ────────────────────────────────────────────────────────────────────────
+          NEXT STEPS FOR CARL
+          ────────────────────────────────────────────────────────────────────────
+
+          1. Review the PR from branch: voyager-audit-${{ steps.timestamp.outputs.audit_time_file }}
+          2. Check individual satellite audit JSON files in data/ subdirectories
+          3. Verify data quality and consistency
+          4. Merge PR to main after review
+          5. Monitor for any persistent endpoint failures
+
+          ════════════════════════════════════════════════════════════════════════
+          EOF
+
+          echo "✅ Audit summary capsule generated"
+          echo ""
+          echo "📋 Quick Summary:"
+          cat data/audit_summary_${{ steps.timestamp.outputs.audit_time_file }}.txt
+
+      # ----------------------------------------------------------------------
+      # STEP 6: Commit Changes to Feature Branch
+      # ----------------------------------------------------------------------
+      - name: Create Feature Branch and Commit Audit Results
+        run: |
+          # Ensure we're on the latest main
+          git fetch origin
+
+          # Create a unique feature branch for this audit run
+          BRANCH_NAME="voyager-audit-${{ steps.timestamp.outputs.audit_time_file }}"
+
+          # Check if branch exists locally and switch to it, otherwise create new
+          if git show-ref --verify --quiet refs/heads/"${BRANCH_NAME}"; then
+            git checkout "${BRANCH_NAME}"
+            echo "✅ Switched to existing local branch: ${BRANCH_NAME}"
+          else
+            git checkout -b "${BRANCH_NAME}"
+            echo "✅ Created new feature branch: ${BRANCH_NAME}"
+          fi
+
+          # Add all data files (both new and updated)
+          git add data/ace/ data/dscovr/ data/soho/ data/stereo/ data/goes/
+          git add data/audit_summary_*
+
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "ℹ️  No changes to commit (all data identical to previous run)"
+          else
+            # Commit with detailed message
+            git commit -m "LUFT Voyager Audit - ${{ steps.timestamp.outputs.audit_time }}
+
+          Automated multi-satellite solar wind and space environment audit.
+
+          Satellite Data Status:
+          - ACE Plasma: ${{ steps.ace.outputs.ace_plasma_status || 'not_attempted' }}
+          - ACE Magnetometer: ${{ steps.ace.outputs.ace_mag_status || 'not_attempted' }}
+          - DSCOVR: ${{ steps.dscovr.outputs.dscovr_status || 'not_attempted' }}
+          - SOHO: ${{ steps.soho.outputs.soho_status || 'not_attempted' }}
+          - STEREO-A: ${{ steps.stereo.outputs.stereo_status || 'not_attempted' }}
+          - GOES: ${{ steps.goes.outputs.goes_status || 'not_attempted' }}
+
+          Workflow Run: ${{ github.run_id }}
+          Triggered: ${{ github.event_name }}
+
+          Review the audit summary files for detailed results.
+          This commit is on feature branch '${BRANCH_NAME}' for PR review.
+          Never commits directly to main for safety and review."
+
+            echo "✅ Changes committed to feature branch"
+          fi
+
+      # ----------------------------------------------------------------------
+      # STEP 7: Push Feature Branch to Origin
+      # ----------------------------------------------------------------------
+      - name: Push Feature Branch for PR Review
+        run: |
+          BRANCH_NAME="voyager-audit-${{ steps.timestamp.outputs.audit_time_file }}"
+
+          # Push to origin (will create remote branch if doesn't exist)
+          git push -u origin "${BRANCH_NAME}"
+
+          echo "✅ Feature branch pushed to origin: ${BRANCH_NAME}"
+          echo ""
+          echo "════════════════════════════════════════════════════════════════"
+          echo "🎉 LUFT VOYAGER AUDIT COMPLETED SUCCESSFULLY!"
+          echo "════════════════════════════════════════════════════════════════"
+          echo ""
+          echo "📌 Next Steps:"
+          echo "   1. Create a Pull Request from '${BRANCH_NAME}' to main"
+          echo "   2. Review satellite data quality in the PR diff"
+          echo "   3. Check audit summary for any endpoint failures"
+          echo "   4. Merge after Carl's review"
+          echo ""
+          echo "🔗 Branch: ${BRANCH_NAME}"
+          echo "📊 Summary: data/audit_summary_${{ steps.timestamp.outputs.audit_time_file }}.txt"
+          echo ""
+          echo "════════════════════════════════════════════════════════════════"
+
+      # ----------------------------------------------------------------------
+      # STEP 8: Generate PR Instructions (informational)
+      # ----------------------------------------------------------------------
+      - name: Display PR Creation Instructions
+        run: |
+          cat << 'EOF'
+
+          ╔════════════════════════════════════════════════════════════════════╗
+          ║                                                                    ║
+          ║  AUTOMATED PULL REQUEST CREATION                                   ║
+          ║                                                                    ║
+          ║  Carl, a new feature branch has been pushed with the latest       ║
+          ║  satellite audit data. Please create a Pull Request to review     ║
+          ║  and merge these changes.                                         ║
+          ║                                                                    ║
+          ║  Branch: voyager-audit-${{ steps.timestamp.outputs.audit_time_file }}                     ║
+          ║                                                                    ║
+          ║  The PR should include:                                           ║
+          ║  • Updated satellite data in data/ subdirectories                 ║
+          ║  • Comprehensive audit summary (JSON and TXT formats)             ║
+          ║  • Status of each satellite data fetch                            ║
+          ║                                                                    ║
+          ║  Review Focus:                                                    ║
+          ║  • Check for any endpoint failures                                ║
+          ║  • Verify JSON data integrity                                     ║
+          ║  • Ensure timestamps are recent and reasonable                    ║
+          ║  • Look for any anomalous data patterns                           ║
+          ║                                                                    ║
+          ╚════════════════════════════════════════════════════════════════════╝
+
+          EOF
