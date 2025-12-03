@@ -47,7 +47,8 @@ jobs:
                 echo "---"
               fi
             else
-              echo "✗ Download failed (curl exit code: $?)"
+              CURL_EXIT=$?
+              echo "✗ Download failed (curl exit code: $CURL_EXIT)"
             fi
             
             RETRY_COUNT=$((RETRY_COUNT + 1))
