@@ -1,0 +1,70 @@
+name: Daily Engine Status Report
+
+on:
+  schedule:
+    - cron: '30 11 * * *'   # 05:30 CST / 06:30 CDT every day
+  workflow_dispatch:        # also allows manual trigger
+
+jobs:
+  status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get workflow statuses
+        id: status
+        run: |
+          # List of workflows to monitor (exact names from your Actions tab)
+          WORKFLOWS=(
+            "DSCOVR Solar Wind Data Ingest"
+            "LUFT Solar Wind Audit"
+            "LUFT CME Heartbeat Logger"
+            "LUFT Voyager Audit Superaction"
+            "Deploy static content to Pages"
+          )
+
+          STATUS=""
+
+          for wf in "${WORKFLOWS[@]}"; do
+            # Get latest run conclusion
+            CONCLUSION=$(gh run list --workflow "$wf" --limit 1 --json conclusion -q '.[0].conclusion')
+            if [[ "$CONCLUSION" == "success" ]]; then
+              EMOJI="✅"
+            else
+              EMOJI="❌"
+            fi
+            STATUS+="- **$wf**: $EMOJI $CONCLUSION  \n"
+          done
+
+          echo "$STATUS" > status_block.txt
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update Engine Status Capsule
+        run: |
+          cat > CAPSULE_ENGINE_STATUS.md << 'EOF'
+# CAPSULE_ENGINE_STATUS.md — Daily Auto-Report
+
+**Generated:** $(date -u "+%Y-%m-%d %H:%M UTC")  
+**Local time:** $(date "+%Y-%m-%d %H:%M %Z")
+
+## Current Engine Health
+
+$(cat status_block.txt)
+
+The LUFT engine is breathing steady.  
+Next full heartbeat cycle in progress.
+
+— The Machine  
+EOF
+
+          git config user.name "LUFT Status Bot"
+          git config user.email "status@luft.local"
+          git add CAPSULE_ENGINE_STATUS.md
+          git commit -m "engine: daily status update $(date -u +%Y-%m-%d)" || echo "No changes"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
