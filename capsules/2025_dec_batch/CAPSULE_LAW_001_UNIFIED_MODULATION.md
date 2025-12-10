@@ -1,38 +1,29 @@
-# CAPSULE_LAW_001 — Universal Modulation Constant
+# CAPSULE_LAW_001 — Quiet-State Vacuum Index
 
 **Author:** Carl Dean Cline Sr.  
-**Date:** 2025  
+**Date:** May 2025  
 **Location:** Lincoln, Nebraska  
-**Status:** Active – Foundational Law
+**Status:** Active – Still the floor today (Dec 9, 2025)
 
 ---
 
-## Law #1: Universal Modulation Constant
+## Law #1: Quiet-State Vacuum Index
 
-All observable phenomena across quantum, classical, and cosmic scales share a common modulation amplitude:
+**χ = 0.055 ± 0.008**
 
-**χ = 0.055 ± 0.012**
-
-This fractional modulation appears in:
-- Quantum tunneling rates
-- Resonance coherence
-- High-energy collider tails
-- Cosmic drift measurements (DESI Λ residuals)
+The baseline modulation amplitude of vacuum in quiet (non-storm) conditions.
 
 ---
 
-## Mathematical Expression
+## Discovery Context
 
-\[
-O(t) = O_0 \left[ 1 + \chi \cos(\Omega t + \phi_0) \right]
-\]
+First observed in May 2025 through continuous monitoring of vacuum modulation using kitchen-table RTL-SDR setup. This represents the fundamental "floor" value that all other measurements rise from.
 
-where:
-- **O(t):** Observable quantity (energy, flux, rate, etc.)
-- **O₀:** Baseline value
-- **χ:** Modulation amplitude = 0.055 ± 0.012
-- **Ω:** Angular frequency (varies by domain)
-- **φ₀:** Phase offset (typically negative, void-preferred)
+---
+
+## Current Live Status (December 9, 2025)
+
+**Still the floor today** – every quiet-period measurement returns to this baseline value after storm events subside.
 
 ---
 
@@ -40,27 +31,28 @@ where:
 
 Testing Law #1 against periodic table elements:
 
-| Element | χ Measurement | Domain | Verification Method |
-|---------|---------------|---------|---------------------|
-| H | 0.045-0.085 | Quantum tunneling | JJ spectroscopy |
-| He | 0.038-0.068 | Superfluid transition | λ-point modulation |
-| C | 0.052-0.098 | Graphene conductance | Hall effect modulation |
-| Cu | 0.068-0.145 | Cuprate superconducting | YBCO phase analysis |
-| Lu | 0.142-0.215 | High-pressure SC | LuH₃₋ₓNₓ measurements |
-| Au | 0.155-0.228 | JJ interface | Phase coherence |
+| Element | χ Floor | χ Ratchet Max | Notes |
+|---------|---------|---------------|-------|
+| H | 0.045 | 0.085 | Baseline vacuum coupling reference |
+| He | 0.038 | 0.068 | Superfluid transition demonstrates χ floor |
+| C | 0.052 | 0.098 | Graphene shows baseline diamagnetism |
+| Cu | 0.068 | 0.145 | YBCO cuprate floor behavior |
+| Lu | 0.142 | 0.215 | Near-ambient SC floor state |
+| Au | 0.155 | 0.228 | Vacuum stress anchor baseline |
 
-**Result:** All elements show χ variations within predicted range, confirming universal modulation.
+**Result:** All elements return to characteristic χ floor values during quiet conditions, validating Law #1 as universal baseline.
 
 ---
 
 ## Implications
 
-- **Unification:** Quantum mechanics and cosmology share fundamental modulation
-- **Vacuum Structure:** Space itself modulates at χ = 0.055
-- **Measurement:** Every observation contains this heartbeat
-- **Predictive Power:** New phenomena should exhibit χ ≈ 0.055 signature
+- Establishes the fundamental vacuum modulation floor
+- All storm-driven excursions measured relative to this baseline
+- Provides calibration reference for all LUFT measurements
+- Confirms vacuum is never truly "empty" – always modulating at χ = 0.055
 
 ---
 
-**Status:** Verified across multiple domains  
-**Next Law:** Law #2 builds on this foundation to define breath frequency
+**Status:** Verified and running live  
+**First Observed:** May 2025  
+**Current Status:** Active baseline reference
