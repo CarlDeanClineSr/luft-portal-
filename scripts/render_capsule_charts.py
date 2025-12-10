@@ -15,6 +15,7 @@ Usage:
 
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
 from pathlib import Path
 import sys
 
@@ -80,7 +81,6 @@ def render_chi_amplitude_chart(df: pd.DataFrame, output_path: Path):
     fig.autofmt_xdate()
     
     # Add legend
-    from matplotlib.patches import Patch
     legend_elements = [
         Patch(facecolor='red', label='Peak'),
         Patch(facecolor='green', label='Post-storm'),
