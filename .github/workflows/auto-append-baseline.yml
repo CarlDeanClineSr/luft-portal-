@@ -70,9 +70,21 @@ jobs:
       - name: Run Auto-Append Baseline Watch Script
         run: |
           echo "📊 Running LUFT Auto-Append Baseline Watch..."
-          python scripts/auto_append_baseline_watch.py \
-            --plasma data/ace_plasma_latest.json \
-            --mag data/ace_mag_latest.json
+          # Check if we have required data files
+          if [ -f data/ace_plasma_latest.json ] && [ -f data/ace_mag_latest.json ]; then
+            python scripts/auto_append_baseline_watch.py \
+              --plasma data/ace_plasma_latest.json \
+              --mag data/ace_mag_latest.json
+          elif [ -f data/goes_primary_latest.json ]; then
+            echo "⚠️  Using GOES fallback data (limited parameters available)"
+            # GOES data structure is different, may need alternative handling
+            echo "Note: GOES fallback requires additional implementation for proper baseline watch."
+            echo "Skipping baseline update until full ACE/DSCOVR data is available."
+            exit 0
+          else
+            echo "❌ Error: No valid data files available for baseline watch"
+            exit 1
+          fi
           echo "✅ Baseline watch script completed."
 
       - name: Check for capsule changes

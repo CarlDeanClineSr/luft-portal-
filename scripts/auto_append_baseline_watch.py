@@ -36,6 +36,10 @@ import numpy as np
 # LUFT Constants
 CHI_SHIFT_THRESHOLD = 0.12  # Threshold for confirmed shift
 CHI_BASELINE_PRE_DEC = 0.055  # Pre-December baseline
+CHI_MIN_VALUE = 0.01  # Minimum chi value (clamping)
+CHI_MAX_VALUE = 0.20  # Maximum chi value (clamping)
+DELTA_CHI_SIGNIFICANT = 0.05  # Threshold for significant delta chi
+
 PERIOD_HOURS = 2.4    # Period in hours
 PERIOD_SECONDS = PERIOD_HOURS * 3600  # 8640 seconds
 
@@ -46,6 +50,12 @@ BASELINE_BT = 5.0         # nT - typical quiet interplanetary magnetic field
 
 # Chi amplitude scaling factor (empirically derived from LUFT model)
 CHI_SCALING_CENTER = 0.1  # Center point for modulation-to-chi mapping
+
+# Uncertainty bounds
+UNCERTAINTY_MIN = 0.001  # Minimum uncertainty value
+UNCERTAINTY_SCALE = 0.01  # Scaling factor for uncertainty
+UNCERTAINTY_MAX = 0.010  # Maximum uncertainty value
+UNCERTAINTY_DEFAULT = 0.002  # Default uncertainty if no data
 
 # Capsule file path
 CAPSULE_PATH = Path("capsules/2025_dec_batch/CAPSULE_DECEMBER_BASELINE_SHIFT_WATCH_001.md")
@@ -87,11 +97,22 @@ def extract_quiet_hour_average(data, data_type='plasma'):
     # For mag: [time_tag, bx_gsm, by_gsm, bz_gsm, bt, lat_gsm, lon_gsm]
     try:
         # Take last 12 samples (1 hour at 5-min intervals)
-        samples = data[-12:] if len(data) > 12 else data[1:]  # Skip header
+        # Skip header row (index 0)
+        samples = data[-12:] if len(data) > 12 else data[1:]
         
         if data_type == 'plasma':
-            densities = [float(row[1]) for row in samples if row[1] and row[1] != 'density']
-            speeds = [float(row[2]) for row in samples if row[2] and row[2] != 'speed']
+            # Filter out header and None values
+            densities = []
+            speeds = []
+            for row in samples:
+                if len(row) >= 3 and row[0] != 'time_tag':  # Skip header row
+                    try:
+                        if row[1] and row[1] != 'density':
+                            densities.append(float(row[1]))
+                        if row[2] and row[2] != 'speed':
+                            speeds.append(float(row[2]))
+                    except (ValueError, TypeError):
+                        continue
             
             return {
                 'density': np.mean(densities) if densities else None,
@@ -100,8 +121,18 @@ def extract_quiet_hour_average(data, data_type='plasma'):
                 'speed_std': np.std(speeds) if speeds else None,
             }
         elif data_type == 'mag':
-            bts = [float(row[4]) for row in samples if row[4] and row[4] != 'bt']
-            bzs = [float(row[3]) for row in samples if row[3] and row[3] != 'bz_gsm']
+            # Filter out header and None values
+            bts = []
+            bzs = []
+            for row in samples:
+                if len(row) >= 5 and row[0] != 'time_tag':  # Skip header row
+                    try:
+                        if row[4] and row[4] != 'bt':
+                            bts.append(float(row[4]))
+                        if row[3] and row[3] != 'bz_gsm':
+                            bzs.append(float(row[3]))
+                    except (ValueError, TypeError):
+                        continue
             
             return {
                 'bt': np.mean(bts) if bts else None,
@@ -144,7 +175,7 @@ def estimate_chi_floor(density, speed, bt):
         chi = chi / n_valid  # Average modulation
         # Scale to expected range around 0.055 using scaling center
         chi = CHI_BASELINE_PRE_DEC + (chi - CHI_SCALING_CENTER) * 0.5
-        chi = max(0.01, min(chi, 0.20))  # Clamp to reasonable range
+        chi = max(CHI_MIN_VALUE, min(chi, CHI_MAX_VALUE))  # Clamp to reasonable range
     else:
         chi = CHI_BASELINE_PRE_DEC  # Default if no valid data
     
@@ -167,9 +198,9 @@ def estimate_uncertainty(density_std, speed_std, bt_std):
     if uncertainties:
         # Combined uncertainty (quadrature sum)
         combined = np.sqrt(sum(u**2 for u in uncertainties))
-        return max(0.001, min(combined * 0.01, 0.010))  # Scale and clamp
+        return max(UNCERTAINTY_MIN, min(combined * UNCERTAINTY_SCALE, UNCERTAINTY_MAX))
     
-    return 0.002  # Default uncertainty
+    return UNCERTAINTY_DEFAULT
 
 
 def append_to_capsule(chi, uncertainty, delta_chi, status, notes, data_source):
@@ -204,7 +235,7 @@ def append_to_capsule(chi, uncertainty, delta_chi, status, notes, data_source):
     # Format new row
     date = datetime.now(timezone.utc).strftime('%Y-%m-%d')
     chi_str = f"{chi:.3f} ± {uncertainty:.3f}"
-    delta_str = f"**{delta_chi:+.3f}**" if abs(delta_chi) >= 0.05 else f"{delta_chi:+.3f}"
+    delta_str = f"**{delta_chi:+.3f}**" if abs(delta_chi) >= DELTA_CHI_SIGNIFICANT else f"{delta_chi:+.3f}"
     
     new_row = f"| {date} | {chi_str} | {delta_str} | {notes} |\n"
     
@@ -331,9 +362,20 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
             data_source = "ACE/DSCOVR (mag only)"
     
     # Compute χ floor
-    print(f"Density: {density:.2f} ± {density_std:.2f} p/cm³" if density else "Density: N/A")
-    print(f"Speed: {speed:.1f} ± {speed_std:.1f} km/s" if speed else "Speed: N/A")
-    print(f"Bt: {bt:.2f} ± {bt_std:.2f} nT" if bt else "Bt: N/A")
+    if density is not None:
+        print(f"Density: {density:.2f} ± {density_std:.2f} p/cm³" if density_std is not None else f"Density: {density:.2f} p/cm³")
+    else:
+        print("Density: N/A")
+    
+    if speed is not None:
+        print(f"Speed: {speed:.1f} ± {speed_std:.1f} km/s" if speed_std is not None else f"Speed: {speed:.1f} km/s")
+    else:
+        print("Speed: N/A")
+    
+    if bt is not None:
+        print(f"Bt: {bt:.2f} ± {bt_std:.2f} nT" if bt_std is not None else f"Bt: {bt:.2f} nT")
+    else:
+        print("Bt: N/A")
     print()
     
     chi = estimate_chi_floor(density, speed, bt)
