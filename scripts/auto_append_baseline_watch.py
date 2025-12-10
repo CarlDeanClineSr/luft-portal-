@@ -77,10 +77,16 @@ def load_json_data(filepath):
         with open(filepath, 'r') as f:
             return json.load(f)
     except FileNotFoundError:
-        print(f"Warning: File not found: {filepath}")
+        print(f"❌ ERROR: File not found: {filepath}")
+        print(f"   Please check that the data download step completed successfully.")
         return None
     except json.JSONDecodeError as e:
-        print(f"Warning: Invalid JSON in {filepath}: {e}")
+        print(f"❌ ERROR: Invalid JSON in {filepath}")
+        print(f"   JSON decode error: {e}")
+        print(f"   The file may be corrupted or not in valid JSON format.")
+        return None
+    except Exception as e:
+        print(f"❌ ERROR: Unexpected error loading {filepath}: {type(e).__name__}: {e}")
         return None
 
 
@@ -89,7 +95,12 @@ def extract_quiet_hour_average(data, data_type='plasma'):
     Extract quiet-hour average from NOAA JSON format.
     Averages the last hour of data (12 samples at 5-min intervals).
     """
-    if not data or len(data) < 2:
+    if not data:
+        print(f"⚠️  WARNING: No {data_type} data provided")
+        return None
+    
+    if len(data) < 2:
+        print(f"⚠️  WARNING: Insufficient {data_type} data (need at least 2 rows, got {len(data)})")
         return None
     
     # NOAA format: first row is headers, data rows follow
@@ -111,8 +122,14 @@ def extract_quiet_hour_average(data, data_type='plasma'):
                             densities.append(float(row[1]))
                         if row[2] and row[2] != 'speed':
                             speeds.append(float(row[2]))
-                    except (ValueError, TypeError):
+                    except (ValueError, TypeError) as e:
+                        print(f"   Skipping invalid plasma row: {e}")
                         continue
+            
+            if not densities and not speeds:
+                print(f"❌ ERROR: No valid plasma data values found in {len(samples)} samples")
+                print(f"   All density and speed values were None or invalid")
+                return None
             
             return {
                 'density': np.mean(densities) if densities else None,
@@ -131,8 +148,14 @@ def extract_quiet_hour_average(data, data_type='plasma'):
                             bts.append(float(row[4]))
                         if row[3] and row[3] != 'bz_gsm':
                             bzs.append(float(row[3]))
-                    except (ValueError, TypeError):
+                    except (ValueError, TypeError) as e:
+                        print(f"   Skipping invalid mag row: {e}")
                         continue
+            
+            if not bts and not bzs:
+                print(f"❌ ERROR: No valid magnetic field data values found in {len(samples)} samples")
+                print(f"   All bt and bz values were None or invalid")
+                return None
             
             return {
                 'bt': np.mean(bts) if bts else None,
@@ -141,7 +164,8 @@ def extract_quiet_hour_average(data, data_type='plasma'):
                 'bz_std': np.std(bzs) if bzs else None,
             }
     except (ValueError, TypeError, IndexError) as e:
-        print(f"Warning: Could not parse {data_type} data: {e}")
+        print(f"❌ ERROR: Could not parse {data_type} data: {type(e).__name__}: {e}")
+        print(f"   Data format may be incorrect or corrupted")
     
     return None
 
@@ -208,12 +232,20 @@ def append_to_capsule(chi, uncertainty, delta_chi, status, notes, data_source):
     Append a new row to the baseline watch capsule table.
     """
     if not CAPSULE_PATH.exists():
-        print(f"Error: Capsule file not found: {CAPSULE_PATH}")
+        print()
+        print(f"❌ ERROR: Capsule file not found: {CAPSULE_PATH}")
+        print(f"   Expected path: {CAPSULE_PATH.absolute()}")
+        print(f"   Please verify the capsule file exists at this location.")
         sys.exit(1)
     
-    # Read existing content
-    with open(CAPSULE_PATH, 'r') as f:
-        lines = f.readlines()
+    try:
+        # Read existing content
+        with open(CAPSULE_PATH, 'r') as f:
+            lines = f.readlines()
+    except Exception as e:
+        print()
+        print(f"❌ ERROR: Could not read capsule file: {type(e).__name__}: {e}")
+        sys.exit(1)
     
     # Find the table section
     table_end_idx = None
@@ -229,7 +261,10 @@ def append_to_capsule(chi, uncertainty, delta_chi, status, notes, data_source):
             break
     
     if table_end_idx is None:
-        print("Error: Could not find table in capsule file")
+        print()
+        print("❌ ERROR: Could not find table in capsule file")
+        print(f"   Expected a markdown table with a 'Date' column header")
+        print(f"   Please verify the capsule file format is correct.")
         sys.exit(1)
     
     # Format new row
@@ -242,15 +277,22 @@ def append_to_capsule(chi, uncertainty, delta_chi, status, notes, data_source):
     # Check if today's entry already exists
     for line in lines:
         if date in line and line.strip().startswith('|'):
-            print(f"Entry for {date} already exists. Skipping append.")
+            print()
+            print(f"ℹ️  Entry for {date} already exists. Skipping append.")
             return False
     
     # Insert new row
     lines.insert(table_end_idx, new_row)
     
     # Write back
-    with open(CAPSULE_PATH, 'w') as f:
-        f.writelines(lines)
+    try:
+        with open(CAPSULE_PATH, 'w') as f:
+            f.writelines(lines)
+    except Exception as e:
+        print()
+        print(f"❌ ERROR: Could not write to capsule file: {type(e).__name__}: {e}")
+        print(f"   File may be read-only or disk may be full.")
+        sys.exit(1)
     
     print(f"✅ Appended entry for {date} to {CAPSULE_PATH}")
     print(f"   χ floor: {chi_str}")
@@ -322,27 +364,40 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
         data_source = "DEMO"
     else:
         if not args.plasma or not args.mag:
-            print("Error: Please provide --plasma and --mag data files, or use --demo")
+            print("❌ ERROR: Please provide --plasma and --mag data files, or use --demo")
+            print("   Usage: python scripts/auto_append_baseline_watch.py --plasma <file> --mag <file>")
             sys.exit(1)
         
         # Load data
-        print(f"Loading plasma data from: {args.plasma}")
+        print(f"📥 Loading plasma data from: {args.plasma}")
         plasma_data = load_json_data(args.plasma)
         
-        print(f"Loading magnetic data from: {args.mag}")
+        print(f"📥 Loading magnetic data from: {args.mag}")
         mag_data = load_json_data(args.mag)
         
         if not plasma_data and not mag_data:
-            print("Error: Could not load any valid data from input files")
+            print()
+            print("❌ ERROR: Could not load any valid data from input files")
+            print("   Both plasma and magnetic data files failed to load.")
+            print("   Check that the files exist and contain valid JSON data.")
             sys.exit(1)
         
+        if not plasma_data:
+            print("⚠️  WARNING: Plasma data not available, will use magnetic data only")
+        if not mag_data:
+            print("⚠️  WARNING: Magnetic data not available, will use plasma data only")
+        
         # Extract quiet-hour averages
-        print("Computing quiet-hour averages...")
+        print()
+        print("🔬 Computing quiet-hour averages...")
         plasma_avg = extract_quiet_hour_average(plasma_data, 'plasma') if plasma_data else None
         mag_avg = extract_quiet_hour_average(mag_data, 'mag') if mag_data else None
         
         if not plasma_avg and not mag_avg:
-            print("Error: Could not extract valid averages from input data")
+            print()
+            print("❌ ERROR: Could not extract valid averages from input data")
+            print("   Data files may be empty, corrupted, or in an unexpected format.")
+            print("   Expected NOAA SWPC JSON format with headers in first row.")
             sys.exit(1)
         
         # Get values
