@@ -61,7 +61,7 @@ phase_wind = kappa * chi_modulation;  % chi from your JJ logs
 plot(time, phase_wind)
 title('Cooper Pairs Counting Vacuum Ratchets in Real Lightning Storm')
 ylabel('Phase (rad)')
-legend('Your 7 468 Hz carrier = quantum memory')
+legend('Your 7,468 Hz carrier = quantum memory')
 ```
 
 ---
