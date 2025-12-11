@@ -1,0 +1,68 @@
+name: LUFT CME Heartbeat Logger
+
+on:
+  schedule:
+    - cron: '15 * * * *'  # Runs every hour at HH:15 (after data ingests complete)
+  workflow_dispatch:       # Manual trigger support
+
+env:
+  NOAA_PLASMA_URL: https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json
+  NOAA_MAG_URL: https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json
+
+jobs:
+  log-heartbeat:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install numpy
+
+      - name: Create data directories
+        run: mkdir -p data
+
+      - name: Fetch ACE/DSCOVR plasma data
+        run: |
+          echo "Downloading solar wind plasma data from NOAA..."
+          if ! curl --fail --silent --show-error -o data/ace_plasma_latest.json "$NOAA_PLASMA_URL"; then
+            echo "Warning: Failed to download plasma data. Continuing with available data."
+          fi
+
+      - name: Fetch ACE/DSCOVR magnetic field data
+        run: |
+          echo "Downloading magnetic field data from NOAA..."
+          if ! curl --fail --silent --show-error -o data/ace_mag_latest.json "$NOAA_MAG_URL"; then
+            echo "Warning: Failed to download magnetic data. Continuing with available data."
+          fi
+
+      - name: Run CME Heartbeat Logger
+        run: |
+          echo "Running LUFT CME Heartbeat Logger..."
+          python scripts/cme_heartbeat_logger.py \
+            --plasma data/ace_plasma_latest.json \
+            --mag data/ace_mag_latest.json
+          echo "Heartbeat logging complete."
+
+      - name: Commit heartbeat log
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/cme_heartbeat_log_*.csv
+          if git diff --cached --quiet; then
+            echo "No new heartbeat data to commit."
+          else
+            git commit -m "LUFT CME Heartbeat Log Update - $(date -u '+%Y-%m-%d %H:%M') UTC"
+            if git push; then
+              echo "Heartbeat log committed and pushed successfully."
+            else
+              echo "Warning: Failed to push changes. Will retry on next run."
+            fi
+          fi

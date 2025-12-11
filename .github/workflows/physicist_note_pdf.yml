@@ -1,0 +1,49 @@
+name: Physicist Note — PDF Render
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "notes/PHYSICIST_NOTE_HEARTBEAT.md"
+      - "results/cme_heartbeat_2025_12_chi_pdyn.png"
+  workflow_dispatch:
+
+jobs:
+  render-pdf:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write   # needed if we commit the generated PDF
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install Pandoc and LaTeX (basic)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc texlive-latex-base texlive-latex-recommended texlive-fonts-recommended
+
+      - name: Render PHYSICIST_NOTE_HEARTBEAT.md to PDF
+        run: |
+          mkdir -p pdf
+          pandoc notes/PHYSICIST_NOTE_HEARTBEAT.md \
+            --from=markdown \
+            --to=pdf \
+            --pdf-engine=xelatex \
+            --output=pdf/PHYSICIST_NOTE_HEARTBEAT.pdf
+
+      - name: Commit rendered PDF
+        if: ${{ success() }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if git status --porcelain | grep "pdf/PHYSICIST_NOTE_HEARTBEAT.pdf"; then
+            git add pdf/PHYSICIST_NOTE_HEARTBEAT.pdf
+            git commit -m "Update physicist note PDF"
+            git push
+          else
+            echo "No changes to PDF; nothing to commit."
+          fi

@@ -1,0 +1,55 @@
+name: DSCOVR Solar Wind Data Ingest
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Runs every hour at HH:00
+  workflow_dispatch:     # Manual trigger support
+
+jobs:
+  ingest-dscovr-data:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create data directory
+        run: mkdir -p data/dscovr
+
+      - name: Download DSCOVR solar wind data
+        run: |
+          echo "Downloading DSCOVR solar wind data from NOAA..."
+          if ! curl --fail --silent --show-error -o data/dscovr/dscovr_realtime.json https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json; then
+            echo "Error: Failed to download DSCOVR data from NOAA."
+            exit 1
+          fi
+          echo "Download complete."
+
+      - name: Validate JSON
+        run: |
+          echo "Validating JSON file..."
+          if jq empty data/dscovr/dscovr_realtime.json; then
+            echo "JSON validation successful."
+          else
+            echo "Error: JSON validation failed. File contents:"
+            cat data/dscovr/dscovr_realtime.json
+            exit 1
+          fi
+
+      - name: Check for new data and commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/dscovr/dscovr_realtime.json
+          if git diff --cached --quiet; then
+            echo "No new data to commit."
+          else
+            git commit -m "Update DSCOVR solar wind realtime data"
+            if git push; then
+              echo "New DSCOVR data committed and pushed successfully."
+            else
+              echo "Error: Failed to push changes to repository."
+              exit 1
+            fi
+          fi
