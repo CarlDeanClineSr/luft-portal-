@@ -112,7 +112,7 @@ The automated analysis script `cme_heartbeat_panel.py` generates a four-panel di
 **Zero manual intervention:** All measurements logged automatically at ~1-hour cadence. No human editing, filtering, or selection bias.
 
 ### Reproducibility Instructions
-1. **Clone repository:** `git clone https://github.com/CarlDeanClineSr/luft-portal-`
+1. **Clone repository:** `git clone https://github.com/CarlDeanClineSr/luft-portal`
 2. **Install dependencies:** `pip install matplotlib numpy pandas scipy`
 3. **Run dashboard script:** `python3 cme_heartbeat_panel.py`
 4. **Outputs:**
