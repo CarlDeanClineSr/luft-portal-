@@ -47,10 +47,10 @@ def load_data():
 def compute_fourier_spectrum(df):
     """
     Compute Fourier power spectrum of χ amplitude to identify periodicities.
-    
+
     Returns:
-        frequencies: Array of frequencies in cycles per day
-        power: Power spectral density
+        frequencies: 1D numpy array of frequencies in cycles per day, ranging from 0 up to the Nyquist frequency (12 cycles/day for hourly data).
+        power: 1D numpy array of power values (squared magnitude of FFT, arbitrary units) representing the amplitude of each frequency component. These are not calibrated physical units, but reflect the relative strength of periodicities in the detrended, windowed signal.
     """
     # Resample to regular time grid for FFT (1-hour intervals)
     df_resampled = df.set_index("timestamp_utc").resample("1h")["chi_amplitude"].mean()
