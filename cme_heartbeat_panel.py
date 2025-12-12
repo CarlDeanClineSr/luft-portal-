@@ -201,13 +201,15 @@ def main():
         ax4.legend(loc="upper right", fontsize=9, framealpha=0.9)
         
     except Exception as e:
-        ax4.text(0.5, 0.5, f"Fourier analysis unavailable:\n{str(e)}", 
+        # Show user-friendly message on the plot
+        ax4.text(0.5, 0.5, "Fourier analysis could not be completed.", 
                 ha="center", va="center", transform=ax4.transAxes, fontsize=10)
         ax4.set_xlabel("Period (days)", fontsize=12, fontweight="bold")
         ax4.set_ylabel("Power Spectral Density", fontsize=12, fontweight="bold")
         ax4.set_title("Panel 4: Fourier Power Spectrum of χ (Periodicities)", 
                       fontsize=13, fontweight="bold")
-    
+        # Log the detailed error to the console for debugging
+        print(f"[Fourier analysis error] {e}")
     # Overall title
     fig.suptitle("Direct Observation of χ = 0.15 Boundary Ceiling\n"
                  "December 2025 CME Cluster — Automated LUFT Confirmation", 
