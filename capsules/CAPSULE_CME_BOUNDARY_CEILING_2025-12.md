@@ -178,7 +178,7 @@ This capsule and associated analysis toolkit (script, CSV, plots) constitute **s
   - PNG: [`capsules/cme_heartbeat_panel_2025_12.png`](cme_heartbeat_panel_2025_12.png)
   - PDF: [`capsules/cme_heartbeat_panel_2025_12.pdf`](cme_heartbeat_panel_2025_12.pdf)
 - **Logging workflow:** [`.github/workflows/cme_heartbeat_logger.yml`](../.github/workflows/cme_heartbeat_logger.yml)
-- **LUFT repository:** [https://github.com/CarlDeanClineSr/luft-portal-](https://github.com/CarlDeanClineSr/luft-portal-)
+- **LUFT repository:** [https://github.com/CarlDeanClineSr/luft-portal](https://github.com/CarlDeanClineSr/luft-portal)
 
 ---
 
