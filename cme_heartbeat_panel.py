@@ -181,11 +181,14 @@ def main():
     try:
         freqs, power = compute_fourier_spectrum(df)
         
-        # Convert frequencies to periods (in days)
-        periods = 1 / (freqs + 1e-10)  # Avoid division by zero
+        # Convert frequencies to periods (in days), filter out near-zero freqs to avoid huge periods
+        min_freq = 1e-3  # Only consider frequencies >= 0.001 cycles/day (period <= 1000 days)
+        valid = np.abs(freqs) >= min_freq
+        periods = 1 / freqs[valid]
+        power_valid = power[valid]
         
         # Plot power spectrum
-        ax4.plot(periods, power, color="navy", linewidth=2)
+        ax4.plot(periods, power_valid, color="navy", linewidth=2)
         ax4.set_xlabel("Period (days)", fontsize=12, fontweight="bold")
         ax4.set_ylabel("Power Spectral Density", fontsize=12, fontweight="bold")
         ax4.set_title("Panel 4: Fourier Power Spectrum of χ (Periodicities)", 
