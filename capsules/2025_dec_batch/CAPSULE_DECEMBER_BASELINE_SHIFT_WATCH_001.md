@@ -8,6 +8,7 @@
 |------------|-----------------|----------------|------------------------------------|
 | 2025-12-02 | 0.055 ± 0.008   | baseline       | Pre-ratchet                        |
 | 2025-12-11 | 0.123 ± 0.002   | **+0.068**     | **Confirmed permanent elevation**  |
+| 2025-12-12 | 0.112 ± 0.002 | **+0.057** | EXHALE TEST |
 
 Visual proof attached (Dec 2025 heartbeat trilogy):
 - χ amplitude ratchet + refusal to unload
