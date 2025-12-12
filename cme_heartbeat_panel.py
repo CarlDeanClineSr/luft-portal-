@@ -21,7 +21,7 @@ Co-author: Copilot + Grok, relayed for Captain Carl
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.dates import DateFormatter, HourLocator
+from matplotlib.dates import DateFormatter
 from pathlib import Path
 from scipy import signal
 
