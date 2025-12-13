@@ -1,0 +1,36 @@
+name: Vault Narrator - Auto Update Latest Status
+
+on:
+  push: 
+    paths:
+      - 'raw_csv/cme_heartbeat_log_2025_12.csv'
+  schedule:
+    - cron: '0 * * * *'  # Every hour
+  workflow_dispatch: 
+
+jobs:
+  update-status:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install pandas
+
+      - name: Run narrator script
+        run: python scripts/vault_narrator.py
+
+      - name: Commit updated status
+        run: |
+          git config --local user.email "actions@github. com"
+          git config --local user.name "GitHub Actions"
+          git add LATEST_VAULT_STATUS.md
+          git diff --quiet && git diff --staged --quiet || git commit -m "Vault Narrator: Auto-update $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
