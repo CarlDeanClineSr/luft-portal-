@@ -42,7 +42,6 @@ def main():
     
     # Validate required columns
     required_cols = ['timestamp_utc', 'chi_amplitude']
-    optional_cols = ['density_p_cm3', 'speed_km_s', 'bz_nT', 'bt_nT', 'phase_radians', 'storm_phase']
     
     for col in required_cols:
         if col not in df.columns:
@@ -68,8 +67,11 @@ def main():
         first_lock_idx = None
         last_lock_idx = None
         
+        chi_values = df['chi_amplitude'].values
+        
+        # Count consecutive locks from the end
         for idx in range(len(df) - 1, -1, -1):
-            chi = df.iloc[idx]['chi_amplitude']
+            chi = chi_values[idx]
             if abs(chi - chi_lock_threshold) < chi_tolerance:
                 streak += 1
                 first_lock_idx = idx
@@ -80,11 +82,13 @@ def main():
         
         # Find the most recent lock (even if not in current streak)
         most_recent_lock_time = None
-        for idx in range(len(df) - 1, -1, -1):
-            chi = df.iloc[idx]['chi_amplitude']
-            if abs(chi - chi_lock_threshold) < chi_tolerance:
-                most_recent_lock_time = df.iloc[idx]['timestamp_utc']
-                break
+        if streak == 0:
+            # Need to find the most recent lock that's not at the end
+            for idx in range(len(df) - 1, -1, -1):
+                chi = chi_values[idx]
+                if abs(chi - chi_lock_threshold) < chi_tolerance:
+                    most_recent_lock_time = df.iloc[idx]['timestamp_utc']
+                    break
         
         # Get streak statistics
         if streak > 0:
