@@ -1,0 +1,53 @@
+name: Vault Narrator - Auto Update Latest Status
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Every hour at :00
+  workflow_dispatch:     # Manual trigger support
+
+jobs:
+  update-vault-status:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install pandas
+
+      - name: Run vault narrator script
+        id: run_narrator
+        continue-on-error: true
+        run: python scripts/vault_narrator.py
+
+      - name: Configure git
+        run: |
+          git config --local user.name "LUFT Vault Narrator"
+          git config --local user.email "vault@luft.local"
+
+      - name: Commit and push changes
+        run: |
+          git add LATEST_VAULT_STATUS.md
+          if git diff --staged --quiet; then
+            echo "No changes to LATEST_VAULT_STATUS.md"
+          else
+            git commit -m "Vault Narrator: Auto-update $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+          fi
+
+      - name: Report status
+        if: always()
+        run: |
+          if [ "${{ steps.run_narrator.outcome }}" == "success" ]; then
+            echo "✅ Vault narrator completed successfully"
+          else
+            echo "⚠️ Vault narrator encountered issues (check logs above)"
+          fi
