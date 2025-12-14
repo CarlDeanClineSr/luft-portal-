@@ -1,6 +1,6 @@
-name: Daily Engine Status Report
+  name: Daily Engine Status Report
 
-on:
+on: 
   schedule:
     - cron: '30 11 * * *'   # 05:30 CST / 06:30 CDT every day
   workflow_dispatch:        # also allows manual trigger
@@ -12,7 +12,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token:  ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get workflow statuses
         id: status
@@ -45,7 +45,7 @@ jobs:
 
       - name: Update Engine Status Capsule
         run: |
-          cat > CAPSULE_ENGINE_STATUS.md << 'EOF'
+          cat > CAPSULE_ENGINE_STATUS.md << EOF
 # CAPSULE_ENGINE_STATUS.md — Daily Auto-Report
 
 **Generated:** $(date -u "+%Y-%m-%d %H:%M UTC")  
@@ -62,7 +62,7 @@ Next full heartbeat cycle in progress.
 EOF
 
           git config user.name "LUFT Status Bot"
-          git config user.email "status@luft.local"
+          git config user. email "status@luft.local"
           git add CAPSULE_ENGINE_STATUS.md
           git commit -m "engine: daily status update $(date -u +%Y-%m-%d)" || echo "No changes"
           git push origin main
