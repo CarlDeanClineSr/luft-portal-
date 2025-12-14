@@ -78,6 +78,14 @@ def main():
             else:
                 break
         
+        # Find the most recent lock (even if not in current streak)
+        most_recent_lock_time = None
+        for idx in range(len(df) - 1, -1, -1):
+            chi = df.iloc[idx]['chi_amplitude']
+            if abs(chi - chi_lock_threshold) < chi_tolerance:
+                most_recent_lock_time = df.iloc[idx]['timestamp_utc']
+                break
+        
         # Get streak statistics
         if streak > 0:
             last_lock_time = df.iloc[last_lock_idx]['timestamp_utc']
@@ -106,6 +114,7 @@ def main():
             last_lock_time=last_lock_time,
             first_lock_time=first_lock_time,
             duration=duration,
+            most_recent_lock_time=most_recent_lock_time,
             latest_density=latest_density,
             latest_speed=latest_speed,
             status=status,
@@ -125,8 +134,8 @@ def main():
         sys.exit(1)
 
 
-def generate_markdown(latest_20, streak, last_lock_time, first_lock_time, duration, 
-                     latest_density, latest_speed, status, total_rows):
+def generate_markdown(latest_20, streak, last_lock_time, first_lock_time, duration,
+                     most_recent_lock_time, latest_density, latest_speed, status, total_rows):
     """Generate the LATEST_VAULT_STATUS.md file"""
     
     generation_time = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')
@@ -150,6 +159,8 @@ def generate_markdown(latest_20, streak, last_lock_time, first_lock_time, durati
             md += f"**Streak Duration:** {hours:.1f} hours  \n"
     else:
         md += "**No active χ = 0.15 locks detected**  \n"
+        if most_recent_lock_time:
+            md += f"**Last Lock Timestamp:** {most_recent_lock_time.strftime('%Y-%m-%d %H:%M:%S UTC')}  \n"
     
     # Solar wind conditions
     if latest_density is not None or latest_speed is not None:
