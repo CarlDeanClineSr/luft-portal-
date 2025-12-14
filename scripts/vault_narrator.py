@@ -160,7 +160,11 @@ def generate_markdown(latest_20, streak, last_lock_time, first_lock_time, durati
         if first_lock_time and duration:
             md += f"**First Lock in Streak:** {first_lock_time.strftime('%Y-%m-%d %H:%M:%S UTC')}  \n"
             hours = duration.total_seconds() / 3600
-            md += f"**Streak Duration:** {hours:.1f} hours  \n"
+            if hours >= 24:
+                days = hours / 24
+                md += f"**Streak Duration:** {days:.1f} days ({hours:.1f} hours)  \n"
+            else:
+                md += f"**Streak Duration:** {hours:.1f} hours  \n"
     else:
         md += "**No active χ = 0.15 locks detected**  \n"
         if most_recent_lock_time:
