@@ -1,0 +1,32 @@
+name: Hourly Vault 10-Row Forecast Update
+
+on:
+  schedule:
+    - cron: '0 * * * *'    # every hour, on the hour (UTC)
+  workflow_dispatch:
+
+jobs:
+  vault-forecast:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Run forecast generator
+        run: python vault_forecast_autogen.py
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "vault-bot"
+          git config --global user.email "vault-bot@users.noreply.github.com"
+          git add vault_10row_forecast_indicator_dec15.md
+          git commit -m "Hourly auto-update: vault 10-row forecast"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
