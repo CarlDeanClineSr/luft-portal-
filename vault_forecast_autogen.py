@@ -3,6 +3,7 @@
 # 10-row forecast with traffic-light flags, sparklines, and exact table structure as your vault wants.
 
 import csv
+import sys
 from pathlib import Path
 
 def sparkline(values):
@@ -62,7 +63,14 @@ def bz_flag(bz):
     else:
         return "🔵"
 
-csv_path = Path("cme_heartbeat_log_2025_12.csv")
+csv_path = Path("data/cme_heartbeat_log_2025_12.csv")
+
+# Check if file exists
+if not csv_path.exists():
+    print(f"ERROR: CSV file not found at {csv_path}", file=sys.stderr)
+    print(f"ERROR: The vault forecast requires the heartbeat log to generate the panel.", file=sys.stderr)
+    print(f"ERROR: Expected file location: {csv_path.absolute()}", file=sys.stderr)
+    sys.exit(1)
 
 rows = []
 with csv_path.open(newline="") as f:
@@ -124,11 +132,16 @@ md.append("- **Speed:** 🟢 = Nominal, 🟡 = Fast, 🔴 = Very Fast  ")
 md.append("- **Bz:** 🟢 = Northward/Quiet, 🟡 = Southward, 🔴 = Possible storm  ")
 if any(bz is not None for bz in bz_vals):
     bz_status = ""
-    if table_rows:
+    if len(table_rows) > 4:
+        # Show Bz value from middle of forecast window (row 5) and current value (last row)
         if table_rows[4]["Bz"] is not None:
             bz_status += f"- **Bz Event:** {table_rows[4]['Bz']:.2f} nT ({table_rows[4]['Time']} UTC), "
         if table_rows[-1]["Bz"] is not None:
             bz_status += f"now {table_rows[-1]['Bz']:.2f} nT ({table_rows[-1]['Time']} UTC)  "
+    elif table_rows:
+        # If we have fewer than 5 rows, just show the latest Bz value
+        if table_rows[-1]["Bz"] is not None:
+            bz_status += f"- **Latest Bz:** {table_rows[-1]['Bz']:.2f} nT ({table_rows[-1]['Time']} UTC)  "
     md.append(bz_status)
 else:
     md.append("- **Bz:** (no Bz data for this segment)")

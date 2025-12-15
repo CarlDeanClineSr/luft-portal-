@@ -8,25 +8,54 @@ on:
 jobs:
   vault-forecast:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.11'
 
-      - name: Run forecast generator
+      - name: Verify CSV file exists
+        run: |
+          if [ ! -f "data/cme_heartbeat_log_2025_12.csv" ]; then
+            echo "ERROR: Required CSV file not found: data/cme_heartbeat_log_2025_12.csv"
+            echo "ERROR: The workflow expects this file to be committed and up-to-date before running."
+            exit 1
+          fi
+          echo "✓ CSV file found: data/cme_heartbeat_log_2025_12.csv"
+          echo "  File size: $(wc -c < data/cme_heartbeat_log_2025_12.csv) bytes"
+          echo "  Number of rows: $(wc -l < data/cme_heartbeat_log_2025_12.csv)"
+
+      - name: Run vault forecast generator
+        id: run_forecast
         run: python vault_forecast_autogen.py
+
+      - name: Configure git
+        run: |
+          git config --local user.name "LUFT Vault Forecast"
+          git config --local user.email "vault-forecast@luft.local"
 
       - name: Commit and push changes
         run: |
-          git config --global user.name "vault-bot"
-          git config --global user.email "vault-bot@users.noreply.github.com"
           git add vault_10row_forecast_indicator_dec15.md
-          git commit -m "Hourly auto-update: vault 10-row forecast"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          if git diff --staged --quiet; then
+            echo "No changes to vault_10row_forecast_indicator_dec15.md"
+          else
+            git commit -m "Vault Forecast: Auto-update $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+            echo "✅ Successfully committed and pushed vault forecast update"
+          fi
+
+      - name: Report status
+        if: always()
+        run: |
+          if [ "${{ steps.run_forecast.outcome }}" == "success" ]; then
+            echo "✅ Vault forecast completed successfully"
+          else
+            echo "⚠️ Vault forecast encountered issues (check logs above)"
+          fi
