@@ -3,6 +3,7 @@
 # 10-row forecast with traffic-light flags, sparklines, and exact table structure as your vault wants.
 
 import csv
+import sys
 from pathlib import Path
 
 def sparkline(values):
@@ -62,7 +63,14 @@ def bz_flag(bz):
     else:
         return "🔵"
 
-csv_path = Path("cme_heartbeat_log_2025_12.csv")
+csv_path = Path("data/cme_heartbeat_log_2025_12.csv")
+
+# Check if file exists
+if not csv_path.exists():
+    print(f"ERROR: CSV file not found at {csv_path}", file=sys.stderr)
+    print(f"ERROR: The vault forecast requires the heartbeat log to generate the panel.", file=sys.stderr)
+    print(f"ERROR: Expected file location: {csv_path.absolute()}", file=sys.stderr)
+    sys.exit(1)
 
 rows = []
 with csv_path.open(newline="") as f:
