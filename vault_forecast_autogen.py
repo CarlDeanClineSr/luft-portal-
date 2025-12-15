@@ -133,6 +133,7 @@ md.append("- **Bz:** 🟢 = Northward/Quiet, 🟡 = Southward, 🔴 = Possible s
 if any(bz is not None for bz in bz_vals):
     bz_status = ""
     if len(table_rows) > 4:
+        # Show Bz value from middle of forecast window (row 5) and current value (last row)
         if table_rows[4]["Bz"] is not None:
             bz_status += f"- **Bz Event:** {table_rows[4]['Bz']:.2f} nT ({table_rows[4]['Time']} UTC), "
         if table_rows[-1]["Bz"] is not None:
