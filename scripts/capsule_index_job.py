@@ -236,8 +236,9 @@ def deduplicate_manifests(manifests: List[CapsuleManifest]) -> List[CapsuleManif
                 if new_ver > existing_ver:
                     manifest_dict[manifest.id] = manifest
                     print(f"  Keeping newer version {manifest.version} of {manifest.id} (replaced {existing.version})")
-            except:
+            except (ValueError, AttributeError) as e:
                 # If version parsing fails, keep the first one found
+                print(f"  WARNING: Could not compare versions for {manifest.id}: {e}")
                 pass
     
     return list(manifest_dict.values())
@@ -246,16 +247,21 @@ def deduplicate_manifests(manifests: List[CapsuleManifest]) -> List[CapsuleManif
 def generate_master_index(manifests: List[CapsuleManifest]) -> Dict[str, Any]:
     """Generate the master index structure"""
     
-    # Sort manifests by status and then by date
-    sorted_manifests = sorted(
-        manifests,
-        key=lambda m: (
-            VALID_STATUSES.index(m.status) if m.status in VALID_STATUSES else 999,
-            m.date or "0000-00-00",
-            m.id
-        ),
-        reverse=True
-    )
+    # Sort manifests by status and then by date (newest first)
+    def sort_key(m):
+        status_priority = VALID_STATUSES.index(m.status) if m.status in VALID_STATUSES else 999
+        # Parse date for proper sorting, fall back to old string comparison
+        date_val = m.date or "0000-00-00"
+        try:
+            from datetime import datetime
+            date_obj = datetime.strptime(date_val, "%Y-%m-%d")
+            date_sort = date_obj.timestamp()
+        except (ValueError, AttributeError):
+            # Fall back to string comparison for invalid dates
+            date_sort = 0
+        return (status_priority, -date_sort, m.id)
+    
+    sorted_manifests = sorted(manifests, key=sort_key)
     
     # Build index structure
     index = {

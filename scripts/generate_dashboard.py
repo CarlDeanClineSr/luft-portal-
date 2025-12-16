@@ -79,16 +79,21 @@ def generate_html_dashboard(index_data: Dict[str, Any]) -> str:
     statistics = index_data.get("statistics", {})
     capsules = index_data.get("capsules", [])
     
-    # Sort capsules by status priority, then date
+    # Sort capsules by status priority, then date (newest first)
     status_priority = {"active": 0, "final": 1, "adopted": 2, "experimental": 3, "draft": 4, "template": 5, "archived": 6, "deprecated": 7}
-    sorted_capsules = sorted(
-        capsules,
-        key=lambda c: (
-            status_priority.get(c.get("status", "unknown"), 999),
-            -(len(c.get("date", "") or "")),  # Sort by date desc (longer dates are newer)
-            c.get("id", "")
-        )
-    )
+    
+    def sort_key(c):
+        priority = status_priority.get(c.get("status", "unknown"), 999)
+        date_val = c.get("date", "") or ""
+        # Parse date for proper sorting
+        try:
+            date_obj = datetime.strptime(date_val, "%Y-%m-%d")
+            date_sort = -date_obj.timestamp()  # Negative for descending order
+        except (ValueError, AttributeError):
+            date_sort = 0
+        return (priority, date_sort, c.get("id", ""))
+    
+    sorted_capsules = sorted(capsules, key=sort_key)
     
     # Build HTML
     html = f"""<!DOCTYPE html>
@@ -407,8 +412,10 @@ def generate_html_dashboard(index_data: Dict[str, Any]) -> str:
     
     # If no capsules
     if not sorted_capsules:
-        html += """                        <tr>
-                            <td colspan="8" style="text-align: center; padding: 40px; color: #718096;">
+        # Count table columns dynamically
+        num_columns = 8  # Status, ID, Title, Version, Date, Author, Tags, Source
+        html += f"""                        <tr>
+                            <td colspan="{num_columns}" style="text-align: center; padding: 40px; color: #718096;">
                                 No capsules found. Run capsule_index_job.py to generate the index.
                             </td>
                         </tr>
