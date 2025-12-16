@@ -1,0 +1,105 @@
+name: Capsule Index Job - Master Manifest & Dashboard
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Daily at 06:00 UTC
+  workflow_dispatch:     # Manual trigger support
+  push:
+    paths:
+      - 'capsules/**'
+      - 'scripts/capsule_index_job.py'
+      - 'scripts/generate_dashboard.py'
+
+jobs:
+  generate-index-and-dashboard:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Run capsule index job
+        id: run_index
+        continue-on-error: true
+        run: |
+          echo "Running capsule index job..."
+          python scripts/capsule_index_job.py
+          echo "Index job completed with exit code: $?"
+
+      - name: Run dashboard generator
+        id: run_dashboard
+        continue-on-error: true
+        run: |
+          echo "Running dashboard generator..."
+          python scripts/generate_dashboard.py
+          echo "Dashboard generation completed with exit code: $?"
+
+      - name: Check generated files
+        run: |
+          echo "Checking generated files..."
+          if [ -f "docs/manifest_master_index.yaml" ]; then
+            echo "✅ manifest_master_index.yaml generated"
+            echo "   File size: $(wc -c < docs/manifest_master_index.yaml) bytes"
+          else
+            echo "⚠️ manifest_master_index.yaml not found"
+          fi
+          
+          if [ -f "docs/manifest_dashboard.html" ]; then
+            echo "✅ manifest_dashboard.html generated"
+            echo "   File size: $(wc -c < docs/manifest_dashboard.html) bytes"
+          else
+            echo "⚠️ manifest_dashboard.html not found"
+          fi
+
+      - name: Configure git
+        run: |
+          git config --local user.name "LUFT Capsule Indexer"
+          git config --local user.email "capsule-index@luft.local"
+
+      - name: Commit and push changes
+        run: |
+          git add docs/manifest_master_index.yaml docs/manifest_dashboard.html
+          
+          if git diff --staged --quiet; then
+            echo "No changes to manifest index or dashboard"
+          else
+            git commit -m "Capsule Index: Auto-update manifest and dashboard $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+            echo "✅ Successfully committed and pushed manifest index and dashboard"
+          fi
+
+      - name: Report status
+        if: always()
+        run: |
+          echo ""
+          echo "============================================"
+          echo "Capsule Index Job Summary"
+          echo "============================================"
+          
+          if [ "${{ steps.run_index.outcome }}" == "success" ]; then
+            echo "✅ Index job completed successfully"
+          else
+            echo "⚠️ Index job encountered issues (check logs above)"
+          fi
+          
+          if [ "${{ steps.run_dashboard.outcome }}" == "success" ]; then
+            echo "✅ Dashboard generation completed successfully"
+          else
+            echo "⚠️ Dashboard generation encountered issues (check logs above)"
+          fi
+          
+          echo "============================================"
+          
+          # Exit with success even if individual steps had continue-on-error
+          # This allows the workflow to complete and commit partial results
+          exit 0
