@@ -89,6 +89,17 @@ From the outside view, this means:
 
 ---
 
+## Capsule Manifest System & Dashboard
+
+The LUFT Portal includes an automated capsule indexing and dashboard system for tracking all research capsules.
+
+**View the Dashboard:** [docs/manifest_dashboard.html](docs/manifest_dashboard.html) — Live HTML dashboard with color-coded status  
+**Master Index:** [docs/manifest_master_index.yaml](docs/manifest_master_index.yaml) — Machine-readable manifest index
+
+The system automatically scans capsules, validates metadata, deduplicates by ID, and generates visual status dashboards. Runs daily via GitHub Actions. See the Capsule Manifest System section above for full details.
+
+---
+
 ## For Collaborators & Auditors
 
 If you’re a physicist, data scientist, or auditor:
