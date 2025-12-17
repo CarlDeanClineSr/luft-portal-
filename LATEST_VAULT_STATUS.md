@@ -1,18 +1,20 @@
 # 🔐 VAULT STATUS REPORT
 
-**Generated:** 2025-12-17 18:08 UTC  
+**Generated:** 2025-12-17 19:06 UTC  
 **Data Source:** `data/cme_heartbeat_log_2025_12.csv`
 
 ---
 
 ## ⚡ CURRENT STATUS: ACTIVE
 
-**Latest χ = 0.15 Streak Count:** 1 consecutive readings  
-**Last Lock Timestamp:** 2025-12-17 17:19:00 UTC  
+**Latest χ = 0.15 Streak Count:** 2 consecutive readings  
+**Last Lock Timestamp:** 2025-12-17 18:21:00 UTC  
+**First Lock in Streak:** 2025-12-17 17:19:00 UTC  
+**Streak Duration:** 1.0 hours  
 
 **Latest Solar Wind Conditions:**  
-- Density: 1.61 p/cm³  
-- Speed: 643.6 km/s  
+- Density: 2.66 p/cm³  
+- Speed: 651.1 km/s  
 
 ---
 
@@ -20,7 +22,6 @@
 
 | Time (UTC)          | χ Amplitude | Density (p/cm³) | Speed (km/s) | χ Status |
 |---------------------|-------------|-----------------|--------------|----------|
-| 2025-12-16 16:22:00 | 0.1500 | 2.26 | 670.8 | ✅ LOCK |
 | 2025-12-16 17:21:00 | 0.1500 | 1.77 | 695.4 | ✅ LOCK |
 | 2025-12-16 18:21:00 | 0.1500 | 1.55 | 657.9 | ✅ LOCK |
 | 2025-12-16 19:19:00 | 0.1500 | 1.76 | 609.6 | ✅ LOCK |
@@ -40,6 +41,7 @@
 | 2025-12-17 15:20:00 | 0.1500 | — | — | ✅ LOCK |
 | 2025-12-17 16:20:00 | 0.1467 | 0.52 | 500.0 | — |
 | 2025-12-17 17:19:00 | 0.1500 | 1.61 | 643.6 | ✅ LOCK |
+| 2025-12-17 18:21:00 | 0.1500 | 2.66 | 651.1 | ✅ LOCK |
 
 ---
 
