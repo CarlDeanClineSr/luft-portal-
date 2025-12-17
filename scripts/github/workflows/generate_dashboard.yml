@@ -1,0 +1,23 @@
+name: Generate Workflow Dashboard
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Every hour
+  workflow_dispatch:
+
+jobs:
+  dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install requests
+      - run: python scripts/workflow_dashboard_generator.py
+      - run: |
+          git config user.name "LUFT Dashboard Bot"
+          git config user.email "dashboard@luft.local"
+          git add workflow_dashboard.html
+          git commit -m "dashboard: auto-update $(date -u +%Y-%m-%d-%H:%M)" || echo "No changes"
+          git push origin main || echo "No push needed"
