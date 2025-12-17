@@ -1,0 +1,70 @@
+name: Daily OMNIWeb Data Ingest & Merge
+
+on:
+  schedule: 
+    - cron: '0 12 * * *'  # Daily at 12:00 UTC
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version:  '3.12'
+
+      - name: Install dependencies
+        run: pip install pandas numpy requests
+
+      - name: Download latest OMNIWeb data
+        run: |
+          # Example: Download current year's OMNI2 data via FTP/HTTP
+          # Replace with actual URL/scraping logic
+          YEAR=$(date +%Y)
+          URL="https://spdf.gsfc.nasa.gov/pub/data/omni/omni2/omni2_${YEAR}.dat"
+          curl -o data/omni2_${YEAR}.txt $URL || echo "OMNI2 data not yet available for $YEAR"
+
+      - name: Parse OMNIWeb data
+        run: |
+          YEAR=$(date +%Y)
+          if [ -f data/omni2_${YEAR}.txt ]; then
+            python tools/parse_omni2.py --input data/omni2_${YEAR}.txt --output data/omni2_parsed_${YEAR}.csv
+          else
+            echo "No new OMNI2 data to parse"
+          fi
+
+      - name: Merge with heartbeat log
+        run: |
+          YEAR=$(date +%Y)
+          if [ -f data/omni2_parsed_${YEAR}.csv ]; then
+            python tools/merge_omni_heartbeat.py \\
+              --heartbeat data/cme_heartbeat_log_2025_12.csv \\
+              --omni data/omni2_parsed_${YEAR}.csv \\
+              --output data/extended_heartbeat_log_2025.csv
+          else
+            echo "No parsed OMNI2 data to merge"
+          fi
+
+      - name:  Run χ validation
+        run: |
+          if [ -f data/extended_heartbeat_log_2025.csv ]; then
+            python tools/validate_chi_omni.py \\
+              --input data/extended_heartbeat_log_2025.csv \\
+              --output reports/chi_validation_omni_2025.md
+          else
+            echo "No extended log for validation"
+          fi
+
+      - name: Commit updated data
+        run: |
+          git config user.name "LUFT OMNI Bot"
+          git config user.email "omni@luft.local"
+          git add data/*. csv reports/*.md
+          git commit -m "omni: daily ingest & validation $(date -u +%Y-%m-%d)" || echo "No changes to commit"
+          git push origin main || echo "Push failed (may need rebase)"
