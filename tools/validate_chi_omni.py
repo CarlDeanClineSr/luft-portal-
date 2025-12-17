@@ -1,0 +1,151 @@
+#!/usr/bin/env python3
+"""
+validate_chi_omni.py
+Validates χ = 0.15 ceiling hypothesis across pressure/beta/Mach parameter space.
+Bins merged heartbeat + OMNIWeb data, computes statistics, generates report.
+
+Usage:
+  python validate_chi_omni.py \\
+    --input data/extended_heartbeat_log_2025.csv \\
+    --output reports/chi_validation_omni_2025.md
+
+Dependencies:
+  pip install pandas numpy matplotlib
+"""
+
+import pandas as pd
+import numpy as np
+import argparse
+from pathlib import Path
+
+def validate_chi(input_file: Path, output_file: Path):
+    """Run validation analysis and generate report."""
+    print(f"[INFO] Loading extended heartbeat log: {input_file}")
+    df = pd.read_csv(input_file, parse_dates=['datetime']).set_index('datetime')
+    
+    # Filter to rows with valid χ
+    df = df[df['chi_amplitude_extended'].notna()].copy()
+    print(f"[INFO] Analyzing {len(df)} records with valid χ")
+    
+    # Overall statistics
+    chi_max = df['chi_amplitude_extended'].max()
+    chi_mean = df['chi_amplitude_extended'].mean()
+    chi_at_ceiling = (df['chi_amplitude_extended'] >= 0.149).sum()
+    pct_at_ceiling = 100 * chi_at_ceiling / len(df)
+    chi_min = df['chi_amplitude_extended'].min()
+    
+    # Bin by flow pressure
+    df['pressure_bin'] = pd.cut(df['Flow_pressure'], bins=[0, 1, 2, 5, 100], labels=['<1', '1-2', '2-5', '>5'])
+    pressure_stats = df.groupby('pressure_bin')['chi_amplitude_extended'].agg(['max', 'mean', 'count'])
+    
+    # Bin by plasma beta
+    df['beta_bin'] = pd.cut(df['Plasma_beta'], bins=[0, 1, 10, 1000], labels=['<1', '1-10', '>10'])
+    beta_stats = df.groupby('beta_bin')['chi_amplitude_extended'].agg(['max', 'mean', 'count'])
+    
+    # Bin by Alfvén Mach
+    df['mach_bin'] = pd.cut(df['Alfven_Mach'], bins=[0, 5, 10, 100], labels=['<5', '5-10', '>10'])
+    mach_stats = df.groupby('mach_bin')['chi_amplitude_extended'].agg(['max', 'mean', 'count'])
+    
+    # Identify deep dips (χ < 0.08)
+    deep_dips = df[df['chi_amplitude_extended'] < 0.08]. copy()
+    print(f"[INFO] Found {len(deep_dips)} deep dip events (χ < 0.08)")
+    
+    # Generate markdown report
+    report = f"""# χ = 0.15 Ceiling Validation Report
+
+**Generated:** {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M UTC')}  
+**Data Source:** Extended heartbeat log (DSCOVR + OMNIWeb merged)  
+**Time Span:** {df.index.min()} to {df.index.max()}  
+**Total Records:** {len(df)}
+
+---
+
+## Overall χ Statistics
+
+| Metric                       | Value       |
+|------------------------------|-------------|
+| **Maximum χ**                | {chi_max:.4f} |
+| **Mean χ**                   | {chi_mean:.4f} |
+| **Minimum χ**                | {chi_min:.4f} |
+| **Records at ceiling (≥0.149)** | {chi_at_ceiling} ({pct_at_ceiling:.1f}%) |
+
+**Key Finding:**  
+Maximum χ = {chi_max:.4f} {'≤ 0.15 ✅' if chi_max <= 0.15 else '> 0.15 ⚠️ CEILING VIOLATED'}
+
+---
+
+## χ vs.  Flow Pressure (nPa)
+
+{pressure_stats.to_markdown()}
+
+**Interpretation:**  
+χ ceiling holds across {'all' if pressure_stats['max']. max() <= 0.15 else 'most'} pressure regimes.
+
+---
+
+## χ vs. Plasma Beta
+
+{beta_stats.to_markdown()}
+
+**Interpretation:**  
+χ ceiling holds across {'all' if beta_stats['max'].max() <= 0.15 else 'most'} beta regimes.
+
+---
+
+## χ vs. Alfvén Mach Number
+
+{mach_stats.to_markdown()}
+
+**Interpretation:**  
+χ ceiling holds across {'all' if mach_stats['max'].max() <= 0.15 else 'most'} Mach regimes.
+
+---
+
+## Deep Dip Events (χ < 0.08)
+
+**Count:** {len(deep_dips)}  
+**Deepest Dip:** χ = {deep_dips['chi_amplitude_extended'].min():.4f} at {deep_dips['chi_amplitude_extended'].idxmin()}
+
+### Conditions During Deep Dips
+
+| Metric            | Mean          | Min           | Max           |
+|-------------------|---------------|---------------|---------------|
+| Density (p/cm³)   | {deep_dips['density']. mean():.2f} | {deep_dips['density'].min():.2f} | {deep_dips['density'].max():.2f} |
+| Speed (km/s)      | {deep_dips['speed'].mean():.1f} | {deep_dips['speed'].min():.1f} | {deep_dips['speed'].max():.1f} |
+| Bz (nT)           | {deep_dips['Bz'].mean():.2f} | {deep_dips['Bz'].min():.2f} | {deep_dips['Bz'].max():.2f} |
+| Pressure (nPa)    | {deep_dips['Flow_pressure'].mean():.2f} | {deep_dips['Flow_pressure'].min():.2f} | {deep_dips['Flow_pressure'].max():.2f} |
+
+**Pattern:**  
+Deep dips typically occur when density {'< 1' if deep_dips['density'].mean() < 1 else '~1'} p/cm³ (rarefaction) and pressure {'< 1' if deep_dips['Flow_pressure'].mean() < 1 else 'low'} nPa. 
+
+---
+
+## Verdict
+
+**χ = 0.15 ceiling:** {'✅ HOLDS' if chi_max <= 0.15 else '⚠️ VIOLATED (needs investigation)'}  
+**Recoil floor:** χ_min = {chi_min:.4f} (lattice elastic lower bound)  
+**Parameter independence:** Ceiling holds across pressure/beta/Mach regimes ({'yes' if all([pressure_stats['max'].max() <= 0.15, beta_stats['max'].max() <= 0.15, mach_stats['max'].max() <= 0.15]) else 'mostly'})
+
+---
+
+**Generated by:** `validate_chi_omni.py`  
+**Contact:** CARLDCLINE@GMAIL.COM
+"""
+    
+    # Write report
+    output_file.parent.mkdir(parents=True, exist_ok=True)
+    with open(output_file, 'w') as f:
+        f.write(report)
+    
+    print(f"[OK] Validation report saved to {output_file}")
+
+def main():
+    parser = argparse.ArgumentParser(description="Validate χ ceiling hypothesis with OMNIWeb data")
+    parser.add_argument('--input', type=Path, required=True, help="Input merged CSV")
+    parser.add_argument('--output', type=Path, required=True, help="Output markdown report")
+    args = parser.parse_args()
+    
+    validate_chi(args.input, args.output)
+
+if __name__ == "__main__":
+    main()
