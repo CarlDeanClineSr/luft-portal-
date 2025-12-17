@@ -171,12 +171,12 @@ def load_or_fetch_data(filepath, api_url, data_type):
     Load data from file, or fetch from API if file is missing/invalid.
     
     Args:
-        filepath: Path to local JSON file
-        api_url: URL to fetch from if file is invalid
-        data_type: Type of data (e.g., 'plasma' or 'mag') for logging
+        filepath: Path to local JSON file (str or Path)
+        api_url: URL to fetch from if file is invalid (str)
+        data_type: Type of data (e.g., 'plasma' or 'mag') for logging (str)
     
     Returns:
-        JSON data or None if all attempts fail
+        JSON data (list) or None if all attempts fail
     """
     print(f"\nLoading {data_type} data...")
     
