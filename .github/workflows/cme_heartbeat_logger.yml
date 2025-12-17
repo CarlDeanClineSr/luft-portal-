@@ -29,18 +29,24 @@ jobs:
       - name: Create data directories
         run: mkdir -p data
 
-      - name: Fetch ACE/DSCOVR plasma data
+      - name: Fetch ACE/DSCOVR plasma data (optional pre-fetch)
+        continue-on-error: true
         run: |
-          echo "Downloading solar wind plasma data from NOAA..."
-          if ! curl --fail --silent --show-error -o data/ace_plasma_latest.json "$NOAA_PLASMA_URL"; then
-            echo "Warning: Failed to download plasma data. Continuing with available data."
+          echo "Pre-fetching solar wind plasma data from NOAA..."
+          if curl --fail --silent --show-error -o data/ace_plasma_latest.json "$NOAA_PLASMA_URL"; then
+            echo "✓ Plasma data downloaded successfully"
+          else
+            echo "⚠ Pre-fetch failed - script will attempt API fetch with retry"
           fi
 
-      - name: Fetch ACE/DSCOVR magnetic field data
+      - name: Fetch ACE/DSCOVR magnetic field data (optional pre-fetch)
+        continue-on-error: true
         run: |
-          echo "Downloading magnetic field data from NOAA..."
-          if ! curl --fail --silent --show-error -o data/ace_mag_latest.json "$NOAA_MAG_URL"; then
-            echo "Warning: Failed to download magnetic data. Continuing with available data."
+          echo "Pre-fetching magnetic field data from NOAA..."
+          if curl --fail --silent --show-error -o data/ace_mag_latest.json "$NOAA_MAG_URL"; then
+            echo "✓ Magnetic data downloaded successfully"
+          else
+            echo "⚠ Pre-fetch failed - script will attempt API fetch with retry"
           fi
 
       - name: Run CME Heartbeat Logger
