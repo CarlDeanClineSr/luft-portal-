@@ -74,6 +74,13 @@ MAX_RETRIES = 3
 RETRY_DELAY_SECONDS = 5
 
 
+def ensure_data_directory():
+    """Ensure the data directory exists."""
+    data_dir = Path("data")
+    data_dir.mkdir(parents=True, exist_ok=True)
+    return data_dir
+
+
 def get_log_filepath():
     """Get the path for the current month's heartbeat log."""
     now = datetime.now(timezone.utc)
@@ -91,7 +98,7 @@ def fetch_json_from_url(url, max_retries=MAX_RETRIES, delay=RETRY_DELAY_SECONDS)
         delay: Delay in seconds between retries
     
     Returns:
-        Parsed JSON data or None if all retries fail
+        List (parsed JSON data) or None if all retries fail
     """
     for attempt in range(1, max_retries + 1):
         try:
@@ -122,7 +129,7 @@ def validate_json_data(data, min_rows=2):
     Validate that JSON data is not empty and has minimum required rows.
     
     Args:
-        data: JSON data (should be a list)
+        data: JSON data (expected to be a list of lists, where each inner list is a row)
         min_rows: Minimum number of rows required (default: 2 for header + data)
     
     Returns:
@@ -191,7 +198,7 @@ def load_or_fetch_data(filepath, api_url, data_type):
                 # Save to file for future use
                 if filepath:
                     try:
-                        Path(filepath).parent.mkdir(parents=True, exist_ok=True)
+                        ensure_data_directory()
                         with open(filepath, 'w') as f:
                             json.dump(data, f, indent=2)
                         print(f"  ✓ Saved fetched data to {filepath}")
@@ -439,8 +446,7 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
             sys.exit(1)
         
         # Ensure data directory exists
-        data_dir = Path("data")
-        data_dir.mkdir(parents=True, exist_ok=True)
+        ensure_data_directory()
         
         # Load or fetch data with fallback to API
         plasma_data = load_or_fetch_data(args.plasma, NOAA_PLASMA_URL, "plasma")
@@ -464,7 +470,7 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
             print("The workflow will continue without logging this entry.")
             print("Next scheduled run will attempt to fetch data again.")
             print("=" * 60)
-            return 0  # Exit gracefully without error
+            sys.exit(0)  # Exit gracefully without error
         
         # Get timestamp
         timestamp = (plasma or mag).get('timestamp', datetime.now(timezone.utc).isoformat())
