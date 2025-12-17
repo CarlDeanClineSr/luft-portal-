@@ -26,6 +26,9 @@ import argparse
 import csv
 import json
 import sys
+import time
+import urllib.request
+import urllib.error
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -62,6 +65,21 @@ DEMO_BT_STD = 2.0
 # Maps relative modulation (0-1) to χ range centered on 0.055
 CHI_SCALING_CENTER = 0.1  # Center point for modulation-to-chi mapping
 
+# API endpoints for live data fallback
+NOAA_PLASMA_URL = "https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json"
+NOAA_MAG_URL = "https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json"
+
+# Retry configuration
+MAX_RETRIES = 3
+RETRY_DELAY_SECONDS = 5
+
+
+def ensure_data_directory():
+    """Ensure the data directory exists."""
+    data_dir = Path("data")
+    data_dir.mkdir(parents=True, exist_ok=True)
+    return data_dir
+
 
 def get_log_filepath():
     """Get the path for the current month's heartbeat log."""
@@ -70,17 +88,127 @@ def get_log_filepath():
     return Path("data") / filename
 
 
+def fetch_json_from_url(url, max_retries=MAX_RETRIES, delay=RETRY_DELAY_SECONDS):
+    """
+    Fetch JSON data from URL with retry logic.
+    
+    Args:
+        url: URL to fetch from
+        max_retries: Maximum number of retry attempts
+        delay: Delay in seconds between retries
+    
+    Returns:
+        List (parsed JSON data) or None if all retries fail
+    """
+    for attempt in range(1, max_retries + 1):
+        try:
+            print(f"  Attempt {attempt}/{max_retries}: Fetching from {url}")
+            with urllib.request.urlopen(url, timeout=30) as response:
+                data = json.loads(response.read().decode('utf-8'))
+                print(f"  ✓ Successfully fetched data ({len(data)} rows)")
+                return data
+        except urllib.error.URLError as e:
+            print(f"  ✗ Network error: {e}")
+        except urllib.error.HTTPError as e:
+            print(f"  ✗ HTTP error {e.code}: {e.reason}")
+        except json.JSONDecodeError as e:
+            print(f"  ✗ Invalid JSON: {e}")
+        except Exception as e:
+            print(f"  ✗ Unexpected error: {e}")
+        
+        if attempt < max_retries:
+            print(f"  Waiting {delay} seconds before retry...")
+            time.sleep(delay)
+    
+    print(f"  ✗ Failed to fetch data after {max_retries} attempts")
+    return None
+
+
+def validate_json_data(data, min_rows=2):
+    """
+    Validate that JSON data is not empty and has minimum required rows.
+    
+    Args:
+        data: JSON data (expected to be a list of lists, where each inner list is a row)
+        min_rows: Minimum number of rows required (default: 2 for header + data)
+    
+    Returns:
+        True if valid, False otherwise
+    """
+    if data is None:
+        return False
+    if not isinstance(data, list):
+        return False
+    if len(data) < min_rows:
+        return False
+    return True
+
+
 def load_json_data(filepath):
-    """Load JSON data from file."""
+    """Load JSON data from file with validation."""
     try:
         with open(filepath, 'r') as f:
-            return json.load(f)
+            data = json.load(f)
+            if validate_json_data(data):
+                print(f"  ✓ Loaded valid data from {filepath} ({len(data)} rows)")
+                return data
+            else:
+                print(f"  ✗ File {filepath} has insufficient data (needs at least 2 rows)")
+                return None
     except FileNotFoundError:
-        print(f"Warning: File not found: {filepath}")
+        print(f"  ✗ File not found: {filepath}")
         return None
     except json.JSONDecodeError as e:
-        print(f"Warning: Invalid JSON in {filepath}: {e}")
+        print(f"  ✗ Invalid JSON in {filepath}: {e}")
         return None
+    except Exception as e:
+        print(f"  ✗ Error loading {filepath}: {e}")
+        return None
+
+
+def load_or_fetch_data(filepath, api_url, data_type):
+    """
+    Load data from file, or fetch from API if file is missing/invalid.
+    
+    Args:
+        filepath: Path to local JSON file (str or Path)
+        api_url: URL to fetch from if file is invalid (str)
+        data_type: Type of data (e.g., 'plasma' or 'mag') for logging (str)
+    
+    Returns:
+        JSON data (list) or None if all attempts fail
+    """
+    print(f"\nLoading {data_type} data...")
+    
+    # First, try loading from local file
+    if filepath and Path(filepath).exists():
+        data = load_json_data(filepath)
+        if data:
+            return data
+        print(f"  Local file invalid, falling back to API...")
+    else:
+        if filepath:
+            print(f"  Local file not found, fetching from API...")
+    
+    # Fallback to API
+    if api_url:
+        data = fetch_json_from_url(api_url)
+        if data:
+            if validate_json_data(data):
+                # Save to file for future use
+                if filepath:
+                    try:
+                        ensure_data_directory()
+                        with open(filepath, 'w') as f:
+                            json.dump(data, f, indent=2)
+                        print(f"  ✓ Saved fetched data to {filepath}")
+                    except Exception as e:
+                        print(f"  Warning: Could not save data to file: {e}")
+                return data
+            else:
+                print(f"  ✗ API returned insufficient data (needs at least 2 rows)")
+    
+    return None
 
 
 def extract_latest_plasma(data):
@@ -317,29 +445,47 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
             print("Error: Please provide --plasma and --mag data files, or use --demo")
             sys.exit(1)
         
-        # Load data
-        print(f"Loading plasma data from: {args.plasma}")
-        plasma_data = load_json_data(args.plasma)
+        # Ensure data directory exists
+        ensure_data_directory()
         
-        print(f"Loading magnetic data from: {args.mag}")
-        mag_data = load_json_data(args.mag)
+        # Load or fetch data with fallback to API
+        plasma_data = load_or_fetch_data(args.plasma, NOAA_PLASMA_URL, "plasma")
+        mag_data = load_or_fetch_data(args.mag, NOAA_MAG_URL, "magnetic field")
         
         # Extract latest values
-        plasma = extract_latest_plasma(plasma_data)
-        mag = extract_latest_mag(mag_data)
+        plasma = extract_latest_plasma(plasma_data) if plasma_data else None
+        mag = extract_latest_mag(mag_data) if mag_data else None
         
+        # Check if we have any valid data
         if not plasma and not mag:
-            print("Error: Could not extract any valid data from input files")
-            sys.exit(1)
+            print()
+            print("=" * 60)
+            print("WARNING: No valid data available")
+            print("=" * 60)
+            print("Could not obtain valid solar wind data from:")
+            print("  - Local files (missing or invalid)")
+            print("  - NOAA API (failed after retries)")
+            print()
+            print("This is not an error - data may be temporarily unavailable.")
+            print("The workflow will continue without logging this entry.")
+            print("Next scheduled run will attempt to fetch data again.")
+            print("=" * 60)
+            sys.exit(0)  # Exit gracefully without error
         
         # Get timestamp
         timestamp = (plasma or mag).get('timestamp', datetime.now(timezone.utc).isoformat())
         
-        # Extract values
+        # Extract values (handle partial data gracefully)
         density = plasma.get('density') if plasma else None
         speed = plasma.get('speed') if plasma else None
         bz = mag.get('bz') if mag else None
         bt = mag.get('bt') if mag else None
+        
+        # Log what data we have
+        print()
+        print("Data availability:")
+        print(f"  Plasma: {'✓' if plasma else '✗'} (density={density}, speed={speed})")
+        print(f"  Magnetic: {'✓' if mag else '✗'} (bz={bz}, bt={bt})")
         
         # Compute LUFT parameters
         chi = estimate_chi_amplitude(density, speed, bt)
