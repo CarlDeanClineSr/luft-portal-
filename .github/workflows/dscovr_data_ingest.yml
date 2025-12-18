@@ -46,6 +46,8 @@ jobs:
             echo "No new data to commit."
           else
             git commit -m "Update DSCOVR solar wind realtime data"
+            git config pull.rebase false
+            git pull origin main || true
             if git push; then
               echo "New DSCOVR data committed and pushed successfully."
             else
