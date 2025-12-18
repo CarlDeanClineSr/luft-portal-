@@ -17,7 +17,8 @@ from parse_omni2 import parse_omni2
 def test_missing_file():
     """Test handling of missing file."""
     print("Test 1: Missing file...")
-    non_existent = Path("/tmp/non_existent_omni2.txt")
+    # Use tempfile.gettempdir() for cross-platform compatibility
+    non_existent = Path(tempfile.gettempdir()) / "non_existent_omni2_test_file.txt"
     try:
         parse_omni2(non_existent)
         print("  ❌ FAILED: Should have raised FileNotFoundError")
