@@ -1,0 +1,30 @@
+name: Hourly NOAA Solar Wind Fetch
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Every hour at :00 UTC
+  workflow_dispatch:
+
+jobs:
+  fetch_solarwind:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: python -V
+
+      - run: python tools/fetch_noaa_solarwind.py
+
+      - name: Commit solar wind CSVs
+        run: |
+          git config user.name "LUFT Data Bot"
+          git config user.email "data@luft.local"
+          git add data/noaa_solarwind/*.csv
+          git commit -m "data: NOAA solar wind plasma/mag update $(date -u +%Y-%m-%dT%H:%MZ)" || echo "No changes"
+          git config pull.rebase false
+          git pull origin main || true
+          git push
