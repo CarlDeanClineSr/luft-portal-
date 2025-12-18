@@ -52,7 +52,7 @@ FILL_VALUES = {
     'B_scalar': 999.9, 'B_mag': 999.9, 'B_lat': 999.9, 'B_lon': 999.9,
     'Bx_GSE': 999.9, 'By_GSE': 999.9, 'Bz_GSE': 999.9, 'By_GSM': 999.9, 'Bz_GSM': 999.9,
     'sigma_B_scalar': 999.9, 'sigma_B':  999.9, 'sigma_Bx': 999.9, 'sigma_By':  999.9, 'sigma_Bz': 999.9,
-    'T_proton': 9999999., 'Np': 999.9, 'V': 9999., 'phi_V': 999.9, 'theta_V': 999.9, 'Na_Np': 9. 999,
+    'T_proton': 9999999., 'Np': 999.9, 'V': 9999., 'phi_V': 999.9, 'theta_V': 999.9, 'Na_Np': 9.999,
     'Flow_pressure':  99. 99,
     'sigma_T': 9999999., 'sigma_n': 999.9, 'sigma_V': 9999., 'sigma_phi_V': 999.9, 'sigma_theta_V': 999.9, 'sigma_Na_Np':  9.999,
     'E_field': 999.99, 'Plasma_beta':  999.99, 'Alfven_Mach': 999.9,
