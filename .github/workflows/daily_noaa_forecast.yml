@@ -1,0 +1,30 @@
+name: Daily NOAA 3-Day Forecast Fetch
+
+on:
+  schedule:
+    - cron: '0 5,17 * * *'  # 05:00 and 17:00 UTC daily
+  workflow_dispatch:
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: python -V
+
+      - run: python tools/fetch_noaa_forecast.py
+
+      - name: Commit forecast files
+        run: |
+          git config user.name "LUFT Data Bot"
+          git config user.email "data@luft.local"
+          git add data/noaa_forecasts/*.txt
+          git commit -m "data: NOAA 3-day forecast update $(date -u +%Y-%m-%dT%H:%MZ)" || echo "No changes"
+          git config pull.rebase false
+          git pull origin main || true
+          git push
