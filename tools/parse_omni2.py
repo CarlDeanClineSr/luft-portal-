@@ -66,9 +66,30 @@ def parse_omni2(input_file: Path) -> pd.DataFrame:
     """Parse OMNI2 fixed-width ASCII file."""
     print(f"[INFO] Reading {input_file}...")
     
+    # Check if file exists
+    if not input_file.exists():
+        raise FileNotFoundError(f"OMNI2 data file not found: {input_file}")
+    
+    # Check if file is empty
+    if input_file.stat().st_size == 0:
+        raise ValueError(f"OMNI2 data file is empty: {input_file}")
+    
+    # Check if file contains HTML (common error from failed downloads)
+    with open(input_file, 'r') as f:
+        first_line = f.readline().strip()
+        if first_line.startswith('<') or 'html' in first_line.lower() or '<!doctype' in first_line.lower():
+            raise ValueError(
+                f"OMNI2 data file appears to contain HTML instead of data: {input_file}\n"
+                f"This usually indicates a failed download from OMNIWeb. "
+                f"Please check the source URL and try downloading again."
+            )
+    
     # Read fixed-width (pandas read_fwf handles widths automatically if we give it column specs)
     # We'll use read_fwf with widths (manual specification)
-    df = pd.read_fwf(input_file, widths=WIDTHS, header=None, na_values=[])
+    try:
+        df = pd.read_fwf(input_file, widths=WIDTHS, header=None, na_values=[])
+    except Exception as e:
+        raise ValueError(f"Failed to read OMNI2 data file {input_file}: {e}")
     
     # Assign column names
     df.columns = PARAM_NAMES[: len(df.columns)]  # Handle cases where file has fewer columns
@@ -79,10 +100,17 @@ def parse_omni2(input_file: Path) -> pd.DataFrame:
             df[col] = df[col].replace(fill_val, np.nan)
     
     # Build datetime index from YEAR, DOY, HR
-    df['datetime'] = pd.to_datetime(
-        df['YEAR'].astype(int).astype(str) + df['DOY'].astype(int).astype(str).str.zfill(3),
-        format='%Y%j'
-    ) + pd.to_timedelta(df['HR'].astype(int), unit='h')
+    try:
+        df['datetime'] = pd.to_datetime(
+            df['YEAR'].astype(int).astype(str) + df['DOY'].astype(int).astype(str).str.zfill(3),
+            format='%Y%j'
+        ) + pd.to_timedelta(df['HR'].astype(int), unit='h')
+    except (ValueError, TypeError) as e:
+        raise ValueError(
+            f"Failed to parse datetime columns in OMNI2 file {input_file}. "
+            f"The file may be corrupted or contain invalid data. "
+            f"Error: {e}"
+        )
     
     df = df.set_index('datetime').sort_index()
     
