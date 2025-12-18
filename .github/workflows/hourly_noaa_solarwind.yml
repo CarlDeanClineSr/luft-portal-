@@ -17,6 +17,9 @@ jobs:
 
       - run: python -V
 
+      - name: Install Python dependencies
+        run: pip install requests pandas
+
       - run: python tools/fetch_noaa_solarwind.py
 
       - name: Commit solar wind CSVs
