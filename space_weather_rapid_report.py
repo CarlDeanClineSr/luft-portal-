@@ -47,20 +47,39 @@ def bz_flag(val):
     elif val <= -3: return "🔴 S"
     return ""
 
-csv_path = Path("cme_heartbeat_log_2025_12.csv")
+def latest_heartbeat_csv() -> Path | None:
+    files = list(Path(".").glob("cme_heartbeat_log_*.csv"))
+    if not files:
+        return None
+    # Choose the most recently modified file
+    return max(files, key=lambda p: p.stat().st_mtime)
+
+csv_path = latest_heartbeat_csv()
+if not csv_path or not csv_path.exists():
+    print("No heartbeat CSV found; skipping engine report.")
+    raise SystemExit(0)
 
 rows = []
 with csv_path.open(newline="") as f:
     reader = csv.DictReader(f)
     for row in reader:
-        if row.get("chi_amplitude"):
-            rows.append({
-                "Timestamp": row.get("timestamp_utc") or "",
-                "Amp": to_float(row["chi_amplitude"]),
-                "Density": to_float(row.get("density_p_cm3", "")),
-                "Speed": to_float(row.get("speed_km_s", "")),
-                "Bz": to_float(row.get("bz_nT", "")),
-            })
+        amp = to_float(row.get("chi_amplitude", ""))
+        dens = to_float(row.get("density_p_cm3", ""))
+        spd = to_float(row.get("speed_km_s", ""))
+        bz = to_float(row.get("bz_nT", ""))
+        if amp is None:
+            continue
+        rows.append({
+            "Timestamp": row.get("timestamp_utc") or "",
+            "Amp": amp,
+            "Density": dens,
+            "Speed": spd,
+            "Bz": bz,
+        })
+
+if not rows:
+    print(f"No data rows in {csv_path.name}; skipping engine report.")
+    raise SystemExit(0)
 
 # Last 10 entries (or less if not enough data).
 table = rows[-10:]
