@@ -20,10 +20,16 @@ OUT_MD.parent.mkdir(parents=True, exist_ok=True)
 def fetch_df() -> pd.DataFrame:
     r = requests.get(URL, timeout=30)
     r.raise_for_status()
-    buf = io.StringIO(r.text)
+
+    # Keep only lines that begin with a digit (data rows), skip metadata like ":Product:"
+    data_lines = [ln for ln in r.text.splitlines() if ln and ln[0].isdigit()]
+    if not data_lines:
+        raise ValueError("No data rows found in solar_radio_flux feed.")
+
+    buf = io.StringIO("\n".join(data_lines))
     df = pd.read_csv(
         buf,
-        delim_whitespace=True,
+        sep=r"\s+",
         comment="#",
         header=None,
         names=["yyyymmdd", "obs_flux", "adj_flux"],
