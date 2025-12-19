@@ -1,10 +1,11 @@
+  
 #!/usr/bin/env python3
-# space_weather_rapid_report.py
-# 10-row rapid summary, unique filename, unique panel title, for LUFT-PORTAL.
+# 10-row rapid summary for LUFT-PORTAL.
 
 import csv
 from pathlib import Path
 from datetime import datetime
+import sys
 
 def sparkline(values):
     bars = "▁▂▃▄▅▆▇█"
@@ -47,17 +48,15 @@ def bz_flag(val):
     elif val <= -3: return "🔴 S"
     return ""
 
+# Find latest heartbeat CSV; exit cleanly if none
 def latest_heartbeat_csv() -> Path | None:
-    files = list(Path(".").glob("cme_heartbeat_log_*.csv"))
-    if not files:
-        return None
-    # Choose the most recently modified file
-    return max(files, key=lambda p: p.stat().st_mtime)
+    files = sorted(Path(".").glob("cme_heartbeat_log_*.csv"))
+    return files[-1] if files else None
 
 csv_path = latest_heartbeat_csv()
 if not csv_path or not csv_path.exists():
     print("No heartbeat CSV found; skipping engine report.")
-    raise SystemExit(0)
+    sys.exit(0)
 
 rows = []
 with csv_path.open(newline="") as f:
@@ -79,9 +78,8 @@ with csv_path.open(newline="") as f:
 
 if not rows:
     print(f"No data rows in {csv_path.name}; skipping engine report.")
-    raise SystemExit(0)
+    sys.exit(0)
 
-# Last 10 entries (or less if not enough data).
 table = rows[-10:]
 
 amp_vals  = [r["Amp"] for r in table if r["Amp"] is not None]
@@ -91,7 +89,7 @@ bz_vals   = [r["Bz"] for r in table if r["Bz"] is not None]
 
 now = datetime.utcnow()
 panel_time = now.strftime("%b %d, %Y • %H:%M:%S UTC")
-file_time  = now.strftime("DEC%d_%Y_%H%M%S").upper()
+file_time  = now.strftime("%b%d_%Y_%H%M%S").upper()
 filename = f"space_weather_report_{file_time}.md"
 
 PANEL_TITLE = f"# 🚀 SPACE WEATHER RAPID REPORT ({panel_time})"
