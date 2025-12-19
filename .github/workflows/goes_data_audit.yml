@@ -1,3 +1,4 @@
+ 
 name: GOES Data Audit — Robust
 
 on:
@@ -16,8 +17,17 @@ jobs:
 
       - name: Fetch GOES flux
         run: |
-          curl -f -s -o data/goes/latest_goes_flux.json \
-            https://services.swpc.noaa.gov/products/goes-xray-flux.json
+          set -e
+          if ! curl -f -s --retry 3 --retry-delay 5 \
+            -o data/goes/latest_goes_flux.json \
+            https://services.swpc.noaa.gov/products/goes-xray-flux.json; then
+            echo "WARNING: GOES fetch failed; skipping this run."
+            exit 0
+          fi
+          if [ ! -s data/goes/latest_goes_flux.json ]; then
+            echo "WARNING: GOES file empty; skipping."
+            exit 0
+          fi
 
       - name: Capsule Template
         run: |
