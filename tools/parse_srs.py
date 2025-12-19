@@ -15,7 +15,6 @@ import requests
 # Primary URL and fallback endpoints
 PRIMARY_URL = "https://services.swpc.noaa.gov/text/solar-region-summary.txt"
 FALLBACK_URLS = [
-    "https://services.swpc.noaa.gov/text/solar-region-summary.txt",
     "https://www.swpc.noaa.gov/products/solar-region-summary",
 ]
 OUT_CSV = Path("data/noaa_parsed/srs_daily.csv")
@@ -56,10 +55,6 @@ def fetch_text() -> str:
                 print(f"[WARN] All SRS endpoints failed. Last error from {url}: {e}")
                 print("[WARN] Exiting gracefully - no data to parse.")
                 sys.exit(0)
-    
-    # Should never reach here, but for safety
-    print("[WARN] All SRS endpoints failed. Exiting gracefully.")
-    sys.exit(0)
 
 def parse_regions(txt: str) -> pd.DataFrame:
     rows = []
