@@ -92,4 +92,4 @@ def main():
     print(f"Parsed regions: {len(df)}")
 
 if __name__ == "__main__":
-    main()
+    main() 
