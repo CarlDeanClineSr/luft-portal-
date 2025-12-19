@@ -1,6 +1,6 @@
 # 🔐 VAULT STATUS REPORT
 
-**Generated:** 2025-12-19 20:05 UTC  
+**Generated:** 2025-12-19 20:15 UTC  
 **Data Source:** `data/cme_heartbeat_log_2025_12.csv`
 
 ---
@@ -13,6 +13,25 @@
 **Latest Solar Wind Conditions:**  
 - Density: 1.33 p/cm³  
 - Speed: 522.7 km/s  
+
+---
+
+## 🌞 NOAA SPACE WEATHER SUMMARIES
+
+- [SRS Report](reports/latest_srs.md) (fetched: 2025-12-19 20:14 UTC)  
+- F10.7 Report: *not available*  
+
+---
+
+## 📈 MINI CHARTS
+
+### χ Amplitude & Streak (72h window)
+
+![χ Amplitude Sparkline](reports/charts/chi_amplitude_sparkline.png)
+
+### Solar Wind Parameters (72h window)
+
+![Solar Wind Mini-plot](reports/charts/solar_wind_miniplot.png)
 
 ---
 
