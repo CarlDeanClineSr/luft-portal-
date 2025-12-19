@@ -6,6 +6,7 @@ Deps: pandas, requests
 
 from datetime import datetime, timezone
 from pathlib import Path
+import io
 
 import pandas as pd
 import requests
@@ -19,9 +20,9 @@ OUT_MD.parent.mkdir(parents=True, exist_ok=True)
 def fetch_df() -> pd.DataFrame:
     r = requests.get(URL, timeout=30)
     r.raise_for_status()
-    # File is space-delimited, sometimes commented with '#'
+    buf = io.StringIO(r.text)
     df = pd.read_csv(
-        pd.compat.StringIO(r.text),
+        buf,
         delim_whitespace=True,
         comment="#",
         header=None,
