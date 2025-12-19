@@ -21,7 +21,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install pandas
+        run: pip install pandas matplotlib
 
       - name: Run vault narrator script
         id: run_narrator
@@ -35,9 +35,9 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git add LATEST_VAULT_STATUS.md
+          git add LATEST_VAULT_STATUS.md reports/charts/*.png
           if git diff --staged --quiet; then
-            echo "No changes to LATEST_VAULT_STATUS.md"
+            echo "No changes to LATEST_VAULT_STATUS.md or charts"
           else
             git commit -m "Vault Narrator: Auto-update $(date -u +'%Y-%m-%d %H:%M UTC')"
             git push
