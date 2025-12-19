@@ -40,7 +40,7 @@ def fetch_text() -> str:
     Returns the fetched text or exits with code 0 if all endpoints fail.
     """
     urls_to_try = [PRIMARY_URL] + FALLBACK_URLS
-    
+
     for idx, url in enumerate(urls_to_try):
         try:
             r = requests.get(url, timeout=30)
