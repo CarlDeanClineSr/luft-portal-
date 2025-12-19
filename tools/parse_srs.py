@@ -5,13 +5,19 @@ Deps: pandas, requests
 """
 
 import re
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 import pandas as pd
 import requests
 
-URL = "https://services.swpc.noaa.gov/text/solar-region-summary.txt"
+# Primary URL and fallback endpoints
+PRIMARY_URL = "https://services.swpc.noaa.gov/text/solar-region-summary.txt"
+FALLBACK_URLS = [
+    "https://services.swpc.noaa.gov/text/solar-region-summary.txt",
+    "https://www.swpc.noaa.gov/products/solar-region-summary",
+]
 OUT_CSV = Path("data/noaa_parsed/srs_daily.csv")
 OUT_MD = Path("reports/latest_srs.md")
 OUT_CSV.parent.mkdir(parents=True, exist_ok=True)
@@ -30,9 +36,30 @@ REGION_RE = re.compile(
 )
 
 def fetch_text() -> str:
-    r = requests.get(URL, timeout=30)
-    r.raise_for_status()
-    return r.text
+    """
+    Try primary URL first, then fallbacks. Exit gracefully if all fail.
+    Returns the fetched text or exits with code 0 if all endpoints fail.
+    """
+    urls_to_try = [PRIMARY_URL] + FALLBACK_URLS
+    
+    for idx, url in enumerate(urls_to_try):
+        try:
+            r = requests.get(url, timeout=30)
+            r.raise_for_status()
+            if idx > 0:
+                print(f"[INFO] Primary URL failed, succeeded with fallback: {url}")
+            return r.text
+        except requests.exceptions.RequestException as e:
+            if idx < len(urls_to_try) - 1:
+                print(f"[WARN] Failed to fetch from {url}: {e}. Trying next endpoint...")
+            else:
+                print(f"[WARN] All SRS endpoints failed. Last error from {url}: {e}")
+                print("[WARN] Exiting gracefully - no data to parse.")
+                sys.exit(0)
+    
+    # Should never reach here, but for safety
+    print("[WARN] All SRS endpoints failed. Exiting gracefully.")
+    sys.exit(0)
 
 def parse_regions(txt: str) -> pd.DataFrame:
     rows = []
