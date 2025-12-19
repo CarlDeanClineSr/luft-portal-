@@ -3,10 +3,10 @@
 Parse daily F10.7 cm solar radio flux into CSV + latest MD card.
 Deps: pandas, requests
 """
-
 from datetime import datetime, timezone
 from pathlib import Path
 import io
+import sys
 
 import pandas as pd
 import requests
@@ -18,13 +18,18 @@ OUT_CSV.parent.mkdir(parents=True, exist_ok=True)
 OUT_MD.parent.mkdir(parents=True, exist_ok=True)
 
 def fetch_df() -> pd.DataFrame:
-    r = requests.get(URL, timeout=30)
-    r.raise_for_status()
+    try:
+        r = requests.get(URL, timeout=30)
+        r.raise_for_status()
+    except Exception as exc:
+        print(f"WARNING: F10.7 fetch failed: {exc}")
+        sys.exit(0)
 
-    # Keep only lines that begin with a digit (data rows), skip metadata like ":Product:"
+    # Keep only lines that start with a digit (skip headers like :Product:)
     data_lines = [ln for ln in r.text.splitlines() if ln and ln[0].isdigit()]
     if not data_lines:
-        raise ValueError("No data rows found in solar_radio_flux feed.")
+        print("WARNING: No numeric data rows in F10.7 feed; skipping.")
+        sys.exit(0)
 
     buf = io.StringIO("\n".join(data_lines))
     df = pd.read_csv(
