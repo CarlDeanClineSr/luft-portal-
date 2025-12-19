@@ -1,0 +1,23 @@
+name: Nightly Capsule
+
+on:
+  schedule:
+    - cron: '0 3 * * *'  # 03:00 UTC daily
+  workflow_dispatch:
+
+jobs:
+  capsule:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install pandas
+      - run: python ml/nightly_capsule.py
+      - run: |
+          git config user.name "LUFT Data Bot"
+          git config user.email "data@luft.local"
+          git add reports/daily_capsule.md
+          git commit -m "reports: nightly capsule $(date -u +%Y-%m-%dT%H:%MZ)" || echo "No changes"
+          git push
