@@ -16,10 +16,14 @@ jobs:
       - run: python -m pip install --upgrade pip pandas requests
       - run: python tools/parse_srs.py
       - run: python tools/parse_f107.py
+      - name: Ensure reports directory
+        run: mkdir -p reports
       - name: Commit parsed NOAA products
         run: |
           git config user.name "LUFT Data Bot"
           git config user.email "data@luft.local"
-          git add -A data/noaa_parsed/ reports/latest_srs.md reports/latest_f107.md
+          git add -A data/noaa_parsed/ || true
+          [ -f reports/latest_srs.md ] && git add reports/latest_srs.md
+          [ -f reports/latest_f107.md ] && git add reports/latest_f107.md
           git commit -m "data: update NOAA parsed feeds $(date -u +%Y-%m-%dT%H:%MZ)" || echo "No changes"
-          git push
+          git push || true
