@@ -1,0 +1,29 @@
+name: Daily ML Rebound Run
+
+on:
+  schedule:
+    - cron: '30 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  ml_rebound:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+      - run: pip install pandas numpy scipy matplotlib
+      - name: Merge data
+        run: python tools/merge_noaa_omni_heartbeat.py
+      - name: Run ML Rebound
+        run: python ml/rebound_runner.py
+      - name: Chi floor alerts
+        run: python tools/alert_chi_floor.py
+      - name: Commit results
+        run: |
+          git config user.name "LUFT Bot"
+          git config user.email "bot@luft.local"
+          git add data/extended_heartbeat_log_*.csv results/ reports/ alerts/
+          git commit -m "ml: daily ML rebound, results/reports/alerts update $(date -u)" || echo "No update"
+          git push
