@@ -1,13 +1,95 @@
-Carl, since you’ve already got the ingest engine humming, the next step is just layering in those parsers and alerts. Think of it like adding new “sensors” to your vault dashboard.  
+ #!/usr/bin/env python3
+"""
+Parse NOAA Solar Region Summary into CSV + latest MD summary.
+Deps: pandas, requests
+"""
 
-Here’s how you can decide what to tackle first:
+import re
+from datetime import datetime, timezone
+from pathlib import Path
 
-- **F10.7 / solar_radio_flux.txt** → gives you the daily radio flux and sunspot number. Easy to parse, and it plugs straight into your vault indicator as a “today’s solar activity” card.  
-- **SRS / solar-region-summary.txt** → sunspot regions, magnetic complexity, areas. This is the most powerful for alerts (Beta‑Gamma‑Delta flags, growth jumps).  
-- **Aurora / aurora-nowcast-hemi-power.txt + 3-day-forecast.txt** → direct tie‑in to geomagnetic activity. Great for teaching and for cross‑checking your χ dips against auroral power.  
+import pandas as pd
+import requests
 
-If you want maximum impact quickly, I’d start with **SRS** (for alerts) and **F10.7** (for dashboard). Aurora feeds can follow right after.  
+URL = "https://services.swpc.noaa.gov/text/solar-region-summary.txt"
+OUT_CSV = Path("data/noaa_parsed/srs_daily.csv")
+OUT_MD = Path("reports/latest_srs.md")
+OUT_CSV.parent.mkdir(parents=True, exist_ok=True)
+OUT_MD.parent.mkdir(parents=True, exist_ok=True)
 
-Once you pick, I’ll hand you the exact parser snippet and a micro‑workflow block you can drop into `.github/workflows/` so it runs automatically every day/hour.  
+REGION_RE = re.compile(
+    r"^(?P<num>\d{4,})\s+"
+    r"(?P<loc>[NS]\d{2}[EW]\d{2,3})\s+"
+    r"(?P<lo>\d+)\s+"
+    r"(?P<area>\d+)\s+"
+    r"(?P<z>\w+)\s+"
+    r"(?P<ll>\d+)\s+"
+    r"(?P<nn>\d+)\s+"
+    r"(?P<mag>\w+)",
+    re.MULTILINE,
+)
 
-Which one do you want me to generate first—**SRS** for alerts, or **F10.7** for the dashboard card?
+def fetch_text() -> str:
+    r = requests.get(URL, timeout=30)
+    r.raise_for_status()
+    return r.text
+
+def parse_regions(txt: str) -> pd.DataFrame:
+    rows = []
+    for m in REGION_RE.finditer(txt):
+        rows.append(m.groupdict())
+    df = pd.DataFrame(rows)
+    if df.empty:
+        return df
+    df["lo"] = pd.to_numeric(df["lo"], errors="coerce")
+    df["area"] = pd.to_numeric(df["area"], errors="coerce")
+    df["ll"] = pd.to_numeric(df["ll"], errors="coerce")
+    df["nn"] = pd.to_numeric(df["nn"], errors="coerce")
+    df["fetched_utc"] = datetime.now(timezone.utc).isoformat()
+    return df
+
+def write_md(df: pd.DataFrame, raw: str) -> None:
+    if df.empty:
+        OUT_MD.write_text("# Solar Region Summary\nNo regions parsed.\n")
+        return
+    top = df.sort_values("area", ascending=False).head(5)
+    lines = ["# Solar Region Summary (latest fetch)", ""]
+    lines.append(f"Fetched: {datetime.now(timezone.utc):%Y-%m-%d %H:%M UTC}")
+    lines.append("")
+    lines.append("## Top 5 by Area")
+    lines.append("| Num | Loc | Area | Mag |")
+    lines.append("|-----|-----|------|-----|")
+    for _, r in top.iterrows():
+        lines.append(f"| {r['num']} | {r['loc']} | {int(r['area'])} | {r['mag']} |")
+    alerts = df[(df["mag"].str.contains("DEL", case=False)) | (df["mag"].str.contains("BGD", case=False))]
+    lines.append("")
+    lines.append("## Alerts")
+    if alerts.empty:
+        lines.append("- None (no Delta/Beta-Gamma-Delta regions).")
+    else:
+        for _, r in alerts.iterrows():
+            lines.append(f"- Region {r['num']} ({r['mag']}) at {r['loc']} area {int(r['area'])}")
+    lines.append("")
+    lines.append("<details><summary>Raw excerpt</summary>")
+    lines.append("")
+    lines.append("```")
+    lines.append(raw.strip()[:4000])
+    lines.append("```")
+    lines.append("</details>")
+    OUT_MD.write_text("\n".join(lines))
+
+def main():
+    raw = fetch_text()
+    df = parse_regions(raw)
+    if not df.empty:
+        if OUT_CSV.exists():
+            old = pd.read_csv(OUT_CSV)
+            df_all = pd.concat([old, df], ignore_index=True)
+            df_all.to_csv(OUT_CSV, index=False)
+        else:
+            df.to_csv(OUT_CSV, index=False)
+    write_md(df, raw)
+    print(f"Parsed regions: {len(df)}")
+
+if __name__ == "__main__":
+    main()
