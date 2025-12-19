@@ -1,25 +1,43 @@
-import sys, json
+#!/usr/bin/env python3
+"""
+Lightweight validator for GOES capsules.
+
+Usage:
+  python scripts/capsule_validator.py path/to/capsule.md
+
+Checks for:
+- File existence
+- Required lines: title, Generated, Time, Satellite, Band, Observed flux
+Exits 0 on success; >0 on validation failure.
+"""
+from __future__ import annotations
+
+import sys
 from pathlib import Path
 
-def validate_capsule(path):
-    with open(path, 'r') as f:
-        text = f.read()
-    jblock = [b for b in text.split('```json') if b]
-    if not jblock:
-        print("No JSON block found.")
+
+REQUIRED_KEYS = ["# GOES X-ray Flux Capsule", "Generated:", "Time:", "Satellite:", "Band:", "Observed flux:"]
+
+
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: python scripts/capsule_validator.py path/to/capsule.md")
         sys.exit(1)
-    try:
-        data = json.loads(jblock[1].split('```')[0].strip())
-    except Exception as e:
-        print(f"JSON decode error: {e}")
-        sys.exit(1)
-    if not (0 <= data['particle']['proton_flux_pfu'] <= 1e6):
-        print("Proton flux out of range!")
+
+    path = Path(sys.argv[1])
+    if not path.exists():
+        print(f"Validation failed: file not found: {path}")
         sys.exit(2)
-    if not (abs(data['magnetic']['bx_nT']) <= 1000 and abs(data['magnetic']['by_nT']) <= 1000 and abs(data['magnetic']['bz_nT']) <= 1000):
-        print("Magnetic field out of range!")
-        sys.exit(3)
-    print("Capsule validated OK.")
+
+    text = path.read_text()
+    for key in REQUIRED_KEYS:
+        if key not in text:
+            print(f"Validation failed: missing '{key}'")
+            sys.exit(3)
+
+    print("Capsule validation passed.")
+    sys.exit(0)
+
 
 if __name__ == "__main__":
-    validate_capsule(sys.argv[1])
+    main()
