@@ -2,47 +2,38 @@ name: GOES Data Audit — Robust
 
 on:
   schedule:
-    - cron: "7 * * * *"
+    - cron: "7 * * * *"  # Every hour at HH:07
   workflow_dispatch:
 
 jobs:
   audit-goes-data:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Download GOES JSON (with exit code and file validation)
+      - name: Ensure data/goes exists
+        run: mkdir -p data/goes
+
+      - name: Fetch GOES flux
         run: |
-          curl -s -o data/goes/latest_goes_flux.json https://services.swpc.noaa.gov/products/goes-xray-flux.json
-          if [ $? -ne 0 ]; then echo "Failed to fetch GOES data!"; exit 23; fi
-          if ! jq . data/goes/latest_goes_flux.json > /dev/null; then
-            echo "Downloaded file is invalid JSON:"
-            cat data/goes/latest_goes_flux.json
-            exit 24
-          fi
+          curl -f -s -o data/goes/latest_goes_flux.json \
+            https://services.swpc.noaa.gov/products/goes-xray-flux.json
 
-      - name: Parse latest event safely
+      - name: Capsule Template
         run: |
-          jq '.[-1]' data/goes/latest_goes_flux.json > data/goes/goes_event_audit.json
-          if ! jq . data/goes/goes_event_audit.json > /dev/null; then
-            echo "Audit file is invalid JSON!"
-            cat data/goes/goes_event_audit.json
-            exit 25
-          fi
+          python scripts/goes_capsule_builder.py \
+            data/goes/latest_goes_flux.json \
+            capsules/GOES_EVENT_AUDIT_$(date +%Y-%m-%dT%H%M%S).md
 
-      - name: Pull latest main before commit
+      - name: Validate Capsule Fields
         run: |
-          git config --global user.email "auto@luft-portal"
-          git config --global user.name "LUFT-bot"
-          git pull --rebase origin main
+          python scripts/capsule_validator.py \
+            capsules/GOES_EVENT_AUDIT_$(date +%Y-%m-%dT%H%M%S).md
 
-      - name: Commit event audit (safe branch, avoids push conflicts)
+      - name: Commit Capsule
         run: |
-          git checkout -b update-goes-audit || git checkout update-goes-audit
-          git add data/goes/goes_event_audit.json
-          git commit -m "GOES event audit JSON, validated"
-          git push origin update-goes-audit
-
-      - name: PR suggestion (auto optional)
-        run: echo "Open a PR from update-goes-audit to main. Review and merge!"
+          git config user.name "LUFT Data Bot"
+          git config user.email "data@luft.local"
+          git add capsules/*.md || true
+          git commit -m "Add GOES capsule and audit for latest data" || echo "No changes"
+          git push || true
