@@ -1,4 +1,21 @@
-       - name: Commit refreshed plots
+name: Dashboard Refresh
+on:
+  schedule:
+    - cron: "15 * * * *"  # Every hour at :15 UTC
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Copy latest plots
+        run: |
+          mkdir -p pages/plots
+          cp reports/plots/* pages/plots/ || true
+
+      - name: Commit refreshed plots
         run: |
           git config user.name "LUFT Data Bot"
           git config user.email "data@luft.local"
