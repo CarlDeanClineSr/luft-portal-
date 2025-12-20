@@ -1,6 +1,6 @@
 # 🔐 VAULT STATUS REPORT
 
-**Generated:** 2025-12-20 14:04 UTC  
+**Generated:** 2025-12-20 15:04 UTC  
 **Data Source:** `data/cme_heartbeat_log_2025_12.csv`
 
 ---
@@ -11,14 +11,14 @@
 **Last Lock Timestamp:** 2025-12-20 04:20:00 UTC  
 
 **Latest Solar Wind Conditions:**  
-- Density: 5.02 p/cm³  
-- Speed: 448.9 km/s  
+- Density: 5.50 p/cm³  
+- Speed: 443.9 km/s  
 
 ---
 
 ## 🌞 NOAA SPACE WEATHER SUMMARIES
 
-- [SRS Report](reports/latest_srs.md) (fetched: 2025-12-20 14:04 UTC)  
+- [SRS Report](reports/latest_srs.md) (fetched: 2025-12-20 15:04 UTC)  
 - F10.7 Report: *not available*  
 
 ---
@@ -39,7 +39,6 @@
 
 | Time (UTC)          | χ Amplitude | Density (p/cm³) | Speed (km/s) | χ Status |
 |---------------------|-------------|-----------------|--------------|----------|
-| 2025-12-19 13:24:00 | 0.1500 | 1.33 | 514.0 | ✅ LOCK |
 | 2025-12-19 14:20:00 | 0.1500 | 1.55 | 507.9 | ✅ LOCK |
 | 2025-12-19 15:20:00 | 0.1500 | 1.45 | 526.4 | ✅ LOCK |
 | 2025-12-19 16:22:00 | 0.1500 | 2.41 | 533.3 | ✅ LOCK |
@@ -59,6 +58,7 @@
 | 2025-12-20 11:20:00 | 0.1245 | 3.62 | 456.5 | — |
 | 2025-12-20 12:22:00 | 0.1201 | 2.63 | 436.2 | — |
 | 2025-12-20 13:21:00 | 0.0760 | 5.02 | 448.9 | — |
+| 2025-12-20 14:15:00 | 0.0900 | 5.50 | 443.9 | — |
 
 ---
 
