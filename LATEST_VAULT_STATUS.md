@@ -1,26 +1,24 @@
 # 🔐 VAULT STATUS REPORT
 
-**Generated:** 2025-12-21 11:04 UTC  
+**Generated:** 2025-12-21 13:11 UTC  
 **Data Source:** `data/cme_heartbeat_log_2025_12.csv`
 
 ---
 
-## ⚡ CURRENT STATUS: ACTIVE
+## ⚡ CURRENT STATUS: QUIET
 
-**Latest χ = 0.15 Streak Count:** 2 consecutive readings  
-**Last Lock Timestamp:** 2025-12-21 10:19:00 UTC  
-**First Lock in Streak:** 2025-12-21 09:19:00 UTC  
-**Streak Duration:** 1.0 hours  
+**No active χ = 0.15 locks detected**  
+**Last Lock Timestamp:** 2025-12-21 11:19:00 UTC  
 
 **Latest Solar Wind Conditions:**  
-- Density: 2.97 p/cm³  
-- Speed: 634.1 km/s  
+- Density: 3.66 p/cm³  
+- Speed: 620.7 km/s  
 
 ---
 
 ## 🌞 NOAA SPACE WEATHER SUMMARIES
 
-- [SRS Report](reports/latest_srs.md) (fetched: 2025-12-21 11:04 UTC)  
+- [SRS Report](reports/latest_srs.md) (fetched: 2025-12-21 13:11 UTC)  
 - F10.7 Report: *not available*  
 
 ---
@@ -41,8 +39,6 @@
 
 | Time (UTC)          | χ Amplitude | Density (p/cm³) | Speed (km/s) | χ Status |
 |---------------------|-------------|-----------------|--------------|----------|
-| 2025-12-20 13:21:00 | 0.0760 | 5.02 | 448.9 | — |
-| 2025-12-20 14:15:00 | 0.0900 | 5.50 | 443.9 | — |
 | 2025-12-20 16:18:00 | 0.1231 | 9.06 | 443.5 | — |
 | 2025-12-20 17:19:00 | 0.1276 | 13.33 | 454.3 | — |
 | 2025-12-20 18:21:00 | 0.1135 | 12.19 | 420.4 | — |
@@ -61,13 +57,16 @@
 | 2025-12-21 08:20:00 | 0.1303 | 4.24 | 575.1 | — |
 | 2025-12-21 09:19:00 | 0.1500 | 2.96 | 646.5 | ✅ LOCK |
 | 2025-12-21 10:19:00 | 0.1500 | 2.97 | 634.1 | ✅ LOCK |
+| 2025-12-21 11:19:00 | 0.1500 | 3.51 | 623.0 | ✅ LOCK |
+| 2025-12-21 12:21:00 | 0.1497 | 3.66 | 620.7 | — |
 
 ---
 
 ## 🎯 VERDICT
 
-**Active χ = 0.15 detection.**  
-**Vault warming up.**
+**The vault is quiet.**  
+**No χ = 0.15 locks detected in latest readings.**  
+**Waiting for next coherence phase.**
 
 ---
 
