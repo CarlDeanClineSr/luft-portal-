@@ -1,7 +1,7 @@
 import pandas as pd
 from pathlib import Path
 
-# Load extended log
+df = pd.read_csv(log_path, parse_dates=['timestamp_utc']).set_index('timestamp_utc')
 log_path = Path("data/cme_heartbeat_log_2025_12.csv")
 df = pd.read_csv(log_path, parse_dates=['datetime']).set_index('datetime')
 
