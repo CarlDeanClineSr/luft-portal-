@@ -1,205 +1,239 @@
 #!/usr/bin/env python3
 """
-Render Capsule Charts for December 2025 CME Heartbeat Data
+render_capsule_charts.py
 
-This script reads data/cme_heartbeat_log_2025_12.csv and generates three charts:
-1. chi_amplitude_vs_time.png - Chi amplitude colored by storm phase
-2. dynamic_pressure_vs_time.png - Dynamic pressure (P_dyn) over time
-3. phase_radians_vs_time.png - Phase radians over time
+Unified χ‑physics chart engine for LUFT.
 
-Charts are saved to capsules/2025_dec_batch/charts/
+Reads:
+    data/extended_heartbeat_log_2025.csv
 
-Usage:
-    python scripts/render_capsule_charts.py
+Produces:
+    capsules/2025_dec_batch/charts/
+        chi_waveform.png
+        solarwind_drivers.png
+        multi_panel_capsule.png
+
+Features:
+    - χ extended waveform
+    - cap contacts (≈0.15)
+    - floor contacts (≈0.004)
+    - rebounds (dχ/dt > threshold)
+    - modulation period shading
+    - density / speed / Bz / pressure / E-field
 """
 
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.patches import Patch
 from pathlib import Path
-import sys
 
-# Paths relative to repo root
-DATA_PATH = Path("data") / "cme_heartbeat_log_2025_12.csv"
+# ------------------------
+# Paths
+# ------------------------
+
+DATA_PATH = Path("data") / "extended_heartbeat_log_2025.csv"
 OUTPUT_DIR = Path("capsules") / "2025_dec_batch" / "charts"
 
+CHI_COL = "chi_amplitude_extended"
 
-def compute_dynamic_pressure(df: pd.DataFrame) -> pd.Series:
-    """
-    Compute dynamic pressure P_dyn in nPa from density (p/cm^3) and speed (km/s).
-    
-    Formula (standard solar wind approximation):
-        P_dyn [nPa] = 1.6726e-6 * n * v^2
-    
-    where:
-        n = density_p_cm3 (protons per cubic cm)
-        v = speed_km_s (km/s)
-    """
-    n = df["density_p_cm3"]
-    v = df["speed_km_s"]
-    return 1.6726e-6 * n * v * v
+CHI_CAP = 0.15
+CHI_CAP_TOL = 0.001
+
+CHI_FLOOR = 0.004
+CHI_FLOOR_TOL = 0.001
+
+MIN_REBOUND_DELTA = 0.01
 
 
-def map_storm_phase_colors(storm_phase: pd.Series) -> pd.Series:
-    """
-    Map storm_phase to colors:
-    - 'peak'        -> 'red'
-    - 'post-storm'  -> 'green'
-    - 'pre'         -> 'grey'
-    """
-    mapping = {
-        "peak": "red",
-        "post-storm": "green",
-        "pre": "grey",
-    }
-    return storm_phase.map(mapping).fillna("grey")
+# ------------------------
+# Helpers
+# ------------------------
 
-
-def render_chi_amplitude_chart(df: pd.DataFrame, output_path: Path):
-    """
-    Render chart 1: Chi amplitude vs time, colored by storm phase.
-    """
-    fig, ax = plt.subplots(figsize=(12, 6))
-    
-    # Map colors
-    colors = map_storm_phase_colors(df["storm_phase"])
-    
-    # Scatter plot with color coding
-    ax.scatter(
-        df["timestamp_utc"],
-        df["chi_amplitude"],
-        c=colors,
-        s=30,
-        alpha=0.7,
-        edgecolor="none",
+def detect_cap_floor(df):
+    df["is_cap"] = (
+        (df[CHI_COL] >= CHI_CAP - CHI_CAP_TOL) &
+        (df[CHI_COL] <= CHI_CAP + CHI_CAP_TOL)
     )
-    
-    ax.set_xlabel("Time (UTC)", fontsize=12)
-    ax.set_ylabel("χ Amplitude", fontsize=12)
-    ax.set_title("LUFT CME Heartbeat — χ Amplitude (December 2025)", fontsize=14)
-    ax.grid(True, alpha=0.3)
-    fig.autofmt_xdate()
-    
-    # Add legend
-    legend_elements = [
-        Patch(facecolor='red', label='Peak'),
-        Patch(facecolor='green', label='Post-storm'),
-        Patch(facecolor='grey', label='Pre'),
-    ]
-    ax.legend(handles=legend_elements, loc='upper right')
-    
-    plt.tight_layout()
-    fig.savefig(output_path, dpi=150)
-    plt.close(fig)
-    print(f"✓ Saved: {output_path}")
-
-
-def render_dynamic_pressure_chart(df: pd.DataFrame, output_path: Path):
-    """
-    Render chart 2: Dynamic pressure vs time.
-    """
-    fig, ax = plt.subplots(figsize=(12, 6))
-    
-    # Compute dynamic pressure
-    p_dyn = compute_dynamic_pressure(df)
-    
-    # Line plot
-    ax.plot(
-        df["timestamp_utc"],
-        p_dyn,
-        color="black",
-        linewidth=1.5,
-        label="P_dyn (nPa)",
+    df["is_floor"] = (
+        (df[CHI_COL] >= CHI_FLOOR - CHI_FLOOR_TOL) &
+        (df[CHI_COL] <= CHI_FLOOR + CHI_FLOOR_TOL)
     )
-    
-    ax.set_xlabel("Time (UTC)", fontsize=12)
-    ax.set_ylabel("Dynamic Pressure P_dyn (nPa)", fontsize=12)
-    ax.set_title("LUFT CME Heartbeat — Dynamic Pressure (December 2025)", fontsize=14)
+    return df
+
+
+def detect_rebounds(df):
+    rebounds = []
+    chi = df[CHI_COL].values
+    t = df.index
+
+    for i in range(1, len(df) - 5):
+        if df["is_floor"].iloc[i]:
+            floor_val = chi[i]
+            future_max = chi[i:i+20].max()
+            if future_max - floor_val >= MIN_REBOUND_DELTA:
+                j = i + np.argmax(chi[i:i+20])
+                rebounds.append((t[i], t[j], floor_val, chi[j]))
+    return rebounds
+
+
+def estimate_modulation_period(df):
+    chi = df[CHI_COL].astype(float)
+    if len(chi) < 50:
+        return np.nan
+
+    dt = (df.index[1] - df.index[0]).total_seconds() / 3600.0
+    max_lag = int(10 / dt)
+    max_lag = min(max_lag, len(chi) - 2)
+
+    chi = chi - chi.mean()
+
+    acf = []
+    for lag in range(1, max_lag):
+        a = chi[:-lag]
+        b = chi[lag:]
+        num = np.sum(a * b)
+        den = np.sqrt(np.sum(a*a) * np.sum(b*b))
+        acf.append(num / den if den != 0 else 0)
+
+    best_lag = np.argmax(acf) + 1
+    return best_lag * dt
+
+
+# ------------------------
+# Chart 1 — χ waveform with physics overlays
+# ------------------------
+
+def render_chi_waveform(df, outpath):
+    fig, ax = plt.subplots(figsize=(14, 6))
+
+    ax.plot(df.index, df[CHI_COL], color="black", linewidth=1.2, label="χ")
+
+    # Cap contacts
+    cap_df = df[df["is_cap"]]
+    ax.scatter(cap_df.index, cap_df[CHI_COL], color="red", s=20, label="Cap contact")
+
+    # Floor contacts
+    floor_df = df[df["is_floor"]]
+    ax.scatter(floor_df.index, floor_df[CHI_COL], color="blue", s=20, label="Floor contact")
+
+    # Rebounds
+    rebounds = detect_rebounds(df)
+    for t_floor, t_reb, v_floor, v_reb in rebounds:
+        ax.scatter(t_reb, v_reb, color="green", s=40, marker="^")
+        ax.plot([t_floor, t_reb], [v_floor, v_reb], color="green", alpha=0.5)
+
+    # Modulation period shading
+    period = estimate_modulation_period(df)
+    if np.isfinite(period):
+        ax.text(0.01, 0.95, f"Modulation ≈ {period:.2f} h",
+                transform=ax.transAxes, fontsize=12, color="purple")
+
+    ax.set_title("χ Waveform — Extended χ Physics", fontsize=16)
+    ax.set_ylabel("χ amplitude")
     ax.grid(True, alpha=0.3)
-    ax.legend(loc='upper right')
+    ax.legend()
+
     fig.autofmt_xdate()
-    
-    plt.tight_layout()
-    fig.savefig(output_path, dpi=150)
+    fig.tight_layout()
+    fig.savefig(outpath, dpi=150)
     plt.close(fig)
-    print(f"✓ Saved: {output_path}")
+    print(f"✓ Saved {outpath}")
 
 
-def render_phase_radians_chart(df: pd.DataFrame, output_path: Path):
-    """
-    Render chart 3: Phase radians vs time.
-    """
-    fig, ax = plt.subplots(figsize=(12, 6))
-    
-    # Scatter plot
-    ax.scatter(
-        df["timestamp_utc"],
-        df["phase_radians"],
-        color="steelblue",
-        s=30,
-        alpha=0.7,
-        edgecolor="none",
-        label="Phase (radians)",
-    )
-    
-    ax.set_xlabel("Time (UTC)", fontsize=12)
-    ax.set_ylabel("Phase (radians)", fontsize=12)
-    ax.set_title("LUFT CME Heartbeat — Phase Radians (December 2025)", fontsize=14)
-    ax.grid(True, alpha=0.3)
-    ax.legend(loc='upper right')
+# ------------------------
+# Chart 2 — Solar wind drivers
+# ------------------------
+
+def render_solarwind_drivers(df, outpath):
+    fig, axs = plt.subplots(4, 1, figsize=(14, 10), sharex=True)
+
+    axs[0].plot(df.index, df["density"], color="darkorange")
+    axs[0].set_ylabel("Density (p/cm³)")
+
+    axs[1].plot(df.index, df["speed"], color="steelblue")
+    axs[1].set_ylabel("Speed (km/s)")
+
+    axs[2].plot(df.index, df["Bz"], color="purple")
+    axs[2].set_ylabel("Bz (nT)")
+
+    if "Flow_pressure" in df.columns:
+        axs[3].plot(df.index, df["Flow_pressure"], color="black")
+        axs[3].set_ylabel("Pressure (nPa)")
+    else:
+        axs[3].text(0.1, 0.5, "No pressure data", transform=axs[3].transAxes)
+
+    axs[0].set_title("Solar Wind Drivers")
+
+    for ax in axs:
+        ax.grid(True, alpha=0.3)
+
     fig.autofmt_xdate()
-    
-    plt.tight_layout()
-    fig.savefig(output_path, dpi=150)
+    fig.tight_layout()
+    fig.savefig(outpath, dpi=150)
     plt.close(fig)
-    print(f"✓ Saved: {output_path}")
+    print(f"✓ Saved {outpath}")
 
+
+# ------------------------
+# Chart 3 — Multi‑panel capsule chart
+# ------------------------
+
+def render_multi_panel(df, outpath):
+    fig, axs = plt.subplots(6, 1, figsize=(14, 14), sharex=True)
+
+    axs[0].plot(df.index, df[CHI_COL], color="black")
+    axs[0].set_ylabel("χ")
+
+    axs[1].plot(df.index, df["density"], color="darkorange")
+    axs[1].set_ylabel("Density")
+
+    axs[2].plot(df.index, df["speed"], color="steelblue")
+    axs[2].set_ylabel("Speed")
+
+    axs[3].plot(df.index, df["Bz"], color="purple")
+    axs[3].set_ylabel("Bz")
+
+    if "Flow_pressure" in df.columns:
+        axs[4].plot(df.index, df["Flow_pressure"], color="black")
+        axs[4].set_ylabel("Pressure")
+
+    if "E_field" in df.columns:
+        axs[5].plot(df.index, df["E_field"], color="green")
+        axs[5].set_ylabel("E-field")
+
+    axs[0].set_title("Capsule Multi‑Panel — χ Physics")
+
+    for ax in axs:
+        ax.grid(True, alpha=0.3)
+
+    fig.autofmt_xdate()
+    fig.tight_layout()
+    fig.savefig(outpath, dpi=150)
+    plt.close(fig)
+    print(f"✓ Saved {outpath}")
+
+
+# ------------------------
+# Main
+# ------------------------
 
 def main():
-    """
-    Main function to load data and generate all three charts.
-    """
-    # Check if data file exists
     if not DATA_PATH.exists():
-        print(f"❌ Error: Data file not found at {DATA_PATH.resolve()}", file=sys.stderr)
-        sys.exit(1)
-    
-    # Load CSV
-    print(f"📊 Loading data from {DATA_PATH}...")
-    df = pd.read_csv(DATA_PATH)
-    
-    # Parse timestamps
-    df["timestamp_utc"] = pd.to_datetime(df["timestamp_utc"])
-    
-    # Sort by time
-    df = df.sort_values("timestamp_utc")
-    
-    print(f"   Loaded {len(df)} records from {df['timestamp_utc'].min()} to {df['timestamp_utc'].max()}")
-    
-    # Create output directory
+        print(f"ERROR: Missing {DATA_PATH}")
+        return
+
+    df = pd.read_csv(DATA_PATH, parse_dates=["datetime"])
+    df = df.set_index("datetime").sort_index()
+
+    df = detect_cap_floor(df)
+
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    print(f"📁 Output directory: {OUTPUT_DIR.resolve()}")
-    
-    # Generate charts
-    print("\n🎨 Generating charts...")
-    
-    render_chi_amplitude_chart(
-        df,
-        OUTPUT_DIR / "chi_amplitude_vs_time.png"
-    )
-    
-    render_dynamic_pressure_chart(
-        df,
-        OUTPUT_DIR / "dynamic_pressure_vs_time.png"
-    )
-    
-    render_phase_radians_chart(
-        df,
-        OUTPUT_DIR / "phase_radians_vs_time.png"
-    )
-    
-    print("\n✅ All charts generated successfully!")
-    print(f"   Charts saved to: {OUTPUT_DIR.resolve()}")
+
+    render_chi_waveform(df, OUTPUT_DIR / "chi_waveform.png")
+    render_solarwind_drivers(df, OUTPUT_DIR / "solarwind_drivers.png")
+    render_multi_panel(df, OUTPUT_DIR / "multi_panel_capsule.png")
+
+    print("✓ All charts generated.")
 
 
 if __name__ == "__main__":
