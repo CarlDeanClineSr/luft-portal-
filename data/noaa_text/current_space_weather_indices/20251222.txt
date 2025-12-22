@@ -1,5 +1,5 @@
 :Product: Current Space Weather Indices curind.txt
-:Issued: 2025 Dec 22 1034 UTC
+:Issued: 2025 Dec 22 1134 UTC
 # Prepared by the US Dept. of Commerce, NOAA, Space Weather Prediction Center
 # Product description and SWPC contact on the Web
 # https://www.spaceweather.gov
@@ -8,15 +8,15 @@
 :Solar_Radio_Flux: 2025 Dec 22
 #      Learmonth  San Vito   Sag Hill  Penticton  Penticton  Palehua  Penticton
 #        0400       1000       1700       1700       2000       2300       2300
-  245     29         -1         -1         -1         -1         -1         -1
-  410     39         -1         -1         -1         -1         -1         -1
-  610     56         -1         -1         -1         -1         -1         -1
- 1415     -1         -1         -1         -1         -1         -1         -1
- 2695     -1         -1         -1         -1         -1         -1         -1
+  245     29         14         -1         -1         -1         -1         -1
+  410     39         32         -1         -1         -1         -1         -1
+  610     56         58         -1         -1         -1         -1         -1
+ 1415     -1         98         -1         -1         -1         -1         -1
+ 2695     -1        126         -1         -1         -1         -1         -1
  2800     -1         -1         -1         -1         -1         -1         -1
- 4995     -1         -1         -1         -1         -1         -1         -1
- 8800     -1         -1         -1         -1         -1         -1         -1
-15400     -1         -1         -1         -1         -1         -1         -1
+ 4995     -1        129         -1         -1         -1         -1         -1
+ 8800     -1        291         -1         -1         -1         -1         -1
+15400     -1        555         -1         -1         -1         -1         -1
 #
 #
 :Energetic_Particle_Flux:
@@ -25,7 +25,7 @@
 #      GOES Proton Flux          GOES Electron Flux    GOES    GOES     Neutron
 # ----- Protons/cm2-s-sr -----  -Electrons/cm2-s-sr -  X-ray  Location  Monitor
 #   >1 MeV   >10 MeV  >100 MeV         >2 MeV          flux     West    cts/min
-  9.62e+00  1.60e-01  1.24e-01        4.27e+02       1.20e-06   104.7      -1
+  2.35e+00  1.65e-01  1.53e-01        4.61e+02       1.01e-06   104.7      -1
 #
 #
 :Geomagnetic_Values: 2025 Dec 22
