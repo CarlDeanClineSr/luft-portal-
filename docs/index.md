@@ -13,7 +13,12 @@ summary { cursor:pointer; font-size:1.2em; color:#4da3ff; }
 
 <!-- NAVIGATION BAR -->
 <div class="nav">
-<a href="#status">📡 Status</a> <a href="#chi">🧠 χ Learning</a> <a href="#wind">🌬️ Solar Wind</a> <a href="#forecast">🔮 Forecast</a> <a href="#data">📁 Data</a> <a href="#capsules">📘 Capsules</a>
+<a href="#status">📡 Status</a> 
+<a href="#chi">🧠 χ Learning</a> 
+<a href="#wind">🌬️ Solar Wind</a> 
+<a href="#forecast">🔮 Forecast</a> 
+<a href="#data">📁 Data</a> 
+<a href="#capsules">📘 Capsules</a>
 </div>
 
 <!-- LUFT LOGO BOX -->
@@ -35,8 +40,8 @@ Welcome to the LUFT Project's Data Engine. This dashboard updates automatically 
 <a name="status"></a>
 <div class="section">
 ### Latest Vault Indicator
-**Status:** <span class="badge green">ACTIVE</span> **Density:** <span class="badge yellow">MODERATE</span> **Speed:** <span class="badge yellow">FAST</span> **Bz:** <span class="badge green">NORTHWARD</span>
-👉 [Open Latest Vault Status](vault_10row_forecast_indicator_dec15.md)
+**Status:** <span class="badge green">ACTIVE</span>  
+👉 <a href="LATEST_VAULT_STATUS.md">Open Latest Vault Status</a>
 </div>
 
 ---
@@ -44,14 +49,11 @@ Welcome to the LUFT Project's Data Engine. This dashboard updates automatically 
 # 🧠 **χ Learning Loop v2 (Forecast‑Aware)**
 <a name="chi"></a>
 <div class="section">
-Your engine now learns from: - CME heartbeat data - NOAA 3‑day forecasts - Current space weather indices - GOES radiation environment - F10.7 solar flux
-### ✅ Collapsible Details
 <details>
 <summary>📘 View χ Learning Summary</summary>
 <br>
-👉 Latest χ Learning Report: <a href="reports/">Open Reports</a>
-<br><br>
-👉 Raw Learning Data: <a href="results/">Open CSVs</a>
+👉 <a href="reports/">Open Reports Directory</a><br><br>
+👉 <a href="results/">Open Results CSVs</a>
 </details>
 </div>
 
@@ -63,12 +65,16 @@ Your engine now learns from: - CME heartbeat data - NOAA 3‑day forecasts - Cur
 <details>
 <summary>📊 Show Charts</summary>
 <br>
+
 ### Density
-<img src="charts/density_latest.png" alt="Density Chart" width="100%">
+<img src="reports/charts/density_latest.png" width="100%">
+
 ### Speed
-<img src="charts/speed_latest.png" alt="Speed Chart" width="100%">
+<img src="reports/charts/speed_latest.png" width="100%">
+
 ### Bz
-<img src="charts/bz_latest.png" alt="Bz Chart" width="100%">
+<img src="reports/charts/bz_latest.png" width="100%">
+
 </details>
 </div>
 
@@ -79,7 +85,7 @@ Your engine now learns from: - CME heartbeat data - NOAA 3‑day forecasts - Cur
 <details>
 <summary>🎞️ Show Waterfall</summary>
 <br>
-<img src="charts/waterfall_latest.gif" alt="Waterfall Visualization" width="100%">
+<img src="reports/charts/waterfall_latest.gif" width="100%">
 </details>
 </div>
 
@@ -88,12 +94,9 @@ Your engine now learns from: - CME heartbeat data - NOAA 3‑day forecasts - Cur
 # 🔮 **Forecast Indicators**
 <a name="forecast"></a>
 <div class="section">
-- A indices
-- Kp predictions
-- Flare probabilities (M/X/Proton)
-- 10.7 cm flux
-- High‑latitude Kp
-👉 [Open Latest Forecast File](data/noaa_text/3_day_solar_geomag_predictions/)
+👉 <a href="reports/latest_srs.md">Latest SRS Report</a><br>
+👉 <a href="reports/latest_f107.md">Latest F10.7 Report</a><br>
+👉 <a href="data/noaa_text/">NOAA Text Forecasts</a>
 </div>
 
 ---
@@ -101,13 +104,12 @@ Your engine now learns from: - CME heartbeat data - NOAA 3‑day forecasts - Cur
 # 📁 **Data Directory**
 <a name="data"></a>
 <div class="section">
-Browse all raw feeds:
-👉 [NOAA Text Feeds](data/noaa_text/)
-👉 [ACE/DSCOVR Solar Wind](data/noaa_solarwind/)
-👉 [TEC Maps](data/na_tec_total_electron_content/)
-👉 [Aurora Power](data/ovation_latest_aurora_n/)
-👉 [Solar Radio Flux](data/solar_radio_flux/)
-👉 [GOES Proton/Electron Flux](data/ace_epam/)
+👉 <a href="data/noaa_text/">NOAA Text Feeds</a><br>
+👉 <a href="data/noaa_solarwind/">NOAA Solar Wind</a><br>
+👉 <a href="data/na_tec_total_electron_content/">TEC Maps</a><br>
+👉 <a href="data/ovation_latest_aurora_n/">Aurora Power</a><br>
+👉 <a href="data/solar_radio_flux/">Solar Radio Flux</a><br>
+👉 <a href="data/ace_epam/">GOES/ACE Proton & Electron Flux</a>
 </div>
 
 ---
@@ -115,7 +117,7 @@ Browse all raw feeds:
 # 📘 **Science Capsules**
 <a name="capsules"></a>
 <div class="section">
-👉 [Open Capsules](capsules/)
+👉 <a href="capsules/">Open Capsules</a>
 </div>
 
 ---
