@@ -1,80 +1,330 @@
 #!/usr/bin/env python3
 """
-Merge NOAA solarwind CSVs, OMNI2 parsed CSV, and DSCOVR heartbeat log
-into data/extended_heartbeat_log_YYYYMMDD.csv with derived fields.
+merge_omni_heartbeat.py
+
+Unified χ-physics merge engine for LUFT core.
+
+Merges:
+  - CME heartbeat log (DSCOVR-derived χ, density, speed, Bz)
+  - OMNI2 parsed data (pressure, beta, Mach, etc.)
+  - Optional NOAA solar wind CSVs (for redundancy / gap fill)
+
+Outputs a single extended heartbeat CSV with:
+  - normalized datetime index
+  - merged density, speed, Bz
+  - OMNI drivers (pressure, beta, Mach, etc.)
+  - derived E-field, dynamic pressure (if possible)
+  - χ_amplitude_extended (recomputed from merged density/speed)
+  - chi_amplitude_original (if present in heartbeat)
+
+Usage:
+  python merge_omni_heartbeat.py \
+    --heartbeat data/cme_heartbeat_log_2025_12.csv \
+    --omni data/omni2_parsed_2025.csv \
+    --output data/extended_heartbeat_log_2025.csv \
+    [--noaa-dir data/noaa_solarwind]
+
+Dependencies:
+  pip install pandas numpy
 """
-import glob
-import pandas as pd
+
+import argparse
 from pathlib import Path
-from datetime import datetime, timezone
 
-DATA_DIR = Path("data")
-NOAA_DIR = DATA_DIR / "noaa_solarwind"
-OMNI_FILE = DATA_DIR / "omni2_parsed_2025.csv"
-HEARTBEAT_FILE = DATA_DIR / "cme_heartbeat_log_2025_12.csv"
-OUT_DIR = DATA_DIR
-OUT_DIR.mkdir(parents=True, exist_ok=True)
+import numpy as np
+import pandas as pd
 
-def read_latest_noaa():
-    files = sorted(NOAA_DIR.glob("*.csv"))
-    if not files:
+
+# ------------------------
+# χ computation
+# ------------------------
+
+def compute_chi_from_density_speed(density: float, speed: float) -> float:
+    """
+    χ amplitude using Carl's Dec 2025 formula:
+
+      χ = min(0.15, 0.0012 * (speed - 350) * (10 / density)^0.3)
+
+    Inputs:
+      density [p/cm³]
+      speed   [km/s]
+
+    Returns:
+      χ amplitude (dimensionless, capped at 0.15), or NaN if inputs invalid.
+    """
+    if pd.isna(density) or pd.isna(speed) or density <= 0:
+        return np.nan
+
+    modulation = (speed - 350.0) * (10.0 / density) ** 0.3
+    chi_val = 0.0012 * modulation
+    chi_val = max(0.0, chi_val)
+    chi_val = min(0.15, chi_val)
+    return chi_val
+
+
+def compute_chi_row(row: pd.Series) -> float:
+    return compute_chi_from_density_speed(row.get("density"), row.get("speed"))
+
+
+# ------------------------
+# Loaders
+# ------------------------
+
+def load_heartbeat(path: Path) -> pd.DataFrame:
+    if not path.exists():
+        print(f"[WARN] Heartbeat file not found: {path}")
         return pd.DataFrame()
-    df = pd.concat([pd.read_csv(f) for f in files], ignore_index=True)
+
+    df = pd.read_csv(path)
+    # Normalize time column to 'datetime'
+    if "timestamp_utc" in df.columns:
+        df["datetime"] = pd.to_datetime(df["timestamp_utc"], utc=True, errors="coerce")
+    elif "time_utc" in df.columns:
+        df["datetime"] = pd.to_datetime(df["time_utc"], utc=True, errors="coerce")
+    else:
+        raise ValueError("Heartbeat file must contain 'timestamp_utc' or 'time_utc' column.")
+
+    df = df.dropna(subset=["datetime"]).copy()
+    df.set_index("datetime", inplace=True)
+    df.sort_index(inplace=True)
     return df
 
-def load_omni():
-    if OMNI_FILE.exists():
-        return pd.read_csv(OMNI_FILE)
-    return pd.DataFrame()
 
-def load_heartbeat():
-    if HEARTBEAT_FILE.exists():
-        return pd.read_csv(HEARTBEAT_FILE)
-    return pd.DataFrame()
+def load_omni(path: Path) -> pd.DataFrame:
+    if not path.exists():
+        print(f"[WARN] OMNI file not found: {path}")
+        return pd.DataFrame()
 
-def compute_derived(df):
-    df = df.replace([999.9, 9999., 99999, 9.9999, 99.99, 999], pd.NA)
+    df = pd.read_csv(path)
+    if "datetime" in df.columns:
+        df["datetime"] = pd.to_datetime(df["datetime"], utc=True, errors="coerce")
+    elif "time_utc" in df.columns:
+        df["datetime"] = pd.to_datetime(df["time_utc"], utc=True, errors="coerce")
+    else:
+        raise ValueError("OMNI file must contain 'datetime' or 'time_utc' column.")
+
+    df = df.dropna(subset=["datetime"]).copy()
+    df.set_index("datetime", inplace=True)
+    df.sort_index(inplace=True)
+
+    # Subset / rename to consistent names
+    omni_cols = {}
+    for col in df.columns:
+        omni_cols[col] = col
+
+    rename_map = {
+        "Np": "density_omni",
+        "V": "speed_omni",
+        "Bz_GSM": "Bz_omni",
+    }
+    for src, dst in rename_map.items():
+        if src in df.columns:
+            omni_cols[src] = dst
+
+    df = df.rename(columns=omni_cols)
+
+    return df
+
+
+def load_noaa_dir(noaa_dir: Path) -> pd.DataFrame:
+    if not noaa_dir or not noaa_dir.exists():
+        print(f"[INFO] NOAA dir not found or not provided: {noaa_dir}")
+        return pd.DataFrame()
+
+    files = sorted(noaa_dir.glob("*.csv"))
+    if not files:
+        print(f"[WARN] No NOAA CSV files found in {noaa_dir}")
+        return pd.DataFrame()
+
+    parts = []
+    for f in files:
+        try:
+            df = pd.read_csv(f)
+            parts.append(df)
+        except Exception as e:
+            print(f"[WARN] Failed to read NOAA file {f}: {e}")
+
+    if not parts:
+        return pd.DataFrame()
+
+    df = pd.concat(parts, ignore_index=True)
+
+    # Normalize time column
     if "time_tag" in df.columns:
-        df["time_utc"] = pd.to_datetime(df["time_tag"], utc=True, errors="coerce")
-    elif "datetime" in df.columns:
-        df["time_utc"] = pd.to_datetime(df["datetime"], utc=True, errors="coerce")
-    if {"density","speed"}.issubset(df.columns):
-        Np = pd.to_numeric(df["density"], errors="coerce")
-        V = pd.to_numeric(df["speed"], errors="coerce")
-        df["pressure_npa"] = 2e-6 * Np * V**2
-    if {"speed","bz_gsm"}.issubset(df.columns):
-        df["E_mVpm"] = -pd.to_numeric(df["speed"], errors="coerce") * pd.to_numeric(df["bz_gsm"], errors="coerce") * 1e-3
+        df["datetime"] = pd.to_datetime(df["time_tag"], utc=True, errors="coerce")
+    elif "time_utc" in df.columns:
+        df["datetime"] = pd.to_datetime(df["time_utc"], utc=True, errors="coerce")
+    else:
+        print("[WARN] NOAA data has no 'time_tag' or 'time_utc'; skipping.")
+        return pd.DataFrame()
+
+    df = df.dropna(subset=["datetime"]).copy()
+    df.set_index("datetime", inplace=True)
+    df.sort_index(inplace=True)
+
+    # Clean placeholder values
+    df = df.replace([999.9, 9999., 99999, 9.9999, 99.99, 999], np.nan)
+
+    # Normalize some expected columns
+    # Typically: density, speed, bz_gsm or similar
+    col_map = {}
+    for col in df.columns:
+        lc = col.lower()
+        if "density" == lc:
+            col_map[col] = "density_noaa"
+        elif lc in ("speed", "v_sw", "velocity"):
+            col_map[col] = "speed_noaa"
+        elif lc in ("bz_gsm", "bz", "bz_sm"):
+            col_map[col] = "Bz_noaa"
+
+    df = df.rename(columns=col_map)
+
     return df
+
+
+# ------------------------
+# Derived fields
+# ------------------------
+
+def add_derived_fields(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Add derived quantities where possible:
+      - Flow_pressure (if missing and density/speed available)
+      - E_field (if speed, Bz available)
+    Uses OMNI naming if present; otherwise computes from merged density/speed/Bz.
+    """
+
+    # Dynamic pressure (if not already present as Flow_pressure)
+    if "Flow_pressure" not in df.columns:
+        if {"density", "speed"}.issubset(df.columns):
+            Np = pd.to_numeric(df["density"], errors="coerce")
+            V = pd.to_numeric(df["speed"], errors="coerce")
+            # Approx: P [nPa] = 2e-6 * Np[p/cm^3] * V[km/s]^2
+            df["Flow_pressure"] = 2e-6 * Np * (V ** 2)
+
+    # E-field (mV/m) = - V[km/s] * Bz[nT] * 1e-3
+    if "E_field" not in df.columns:
+        if "speed" in df.columns and "Bz" in df.columns:
+            V = pd.to_numeric(df["speed"], errors="coerce")
+            Bz = pd.to_numeric(df["Bz"], errors="coerce")
+            df["E_field"] = -V * Bz * 1e-3
+
+    return df
+
+
+# ------------------------
+# Merge logic
+# ------------------------
+
+def merge_sources(
+    hb: pd.DataFrame,
+    omni: pd.DataFrame,
+    noaa: pd.DataFrame,
+) -> pd.DataFrame:
+    """
+    Merge heartbeat, OMNI, and NOAA on datetime index (outer join).
+    Then perform priority gap filling for density/speed/Bz:
+      1. Heartbeat
+      2. OMNI
+      3. NOAA
+    """
+
+    frames = []
+    if not hb.empty:
+        frames.append(hb)
+    if not omni.empty:
+        frames.append(omni)
+    if not noaa.empty:
+        frames.append(noaa)
+
+    if not frames:
+        raise RuntimeError("No input data sources available to merge.")
+
+    print(f"[INFO] Merging {len(frames)} source(s) on datetime index (outer join).")
+
+    merged = frames[0]
+    for f in frames[1:]:
+        merged = merged.join(f, how="outer", rsuffix="_r")
+
+    merged.sort_index(inplace=True)
+
+    # Build unified density/speed/Bz with priority: hb -> omni -> noaa
+    # density
+    density_cols = []
+    for c in ["density", "density_omni", "density_noaa"]:
+        if c in merged.columns:
+            density_cols.append(c)
+    if density_cols:
+        merged["density"] = merged[density_cols[0]]
+        for c in density_cols[1:]:
+            merged["density"] = merged["density"].fillna(merged[c])
+
+    # speed
+    speed_cols = []
+    for c in ["speed", "speed_omni", "speed_noaa"]:
+        if c in merged.columns:
+            speed_cols.append(c)
+    if speed_cols:
+        merged["speed"] = merged[speed_cols[0]]
+        for c in speed_cols[1:]:
+            merged["speed"] = merged["speed"].fillna(merged[c])
+
+    # Bz
+    bz_cols = []
+    for c in ["Bz", "Bz_omni", "Bz_noaa"]:
+        if c in merged.columns:
+            bz_cols.append(c)
+    if bz_cols:
+        merged["Bz"] = merged[bz_cols[0]]
+        for c in bz_cols[1:]:
+            merged["Bz"] = merged["Bz"].fillna(merged[c])
+
+    # Preserve original χ (if available) from heartbeat
+    if "chi_amplitude" in merged.columns:
+        merged["chi_amplitude_original"] = merged["chi_amplitude"]
+
+    # Recompute extended χ from merged density/speed
+    merged["chi_amplitude_extended"] = merged.apply(compute_chi_row, axis=1)
+
+    # Add derived fields (pressure, E_field, etc.)
+    merged = add_derived_fields(merged)
+
+    print(f"[INFO] Merge complete: {merged.index.min()} to {merged.index.max()}, N={len(merged)}")
+    print(f"[INFO] Records with density: {merged['density'].notna().sum()}")
+    print(f"[INFO] Records with χ (extended): {merged['chi_amplitude_extended'].notna().sum()}")
+
+    return merged
+
+
+# ------------------------
+# CLI
+# ------------------------
 
 def main():
-    noaa = read_latest_noaa()
-    omni = load_omni()
-    hb = load_heartbeat()
-    sources = []
-    if not hb.empty:
-        hb["time_utc"] = pd.to_datetime(hb["time_utc"], utc=True, errors="coerce")
-        sources.append(hb)
-    if not omni.empty:
-        omni["time_utc"] = pd.to_datetime(omni["time_utc"], utc=True, errors="coerce")
-        sources.append(omni)
-    if not noaa.empty:
-        if "time_tag" in noaa.columns:
-            noaa["time_utc"] = pd.to_datetime(noaa["time_tag"], utc=True, errors="coerce")
-        sources.append(noaa)
-    if not sources:
-        print("[WARN] No input data found. Exiting.")
-        return
-    merged = pd.DataFrame()
-    for s in sources:
-        if merged.empty:
-            merged = s
-        else:
-            merged = pd.merge(merged, s, on="time_utc", how="outer", suffixes=("", "_r"))
-    merged = compute_derived(merged)
-    out_name = OUT_DIR / f"extended_heartbeat_log_{datetime.now(timezone.utc).strftime('%Y%m%d')}.csv"
-    merged.sort_values("time_utc", inplace=True)
-    merged.to_csv(out_name, index=False)
-    print(f"[OK] Wrote merged extended heartbeat log: {out_name}")
+    parser = argparse.ArgumentParser(
+        description="Merge CME heartbeat log, OMNI2, and optional NOAA solar wind into extended χ dataset."
+    )
+    parser.add_argument("--heartbeat", type=Path, required=True, help="Input heartbeat CSV")
+    parser.add_argument("--omni", type=Path, required=True, help="Input parsed OMNIWeb CSV")
+    parser.add_argument("--output", type=Path, required=True, help="Output merged CSV")
+    parser.add_argument(
+        "--noaa-dir",
+        type=Path,
+        default=None,
+        help="Optional NOAA solar wind CSV directory (e.g., data/noaa_solarwind)",
+    )
+    args = parser.parse_args()
+
+    hb = load_heartbeat(args.heartbeat)
+    omni = load_omni(args.omni)
+    noaa = load_noaa_dir(args.noaa_dir) if args.noaa_dir else pd.DataFrame()
+
+    merged = merge_sources(hb, omni, noaa)
+
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    merged.to_csv(args.output)
+    print(f"[OK] Saved merged extended dataset to {args.output}")
+
 
 if __name__ == "__main__":
     main()
