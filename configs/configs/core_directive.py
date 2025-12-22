@@ -1,0 +1,14 @@
+# LUFT Portal – Core Directive Law
+chi_ceiling = 0.15
+chi_floor = 0.004
+modulation_period_hours = 2.4
+
+core_drivers = [
+    "density", "speed", "Bz", "pressure", "beta", "Mach", "Kp", "Dst", "AE"
+]
+
+gold_feeds = [
+    "ACE", "DSCOVR", "OMNI2", "NOAA_text"
+]
+
+remark = "Universal Coherence Boundary Law (UCB Law): χ amplitude in plasma never overshoots 0.15; holds for all real-time solar wind environments."
