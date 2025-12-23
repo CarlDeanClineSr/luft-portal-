@@ -19,6 +19,7 @@
 | 2025-12-20 | 0.155 ± 0.001 | **+0.100** | **CONFIRMED SHIFT** — χ ≥ 0.12 |
 | 2025-12-21 | 0.138 ± 0.005 | **+0.083** | **CONFIRMED SHIFT** — χ ≥ 0.12 |
 | 2025-12-22 | 0.155 ± 0.002 | **+0.100** | **CONFIRMED SHIFT** — χ ≥ 0.12 |
+| 2025-12-23 | 0.155 ± 0.001 | **+0.100** | **CONFIRMED SHIFT** — χ ≥ 0.12 |
 
 Visual proof attached (Dec 2025 heartbeat trilogy):
 - χ amplitude ratchet + refusal to unload
