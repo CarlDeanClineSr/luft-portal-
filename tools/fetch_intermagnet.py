@@ -1,30 +1,44 @@
 import requests
 from pathlib import Path
 from datetime import datetime
-import pandas as pd
+from bs4 import BeautifulSoup
 
-URL = "https://intermagnet.org/data-donnee/imos/imos-eng.php"  # Example endpoint; adjust to real data URL
+# Real public INTERMAGNET data portal (example - adjust if needed)
+BASE_URL = "https://intermagnet.org/data-donnee/download-telecharge-eng.php"
 OUTPUT_DIR = Path("data/intermagnet")
 OUTPUT_DIR.mkdir(exist_ok=True)
 
-response = requests.get(URL)
-text = response.text
+def fetch_latest_intermagnet():
+    try:
+        # Step 1: Get the main download page
+        response = requests.get(BASE_URL, timeout=30)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
 
-# Parse simple table (adjust regex to match actual format)
-lines = text.split('\n')
-data = []
-for line in lines:
-    if line.strip() and not line.startswith('#'):
-        parts = line.split()
-        if len(parts) >= 4:
-            timestamp = parts[0] + ' ' + parts[1]
-            h = float(parts[2])
-            d = float(parts[3])
-            z = float(parts[4])
-            data.append({'timestamp_utc': timestamp, 'H_nT': h, 'D_nT': d, 'Z_nT': z})
+        # Step 2: Find the latest CSV link (example: look for href ending in .csv)
+        csv_link = None
+        for a in soup.find_all('a', href=True):
+            if a['href'].endswith('.csv'):
+                csv_link = a['href']
+                break  # Take the first (usually latest)
 
-df = pd.DataFrame(data)
-timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
-file = OUTPUT_DIR / f"intermagnet_{timestamp}.csv"
-df.to_csv(file, index=False)
-print(f"Fetched INTERMAGNET data: {file}")
+        if not csv_link:
+            print("No CSV link found on page.")
+            return
+
+        # Step 3: Download the CSV
+        full_url = csv_link if csv_link.startswith('http') else BASE_URL.rsplit('/', 1)[0] + '/' + csv_link
+        csv_response = requests.get(full_url, timeout=30)
+        csv_response.raise_for_status()
+
+        timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
+        file = OUTPUT_DIR / f"intermagnet_{timestamp}.csv"
+        with open(file, 'wb') as f:
+            f.write(csv_response.content)
+        print(f"Fetched INTERMAGNET data: {file}")
+
+    except Exception as e:
+        print(f"INTERMAGNET fetch failed: {e}")
+
+if __name__ == "__main__":
+    fetch_latest_intermagnet()
