@@ -1,5 +1,5 @@
 :Product: Current Space Weather Indices curind.txt
-:Issued: 2025 Dec 23 2134 UTC
+:Issued: 2025 Dec 23 2234 UTC
 # Prepared by the US Dept. of Commerce, NOAA, Space Weather Prediction Center
 # Product description and SWPC contact on the Web
 # https://www.spaceweather.gov
@@ -11,12 +11,12 @@
   245     24         16         21         -1         -1         -1         -1
   410     39         31         32         -1         -1         -1         -1
   610     55         52         46         -1         -1         -1         -1
- 1415     -1         97         83         -1         -1         -1         -1
- 2695     -1        125        105         -1         -1         -1         -1
- 2800     -1         -1         -1        137         -1         -1         -1
- 4995     -1        139        122         -1         -1         -1         -1
- 8800     -1        282        296         -1         -1         -1         -1
-15400     -1        510        526         -1         -1         -1         -1
+ 1415     -1         97         83         -1         -1         97         -1
+ 2695     -1        125        105         -1         -1        131         -1
+ 2800     -1         -1         -1        137        142         -1         -1
+ 4995     -1        139        122         -1         -1        174         -1
+ 8800     -1        282        296         -1         -1        252         -1
+15400     -1        510        526         -1         -1        535         -1
 #
 #
 :Energetic_Particle_Flux:
@@ -25,7 +25,7 @@
 #      GOES Proton Flux          GOES Electron Flux    GOES    GOES     Neutron
 # ----- Protons/cm2-s-sr -----  -Electrons/cm2-s-sr -  X-ray  Location  Monitor
 #   >1 MeV   >10 MeV  >100 MeV         >2 MeV          flux     West    cts/min
-  1.58e+02  1.79e-01  1.64e-01       -1.00e+05       8.30e-07   104.7      -1
+  1.23e+02  2.17e-01  1.42e-01        7.99e+02       8.32e-07   104.7      -1
 #
 #
 :Geomagnetic_Values: 2025 Dec 23
