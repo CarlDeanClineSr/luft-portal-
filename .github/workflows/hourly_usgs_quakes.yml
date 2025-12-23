@@ -1,0 +1,22 @@
+name: Hourly USGS Earthquake Ingest
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Every hour
+  workflow_dispatch:
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python tools/fetch_usgs_quakes.py
+      - run: |
+          git config user.name "LUFT Bot"
+          git config user.email "bot@luft.local"
+          git add data/usgs_quakes/*.csv
+          git commit -m "data: USGS earthquake events update $(date -u)" || echo "No new data"
+          git push
