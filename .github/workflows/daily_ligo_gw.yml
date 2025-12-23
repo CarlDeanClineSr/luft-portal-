@@ -1,0 +1,23 @@
+name: Daily LIGO GW Strain Ingest
+
+on:
+  schedule:
+    - cron: '0 5 * * *'  # 05:00 UTC daily
+  workflow_dispatch:
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install requests pandas
+      - run: python tools/fetch_ligo_gw.py
+      - run: |
+          git config user.name "LUFT Bot"
+          git config user.email "bot@luft.local"
+          git add data/ligo_gw/*.csv
+          git commit -m "data: LIGO GW strain update $(date -u)" || echo "No new data"
+          git push
