@@ -67,6 +67,14 @@
       text-align: center;
       margin-bottom: 2rem;
       border-radius: 8px;
+      min-height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ticker.loading {
+      color: #666;
+      font-style: italic;
     }
     .section {
       background: var(--section-bg);
@@ -102,6 +110,23 @@
       padding: 2rem 0;
       font-size: 0.9rem;
     }
+    .refresh-toggle {
+      margin: 1rem auto;
+      text-align: center;
+    }
+    .refresh-toggle button {
+      padding: 0.6rem 1.2rem;
+      background: #222;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .refresh-toggle button:hover {
+      background: var(--accent);
+      color: #000;
+    }
   </style>
 </head>
 <body>
@@ -122,9 +147,14 @@
     <h1>🌌 LUFT Portal — Live Space Weather Observatory</h1>
     <p>Welcome to the LUFT Project's automated data engine. Real-time solar wind analysis, coherence boundary detection, and cosmic heartbeat monitoring — updated every hour.</p>
 
+    <!-- REFRESH TOGGLE -->
+    <div class="refresh-toggle">
+      <button id="refreshBtn">Auto-Refresh: ON (every 5 min)</button>
+    </div>
+
     <!-- LIVE TICKER -->
     <div class="ticker" id="ticker">
-      Loading live status...
+      <span class="loading">Loading live status...</span>
     </div>
 
     <!-- VAULT STATUS -->
@@ -150,9 +180,9 @@
       <h2>🌬️ Solar Wind Mini-Charts</h2>
       <details>
         <summary>Show Charts</summary>
-        <img src="reports/charts/density_latest.png" alt="Density" />
-        <img src="reports/charts/speed_latest.png" alt="Speed" />
-        <img src="reports/charts/bz_latest.png" alt="Bz" />
+        <img src="reports/charts/density_latest.png" alt="Density" loading="lazy" />
+        <img src="reports/charts/speed_latest.png" alt="Speed" loading="lazy" />
+        <img src="reports/charts/bz_latest.png" alt="Bz" loading="lazy" />
       </details>
     </div>
 
@@ -161,7 +191,7 @@
       <h2>🎇 Waterfall / GIF Visualizations</h2>
       <details>
         <summary>Show Waterfall</summary>
-        <img src="reports/charts/waterfall_latest.gif" alt="Waterfall" />
+        <img src="reports/charts/waterfall_latest.gif" alt="Waterfall" loading="lazy" />
       </details>
     </div>
 
@@ -200,33 +230,52 @@
   <!-- LIVE TIME & TICKER FETCH -->
   <script>
     // Live UTC time
-    document.getElementById('live-time').innerHTML = new Date().toUTCString();
+    function updateTime() {
+      document.getElementById('live-time').innerHTML = new Date().toUTCString();
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
 
-    // Fetch live ticker from LATEST_VAULT_STATUS.md
-    fetch('LATEST_VAULT_STATUS.md')
-      .then(response => response.text())
-      .then(text => {
-        const chiMatch = text.match(/Latest χ Amplitude:\s*([\d.]+)/);
-        const densityMatch = text.match(/Density:\s*([\d.]+)/);
-        const speedMatch = text.match(/Speed:\s*([\d.]+)/);
-        const bzMatch = text.match(/Bz:\s*([+-][\d.]+)/);
-        const statusMatch = text.match(/Status:\s*(\w+)/);
+    // Ticker fetch & fallback
+    function updateTicker() {
+      fetch('LATEST_VAULT_STATUS.md')
+        .then(response => response.text())
+        .then(text => {
+          const chiMatch = text.match(/Latest χ Amplitude:\s*([\d.]+)/);
+          const densityMatch = text.match(/Density:\s*([\d.]+)/);
+          const speedMatch = text.match(/Speed:\s*([\d.]+)/);
+          const bzMatch = text.match(/Bz:\s*([+-][\d.]+)/);
+          const statusMatch = text.match(/Status:\s*(\w+)/);
 
-        const ticker = document.getElementById('ticker');
-        ticker.innerHTML = `
-          <b>χ:</b> ${chiMatch ? chiMatch[1] : 'N/A'}  
-          <b>Density:</b> ${densityMatch ? densityMatch[1] + ' p/cm³' : 'N/A'}  
-          <b>Speed:</b> ${speedMatch ? speedMatch[1] + ' km/s' : 'N/A'}  
-          <b>Bz:</b> ${bzMatch ? bzMatch[1] + ' nT' : 'N/A'}  
-          <b>Status:</b> ${statusMatch ? statusMatch[1] : 'N/A'}
-        `;
-      })
-      .catch(() => {
-        document.getElementById('ticker').innerHTML = 'Live status unavailable';
-      });
+          const ticker = document.getElementById('ticker');
+          ticker.innerHTML = `
+            <b>χ:</b> ${chiMatch ? chiMatch[1] : 'N/A'}  
+            <b>Density:</b> ${densityMatch ? densityMatch[1] + ' p/cm³' : 'N/A'}  
+            <b>Speed:</b> ${speedMatch ? speedMatch[1] + ' km/s' : 'N/A'}  
+            <b>Bz:</b> ${bzMatch ? bzMatch[1] + ' nT' : 'N/A'}  
+            <b>Status:</b> ${statusMatch ? statusMatch[1] : 'N/A'}
+          `;
+          ticker.classList.remove('loading');
+        })
+        .catch(() => {
+          document.getElementById('ticker').innerHTML = '<span class="loading">Loading failed — check connection</span>';
+        });
+    }
+    updateTicker();
+    setInterval(updateTicker, 60000); // Refresh every 60 seconds
 
-    // Optional: Auto-refresh every 5 minutes
-    setInterval(() => location.reload(), 300000);
+    // Auto-refresh toggle
+    let autoRefresh = true;
+    const refreshBtn = document.getElementById('refreshBtn');
+    refreshBtn.addEventListener('click', () => {
+      autoRefresh = !autoRefresh;
+      refreshBtn.textContent = `Auto-Refresh: ${autoRefresh ? 'ON' : 'OFF'} (every 5 min)`;
+    });
+
+    // Optional page reload (only if auto-refresh is ON)
+    setInterval(() => {
+      if (autoRefresh) location.reload();
+    }, 300000);
   </script>
 </body>
 </html>
