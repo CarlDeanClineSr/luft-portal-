@@ -1,0 +1,23 @@
+name: Daily GISTEMP Anomaly Ingest
+
+on:
+  schedule:
+    - cron: '0 5 * * *'  # 05:00 UTC daily
+  workflow_dispatch:
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pandas requests
+      - run: python tools/fetch_gistemp.py
+      - run: |
+          git config user.name "LUFT Bot"
+          git config user.email "bot@luft.local"
+          git add data/gistemp/*.csv
+          git commit -m "data: GISTEMP temperature anomaly update $(date -u)" || echo "No new data"
+          git push
