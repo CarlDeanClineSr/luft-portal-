@@ -2,8 +2,8 @@ import requests
 from pathlib import Path
 from datetime import datetime
 
-# Public Kyoto WDC mirror for INTERMAGNET data (direct text download)
-URL = "http://wdc.kugi.kyoto-u.ac.jp/geomag/data/aso/aso20251223.txt"  # Example daily file; adjust to latest
+# Direct public mirror from Kyoto WDC (text format, daily/hourly)
+URL = "http://wdc.kugi.kyoto-u.ac.jp/geomag/data/aso/aso_current.txt"  # Latest data
 OUTPUT_DIR = Path("data/intermagnet")
 OUTPUT_DIR.mkdir(exist_ok=True)
 
