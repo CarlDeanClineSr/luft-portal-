@@ -1,107 +1,23 @@
-#!/usr/bin/env python3
-"""
-Multi-parser skeleton for NOAA /text index.
-Fetches key products (SRS, SGAS, solar_radio_flux, daily indices, aurora nowcast),
-archives raw text, and writes selective CSVs for physics-ready datasets.
-"""
+name: NOAA Text Parser
 
-import requests
-import pandas as pd
-from pathlib import Path
-from datetime import datetime
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+  workflow_dispatch:
 
-BASE_URL = "https://services.swpc.noaa.gov/text/"
-PRODUCTS = {
-    "srs.txt": "srs",
-    "sgas.txt": "sgas",
-    "solar_radio_flux.txt": "solar_radio_flux",
-    "daily-solar-indices.txt": "daily_solar_indices",
-    "daily-geomagnetic-indices.txt": "daily_geomag_indices",
-    "aurora-nowcast-hemi-power.txt": "aurora_nowcast",
-}
-
-ARCHIVE_DIR = Path("data/noaa_text")
-PARSED_DIR = Path("results/noaa_parsed")
-ARCHIVE_DIR.mkdir(parents=True, exist_ok=True)
-PARSED_DIR.mkdir(parents=True, exist_ok=True)
-
-def fetch_product(filename, key):
-    url = BASE_URL + filename
-    resp = requests.get(url)
-    resp.raise_for_status()
-    # Archive raw text
-    archive_path = ARCHIVE_DIR / key
-    archive_path.mkdir(parents=True, exist_ok=True)
-    ts = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
-    raw_file = archive_path / f"{key}_{ts}.txt"
-    raw_file.write_text(resp.text)
-    return resp.text
-
-def parse_srs(text):
-    """Extract sunspot regions into CSV."""
-    rows = []
-    for line in text.splitlines():
-        if line.strip().startswith("43"):  # crude filter for region lines
-            parts = line.split()
-            if len(parts) >= 7:
-                rows.append({
-                    "Region": parts[0],
-                    "Location": parts[1],
-                    "Area": parts[3],
-                    "MagType": parts[6],
-                })
-    df = pd.DataFrame(rows)
-    df.to_csv(PARSED_DIR / f"srs_{datetime.utcnow().date()}.csv", index=False)
-
-def parse_sgas(text):
-    """Extract flare/proton events summary."""
-    # Skeleton: just write raw text to CSV for now
-    df = pd.DataFrame({"raw":[text]})
-    df.to_csv(PARSED_DIR / f"sgas_{datetime.utcnow().date()}.csv", index=False)
-
-def parse_solar_radio_flux(text):
-    """Extract daily F10.7 flux and SSN."""
-    rows = []
-    for line in text.splitlines():
-        if line.strip() and line[0].isdigit():
-            parts = line.split()
-            if len(parts) >= 3:
-                rows.append({"Date": parts[0], "F10.7": parts[1], "SSN": parts[2]})
-    df = pd.DataFrame(rows)
-    df.to_csv(PARSED_DIR / f"solar_radio_flux_{datetime.utcnow().date()}.csv", index=False)
-
-def parse_daily_indices(text, key):
-    """Extract Ap/Kp or solar indices."""
-    df = pd.DataFrame({"raw":[text]})
-    df.to_csv(PARSED_DIR / f"{key}_{datetime.utcnow().date()}.csv", index=False)
-
-def parse_aurora(text):
-    """Extract hemispheric power estimate."""
-    rows = []
-    for line in text.splitlines():
-        if line.strip() and line[0].isdigit():
-            parts = line.split()
-            if len(parts) >= 2:
-                rows.append({"UTC": parts[0], "Power_GW": parts[1]})
-    df = pd.DataFrame(rows)
-    df.to_csv(PARSED_DIR / f"aurora_{datetime.utcnow().date()}.csv", index=False)
-
-def main():
-    for filename, key in PRODUCTS.items():
-        try:
-            text = fetch_product(filename, key)
-            if key == "srs":
-                parse_srs(text)
-            elif key == "sgas":
-                parse_sgas(text)
-            elif key == "solar_radio_flux":
-                parse_solar_radio_flux(text)
-            elif key in ["daily_solar_indices","daily_geomag_indices"]:
-                parse_daily_indices(text, key)
-            elif key == "aurora_nowcast":
-                parse_aurora(text)
-        except Exception as e:
-            print(f"[WARN] Failed to process {filename}: {e}")
-
-if __name__ == "__main__":
-    main()
+jobs:
+  parse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install requests beautifulsoup4 pandas
+      - run: python tools/noaa_text_parser. py --output data/noaa_text
+      - run: |
+          git config user.name "LUFT Bot"
+          git config user.email "bot@luft.local"
+          git add data/noaa_text/*
+          git commit -m "data:  NOAA text ingest $(date -u)" || echo "No new data"
+          git push
