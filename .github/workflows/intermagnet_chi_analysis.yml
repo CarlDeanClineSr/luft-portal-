@@ -30,6 +30,7 @@ jobs:
         run: |
           git config user.name "LUFT Bot"
           git config user.email "luft-bot@users.noreply.github.com"
+          git pull --rebase origin main || true
           git add results/intermagnet_chi/
           git diff --quiet && git diff --staged --quiet || git commit -m "data: INTERMAGNET χ analysis $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
           git push
