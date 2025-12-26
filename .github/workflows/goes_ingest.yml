@@ -3,15 +3,13 @@ name: GOES Ingest and Capsule Audit
 on:
   schedule: 
     - cron: '0 * * * *'  # Every hour
-  workflow_dispatch: 
+  workflow_dispatch:
 
 jobs:
-  ingest: 
-    runs-on: ubuntu-latest
-    steps:
+  ingest:
+    runs-on:  ubuntu-latest
+    steps: 
       - uses: actions/checkout@v4
-        with:
-          fetch-depth:  0
       
       - uses: actions/setup-python@v5
         with:
@@ -20,22 +18,17 @@ jobs:
       - name:  Install dependencies
         run: pip install requests pandas numpy
       
-      - name:  Ensure data directory exists
+      - name: Create GOES data directory
         run: mkdir -p data/goes
       
       - name:  Fetch GOES data
-        run:  python tools/goes_fetcher.py --output data/goes
-        continue-on-error: true
+        run:  python tools/fetch_goes_data.py
       
-      - name: Run capsule audit
-        run: python tools/goes_capsule_audit.py --input data/goes --output capsules
-        continue-on-error: true
-      
-      - name:  Commit results
+      - name: Commit and push results
         run: |
-          git config user. name "LUFT Bot"
+          git config user.name "LUFT Bot"
           git config user.email "bot@luft.local"
-          git pull --rebase origin main
-          git add data/goes/ capsules/ || echo "No GOES data to add"
-          git diff --staged --quiet || git commit -m "data:  GOES ingest + capsule audit $(date -u)"
-          git push || echo "Push failed or nothing to push"
+          git pull --rebase
+          git add data/goes/* || echo "No new GOES files"
+          git commit -m "data:  GOES ingest $(date -u)" || echo "No changes"
+          git push || echo "Push failed"
