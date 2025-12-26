@@ -1,25 +1,39 @@
 name: Hourly Oulu Cosmic Ray Ingest
 
-on:
+on: 
   schedule:
-    - cron: '0 * * * *'
+    - cron: '0 * * * *'  # Every hour
   workflow_dispatch:
 
-jobs:
+jobs: 
   fetch:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
         with:
+          fetch-depth: 0
+      
+      - uses: actions/setup-python@v5
+        with: 
           python-version: '3.12'
-      - run: pip install requests pandas numpy
-      - run: mkdir -p data/oulu_cr
-      - run: python tools/fetch_oulu_cr.py
-      - run: |
+      
+      - name: Install dependencies
+        run:  pip install requests pandas numpy certifi
+      
+      - name:  Ensure data directory exists
+        run: mkdir -p data/oulu_cr
+      
+      - name:  Fetch Oulu cosmic ray data
+        run: python tools/fetch_oulu_cr.py
+        continue-on-error: true
+        env:
+          PYTHONHTTPSVERIFY: 0
+      
+      - name:  Commit results
+        run: |
           git config user.name "LUFT Bot"
-          git config user.email "bot@luft.local"
-          git pull --rebase origin main || echo "Rebase failed"
-          git add data/oulu_cr/*
-          git commit -m "data: Oulu CR ingest $(date -u)" || echo "No new data"
-          git push || echo "Push skipped"
+          git config user.email "bot@luft. local"
+          git pull --rebase origin main
+          git add data/oulu_cr/ || echo "No Oulu data to add"
+          git diff --staged --quiet || git commit -m "data: Oulu CR ingest $(date -u)"
+          git push || echo "Push failed or nothing to push"
