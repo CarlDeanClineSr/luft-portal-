@@ -35,6 +35,7 @@ jobs:
 
       - name: Commit and push changes
         run: |
+          git pull --rebase origin main || true
           git add LATEST_VAULT_STATUS.md reports/charts/*.png
           if git diff --staged --quiet; then
             echo "No changes to LATEST_VAULT_STATUS.md or charts"
@@ -42,6 +43,8 @@ jobs:
             git commit -m "Vault Narrator: Auto-update $(date -u +'%Y-%m-%d %H:%M UTC')"
             git push
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Report status
         if: always()
