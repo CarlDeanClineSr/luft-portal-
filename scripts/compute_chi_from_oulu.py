@@ -12,70 +12,91 @@ from datetime import datetime
 def compute_chi_from_oulu():
     """Compute χ from Oulu cosmic ray neutron monitor data"""
     
-    # Find all Oulu CSV files
+    # Find all Oulu TXT files (not CSV)
     data_dir = Path("data/oulu_cr")
-    csv_files = sorted(data_dir.glob("oulu_cr_*.csv"))
+    txt_files = sorted(data_dir.glob("oulu_cr_*.txt"))
     
-    if not csv_files:
+    if not txt_files:
         print("⚠️ No Oulu data found")
         return False
     
-    # Load and combine all data
+    # Load and parse all TXT files
     all_data = []
-    for csv_file in csv_files:
+    for txt_file in txt_files:
         try: 
-            df = pd.read_csv(csv_file)
-            if 'neutron_count' in df.columns:
-                all_data.append(df)
+            with open(txt_file, 'r') as f:
+                lines = f.readlines()
+            
+            # Parse data lines (skip headers and comments)
+            for line in lines: 
+                if line.startswith('+') or line.startswith('Year') or line.startswith('References') or len(line. strip()) == 0:
+                    continue
+                if line.strip().startswith('[') or line.strip().startswith('The monthly'):
+                    continue
+                
+                parts = line.split()
+                if len(parts) >= 2 and parts[0]. isdigit():
+                    year = int(parts[0])
+                    # Monthly values (columns 1-12)
+                    for month_idx, val in enumerate(parts[1:13], start=1):
+                        if val.strip() != '-':
+                            try:
+                                modulation = float(val)
+                                all_data.append({
+                                    'year':  year,
+                                    'month': month_idx,
+                                    'modulation_mv': modulation
+                                })
+                            except ValueError:
+                                continue
         except Exception as e:
-            print(f"⚠️ Error reading {csv_file}: {e}")
+            print(f"⚠️ Error reading {txt_file}: {e}")
     
-    if not all_data: 
+    if not all_data:
         print("⚠️ No valid Oulu data found")
         return False
     
-    # Combine all data
-    combined = pd.concat(all_data, ignore_index=True)
-    combined['neutron_count'] = pd.to_numeric(combined['neutron_count'], errors='coerce')
-    combined = combined.dropna(subset=['neutron_count'])
+    # Convert to DataFrame
+    df = pd. DataFrame(all_data)
+    df = df.sort_values(['year', 'month'])
     
-    if len(combined) < 10:
-        print(f"⚠️ Not enough Oulu data points: {len(combined)}")
+    if len(df) < 10:
+        print(f"⚠️ Not enough Oulu data points:  {len(df)}")
         return False
     
-    # Compute baseline (30-day rolling mean, or full mean if < 30 days)
-    if len(combined) >= 720:  # 30 days * 24 hours
-        combined['baseline'] = combined['neutron_count'].rolling(window=720, min_periods=10).mean()
+    # Compute baseline (30-month rolling mean or full mean)
+    if len(df) >= 360:
+        df['baseline'] = df['modulation_mv'].rolling(window=360, min_periods=10).mean()
     else:
-        combined['baseline'] = combined['neutron_count']. mean()
+        df['baseline'] = df['modulation_mv'].mean()
     
     # Compute χ = |deviation| / baseline
-    combined['deviation'] = combined['neutron_count'] - combined['baseline']
-    combined['chi'] = np.abs(combined['deviation']) / combined['baseline']
+    df['deviation'] = df['modulation_mv'] - df['baseline']
+    df['chi'] = np.abs(df['deviation']) / df['baseline']
     
-    # Cap at 0.15 (test if natural cap exists)
-    combined['chi_capped'] = combined['chi'].clip(upper=0.15)
+    # Cap at 0.15
+    df['chi_capped'] = df['chi']. clip(upper=0.15)
     
     # Add timestamp
-    combined['timestamp_utc'] = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+    df['timestamp_utc'] = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
     
     # Save results
     output_dir = Path("results/oulu_chi")
     output_dir.mkdir(parents=True, exist_ok=True)
     
     month_str = datetime.utcnow().strftime('%Y_%m')
-    output_file = output_dir / f"oulu_chi_{month_str}.csv"
+    output_file = output_dir / f"oulu_chi_{month_str}. csv"
     
     # Select columns
-    result = combined[['year', 'month', 'neutron_count', 'baseline', 'chi', 'chi_capped', 'timestamp_utc']]
-    result.to_csv(output_file, index=False)
+    result = df[['year', 'month', 'modulation_mv', 'baseline', 'chi', 'chi_capped', 'timestamp_utc']]
+    result. to_csv(output_file, index=False)
     
     # Print stats
-    chi_max = combined['chi']. max()
-    chi_mean = combined['chi'].mean()
-    cap_violations = (combined['chi'] > 0.15).sum()
+    chi_max = df['chi']. max()
+    chi_mean = df['chi'].mean()
+    cap_violations = (df['chi'] > 0.15).sum()
     
-    print(f"✅ Oulu χ calculated:  {len(combined)} data points")
+    print(f"✅ Oulu χ calculated:  {len(df)} data points")
     print(f"   χ max: {chi_max:. 4f}")
     print(f"   χ mean: {chi_mean:.4f}")
     print(f"   Cap violations (χ > 0.15): {cap_violations}")
