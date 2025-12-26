@@ -29,8 +29,9 @@ jobs:
         run: |
           git config user.name "LUFT Data Bot"
           git config user.email "data@luft.local"
+          git pull --rebase origin main || true
           git add data/noaa_solarwind/*.csv
           git commit -m "data: NOAA solar wind plasma/mag update $(date -u +%Y-%m-%dT%H:%MZ)" || echo "No changes"
-          git config pull.rebase false
-          git pull origin main || true
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

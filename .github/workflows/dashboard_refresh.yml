@@ -19,6 +19,7 @@ jobs:
         run: |
           git config user.name "LUFT Data Bot"
           git config user.email "data@luft.local"
+          git pull --rebase origin main || true
           if ls pages/plots/* 1> /dev/null 2>&1; then
             git add pages/plots/*
             git commit -m "docs: refresh dashboard plots $(date -u +%Y-%m-%dT%H:%MZ)" || echo "No changes"
@@ -26,3 +27,5 @@ jobs:
           else
             echo "No new plots to add"
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
