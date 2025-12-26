@@ -1,23 +1,37 @@
 name: Hourly INTERMAGNET Magnetic Field Ingest
 
-on:
+on: 
   schedule:
     - cron: '0 * * * *'  # Every hour
   workflow_dispatch:
 
 jobs:
   fetch:
-    runs-on: ubuntu-latest
-    steps:
+    runs-on:  ubuntu-latest
+    steps: 
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: pip install requests pandas
-      - run: python tools/fetch_intermagnet.py
-      - run: |
+      
+      - name: Install dependencies
+        run: pip install requests pandas numpy
+      
+      - name: Ensure data directory exists
+        run: mkdir -p data/intermagnet
+      
+      - name: Fetch INTERMAGNET data
+        run:  python tools/fetch_intermagnet.py --output data/intermagnet
+        continue-on-error: true
+      
+      - name: Commit results
+        run:  |
           git config user.name "LUFT Bot"
           git config user.email "bot@luft.local"
-          git add data/intermagnet/*
-          git commit -m "data: INTERMAGNET magnetic field update $(date -u)" || echo "No new data"
-          git push || echo "Push skipped (no changes)"
+          git pull --rebase origin main
+          git add data/intermagnet/ || echo "No INTERMAGNET data to add"
+          git diff --staged --quiet || git commit -m "data: INTERMAGNET ingest $(date -u)"
+          git push || echo "Push failed or nothing to push"
