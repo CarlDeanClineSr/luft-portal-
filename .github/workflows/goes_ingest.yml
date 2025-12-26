@@ -2,7 +2,7 @@ name: GOES Ingest and Capsule Audit
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Every hour
+    - cron: '0 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -18,6 +18,7 @@ jobs:
       - run: |
           git config user.name "LUFT Bot"
           git config user.email "bot@luft.local"
-          git add data/goes/*
+          git pull --rebase origin main || echo "Rebase failed"
+          git add data/goes/* capsules/*
           git commit -m "data: GOES X-ray ingest $(date -u)" || echo "No new data"
           git push || echo "Push skipped"
