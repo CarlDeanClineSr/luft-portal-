@@ -14,10 +14,12 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install requests pandas numpy
+      - run: mkdir -p data/oulu_cr
       - run: python tools/fetch_oulu_cr.py
       - run: |
           git config user.name "LUFT Bot"
           git config user.email "bot@luft.local"
+          git pull --rebase origin main || echo "Rebase failed"
           git add data/oulu_cr/*
           git commit -m "data: Oulu CR ingest $(date -u)" || echo "No new data"
           git push || echo "Push skipped"
