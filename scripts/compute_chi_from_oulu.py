@@ -14,7 +14,7 @@ def compute_chi_from_oulu():
     
     # Find all Oulu TXT files (not CSV)
     data_dir = Path("data/oulu_cr")
-    txt_files = sorted(data_dir. glob("oulu_cr_*. txt"))
+    txt_files = sorted(data_dir. glob("oulu_cr_*.txt"))
     
     if not txt_files:
         print("⚠️ No Oulu data found")
@@ -29,30 +29,30 @@ def compute_chi_from_oulu():
             
             # Parse data lines (skip headers and comments)
             for line in lines:
-                if line.startswith('+') or line.startswith('Year') or line.startswith('References') or len(line.strip()) == 0:
+                if line.startswith('+') or line.startswith('Year') or line.startswith('References') or len(line. strip()) == 0:
                     continue
                 if line.strip().startswith('[') or line.strip().startswith('The monthly'):
                     continue
                 
                 parts = line.split()
-                if len(parts) >= 2 and parts[0].isdigit():
+                if len(parts) >= 2 and parts[0]. isdigit():
                     year = int(parts[0])
                     # Monthly values (columns 1-12)
                     for month_idx, val in enumerate(parts[1:13], start=1):
-                        if val.strip() != '-':
-                            try: 
+                        if val. strip() != '-':
+                            try:
                                 modulation = float(val)
                                 all_data.append({
-                                    'year':  year,
+                                    'year': year,
                                     'month': month_idx,
                                     'modulation_mv': modulation
                                 })
                             except ValueError:
                                 continue
         except Exception as e:
-            print(f"⚠️ Error reading {txt_file}:  {e}")
+            print(f"⚠️ Error reading {txt_file}: {e}")
     
-    if not all_data:
+    if not all_data: 
         print("⚠️ No valid Oulu data found")
         return False
     
@@ -61,7 +61,7 @@ def compute_chi_from_oulu():
     df = df.sort_values(['year', 'month'])
     
     if len(df) < 10:
-        print(f"⚠️ Not enough Oulu data points:  {len(df)}")
+        print(f"⚠️ Not enough Oulu data points: {len(df)}")
         return False
     
     # Compute baseline (30-month rolling mean or full mean)
@@ -85,5 +85,30 @@ def compute_chi_from_oulu():
     output_dir.mkdir(parents=True, exist_ok=True)
     
     month_str = datetime.now(timezone.utc).strftime('%Y_%m')
-    output_file = output_dir / f"oulu_chi_{month_str}. 
-
+    output_file = output_dir / f"oulu_chi_{month_str}.csv"
+    
+    # Select columns
+    result = df[['year', 'month', 'modulation_mv', 'baseline', 'chi', 'chi_capped', 'timestamp_utc']]
+    result. to_csv(output_file, index=False)
+    
+    # Print stats
+    chi_max = df['chi'].max()
+    chi_mean = df['chi'].mean()
+    cap_violations = (df['chi'] > 0.15).sum()
+    
+    print(f"✅ Oulu χ calculated: {len(df)} data points")
+    print(f"   χ max: {chi_max:.4f}")
+    print(f"   χ mean:  {chi_mean:.4f}")
+    print(f"   Cap violations (χ > 0.15): {cap_violations}")
+    print(f"   Saved: {output_file}")
+    
+    if chi_max <= 0.15:
+        print(f"🎯 **OULU χ CAP CONFIRMED AT 0.15** — Universal boundary detected!")
+    else:
+        print(f"⚠️ χ exceeds 0.15 cap — max value: {chi_max:.4f}")
+    
+    return True
+
+if __name__ == "__main__": 
+    success = compute_chi_from_oulu()
+    exit(0 if success else 1)
