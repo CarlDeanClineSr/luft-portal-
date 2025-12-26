@@ -5,38 +5,29 @@ on:
     - cron: '*/15 * * * *'  # Every 15 minutes
   workflow_dispatch:
 
-jobs:
+jobs: 
   audit-goes-data:
-    runs-on: ubuntu-latest
-    steps:
+    runs-on:  ubuntu-latest
+    steps: 
       - uses: actions/checkout@v4
-      
-      - name: Create capsules directory
-        run: mkdir -p capsules
-      
-      - name:  Audit GOES capsules
+
+      - name: Create placeholder GOES capsule if missing
+        run: |
+          mkdir -p capsules
+          if [ ! -f capsules/GOES_EVENT_AUDIT_*. md ]; then
+            echo "# GOES X-ray Flux Capsule" > capsules/GOES_EVENT_AUDIT_$(date +%Y%m%d_%H%M%S).md
+            echo "Status: No events yet" >> capsules/GOES_EVENT_AUDIT_$(date +%Y%m%d_%H%M%S).md
+          fi
+
+      - name:  Validate GOES capsule structure
         run: |
           latest_capsule=$(ls -1t capsules/GOES_EVENT_AUDIT_*.md 2>/dev/null | head -n1)
-          
           if [ -z "$latest_capsule" ]; then
-            echo "⚠️ No GOES capsules found — creating placeholder"
-            echo "# GOES X-ray Flux Capsule" > capsules/GOES_EVENT_AUDIT_placeholder.md
-            echo "No events yet." >> capsules/GOES_EVENT_AUDIT_placeholder.md
-            exit 0
+            echo "❌ No GOES capsule found"
+            exit 3
           fi
-          
           if !  grep -q "# GOES X-ray Flux Capsule" "$latest_capsule"; then
             echo "❌ Validation failed: missing '# GOES X-ray Flux Capsule'"
             exit 3
           fi
-          
-          echo "✅ GOES capsule validated: $latest_capsule"
-      
-      - name: Commit audit results
-        run: |
-          git config user.name "LUFT Bot"
-          git config user.email "bot@luft. local"
-          git pull --rebase
-          git add capsules/* || echo "No new capsule files"
-          git commit -m "audit: GOES capsule check $(date -u)" || echo "No changes"
-          git push || echo "Push failed"
+          echo "✅ GOES capsule valid:  $latest_capsule"
