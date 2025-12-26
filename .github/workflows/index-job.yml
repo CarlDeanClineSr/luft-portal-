@@ -68,15 +68,18 @@ jobs:
 
       - name: Commit and push changes
         run: |
+          git pull --rebase origin main || true
           git add docs/manifest_master_index.yaml docs/manifest_dashboard.html
           
           if git diff --staged --quiet; then
             echo "No changes to manifest index or dashboard"
           else
-            git commit -m "Capsule Index: Auto-update manifest and dashboard $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git commit -m "Capsule Index: Auto-update manifest and dashboard $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
             git push
             echo "✅ Successfully committed and pushed manifest index and dashboard"
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Report status
         if: always()

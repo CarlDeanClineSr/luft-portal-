@@ -39,11 +39,14 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main || true
 
           if git status --porcelain | grep "pdf/PHYSICIST_NOTE_HEARTBEAT.pdf"; then
             git add pdf/PHYSICIST_NOTE_HEARTBEAT.pdf
-            git commit -m "Update physicist note PDF"
+            git commit -m "Update physicist note PDF $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
             git push
           else
             echo "No changes to PDF; nothing to commit."
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -22,8 +22,11 @@ jobs:
         run: |
           git config user.name "LUFT Data Bot"
           git config user.email "data@luft.local"
+          git pull --rebase origin main || true
           git add -A data/noaa_parsed/ || true
           [ -f reports/latest_srs.md ] && git add reports/latest_srs.md
           [ -f reports/latest_f107.md ] && git add reports/latest_f107.md
-          git commit -m "data: update NOAA parsed feeds $(date -u +%Y-%m-%dT%H:%MZ)" || echo "No changes"
-          git push || true
+          git diff --quiet && git diff --staged --quiet || git commit -m "data: update NOAA parsed feeds $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

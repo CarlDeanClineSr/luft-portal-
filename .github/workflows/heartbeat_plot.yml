@@ -40,11 +40,14 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main || true
 
           if git status --porcelain | grep "results/cme_heartbeat_2025_12_chi_pdyn.png"; then
             git add results/cme_heartbeat_2025_12_chi_pdyn.png
-            git commit -m "Update CME heartbeat plot for 2025-12"
+            git commit -m "Update CME heartbeat plot for 2025-12 $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
             git push
           else
             echo "No changes to plot; nothing to commit."
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

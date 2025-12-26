@@ -18,6 +18,9 @@ jobs:
       - run: |
           git config user.name "LUFT Data Bot"
           git config user.email "data@luft.local"
+          git pull --rebase origin main || true
           git add reports/daily_capsule.md
-          git commit -m "reports: nightly capsule $(date -u +%Y-%m-%dT%H:%MZ)" || echo "No changes"
+          git diff --quiet && git diff --staged --quiet || git commit -m "reports: nightly capsule $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

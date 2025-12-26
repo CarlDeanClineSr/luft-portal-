@@ -65,11 +65,9 @@ jobs:
         run: |
           git config user.name "LUFT OMNI Bot"
           git config user.email "omni@luft.local"
-          git add data/*. csv reports/*.md
-          if git commit -m "omni: daily ingest & validation $(date -u +%Y-%m-%d)"; then
-            git config pull.rebase false
-            git pull origin main || true
-            git push origin main || echo "Push failed (may need rebase)"
-          else
-            echo "No changes to commit"
-          fi
+          git pull --rebase origin main || true
+          git add data/*.csv reports/*.md
+          git diff --quiet && git diff --staged --quiet || git commit -m "omni: daily ingest & validation $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

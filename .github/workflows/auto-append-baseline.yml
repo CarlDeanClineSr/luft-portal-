@@ -97,14 +97,13 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main || true
           git add capsules/2025_dec_batch/CAPSULE_DECEMBER_BASELINE_SHIFT_WATCH_001.md
-          git commit -m "Auto-append daily baseline watch — Law #15 ledger eternal."
-          if git push; then
-            echo "✅ Baseline watch capsule committed and pushed successfully."
-          else
-            echo "⚠️  Warning: Failed to push changes. Will retry on next run."
-            exit 1
-          fi
+          git commit -m "Auto-append daily baseline watch — Law #15 ledger eternal $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          git push
+          echo "✅ Baseline watch capsule committed and pushed successfully."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Report completion
         if: steps.check_changes.outputs.changes != 'true'

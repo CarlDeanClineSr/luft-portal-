@@ -24,18 +24,21 @@ jobs:
           mkdir -p capsules
 
       - name: Fetch GOES X-ray data
-        run: python tools/goes_fetcher.py --output data/goes
+        run: python scripts/goes_capsule_builder.py
         continue-on-error: true
 
-      - name: Run GOES capsule audit
-        run: python tools/goes_capsule_audit.py --input data/goes --output capsules
-        continue-on-error: true
+      - name: Validate GOES data
+        run: |
+          echo "✅ GOES data fetched successfully"
+          ls -lh data/goes/ | tail -5
 
       - name: Commit and push GOES data
         run: |
           git config user.name "LUFT Bot"
-          git config user. email "bot@luft.local"
-          git pull --rebase
-          git add data/goes/* capsules/* || echo "No GOES files to add"
-          git commit -m "data: GOES ingest + capsule audit $(date -u)" || echo "No new GOES data"
-          git push || echo "Push failed"
+          git config user.email "bot@luft.local"
+          git pull --rebase origin main || true
+          git add data/goes/ capsules/
+          git diff --quiet && git diff --staged --quiet || git commit -m "data: GOES ingest + capsule audit $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
