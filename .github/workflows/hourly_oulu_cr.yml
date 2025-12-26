@@ -1,21 +1,23 @@
-import requests
-from pathlib import Path
-from datetime import datetime
+name: Hourly Oulu Cosmic Ray Ingest
 
-URL = "https://cosmicrays.oulu.fi/phi/Phi_mon.txt"
-OUTPUT_DIR = Path("data/oulu_cr")
-OUTPUT_DIR.mkdir(exist_ok=True)
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
 
-try:
-    response = requests.get(URL, timeout=30)
-    response.raise_for_status()
-    if response.text.strip():
-        timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
-        file = OUTPUT_DIR / f"oulu_cr_{timestamp}.txt"
-        with open(file, 'w') as f:
-            f.write(response.text)
-        print(f"Fetched Oulu CR data: {file}")
-    else:
-        print("Empty response")
-except Exception as e:
-    print(f"Oulu fetch failed: {e}")
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install requests pandas numpy
+      - run: python tools/fetch_oulu_cr.py
+      - run: |
+          git config user.name "LUFT Bot"
+          git config user.email "bot@luft.local"
+          git add data/oulu_cr/*
+          git commit -m "data: Oulu CR ingest $(date -u)" || echo "No new data"
+          git push || echo "Push skipped"
