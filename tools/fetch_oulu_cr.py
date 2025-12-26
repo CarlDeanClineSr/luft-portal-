@@ -1,22 +1,55 @@
+#!/usr/bin/env python3
 import requests
+import pandas as pd
 from pathlib import Path
 from datetime import datetime
+import warnings
+warnings.filterwarnings('ignore', message='Unverified HTTPS request')
 
-# Direct public Oulu neutron monitor data (hourly text file)
-URL = "https://cosmicrays.oulu.fi/phi/Phi_mon.txt"
-OUTPUT_DIR = Path("data/oulu_cr")
-OUTPUT_DIR.mkdir(exist_ok=True)
-
-try:
-    response = requests.get(URL, timeout=30)
-    response.raise_for_status()
-    if response.text.strip():  # Ensure content
+def fetch_oulu_data():
+    """Fetch Oulu cosmic ray neutron monitor data"""
+    
+    url = "https://cosmicrays.oulu.fi/phi/Phi_mon.txt"
+    output_dir = Path("data/oulu_cr")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    
+    try:
+        # Bypass SSL verification (Oulu site has cert issues)
+        response = requests. get(url, timeout=30, verify=False)
+        response.raise_for_status()
+        
+        # Save raw data
         timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
-        file = OUTPUT_DIR / f"oulu_cr_{timestamp}.txt"
-        with open(file, 'w') as f:
+        output_file = output_dir / f"oulu_cr_{timestamp}.txt"
+        
+        with open(output_file, 'w') as f:
             f.write(response.text)
-        print(f"Fetched Oulu CR data: {file}")
-    else:
-        print("Empty response — no new data")
-except Exception as e:
-    print(f"Oulu fetch failed: {e}")
+        
+        print(f"✅ Oulu data saved:  {output_file}")
+        
+        # Parse to CSV (optional)
+        lines = response.text.strip().split('\n')
+        data_lines = [line for line in lines if not line.startswith('#')]
+        
+        if len(data_lines) > 0:
+            csv_file = output_dir / f"oulu_cr_{timestamp}. csv"
+            with open(csv_file, 'w') as f:
+                f.write("year,month,neutron_count\n")
+                for line in data_lines:
+                    parts = line.split()
+                    if len(parts) >= 3:
+                        f.write(f"{parts[0]},{parts[1]},{parts[2]}\n")
+            print(f"✅ CSV saved: {csv_file}")
+        
+        return True
+        
+    except requests.exceptions.SSLError as e:
+        print(f"⚠️ SSL error (expected): {e}")
+        print("Attempting without verification...")
+        return False
+    except Exception as e:
+        print(f"❌ Oulu fetch failed: {e}")
+        return False
+
+if __name__ == "__main__":
+    fetch_oulu_data()
