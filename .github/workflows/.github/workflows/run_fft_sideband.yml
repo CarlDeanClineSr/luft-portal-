@@ -1,0 +1,23 @@
+name: Run FFT Sideband Detector
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Daily at 06:00 UTC
+  workflow_dispatch:
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy scipy pandas matplotlib
+      - run: python tools/fft_sideband_detector.py
+      - run: |
+          git config user.name "LUFT Bot"
+          git config user.email "bot@luft.local"
+          git add results/fft_sideband/*
+          git commit -m "analysis: FFT sideband detection results $(date -u)" || echo "No new results"
+          git push
