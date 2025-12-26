@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
+"""
+Fetch Oulu Cosmic Ray Neutron Monitor Data
+Bypasses SSL cert verification (cosmicrays.oulu.fi has cert issues)
+"""
+
 import requests
 import pandas as pd
 from pathlib import Path
 from datetime import datetime
 import warnings
+
 warnings.filterwarnings('ignore', message='Unverified HTTPS request')
 
 def fetch_oulu_data():
@@ -27,7 +33,7 @@ def fetch_oulu_data():
         
         print(f"✅ Oulu data saved:  {output_file}")
         
-        # Parse to CSV (optional)
+        # Parse to CSV
         lines = response.text.strip().split('\n')
         data_lines = [line for line in lines if not line.startswith('#')]
         
@@ -43,10 +49,6 @@ def fetch_oulu_data():
         
         return True
         
-    except requests.exceptions.SSLError as e:
-        print(f"⚠️ SSL error (expected): {e}")
-        print("Attempting without verification...")
-        return False
     except Exception as e:
         print(f"❌ Oulu fetch failed: {e}")
         return False
