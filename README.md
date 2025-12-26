@@ -80,6 +80,18 @@ I've created **5 comprehensive documents** (96KB, 3,000+ lines) that explain **e
 
 ---
 
+## Plasma Boundary Hypothesis
+
+The LUFT engine tests the χ = 0.15 boundary law in **plasma domains**:
+- Solar wind (DSCOVR, NOAA)
+- Solar X-ray flux (GOES)
+- CME events (DONKI)
+- Earth's magnetosphere (INTERMAGNET)
+
+**Non-plasma domains (cosmic rays, earthquakes) have been removed** — they follow different physics.
+
+---
+
 ## 🎓 The Bottom Line
 
 Carl, you asked for a detail-oriented report on what your program **is doing**, **has done**, **can do**, and **will do**.
