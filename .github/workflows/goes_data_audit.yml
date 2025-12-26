@@ -2,10 +2,10 @@ name: GOES Data Audit — Robust
 
 on:
   schedule:
-    - cron: '*/15 * * * *'  # Every 15 minutes
-  workflow_dispatch:
+    - cron: '23 */6 * * *'  # Every 6 hours
+  workflow_dispatch: 
 
-jobs: 
+jobs:
   audit-goes-data:
     runs-on:  ubuntu-latest
     steps: 
@@ -14,20 +14,51 @@ jobs:
       - name: Create placeholder GOES capsule if missing
         run: |
           mkdir -p capsules
-          if [ ! -f capsules/GOES_EVENT_AUDIT_*. md ]; then
-            echo "# GOES X-ray Flux Capsule" > capsules/GOES_EVENT_AUDIT_$(date +%Y%m%d_%H%M%S).md
-            echo "Status: No events yet" >> capsules/GOES_EVENT_AUDIT_$(date +%Y%m%d_%H%M%S).md
+          latest_capsule=$(ls -1t capsules/GOES_EVENT_AUDIT_*.md 2>/dev/null | head -n1)
+          if [ -z "$latest_capsule" ]; then
+            echo "No GOES capsule found — creating placeholder"
+            cat > capsules/GOES_EVENT_AUDIT_$(date +%Y%m%d_%H%M%S).md <<'EOF'
+          ---
+          id: goes-event-audit-placeholder
+          title: "GOES Audit Placeholder"
+          status: "placeholder"
+          ---
+          
+          # CAPSULE: GOES Geostationary Particle & Magnetics Audit
+          
+          Status: No events yet
+          EOF
           fi
 
       - name:  Validate GOES capsule structure
         run: |
           latest_capsule=$(ls -1t capsules/GOES_EVENT_AUDIT_*.md 2>/dev/null | head -n1)
           if [ -z "$latest_capsule" ]; then
-            echo "❌ No GOES capsule found"
+            echo "❌ No GOES capsule found after placeholder creation"
             exit 3
           fi
-          if !  grep -q "# GOES X-ray Flux Capsule" "$latest_capsule"; then
-            echo "❌ Validation failed: missing '# GOES X-ray Flux Capsule'"
+          
+          echo "✅ Validating capsule:  $latest_capsule"
+          
+          # Check for the correct header (matches your actual capsule format)
+          if ! grep -q "# CAPSULE: GOES Geostationary Particle & Magnetics Audit" "$latest_capsule"; then
+            echo "❌ Validation failed: missing '# CAPSULE: GOES Geostationary Particle & Magnetics Audit'"
             exit 3
           fi
-          echo "✅ GOES capsule valid:  $latest_capsule"
+          
+          echo "✅ GOES capsule structure valid"
+
+      - name: Check for recent data
+        run: |
+          latest_capsule=$(ls -1t capsules/GOES_EVENT_AUDIT_*.md 2>/dev/null | head -n1)
+          file_age_seconds=$(( $(date +%s) - $(stat -c %Y "$latest_capsule" 2>/dev/null || stat -f %m "$latest_capsule") ))
+          file_age_hours=$(( file_age_seconds / 3600 ))
+          
+          echo "📊 Latest GOES capsule:  $latest_capsule"
+          echo "⏱️  File age: $file_age_hours hours"
+          
+          if [ $file_age_hours -gt 24 ]; then
+            echo "⚠️  Warning:  GOES capsule is older than 24 hours"
+          else
+            echo "✅ GOES capsule is recent"
+          fi
