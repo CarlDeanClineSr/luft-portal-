@@ -8,6 +8,8 @@ on:
 jobs:
   fetch:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to push changes
     steps: 
       - uses: actions/checkout@v4
       
