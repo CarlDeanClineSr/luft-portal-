@@ -16,12 +16,12 @@ def compute_chi_from_intermagnet():
     # Find all INTERMAGNET data files
     data_dir = Path("data/intermagnet")
     
-    # Try JSON files first, then TXT
+    # Collect all INTERMAGNET data files
     json_files = sorted(data_dir.glob("intermagnet_*.json"))
     txt_files = sorted(data_dir.glob("intermagnet_*.txt"))
     csv_files = sorted(data_dir.glob("intermagnet_*.csv"))
     
-    data_files = json_files or txt_files or csv_files
+    data_files = json_files + txt_files + csv_files
     
     if not data_files:
         print("⚠️ No INTERMAGNET data found")
@@ -46,10 +46,24 @@ def compute_chi_from_intermagnet():
                 all_data.extend(df_temp.to_dict('records'))
             
             elif data_file.suffix == '.txt':
-                # Parse text format (adjust based on actual format)
+                # Parse INTERMAGNET text format
+                # Skip header lines and parse data rows
                 with open(data_file, 'r') as f:
                     lines = f.readlines()
-                # Add parsing logic for TXT format
+                # Simple parsing: skip lines starting with # or empty lines
+                for line in lines:
+                    line = line.strip()
+                    if line and not line.startswith('#'):
+                        # Split by whitespace and try to extract numeric values
+                        parts = line.split()
+                        if len(parts) >= 2:
+                            try:
+                                # Attempt to create a simple dict with numeric values
+                                data_dict = {f"col_{i}": float(p) for i, p in enumerate(parts) if p.replace('.', '').replace('-', '').isdigit()}
+                                if data_dict:
+                                    all_data.append(data_dict)
+                            except (ValueError, AttributeError):
+                                continue
                 
         except Exception as e:
             print(f"⚠️ Error reading {data_file}: {e}")
@@ -61,14 +75,20 @@ def compute_chi_from_intermagnet():
     # Convert to DataFrame
     df = pd.DataFrame(all_data)
     
-    # Identify magnetic field column (H, X, Y, Z, or F total field)
-    mag_cols = [c for c in df.columns if c.upper() in ['H', 'X', 'Y', 'Z', 'F', 'TOTAL_FIELD', 'BT', 'B_TOTAL']]
+    # Identify magnetic field column (prefer F total field, then X/Y/Z components)
+    # Priority: F > B_TOTAL > BT > H > X, Y, Z
+    priority_cols = ['F', 'B_TOTAL', 'BT', 'TOTAL_FIELD', 'H', 'X', 'Y', 'Z']
+    mag_col = None
     
-    if not mag_cols:
+    for col_name in priority_cols:
+        matches = [c for c in df.columns if c.upper() == col_name]
+        if matches:
+            mag_col = matches[0]
+            break
+    
+    if not mag_col:
         print("⚠️ No magnetic field column found in INTERMAGNET data")
         return False
-    
-    mag_col = mag_cols[0]
     df = df[[mag_col]].dropna()
     df = df.rename(columns={mag_col: 'b_total'})
     
