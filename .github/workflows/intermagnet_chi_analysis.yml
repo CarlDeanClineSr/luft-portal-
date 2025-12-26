@@ -8,6 +8,8 @@ on:
 jobs:
   compute-chi:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to commit and push results
     steps:
       - uses: actions/checkout@v3
       
