@@ -1,23 +1,23 @@
 name: Hourly Oulu Cosmic Ray Ingest
 
 on:
-  schedule: 
+  schedule:
     - cron: '0 * * * *'  # Every hour
-  workflow_dispatch: 
+  workflow_dispatch:
 
 jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
-      - uses:  actions/checkout@v4
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: 
+        with:
           python-version: '3.12'
       - run: pip install requests pandas numpy
-      - run: python tools/oulu_cr_fetcher.py --output data/oulu_cr
-      - run:  |
+      - run: python tools/fetch_oulu_cr.py
+      - run: |
           git config user.name "LUFT Bot"
           git config user.email "bot@luft.local"
           git add data/oulu_cr/*
           git commit -m "data: Oulu CR ingest $(date -u)" || echo "No new data"
-          git push
+          git push || echo "Push skipped (no changes)"
