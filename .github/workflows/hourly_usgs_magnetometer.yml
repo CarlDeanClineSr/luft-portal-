@@ -27,7 +27,7 @@ jobs:
           git config user.name "LUFT Bot"
           git config user.email "bot@luft.local"
           git pull --rebase
-          git add data/usgs_magnetometer/* || echo "No USGS magnetometer files to add"
+          git add data/usgs_magnetometer/ 2>/dev/null || echo "No USGS magnetometer files to add"
           git commit -m "data: USGS magnetometer ingest $(date -u +'%Y-%m-%d %H:%M:%S UTC')" || echo "No new USGS data"
           git push || echo "Push failed"
         env:

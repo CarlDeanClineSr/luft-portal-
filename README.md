@@ -86,7 +86,7 @@ The LUFT engine tests the χ = 0.15 boundary law in **plasma domains**:
 - Solar wind (DSCOVR, NOAA)
 - Solar X-ray flux (GOES)
 - CME events (DONKI)
-- Earth's magnetosphere (INTERMAGNET)
+- Earth's magnetosphere (USGS Geomagnetism Program, Boulder Observatory)
 
 **Non-plasma domains (cosmic rays, earthquakes) have been removed** — they follow different physics.
 
