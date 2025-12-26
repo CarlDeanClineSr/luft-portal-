@@ -1,56 +1,29 @@
 name: GOES Data Audit — Robust
 
 on:
-  schedule:
-    - cron: "7 * * * *"  # Every hour at HH:07
+  schedule: 
+    - cron: '*/15 * * * *'  # Every 15 minutes
   workflow_dispatch:
 
-jobs:
+jobs: 
   audit-goes-data:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Ensure data/goes exists
-        run: mkdir -p data/goes
-
-      - name: Fetch GOES flux
-        run: |
-          set -e
-          if ! curl -f -s --retry 3 --retry-delay 5 \
-            -o data/goes/latest_goes_flux.json \
-            https://services.swpc.noaa.gov/products/goes-xray-flux.json; then
-            echo "WARNING: GOES fetch failed; skipping this run."
-            exit 0
-          fi
-          if [ ! -s data/goes/latest_goes_flux.json ]; then
-            echo "WARNING: GOES file empty; skipping."
-            exit 0
-          fi
-
-      - name: Capsule Template (skip if builder missing)
-        run: |
-          if [ -f scripts/goes_capsule_builder.py ]; then
-            python scripts/goes_capsule_builder.py \
-              data/goes/latest_goes_flux.json \
-              capsules/GOES_EVENT_AUDIT_$(date +%Y-%m-%dT%H%M%S).md
-          else
-            echo "goes_capsule_builder.py not found; skipping capsule generation."
-          fi
-
-      - name: Validate Capsule Fields (skip if no capsule)
+      
+      - name: Validate latest GOES capsule
         run: |
           latest_capsule=$(ls -1t capsules/GOES_EVENT_AUDIT_*.md 2>/dev/null | head -n1)
-          if [ -n "$latest_capsule" ] && [ -f scripts/capsule_validator.py ]; then
-            python scripts/capsule_validator.py "$latest_capsule"
-          else
-            echo "No capsule or validator; skipping validation."
+          
+          if [ -z "$latest_capsule" ]; then
+            echo "⚠️ No GOES capsules found yet — will generate on next GOES ingest run"
+            exit 0
           fi
-
-      - name: Commit Capsule
-        run: |
-          git config user.name "LUFT Data Bot"
-          git config user.email "data@luft.local"
-          git add capsules/*.md || true
-          git commit -m "Add GOES capsule and audit for latest data" || echo "No changes"
-          git push || true
+          
+          if !  grep -q "# GOES X-ray Flux Capsule" "$latest_capsule"; then
+            echo "❌ Validation failed: missing '# GOES X-ray Flux Capsule' in $latest_capsule"
+            echo "Expected header not found — capsule may be malformed"
+            exit 3
+          fi
+          
+          echo "✅ GOES capsule validated:  $latest_capsule"
