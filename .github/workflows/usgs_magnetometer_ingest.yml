@@ -1,0 +1,35 @@
+name: Hourly USGS Magnetometer Ingest
+
+on: 
+  schedule:
+    - cron: '3 * * * *'  # Every hour at :03
+  workflow_dispatch:
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Install dependencies
+        run: pip install requests
+      
+      - name: Fetch USGS magnetometer data
+        run: python scripts/fetch_usgs_magnetometer.py
+        continue-on-error: true
+      
+      - name: Commit and push results
+        run: |
+          git config user.name "LUFT Bot"
+          git config user.email "bot@luft.local"
+          git pull --rebase
+          git add data/usgs_magnetometer/* || echo "No new USGS magnetometer files"
+          git commit -m "data: USGS magnetometer ingest $(date -u +'%Y-%m-%d %H:%M:%S UTC')" || echo "No changes"
+          git push || echo "Push failed"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
