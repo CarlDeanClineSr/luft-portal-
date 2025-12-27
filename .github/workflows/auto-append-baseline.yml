@@ -99,7 +99,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git pull --rebase origin main || true
           git add capsules/2025_dec_batch/CAPSULE_DECEMBER_BASELINE_SHIFT_WATCH_001.md
-          git commit -m "Auto-append daily baseline watch — Law #15 ledger eternal $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          git commit -m "Auto-append daily baseline watch — Law #15 ledger eternal. $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
           git push
           echo "✅ Baseline watch capsule committed and pushed successfully."
         env:
