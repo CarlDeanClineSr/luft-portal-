@@ -1,6 +1,7 @@
 # LUFT Observatory Data and Code License
 
-**© 2024-2025 Carl Dean Cline Sr.**
+
+### **For Presentations/Reports:**
 
 ---
 
@@ -28,7 +29,32 @@
 ### 📜 **WARRANTY DISCLAIMER**:
 This data and software are provided **"AS IS"**, without warranty of any kind, express or implied.  The author assumes no liability for damages resulting from use of this material.
 
+
 ---
+
+## Contact
+
+**For licensing inquiries, collaboration, or commercial use:**
+
+- GitHub: @CarlDeanClineSr  carldcline@gmail.com
+- Repository: https://github.com/CarlDeanClineSr/luft-portal-
+
+---
+
+## Acknowledgments
+
+Data sources integrated into LUFT Observatory:
+- NOAA DSCOVR (solar wind)
+- USGS Geomagnetism Program (magnetosphere)
+- NASA GOES (X-ray flux, satellite magnetometer)
+- NASA Voyager (interstellar plasma)
+- NOAA Space Weather Prediction Center (forecasts, alerts)
+
+**This work is independent research, not affiliated with any government agency or institution.**
+
+---
+
+**Effective Date:** December 27, 2025
 
 ## Citation Format
 
