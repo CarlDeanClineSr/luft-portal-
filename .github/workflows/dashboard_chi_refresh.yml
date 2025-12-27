@@ -1,17 +1,17 @@
 name: χ Dashboard Refresh
 
-on:
-  schedule:  
+on: 
+  schedule: 
     - cron: '*/5 * * * *'  # Every 5 minutes
-  workflow_dispatch:
+  workflow_dispatch: 
 
-jobs:  
+jobs: 
   refresh:
     runs-on: ubuntu-latest
     permissions: 
       contents: write  # Required to push changes
     steps: 
-      - uses:  actions/checkout@v4
+      - uses: actions/checkout@v4
       
       - uses: actions/setup-python@v5
         with:
@@ -33,4 +33,4 @@ jobs:
           git pull --rebase origin main || true
           git push
         env:
-          GITHUB_TOKEN: ${{ secrets. GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
