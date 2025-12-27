@@ -22,7 +22,7 @@ jobs:
           git pull --rebase origin main || true
           if ls pages/plots/* 1> /dev/null 2>&1; then
             git add pages/plots/*
-            git commit -m "docs: refresh dashboard plots $(date -u +%Y-%m-%dT%H:%MZ)" || echo "No changes"
+            git diff --quiet && git diff --staged --quiet || git commit -m "docs: refresh dashboard plots $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
             git push
           else
             echo "No new plots to add"

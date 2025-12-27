@@ -25,8 +25,9 @@ jobs:
         run: |
           git config user.name "LUFT Data Bot"
           git config user.email "data@luft.local"
+          git pull --rebase origin main || true
           git add data/noaa_forecasts/*.txt
-          git commit -m "data: NOAA 3-day forecast update $(date -u +%Y-%m-%dT%H:%MZ)" || echo "No changes"
-          git config pull.rebase false
-          git pull origin main || true
+          git diff --quiet && git diff --staged --quiet || git commit -m "data: NOAA 3-day forecast update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

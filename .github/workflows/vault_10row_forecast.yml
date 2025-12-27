@@ -42,16 +42,17 @@ jobs:
 
       - name: Commit and push changes
         run: |
+          git pull --rebase origin main || true
           git add vault_10row_forecast_indicator_dec15.md
           if git diff --staged --quiet; then
             echo "No changes to vault_10row_forecast_indicator_dec15.md"
           else
-            git commit -m "Vault Forecast: Auto-update $(date -u +'%Y-%m-%d %H:%M UTC')"
-            git config pull.rebase false
-            git pull origin main || true
+            git commit -m "Vault Forecast: Auto-update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
             git push
             echo "✅ Successfully committed and pushed vault forecast update"
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Report status
         if: always()

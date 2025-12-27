@@ -30,7 +30,7 @@ jobs:
           git config user.email "bot@luft.local"
           git pull --rebase origin main || true
           git add data/usgs_magnetometer/ 2>/dev/null || echo "No USGS magnetometer files to add"
-          git commit -m "data: USGS multi-station magnetometer ingest $(date -u +'%Y-%m-%d %H:%M:%S UTC')" || echo "No new USGS data"
+          git diff --quiet && git diff --staged --quiet || git commit -m "data: USGS magnetometer ingest $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -46,7 +46,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No new data to commit."
           else
-            git commit -m "Update DSCOVR solar wind realtime data"
+            git commit -m "Update DSCOVR solar wind realtime data $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
             git push
             echo "New DSCOVR data committed and pushed successfully."
           fi
