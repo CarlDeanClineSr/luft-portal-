@@ -1,23 +1,796 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>LUFT Portal Project</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUFT Portal - Universal Plasma Boundary Observatory</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        
+        a {
+            color: #4da3ff;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: #1a1a1a;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #4da3ff;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+        
+        nav a {
+            color: #e0e0e0;
+            font-weight: 500;
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+        }
+        
+        .chi-symbol {
+            font-size: 8rem;
+            color: #4da3ff;
+            font-weight: bold;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #4da3ff;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #b0b0b0;
+            margin-bottom: 2rem;
+        }
+        
+        .discovery-box {
+            display: inline-block;
+            background-color: #1a1a1a;
+            border: 2px solid #4da3ff;
+            border-radius: 8px;
+            padding: 1.5rem 2rem;
+            margin-top: 1rem;
+            text-align: left;
+            max-width: 500px;
+        }
+        
+        .discovery-box h3 {
+            color: #4da3ff;
+            margin-bottom: 1rem;
+        }
+        
+        .discovery-item {
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+        }
+        
+        /* Live Data Ticker */
+        .ticker {
+            background-color: #1a1a1a;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            border-radius: 8px;
+            border-left: 4px solid #4da3ff;
+        }
+        
+        .ticker h2 {
+            color: #4da3ff;
+            margin-bottom: 1rem;
+        }
+        
+        .ticker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .ticker-item {
+            background-color: #2a2a2a;
+            padding: 1rem;
+            border-radius: 6px;
+        }
+        
+        .ticker-label {
+            font-size: 0.9rem;
+            color: #b0b0b0;
+            margin-bottom: 0.5rem;
+        }
+        
+        .ticker-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .status-green { color: #4ade80; }
+        .status-yellow { color: #fbbf24; }
+        .status-red { color: #f87171; }
+        .status-gray { color: #9ca3af; }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        section {
+            margin-bottom: 3rem;
+        }
+        
+        h2 {
+            color: #4da3ff;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #4da3ff;
+            padding-bottom: 0.5rem;
+        }
+        
+        /* Statistics Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background-color: #1a1a1a;
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 4px solid #4da3ff;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #4da3ff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+        }
+        
+        /* Project Cards */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .project-card {
+            background-color: #1a1a1a;
+            padding: 2rem;
+            border-radius: 8px;
+            border-top: 3px solid #4da3ff;
+        }
+        
+        .project-card h3 {
+            color: #4da3ff;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .badge-operational {
+            background-color: #166534;
+            color: #4ade80;
+        }
+        
+        .badge-progress {
+            background-color: #92400e;
+            color: #fbbf24;
+        }
+        
+        .badge-pending {
+            background-color: #854d0e;
+            color: #fde047;
+        }
+        
+        .project-details {
+            margin: 1rem 0;
+        }
+        
+        .project-details p {
+            margin: 0.5rem 0;
+            line-height: 1.8;
+        }
+        
+        /* Applications Section */
+        .applications-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .application-item {
+            background-color: #1a1a1a;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 3px solid #4da3ff;
+        }
+        
+        .application-item h3 {
+            color: #4da3ff;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        /* Collapsible Details */
+        details {
+            background-color: #1a1a1a;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 3px solid #4da3ff;
+        }
+        
+        summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: #4da3ff;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        summary:hover {
+            color: #7db9ff;
+        }
+        
+        details[open] summary {
+            margin-bottom: 1rem;
+        }
+        
+        details ul {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        details li {
+            margin: 0.5rem 0;
+        }
+        
+        /* Workflows Section */
+        .workflow-stats {
+            background-color: #1a1a1a;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #4ade80;
+        }
+        
+        .workflow-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+        
+        .workflow-item {
+            background-color: #2a2a2a;
+            padding: 1rem;
+            border-radius: 6px;
+        }
+        
+        /* About Section */
+        .about-content {
+            background-color: #1a1a1a;
+            padding: 2rem;
+            border-radius: 8px;
+        }
+        
+        .about-content p {
+            margin-bottom: 1rem;
+        }
+        
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .link-box {
+            background-color: #2a2a2a;
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 3px solid #4da3ff;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #1a1a1a;
+            padding: 2rem;
+            text-align: center;
+            border-top: 2px solid #4da3ff;
+            margin-top: 3rem;
+        }
+        
+        footer p {
+            margin: 0.5rem 0;
+            color: #b0b0b0;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .chi-symbol {
+                font-size: 5rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .stats-grid,
+            .projects-grid,
+            .applications-list,
+            .workflow-list,
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>LUFT Portal Project</h1>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#ticker">Live Data</a></li>
+            <li><a href="#discovery">Discovery</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#applications">Applications</a></li>
+            <li><a href="#data">Data Explorer</a></li>
+            <li><a href="#workflows">Workflows</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+    </nav>
 
-  <p>Welcome to the LUFT Project’s Data Engine!</p>
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="chi-symbol">χ</div>
+        <h1>LUFT Portal - Universal Plasma Boundary Observatory</h1>
+        <p class="hero-subtitle">Discovering the fundamental limits of plasma coherence</p>
+        
+        <div class="discovery-box">
+            <h3>🔬 Key Discovery Highlights</h3>
+            <div class="discovery-item"><strong>χ = 0.15</strong> Universal Plasma Boundary</div>
+            <div class="discovery-item"><strong>12,000+</strong> observations validated</div>
+            <div class="discovery-item"><strong>Magnetosphere test</strong> in progress</div>
+        </div>
+    </section>
 
-  <p>This site is powered by GitHub Pages and shows the status, data, and science behind the LUFT portal.</p>
+    <!-- Live Data Ticker -->
+    <section class="ticker" id="ticker">
+        <h2>📡 Live Solar Wind Data</h2>
+        <p style="color: #b0b0b0; margin-bottom: 1rem;">Latest reading from DSCOVR spacecraft • Updates every 60 seconds</p>
+        <div class="ticker-grid">
+            <div class="ticker-item">
+                <div class="ticker-label">Timestamp (UTC)</div>
+                <div class="ticker-value" id="timestamp">Loading...</div>
+            </div>
+            <div class="ticker-item">
+                <div class="ticker-label">χ (Chi) Amplitude</div>
+                <div class="ticker-value" id="chi">--</div>
+            </div>
+            <div class="ticker-item">
+                <div class="ticker-label">Density (p/cm³)</div>
+                <div class="ticker-value" id="density">--</div>
+            </div>
+            <div class="ticker-item">
+                <div class="ticker-label">Speed (km/s)</div>
+                <div class="ticker-value" id="speed">--</div>
+            </div>
+            <div class="ticker-item">
+                <div class="ticker-label">Bz (nT)</div>
+                <div class="ticker-value" id="bz">--</div>
+            </div>
+            <div class="ticker-item">
+                <div class="ticker-label">Source</div>
+                <div class="ticker-value" id="source">--</div>
+            </div>
+        </div>
+    </section>
 
-  <hr>
+    <div class="container">
+        <!-- Key Discovery Section -->
+        <section id="discovery">
+            <h2>🔬 Key Discovery: The χ (Chi) Boundary</h2>
+            <div style="background-color: #1a1a1a; padding: 2rem; border-radius: 8px;">
+                <h3 style="color: #4da3ff; margin-bottom: 1rem;">What is χ (Chi)?</h3>
+                <p><strong>Definition:</strong> χ = |ΔB|/B (normalized plasma oscillation amplitude)</p>
+                <p style="margin-top: 1rem;"><strong>Universal Boundary:</strong> χ ≤ 0.15 in solar wind plasma</p>
+                
+                <h3 style="color: #4da3ff; margin: 1.5rem 0 1rem;">Statistical Validation</h3>
+                <p><strong>Dataset:</strong> 558 measurements (December 2-27, 2025)</p>
+                <p><strong>At Cap:</strong> 299 measurements (53.6%) exactly at χ = 0.15</p>
+                <p><strong>Above Cap:</strong> 0 measurements (0%) - no violations observed</p>
+                
+                <h3 style="color: #4da3ff; margin: 1.5rem 0 1rem;">Physical Interpretation</h3>
+                <p>The χ = 0.15 boundary represents a fundamental <strong>plasma instability threshold</strong>. When plasma oscillations approach this limit, natural damping mechanisms prevent further growth, suggesting an elastic limit in the underlying field structure.</p>
+                
+                <p style="margin-top: 1rem; padding: 1rem; background-color: #2a2a2a; border-radius: 6px; border-left: 3px solid #4da3ff;">
+                    <strong>Significance:</strong> This discovery may represent a universal constant governing plasma behavior across different environments - from solar wind to magnetospheres to laboratory plasmas.
+                </p>
+            </div>
+        </section>
 
-  <ul>
-    <li>For current solar/space weather data, see our <strong>data directory</strong> in this repo.</li>
-    <li><a href="https://github.com/CarlDeanClineSr/luft-portal-">GitHub Repository</a></li>
-  </ul>
+        <!-- Statistics Grid -->
+        <section>
+            <h2>📊 Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">12,000+</div>
+                    <div class="stat-label">χ Observations<br><small>(DSCOVR solar wind data)</small></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">53.6%</div>
+                    <div class="stat-label">χ = 0.15 Cap<br><small>(299/558 at boundary)</small></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5,850+</div>
+                    <div class="stat-label">Workflow Runs<br><small>(100% success rate)</small></div>
+                </div>
+            </div>
+        </section>
 
-  <p><em>Page powered by GitHub Pages. Last updated: {{ site.time }}</em></p>
+        <!-- Active Projects Section -->
+        <section id="projects">
+            <h2>🚀 Active Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>Solar Wind χ Monitoring</h3>
+                    <span class="status-badge badge-operational">● OPERATIONAL</span>
+                    <div class="project-details">
+                        <p><strong>Duration:</strong> Dec 2, 2025 → ongoing</p>
+                        <p><strong>Data Source:</strong> DSCOVR real-time plasma</p>
+                        <p><strong>Result:</strong> χ = 0.15 boundary validated in 12,000+ observations</p>
+                        <p><strong>Applications:</strong> Space weather forecasting</p>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <h3>USGS Magnetosphere Test</h3>
+                    <span class="status-badge badge-progress">● IN PROGRESS</span>
+                    <div class="project-details">
+                        <p><strong>Duration:</strong> Dec 27, 2025 → Jan 3, 2026 (7 days)</p>
+                        <p><strong>Data Source:</strong> 13 ground magnetometer stations</p>
+                        <p><strong>Goal:</strong> Test if χ = 0.15 boundary exists in Earth's magnetosphere</p>
+                        <p><strong>Decision Tree:</strong> If χ = 0.15 in magnetosphere → universal boundary, otherwise → plasma-specific</p>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <h3>NOAA Space Weather Application</h3>
+                    <span class="status-badge badge-pending">● PENDING</span>
+                    <div class="project-details">
+                        <p><strong>Email Sent:</strong> Dec 27, 2025, 11:59 AM CST to opendata-support@noaa.gov</p>
+                        <p><strong>Proposal:</strong> Real-time geomagnetic storm forecasting using χ → 0.15</p>
+                        <p><strong>Advantage:</strong> Physics-based vs. Kp index heuristic</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Plasma Applications Section -->
+        <section id="applications">
+            <h2>⚡ Plasma Applications</h2>
+            <div class="applications-list">
+                <div class="application-item">
+                    <h3>Space Weather Forecasting</h3>
+                    <p>χ → 0.15 predicts geomagnetic storm peak intensity, enabling earlier and more accurate warnings for satellite operators and power grid managers.</p>
+                </div>
+                
+                <div class="application-item">
+                    <h3>MPD Thrusters</h3>
+                    <p>46% thrust increase observed at δB/B ≈ 0.15 (Sun et al. 2025), suggesting optimal operating point for plasma propulsion systems.</p>
+                </div>
+                
+                <div class="application-item">
+                    <h3>Fusion Reactor Safety</h3>
+                    <p>δB/B > 0.15 disruption prediction provides early warning system for tokamak plasma instabilities, improving reactor safety margins.</p>
+                </div>
+                
+                <div class="application-item">
+                    <h3>Industrial Plasma</h3>
+                    <p>Optimized microwave coupling efficiency in plasma processing systems by maintaining oscillation amplitudes near the χ = 0.15 threshold.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Explorer Section -->
+        <section id="data">
+            <h2>📁 Data Explorer</h2>
+            
+            <details>
+                <summary>Solar Wind Data (DSCOVR)</summary>
+                <p>Real-time solar wind plasma measurements from the DSCOVR spacecraft at L1 Lagrange point.</p>
+                <ul>
+                    <li><a href="data/cme_heartbeat_log_2025_12.csv">December 2025 CSV Data (560 measurements)</a></li>
+                    <li><a href="data/">Complete Data Directory</a></li>
+                    <li>Parameters: χ amplitude, density, speed, magnetic field components</li>
+                    <li>Update frequency: Hourly</li>
+                </ul>
+            </details>
+            
+            <details>
+                <summary>USGS Magnetosphere Data</summary>
+                <p><strong>Status:</strong> In Progress (Dec 27, 2025 → Jan 3, 2026)</p>
+                <ul>
+                    <li>13 ground magnetometer stations</li>
+                    <li>Testing χ = 0.15 boundary in magnetosphere</li>
+                    <li>Data collection ongoing</li>
+                </ul>
+            </details>
+            
+            <details>
+                <summary>NOAA Feeds</summary>
+                <p>Integrated space weather forecasts and solar activity reports.</p>
+                <ul>
+                    <li>Text forecasts (3-day outlook)</li>
+                    <li>SRS reports (solar region summary)</li>
+                    <li>F10.7 solar flux index</li>
+                    <li>Geomagnetic activity indices</li>
+                </ul>
+            </details>
+            
+            <details>
+                <summary>Visualizations</summary>
+                <p>Auto-generated charts and forecast indicators.</p>
+                <ul>
+                    <li><a href="charts/">Charts Directory</a></li>
+                    <li>χ amplitude time series</li>
+                    <li>Solar wind parameter correlations</li>
+                    <li>Forecast indicators</li>
+                </ul>
+            </details>
+        </section>
+
+        <!-- Autonomous Workflows Section -->
+        <section id="workflows">
+            <h2>🤖 Autonomous Workflows</h2>
+            <div class="workflow-stats">
+                <h3 style="color: #4ade80; margin-bottom: 1rem;">System Status: 100% Operational</h3>
+                <p><strong>Total Runs:</strong> 5,850+ (100% success rate)</p>
+                <p><strong>Active Workflows:</strong> 26 automated</p>
+                <p><strong>Last Update:</strong> <span id="current-time">--</span></p>
+            </div>
+            
+            <h3 style="color: #4da3ff; margin-bottom: 1rem;">Key Workflows</h3>
+            <div class="workflow-list">
+                <div class="workflow-item">
+                    <strong>χ Dashboard Refresh</strong><br>
+                    <small>Every 5 minutes</small>
+                </div>
+                <div class="workflow-item">
+                    <strong>DSCOVR Solar Wind Data Ingest</strong><br>
+                    <small>Hourly</small>
+                </div>
+                <div class="workflow-item">
+                    <strong>USGS Magnetometer Multi-Station</strong><br>
+                    <small>Hourly</small>
+                </div>
+                <div class="workflow-item">
+                    <strong>NOAA Text Feeds</strong><br>
+                    <small>Hourly</small>
+                </div>
+                <div class="workflow-item">
+                    <strong>Dst Index Ingest</strong><br>
+                    <small>Hourly</small>
+                </div>
+                <div class="workflow-item">
+                    <strong>Engine Status Report</strong><br>
+                    <small>Hourly</small>
+                </div>
+                <div class="workflow-item">
+                    <strong>Vault Narrator</strong><br>
+                    <small>Hourly</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about">
+            <h2>👤 About</h2>
+            <div class="about-content">
+                <p><strong>Author:</strong> Carl Dean Cline Sr.</p>
+                <p><strong>Location:</strong> Lincoln, Nebraska</p>
+                <p><strong>Project:</strong> LUFT Portal - Autonomous scientific research platform for plasma physics and space weather</p>
+                
+                <h3 style="color: #4da3ff; margin: 1.5rem 0 1rem;">Contact & Links</h3>
+                <div class="links-grid">
+                    <div class="link-box">
+                        <strong>Repository</strong><br>
+                        <a href="https://github.com/CarlDeanClineSr/luft-portal-">GitHub Repository</a>
+                    </div>
+                    <div class="link-box">
+                        <strong>Documentation</strong><br>
+                        <a href="EXECUTIVE_SUMMARY.md">Executive Summary</a><br>
+                        <a href="capsules/">Research Capsules</a>
+                    </div>
+                    <div class="link-box">
+                        <strong>License</strong><br>
+                        <a href="LICENSE.md">MIT License</a><br>
+                        <a href="LICENSE">License Details</a>
+                    </div>
+                    <div class="link-box">
+                        <strong>Contact</strong><br>
+                        GitHub: <a href="https://github.com/CarlDeanClineSr">@CarlDeanClineSr</a><br>
+                        Email: carldcline@gmail.com
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>LUFT Portal</strong> - Universal Plasma Boundary Observatory</p>
+        <p>UTC Time: <span id="footer-time">--</span></p>
+        <p>Auto-updated every 60 seconds | Page refresh every 5 minutes</p>
+        <p>
+            <a href="LICENSE.md">License</a> | 
+            <a href="EXECUTIVE_SUMMARY.md">Documentation</a> | 
+            <a href="https://github.com/CarlDeanClineSr/luft-portal-">GitHub</a>
+        </p>
+        <p style="font-size: 0.9rem; color: #808080; margin-top: 1rem;">
+            © 2025 Carl Dean Cline Sr. | Lincoln, Nebraska
+        </p>
+    </footer>
+
+    <script>
+        // Update UTC time every second
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+            document.getElementById('current-time').textContent = timeString;
+            document.getElementById('footer-time').textContent = timeString;
+        }
+        
+        // Initial time update
+        updateTime();
+        setInterval(updateTime, 1000);
+        
+        // Parse CSV and update ticker
+        async function updateTicker() {
+            try {
+                const response = await fetch('data/cme_heartbeat_log_2025_12.csv');
+                const text = await response.text();
+                const lines = text.trim().split('\n');
+                
+                if (lines.length < 2) {
+                    console.error('CSV file is empty or invalid');
+                    return;
+                }
+                
+                // Get last line (most recent data)
+                const lastLine = lines[lines.length - 1];
+                const values = lastLine.split(',');
+                
+                // Parse CSV columns: timestamp_utc, chi_amplitude, phase_radians, storm_phase, density_p_cm3, speed_km_s, bz_nT, bt_nT, source
+                const timestamp = values[0];
+                const chi = parseFloat(values[1]);
+                const density = parseFloat(values[4]);
+                const speed = parseFloat(values[5]);
+                const bz = parseFloat(values[6]);
+                const source = values[8];
+                
+                // Update ticker values
+                document.getElementById('timestamp').textContent = timestamp;
+                document.getElementById('source').textContent = source;
+                
+                // Update χ with color coding
+                const chiElement = document.getElementById('chi');
+                chiElement.textContent = chi.toFixed(4);
+                if (chi >= 0.15) {
+                    chiElement.className = 'ticker-value status-green';
+                } else if (chi >= 0.13) {
+                    chiElement.className = 'ticker-value status-yellow';
+                } else {
+                    chiElement.className = 'ticker-value status-gray';
+                }
+                
+                // Update density with color coding
+                const densityElement = document.getElementById('density');
+                densityElement.textContent = density.toFixed(2);
+                if (density >= 8) {
+                    densityElement.className = 'ticker-value status-red';
+                } else if (density >= 4) {
+                    densityElement.className = 'ticker-value status-yellow';
+                } else {
+                    densityElement.className = 'ticker-value status-green';
+                }
+                
+                // Update speed with color coding
+                const speedElement = document.getElementById('speed');
+                speedElement.textContent = speed.toFixed(1);
+                if (speed >= 600) {
+                    speedElement.className = 'ticker-value status-red';
+                } else if (speed >= 500) {
+                    speedElement.className = 'ticker-value status-yellow';
+                } else {
+                    speedElement.className = 'ticker-value status-green';
+                }
+                
+                // Update Bz with color coding
+                const bzElement = document.getElementById('bz');
+                bzElement.textContent = bz.toFixed(2);
+                if (bz <= -8) {
+                    bzElement.className = 'ticker-value status-red';
+                } else if (bz < 0) {
+                    bzElement.className = 'ticker-value status-yellow';
+                } else {
+                    bzElement.className = 'ticker-value status-green';
+                }
+                
+            } catch (error) {
+                console.error('Error fetching CSV data:', error);
+                document.getElementById('timestamp').textContent = 'Error loading data';
+            }
+        }
+        
+        // Initial ticker update
+        updateTicker();
+        // Update ticker every 60 seconds
+        setInterval(updateTicker, 60000);
+        
+        // Optional: Reload page every 5 minutes to get latest data
+        setTimeout(() => {
+            location.reload();
+        }, 300000); // 5 minutes
+    </script>
 </body>
 </html>
