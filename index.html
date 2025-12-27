@@ -721,12 +721,16 @@
                 const values = lastLine.split(',');
                 
                 // Parse CSV columns: timestamp_utc, chi_amplitude, phase_radians, storm_phase, density_p_cm3, speed_km_s, bz_nT, bt_nT, source
-                const timestamp = values[0];
+                const timestamp = values[0] || 'N/A';
                 const chi = parseFloat(values[1]);
                 const density = parseFloat(values[4]);
                 const speed = parseFloat(values[5]);
-                const bz = parseFloat(values[6]);
-                const source = values[8];
+                
+                // FIX: Check if bz_nT is empty BEFORE parsing
+                const bzRaw = values[6];
+                const bz = (bzRaw && bzRaw.trim() !== '') ? parseFloat(bzRaw) : null;
+                
+                const source = values[8] || 'N/A';
                 
                 // Update ticker values
                 document.getElementById('timestamp').textContent = timestamp;
@@ -734,51 +738,76 @@
                 
                 // Update χ with color coding
                 const chiElement = document.getElementById('chi');
-                chiElement.textContent = chi.toFixed(4);
-                if (chi >= 0.15) {
-                    chiElement.className = 'ticker-value status-green';
-                } else if (chi >= 0.13) {
-                    chiElement.className = 'ticker-value status-yellow';
+                if (!isNaN(chi)) {
+                    chiElement.textContent = chi.toFixed(4);
+                    if (chi >= 0.15) {
+                        chiElement.className = 'ticker-value status-green';
+                    } else if (chi >= 0.13) {
+                        chiElement.className = 'ticker-value status-yellow';
+                    } else {
+                        chiElement.className = 'ticker-value status-gray';
+                    }
                 } else {
+                    chiElement.textContent = 'N/A';
                     chiElement.className = 'ticker-value status-gray';
                 }
                 
                 // Update density with color coding
                 const densityElement = document.getElementById('density');
-                densityElement.textContent = density.toFixed(2);
-                if (density >= 8) {
-                    densityElement.className = 'ticker-value status-red';
-                } else if (density >= 4) {
-                    densityElement.className = 'ticker-value status-yellow';
+                if (!isNaN(density)) {
+                    densityElement.textContent = density.toFixed(2);
+                    if (density >= 8) {
+                        densityElement.className = 'ticker-value status-red';
+                    } else if (density >= 4) {
+                        densityElement.className = 'ticker-value status-yellow';
+                    } else {
+                        densityElement.className = 'ticker-value status-green';
+                    }
                 } else {
-                    densityElement.className = 'ticker-value status-green';
+                    densityElement.textContent = 'N/A';
+                    densityElement.className = 'ticker-value status-gray';
                 }
                 
                 // Update speed with color coding
                 const speedElement = document.getElementById('speed');
-                speedElement.textContent = speed.toFixed(1);
-                if (speed >= 600) {
-                    speedElement.className = 'ticker-value status-red';
-                } else if (speed >= 500) {
-                    speedElement.className = 'ticker-value status-yellow';
+                if (!isNaN(speed)) {
+                    speedElement.textContent = speed.toFixed(1);
+                    if (speed >= 600) {
+                        speedElement.className = 'ticker-value status-red';
+                    } else if (speed >= 500) {
+                        speedElement.className = 'ticker-value status-yellow';
+                    } else {
+                        speedElement.className = 'ticker-value status-green';
+                    }
                 } else {
-                    speedElement.className = 'ticker-value status-green';
+                    speedElement.textContent = 'N/A';
+                    speedElement.className = 'ticker-value status-gray';
                 }
                 
-                // Update Bz with color coding
+                // FIX: Update Bz with proper null handling
                 const bzElement = document.getElementById('bz');
-                bzElement.textContent = bz.toFixed(2);
-                if (bz <= -8) {
-                    bzElement.className = 'ticker-value status-red';
-                } else if (bz < 0) {
-                    bzElement.className = 'ticker-value status-yellow';
+                if (bz !== null && !isNaN(bz)) {
+                    bzElement.textContent = bz.toFixed(2);
+                    if (bz <= -8) {
+                        bzElement.className = 'ticker-value status-red';
+                    } else if (bz < 0) {
+                        bzElement.className = 'ticker-value status-yellow';
+                    } else {
+                        bzElement.className = 'ticker-value status-green';
+                    }
                 } else {
-                    bzElement.className = 'ticker-value status-green';
+                    bzElement.textContent = 'N/A';
+                    bzElement.className = 'ticker-value status-gray';
                 }
                 
             } catch (error) {
                 console.error('Error fetching CSV data:', error);
                 document.getElementById('timestamp').textContent = 'Error loading data';
+                document.getElementById('chi').textContent = 'N/A';
+                document.getElementById('density').textContent = 'N/A';
+                document.getElementById('speed').textContent = 'N/A';
+                document.getElementById('bz').textContent = 'N/A';
+                document.getElementById('source').textContent = 'N/A';
             }
         }
         
