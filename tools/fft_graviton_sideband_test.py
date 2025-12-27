@@ -216,7 +216,7 @@ if carrier_freq is not None and modulation_freq is not None:
     zoom_center = carrier_freq
     zoom_mask = (freqs_single_sided >= zoom_center - zoom_width) & (freqs_single_sided <= zoom_center + zoom_width)
     
-    ax2.plot(freqs_single_sided[zoom_mask], power_single_sided[zoom_mask], 'b-', linewidth=1. 5)
+    ax2.plot(freqs_single_sided[zoom_mask], power_single_sided[zoom_mask], 'b-', linewidth=1.5)
     
     ax2.axvline(carrier_freq, color='green', linestyle='--', linewidth=2, label='Carrier')
     if sideband_detected:
