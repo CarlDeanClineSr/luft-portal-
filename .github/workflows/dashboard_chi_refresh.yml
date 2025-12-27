@@ -26,9 +26,9 @@ jobs:
       
       - name: Commit dashboard
         run: |
-          git config user. name "LUFT Bot"
+          git config user.name "LUFT Bot"
           git config user.email "luft-bot@users.noreply.github.com"
-          git add docs/chi_dashboard. html
+          git add docs/chi_dashboard.html
           git diff --quiet && git diff --staged --quiet || git commit -m "docs: χ dashboard refresh $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
           git pull --rebase origin main || true
           git push
