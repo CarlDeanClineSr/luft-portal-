@@ -1,0 +1,33 @@
+name: Historical Storm χ Analysis
+
+on:
+  workflow_dispatch:  # Manual trigger only (runs once, not scheduled)
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to push changes
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Install dependencies
+        run: pip install requests pandas numpy
+      
+      - name: Analyze historical storms
+        run: python scripts/analyze_historical_storms.py
+        continue-on-error: true
+      
+      - name: Commit results
+        run: |
+          git config user.name "LUFT Bot"
+          git config user.email "bot@luft.local"
+          git add results/historical_storms/ 2>/dev/null || echo "No historical storm results to add"
+          git commit -m "results: Historical storm χ analysis" || echo "No new results"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

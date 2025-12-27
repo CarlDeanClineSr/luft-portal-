@@ -1,8 +1,8 @@
-name: Hourly USGS Magnetometer Ingest (Multi-Station)
+name: Hourly Dst Index Ingest
 
 on:
   schedule:
-    - cron: '3 * * * *'  # Every hour at :03
+    - cron: '5 * * * *'  # Every hour at :05
   workflow_dispatch:
 
 jobs:
@@ -18,20 +18,19 @@ jobs:
           python-version: '3.12'
       
       - name: Install dependencies
-        run: pip install requests
-
-      - name: Fetch multi-station magnetometer data
-        run: python scripts/fetch_usgs_magnetometer.py
+        run: pip install requests pandas
+      
+      - name: Fetch Dst index
+        run: python scripts/fetch_usgs_dst.py
         continue-on-error: true
-
+      
       - name: Commit and push data
         run: |
           git config user.name "LUFT Bot"
           git config user.email "bot@luft.local"
           git pull --rebase origin main || true
-          git add data/usgs_magnetometer/ 2>/dev/null || echo "No USGS magnetometer files to add"
-          git commit -m "data: USGS multi-station magnetometer ingest $(date -u +'%Y-%m-%d %H:%M:%S UTC')" || echo "No new USGS data"
+          git add data/dst_index/ 2>/dev/null || echo "No Dst index files to add"
+          git commit -m "data: Dst index update $(date -u +'%Y-%m-%d %H:%M:%S UTC')" || echo "No new Dst data"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

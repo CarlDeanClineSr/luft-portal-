@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>χ = 0.15 Plasma Oscillation Boundary Dashboard</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #000;
+            color: #0f0;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #0ff;
+            text-align: center;
+            border-bottom: 2px solid #0ff;
+            padding-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #0f0;
+            margin-bottom: 20px;
+        }
+        .monitor {
+            border: 2px solid #0f0;
+            padding: 20px;
+            margin: 20px 0;
+            background: #001100;
+        }
+        .monitor h2 {
+            color: #0ff;
+            margin-top: 0;
+        }
+        .nominal { color: #0f0; }
+        .alert { color: #ff0; }
+        .critical { color: #f00; }
+        .metric {
+            margin: 10px 0;
+            padding: 5px;
+        }
+        .station-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #003300;
+        }
+        .footer {
+            text-align: center;
+            color: #0f0;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 2px solid #0f0;
+        }
+        .chi-bar {
+            display: inline-block;
+            height: 10px;
+            background: #0f0;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛰️ LIVE PLASMA OSCILLATION BOUNDARY MONITOR</h1>
+        <div class="subtitle">
+            <p>χ = |B - B_baseline| / B_baseline</p>
+            <p>Critical threshold: χ = 0.15</p>
+        </div>
+        
+        <div class="monitor">
+            <h2>SOLAR WIND (DSCOVR Satellite)</h2>
+            <div class="metric">Current χ: <strong>0.0000</strong> (0% of threshold)</div>
+            <div class="metric">24h Max χ: <strong>0.0000</strong> (0% of threshold)</div>
+            <div class="metric">
+                <span class="nominal">
+                    Status: 🟢 NOMINAL
+                </span>
+            </div>
+            <div class="chi-bar" style="width: 0.0px;"></div>
+        </div>
+        
+        <div class="monitor">
+            <h2>MAGNETOSPHERE (USGS Multi-Station)</h2>
+            
+            <div class="station-row"><span><strong>BOU</strong>: χ = 0.0002 (max 0.0004)</span><span class="nominal">🟢 NOMINAL</span></div><div class="station-row"><span><strong>CMO</strong>: χ = 0.0002 (max 0.0020)</span><span class="nominal">🟢 NOMINAL</span></div><div class="station-row"><span><strong>FRD</strong>: χ = 0.0001 (max 0.0005)</span><span class="nominal">🟢 NOMINAL</span></div><div class="station-row"><span><strong>SIT</strong>: χ = 0.0000 (max 0.0005)</span><span class="nominal">🟢 NOMINAL</span></div><div class="station-row"><span><strong>TUC</strong>: χ = 0.0002 (max 0.0005)</span><span class="nominal">🟢 NOMINAL</span></div>
+        </div>
+        
+        <div class="monitor">
+            <h2>GEOMAGNETIC STORM INDEX (Dst)</h2>
+            <div class="metric">Current Dst: <strong>N/A</strong> nT</div>
+            <div class="metric">Storm level: <strong>Unknown</strong></div>
+            <div class="metric">
+                <small>Reference: Dst &gt; -30 = Quiet, -30 to -50 = G1, -50 to -100 = G2-G3, -100 to -200 = G4, &lt; -200 = G5</small>
+            </div>
+        </div>
+        
+        <div class="monitor">
+            <h2>HISTORICAL STORM ARCHIVE</h2>
+            <div class="metric">
+                <strong>1989 Quebec Blackout</strong> (Mar 13-14, 1989)<br>
+                Station: FRD (Fredericksburg, VA) | Dst: -589 nT
+            </div>
+            <div class="metric">
+                <strong>1972 Apollo-Era Storm</strong> (Aug 4, 1972)<br>
+                Station: HON (Honolulu, HI) | Solar maximum event
+            </div>
+            <div class="metric">
+                <strong>2024 May G5 Storm</strong> (May 10-11, 2024)<br>
+                Station: BOU (Boulder, CO) | Recent extreme event
+            </div>
+            <div class="metric">
+                <small>Run workflow: Historical Storm χ Analysis to compute χ values</small>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Last updated: 2025-12-27 14:27:50 UTC</p>
+            <p>LUFT Observatory | Plasma Boundary Research</p>
+            <p><a href="https://github.com/CarlDeanClineSr/luft-portal-" style="color: #0ff;">GitHub Repository</a></p>
+        </div>
+    </div>
+</body>
+</html>
