@@ -1,0 +1,36 @@
+name: Hourly Dst Index Ingest
+
+on:
+  schedule:
+    - cron: '5 * * * *'  # Every hour at :05
+  workflow_dispatch:
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to push changes
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Install dependencies
+        run: pip install requests pandas
+      
+      - name: Fetch Dst index
+        run: python scripts/fetch_usgs_dst.py
+        continue-on-error: true
+      
+      - name: Commit and push data
+        run: |
+          git config user.name "LUFT Bot"
+          git config user.email "bot@luft.local"
+          git pull --rebase origin main || true
+          git add data/dst_index/ 2>/dev/null || echo "No Dst index files to add"
+          git commit -m "data: Dst index update $(date -u +'%Y-%m-%d %H:%M:%S UTC')" || echo "No new Dst data"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

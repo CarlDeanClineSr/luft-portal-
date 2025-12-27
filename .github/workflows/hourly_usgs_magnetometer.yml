@@ -1,4 +1,4 @@
-name: Hourly USGS Magnetometer Ingest
+name: Hourly USGS Magnetometer Ingest (Multi-Station)
 
 on:
   schedule:
@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Fetch USGS magnetometer data
+      - name: Fetch multi-station magnetometer data
         run: python scripts/fetch_usgs_magnetometer.py
         continue-on-error: true
 

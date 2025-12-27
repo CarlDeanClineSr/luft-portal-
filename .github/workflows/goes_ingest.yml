@@ -2,27 +2,25 @@ name: GOES Ingest and Capsule Audit
 
 on:
   schedule:
-    - cron:  '0 * * * *'  # Every hour
+    - cron: '9 * * * *'  # Every hour at :09
   workflow_dispatch:
 
 jobs:
-  ingest:
-    runs-on:  ubuntu-latest
-    steps: 
+  goes-ingest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
       - uses: actions/checkout@v4
       
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       
       - name: Install dependencies
-        run: pip install requests pandas numpy
-
-      - name: Create data directories
-        run: |
-          mkdir -p data/goes
-          mkdir -p capsules
-
+        run: pip install requests pandas
+      
       - name: Fetch GOES X-ray data
         run: python scripts/goes_capsule_builder.py
         continue-on-error: true
