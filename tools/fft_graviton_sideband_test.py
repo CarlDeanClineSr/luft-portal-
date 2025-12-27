@@ -19,7 +19,7 @@ import json
 from datetime import datetime
 import os
 
-INPUT_FILE = 'ace_dscover_data.csv'
+INPUT_FILE = 'data/cme_heartbeat_log_2025_12.csv'
 CHI_COLUMN = 'chi_amplitude'
 TIME_COLUMN = 'timestamp_utc'
 OUTPUT_DIR = 'results'
