@@ -1,16 +1,16 @@
 name: χ Dashboard Refresh
 
 on:
-  schedule:
+  schedule: 
     - cron: '*/5 * * * *'  # Every 5 minutes
   workflow_dispatch:
 
-jobs:
+jobs: 
   refresh:
     runs-on: ubuntu-latest
-    permissions:
+    permissions: 
       contents: write  # Required to push changes
-    steps:
+    steps: 
       - uses: actions/checkout@v4
       
       - uses: actions/setup-python@v5
@@ -20,17 +20,17 @@ jobs:
       - name: Install dependencies
         run: pip install pandas numpy
       
-      - name: Generate χ dashboard
-        run: python scripts/generate_chi_dashboard.py
+      - name:  Generate χ dashboard
+        run:  python scripts/generate_chi_dashboard.py
         continue-on-error: true
       
       - name: Commit dashboard
         run: |
-          git config user.name "LUFT Bot"
-          git config user.email "bot@luft.local"
+          git config user. name "LUFT Bot"
+          git config user.email "luft-bot@users.noreply.github.com"
+          git add docs/chi_dashboard. html
+          git diff --quiet && git diff --staged --quiet || git commit -m "docs: χ dashboard refresh $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
           git pull --rebase origin main || true
-          git add docs/chi_dashboard.html 2>/dev/null || echo "No dashboard to add"
-          git commit -m "docs: χ dashboard refresh $(date -u +'%Y-%m-%d %H:%M:%S UTC')" || echo "No dashboard changes"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
