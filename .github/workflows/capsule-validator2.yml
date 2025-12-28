@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install dependencies
-        run: pip install frontmatter
+        run: pip install python-frontmatter
       - name: Find capsules
         run: |
           python - <<'PY'
