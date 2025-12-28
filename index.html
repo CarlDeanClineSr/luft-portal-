@@ -6,6 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <title>LUFT Portal - Universal Plasma Boundary Observatory</title>
+    
+    <!-- Chart.js for live charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <!-- Live Dashboard CSS -->
+    <link rel="stylesheet" href="css/dashboard-live.css">
+    
     <style>
         * {
             margin: 0;
@@ -447,6 +454,70 @@
         </div>
     </section>
 
+    <!-- Live Data Stream Section -->
+    <div id="live-data-stream">
+        <h3>📡 Live Data Stream (Last 10 Readings)</h3>
+        <div class="data-table-scroll">
+            <table id="recent-data">
+                <thead>
+                    <tr>
+                        <th>Time (UTC)</th>
+                        <th>χ Amplitude</th>
+                        <th>Density (p/cm³)</th>
+                        <th>Speed (km/s)</th>
+                        <th>Bz (nT)</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="live-data-rows">
+                    <!-- Auto-populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+        <div class="update-indicator">
+            Last update: <span id="last-update-time">--</span> 
+            (updates every 60s)
+        </div>
+    </div>
+
+    <!-- System Status Indicators -->
+    <div class="system-status">
+        <h3>System Status</h3>
+        <div class="status-grid">
+            <div class="status-item">
+                <span class="status-light green"></span>
+                <div>
+                    <div class="status-name">DSCOVR Feed</div>
+                    <div class="status-detail" id="dscovr-status">LIVE</div>
+                </div>
+            </div>
+            
+            <div class="status-item">
+                <span class="status-light green"></span>
+                <div>
+                    <div class="status-name">χ Boundary</div>
+                    <div class="status-detail" id="chi-boundary-status">ACTIVE</div>
+                </div>
+            </div>
+            
+            <div class="status-item">
+                <span class="status-light yellow"></span>
+                <div>
+                    <div class="status-name">Magnetosphere Test</div>
+                    <div class="status-detail">Day 2/7</div>
+                </div>
+            </div>
+            
+            <div class="status-item">
+                <span class="status-light orange"></span>
+                <div>
+                    <div class="status-name">AM-Graviton Search</div>
+                    <div class="status-detail">Need more data</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <!-- Key Discovery Section -->
         <section id="discovery">
@@ -488,6 +559,71 @@
                 </div>
             </div>
         </section>
+
+        <!-- Live Statistics with Increments -->
+        <div class="live-stats">
+            <div class="stat-box">
+                <div class="stat-value" id="total-observations">12,847</div>
+                <div class="stat-label">Total Observations</div>
+                <div class="stat-change">+47 in last hour</div>
+            </div>
+            
+            <div class="stat-box">
+                <div class="stat-value" id="at-boundary-pct">53.6%</div>
+                <div class="stat-label">At χ = 0.15 Boundary</div>
+                <div class="stat-count" id="boundary-count">299/558 measurements</div>
+            </div>
+            
+            <div class="stat-box">
+                <div class="stat-value" id="workflow-runs">5,850</div>
+                <div class="stat-label">Workflow Runs</div>
+                <div class="stat-change">+12 today</div>
+            </div>
+        </div>
+
+        <!-- Chi Amplitude Gauge -->
+        <div class="chi-gauge">
+            <h3>χ Amplitude (Current)</h3>
+            <canvas id="chi-meter" width="300" height="200"></canvas>
+            <div class="gauge-value">
+                <span id="current-chi">0.0914</span>
+                <span class="gauge-label">Current Value</span>
+            </div>
+            <div class="boundary-indicator">
+                Boundary: 0.15 <span id="boundary-status">●</span>
+            </div>
+        </div>
+
+        <!-- Chi History Chart -->
+        <div class="chi-history">
+            <h3>χ Amplitude History (24 Hours)</h3>
+            <canvas id="chi-chart" width="800" height="300"></canvas>
+        </div>
+
+        <!-- FFT Spectrum Section -->
+        <div class="fft-section">
+            <h3>AM-Graviton Sideband Search</h3>
+            <div class="status-box">
+                <div>Status: <span id="fft-status">ANALYZING</span></div>
+                <div>Symmetry Error: <span id="symmetry-error">17.68%</span></div>
+                <div>Target: &lt;5% for detection</div>
+            </div>
+            <img id="fft-spectrum" src="results/test_001/fft_spectrum.png" alt="FFT Spectrum" style="max-width: 100%; height: auto;">
+            <div class="fft-result">
+                <p id="fft-interpretation">
+                    Solar wind noise dominates. AM-graviton signal not yet isolated. 
+                    Need 6 months data for reliable detection.
+                </p>
+            </div>
+        </div>
+
+        <!-- Engine Activity Feed -->
+        <div class="activity-feed">
+            <h3>Engine Activity (Live)</h3>
+            <div id="activity-log">
+                <!-- Auto-populated by JavaScript -->
+            </div>
+        </div>
 
         <!-- Active Projects Section -->
         <section id="projects">
@@ -817,11 +953,9 @@
         updateTicker();
         // Update ticker every 60 seconds
         setInterval(updateTicker, 60000);
-        
-        // Optional: Reload page every 5 minutes to get latest data
-        setTimeout(() => {
-            location.reload();
-        }, 300000); // 5 minutes
     </script>
+    
+    <!-- Live Dashboard JavaScript -->
+    <script src="js/dashboard-live.js"></script>
 </body>
 </html>
