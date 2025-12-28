@@ -44,12 +44,12 @@ async function updateLiveData() {
             let status = 'BELOW';
             let statusClass = 'status-green';
             if (!isNaN(chi)) {
-                if (chi >= 0.15) {
-                    status = 'AT BOUNDARY';
-                    statusClass = 'status-yellow';
-                } else if (chi > 0.155) {
+                if (chi > 0.155) {
                     status = 'VIOLATION';
                     statusClass = 'status-red';
+                } else if (chi >= 0.145 && chi <= 0.155) {
+                    status = 'AT BOUNDARY';
+                    statusClass = 'status-yellow';
                 }
             }
             
@@ -390,6 +390,9 @@ function updateActivityFeed() {
     if (!activityLog) return;
     
     const now = new Date();
+    const dataCount = historicalData.length;
+    
+    // Generate activity feed based on actual data
     const activities = [
         {
             time: new Date(now - 3 * 60000).toISOString().slice(11, 16) + ' UTC',
@@ -397,7 +400,7 @@ function updateActivityFeed() {
         },
         {
             time: new Date(now - 5 * 60000).toISOString().slice(11, 16) + ' UTC',
-            msg: 'DSCOVR data ingested (573 points)'
+            msg: `DSCOVR data ingested (${dataCount} points)`
         },
         {
             time: new Date(now - 8 * 60000).toISOString().slice(11, 16) + ' UTC',
