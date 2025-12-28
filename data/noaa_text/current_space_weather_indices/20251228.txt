@@ -1,5 +1,5 @@
 :Product: Current Space Weather Indices curind.txt
-:Issued: 2025 Dec 28 0334 UTC
+:Issued: 2025 Dec 28 0634 UTC
 # Prepared by the US Dept. of Commerce, NOAA, Space Weather Prediction Center
 # Product description and SWPC contact on the Web
 # https://www.spaceweather.gov
@@ -8,9 +8,9 @@
 :Solar_Radio_Flux: 2025 Dec 28
 #      Learmonth  San Vito   Sag Hill  Penticton  Penticton  Palehua  Penticton
 #        0400       1000       1700       1700       2000       2300       2300
-  245     -1         -1         -1         -1         -1         -1         -1
-  410     -1         -1         -1         -1         -1         -1         -1
-  610     -1         -1         -1         -1         -1         -1         -1
+  245     23         -1         -1         -1         -1         -1         -1
+  410     43         -1         -1         -1         -1         -1         -1
+  610     63         -1         -1         -1         -1         -1         -1
  1415     -1         -1         -1         -1         -1         -1         -1
  2695     -1         -1         -1         -1         -1         -1         -1
  2800     -1         -1         -1         -1         -1         -1         -1
@@ -25,7 +25,7 @@
 #      GOES Proton Flux          GOES Electron Flux    GOES    GOES     Neutron
 # ----- Protons/cm2-s-sr -----  -Electrons/cm2-s-sr -  X-ray  Location  Monitor
 #   >1 MeV   >10 MeV  >100 MeV         >2 MeV          flux     West    cts/min
-  4.93e+00  2.33e-01  2.10e-01        1.72e+03       1.64e-06   104.7      -1
+  2.18e+00  1.83e-01  1.69e-01        2.28e+03       2.46e-06   104.7      -1
 #
 #
 :Geomagnetic_Values: 2025 Dec 28
@@ -33,4 +33,4 @@
 #          Middle Latitude                                 Estimated
 #------------- Boulder -------------     ----------------- Planetary -------------------
 #Running A   03-06-09-12-15-18-21-24       03  - 06  - 09  - 12  - 15  - 18  - 21  - 24
-     8        2 -1 -1 -1 -1 -1 -1 -1     2.67  -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 
+     7        2  1 -1 -1 -1 -1 -1 -1     2.67  1.33  -1.00 -1.00 -1.00 -1.00 -1.00 -1.00 
