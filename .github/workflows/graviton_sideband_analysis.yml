@@ -31,7 +31,7 @@ jobs:
           git add results/graviton_sideband_analysis.json
           git add results/chi_fft_spectrum.png
           git diff --quiet && git diff --staged --quiet || git commit -m "data:  graviton sideband FFT analysis $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-          git pull --rebase origin main || true
+          git pull --rebase origin main --autostash || true
           git push
         env:
           GITHUB_TOKEN: ${{ secrets. GITHUB_TOKEN }}
