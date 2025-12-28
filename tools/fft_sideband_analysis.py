@@ -25,9 +25,54 @@ MIN_PROMINENCE = 3.0  # Minimum z-score for peak detection
 
 def load_chi_data(filepath):
     """Load χ timeseries from CSV"""
-    df = pd.read_csv(filepath, parse_dates=['timestamp_utc'])
+    import sys
+    
+    # Load data with robust CSV parsing
+    try:
+        df = pd.read_csv(filepath, 
+                         parse_dates=['timestamp_utc'],
+                         on_bad_lines='skip',  # Skip malformed lines
+                         engine='python')  # Use flexible Python parser
+    except Exception as e:
+        print(f"Error reading CSV: {e}")
+        print("Attempting alternate parsing...")
+        df = pd.read_csv(filepath, on_bad_lines='skip', engine='python')
+        if 'timestamp_utc' in df.columns:
+            df['timestamp_utc'] = pd.to_datetime(df['timestamp_utc'], errors='coerce')
+    
+    print(f"Loaded {len(df)} initial rows from CSV")
+    
+    # Determine which chi column to use
+    chi_column = None
+    if 'chi_value' in df.columns:
+        chi_column = 'chi_value'
+    elif 'chi_amplitude' in df.columns:
+        chi_column = 'chi_amplitude'
+    else:
+        print(f"Error: Neither 'chi_value' nor 'chi_amplitude' column found")
+        print(f"Available columns: {df.columns.tolist()}")
+        sys.exit(1)
+    
+    # Remove rows where timestamp_utc is NaN (continuation rows)
+    initial_rows = len(df)
+    df = df[df['timestamp_utc'].notna()]
+    
+    # Convert chi column to numeric, coercing errors to NaN
+    df[chi_column] = pd.to_numeric(df[chi_column], errors='coerce')
+    
+    # Remove rows where chi data is NaN
+    df = df[df[chi_column].notna()]
+    removed_rows = initial_rows - len(df)
+    if removed_rows > 0:
+        print(f"Removed {removed_rows} continuation/empty rows")
+    
+    # Check for empty DataFrame
+    if len(df) == 0:
+        print("Error: No valid data rows after filtering")
+        sys.exit(1)
+    
     df = df.sort_values('timestamp_utc')
-    return df['chi_value'].values, df['timestamp_utc'].values
+    return df[chi_column].values, df['timestamp_utc'].values
 
 def compute_fft(chi_series, sampling_rate):
     """Compute FFT with Hamming window"""

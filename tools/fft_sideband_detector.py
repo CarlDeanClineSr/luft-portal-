@@ -5,6 +5,7 @@ from scipy import signal
 from pathlib import Path
 import matplotlib.pyplot as plt
 from datetime import datetime
+import sys
 
 def main():
     parser = argparse.ArgumentParser(description="FFT Sideband Detector for χ Time-Series")
@@ -16,9 +17,53 @@ def main():
     parser.add_argument('--output-dir', default='results/test_001', help='Output directory')
     args = parser.parse_args()
 
-    # Load data
-    df = pd.read_csv(args.input, parse_dates=['timestamp_utc'])
-    chi = df['chi_value'].values
+    # Load data with robust CSV parsing
+    try:
+        df = pd.read_csv(args.input, 
+                         parse_dates=['timestamp_utc'],
+                         on_bad_lines='skip',  # Skip malformed lines
+                         engine='python')  # Use flexible Python parser
+    except Exception as e:
+        print(f"Error reading CSV: {e}")
+        print("Attempting alternate parsing...")
+        df = pd.read_csv(args.input, on_bad_lines='skip', engine='python')
+        if 'timestamp_utc' in df.columns:
+            df['timestamp_utc'] = pd.to_datetime(df['timestamp_utc'], errors='coerce')
+    
+    print(f"Loaded {len(df)} initial rows from CSV")
+    
+    # Determine which chi column to use
+    chi_column = None
+    if 'chi_value' in df.columns:
+        chi_column = 'chi_value'
+    elif 'chi_amplitude' in df.columns:
+        chi_column = 'chi_amplitude'
+    else:
+        print(f"Error: Neither 'chi_value' nor 'chi_amplitude' column found")
+        print(f"Available columns: {df.columns.tolist()}")
+        sys.exit(1)
+    
+    # Remove rows where timestamp_utc is NaN (continuation rows)
+    initial_rows = len(df)
+    df = df[df['timestamp_utc'].notna()]
+    
+    # Convert chi column to numeric, coercing errors to NaN
+    df[chi_column] = pd.to_numeric(df[chi_column], errors='coerce')
+    
+    # Remove rows where chi data is NaN
+    df = df[df[chi_column].notna()]
+    removed_rows = initial_rows - len(df)
+    if removed_rows > 0:
+        print(f"Removed {removed_rows} continuation/empty rows")
+    
+    # Check for empty DataFrame
+    if len(df) == 0:
+        print("Error: No valid data rows after filtering")
+        sys.exit(1)
+    
+    print(f"Processing {len(df)} valid data rows")
+    
+    chi = df[chi_column].values
     times = df['timestamp_utc'].values
 
     # FFT
