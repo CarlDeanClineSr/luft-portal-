@@ -572,7 +572,7 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
         print(f"\n⚠️  χ VIOLATION DETECTED (χ > {CHI_BOUNDARY_MAX})")
         print("   Status: Coherence loss - filamentary breakdown")
     elif entry['chi_at_boundary']:
-        print(f"\n✅ At χ = 0.15 BOUNDARY (optimal coupling)")
+        print(f"\n✅ At χ = {CHI_CAP_THEORETICAL} BOUNDARY (optimal coupling)")
     
     print(f"\n  Output file: {log_filepath}")
     print()

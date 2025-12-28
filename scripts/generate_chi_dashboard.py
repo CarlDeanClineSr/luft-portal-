@@ -298,7 +298,7 @@ def generate_html():
                 </div>
                 
                 <div style="padding: 15px; background: {'#220000' if chi_violations_count > 0 else '#002200'}; border-radius: 5px; border: 1px solid {'#ff4444' if chi_violations_count > 0 else '#00ff88'};">
-                    <div style="color: {'#ff4444' if chi_violations_count > 0 else '#0f0'}; font-size: 0.9em;">Violations (χ &gt; 0.155)</div>
+                    <div style="color: {'#ff4444' if chi_violations_count > 0 else '#0f0'}; font-size: 0.9em;">Violations (χ &gt; {CHI_BOUNDARY_MAX})</div>
                     <div style="color: {'#ff4444' if chi_violations_count > 0 else '#00ff88'}; font-size: 1.8em; font-weight: bold;">{chi_violations_count}</div>
                     <div style="color: {'#ff4444' if chi_violations_count > 0 else '#0f0'}; font-size: 0.9em;">{chi_violation_pct:.2f}% of total</div>
                 </div>
