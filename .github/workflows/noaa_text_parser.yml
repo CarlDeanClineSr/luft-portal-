@@ -14,7 +14,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install requests beautifulsoup4 pandas
-      - run: python tools/noaa_text_parser. py --output data/noaa_text
+      - run: python tools/noaa_text_parser.py --output data/noaa_text
       - run: |
           git config user.name "LUFT Bot"
           git config user.email "bot@luft.local"
