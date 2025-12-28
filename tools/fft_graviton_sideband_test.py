@@ -68,9 +68,8 @@ if len(df) == 0:
 
 print(f"Processing {len(df)} valid data rows")
 
-chi_data = df[[TIME_COLUMN, CHI_COLUMN]].dropna()
-chi = chi_data[CHI_COLUMN].values
-timestamps = pd.to_datetime(chi_data[TIME_COLUMN])
+chi = df[CHI_COLUMN].values
+timestamps = pd.to_datetime(df[TIME_COLUMN])
 
 print(f"Extracted {len(chi)} χ observations")
 print(f"Date range: {timestamps.min()} to {timestamps.max()}")

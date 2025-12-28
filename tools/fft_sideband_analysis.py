@@ -7,6 +7,7 @@ Author: Carl Dean Cline Sr.
 Date: 2025-12-25
 """
 
+import sys
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -25,7 +26,6 @@ MIN_PROMINENCE = 3.0  # Minimum z-score for peak detection
 
 def load_chi_data(filepath):
     """Load χ timeseries from CSV"""
-    import sys
     
     # Load data with robust CSV parsing
     try:
