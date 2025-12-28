@@ -138,7 +138,7 @@ def compute_chi_amplitude(df, baseline_window_hours=24):
         df['baseline'] = df['bt'].mean()
     
     # Handle edges (where rolling window doesn't apply)
-    df['baseline'].fillna(df['bt'].mean(), inplace=True)
+    df.loc[:, 'baseline'] = df['baseline'].fillna(df['bt'].mean())
     
     # Compute χ amplitude
     df['chi_amplitude'] = np.abs(df['bt'] - df['baseline']) / df['baseline']
@@ -272,7 +272,18 @@ def save_analysis_results(df, analysis, output_dir):
         json_path = output_dir / f'chi_boundary_summary_{timestamp_str}.json'
         summary = {
             'timestamp': datetime.now(timezone.utc).isoformat(),
-            **analysis,
+            'total_observations': int(analysis['total_observations']),
+            'at_boundary_count': int(analysis['at_boundary_count']),
+            'at_boundary_fraction': float(analysis['at_boundary_fraction']),
+            'below_count': int(analysis['below_count']),
+            'below_fraction': float(analysis['below_fraction']),
+            'violations_count': int(analysis['violations_count']),
+            'violations_fraction': float(analysis['violations_fraction']),
+            'chi_mean': float(analysis['chi_mean']),
+            'chi_std': float(analysis['chi_std']),
+            'chi_max': float(analysis['chi_max']),
+            'chi_min': float(analysis['chi_min']),
+            'attractor_state': bool(analysis['attractor_state']),
             'status': 'ATTRACTOR' if analysis['attractor_state'] else 
                      'VIOLATION' if analysis['violations_count'] > 0 else 
                      'NOMINAL'
