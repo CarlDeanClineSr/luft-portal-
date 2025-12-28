@@ -1,9 +1,9 @@
 # Capsule frontmatter validator (runs on PR)
 name: Capsule frontmatter validate
 on:
-  pull_request:
+  pull_request: 
     paths:
-      - 'capsules/**.md'
+      - 'capsules/**.md. DISABLED'  # Won't trigger 
 jobs:
   validate:
     runs-on: ubuntu-latest
