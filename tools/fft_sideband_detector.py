@@ -2,6 +2,7 @@ import argparse
 import numpy as np
 import pandas as pd
 from scipy import signal
+from scipy.signal import butter, filtfilt
 from pathlib import Path
 import matplotlib.pyplot as plt
 from datetime import datetime
@@ -29,13 +30,13 @@ def bandpass_filter(data, lowcut, highcut, fs, order=4):
     filtered_data : ndarray
         Bandpass filtered signal
     """
-    from scipy.signal import butter, filtfilt
-    
     nyq = 0.5 * fs
     low = lowcut / nyq
     high = highcut / nyq
     
     # Check for valid frequency range
+    if lowcut >= highcut:
+        raise ValueError(f"Lower cutoff ({lowcut} Hz) must be less than upper cutoff ({highcut} Hz)")
     if low <= 0 or high >= 1:
         raise ValueError(f"Filter frequencies must be within (0, {nyq} Hz)")
     
@@ -113,17 +114,22 @@ def main():
 
     # Apply bandpass filter if requested
     if args.bandpass:
-        print(f"Applying bandpass filter: {args.lowcut:.2e} - {args.highcut:.2e} Hz...")
-        try:
-            chi = bandpass_filter(chi, 
-                                  args.lowcut, 
-                                  args.highcut, 
-                                  args.sampling_rate,
-                                  order=args.filter_order)
-            print(f"Filter applied successfully")
-        except ValueError as e:
-            print(f"Filter error: {e}")
+        # Validate filter parameters
+        if args.lowcut >= args.highcut:
+            print(f"Error: Lower cutoff ({args.lowcut:.2e} Hz) must be less than upper cutoff ({args.highcut:.2e} Hz)")
             print("Proceeding without filter...")
+        else:
+            print(f"Applying bandpass filter: {args.lowcut:.2e} - {args.highcut:.2e} Hz...")
+            try:
+                chi = bandpass_filter(chi, 
+                                      args.lowcut, 
+                                      args.highcut, 
+                                      args.sampling_rate,
+                                      order=args.filter_order)
+                print(f"Filter applied successfully")
+            except ValueError as e:
+                print(f"Filter error: {e}")
+                print("Proceeding without filter...")
 
     # FFT
     N = len(chi)
