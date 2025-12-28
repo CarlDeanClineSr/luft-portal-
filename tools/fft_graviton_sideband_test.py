@@ -33,12 +33,43 @@ print("LUFT GRAVITON SIDEBAND DETECTOR")
 print("=" * 70)
 print(f"\nLoading data from: {INPUT_FILE}")
 
-df = pd.read_csv(INPUT_FILE)
-print(f"Loaded {len(df)} rows")
+# Load data with robust CSV parsing
+try:
+    df = pd.read_csv(INPUT_FILE, 
+                     parse_dates=[TIME_COLUMN],
+                     on_bad_lines='skip',  # Skip malformed lines
+                     engine='python')  # Use flexible Python parser
+except Exception as e:
+    print(f"Error reading CSV: {e}")
+    print("Attempting alternate parsing...")
+    df = pd.read_csv(INPUT_FILE, on_bad_lines='skip', engine='python')
+    if TIME_COLUMN in df.columns:
+        df[TIME_COLUMN] = pd.to_datetime(df[TIME_COLUMN], errors='coerce')
 
-chi_data = df[[TIME_COLUMN, CHI_COLUMN]].dropna()
-chi = chi_data[CHI_COLUMN].values
-timestamps = pd.to_datetime(chi_data[TIME_COLUMN])
+print(f"Loaded {len(df)} initial rows")
+
+# Remove rows where timestamp_utc is NaN (continuation rows)
+initial_rows = len(df)
+df = df[df[TIME_COLUMN].notna()]
+
+# Convert chi column to numeric, coercing errors to NaN
+df[CHI_COLUMN] = pd.to_numeric(df[CHI_COLUMN], errors='coerce')
+
+# Remove rows where chi data is NaN
+df = df[df[CHI_COLUMN].notna()]
+removed_rows = initial_rows - len(df)
+if removed_rows > 0:
+    print(f"Removed {removed_rows} continuation/empty rows")
+
+# Check for empty DataFrame
+if len(df) == 0:
+    print("Error: No valid data rows after filtering")
+    exit(1)
+
+print(f"Processing {len(df)} valid data rows")
+
+chi = df[CHI_COLUMN].values
+timestamps = pd.to_datetime(df[TIME_COLUMN])
 
 print(f"Extracted {len(chi)} χ observations")
 print(f"Date range: {timestamps.min()} to {timestamps.max()}")
