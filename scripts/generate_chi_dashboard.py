@@ -377,10 +377,10 @@ def generate_html():
             </div>
             
             <div style="margin-top: 15px; font-size: 0.9em; color: #0f0;">
-                <a href="../docs/CLINE_CONSTANT_FRAMEWORK_v1.md" style="color: #cc00ff; text-decoration: none; margin-right: 15px;">
+                <a href="CLINE_CONSTANT_FRAMEWORK_v1.md" style="color: #cc00ff; text-decoration: none; margin-right: 15px;">
                     📖 View Full Framework
                 </a>
-                <a href="../docs/CLINE_CONSTANT_SUMMARY.md" style="color: #cc00ff; text-decoration: none;">
+                <a href="CLINE_CONSTANT_SUMMARY.md" style="color: #cc00ff; text-decoration: none;">
                     📄 Executive Summary
                 </a>
             </div>

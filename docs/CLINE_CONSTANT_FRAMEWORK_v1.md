@@ -509,6 +509,21 @@ Like α (fine structure constant), χ_C is **dimensionless**:
 
 The proximity of χ_C ≈ 0.15 to 1/(2π) ≈ 0.159 suggests a connection to fundamental geometry and phase space structure.
 
+### Related Discovery: Universal Modulation
+
+A related but distinct universal oscillation was discovered with **χ ≈ 0.055** (November 25, 2025). This represents a different physical phenomenon:
+
+| Discovery | Value | Frequency | Interpretation |
+|-----------|-------|-----------|----------------|
+| **χ_C (Cline Constant)** | 0.15 | N/A | Stability boundary (threshold) |
+| **Universal Modulation** | 0.055 | ~10⁻⁴ Hz | Oscillatory amplitude (periodic) |
+
+While both involve fractional perturbations (χ), they describe different aspects of confined systems:
+- **χ_C = 0.15** is a **threshold** that separates stable from unstable states
+- **χ = 0.055** is an **oscillation amplitude** appearing across independent physical domains
+
+The relationship between these two constants (if any) remains an open question for future investigation.
+
 **Speculation**: χ_C may be related to vacuum structure or quantum foam at scales we haven't yet probed.
 
 ---
