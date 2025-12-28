@@ -42,7 +42,7 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git pull --rebase origin main || true
+          git pull --rebase origin main --autostash || true
           git add vault_10row_forecast_indicator_dec15.md
           if git diff --staged --quiet; then
             echo "No changes to vault_10row_forecast_indicator_dec15.md"

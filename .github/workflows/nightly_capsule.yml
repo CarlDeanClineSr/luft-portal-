@@ -18,7 +18,7 @@ jobs:
       - run: |
           git config user.name "LUFT Data Bot"
           git config user.email "data@luft.local"
-          git pull --rebase origin main || true
+          git pull --rebase origin main --autostash || true
           git add reports/daily_capsule.md
           git diff --quiet && git diff --staged --quiet || git commit -m "reports: nightly capsule $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
           git push
