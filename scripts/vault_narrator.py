@@ -44,6 +44,10 @@ CHI_CAP_TOL = 0.001
 CHI_FLOOR = 0.004
 CHI_FLOOR_TOL = 0.001
 
+# χ = 0.15 Universal Boundary Constants (discovered Dec 2025)
+CHI_BOUNDARY_MIN = 0.145  # CHI_CAP - 0.01
+CHI_BOUNDARY_MAX = 0.155  # CHI_CAP + 0.01
+
 LONG_STREAK_HOURS = float(os.environ.get("VAULT_LONG_STREAK_HOURS", "48"))
 SUPERSTREAK_HOURS = float(os.environ.get("VAULT_SUPERSTREAK_HOURS", "72"))
 
@@ -61,6 +65,41 @@ def load_latest_extended():
     df = pd.read_csv(files[-1], parse_dates=[TIME_COL])
     df = df.sort_values(TIME_COL)
     return df
+
+
+def analyze_chi_boundary(df):
+    """
+    Analyze χ values relative to the universal χ = 0.15 boundary.
+    
+    Returns:
+        Dictionary with boundary analysis results
+    """
+    if CHI_COL not in df.columns:
+        return None
+    
+    chi_values = df[CHI_COL].dropna()
+    
+    if len(chi_values) == 0:
+        return None
+    
+    # Count observations in each category
+    chi_at_boundary = len(chi_values[(chi_values >= CHI_BOUNDARY_MIN) & 
+                                     (chi_values <= CHI_BOUNDARY_MAX)])
+    chi_violations = len(chi_values[chi_values > CHI_BOUNDARY_MAX])
+    
+    # Compute fractions
+    chi_boundary_fraction = chi_at_boundary / len(chi_values)
+    chi_violation_fraction = chi_violations / len(chi_values)
+    
+    return {
+        'total': len(chi_values),
+        'at_boundary': chi_at_boundary,
+        'at_boundary_pct': chi_boundary_fraction * 100,
+        'violations': chi_violations,
+        'violations_pct': chi_violation_fraction * 100,
+        'attractor_state': chi_boundary_fraction > 0.5
+    }
+
 
 def detect_cap_streak(df):
     df["is_cap"] = (df[CHI_COL] >= CHI_CAP - CHI_CAP_TOL)
@@ -152,7 +191,7 @@ def make_solarwind_miniplot(df):
 # Markdown
 # ------------------------
 
-def write_markdown(df, streak, last_lock, first_lock, duration, noaa, chi_chart, sw_chart):
+def write_markdown(df, streak, last_lock, first_lock, duration, noaa, chi_chart, sw_chart, chi_boundary_analysis):
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
     md = []
@@ -177,6 +216,24 @@ def write_markdown(df, streak, last_lock, first_lock, duration, noaa, chi_chart,
         md.append(f"**First Lock:** {first_lock}  \n")
         md.append(f"**Last Lock:** {last_lock}  \n")
         md.append(f"**Duration:** {duration}  \n")
+
+    # χ = 0.15 Universal Boundary Analysis
+    if chi_boundary_analysis:
+        md.append("\n---\n")
+        md.append("## 🔬 χ = 0.15 UNIVERSAL BOUNDARY\n\n")
+        md.append(f"**Total observations (72h):** {chi_boundary_analysis['total']}  \n")
+        md.append(f"**At boundary (0.145-0.155):** {chi_boundary_analysis['at_boundary']} "
+                 f"({chi_boundary_analysis['at_boundary_pct']:.1f}%)  \n")
+        
+        if chi_boundary_analysis['violations'] > 0:
+            md.append(f"**⚠️ Violations (χ > 0.155):** {chi_boundary_analysis['violations']} "
+                     f"({chi_boundary_analysis['violations_pct']:.2f}%)  \n")
+            md.append("**Status:** Coherence loss - investigating filamentary breakdown  \n")
+        elif chi_boundary_analysis['attractor_state']:
+            md.append("**✅ ATTRACTOR STATE CONFIRMED** - System spending >50% time at optimal coupling  \n")
+            md.append("**Status:** Plasma locked to glow-mode maximum amplitude  \n")
+        else:
+            md.append("**Status:** Normal operations, system below boundary  \n")
 
     md.append("\n---\n")
     md.append("## 🌞 NOAA SPACE WEATHER SUMMARIES\n\n")
@@ -215,12 +272,13 @@ def main():
     df72 = df[df[TIME_COL] >= cutoff].copy()
 
     streak, last_lock, first_lock, duration = detect_cap_streak(df72)
+    chi_boundary_analysis = analyze_chi_boundary(df72)
     noaa = check_noaa()
 
     chi_chart = make_chi_sparkline(df72, streak)
     sw_chart = make_solarwind_miniplot(df72)
 
-    write_markdown(df72, streak, last_lock, first_lock, duration, noaa, chi_chart, sw_chart)
+    write_markdown(df72, streak, last_lock, first_lock, duration, noaa, chi_chart, sw_chart, chi_boundary_analysis)
 
     print("[OK] Vault narrator complete.")
 

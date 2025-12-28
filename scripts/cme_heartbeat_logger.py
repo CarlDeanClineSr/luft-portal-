@@ -40,6 +40,12 @@ PERIOD_HOURS = 2.4    # Period in hours
 PERIOD_SECONDS = PERIOD_HOURS * 3600  # 8640 seconds
 OMEGA = 2 * np.pi / PERIOD_SECONDS    # Angular frequency
 
+# χ = 0.15 Universal Boundary Constants (discovered Dec 2025)
+CHI_CAP_THEORETICAL = 0.15
+CHI_TOLERANCE = 0.01
+CHI_BOUNDARY_MIN = CHI_CAP_THEORETICAL - CHI_TOLERANCE  # 0.145
+CHI_BOUNDARY_MAX = CHI_CAP_THEORETICAL + CHI_TOLERANCE  # 0.155
+
 # Storm phase thresholds (based on Kp/Dst or plasma parameters)
 KP_STORM_THRESHOLD = 5.0       # Kp >= 5 indicates storm conditions
 DENSITY_STORM_THRESHOLD = 15.0  # p/cm³ - elevated density indicates storm
@@ -343,6 +349,26 @@ def classify_storm_phase(density, speed, bz, bt):
         return 'post-storm'
 
 
+def classify_chi_status(chi_val):
+    """
+    Classify χ value relative to universal χ = 0.15 boundary.
+    
+    Returns:
+        'UNKNOWN' - NaN/None value
+        'VIOLATION' - Above boundary (χ > 0.155) - filamentary breakdown
+        'AT_BOUNDARY' - At optimal coupling (0.145 ≤ χ ≤ 0.155)
+        'BELOW' - Glow mode (χ < 0.145) - normal operations
+    """
+    if chi_val is None or (isinstance(chi_val, float) and np.isnan(chi_val)):
+        return 'UNKNOWN'
+    elif chi_val > CHI_BOUNDARY_MAX:
+        return 'VIOLATION'
+    elif CHI_BOUNDARY_MIN <= chi_val <= CHI_BOUNDARY_MAX:
+        return 'AT_BOUNDARY'
+    else:
+        return 'BELOW'
+
+
 def initialize_log_file(filepath):
     """Initialize CSV log file with headers if it doesn't exist."""
     if not filepath.exists():
@@ -358,7 +384,10 @@ def initialize_log_file(filepath):
                 'speed_km_s',
                 'bz_nT',
                 'bt_nT',
-                'source'
+                'source',
+                'chi_at_boundary',
+                'chi_violation',
+                'chi_status'
             ])
         print(f"Created new log file: {filepath}")
 
@@ -376,7 +405,10 @@ def append_log_entry(filepath, entry):
             entry.get('speed', ''),
             entry.get('bz', ''),
             entry.get('bt', ''),
-            entry.get('source', 'ACE/DSCOVR')
+            entry.get('source', 'ACE/DSCOVR'),
+            entry.get('chi_at_boundary', 0),
+            entry.get('chi_violation', 0),
+            entry.get('chi_status', 'UNKNOWN')
         ])
 
 
@@ -394,6 +426,11 @@ def generate_demo_entry():
     phase = estimate_phase(now.isoformat())
     storm_phase = classify_storm_phase(density, speed, bz, bt)
     
+    # Add χ boundary classification
+    chi_at_boundary = 1 if (CHI_BOUNDARY_MIN <= chi <= CHI_BOUNDARY_MAX) else 0
+    chi_violation = 1 if chi > CHI_BOUNDARY_MAX else 0
+    chi_status = classify_chi_status(chi)
+    
     return {
         'timestamp_utc': now.isoformat(),
         'chi_amplitude': chi,
@@ -403,7 +440,10 @@ def generate_demo_entry():
         'speed': round(max(0, speed), 1),
         'bz': round(bz, 2),
         'bt': round(max(0, bt), 2),
-        'source': 'DEMO'
+        'source': 'DEMO',
+        'chi_at_boundary': chi_at_boundary,
+        'chi_violation': chi_violation,
+        'chi_status': chi_status
     }
 
 
@@ -492,6 +532,11 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
         phase = estimate_phase(timestamp)
         storm_phase = classify_storm_phase(density, speed, bz, bt)
         
+        # Add χ boundary classification
+        chi_at_boundary = 1 if (CHI_BOUNDARY_MIN <= chi <= CHI_BOUNDARY_MAX) else 0
+        chi_violation = 1 if chi > CHI_BOUNDARY_MAX else 0
+        chi_status = classify_chi_status(chi)
+        
         entry = {
             'timestamp_utc': timestamp,
             'chi_amplitude': chi,
@@ -501,7 +546,10 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
             'speed': round(speed, 1) if speed else '',
             'bz': round(bz, 2) if bz else '',
             'bt': round(bt, 2) if bt else '',
-            'source': 'ACE/DSCOVR'
+            'source': 'ACE/DSCOVR',
+            'chi_at_boundary': chi_at_boundary,
+            'chi_violation': chi_violation,
+            'chi_status': chi_status
         }
     
     # Initialize log file if needed
@@ -515,9 +563,18 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
     print("Entry logged successfully!")
     print(f"  Timestamp: {entry['timestamp_utc']}")
     print(f"  χ amplitude: {entry['chi_amplitude']}")
+    print(f"  χ status: {entry['chi_status']}")
     print(f"  Phase (rad): {entry['phase_radians']}")
     print(f"  Storm phase: {entry['storm_phase']}")
-    print(f"  Output file: {log_filepath}")
+    
+    # χ boundary status alert
+    if entry['chi_violation']:
+        print(f"\n⚠️  χ VIOLATION DETECTED (χ > {CHI_BOUNDARY_MAX})")
+        print("   Status: Coherence loss - filamentary breakdown")
+    elif entry['chi_at_boundary']:
+        print(f"\n✅ At χ = 0.15 BOUNDARY (optimal coupling)")
+    
+    print(f"\n  Output file: {log_filepath}")
     print()
     print("=" * 60)
     print("LUFT Heartbeat Logger complete.")

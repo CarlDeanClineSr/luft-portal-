@@ -2,6 +2,8 @@
 """
 Generate real-time χ dashboard with multi-station data, Dst comparison, and historical events.
 Outputs static HTML to docs/chi_dashboard.html
+
+Includes χ = 0.15 universal boundary status monitoring.
 """
 
 import pandas as pd
@@ -10,6 +12,12 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 import glob
 import sys
+
+# χ = 0.15 Universal Boundary Constants
+CHI_CAP_THEORETICAL = 0.15
+CHI_TOLERANCE = 0.01
+CHI_BOUNDARY_MIN = 0.145  # CHI_CAP_THEORETICAL - CHI_TOLERANCE
+CHI_BOUNDARY_MAX = 0.155  # CHI_CAP_THEORETICAL + CHI_TOLERANCE
 
 def load_latest_dscovr():
     """Load last 7 days of DSCOVR solar wind data."""
@@ -150,6 +158,21 @@ def generate_html():
         dscovr_chi_current = 0
         dscovr_chi_max = 0
     
+    # Compute χ boundary statistics for DSCOVR
+    chi_at_boundary_count = 0
+    chi_violations_count = 0
+    chi_at_boundary_pct = 0
+    chi_violation_pct = 0
+    
+    if dscovr is not None and 'chi' in dscovr.columns:
+        chi_values = dscovr['chi'].dropna()
+        if len(chi_values) > 0:
+            chi_at_boundary_count = len(chi_values[(chi_values >= CHI_BOUNDARY_MIN) & 
+                                                    (chi_values <= CHI_BOUNDARY_MAX)])
+            chi_violations_count = len(chi_values[chi_values > CHI_BOUNDARY_MAX])
+            chi_at_boundary_pct = chi_at_boundary_count / len(chi_values) * 100
+            chi_violation_pct = chi_violations_count / len(chi_values) * 100
+    
     # Compute χ for USGS stations
     usgs_chi = {}
     for station, df in usgs_multi.items():
@@ -263,6 +286,38 @@ def generate_html():
                 </span>
             </div>
             <div class="chi-bar" style="width: {min(dscovr_chi_max/0.15*300, 300)}px;"></div>
+        </div>
+        
+        <div class="monitor" style="background: #001a1a; border: 2px solid #00ff88;">
+            <h2 style="color: #00ff88;">χ = 0.15 UNIVERSAL BOUNDARY STATUS</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 15px 0;">
+                <div style="padding: 15px; background: #002200; border-radius: 5px; border: 1px solid #00ff88;">
+                    <div style="color: #0f0; font-size: 0.9em;">Observations at Boundary</div>
+                    <div style="color: #00ff88; font-size: 1.8em; font-weight: bold;">{chi_at_boundary_count}</div>
+                    <div style="color: #0f0; font-size: 0.9em;">{chi_at_boundary_pct:.1f}% of total</div>
+                </div>
+                
+                <div style="padding: 15px; background: {'#220000' if chi_violations_count > 0 else '#002200'}; border-radius: 5px; border: 1px solid {'#ff4444' if chi_violations_count > 0 else '#00ff88'};">
+                    <div style="color: {'#ff4444' if chi_violations_count > 0 else '#0f0'}; font-size: 0.9em;">Violations (χ &gt; 0.155)</div>
+                    <div style="color: {'#ff4444' if chi_violations_count > 0 else '#00ff88'}; font-size: 1.8em; font-weight: bold;">{chi_violations_count}</div>
+                    <div style="color: {'#ff4444' if chi_violations_count > 0 else '#0f0'}; font-size: 0.9em;">{chi_violation_pct:.2f}% of total</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 15px; padding: 15px; background: {'#331100' if chi_violations_count > 0 else '#003300' if chi_at_boundary_pct > 50 else '#001100'}; border-radius: 5px;">
+                <strong style="color: #00ff88;">Status:</strong> 
+                <span style="color: #fff;">
+                    {"⚠️ VIOLATIONS DETECTED - Investigating filamentary breakdown" if chi_violations_count > 0 
+                     else "✅ ATTRACTOR STATE - System at optimal coupling" if chi_at_boundary_pct > 50 
+                     else "NOMINAL - System below boundary"}
+                </span>
+            </div>
+            
+            <div style="margin-top: 15px; font-size: 0.9em; color: #0f0;">
+                <a href="../capsules/CAPSULE_CHI_015_ENGINE_INTEGRATION_v1.md" style="color: #0ff; text-decoration: none;">
+                    📖 View Theory Capsule
+                </a>
+            </div>
         </div>
         
         <div class="monitor">
