@@ -98,6 +98,10 @@ $$\chi_{solar} = \frac{|B_t(t) - \langle B_t \rangle_{24h}|}{B_0}$$
 
 ## Section 3: Electrostatic Regime (IEC Plasma)
 
+![IEC Potential Wells](images/iec_potential_wells.png)
+
+*Figure 2: Electrostatic potential diagram for IEC device showing space-charge perturbation and the χ_IEC threshold.*
+
 ### Definition
 
 In Inertial Electrostatic Confinement (IEC) devices:
@@ -179,6 +183,10 @@ In the linear regime (χ << 1), perturbations grow as:
 $$\delta(t) \propto t^{2/3} \quad \text{(matter domination)}$$
 
 ### Dipole Repeller + Shapley Attractor Analysis
+
+![Dipole Repeller Cosmic Flow Lines](images/dipole_repeller_flows.png)
+
+*Figure 1: Cosmic flow lines showing the Dipole Repeller (void) and Shapley Attractor, illustrating the gravitational regime of χ_C.*
 
 The Local Group velocity is dominated by two structures:
 
@@ -355,6 +363,10 @@ The 1/(2π) factor in χ_C may hint at a vacuum structure connection.
 
 ## Section 9: IEC Prediction Details
 
+![IEC Multi-Grid Device](images/iec_multi_grid.png)
+
+*Figure 3: IEC device schematic showing multi-grid configuration and χ_IEC optimization design considerations.*
+
 ### Radial Force Balance Equation
 
 In an IEC device with spherical cathode at radius R₀:
@@ -398,6 +410,10 @@ $$\frac{\delta n}{n_0} \leq 0.15$$
 ---
 
 ## Section 10: Cosmological Application
+
+![Density Map with Velocity Vectors](images/dipole_repeller_density.png)
+
+*Figure 4: Density contrast map (δρ/ρ̄) with velocity vectors, showing Local Group χ ≈ 0.12-0.17.*
 
 ### Local Group Velocity: ~600 km/s
 
