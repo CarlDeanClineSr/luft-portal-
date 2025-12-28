@@ -1,0 +1,71 @@
+:Product: 3-day Space Weather Predictions daypre.txt
+:Issued: 2025 Dec 27 2200 UTC
+# Prepared by the US Dept. of Commerce, NOAA, Space Weather Prediction Center
+# Product description and SWPC contact on the Web
+# http://www.swpc.noaa.gov/wwire.html
+#
+#             3-day Space Weather Predictions
+#
+:Prediction_dates:   2025 Dec 28   2025 Dec 29   2025 Dec 30
+:Geomagnetic_A_indices:
+A_Fredericksburg          5             6             5
+A_Planetary               5             5             5
+#
+# Predicted 3-hour Middle latitude k-indices
+:Pred_Mid_k:
+Mid/00-03UT               2             2             1
+Mid/03-06UT               1             1             1
+Mid/06-09UT               2             2             2
+Mid/09-12UT               1             1             1
+Mid/12-15UT               2             2             2
+Mid/15-18UT               1             1             1
+Mid/18-21UT               1             2             2
+Mid/21-00UT               2             2             2
+#
+# Predicted 3-hour High latitude k-indices
+:Pred_High_k:
+High/00-03UT              1             1             1
+High/03-06UT              1             1             1
+High/06-09UT              1             1             1
+High/09-12UT              2             2             2
+High/12-15UT              2             2             3
+High/15-18UT              2             1             1
+High/18-21UT              1             1             1
+High/21-00UT              1             1             1
+#
+# Probability of Geomagnetic conditions at Middle Latitude
+:Prob_Mid:
+Mid/Active               10            10            10
+Mid/Minor_Storm           1             1             1
+Mid/Major-Severe_Storm    1             1             1
+#
+# Probability of Geomagnetic conditions at High Latitudes
+:Prob_High:
+High/Active              15            15            15
+High/Minor_Storm         20            20            20
+High/Major-Severe_Storm  10            10            10
+#
+# Polar Cap Absorption Forecast
+:Polar_cap:
+                      green
+#
+# Solar
+:10cm_flux:
+                        175           170           160
+#
+:Whole_Disk_Flare_Prob:
+Class_M                  65            65            65
+Class_X                  20            20            20
+Proton                   15            10            10
+#
+# Region Flare Probabilities for 2025 Dec 28
+# Region     Class C      M             X             P
+:Reg_Prob: 2025 Dec 27
+  4312         10         1             1             1
+  4316         10         1             1             1
+  4317         85        40            10             5
+  4319         20         5             1             1
+  4321         75        25            10             5
+  4323         10         5             1             1
+  4324         65        25             5             5
+  4325         30         5             5             5
