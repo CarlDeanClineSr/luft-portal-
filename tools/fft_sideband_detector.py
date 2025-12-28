@@ -2,10 +2,48 @@ import argparse
 import numpy as np
 import pandas as pd
 from scipy import signal
+from scipy.signal import butter, filtfilt
 from pathlib import Path
 import matplotlib.pyplot as plt
 from datetime import datetime
 import sys
+
+def bandpass_filter(data, lowcut, highcut, fs, order=4):
+    """
+    Apply Butterworth bandpass filter to time series data.
+    
+    Parameters:
+    -----------
+    data : array-like
+        Input time series
+    lowcut : float
+        Lower cutoff frequency (Hz)
+    highcut : float
+        Upper cutoff frequency (Hz)
+    fs : float
+        Sampling frequency (Hz)
+    order : int
+        Filter order (default: 4)
+    
+    Returns:
+    --------
+    filtered_data : ndarray
+        Bandpass filtered signal
+    """
+    nyq = 0.5 * fs
+    low = lowcut / nyq
+    high = highcut / nyq
+    
+    # Check for valid frequency range
+    if lowcut >= highcut:
+        raise ValueError(f"Lower cutoff ({lowcut} Hz) must be less than upper cutoff ({highcut} Hz)")
+    if low <= 0 or high >= 1:
+        raise ValueError(f"Filter frequencies must be within (0, {nyq} Hz)")
+    
+    b, a = butter(order, [low, high], btype='band')
+    filtered_data = filtfilt(b, a, data)
+    
+    return filtered_data
 
 def main():
     parser = argparse.ArgumentParser(description="FFT Sideband Detector for χ Time-Series")
@@ -15,6 +53,14 @@ def main():
     parser.add_argument('--plot-all', action='store_true', help='Generate all diagnostic plots')
     parser.add_argument('--save-report', action='store_true', help='Save text report')
     parser.add_argument('--output-dir', default='results/test_001', help='Output directory')
+    parser.add_argument('--bandpass', action='store_true',
+                       help='Apply bandpass filter before FFT')
+    parser.add_argument('--lowcut', type=float, default=5e-5,
+                       help='Bandpass lower cutoff frequency (Hz, default: 5e-5)')
+    parser.add_argument('--highcut', type=float, default=5e-4,
+                       help='Bandpass upper cutoff frequency (Hz, default: 5e-4)')
+    parser.add_argument('--filter-order', type=int, default=4,
+                       help='Butterworth filter order (default: 4)')
     args = parser.parse_args()
 
     # Load data with robust CSV parsing
@@ -66,6 +112,25 @@ def main():
     chi = df[chi_column].values
     times = df['timestamp_utc'].values
 
+    # Apply bandpass filter if requested
+    if args.bandpass:
+        # Validate filter parameters
+        if args.lowcut >= args.highcut:
+            print(f"Error: Lower cutoff ({args.lowcut:.2e} Hz) must be less than upper cutoff ({args.highcut:.2e} Hz)")
+            print("Proceeding without filter...")
+        else:
+            print(f"Applying bandpass filter: {args.lowcut:.2e} - {args.highcut:.2e} Hz...")
+            try:
+                chi = bandpass_filter(chi, 
+                                      args.lowcut, 
+                                      args.highcut, 
+                                      args.sampling_rate,
+                                      order=args.filter_order)
+                print(f"Filter applied successfully")
+            except ValueError as e:
+                print(f"Filter error: {e}")
+                print("Proceeding without filter...")
+
     # FFT
     N = len(chi)
     freqs = np.fft.rfftfreq(N, d=1/args.sampling_rate)
@@ -87,7 +152,11 @@ Generated: {datetime.utcnow()}
 Input: {args.input}
 N: {N} points
 Sampling Rate: {args.sampling_rate} Hz
-
+"""
+    if args.bandpass:
+        report += f"Bandpass Filter: {args.lowcut:.2e} - {args.highcut:.2e} Hz (order {args.filter_order})\n"
+    
+    report += f"""
 Detected Peaks ({len(peaks)}):
 """
     for i, (f, p) in enumerate(zip(peak_freqs, peak_power)):
@@ -105,7 +174,10 @@ Detected Peaks ({len(peaks)}):
         plt.plot(peak_freqs, peak_power, "x", color='red')
         plt.xlabel('Frequency (Hz)')
         plt.ylabel('Power')
-        plt.title('χ FFT Power Spectrum with Detected Peaks')
+        title = 'χ FFT Power Spectrum with Detected Peaks'
+        if args.bandpass:
+            title += f'\n(Bandpass: {args.lowcut:.2e} - {args.highcut:.2e} Hz)'
+        plt.title(title)
         plt.grid(True)
         plt.savefig(out_dir / "fft_spectrum.png", dpi=150)
         plt.close()
