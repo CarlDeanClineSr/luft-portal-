@@ -7,7 +7,8 @@ Fetches recent physics papers from arXiv API and filters for LUFT-relevant topic
 import os
 import json
 import feedparser
-from datetime import datetime, timedelta
+import sys
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 # LUFT-relevant categories and keywords
@@ -92,7 +93,7 @@ def is_luft_relevant(paper):
 
 def save_papers(papers, output_dir):
     """Save papers to JSON files."""
-    now = datetime.now(datetime.UTC) if hasattr(datetime, 'UTC') else datetime.utcnow()
+    now = datetime.now(timezone.utc)
     timestamp = now.strftime('%Y%m%d_%H%M%S')
     output_file = output_dir / f'arxiv_harvest_{timestamp}.json'
     

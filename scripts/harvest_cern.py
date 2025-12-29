@@ -8,7 +8,7 @@ import os
 import json
 import requests
 import feedparser
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 # LUFT-relevant keywords for filtering
@@ -121,7 +121,7 @@ def is_luft_relevant(paper):
 
 def save_papers(papers, output_dir):
     """Save papers to JSON files."""
-    now = datetime.now(datetime.UTC) if hasattr(datetime, 'UTC') else datetime.utcnow()
+    now = datetime.now(timezone.utc)
     timestamp = now.strftime('%Y%m%d_%H%M%S')
     output_file = output_dir / f'cern_harvest_{timestamp}.json'
     
