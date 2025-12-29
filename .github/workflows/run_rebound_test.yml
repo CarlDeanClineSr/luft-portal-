@@ -8,6 +8,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to push changes
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -18,9 +20,9 @@ jobs:
       - run: |
           git config user.name "LUFT Test Bot"
           git config user.email "test@luft.local"
-          git pull --rebase origin main --autostash || true
-          git add results/rebound_test_v1.csv
+          git add results/rebound_test_v1.csv 2>/dev/null || echo "No files to add"
           git diff --quiet && git diff --staged --quiet || git commit -m "test: rebound directive fit $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          git pull --rebase origin main --autostash || true
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
