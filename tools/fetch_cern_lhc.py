@@ -36,7 +36,7 @@ def validate_csv_file(filepath):
                 return False
             
             # Check for common error messages
-            if any(msg in first_lines for tag in ['404', 'error 404', 'not found']):
+            if any(msg in first_lines for msg in ['404', 'error 404', 'not found']):
                 print(f"ERROR: {filepath} contains error message")
                 return False
         
