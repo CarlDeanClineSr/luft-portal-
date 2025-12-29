@@ -205,6 +205,9 @@ def test_percentages_sum_to_100():
 def test_real_data_structure():
     """Test with structure matching actual CME heartbeat log."""
     
+    # Use fixed seed for reproducible tests
+    np.random.seed(42)
+    
     # Simulate real data structure
     data = {
         'timestamp_utc': pd.date_range('2025-12-01', periods=100, freq='1H'),

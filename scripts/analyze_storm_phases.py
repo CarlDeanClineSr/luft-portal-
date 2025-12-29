@@ -36,11 +36,11 @@ def main():
         return 1
     
     print(f"Loading χ timeseries from: {input_csv}")
-    # Handle CSV with potential header issues
+    # Handle CSV files with malformed rows
     try:
         df = pd.read_csv(input_csv)
     except pd.errors.ParserError:
-        # Try with error_bad_lines parameter or on_bad_lines
+        # Skip bad lines if the CSV has formatting issues
         df = pd.read_csv(input_csv, on_bad_lines='skip')
     print(f"Loaded {len(df)} observations")
     print()

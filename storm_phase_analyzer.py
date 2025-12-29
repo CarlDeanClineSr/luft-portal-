@@ -18,7 +18,6 @@ def analyze_storm_phases(
     chi_boundary_min: float = 0.145,
     chi_boundary_max: float = 0.155,
     min_peak_points: int = 3,
-    min_gap_hours_between_storms: float = 6.0,
 ) -> Tuple[Dict[str, Any], pd.DataFrame]:
     """
     Analyze χ timeseries and classify observations into storm phases:
@@ -40,7 +39,6 @@ def analyze_storm_phases(
         chi_boundary_min: lower bound of χ boundary (inclusive)
         chi_boundary_max: upper bound of χ boundary (inclusive)
         min_peak_points: minimum number of PEAK samples to call it a storm
-        min_gap_hours_between_storms: reserved for multi-storm support (future)
 
     Returns:
         tuple: (summary, df_with_phases)
