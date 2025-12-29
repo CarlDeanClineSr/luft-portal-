@@ -8,6 +8,8 @@ on:
 jobs:
   audit:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to push changes
     steps:
       - uses: actions/checkout@v4
       - name: Fetch Plasma Data
@@ -19,7 +21,12 @@ jobs:
           jq '.[-1]' data/ace_plasma_latest.json > data/ace_plasma_audit.json
           jq '.[-1]' data/ace_mag_latest.json > data/ace_mag_audit.json
       - name: Commit Audit
-        uses: EndBug/add-and-commit@v9
-        with:
-          add: 'data/ace_*_audit.json'
-          message: 'LUFT Solar Wind Audit Update'
+        run: |
+          git config user.name "LUFT Bot"
+          git config user.email "bot@luft.local"
+          git add data/ace_*_audit.json 2>/dev/null || echo "No files to add"
+          git diff --quiet && git diff --staged --quiet || git commit -m "data: Solar wind audit update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          git pull --rebase origin main --autostash || true
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

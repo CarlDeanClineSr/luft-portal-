@@ -8,6 +8,8 @@ on:
 jobs:
   ingest:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to push changes
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -65,9 +67,9 @@ jobs:
         run: |
           git config user.name "LUFT OMNI Bot"
           git config user.email "omni@luft.local"
-          git pull --rebase origin main --autostash || true
-          git add data/*.csv reports/*.md
+          git add data/*.csv reports/*.md 2>/dev/null || echo "No files to add"
           git diff --quiet && git diff --staged --quiet || git commit -m "omni: daily ingest & validation $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          git pull --rebase origin main --autostash || true
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
