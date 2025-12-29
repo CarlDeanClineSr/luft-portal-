@@ -454,6 +454,127 @@
         </div>
     </section>
 
+    <!-- Chi Status Panel -->
+    <section class="chi-status-panel">
+        <h2>χ = 0.15 Boundary Status</h2>
+        
+        <div class="current-status-display">
+            <div class="status-indicator">
+                <span class="status-light" id="chi-status-light"></span>
+                <div class="status-text">
+                    <div class="status-label">Current Status</div>
+                    <div class="status-value" id="current-chi-status">BELOW</div>
+                </div>
+            </div>
+            
+            <div class="current-chi-value">
+                <div class="chi-label">Current χ</div>
+                <div class="chi-number" id="current-chi-display">0.1067</div>
+                <div class="chi-boundary">Boundary: 0.15</div>
+            </div>
+            
+            <div class="storm-phase-display">
+                <div class="phase-label">Storm Phase</div>
+                <div class="phase-value" id="current-phase">PRE</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chi Distribution Panel -->
+    <section class="chi-distribution">
+        <h3>χ Status Distribution (All Observations)</h3>
+        
+        <div class="distribution-grid">
+            <div class="status-stat below">
+                <div class="stat-label">BELOW χ = 0.15</div>
+                <div class="stat-value" id="count-below">0</div>
+                <div class="stat-percent" id="pct-below">0.0%</div>
+                <div class="stat-bar">
+                    <div class="bar-fill below" id="bar-below" style="width: 0%"></div>
+                </div>
+            </div>
+            
+            <div class="status-stat at-boundary">
+                <div class="stat-label">AT BOUNDARY (χ = 0.15)</div>
+                <div class="stat-value" id="count-at-boundary">0</div>
+                <div class="stat-percent" id="pct-at-boundary">0.0%</div>
+                <div class="stat-bar">
+                    <div class="bar-fill at-boundary" id="bar-at-boundary" style="width: 0%"></div>
+                </div>
+            </div>
+            
+            <div class="status-stat violation">
+                <div class="stat-label">VIOLATION (χ &gt; 0.15)</div>
+                <div class="stat-value" id="count-violation">0</div>
+                <div class="stat-percent" id="pct-violation">0.0%</div>
+                <div class="stat-bar">
+                    <div class="bar-fill violation" id="bar-violation" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="validation-message">
+            <strong>Validation:</strong> <span id="validation-text">Loading...</span>
+        </div>
+    </section>
+
+    <!-- Chi Status Timeline -->
+    <section class="chi-status-timeline">
+        <h3>χ Status Timeline (Last 24 Hours)</h3>
+        
+        <div class="timeline-container">
+            <table class="status-timeline-table">
+                <thead>
+                    <tr>
+                        <th>Time (UTC)</th>
+                        <th>χ Value</th>
+                        <th>Status</th>
+                        <th>Storm Phase</th>
+                        <th>Speed</th>
+                    </tr>
+                </thead>
+                <tbody id="status-timeline-body">
+                    <!-- Populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Storm Phase Correlation -->
+    <section class="storm-phase-correlation">
+        <h3>χ vs Storm Phase Analysis</h3>
+        
+        <div class="phase-stats">
+            <div class="phase-box">
+                <h4>PRE-Storm</h4>
+                <div>Observations: <span id="pre-count">--</span></div>
+                <div>Avg χ: <span id="pre-avg-chi">--</span></div>
+                <div>Max χ: <span id="pre-max-chi">--</span></div>
+                <div>At Boundary: <span id="pre-at-boundary">--</span></div>
+            </div>
+            
+            <div class="phase-box">
+                <h4>PEAK</h4>
+                <div>Observations: <span id="peak-count">--</span></div>
+                <div>Avg χ: <span id="peak-avg-chi">--</span></div>
+                <div>Max χ: <span id="peak-max-chi">--</span></div>
+                <div>At Boundary: <span id="peak-at-boundary">--</span></div>
+            </div>
+            
+            <div class="phase-box">
+                <h4>POST-Storm</h4>
+                <div>Observations: <span id="post-count">--</span></div>
+                <div>Avg χ: <span id="post-avg-chi">--</span></div>
+                <div>Max χ: <span id="post-max-chi">--</span></div>
+                <div>At Boundary: <span id="post-at-boundary">--</span></div>
+            </div>
+        </div>
+        
+        <div class="phase-insight">
+            <strong>Insight:</strong> <span id="phase-insight-text">Analyzing storm phase correlation...</span>
+        </div>
+    </section>
+
     <!-- Live Data Stream Section -->
     <div id="live-data-stream">
         <h3>📡 Live Data Stream (Last 10 Readings)</h3>
