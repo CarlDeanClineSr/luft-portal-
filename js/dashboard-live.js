@@ -700,6 +700,201 @@ function analyzeStormPhaseCorrelation() {
 }
 
 // ========================================
+// 9. MAVEN MARS STATUS
+// ========================================
+async function updateMavenStatus() {
+    try {
+        // Count MAVEN data files in data/maven_mars/ directory
+        // For now, we'll use static values since we can't list directory from browser
+        // In production, this would fetch from GitHub API or a status endpoint
+        
+        const mavenDataPath = 'data/maven_mars/';
+        let totalFiles = 3; // Based on files we know exist
+        
+        // Try to get the latest file
+        try {
+            const possibleDates = [
+                '20251228_093627',
+                '20251228_051112',
+                '20251227_051033',
+                '20251226_051033',
+                '20251225_051033',
+                '20251224_051033'
+            ];
+            
+            for (const date of possibleDates) {
+                try {
+                    const response = await fetch(`${mavenDataPath}maven_plasma_${date}.csv`);
+                    if (response.ok) {
+                        const text = await response.text();
+                        
+                        // Parse latest data
+                        const lines = text.trim().split('\n');
+                        if (lines.length > 1) {
+                            const lastLine = lines[lines.length - 1];
+                            const values = lastLine.split(',');
+                            
+                            // Update Mars data if available
+                            if (values.length > 5) {
+                                const density = parseFloat(values[4]);
+                                const speed = parseFloat(values[5]);
+                                const chi = parseFloat(values[1]);
+                                
+                                if (!isNaN(density)) {
+                                    document.getElementById('mars-density').textContent = density.toFixed(2) + ' p/cm³';
+                                }
+                                if (!isNaN(speed)) {
+                                    document.getElementById('mars-speed').textContent = speed.toFixed(1) + ' km/s';
+                                }
+                                if (!isNaN(chi)) {
+                                    document.getElementById('mars-chi').textContent = chi.toFixed(4);
+                                }
+                            }
+                        }
+                        
+                        // Format date for display
+                        const dateMatch = date.match(/(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})/);
+                        if (dateMatch) {
+                            const [_, year, month, day, hour, min] = dateMatch;
+                            const displayDate = `${month}/${day} ${hour}:${min} UTC`;
+                            document.getElementById('maven-last-run').textContent = displayDate;
+                            document.getElementById('mars-last').textContent = displayDate;
+                        }
+                        
+                        break; // Found latest file
+                    }
+                } catch (e) {
+                    // File doesn't exist, try next
+                    continue;
+                }
+            }
+        } catch (error) {
+            console.log('Could not load MAVEN data files:', error);
+        }
+        
+        // Update counts
+        document.getElementById('maven-total').textContent = totalFiles;
+        document.getElementById('mars-count').textContent = totalFiles + '+';
+        
+    } catch (error) {
+        console.error('Error updating MAVEN status:', error);
+    }
+}
+
+// ========================================
+// 10. CERN LHC STATUS
+// ========================================
+async function updateCernStatus() {
+    try {
+        // Count CERN data files
+        const cernDataPath = 'data/cern_lhc/';
+        let totalFiles = 4; // Based on files we know exist
+        
+        // Try to get the latest file
+        try {
+            const possibleDates = [
+                '20251228_051106',
+                '20251227_050850',
+                '20251226_050849',
+                '20251225_051023'
+            ];
+            
+            for (const date of possibleDates) {
+                try {
+                    const response = await fetch(`${cernDataPath}cern_lumi_${date}.csv`);
+                    if (response.ok) {
+                        const text = await response.text();
+                        
+                        // Parse latest data
+                        const lines = text.trim().split('\n');
+                        if (lines.length > 1) {
+                            const lastLine = lines[lines.length - 1];
+                            const values = lastLine.split(',');
+                            
+                            // Update CERN data if available
+                            if (values.length > 2) {
+                                const luminosity = parseFloat(values[1]);
+                                if (!isNaN(luminosity)) {
+                                    document.getElementById('cern-luminosity').textContent = luminosity.toFixed(2) + ' pb⁻¹';
+                                }
+                            }
+                        }
+                        
+                        // Format date for display
+                        const dateMatch = date.match(/(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})/);
+                        if (dateMatch) {
+                            const [_, year, month, day, hour, min] = dateMatch;
+                            const displayDate = `${month}/${day} ${hour}:${min} UTC`;
+                            document.getElementById('cern-last-run').textContent = displayDate;
+                            document.getElementById('cern-last').textContent = displayDate;
+                        }
+                        
+                        break; // Found latest file
+                    }
+                } catch (e) {
+                    // File doesn't exist, try next
+                    continue;
+                }
+            }
+        } catch (error) {
+            console.log('Could not load CERN data files:', error);
+        }
+        
+        // Update counts
+        document.getElementById('cern-total').textContent = totalFiles;
+        document.getElementById('cern-count').textContent = totalFiles + '+';
+        
+    } catch (error) {
+        console.error('Error updating CERN status:', error);
+    }
+}
+
+// ========================================
+// 11. VALIDATION PROGRESS
+// ========================================
+function updateValidationProgress() {
+    const confirmed = 1;  // Earth Solar Wind
+    const testing = 1;    // Earth Magnetosphere
+    const collecting = 2; // Mars + CERN
+    
+    const progressElement = document.getElementById('validation-progress');
+    if (progressElement) {
+        progressElement.textContent = `${confirmed}/4 environments confirmed`;
+    }
+    
+    const statusElement = document.getElementById('validation-status');
+    if (statusElement) {
+        statusElement.textContent = `${testing + collecting}/4 in active data collection`;
+    }
+    
+    // Update Earth Solar Wind count from actual data
+    if (allDataRows.length > 0) {
+        const swCount = document.getElementById('earth-sw-count');
+        if (swCount) {
+            swCount.textContent = allDataRows.length.toLocaleString();
+        }
+        
+        // Calculate last update time
+        const latest = allDataRows[allDataRows.length - 1];
+        if (latest && latest.timestamp) {
+            const lastUpdate = new Date(latest.timestamp);
+            const now = new Date();
+            const minutesAgo = Math.floor((now - lastUpdate) / 60000);
+            
+            const swLast = document.getElementById('earth-sw-last');
+            if (swLast) {
+                if (minutesAgo < 60) {
+                    swLast.textContent = `${minutesAgo} min ago`;
+                } else {
+                    const hoursAgo = Math.floor(minutesAgo / 60);
+                    swLast.textContent = `${hoursAgo} hr ago`;
+                }
+            }
+        }
+    }
+}
+
+// ========================================
 // MAIN UPDATE LOOP
 // ========================================
 async function updateAll() {
@@ -712,6 +907,9 @@ async function updateAll() {
     updateActivityFeed();
     updateFFTStatus();
     updateChiStatus();
+    await updateMavenStatus();
+    await updateCernStatus();
+    updateValidationProgress();
 }
 
 // Initialize on page load
