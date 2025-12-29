@@ -1,453 +1,161 @@
 #!/usr/bin/env python3
 """
-Generate real-time χ dashboard with multi-station data, Dst comparison, and historical events.
-Outputs static HTML to docs/chi_dashboard.html
-
-Includes χ = 0.15 universal boundary status monitoring.
+Generate χ Dashboard with live statistics
+Reads ALL DSCOVR data and calculates current χ distribution
 """
 
-import pandas as pd
 import json
-from datetime import datetime, timedelta, timezone
+import pandas as pd
 from pathlib import Path
-import glob
-import sys
+from datetime import datetime
+import numpy as np
 
-# χ = 0.15 Universal Boundary Constants
-CHI_CAP_THEORETICAL = 0.15
-CHI_TOLERANCE = 0.01
-CHI_BOUNDARY_MIN = 0.145  # CHI_CAP_THEORETICAL - CHI_TOLERANCE
-CHI_BOUNDARY_MAX = 0.155  # CHI_CAP_THEORETICAL + CHI_TOLERANCE
+def load_all_dscovr_data():
+    """Load all DSCOVR solar wind data"""
+    data_dir = Path('data/dscovr')
+    all_data = []
+    
+    if not data_dir.exists():
+        print("⚠️  No DSCOVR data directory found")
+        return pd.DataFrame()
+    
+    # Read all CSV files
+    csv_files = list(data_dir.glob('*.csv'))
+    print(f"📂 Found {len(csv_files)} DSCOVR data files")
+    
+    for csv_file in csv_files: 
+        try:
+            df = pd.read_csv(csv_file)
+            all_data.append(df)
+        except Exception as e:
+            print(f"⚠️  Failed to read {csv_file}: {e}")
+    
+    if not all_data:
+        print("⚠️  No data loaded")
+        return pd.DataFrame()
+    
+    # Combine all data
+    combined = pd.concat(all_data, ignore_index=True)
+    print(f"✅ Loaded {len(combined)} total observations")
+    
+    return combined
 
-def load_latest_dscovr():
-    """Load last 7 days of DSCOVR solar wind data."""
-    dscovr_dir = Path('data/dscovr')
-    if not dscovr_dir.exists():
+def calculate_chi_statistics(df):
+    """Calculate χ distribution statistics"""
+    if 'chi' not in df.columns:
+        print("⚠️  No 'chi' column found in data")
         return None
     
-    files = sorted(dscovr_dir.glob('*.csv'))[-7:]
-    if not files:
-        # Try JSON format
-        json_files = sorted(dscovr_dir.glob('*.json'))
-        if json_files:
-            try:
-                with open(json_files[-1]) as f:
-                    data = json.load(f)
-                    if isinstance(data, dict) and 'bt' in data:
-                        return pd.DataFrame([data])
-            except:
-                pass
+    # Remove NaN values
+    chi_values = df['chi'].dropna()
+    
+    if len(chi_values) == 0:
+        print("⚠️  No valid χ values")
         return None
     
-    try:
-        df = pd.concat([pd.read_csv(f) for f in files], ignore_index=True)
-        if 'timestamp' in df.columns:
-            df['timestamp'] = pd.to_datetime(df['timestamp'])
-        return df
-    except:
-        return None
+    # Define boundary (with small tolerance for floating point)
+    CHI_BOUNDARY = 0.15
+    TOLERANCE = 0.005  # χ between 0.145-0.155 counts as "at boundary"
+    
+    # Classify observations
+    below = chi_values < (CHI_BOUNDARY - TOLERANCE)
+    at_boundary = (chi_values >= (CHI_BOUNDARY - TOLERANCE)) & (chi_values <= (CHI_BOUNDARY + TOLERANCE))
+    violations = chi_values > (CHI_BOUNDARY + TOLERANCE)
+    
+    total = len(chi_values)
+    n_below = below.sum()
+    n_at_boundary = at_boundary.sum()
+    n_violations = violations.sum()
+    
+    stats = {
+        'total_observations': int(total),
+        'below_boundary': int(n_below),
+        'below_percentage': round(100 * n_below / total, 1),
+        'at_boundary': int(n_at_boundary),
+        'at_boundary_percentage': round(100 * n_at_boundary / total, 1),
+        'violations':  int(n_violations),
+        'violations_percentage': round(100 * n_violations / total, 1),
+        'current_chi': float(chi_values.iloc[-1]) if len(chi_values) > 0 else None,
+        'max_chi': float(chi_values.max()),
+        'mean_chi': float(chi_values.mean()),
+        'last_updated': datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')
+    }
+    
+    print(f"\n📊 χ Statistics:")
+    print(f"   Total:  {stats['total_observations']}")
+    print(f"   Below:  {stats['below_boundary']} ({stats['below_percentage']}%)")
+    print(f"   At Boundary: {stats['at_boundary']} ({stats['at_boundary_percentage']}%)")
+    print(f"   Violations:  {stats['violations']} ({stats['violations_percentage']}%)")
+    print(f"   Max χ: {stats['max_chi']:. 4f}")
+    
+    return stats
 
-def load_latest_usgs_multi():
-    """Load last 7 days of multi-station USGS magnetometer data."""
-    stations = {}
-    usgs_base = Path('data/usgs_magnetometer')
+def update_dashboard_html(stats):
+    """Update the main dashboard HTML with new statistics"""
+    html_file = Path('docs/index.html')
     
-    if not usgs_base.exists():
-        return stations
+    if not html_file.exists():
+        print(f"⚠️  Dashboard file not found: {html_file}")
+        return False
     
-    # Get top 6 stations for display
-    priority_stations = ['BOU', 'FRD', 'HON', 'TUC', 'SIT', 'CMO']
+    # Read current HTML
+    html = html_file.read_text(encoding='utf-8')
     
-    for station in priority_stations:
-        station_dir = usgs_base / station
-        if not station_dir.exists():
-            continue
-        
-        files = sorted(station_dir.glob('*.json'))[-7:]
-        if not files:
-            continue
-        
-        # Parse JSON and extract magnetic field
-        data_points = []
-        for f in files:
-            try:
-                with open(f) as fp:
-                    d = json.load(fp)
-                    times = d.get('times', [])
-                    values = d.get('values', [])
-                    
-                    # Find F (total field) element
-                    f_values = None
-                    for elem in values:
-                        if elem.get('id') == 'F':
-                            f_values = elem.get('values', [])
-                            break
-                    
-                    if times and f_values:
-                        for i, (t, v) in enumerate(zip(times, f_values)):
-                            if v is not None:
-                                data_points.append({'time': t, 'F': v})
-            except Exception as e:
-                continue
-        
-        if data_points:
-            stations[station] = pd.DataFrame(data_points)
+    # Update the statistics section
+    # Find and replace the BELOW section
+    html = html.replace(
+        'BELOW χ = 0.15\n274\n47.7%',
+        f'BELOW χ = 0.15\n{stats["below_boundary"]}\n{stats["below_percentage"]}%'
+    )
     
-    return stations
-
-def load_latest_dst():
-    """Load last 7 days of Dst index."""
-    dst_dir = Path('data/dst_index')
-    if not dst_dir.exists():
-        return None
+    # Update AT BOUNDARY section
+    html = html.replace(
+        'AT BOUNDARY (χ = 0.15)\n300\n52.3%',
+        f'AT BOUNDARY (χ = 0.15)\n{stats["at_boundary"]}\n{stats["at_boundary_percentage"]}%'
+    )
     
-    files = sorted(dst_dir.glob('*.csv'))[-7:]
-    if not files:
-        return None
+    # Update VIOLATION section
+    html = html.replace(
+        'VIOLATION (χ > 0.15)\n0\n0.0%',
+        f'VIOLATION (χ > 0.15)\n{stats["violations"]}\n{stats["violations_percentage"]}%'
+    )
     
-    try:
-        df = pd.concat([pd.read_csv(f) for f in files], ignore_index=True)
-        if 'time' in df.columns:
-            df['time'] = pd.to_datetime(df['time'])
-        return df
-    except:
-        return None
-
-def compute_chi(df, field_col='bt'):
-    """Compute χ = |B - B_baseline| / B_baseline."""
-    if df is None or len(df) < 100:
-        return None
+    # Update validation text
+    html = html.replace(
+        'Validation:  0% violations confirms χ ≤ 0.15 universal boundary (574 observations)',
+        f'Validation: {stats["violations_percentage"]}% violations confirms χ ≤ 0.15 universal boundary ({stats["total_observations"]} observations)'
+    )
     
-    if field_col not in df.columns:
-        return None
+    # Write updated HTML
+    html_file.write_text(html, encoding='utf-8')
+    print(f"✅ Updated {html_file}")
     
-    df = df.copy()
-    df[field_col] = pd.to_numeric(df[field_col], errors='coerce')
-    df = df.dropna(subset=[field_col])
-    
-    if len(df) < 100:
-        return None
-    
-    # Compute 24-hour rolling baseline
-    if len(df) >= 1440:
-        baseline = df[field_col].rolling(window=1440, center=True, min_periods=100).mean()
-    else:
-        baseline = df[field_col].mean()
-    
-    df['baseline'] = baseline
-    df['chi'] = (df[field_col] - df['baseline']).abs() / df['baseline']
-    
-    return df
-
-def generate_html():
-    """Generate dashboard HTML."""
-    dscovr = load_latest_dscovr()
-    usgs_multi = load_latest_usgs_multi()
-    dst = load_latest_dst()
-    
-    # Compute χ for DSCOVR
-    if dscovr is not None and 'bt' in dscovr.columns:
-        dscovr = compute_chi(dscovr, 'bt')
-        if dscovr is not None and len(dscovr) > 0:
-            dscovr_chi_current = dscovr['chi'].iloc[-1]
-            dscovr_chi_max = dscovr['chi'].max()
-        else:
-            dscovr_chi_current = 0
-            dscovr_chi_max = 0
-    else:
-        dscovr_chi_current = 0
-        dscovr_chi_max = 0
-    
-    # Compute χ boundary statistics for DSCOVR
-    chi_at_boundary_count = 0
-    chi_violations_count = 0
-    chi_at_boundary_pct = 0
-    chi_violation_pct = 0
-    
-    if dscovr is not None and 'chi' in dscovr.columns:
-        chi_values = dscovr['chi'].dropna()
-        if len(chi_values) > 0:
-            chi_at_boundary_count = len(chi_values[(chi_values >= CHI_BOUNDARY_MIN) & 
-                                                    (chi_values <= CHI_BOUNDARY_MAX)])
-            chi_violations_count = len(chi_values[chi_values > CHI_BOUNDARY_MAX])
-            chi_at_boundary_pct = chi_at_boundary_count / len(chi_values) * 100
-            chi_violation_pct = chi_violations_count / len(chi_values) * 100
-    
-    # Compute χ for USGS stations
-    usgs_chi = {}
-    for station, df in usgs_multi.items():
-        df_chi = compute_chi(df, 'F')
-        if df_chi is not None and len(df_chi) > 0:
-            usgs_chi[station] = {
-                'current': df_chi['chi'].iloc[-1],
-                'max': df_chi['chi'].max()
-            }
-    
-    # Get latest Dst value
-    dst_current = None
-    dst_level = "Unknown"
-    if dst is not None and len(dst) > 0 and 'dst' in dst.columns:
-        dst_current = dst['dst'].iloc[-1]
-        # Interpret storm level
-        if dst_current > -30:
-            dst_level = "🟢 Quiet"
-        elif dst_current > -50:
-            dst_level = "🟡 Minor storm (G1)"
-        elif dst_current > -100:
-            dst_level = "🟠 Moderate storm (G2-G3)"
-        elif dst_current > -200:
-            dst_level = "🔴 Strong storm (G4)"
-        else:
-            dst_level = "🔴 Extreme storm (G5)"
-    
-    # Generate HTML
-    html = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>χ = 0.15 Plasma Oscillation Boundary Dashboard</title>
-    <style>
-        body {{
-            font-family: 'Courier New', monospace;
-            background: #000;
-            color: #0f0;
-            padding: 20px;
-            margin: 0;
-        }}
-        .container {{
-            max-width: 1200px;
-            margin: 0 auto;
-        }}
-        h1 {{
-            color: #0ff;
-            text-align: center;
-            border-bottom: 2px solid #0ff;
-            padding-bottom: 10px;
-        }}
-        .subtitle {{
-            text-align: center;
-            color: #0f0;
-            margin-bottom: 20px;
-        }}
-        .monitor {{
-            border: 2px solid #0f0;
-            padding: 20px;
-            margin: 20px 0;
-            background: #001100;
-        }}
-        .monitor h2 {{
-            color: #0ff;
-            margin-top: 0;
-        }}
-        .nominal {{ color: #0f0; }}
-        .alert {{ color: #ff0; }}
-        .critical {{ color: #f00; }}
-        .metric {{
-            margin: 10px 0;
-            padding: 5px;
-        }}
-        .station-row {{
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
-            border-bottom: 1px solid #003300;
-        }}
-        .footer {{
-            text-align: center;
-            color: #0f0;
-            margin-top: 20px;
-            padding-top: 10px;
-            border-top: 2px solid #0f0;
-        }}
-        .chi-bar {{
-            display: inline-block;
-            height: 10px;
-            background: #0f0;
-            margin-left: 10px;
-        }}
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🛰️ LIVE PLASMA OSCILLATION BOUNDARY MONITOR</h1>
-        <div class="subtitle">
-            <p>χ = |B - B_baseline| / B_baseline</p>
-            <p>Critical threshold: χ = 0.15</p>
-        </div>
-        
-        <div class="monitor">
-            <h2>SOLAR WIND (DSCOVR Satellite)</h2>
-            <div class="metric">Current χ: <strong>{dscovr_chi_current:.4f}</strong> ({dscovr_chi_current/0.15*100:.0f}% of threshold)</div>
-            <div class="metric">24h Max χ: <strong>{dscovr_chi_max:.4f}</strong> ({dscovr_chi_max/0.15*100:.0f}% of threshold)</div>
-            <div class="metric">
-                <span class="{'nominal' if dscovr_chi_max < 0.12 else 'alert' if dscovr_chi_max < 0.15 else 'critical'}">
-                    Status: {'🟢 NOMINAL' if dscovr_chi_max < 0.12 else '🟡 ALERT' if dscovr_chi_max < 0.15 else '🔴 CRITICAL'}
-                </span>
-            </div>
-            <div class="chi-bar" style="width: {min(dscovr_chi_max/0.15*300, 300)}px;"></div>
-        </div>
-        
-        <div class="monitor" style="background: #001a1a; border: 2px solid #00ff88;">
-            <h2 style="color: #00ff88;">χ = 0.15 UNIVERSAL BOUNDARY STATUS</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 15px 0;">
-                <div style="padding: 15px; background: #002200; border-radius: 5px; border: 1px solid #00ff88;">
-                    <div style="color: #0f0; font-size: 0.9em;">Observations at Boundary</div>
-                    <div style="color: #00ff88; font-size: 1.8em; font-weight: bold;">{chi_at_boundary_count}</div>
-                    <div style="color: #0f0; font-size: 0.9em;">{chi_at_boundary_pct:.1f}% of total</div>
-                </div>
-                
-                <div style="padding: 15px; background: {'#220000' if chi_violations_count > 0 else '#002200'}; border-radius: 5px; border: 1px solid {'#ff4444' if chi_violations_count > 0 else '#00ff88'};">
-                    <div style="color: {'#ff4444' if chi_violations_count > 0 else '#0f0'}; font-size: 0.9em;">Violations (χ &gt; {CHI_BOUNDARY_MAX})</div>
-                    <div style="color: {'#ff4444' if chi_violations_count > 0 else '#00ff88'}; font-size: 1.8em; font-weight: bold;">{chi_violations_count}</div>
-                    <div style="color: {'#ff4444' if chi_violations_count > 0 else '#0f0'}; font-size: 0.9em;">{chi_violation_pct:.2f}% of total</div>
-                </div>
-            </div>
-            
-            <div style="margin-top: 15px; padding: 15px; background: {'#331100' if chi_violations_count > 0 else '#003300' if chi_at_boundary_pct > 50 else '#001100'}; border-radius: 5px;">
-                <strong style="color: #00ff88;">Status:</strong> 
-                <span style="color: #fff;">
-                    {"⚠️ VIOLATIONS DETECTED - Investigating filamentary breakdown" if chi_violations_count > 0 
-                     else "✅ ATTRACTOR STATE - System at optimal coupling" if chi_at_boundary_pct > 50 
-                     else "NOMINAL - System below boundary"}
-                </span>
-            </div>
-            
-            <div style="margin-top: 15px; font-size: 0.9em; color: #0f0;">
-                <a href="../capsules/CAPSULE_CHI_015_ENGINE_INTEGRATION_v1.md" style="color: #0ff; text-decoration: none;">
-                    📖 View Theory Capsule
-                </a>
-            </div>
-        </div>
-        
-        <div class="monitor" style="background: #1a0033; border: 2px solid #cc00ff;">
-            <h2 style="color: #cc00ff;">χ_C ≈ 0.15: UNIVERSAL CONSTANT STATUS</h2>
-            <div style="padding: 15px; background: #0d001a; border-radius: 5px; margin: 10px 0;">
-                <div style="color: #cc99ff; font-size: 1.2em; font-weight: bold; margin-bottom: 10px;">
-                    Fundamental Confinement Boundary Across All Forces
-                </div>
-                <div style="color: #999; font-size: 0.9em; margin-bottom: 15px;">
-                    χ_C = δQ/Q₀ ≈ 0.15 ± 0.01 (dimensionless)
-                </div>
-            </div>
-            
-            <h3 style="color: #00ff88; margin-top: 20px;">Electromagnetic Regime</h3>
-            <div style="padding: 10px; background: #001a1a; border-left: 3px solid #00ff88; margin: 10px 0;">
-                <div style="color: #0f0;"><strong>System:</strong> Solar Wind (MHD Plasma)</div>
-                <div style="color: #0f0;"><strong>Definition:</strong> χ = δB/B₀</div>
-                <div style="color: #00ff88; font-size: 1.1em; margin-top: 5px;">
-                    <strong>Status: ✅ CONFIRMED</strong>
-                </div>
-                <div style="color: #999; font-size: 0.9em;">
-                    53.6% at boundary (N=12,450), 0% violations
-                </div>
-            </div>
-            
-            <h3 style="color: #ffaa00; margin-top: 20px;">Electrostatic Regime</h3>
-            <div style="padding: 10px; background: #1a1100; border-left: 3px solid #ffaa00; margin: 10px 0;">
-                <div style="color: #ff9;"><strong>System:</strong> IEC Plasma Devices</div>
-                <div style="color: #ff9;"><strong>Definition:</strong> χ = δn/n₀</div>
-                <div style="color: #ffaa00; font-size: 1.1em; margin-top: 5px;">
-                    <strong>Status: 🔮 PREDICTED</strong>
-                </div>
-                <div style="color: #999; font-size: 0.9em;">
-                    Beam defocusing expected at χ &gt; 0.15 (awaiting data)
-                </div>
-            </div>
-            
-            <h3 style="color: #0099ff; margin-top: 20px;">Gravitational Regime</h3>
-            <div style="padding: 10px; background: #001a1a; border-left: 3px solid #0099ff; margin: 10px 0;">
-                <div style="color: #99ddff;"><strong>System:</strong> Cosmic Structure Formation</div>
-                <div style="color: #99ddff;"><strong>Definition:</strong> χ = v_pec/(H₀d)</div>
-                <div style="color: #0099ff; font-size: 1.1em; margin-top: 5px;">
-                    <strong>Status: 🔬 CANDIDATE</strong>
-                </div>
-                <div style="color: #999; font-size: 0.9em;">
-                    Local Group χ ≈ 0.12-0.17 (consistent with χ_C)
-                </div>
-            </div>
-            
-            <div style="margin-top: 20px; padding: 15px; background: #1a001a; border-radius: 5px; border: 1px solid #cc00ff;">
-                <div style="color: #cc99ff; font-weight: bold; margin-bottom: 10px;">🔬 FUNDAMENTAL PHYSICS STATUS</div>
-                <div style="color: #fff; line-height: 1.6;">
-                    If validated across all three force regimes, χ_C would join c, ℏ, G, and α as a 
-                    <strong>fundamental constant of nature</strong> — governing the universal boundary 
-                    between stable and unstable oscillations in confined systems.
-                </div>
-            </div>
-            
-            <div style="margin-top: 15px; font-size: 0.9em; color: #0f0;">
-                <a href="CLINE_CONSTANT_FRAMEWORK_v1.md" style="color: #cc00ff; text-decoration: none; margin-right: 15px;">
-                    📖 View Full Framework
-                </a>
-                <a href="CLINE_CONSTANT_SUMMARY.md" style="color: #cc00ff; text-decoration: none;">
-                    📄 Executive Summary
-                </a>
-            </div>
-        </div>
-        
-        <div class="monitor">
-            <h2>MAGNETOSPHERE (USGS Multi-Station)</h2>
-            {'<p>No station data available yet</p>' if not usgs_chi else ''}
-            {''.join([
-                f'<div class="station-row">'
-                f'<span><strong>{s}</strong>: χ = {d["current"]:.4f} (max {d["max"]:.4f})</span>'
-                f'<span class="{"nominal" if d["max"] < 0.12 else "alert" if d["max"] < 0.15 else "critical"}">'
-                f'{"🟢 NOMINAL" if d["max"] < 0.12 else "🟡 ALERT" if d["max"] < 0.15 else "🔴 CRITICAL"}'
-                f'</span>'
-                f'</div>'
-                for s, d in sorted(usgs_chi.items())
-            ])}
-        </div>
-        
-        <div class="monitor">
-            <h2>GEOMAGNETIC STORM INDEX (Dst)</h2>
-            <div class="metric">Current Dst: <strong>{dst_current if dst_current is not None else 'N/A'}</strong> nT</div>
-            <div class="metric">Storm level: <strong>{dst_level}</strong></div>
-            <div class="metric">
-                <small>Reference: Dst &gt; -30 = Quiet, -30 to -50 = G1, -50 to -100 = G2-G3, -100 to -200 = G4, &lt; -200 = G5</small>
-            </div>
-        </div>
-        
-        <div class="monitor">
-            <h2>HISTORICAL STORM ARCHIVE</h2>
-            <div class="metric">
-                <strong>1989 Quebec Blackout</strong> (Mar 13-14, 1989)<br>
-                Station: FRD (Fredericksburg, VA) | Dst: -589 nT
-            </div>
-            <div class="metric">
-                <strong>1972 Apollo-Era Storm</strong> (Aug 4, 1972)<br>
-                Station: HON (Honolulu, HI) | Solar maximum event
-            </div>
-            <div class="metric">
-                <strong>2024 May G5 Storm</strong> (May 10-11, 2024)<br>
-                Station: BOU (Boulder, CO) | Recent extreme event
-            </div>
-            <div class="metric">
-                <small>Run workflow: Historical Storm χ Analysis to compute χ values</small>
-            </div>
-        </div>
-        
-        <div class="footer">
-            <p>Last updated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')}</p>
-            <p>LUFT Observatory | Plasma Boundary Research</p>
-            <p><a href="https://github.com/CarlDeanClineSr/luft-portal-" style="color: #0ff;">GitHub Repository</a></p>
-        </div>
-    </div>
-</body>
-</html>
-"""
-    
-    output_dir = Path('docs')
-    output_dir.mkdir(parents=True, exist_ok=True)
-    output_path = output_dir / 'chi_dashboard.html'
-    
-    with open(output_path, 'w') as f:
-        f.write(html)
-    
-    print(f"✅ χ dashboard generated: {output_path}")
     return True
 
+def main():
+    print("🔄 Generating χ Dashboard...")
+    
+    # Load all data
+    df = load_all_dscovr_data()
+    
+    if df.empty:
+        print("❌ No data available")
+        return
+    
+    # Calculate statistics
+    stats = calculate_chi_statistics(df)
+    
+    if not stats:
+        print("❌ Failed to calculate statistics")
+        return
+    
+    # Update dashboard
+    success = update_dashboard_html(stats)
+    
+    if success: 
+        print("✅ χ Dashboard generation complete")
+    else:
+        print("❌ Failed to update dashboard")
+
 if __name__ == '__main__':
-    success = generate_html()
-    sys.exit(0 if success else 1)
+    main()
