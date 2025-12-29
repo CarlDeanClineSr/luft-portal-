@@ -19,7 +19,7 @@ jobs:
           git config user.name "LUFT Bot"
           git config user.email "bot@luft.local"
           git pull --rebase origin main --autostash || true
-          git add data/cern_lhc/*.csv
+          git add data/cern_lhc/*.csv data/cern_lhc/*.json 2>/dev/null || true
           git diff --quiet && git diff --staged --quiet || git commit -m "data: CERN LHC luminosity update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
           git push
         env:
