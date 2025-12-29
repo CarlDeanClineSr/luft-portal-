@@ -27,7 +27,7 @@ def validate_response(response):
 def validate_csv_file(filepath):
     """Check if file is valid CSV (not HTML error page)"""
     try:
-        with open(filepath, 'r') as f:
+        with open(filepath, 'r', encoding='utf-8') as f:
             first_lines = f.read(500).lower()
             
             # Check for HTML tags (404 error pages)
