@@ -5,6 +5,62 @@
 let chartInstance = null;
 let historicalData = [];
 let activityLog = [];
+let allDataRows = []; // Store all parsed data rows
+
+// ========================================
+// 0. CSV PARSING HELPER
+// ========================================
+function parseCSVLine(line) {
+    const values = line.split(',');
+    
+    // Handle both old format (9 cols) and new format (12 cols)
+    if (values.length >= 12) {
+        // New format with status
+        return {
+            timestamp: values[0],
+            chi: parseFloat(values[1]),
+            phase: parseFloat(values[2]),
+            storm_phase: values[3],
+            density: parseFloat(values[4]),
+            speed: parseFloat(values[5]),
+            bz: values[6] && values[6].trim() !== '' ? parseFloat(values[6]) : null,
+            bt: parseFloat(values[7]),
+            source: values[8],
+            chi_at_boundary: parseInt(values[9]),
+            chi_violation: parseInt(values[10]),
+            chi_status: values[11]
+        };
+    } else if (values.length >= 9) {
+        // Old format without status - determine status from chi value
+        const chi = parseFloat(values[1]);
+        let status = 'UNKNOWN';
+        if (!isNaN(chi)) {
+            if (chi > 0.15) {
+                status = 'VIOLATION';
+            } else if (chi === 0.15) {
+                status = 'AT_BOUNDARY';
+            } else {
+                status = 'BELOW';
+            }
+        }
+        
+        return {
+            timestamp: values[0],
+            chi: chi,
+            phase: parseFloat(values[2]),
+            storm_phase: values[3],
+            density: parseFloat(values[4]),
+            speed: parseFloat(values[5]),
+            bz: values[6] && values[6].trim() !== '' ? parseFloat(values[6]) : null,
+            bt: parseFloat(values[7]),
+            source: values[8],
+            chi_at_boundary: chi === 0.15 ? 1 : 0,
+            chi_violation: chi > 0.15 ? 1 : 0,
+            chi_status: status
+        };
+    }
+    return null;
+}
 
 // ========================================
 // 1. LIVE DATA STREAM - Last 10 Readings
@@ -20,49 +76,48 @@ async function updateLiveData() {
             return;
         }
         
-        // Get last 10 data rows (skip header)
+        // Parse all data lines (skip header and continuation lines)
+        allDataRows = [];
         const dataLines = lines.slice(1); // Skip header
-        const last10 = dataLines.slice(-10);
+        
+        dataLines.forEach(line => {
+            const parsed = parseCSVLine(line);
+            if (parsed && parsed.timestamp && !isNaN(parsed.chi)) {
+                allDataRows.push(parsed);
+            }
+        });
+        
+        // Get last 10 data rows
+        const last10 = allDataRows.slice(-10);
         
         const tbody = document.getElementById('live-data-rows');
         if (!tbody) return;
         
         tbody.innerHTML = '';
         
-        last10.reverse().forEach((line, index) => {
-            const values = line.split(',');
-            if (values.length < 9) return;
+        last10.reverse().forEach((data, index) => {
+            // Determine status display
+            let statusText = data.chi_status || 'UNKNOWN';
+            let statusClass = 'status-gray';
             
-            const timestamp = values[0] || 'N/A';
-            const chi = parseFloat(values[1]);
-            const density = parseFloat(values[4]);
-            const speed = parseFloat(values[5]);
-            const bzRaw = values[6];
-            const bz = (bzRaw && bzRaw.trim() !== '') ? parseFloat(bzRaw) : null;
-            
-            // Determine status
-            let status = 'BELOW';
-            let statusClass = 'status-green';
-            if (!isNaN(chi)) {
-                if (chi > 0.155) {
-                    status = 'VIOLATION';
-                    statusClass = 'status-red';
-                } else if (chi >= 0.145 && chi <= 0.155) {
-                    status = 'AT BOUNDARY';
-                    statusClass = 'status-yellow';
-                }
+            if (statusText === 'BELOW') {
+                statusClass = 'status-green';
+            } else if (statusText === 'AT_BOUNDARY') {
+                statusClass = 'status-yellow';
+            } else if (statusText === 'VIOLATION') {
+                statusClass = 'status-red';
             }
             
             const row = document.createElement('tr');
             if (index === 0) row.classList.add('data-row-new');
             
             row.innerHTML = `
-                <td>${timestamp}</td>
-                <td class="${statusClass}">${!isNaN(chi) ? chi.toFixed(4) : 'N/A'}</td>
-                <td>${!isNaN(density) ? density.toFixed(2) : 'N/A'}</td>
-                <td>${!isNaN(speed) ? speed.toFixed(1) : 'N/A'}</td>
-                <td>${bz !== null && !isNaN(bz) ? bz.toFixed(2) : 'N/A'}</td>
-                <td class="${statusClass}">${status}</td>
+                <td>${data.timestamp}</td>
+                <td class="${statusClass}">${data.chi.toFixed(4)}</td>
+                <td>${!isNaN(data.density) ? data.density.toFixed(2) : 'N/A'}</td>
+                <td>${!isNaN(data.speed) ? data.speed.toFixed(1) : 'N/A'}</td>
+                <td>${data.bz !== null && !isNaN(data.bz) ? data.bz.toFixed(2) : 'N/A'}</td>
+                <td><span class="status-badge ${statusText.toLowerCase().replace('_', '-')}">${statusText.replace('_', ' ')}</span></td>
             `;
             
             tbody.appendChild(row);
@@ -75,13 +130,10 @@ async function updateLiveData() {
         }
         
         // Store data for history chart
-        historicalData = dataLines.map(line => {
-            const values = line.split(',');
-            return {
-                timestamp: values[0],
-                chi: parseFloat(values[1])
-            };
-        }).filter(d => !isNaN(d.chi));
+        historicalData = allDataRows.map(d => ({
+            timestamp: d.timestamp,
+            chi: d.chi
+        }));
         
     } catch (error) {
         console.error('Error updating live data:', error);
@@ -440,6 +492,208 @@ function updateFFTStatus() {
 }
 
 // ========================================
+// 8. CHI STATUS TRACKER
+// ========================================
+function updateChiStatus() {
+    if (allDataRows.length === 0) return;
+    
+    const latestData = allDataRows[allDataRows.length - 1];
+    
+    // Update current status
+    const currentChi = latestData.chi;
+    let status = latestData.chi_status || 'BELOW';
+    
+    const statusElement = document.getElementById('current-chi-status');
+    if (statusElement) {
+        statusElement.textContent = status.replace('_', ' ');
+        
+        // Update color based on status
+        if (status === 'BELOW') {
+            statusElement.style.color = '#4ade80';
+        } else if (status === 'AT_BOUNDARY') {
+            statusElement.style.color = '#fbbf24';
+        } else if (status === 'VIOLATION') {
+            statusElement.style.color = '#f87171';
+        }
+    }
+    
+    const chiDisplay = document.getElementById('current-chi-display');
+    if (chiDisplay) {
+        chiDisplay.textContent = currentChi.toFixed(4);
+    }
+    
+    const phaseDisplay = document.getElementById('current-phase');
+    if (phaseDisplay) {
+        phaseDisplay.textContent = latestData.storm_phase.toUpperCase().replace('-', ' ');
+    }
+    
+    // Update status light
+    const light = document.getElementById('chi-status-light');
+    if (light) {
+        light.className = 'status-light ' + status.toLowerCase().replace('_', '-');
+    }
+    
+    // Update distribution
+    const counts = {
+        below: 0,
+        atBoundary: 0,
+        violation: 0
+    };
+    
+    allDataRows.forEach(row => {
+        if (row.chi_status === 'BELOW') {
+            counts.below++;
+        } else if (row.chi_status === 'AT_BOUNDARY') {
+            counts.atBoundary++;
+        } else if (row.chi_status === 'VIOLATION') {
+            counts.violation++;
+        }
+    });
+    
+    const total = counts.below + counts.atBoundary + counts.violation;
+    
+    if (total > 0) {
+        const pctBelow = (counts.below / total) * 100;
+        const pctAtBoundary = (counts.atBoundary / total) * 100;
+        const pctViolation = (counts.violation / total) * 100;
+        
+        document.getElementById('count-below').textContent = counts.below.toLocaleString();
+        document.getElementById('pct-below').textContent = pctBelow.toFixed(1) + '%';
+        document.getElementById('bar-below').style.width = pctBelow + '%';
+        
+        document.getElementById('count-at-boundary').textContent = counts.atBoundary.toLocaleString();
+        document.getElementById('pct-at-boundary').textContent = pctAtBoundary.toFixed(1) + '%';
+        document.getElementById('bar-at-boundary').style.width = pctAtBoundary + '%';
+        
+        document.getElementById('count-violation').textContent = counts.violation.toLocaleString();
+        document.getElementById('pct-violation').textContent = pctViolation.toFixed(1) + '%';
+        document.getElementById('bar-violation').style.width = pctViolation + '%';
+        
+        // Update validation message
+        const validationText = document.getElementById('validation-text');
+        if (validationText) {
+            if (counts.violation === 0) {
+                validationText.textContent = `0% violations confirms χ ≤ 0.15 universal boundary (${total.toLocaleString()} observations)`;
+            } else {
+                validationText.textContent = `${pctViolation.toFixed(2)}% violations detected (${counts.violation}/${total})`;
+            }
+        }
+    }
+    
+    // Update timeline
+    updateStatusTimeline();
+    
+    // Update storm phase correlation
+    analyzeStormPhaseCorrelation();
+}
+
+function updateStatusTimeline() {
+    const tbody = document.getElementById('status-timeline-body');
+    if (!tbody) return;
+    
+    // Get last 24 hours (assuming roughly hourly data)
+    const last24h = allDataRows.slice(-24);
+    
+    tbody.innerHTML = '';
+    
+    last24h.reverse().forEach(row => {
+        const tr = document.createElement('tr');
+        tr.className = `status-row ${row.chi_status.toLowerCase().replace('_', '-')}`;
+        
+        // Format timestamp (remove milliseconds)
+        const timestamp = row.timestamp.replace('.000', '').substring(0, 19);
+        
+        tr.innerHTML = `
+            <td>${timestamp}</td>
+            <td class="chi-value">${row.chi.toFixed(4)}</td>
+            <td><span class="status-badge ${row.chi_status.toLowerCase().replace('_', '-')}">${row.chi_status.replace('_', ' ')}</span></td>
+            <td>${row.storm_phase.toUpperCase().replace('-', ' ')}</td>
+            <td>${!isNaN(row.speed) ? row.speed.toFixed(1) + ' km/s' : 'N/A'}</td>
+        `;
+        
+        tbody.appendChild(tr);
+    });
+}
+
+function analyzeStormPhaseCorrelation() {
+    const phases = {
+        'pre': [],
+        'peak': [],
+        'post-storm': []
+    };
+    
+    // Group data by storm phase
+    allDataRows.forEach(row => {
+        const phase = row.storm_phase.toLowerCase();
+        if (phases[phase]) {
+            phases[phase].push(row.chi);
+        }
+    });
+    
+    // Compute statistics for each phase
+    Object.keys(phases).forEach(phase => {
+        const values = phases[phase];
+        
+        if (values.length > 0) {
+            const avg = values.reduce((a, b) => a + b, 0) / values.length;
+            const max = Math.max(...values);
+            const atBoundary = values.filter(v => v === 0.15).length;
+            
+            // Update UI - normalize phase name for element IDs
+            const phaseId = phase === 'post-storm' ? 'post' : phase;
+            
+            const countElem = document.getElementById(`${phaseId}-count`);
+            if (countElem) countElem.textContent = values.length.toLocaleString();
+            
+            const avgElem = document.getElementById(`${phaseId}-avg-chi`);
+            if (avgElem) avgElem.textContent = avg.toFixed(4);
+            
+            const maxElem = document.getElementById(`${phaseId}-max-chi`);
+            if (maxElem) maxElem.textContent = max.toFixed(4);
+            
+            const boundaryElem = document.getElementById(`${phaseId}-at-boundary`);
+            if (boundaryElem) boundaryElem.textContent = atBoundary;
+        } else {
+            // No data for this phase
+            const phaseId = phase === 'post-storm' ? 'post' : phase;
+            
+            const countElem = document.getElementById(`${phaseId}-count`);
+            if (countElem) countElem.textContent = '0';
+            
+            const avgElem = document.getElementById(`${phaseId}-avg-chi`);
+            if (avgElem) avgElem.textContent = 'N/A';
+            
+            const maxElem = document.getElementById(`${phaseId}-max-chi`);
+            if (maxElem) maxElem.textContent = 'N/A';
+            
+            const boundaryElem = document.getElementById(`${phaseId}-at-boundary`);
+            if (boundaryElem) boundaryElem.textContent = '0';
+        }
+    });
+    
+    // Generate insight
+    const insightText = document.getElementById('phase-insight-text');
+    if (insightText) {
+        const peakHasBoundary = phases.peak && phases.peak.some(v => v === 0.15);
+        const maxChi = Math.max(
+            ...phases.pre,
+            ...phases.peak,
+            ...phases['post-storm']
+        );
+        
+        if (peakHasBoundary) {
+            insightText.textContent = 'χ reaches 0.15 boundary during storm peaks, confirming threshold prediction!';
+        } else if (maxChi === 0.15) {
+            insightText.textContent = `χ reaches exactly 0.15 boundary (max observed), validating universal limit hypothesis.`;
+        } else if (maxChi > 0.15) {
+            insightText.textContent = `⚠️ VIOLATION DETECTED: χ exceeded 0.15 boundary (max: ${maxChi.toFixed(4)})`;
+        } else {
+            insightText.textContent = `All observations remain below χ = 0.15 boundary (max: ${maxChi.toFixed(4)}).`;
+        }
+    }
+}
+
+// ========================================
 // MAIN UPDATE LOOP
 // ========================================
 async function updateAll() {
@@ -451,6 +705,7 @@ async function updateAll() {
     await updateSystemStatus();
     updateActivityFeed();
     updateFFTStatus();
+    updateChiStatus();
 }
 
 // Initialize on page load
