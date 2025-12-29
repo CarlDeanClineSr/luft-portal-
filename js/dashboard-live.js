@@ -263,6 +263,12 @@ function updateChiGauge() {
 // 3. CHI HISTORY CHART (24 Hours)
 // ========================================
 function updateHistoryChart() {
+    // Skip if Chart.js is not loaded
+    if (typeof Chart === 'undefined') {
+        console.log('Chart.js not loaded, skipping history chart');
+        return;
+    }
+    
     const canvas = document.getElementById('chi-chart');
     if (!canvas) return;
     
