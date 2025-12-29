@@ -1,0 +1,68 @@
+name: Physics Paper Harvester
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+  workflow_dispatch:
+
+jobs:
+  harvest-papers:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install requests feedparser beautifulsoup4 pandas
+
+      - name: Harvest arXiv papers
+        run: |
+          python scripts/harvest_arxiv.py
+        continue-on-error: true
+
+      - name: Harvest CERN papers
+        run: |
+          python scripts/harvest_cern.py
+        continue-on-error: true
+
+      - name: Process harvested data
+        run: |
+          echo "✅ Paper harvesting complete"
+          echo "arXiv papers:"
+          ls -lh data/papers/arxiv/ 2>/dev/null || \
+            echo "  No arXiv papers directory"
+          echo "CERN papers:"
+          ls -lh data/papers/cern/ 2>/dev/null || \
+            echo "  No CERN papers directory"
+        continue-on-error: true
+
+      - name: Commit and push harvested papers
+        run: |
+          git config user.name "LUFT Paper Bot"
+          git config user.email "papers@luft.local"
+          # Check if there are changes before attempting to pull
+          if ! git diff --quiet || ! git diff --staged --quiet; then
+            # There are local changes, try to pull with rebase
+            if ! git pull --rebase origin main --autostash; then
+              echo "Warning: Failed to pull changes, attempting direct push"
+            fi
+          fi
+          git add data/papers/
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "No new papers to commit"
+          else
+            git commit -m "papers: harvest $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
