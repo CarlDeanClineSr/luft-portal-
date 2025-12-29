@@ -6,6 +6,7 @@ Fetches recent physics papers from arXiv API and filters for LUFT-relevant topic
 
 import os
 import json
+import requests
 import feedparser
 import sys
 from datetime import datetime, timedelta, timezone
@@ -45,7 +46,7 @@ LUFT_KEYWORDS = [
 
 def fetch_arxiv_papers(category, max_results=50):
     """Fetch recent papers from arXiv for a given category."""
-    base_url = 'http://export.arxiv.org/api/query'
+    base_url = 'https://export.arxiv.org/api/query'
     
     # Search for papers from the last 7 days
     query = f'cat:{category}'
@@ -57,10 +58,8 @@ def fetch_arxiv_papers(category, max_results=50):
         'sortOrder': 'descending'
     }
     
-    url = f"{base_url}?search_query={params['search_query']}&start={params['start']}&max_results={params['max_results']}&sortBy={params['sortBy']}&sortOrder={params['sortOrder']}"
-    
     print(f"Fetching arXiv papers for category: {category}")
-    feed = feedparser.parse(url)
+    feed = feedparser.parse(requests.get(base_url, params=params).url)
     
     papers = []
     for entry in feed.entries:

@@ -46,7 +46,8 @@ CERN_COLLECTIONS = [
 def fetch_cern_papers(search_query, max_results=100):
     """Fetch recent papers from CERN Document Server API."""
     # CERN CDS often blocks automated requests to their JSON API
-    # We'll use their RSS feed instead which is more accessible
+    # We use their RSS feed instead which is more accessible
+    # RSS feeds are typically more permissive than JSON APIs for automated access
     base_url = 'https://cds.cern.ch/rss'
     
     params = {
@@ -180,11 +181,13 @@ def main():
         print(f"  Found {len(papers)} papers for query: {query}")
         all_papers.extend(papers)
     
-    # Remove duplicates based on paper ID
+    # Remove duplicates based on paper ID, using link as fallback
     unique_papers = {}
     for paper in all_papers:
-        if paper['id']:
-            unique_papers[paper['id']] = paper
+        # Use ID if available, otherwise use link as identifier
+        identifier = paper['id'] if paper['id'] else paper.get('link', '')
+        if identifier:
+            unique_papers[identifier] = paper
     all_papers = list(unique_papers.values())
     
     print(f"\nTotal unique papers: {len(all_papers)}")
