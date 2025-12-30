@@ -13,6 +13,9 @@ from pathlib import Path
 # INSPIRE-HEP API (open, no auth needed)
 BASE_URL = "https://inspirehep.net/api"
 
+# Fields to retrieve from INSPIRE-HEP API
+INSPIRE_FIELDS = 'titles,authors,arxiv_eprints,publication_info,abstracts,urls'
+
 QUERIES = [
     "plasma physics",
     "magnetohydrodynamics",
@@ -31,7 +34,7 @@ def fetch_inspire_papers(query, max_results=50):
         'q': query,
         'size': max_results,
         'sort': 'mostrecent',
-        'fields': 'titles,authors,arxiv_eprints,publication_info,abstracts,urls'
+        'fields': INSPIRE_FIELDS
     }
     
     try:

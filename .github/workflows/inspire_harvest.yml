@@ -29,7 +29,11 @@ jobs:
           git config user.name "LUFT-Bot"
           git config user.email "luft-bot@github.com"
           git add data/papers/
-          git commit -m "docs: weekly INSPIRE paper harvest" || exit 0
-          git push
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "docs: weekly INSPIRE paper harvest"
+            git push
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

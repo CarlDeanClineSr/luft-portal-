@@ -53,6 +53,17 @@ def analyze_quark_gluon_plasma(event_data):
     
     return chi_qgp
 
+def check_dependency(module_name, install_cmd):
+    """Check if a Python module is installed"""
+    try:
+        __import__(module_name)
+        print(f"✓ {module_name} is installed")
+        return True
+    except ImportError:
+        print(f"⚠ {module_name} not installed")
+        print(f"  Install with: {install_cmd}")
+        return False
+
 def main():
     print("="*60)
     print("ATLAS Plasma χ Boundary Extractor")
@@ -90,21 +101,10 @@ def main():
     
     print("\n✅ Framework ready for data integration")
     
-    # Check if uproot is available
-    try:
-        import uproot
-        print("\n✓ uproot is installed")
-    except ImportError:
-        print("\n⚠ uproot not installed (needed for ROOT file reading)")
-        print("  Install with: pip install uproot awkward")
-    
-    # Check if numpy is available
-    try:
-        import numpy as np
-        print("✓ numpy is installed")
-    except ImportError:
-        print("⚠ numpy not installed")
-        print("  Install with: pip install numpy")
+    # Check dependencies
+    print()
+    check_dependency('uproot', 'pip install uproot awkward')
+    check_dependency('numpy', 'pip install numpy')
     
     return 0
 
