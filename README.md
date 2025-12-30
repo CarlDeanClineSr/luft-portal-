@@ -1,4 +1,5 @@
 Universal Plasma Boundary Observatory
 
-Live dashboard: https://carldeanclinesr.github.io/luft-portal-/  
-Repository: https://github.com/CarlDeanClineSr/luft-portal-
+🛩️ **Instrument Panel:** https://carldeanclinesr.github.io/luft-portal-/instrument-panel.html  
+📊 **Live Dashboard:** https://carldeanclinesr.github.io/luft-portal-/  
+💻 **Repository:** https://github.com/CarlDeanClineSr/luft-portal-

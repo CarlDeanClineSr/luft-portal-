@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<!-- Space Weather Cockpit - Instrument Panel -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>Space Weather Cockpit - LUFT Portal</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+        
+        /* Cockpit Header */
+        .cockpit-header {
+            background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+            border-bottom: 3px solid #4da3ff;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .cockpit-title {
+            color: #4da3ff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .cockpit-subtitle {
+            color: #4ade80;
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+        }
+        
+        /* Main Cockpit Grid */
+        .cockpit-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        /* Gauge Panel */
+        .gauge-panel {
+            background: radial-gradient(circle at center, #2a2a2a 0%, #1a1a1a 100%);
+            border: 3px solid #333;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+        
+        .gauge-panel::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            height: 30px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent);
+            border-radius: 8px 8px 0 0;
+            pointer-events: none;
+        }
+        
+        .gauge-title {
+            text-align: center;
+            color: #4da3ff;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Canvas Gauge */
+        .gauge-canvas {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+        }
+        
+        /* Digital Display */
+        .digital-display {
+            background: #0a0a0a;
+            border: 2px solid #333;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-top: 0.75rem;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+        }
+        
+        .digital-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            letter-spacing: 2px;
+        }
+        
+        .digital-label {
+            font-size: 0.7rem;
+            color: #4ade80;
+            margin-top: 0.3rem;
+            text-transform: uppercase;
+        }
+        
+        /* Warning Lights Panel */
+        .warning-panel {
+            background: radial-gradient(circle at center, #2a2a2a 0%, #1a1a1a 100%);
+            border: 3px solid #333;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+        }
+        
+        .warning-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .warning-light {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .light-indicator {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid #444;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .light-indicator.off {
+            background: #2a2a2a;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .light-indicator.green {
+            background: #00ff00;
+            box-shadow: 0 0 20px #00ff00, inset 0 0 10px #00cc00;
+        }
+        
+        .light-indicator.amber {
+            background: #ffaa00;
+            box-shadow: 0 0 20px #ffaa00, inset 0 0 10px #cc8800;
+            animation: pulse-amber 1.5s infinite;
+        }
+        
+        .light-indicator.red {
+            background: #ff0000;
+            box-shadow: 0 0 30px #ff0000, inset 0 0 15px #cc0000;
+            animation: pulse-red 0.8s infinite;
+        }
+        
+        @keyframes pulse-amber {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.95); }
+        }
+        
+        .light-label {
+            font-size: 0.75rem;
+            color: #b0b0b0;
+            text-align: center;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        /* Clock Display */
+        .clock-panel {
+            background: #0a0a0a;
+            border: 2px solid #333;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-top: 0.75rem;
+            text-align: center;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+        }
+        
+        .clock-time {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #4da3ff;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+        
+        .clock-label {
+            font-size: 0.65rem;
+            color: #6b7280;
+            margin-top: 0.2rem;
+            text-transform: uppercase;
+        }
+        
+        /* Storm Phase Display */
+        .phase-display {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 3px solid #4da3ff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+        }
+        
+        .phase-title {
+            color: #4da3ff;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .phase-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fbbf24;
+            text-shadow: 0 0 15px #fbbf24;
+        }
+        
+        /* Status Bar */
+        .status-bar {
+            background: #1a1a1a;
+            border-top: 2px solid #333;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1rem;
+            position: sticky;
+            bottom: 0;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #4ade80;
+            box-shadow: 0 0 10px #4ade80;
+        }
+        
+        .status-text {
+            font-size: 0.85rem;
+            color: #e0e0e0;
+        }
+        
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .cockpit-container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+                gap: 1rem;
+            }
+            
+            .cockpit-title {
+                font-size: 1.2rem;
+            }
+            
+            .gauge-panel {
+                padding: 0.75rem;
+            }
+            
+            .warning-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+            
+            .light-indicator {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .digital-value {
+                font-size: 1.5rem;
+            }
+            
+            .phase-value {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Landscape Mobile */
+        @media (max-width: 900px) and (orientation: landscape) {
+            .cockpit-container {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cockpit Header -->
+    <div class="cockpit-header">
+        <div class="cockpit-title">⚡ Space Weather Cockpit ⚡</div>
+        <div class="cockpit-subtitle">Live Plasma Boundary Monitor - χ = 0.15 Threshold</div>
+    </div>
+    
+    <!-- Main Cockpit Container -->
+    <div class="cockpit-container">
+        <!-- χ (Chi) Gauge -->
+        <div class="gauge-panel">
+            <div class="gauge-title">χ Amplitude</div>
+            <canvas id="chi-gauge" class="gauge-canvas" width="250" height="200"></canvas>
+            <div class="digital-display">
+                <div class="digital-value" id="chi-value">0.0000</div>
+                <div class="digital-label">Boundary: 0.1500</div>
+            </div>
+            <div class="clock-panel">
+                <div class="clock-time" id="chi-time">00:00:00</div>
+                <div class="clock-label">Time Since Update</div>
+            </div>
+        </div>
+        
+        <!-- Bz Magnetic Field Gauge -->
+        <div class="gauge-panel">
+            <div class="gauge-title">Bz Component</div>
+            <canvas id="bz-gauge" class="gauge-canvas" width="250" height="200"></canvas>
+            <div class="digital-display">
+                <div class="digital-value" id="bz-value">0.0</div>
+                <div class="digital-label">nanoTesla (nT)</div>
+            </div>
+            <div class="clock-panel">
+                <div class="clock-time" id="bz-time">00:00:00</div>
+                <div class="clock-label">Southward Duration</div>
+            </div>
+        </div>
+        
+        <!-- Solar Wind Speed Gauge -->
+        <div class="gauge-panel">
+            <div class="gauge-title">SW Speed</div>
+            <canvas id="speed-gauge" class="gauge-canvas" width="250" height="200"></canvas>
+            <div class="digital-display">
+                <div class="digital-value" id="speed-value">0</div>
+                <div class="digital-label">km/s</div>
+            </div>
+            <div class="clock-panel">
+                <div class="clock-time" id="speed-time">00:00:00</div>
+                <div class="clock-label">Last Reading</div>
+            </div>
+        </div>
+        
+        <!-- Density Gauge -->
+        <div class="gauge-panel">
+            <div class="gauge-title">Plasma Density</div>
+            <canvas id="density-gauge" class="gauge-canvas" width="250" height="200"></canvas>
+            <div class="digital-display">
+                <div class="digital-value" id="density-value">0.0</div>
+                <div class="digital-label">protons/cm³</div>
+            </div>
+            <div class="clock-panel">
+                <div class="clock-time" id="density-time">00:00:00</div>
+                <div class="clock-label">Last Reading</div>
+            </div>
+        </div>
+        
+        <!-- Storm Phase Display -->
+        <div class="phase-display">
+            <div class="phase-title">Storm Phase</div>
+            <div class="phase-value" id="storm-phase">PRE</div>
+            <div class="clock-panel" style="margin-top: 1rem;">
+                <div class="clock-time" id="storm-duration">00:00:00</div>
+                <div class="clock-label">Phase Duration</div>
+            </div>
+        </div>
+        
+        <!-- Warning Lights Panel -->
+        <div class="warning-panel">
+            <div class="gauge-title" style="margin-bottom: 1rem;">Warning System</div>
+            <div class="warning-grid">
+                <div class="warning-light">
+                    <div class="light-indicator off" id="chi-warning"></div>
+                    <div class="light-label">χ Boundary</div>
+                </div>
+                <div class="warning-light">
+                    <div class="light-indicator off" id="bz-warning"></div>
+                    <div class="light-label">Bz South</div>
+                </div>
+                <div class="warning-light">
+                    <div class="light-indicator off" id="storm-warning"></div>
+                    <div class="light-label">Storm Alert</div>
+                </div>
+                <div class="warning-light">
+                    <div class="light-indicator off" id="violation-warning"></div>
+                    <div class="light-label">Violation</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div class="status-item">
+            <div class="status-dot"></div>
+            <div class="status-text">DSCOVR Live</div>
+        </div>
+        <div class="status-item">
+            <div class="status-dot"></div>
+            <div class="status-text" id="utc-clock">--:--:-- UTC</div>
+        </div>
+        <div class="status-item">
+            <div class="status-dot"></div>
+            <div class="status-text" id="update-status">Updating...</div>
+        </div>
+    </div>
+    
+    <script src="js/instrument-panel.js"></script>
+</body>
+</html>
