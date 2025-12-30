@@ -27,4 +27,14 @@ CHI_COL = "chi_amplitude_extended"
 TIME_COL = "datetime"
 
 
-def load_latest
+def load_latest_data():
+    """Load the latest extended heartbeat log data."""
+    # Placeholder function - to be implemented
+    log_path = DATA_DIR / "extended_heartbeat_log_2025.csv"
+    if log_path.exists():
+        return pd.read_csv(log_path)
+    return None
+
+
+if __name__ == "__main__":
+    print("Dashboard builder - implementation pending")
