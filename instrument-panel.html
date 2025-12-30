@@ -313,11 +313,76 @@
             }
         }
         
-        /* Landscape Mobile */
+        /* Landscape Mobile - Full Screen Cockpit */
         @media (max-width: 900px) and (orientation: landscape) {
             .cockpit-container {
                 grid-template-columns: repeat(3, 1fr);
                 gap: 1rem;
+            }
+            
+            body.fullscreen-mode {
+                overflow: hidden;
+            }
+            
+            body.fullscreen-mode .cockpit-header {
+                padding: 0.5rem;
+            }
+            
+            body.fullscreen-mode .cockpit-title {
+                font-size: 1rem;
+            }
+            
+            body.fullscreen-mode .cockpit-subtitle {
+                font-size: 0.7rem;
+            }
+            
+            body.fullscreen-mode .gauge-panel {
+                padding: 0.5rem;
+            }
+            
+            body.fullscreen-mode .digital-display {
+                padding: 0.4rem;
+            }
+            
+            body.fullscreen-mode .status-bar {
+                padding: 0.5rem;
+                font-size: 0.75rem;
+            }
+        }
+        
+        /* Fullscreen Toggle Button */
+        .fullscreen-toggle {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: #4da3ff;
+            border: 2px solid #333;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
+        }
+        
+        .fullscreen-toggle:hover {
+            background: #3d82cc;
+            transform: scale(1.1);
+        }
+        
+        .fullscreen-toggle:active {
+            transform: scale(0.95);
+        }
+        
+        @media (min-width: 769px) {
+            .fullscreen-toggle {
+                display: none;
             }
         }
     </style>
@@ -437,6 +502,43 @@
         </div>
     </div>
     
+    <!-- Fullscreen Toggle Button (Mobile Only) -->
+    <button class="fullscreen-toggle" id="fullscreen-btn" aria-label="Toggle Fullscreen">⛶</button>
+    
     <script src="js/instrument-panel.js"></script>
+    <script>
+        // Fullscreen toggle for mobile
+        document.getElementById('fullscreen-btn').addEventListener('click', function() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().then(() => {
+                    document.body.classList.add('fullscreen-mode');
+                    // Lock screen orientation to landscape on mobile (if supported)
+                    if (screen.orientation && screen.orientation.lock) {
+                        screen.orientation.lock('landscape').catch(err => {
+                            console.log('Orientation lock not supported or failed:', err);
+                        });
+                    }
+                }).catch(err => {
+                    console.log('Fullscreen request failed:', err);
+                });
+            } else {
+                document.exitFullscreen().then(() => {
+                    document.body.classList.remove('fullscreen-mode');
+                    // Unlock orientation (if supported)
+                    if (screen.orientation && screen.orientation.unlock) {
+                        screen.orientation.unlock();
+                    }
+                });
+            }
+        });
+        
+        // Handle fullscreen change
+        document.addEventListener('fullscreenchange', function() {
+            if (!document.fullscreenElement) {
+                document.body.classList.remove('fullscreen-mode');
+            }
+        });
+    </script>
+
 </body>
 </html>
