@@ -20,15 +20,22 @@ def fetch_dscovr_data():
         response.raise_for_status()
         data = response.json()
         
+        # Field indices for magnetic data
+        IDX_TIME = 0
+        IDX_BX = 1
+        IDX_BY = 2
+        IDX_BZ = 3
+        IDX_BT = 6
+        
         # Get latest non-null entry
         for row in reversed(data[1:]):  # Skip header
-            if row[1] and row[2] and row[3]:  # bx, by, bz all present
+            if row[IDX_BX] and row[IDX_BY] and row[IDX_BZ]:  # All components present
                 return {
-                    'time_tag': row[0],
-                    'bx': float(row[1]),
-                    'by': float(row[2]),
-                    'bz': float(row[3]),
-                    'bt': float(row[6]) if row[6] else None,
+                    'time_tag': row[IDX_TIME],
+                    'bx': float(row[IDX_BX]),
+                    'by': float(row[IDX_BY]),
+                    'bz': float(row[IDX_BZ]),
+                    'bt': float(row[IDX_BT]) if row[IDX_BT] else None,
                 }
         return None
     except Exception as e:
@@ -43,14 +50,20 @@ def fetch_plasma_data():
         response.raise_for_status()
         data = response.json()
         
+        # Field indices for plasma data
+        IDX_TIME = 0
+        IDX_DENSITY = 1
+        IDX_SPEED = 2
+        IDX_TEMPERATURE = 3
+        
         # Get latest non-null entry
         for row in reversed(data[1:]):  # Skip header
-            if row[1] and row[2]:  # density and speed present
+            if row[IDX_DENSITY] and row[IDX_SPEED]:  # Density and speed present
                 return {
-                    'time_tag': row[0],
-                    'density': float(row[1]),
-                    'speed': float(row[2]),
-                    'temperature': float(row[3]) if row[3] else None,
+                    'time_tag': row[IDX_TIME],
+                    'density': float(row[IDX_DENSITY]),
+                    'speed': float(row[IDX_SPEED]),
+                    'temperature': float(row[IDX_TEMPERATURE]) if row[IDX_TEMPERATURE] else None,
                 }
         return None
     except Exception as e:

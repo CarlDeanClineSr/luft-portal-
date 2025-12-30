@@ -512,10 +512,10 @@
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().then(() => {
                     document.body.classList.add('fullscreen-mode');
-                    // Lock screen orientation to landscape on mobile
+                    // Lock screen orientation to landscape on mobile (if supported)
                     if (screen.orientation && screen.orientation.lock) {
                         screen.orientation.lock('landscape').catch(err => {
-                            console.log('Orientation lock not supported:', err);
+                            console.log('Orientation lock not supported or failed:', err);
                         });
                     }
                 }).catch(err => {
@@ -524,6 +524,7 @@
             } else {
                 document.exitFullscreen().then(() => {
                     document.body.classList.remove('fullscreen-mode');
+                    // Unlock orientation (if supported)
                     if (screen.orientation && screen.orientation.unlock) {
                         screen.orientation.unlock();
                     }

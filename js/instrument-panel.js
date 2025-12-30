@@ -228,10 +228,13 @@ function drawAnalogGauge(canvasId, value, min, max, redZoneStart, label, unit, a
 function updateWarningLights(data) {
     // χ Boundary Warning with redline animation
     const chiWarning = document.getElementById('chi-warning');
+    const CHI_BOUNDARY_TOLERANCE = 0.001; // Tolerance for boundary detection
+    
     if (data.chi >= 0.15) {
         chiWarning.className = 'light-indicator red';
-        // Add extra pulsing for boundary violation
-        if (data.chi >= 0.1500 && data.chi < 0.1505) {
+        // Add extra pulsing for boundary violation (within tolerance of redline)
+        const atBoundary = Math.abs(data.chi - 0.15) < CHI_BOUNDARY_TOLERANCE;
+        if (atBoundary) {
             chiWarning.style.animation = 'pulse-red 0.5s infinite';
         }
     } else if (data.chi >= 0.14) {
@@ -308,8 +311,9 @@ function updateWarningLights(data) {
 
 async function fetchLiveData() {
     try {
-        // Try to fetch from live API first
-        const response = await fetch('api/get_realtime_data.py?' + Date.now());
+        // Try to fetch from live API first (cache busting via timestamp)
+        const cacheBuster = Date.now();
+        const response = await fetch(`api/get_realtime_data.py?_=${cacheBuster}`);
         if (response.ok) {
             const data = await response.json();
             if (data.status === 'ok') {
@@ -480,6 +484,12 @@ async function updateInstrumentPanel() {
     // Update warning lights
     updateWarningLights(data);
     
+    // Start animation loop if not already running
+    if (!window.animationLoopRunning) {
+        window.animationLoopRunning = true;
+        requestAnimationFrame(animateGauges);
+    }
+    
     // Update status
     const updateStatus = document.getElementById('update-status');
     if (updateStatus) {
@@ -507,7 +517,9 @@ function animateGauges() {
         }
     }
     
-    requestAnimationFrame(animateGauges);
+    if (window.animationLoopRunning) {
+        requestAnimationFrame(animateGauges);
+    }
 }
 
 // ========================================
@@ -517,11 +529,8 @@ function animateGauges() {
 window.addEventListener('DOMContentLoaded', () => {
     console.log('Instrument Panel initializing...');
     
-    // Initial update
+    // Initial update (which includes first animation frame)
     updateInstrumentPanel();
-    
-    // Start continuous animation loop
-    requestAnimationFrame(animateGauges);
     
     // Update data every 60 seconds
     setInterval(updateInstrumentPanel, 60000);
