@@ -523,6 +523,72 @@ function animateGauges() {
 }
 
 // ========================================
+// INSPIRE PAPERS & ATLAS STATUS
+// ========================================
+
+async function updateResearchStatus() {
+    try {
+        // Fetch INSPIRE paper count from latest.json
+        const response = await fetch('data/papers/inspire_latest.json');
+        if (response.ok) {
+            const data = await response.json();
+            const paperCount = Array.isArray(data) ? data.length : 0;
+            
+            const paperCountEl = document.getElementById('paper-count');
+            if (paperCountEl) {
+                paperCountEl.textContent = paperCount.toLocaleString();
+            }
+            
+            // Get harvest timestamp from file metadata
+            const harvestTimeEl = document.getElementById('harvest-time');
+            if (harvestTimeEl) {
+                // Try to parse timestamp from data if available
+                const now = new Date();
+                const fileResponse = await fetch('data/papers/inspire_latest.json', { method: 'HEAD' });
+                const lastModified = fileResponse.headers.get('last-modified');
+                if (lastModified) {
+                    const modDate = new Date(lastModified);
+                    const hoursSince = Math.floor((now - modDate) / (1000 * 60 * 60));
+                    if (hoursSince < 1) {
+                        harvestTimeEl.textContent = 'Just now';
+                    } else if (hoursSince < 24) {
+                        harvestTimeEl.textContent = `${hoursSince}h ago`;
+                    } else {
+                        const daysSince = Math.floor(hoursSince / 24);
+                        harvestTimeEl.textContent = `${daysSince}d ago`;
+                    }
+                } else {
+                    harvestTimeEl.textContent = 'Recent';
+                }
+            }
+        } else {
+            // No data yet - show default
+            const paperCountEl = document.getElementById('paper-count');
+            if (paperCountEl) {
+                paperCountEl.textContent = '---';
+            }
+        }
+        
+        // ATLAS status (framework is ready, awaiting data)
+        const atlasStatusEl = document.getElementById('atlas-status');
+        if (atlasStatusEl) {
+            // Check if ATLAS data exists
+            const atlasCheck = await fetch('data/atlas/latest.json');
+            if (atlasCheck.ok) {
+                atlasStatusEl.textContent = 'ACTIVE';
+                atlasStatusEl.style.color = '#4ade80';
+            } else {
+                atlasStatusEl.textContent = 'READY';
+                atlasStatusEl.style.color = '#fbbf24';
+            }
+        }
+    } catch (error) {
+        console.log('Research status update:', error.message);
+        // Fail silently - this is non-critical display
+    }
+}
+
+// ========================================
 // INITIALIZATION
 // ========================================
 
@@ -532,8 +598,14 @@ window.addEventListener('DOMContentLoaded', () => {
     // Initial update (which includes first animation frame)
     updateInstrumentPanel();
     
+    // Update research status
+    updateResearchStatus();
+    
     // Update data every 60 seconds
     setInterval(updateInstrumentPanel, 60000);
+    
+    // Update research status every 5 minutes
+    setInterval(updateResearchStatus, 300000);
     
     // Update clocks every second
     setInterval(updateClocks, 1000);
