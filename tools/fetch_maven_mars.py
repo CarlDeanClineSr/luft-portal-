@@ -1,106 +1,226 @@
-import requests
+#!/usr/bin/env python3
+"""
+Fetch MAVEN Mars Plasma Data via CDAWeb API
+
+This script retrieves MAVEN MAG (magnetometer) data from NASA's CDAWeb service,
+calculates the chi (χ) parameter for magnetic field stability analysis,
+and saves results for the LUFT portal system.
+
+Data Source: CDAWeb - https://cdaweb.gsfc.nasa.gov/
+Dataset: MVN_MAG_L2-SUNSTATE-1SEC (MAVEN Magnetometer Sun-State 1 Second)
+"""
+
+import sys
+import json
 from pathlib import Path
 from datetime import datetime, timedelta
-import json
+import numpy as np
+import pandas as pd
 
+# Output directory
 OUTPUT_DIR = Path("data/maven_mars")
-OUTPUT_DIR.mkdir(exist_ok=True)
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-def validate_response(response):
-    """Check if response is valid data (not HTML error page)"""
-    content_type = response.headers.get('Content-Type', '')
+def calculate_chi(B_mag, baseline_percentile=10):
+    """
+    Calculate χ (chi) parameter: relative deviation from baseline magnetic field.
     
-    # Check if response is HTML (likely an error page)
-    if 'text/html' in content_type:
-        print(f"ERROR: Received HTML instead of data (likely 404)")
-        print(f"URL attempted: {response.url}")
+    χ = |B - B_baseline| / B_baseline
+    
+    Args:
+        B_mag: Array of magnetic field magnitudes
+        baseline_percentile: Percentile to use for baseline (default: 10th percentile)
+    
+    Returns:
+        Array of χ values
+    """
+    # Calculate baseline as low percentile of field strength (quiet conditions)
+    B_baseline = np.nanpercentile(B_mag, baseline_percentile)
+    
+    # Avoid division by zero
+    if B_baseline == 0:
+        B_baseline = np.nanmean(B_mag) if not np.all(np.isnan(B_mag)) else 1.0
+    
+    # Calculate chi
+    chi = np.abs(B_mag - B_baseline) / B_baseline
+    
+    return chi, B_baseline
+
+def fetch_maven_cdaweb(start_date, end_date):
+    """
+    Fetch MAVEN data from CDAWeb using the cdasws library.
+    
+    Args:
+        start_date: Start datetime
+        end_date: End datetime
+    
+    Returns:
+        DataFrame with columns: time, Bx, By, Bz, B_mag, chi
+    """
+    try:
+        from cdasws import CdasWs
+    except ImportError:
+        print("ERROR: cdasws library not installed")
+        print("Install with: pip install cdasws")
+        return None
+    
+    print(f"Connecting to CDAWeb...")
+    cdas = CdasWs()
+    
+    # MAVEN MAG dataset
+    dataset = 'MVN_MAG_L2-SUNSTATE-1SEC'
+    variables = ['epoch', 'OB_B']  # OB_B contains [Bx, By, Bz, |B|] in MSO coordinates
+    
+    # Format dates for CDAWeb API
+    start_str = start_date.strftime('%Y-%m-%dT%H:%M:%SZ')
+    end_str = end_date.strftime('%Y-%m-%dT%H:%M:%SZ')
+    
+    print(f"Requesting MAVEN data from {start_str} to {end_str}")
+    print(f"Dataset: {dataset}")
+    
+    try:
+        # Get data from CDAWeb
+        data = cdas.get_data(dataset, variables, start_str, end_str)
+        
+        if not data or len(data) == 0:
+            print("WARNING: No data returned from CDAWeb")
+            return None
+        
+        # Parse the response
+        records = []
+        for record in data[0]:
+            # Extract epoch (timestamp)
+            epoch = record.get('Epoch')
+            if epoch is None:
+                continue
+            
+            # Extract OB_B (magnetic field vector + magnitude)
+            ob_b = record.get('OB_B')
+            if ob_b is None or len(ob_b) < 4:
+                continue
+            
+            # OB_B format: [Bx, By, Bz, |B|] in nT
+            records.append({
+                'time': epoch,
+                'Bx': float(ob_b[0]),
+                'By': float(ob_b[1]),
+                'Bz': float(ob_b[2]),
+                'B_mag': float(ob_b[3])
+            })
+        
+        if len(records) == 0:
+            print("WARNING: No valid records extracted from response")
+            return None
+        
+        # Create DataFrame
+        df = pd.DataFrame(records)
+        
+        # Calculate chi
+        chi_values, baseline = calculate_chi(df['B_mag'].values)
+        df['chi'] = chi_values
+        df['B_baseline'] = baseline
+        
+        print(f"✓ Retrieved {len(df)} MAVEN records")
+        print(f"  Time range: {df['time'].min()} to {df['time'].max()}")
+        print(f"  B_mag range: {df['B_mag'].min():.2f} - {df['B_mag'].max():.2f} nT")
+        print(f"  B_baseline: {baseline:.2f} nT")
+        print(f"  χ range: {df['chi'].min():.4f} - {df['chi'].max():.4f}")
+        print(f"  Records with χ ≤ 0.15: {(df['chi'] <= 0.15).sum()} ({(df['chi'] <= 0.15).sum()/len(df)*100:.1f}%)")
+        
+        return df
+        
+    except Exception as e:
+        print(f"ERROR fetching data from CDAWeb: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
+
+def save_results(df, date_str):
+    """Save MAVEN results to CSV and summary JSON"""
+    if df is None or len(df) == 0:
+        print("No data to save")
         return False
     
-    # Check first few bytes for HTML tags
-    content_start = response.content[:500].lower()
-    if any(tag in content_start for tag in [b'<html', b'<!doctype', b'<head', b'<body', b'page not found']):
-        print(f"ERROR: Response contains HTML tags (not valid data)")
-        return False
+    # Save CSV
+    csv_file = OUTPUT_DIR / f"maven_mag_{date_str}.csv"
+    df.to_csv(csv_file, index=False)
+    print(f"✓ Saved CSV: {csv_file}")
+    
+    # Create summary JSON
+    summary = {
+        'date': date_str,
+        'timestamp': datetime.utcnow().isoformat() + 'Z',
+        'dataset': 'MVN_MAG_L2-SUNSTATE-1SEC',
+        'records': len(df),
+        'time_range': {
+            'start': str(df['time'].min()),
+            'end': str(df['time'].max())
+        },
+        'B_field': {
+            'min': float(df['B_mag'].min()),
+            'max': float(df['B_mag'].max()),
+            'mean': float(df['B_mag'].mean()),
+            'baseline': float(df['B_baseline'].iloc[0])
+        },
+        'chi': {
+            'min': float(df['chi'].min()),
+            'max': float(df['chi'].max()),
+            'mean': float(df['chi'].mean()),
+            'median': float(df['chi'].median()),
+            'records_below_015': int((df['chi'] <= 0.15).sum()),
+            'percent_below_015': float((df['chi'] <= 0.15).sum() / len(df) * 100)
+        }
+    }
+    
+    # Save summary JSON
+    json_file = OUTPUT_DIR / f"maven_summary_{date_str}.json"
+    with open(json_file, 'w') as f:
+        json.dump(summary, f, indent=2)
+    print(f"✓ Saved summary: {json_file}")
     
     return True
 
-def validate_csv_file(filepath):
-    """Check if file is valid CSV (not HTML error page)"""
-    try:
-        with open(filepath, 'r', encoding='utf-8') as f:
-            first_lines = f.read(500).lower()
-            
-            # Check for HTML tags (404 error pages)
-            if any(tag in first_lines for tag in ['<html', '<!doctype', '<head', '<body', 'page not found']):
-                print(f"ERROR: {filepath} contains HTML, not CSV data")
-                return False
-            
-            # Check for common error messages
-            if any(msg in first_lines for msg in ['404', 'error 404', 'not found']):
-                print(f"ERROR: {filepath} contains error message")
-                return False
-        
-        return True
-    except Exception as e:
-        print(f"ERROR: Cannot validate {filepath}: {e}")
-        return False
-
-def clean_invalid_files():
-    """Remove existing invalid CSV files that contain HTML"""
-    print("Checking for invalid files in data directory...")
-    cleaned = 0
-    
-    for file in OUTPUT_DIR.glob("*.csv"):
-        if not validate_csv_file(file):
-            print(f"Removing invalid file: {file}")
-            file.unlink()
-            cleaned += 1
-    
-    if cleaned > 0:
-        print(f"Cleaned {cleaned} invalid file(s)")
-    else:
-        print("No invalid files found")
-
-def fetch_maven_placeholder():
-    """
-    Placeholder MAVEN fetch - returns None until real data source is configured.
-    
-    NOTE: MAVEN data sources require either:
-    1. MAVEN SDC at LASP (requires authentication or specific CDF file access)
-    2. NASA PDS (requires navigating date-based directory structure)
-    3. CDAWeb (MAVEN datasets not currently available there)
-    
-    This function will not save invalid data and will exit gracefully.
-    """
-    print("=" * 60)
+def main():
+    """Main execution function"""
+    print("=" * 70)
     print("MAVEN Mars Plasma Data Ingestion")
-    print("=" * 60)
-    print("INFO: MAVEN data source not yet configured")
-    print("Previous placeholder URL returned 404 errors")
-    print("")
-    print("To fix this, configure one of:")
-    print("  1. MAVEN SDC at LASP: https://lasp.colorado.edu/maven/sdc/")
-    print("  2. NASA PDS Data: https://pds-ppi.igpp.ucla.edu/")
-    print("  3. Wait for CDAWeb to add MAVEN datasets")
-    print("")
-    print("For now, skipping data collection to avoid saving HTML error pages")
-    print("=" * 60)
+    print("=" * 70)
     
-    return None
+    # Fetch yesterday's data (full day)
+    end = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+    start = end - timedelta(days=1)
+    date_str = start.strftime('%Y%m%d')
+    
+    print(f"Target date: {date_str}")
+    print()
+    
+    # Fetch data from CDAWeb
+    df = fetch_maven_cdaweb(start, end)
+    
+    if df is None:
+        print()
+        print("⚠ WARNING: Could not fetch MAVEN data from CDAWeb")
+        print("Possible reasons:")
+        print("  - Dataset may not be available for this date")
+        print("  - CDAWeb service may be temporarily unavailable")
+        print("  - Network connectivity issues")
+        print()
+        print("This is expected behavior - exiting gracefully")
+        sys.exit(0)
+    
+    # Save results
+    success = save_results(df, date_str)
+    
+    if success:
+        print()
+        print("=" * 70)
+        print("✓ MAVEN data ingestion completed successfully")
+        print("=" * 70)
+        sys.exit(0)
+    else:
+        print()
+        print("⚠ WARNING: Could not save results")
+        sys.exit(0)
 
 if __name__ == "__main__":
-    # Clean up any existing invalid files first
-    clean_invalid_files()
-    
-    # Attempt to fetch new data
-    result = fetch_maven_placeholder()
-    
-    if result:
-        print(f"✓ SUCCESS: MAVEN data saved to {result}")
-    else:
-        print(f"⚠ INFO: No MAVEN data collected")
-        print("This is expected - data source needs configuration")
-    
-    # Always exit 0 (success) to not fail workflow
-    # Data ingestion failures should be handled gracefully
-    exit(0)
+    main()

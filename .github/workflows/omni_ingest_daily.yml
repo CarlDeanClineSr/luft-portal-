@@ -1,9 +1,9 @@
 name: Daily OMNIWeb Data Ingest & Merge
 
 on:
-  schedule: 
-    - cron: '0 12 * * *'  # Daily at 12:00 UTC
-  workflow_dispatch:  # Manual trigger
+  # schedule: 
+  #   - cron: '0 12 * * *'  # Daily at 12:00 UTC - DISABLED: 2025 data not available yet
+  workflow_dispatch:  # Manual trigger only
 
 jobs:
   ingest:
