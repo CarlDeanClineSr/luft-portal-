@@ -41,3 +41,9 @@ Thumbs.db
 *.tmp
 *.log
 index_old_backup.html
+
+# Large harvested paper files (keep only latest.json)
+data/papers/inspire_papers_*.json
+data/papers/arxiv_harvest_*.json
+data/papers/cern_harvest_*.json
+
