@@ -18,3 +18,8 @@ feedparser>=6.0.10
 # Configuration and data parsing
 pyyaml>=6.0
 python-frontmatter>=1.0.0
+
+# NASA CDAWeb data access
+cdasws>=1.7.0
+cdflib>=0.4.0
+xarray>=2023.0.0
