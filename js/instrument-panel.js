@@ -6,10 +6,31 @@ let latestData = null;
 let lastUpdateTime = null;
 let southwardStartTime = null;
 let phaseStartTime = null;
+let prePhaseStartTime = null;
+let estimatedPeakTime = null;
+
+// Needle animation state
+let needlePositions = {
+    chi: 0,
+    bz: 0,
+    speed: 0,
+    density: 0
+};
+
+let targetNeedlePositions = {
+    chi: 0,
+    bz: 0,
+    speed: 0,
+    density: 0
+};
 
 // ========================================
 // UTILITY FUNCTIONS
 // ========================================
+
+function lerp(start, end, t) {
+    return start + (end - start) * Math.min(1, t);
+}
 
 function parseCSVLine(line) {
     const values = line.split(',');
@@ -45,7 +66,7 @@ function formatTime(seconds) {
 // ANALOG GAUGE RENDERING
 // ========================================
 
-function drawAnalogGauge(canvasId, value, min, max, redZoneStart, label, unit) {
+function drawAnalogGauge(canvasId, value, min, max, redZoneStart, label, unit, animated = true) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
     
@@ -55,6 +76,17 @@ function drawAnalogGauge(canvasId, value, min, max, redZoneStart, label, unit) {
     const centerX = width / 2;
     const centerY = height - 20;
     const radius = Math.min(width, height) - 70;
+    
+    // Get gauge key from canvas ID
+    const gaugeKey = canvasId.replace('-gauge', '');
+    
+    // Update target position
+    if (animated) {
+        targetNeedlePositions[gaugeKey] = value;
+        // Smooth animation - lerp current position toward target
+        needlePositions[gaugeKey] = lerp(needlePositions[gaugeKey], targetNeedlePositions[gaugeKey], 0.15);
+        value = needlePositions[gaugeKey];
+    }
     
     // Clear canvas
     ctx.clearRect(0, 0, width, height);
@@ -194,10 +226,14 @@ function drawAnalogGauge(canvasId, value, min, max, redZoneStart, label, unit) {
 // ========================================
 
 function updateWarningLights(data) {
-    // χ Boundary Warning
+    // χ Boundary Warning with redline animation
     const chiWarning = document.getElementById('chi-warning');
     if (data.chi >= 0.15) {
         chiWarning.className = 'light-indicator red';
+        // Add extra pulsing for boundary violation
+        if (data.chi >= 0.1500 && data.chi < 0.1505) {
+            chiWarning.style.animation = 'pulse-red 0.5s infinite';
+        }
     } else if (data.chi >= 0.14) {
         chiWarning.className = 'light-indicator amber';
     } else if (data.chi >= 0.13) {
@@ -206,21 +242,25 @@ function updateWarningLights(data) {
         chiWarning.className = 'light-indicator off';
     }
     
-    // Bz Southward Warning
+    // Bz Southward Warning with flash animation
     const bzWarning = document.getElementById('bz-warning');
     if (data.bz !== null) {
         if (data.bz <= -8) {
             bzWarning.className = 'light-indicator red';
+            bzWarning.style.animation = 'pulse-red 0.6s infinite';
             if (!southwardStartTime) southwardStartTime = Date.now();
         } else if (data.bz < 0) {
             bzWarning.className = 'light-indicator amber';
+            bzWarning.style.animation = 'pulse-amber 1.2s infinite';
             if (!southwardStartTime) southwardStartTime = Date.now();
         } else {
             bzWarning.className = 'light-indicator green';
+            bzWarning.style.animation = 'none';
             southwardStartTime = null;
         }
     } else {
         bzWarning.className = 'light-indicator off';
+        bzWarning.style.animation = 'none';
         southwardStartTime = null;
     }
     
@@ -229,24 +269,71 @@ function updateWarningLights(data) {
     const phase = data.storm_phase.toUpperCase();
     if (phase === 'PEAK') {
         stormWarning.className = 'light-indicator red';
-    } else if (phase === 'PRE' || phase === 'POST-STORM') {
+        stormWarning.style.animation = 'pulse-red 0.8s infinite';
+    } else if (phase === 'PRE') {
         stormWarning.className = 'light-indicator amber';
+        stormWarning.style.animation = 'pulse-amber 1.5s infinite';
+        // Track PRE phase start for countdown
+        if (!prePhaseStartTime) {
+            prePhaseStartTime = Date.now();
+            // Estimate peak time (typically 30-60 minutes after PRE starts)
+            estimatedPeakTime = Date.now() + (45 * 60 * 1000); // 45 minutes
+        }
+    } else if (phase === 'POST-STORM') {
+        stormWarning.className = 'light-indicator amber';
+        stormWarning.style.animation = 'none';
+        prePhaseStartTime = null;
+        estimatedPeakTime = null;
     } else {
         stormWarning.className = 'light-indicator green';
+        stormWarning.style.animation = 'none';
+        prePhaseStartTime = null;
+        estimatedPeakTime = null;
     }
     
     // Violation Warning
     const violationWarning = document.getElementById('violation-warning');
     if (data.chi > 0.15) {
         violationWarning.className = 'light-indicator red';
+        violationWarning.style.animation = 'pulse-red 0.5s infinite';
     } else {
         violationWarning.className = 'light-indicator off';
+        violationWarning.style.animation = 'none';
     }
 }
 
 // ========================================
 // DATA FETCHING AND UPDATE
 // ========================================
+
+async function fetchLiveData() {
+    try {
+        // Try to fetch from live API first
+        const response = await fetch('api/get_realtime_data.py?' + Date.now());
+        if (response.ok) {
+            const data = await response.json();
+            if (data.status === 'ok') {
+                return {
+                    timestamp: data.data_timestamp,
+                    chi: data.chi,
+                    phase: 0, // Phase radians not needed here
+                    storm_phase: data.storm_phase,
+                    density: data.density,
+                    speed: data.speed,
+                    bz: data.bz,
+                    bt: data.bt,
+                    source: data.source,
+                    warnings: data.warnings
+                };
+            }
+        }
+    } catch (error) {
+        console.log('Live API not available, falling back to CSV data');
+    }
+    
+    // Fallback to CSV file
+    return await fetchLatestData();
+}
 
 async function fetchLatestData() {
     try {
@@ -341,16 +428,27 @@ function updateClocks() {
         if (bzTime) bzTime.textContent = '00:00:00';
     }
     
-    // Phase duration
-    if (phaseStartTime) {
-        const duration = Math.floor((now - phaseStartTime) / 1000);
-        const stormDuration = document.getElementById('storm-duration');
-        if (stormDuration) stormDuration.textContent = formatTime(duration);
+    // Phase duration or countdown to peak
+    const stormDuration = document.getElementById('storm-duration');
+    if (stormDuration) {
+        if (estimatedPeakTime && prePhaseStartTime && now < estimatedPeakTime) {
+            // Countdown to peak
+            const remaining = Math.floor((estimatedPeakTime - now) / 1000);
+            stormDuration.textContent = '-' + formatTime(remaining);
+            stormDuration.style.color = '#ff0000';
+            stormDuration.style.textShadow = '0 0 15px #ff0000';
+        } else if (phaseStartTime) {
+            // Regular phase duration
+            const duration = Math.floor((now - phaseStartTime) / 1000);
+            stormDuration.textContent = formatTime(duration);
+            stormDuration.style.color = '#4da3ff';
+            stormDuration.style.textShadow = 'none';
+        }
     }
 }
 
 async function updateInstrumentPanel() {
-    const data = await fetchLatestData();
+    const data = await fetchLiveData();
     
     if (!data) {
         const updateStatus = document.getElementById('update-status');
@@ -361,19 +459,19 @@ async function updateInstrumentPanel() {
     latestData = data;
     lastUpdateTime = Date.now();
     
-    // Update all gauges
-    drawAnalogGauge('chi-gauge', data.chi, 0, 0.20, 0.15, 'CHI', '');
+    // Update all gauges with animation
+    drawAnalogGauge('chi-gauge', data.chi, 0, 0.20, 0.15, 'CHI', '', true);
     
     if (data.bz !== null) {
-        drawAnalogGauge('bz-gauge', data.bz, -15, 15, 10, 'Bz (nT)', '');
+        drawAnalogGauge('bz-gauge', data.bz, -15, 15, 10, 'Bz (nT)', '', true);
     }
     
     if (!isNaN(data.speed)) {
-        drawAnalogGauge('speed-gauge', data.speed, 0, 800, 600, 'SPEED', 'km/s');
+        drawAnalogGauge('speed-gauge', data.speed, 0, 800, 600, 'SPEED', 'km/s', true);
     }
     
     if (!isNaN(data.density)) {
-        drawAnalogGauge('density-gauge', data.density, 0, 15, 8, 'DENSITY', 'p/cm³');
+        drawAnalogGauge('density-gauge', data.density, 0, 15, 8, 'DENSITY', 'p/cm³', true);
     }
     
     // Update digital displays
@@ -384,7 +482,32 @@ async function updateInstrumentPanel() {
     
     // Update status
     const updateStatus = document.getElementById('update-status');
-    if (updateStatus) updateStatus.textContent = 'Live - Updated';
+    if (updateStatus) {
+        const source = data.source || 'CSV';
+        updateStatus.textContent = `Live - ${source}`;
+    }
+}
+
+// Continuous animation loop for smooth needle movement
+function animateGauges() {
+    if (latestData) {
+        // Redraw gauges with interpolated needle positions
+        drawAnalogGauge('chi-gauge', latestData.chi, 0, 0.20, 0.15, 'CHI', '', true);
+        
+        if (latestData.bz !== null) {
+            drawAnalogGauge('bz-gauge', latestData.bz, -15, 15, 10, 'Bz (nT)', '', true);
+        }
+        
+        if (!isNaN(latestData.speed)) {
+            drawAnalogGauge('speed-gauge', latestData.speed, 0, 800, 600, 'SPEED', 'km/s', true);
+        }
+        
+        if (!isNaN(latestData.density)) {
+            drawAnalogGauge('density-gauge', latestData.density, 0, 15, 8, 'DENSITY', 'p/cm³', true);
+        }
+    }
+    
+    requestAnimationFrame(animateGauges);
 }
 
 // ========================================
@@ -396,6 +519,9 @@ window.addEventListener('DOMContentLoaded', () => {
     
     // Initial update
     updateInstrumentPanel();
+    
+    // Start continuous animation loop
+    requestAnimationFrame(animateGauges);
     
     // Update data every 60 seconds
     setInterval(updateInstrumentPanel, 60000);
