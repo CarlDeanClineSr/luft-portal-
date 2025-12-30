@@ -61,7 +61,7 @@ def fetch_maven_cdaweb(start_date, end_date):
         from cdasws import CdasWs
     except ImportError:
         print("ERROR: cdasws library not installed")
-        print("Install with: pip install cdasws")
+        print("Install with: pip install cdasws cdflib xarray")
         return None
     
     print(f"Connecting to CDAWeb...")
@@ -69,7 +69,7 @@ def fetch_maven_cdaweb(start_date, end_date):
     
     # MAVEN MAG dataset
     dataset = 'MVN_MAG_L2-SUNSTATE-1SEC'
-    variables = ['epoch', 'OB_B']  # OB_B contains [Bx, By, Bz, |B|] in MSO coordinates
+    variables = ['OB_B']  # OB_B contains [Bx, By, Bz] in MSO coordinates
     
     # Format dates for CDAWeb API
     start_str = start_date.strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -80,39 +80,53 @@ def fetch_maven_cdaweb(start_date, end_date):
     
     try:
         # Get data from CDAWeb
-        data = cdas.get_data(dataset, variables, start_str, end_str)
+        # Returns tuple: (status_dict, xarray_dataset)
+        result = cdas.get_data(dataset, variables, start_str, end_str)
         
-        if not data or len(data) == 0:
-            print("WARNING: No data returned from CDAWeb")
+        if not result or len(result) < 2:
+            print("WARNING: Invalid response from CDAWeb")
             return None
         
-        # Parse the response
-        records = []
-        for record in data[0]:
-            # Extract epoch (timestamp)
-            epoch = record.get('Epoch')
-            if epoch is None:
-                continue
-            
-            # Extract OB_B (magnetic field vector + magnitude)
-            ob_b = record.get('OB_B')
-            if ob_b is None or len(ob_b) < 4:
-                continue
-            
-            # OB_B format: [Bx, By, Bz, |B|] in nT
-            records.append({
-                'time': epoch,
-                'Bx': float(ob_b[0]),
-                'By': float(ob_b[1]),
-                'Bz': float(ob_b[2]),
-                'B_mag': float(ob_b[3])
-            })
+        # Extract xarray dataset (second element of tuple)
+        xr_dataset = result[1]
         
-        if len(records) == 0:
-            print("WARNING: No valid records extracted from response")
+        # Check if we have data
+        if xr_dataset is None or 'OB_B' not in xr_dataset:
+            print("WARNING: No OB_B data in response")
+            return None
+        
+        # Extract OB_B DataArray (shape: [time, 3] for [Bx, By, Bz])
+        ob_b = xr_dataset['OB_B']
+        
+        # Get epoch (time) coordinate
+        if 'epoch' not in ob_b.coords:
+            print("WARNING: No epoch coordinate in data")
+            return None
+        
+        epoch = ob_b.coords['epoch']
+        
+        # Convert to numpy arrays
+        ob_b_values = ob_b.values  # Shape: (n_times, 3)
+        epoch_values = epoch.values  # Shape: (n_times,)
+        
+        if len(ob_b_values) == 0:
+            print("WARNING: No data points in response")
             return None
         
         # Create DataFrame
+        records = []
+        for i in range(len(epoch_values)):
+            bx, by, bz = ob_b_values[i]
+            b_mag = np.sqrt(bx**2 + by**2 + bz**2)
+            
+            records.append({
+                'time': pd.Timestamp(epoch_values[i]),
+                'Bx': float(bx),
+                'By': float(by),
+                'Bz': float(bz),
+                'B_mag': float(b_mag)
+            })
+        
         df = pd.DataFrame(records)
         
         # Calculate chi
