@@ -163,7 +163,7 @@ def save_results(df, date_str):
     # Create summary JSON
     summary = {
         'date': date_str,
-        'timestamp': datetime.now(timezone.utc).isoformat() + 'Z',
+        'timestamp': datetime.now(timezone.utc).isoformat(),
         'dataset': 'MVN_MAG_L2-SUNSTATE-1SEC',
         'records': len(df),
         'time_range': {
