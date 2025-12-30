@@ -13,7 +13,7 @@ Dataset: MVN_MAG_L2-SUNSTATE-1SEC (MAVEN Magnetometer Sun-State 1 Second)
 import sys
 import json
 from pathlib import Path
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import numpy as np
 import pandas as pd
 
@@ -163,7 +163,7 @@ def save_results(df, date_str):
     # Create summary JSON
     summary = {
         'date': date_str,
-        'timestamp': datetime.utcnow().isoformat() + 'Z',
+        'timestamp': datetime.now(timezone.utc).isoformat() + 'Z',
         'dataset': 'MVN_MAG_L2-SUNSTATE-1SEC',
         'records': len(df),
         'time_range': {
@@ -201,7 +201,7 @@ def main():
     print("=" * 70)
     
     # Fetch yesterday's data (full day)
-    end = datetime.utcnow().replace(hour=0, minute=0, second=0, microsecond=0)
+    end = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
     start = end - timedelta(days=1)
     date_str = start.strftime('%Y%m%d')
     
