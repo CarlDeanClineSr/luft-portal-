@@ -398,11 +398,11 @@ async function updateStatistics() {
 }
 
 // ========================================
-// 5. SYSTEM STATUS
+// 5. SYSTEM STATUS (Fixed UTC parsing and negative time clamp)
 // ========================================
 async function updateSystemStatus() {
     try {
-        const response = await fetch('data/cme_heartbeat_log_2025_12.csv');
+        const response = await fetch('data/cme_heartbeat_log_2025_12.csv?v=' + Date.now(), { cache: 'no-store' });
         const text = await response.text();
         const lines = text.trim().split('\n');
         const dataLines = lines.slice(1);
@@ -410,12 +410,14 @@ async function updateSystemStatus() {
         if (dataLines.length > 0) {
             const lastLine = dataLines[dataLines.length - 1];
             const values = lastLine.split(',');
-            const timestamp = values[0];
+            const timestampStr = values[0];
             
-            // Calculate seconds ago
-            const lastUpdate = new Date(timestamp);
+            // Parse as UTC (append Z if missing)
+            const lastUpdate = new Date(timestampStr.endsWith('Z') ? timestampStr : (timestampStr + 'Z'));
             const now = new Date();
-            const secondsAgo = Math.floor((now - lastUpdate) / 1000);
+            let secondsAgo = Math.floor((now.getTime() - lastUpdate.getTime()) / 1000);
+            if (!Number.isFinite(secondsAgo)) secondsAgo = 0;
+            if (secondsAgo < 0) secondsAgo = 0;
             
             // Update DSCOVR feed status
             const dscovrStatus = document.getElementById('dscovr-status');
@@ -424,13 +426,13 @@ async function updateSystemStatus() {
             }
             
             // Update chi boundary percentage
-            const chi = parseFloat(values[1]);
+            const chiVal = parseFloat(values[1]);
             const chiStatus = document.getElementById('chi-boundary-status');
-            if (chiStatus && !isNaN(chi)) {
-                if (chi >= 0.15) {
+            if (chiStatus && Number.isFinite(chiVal)) {
+                if (chiVal >= 0.15) {
                     chiStatus.textContent = 'AT BOUNDARY';
                 } else {
-                    chiStatus.textContent = `ACTIVE (${chi.toFixed(4)})`;
+                    chiStatus.textContent = `ACTIVE (${chiVal.toFixed(4)})`;
                 }
             }
         }
@@ -895,6 +897,77 @@ function updateValidationProgress() {
 }
 
 // ========================================
+// 12. STORM PHASE PANEL (NEW)
+// ========================================
+async function fetchJSON(path) {
+    // Add cache-bust to avoid stale content
+    const url = `${path}?v=${Date.now()}`;
+    const resp = await fetch(url, { cache: 'no-store' });
+    if (!resp.ok) throw new Error(`Failed to fetch ${path}: ${resp.status}`);
+    return await resp.json();
+}
+
+function setText(id, val) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = val;
+    el.classList.add('updated');
+    setTimeout(() => el.classList.remove('updated'), 300);
+}
+
+// Storm Phase Panel updater using analyzer outputs
+async function updateStormPhasePanel() {
+    try {
+        // Summary counts from analyzer
+        const summary = await fetchJSON('data/storm_phase_summary.json');
+        // Optional richer metrics (see analyzer update below)
+        let metrics = null;
+        try {
+            metrics = await fetchJSON('data/storm_phase_metrics.json');
+        } catch (e) {
+            // If metrics not present, fall back to count-only view
+            metrics = {
+                pre: { count: summary.num_pre, avg: '--', max: '--', at_boundary: '--' },
+                peak: { count: summary.num_peak, avg: '--', max: '--', at_boundary: '--' },
+                post: { count: summary.num_post, avg: '--', max: '--', at_boundary: '--' }
+            };
+        }
+
+        // PRE
+        setText('pre-count', metrics.pre.count ?? summary.num_pre);
+        setText('pre-avg-chi', metrics.pre.avg ?? '--');
+        setText('pre-max-chi', metrics.pre.max ?? '--');
+        setText('pre-at-boundary', metrics.pre.at_boundary ?? '--');
+
+        // PEAK
+        setText('peak-count', metrics.peak.count ?? summary.num_peak);
+        setText('peak-avg-chi', metrics.peak.avg ?? '--');
+        setText('peak-max-chi', metrics.peak.max ?? '--');
+        setText('peak-at-boundary', metrics.peak.at_boundary ?? '--');
+
+        // POST
+        setText('post-count', metrics.post.count ?? summary.num_post);
+        setText('post-avg-chi', metrics.post.avg ?? '--');
+        setText('post-max-chi', metrics.post.max ?? '--');
+        setText('post-at-boundary', metrics.post.at_boundary ?? '--');
+
+        // Insight line
+        const insightEl = document.getElementById('phase-insight-text');
+        if (insightEl) {
+            if (summary.has_storm) {
+                insightEl.textContent = `Storm detected. First peak: ${summary.first_peak_time || '—'}; Last peak: ${summary.last_peak_time || '—'}.`;
+            } else {
+                insightEl.textContent = 'No storm detected (quiet period).';
+            }
+        }
+    } catch (err) {
+        console.error('updateStormPhasePanel error:', err);
+        const insightEl = document.getElementById('phase-insight-text');
+        if (insightEl) insightEl.textContent = 'Storm phase data unavailable.';
+    }
+}
+
+// ========================================
 // MAIN UPDATE LOOP
 // ========================================
 async function updateAll() {
@@ -910,6 +983,7 @@ async function updateAll() {
     await updateMavenStatus();
     await updateCernStatus();
     updateValidationProgress();
+    await updateStormPhasePanel();
 }
 
 // Initialize on page load
