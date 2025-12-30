@@ -1,0 +1,39 @@
+name: INSPIRE Paper Harvest
+
+on: 
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly, Sunday midnight
+  workflow_dispatch:
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Install dependencies
+        run: pip install requests
+      
+      - name: Harvest papers
+        run: python tools/harvest_inspire.py
+      
+      - name: Commit results
+        run: |
+          git config user.name "LUFT-Bot"
+          git config user.email "luft-bot@github.com"
+          git add data/papers/
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "docs: weekly INSPIRE paper harvest"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
