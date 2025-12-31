@@ -15,6 +15,75 @@ The **LUFT Link Intelligence Network** is a comprehensive system for discovering
 
 ---
 
+## System Architecture
+
+```mermaid
+graph TB
+    subgraph "Data Sources"
+        REPO[LUFT Repository Files<br/>Markdown, HTML, YAML, Python, etc.]
+        REGISTRY[External Data Sources Registry<br/>43+ Scientific Sources]
+    end
+    
+    subgraph "Core Processing"
+        HARVESTER[Link Harvester Core<br/>link_harvester_core.py]
+        ANALYZER[Link Graph Analyzer<br/>link_graph_analyzer.py]
+        MONITOR[Link Monitor<br/>tools/link_monitor.py]
+    end
+    
+    subgraph "Data Storage"
+        LINKS_JSON[links_YYYYMMDD.json<br/>Complete harvest data]
+        LINKS_CSV[links_YYYYMMDD.csv<br/>Spreadsheet format]
+        NETWORK_JSON[link_network.json<br/>Graph data]
+        HEALTH_JSON[source_health_log.json<br/>Health monitoring]
+    end
+    
+    subgraph "Visualization & Reporting"
+        DASHBOARD[Interactive Dashboard<br/>link_intelligence_dashboard.html]
+        REPORT[Automated Report<br/>LATEST_HARVEST_REPORT.md]
+    end
+    
+    subgraph "Automation"
+        WORKFLOW[GitHub Actions Workflow<br/>Daily at 3:00 AM UTC]
+    end
+    
+    REPO --> HARVESTER
+    HARVESTER --> LINKS_JSON
+    HARVESTER --> LINKS_CSV
+    LINKS_JSON --> ANALYZER
+    ANALYZER --> NETWORK_JSON
+    REGISTRY --> MONITOR
+    MONITOR --> HEALTH_JSON
+    
+    NETWORK_JSON --> DASHBOARD
+    LINKS_JSON --> DASHBOARD
+    HEALTH_JSON --> DASHBOARD
+    
+    WORKFLOW --> HARVESTER
+    WORKFLOW --> ANALYZER
+    WORKFLOW --> MONITOR
+    WORKFLOW --> REPORT
+    
+    DASHBOARD -.->|Interactive Exploration| USER[User]
+    REPORT -.->|Summary| USER
+    
+    style REPO fill:#16213e,stroke:#16c9f6
+    style REGISTRY fill:#16213e,stroke:#16c9f6
+    style HARVESTER fill:#0f3460,stroke:#16c9f6
+    style ANALYZER fill:#0f3460,stroke:#16c9f6
+    style MONITOR fill:#0f3460,stroke:#16c9f6
+    style DASHBOARD fill:#e94560,stroke:#16c9f6
+    style WORKFLOW fill:#533483,stroke:#16c9f6
+```
+
+**Architecture Overview:**
+1. **Input Layer:** Repository files and external source registry
+2. **Processing Layer:** Three core scripts (harvester, analyzer, monitor)
+3. **Storage Layer:** Structured data in JSON/CSV formats
+4. **Presentation Layer:** Interactive dashboard and automated reports
+5. **Automation Layer:** GitHub Actions orchestrating the entire pipeline
+
+---
+
 ## System Components
 
 ### 1. Link Harvester Core (`link_harvester_core.py`)
@@ -204,7 +273,53 @@ python link_graph_analyzer.py --input links.json --type domain-only
 
 ---
 
-### 5. Automated Workflow (`.github/workflows/link_harvest_daily.yml`)
+### 5. Link Monitor (`tools/link_monitor.py`)
+
+**Purpose:** Monitor health and availability of external data sources
+
+**Features:**
+- Checks HTTP status codes for all sources in registry
+- Measures response times in milliseconds
+- Validates SSL certificates for HTTPS endpoints
+- Detects timeouts and connection errors
+- Generates health summary statistics
+- Exports results to JSON for tracking
+
+**Usage:**
+```bash
+# Check all sources in registry
+python tools/link_monitor.py --check-all
+
+# Specify custom registry
+python tools/link_monitor.py --registry external_data_sources_registry.yaml
+
+# Save results and show verbose output
+python tools/link_monitor.py --check-all --output data/source_health_log.json --verbose
+
+# Adjust timeout for slow connections
+python tools/link_monitor.py --check-all --timeout 15
+```
+
+**Output Metrics:**
+- Total sources checked
+- Sources healthy (HTTP 200-299)
+- Sources degraded (redirects, forbidden, etc.)
+- Sources down (timeouts, connection errors)
+- Average response time
+- Critical failures for high-priority sources
+
+**Health Status Indicators:**
+- ✅ `healthy` - HTTP 200-299, responding normally
+- ↪️ `redirect` - HTTP 300-399, redirects
+- 🚫 `forbidden` - HTTP 403, access denied (common for HEAD requests)
+- ⚠️ `degraded` - HTTP 400+, non-optimal status
+- ⏱️ `timeout` - Request timeout exceeded
+- 🔒 `ssl_error` - SSL certificate issues
+- ❌ `down` - Connection failed
+
+---
+
+### 6. Automated Workflow (`.github/workflows/link_harvest_daily.yml`)
 
 **Purpose:** Daily automated link harvesting and analysis
 
