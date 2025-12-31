@@ -16,6 +16,10 @@ The automated workflow (`.github/workflows/link_harvest_daily.yml`) runs daily a
 - `link_network.json` → Latest network graph
 - `LATEST_HARVEST_REPORT.md` - Summary of most recent harvest
 
+### Health Monitoring Files
+- `source_health_log.json` - External data source health status
+- `link_timeline.jsonl` - Historical changes (append-only)
+
 ## File Sizes
 
 These files can be large:
@@ -71,6 +75,35 @@ open link_intelligence_dashboard.html
     {"source": 0, "target": 1, "url": "..."}
   ]
 }
+```
+
+### source_health_log.json
+```json
+{
+  "summary": {
+    "total_sources": 43,
+    "sources_healthy": 35,
+    "sources_degraded": 5,
+    "sources_down": 3,
+    "timestamp": "2025-12-31T12:00:00Z"
+  },
+  "results": [
+    {
+      "source_name": "NASA DSCOVR",
+      "url": "https://www.ngdc.noaa.gov/dscovr/",
+      "status": "healthy",
+      "status_code": 200,
+      "response_time_ms": 234.5
+    }
+  ]
+}
+```
+
+### link_timeline.jsonl
+JSONL format (one JSON object per line) for historical tracking:
+```jsonl
+{"date": "2025-12-31", "total_links": 58257, "new_domains": ["example.com"]}
+{"date": "2026-01-01", "total_links": 58312, "new_domains": []}
 ```
 
 ## Usage
