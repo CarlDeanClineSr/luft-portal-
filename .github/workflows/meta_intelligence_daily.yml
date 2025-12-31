@@ -1,0 +1,298 @@
+name: Meta-Intelligence Daily Analysis
+# Layer 4: Meta-Pattern Detection and Cross-Source Intelligence
+# Runs comprehensive analysis of temporal correlations, multi-source anomalies, and missing links
+
+on:
+  schedule:
+    # Run daily at 00:00 UTC
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Allow manual triggering
+    inputs:
+      analysis_type:
+        description: 'Type of analysis to run'
+        required: false
+        default: 'full'
+        type: choice
+        options:
+          - full
+          - correlations-only
+          - anomalies-only
+          - missing-links-only
+
+jobs:
+  meta-intelligence-analysis:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Get full history for analysis
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install python-dateutil
+      
+      - name: Create reports directory
+        run: |
+          mkdir -p reports/meta_intelligence
+      
+      - name: Run Meta-Pattern Detection
+        id: meta_patterns
+        run: |
+          echo "🌟 Running LUFT Meta-Intelligence Engine v4.0"
+          echo "=============================================="
+          
+          # Set output filename with timestamp
+          TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+          REPORT_FILE="reports/meta_intelligence/report_${TIMESTAMP}.md"
+          
+          # Run full meta-intelligence analysis
+          python tools/meta_pattern_detector.py \
+            --full-analysis \
+            --data-dir data \
+            --registry external_data_sources_registry.yaml \
+            --output "$REPORT_FILE" \
+            2>&1 | tee meta_pattern_log.txt
+          
+          echo "report_file=$REPORT_FILE" >> $GITHUB_OUTPUT
+          echo "timestamp=$TIMESTAMP" >> $GITHUB_OUTPUT
+      
+      - name: Run Missing Link Analysis
+        id: missing_links
+        run: |
+          echo "🔗 Running Missing Link Intelligence"
+          echo "===================================="
+          
+          TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+          MISSING_LINK_FILE="reports/meta_intelligence/missing_links_${TIMESTAMP}.md"
+          
+          python tools/missing_link_suggester.py \
+            --full-analysis \
+            --repo-path . \
+            --registry external_data_sources_registry.yaml \
+            --output "$MISSING_LINK_FILE" \
+            2>&1 | tee missing_link_log.txt
+          
+          echo "missing_link_file=$MISSING_LINK_FILE" >> $GITHUB_OUTPUT
+      
+      - name: Generate Combined Summary
+        run: |
+          SUMMARY_FILE="reports/meta_intelligence/LATEST_SUMMARY.md"
+          
+          cat > "$SUMMARY_FILE" << 'EOF'
+          # 🌟 LUFT META-INTELLIGENCE LATEST SUMMARY
+          
+          **Generated:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          
+          This is the latest meta-intelligence analysis combining:
+          - ✅ Temporal Correlation Detection
+          - ✅ Cross-Source Anomaly Detection
+          - ✅ Missing Link Intelligence
+          - ✅ Citation Validation
+          
+          ---
+          
+          ## 📊 Quick Status
+          
+          EOF
+          
+          # Extract key metrics from logs
+          echo "### Meta-Pattern Detection" >> "$SUMMARY_FILE"
+          if grep -q "correlations detected" meta_pattern_log.txt; then
+            grep "correlations detected" meta_pattern_log.txt >> "$SUMMARY_FILE"
+          fi
+          if grep -q "Multi-source events detected" meta_pattern_log.txt; then
+            grep "Multi-source events detected" meta_pattern_log.txt >> "$SUMMARY_FILE"
+          fi
+          echo "" >> "$SUMMARY_FILE"
+          
+          echo "### Missing Link Analysis" >> "$SUMMARY_FILE"
+          if grep -q "missing link opportunities" missing_link_log.txt; then
+            grep "missing link opportunities" missing_link_log.txt >> "$SUMMARY_FILE"
+          fi
+          if grep -q "Coverage:" missing_link_log.txt; then
+            grep "Coverage:" missing_link_log.txt >> "$SUMMARY_FILE"
+          fi
+          echo "" >> "$SUMMARY_FILE"
+          
+          cat >> "$SUMMARY_FILE" << 'EOF'
+          
+          ---
+          
+          ## 📁 Full Reports
+          
+          - **Meta-Pattern Analysis:** See `${{ steps.meta_patterns.outputs.report_file }}`
+          - **Missing Links Report:** See `${{ steps.missing_links.outputs.missing_link_file }}`
+          
+          ---
+          
+          ## 🎯 Automated Recommendations
+          
+          This analysis runs automatically daily. Review the full reports for:
+          1. Temporal correlations between data sources
+          2. Multi-source anomaly events requiring attention
+          3. Gaps in knowledge network coverage
+          4. Claims requiring data source validation
+          
+          **Next Steps:**
+          - Review HIGH priority missing links
+          - Investigate any multi-source anomaly events
+          - Validate detected temporal correlations
+          - Update documentation with missing citations
+          
+          ---
+          
+          *Meta-Intelligence Engine v4.0*  
+          *Carl Dean Cline Sr. - Lincoln, Nebraska, USA*
+          EOF
+          
+          echo "✅ Summary generated: $SUMMARY_FILE"
+      
+      - name: Check for High Priority Issues
+        id: priority_check
+        run: |
+          # Check if there are high priority issues that need attention
+          HIGH_PRIORITY=false
+          
+          # Check for multi-source anomalies
+          if grep -q "HIGH Priority" reports/meta_intelligence/report_*.md 2>/dev/null; then
+            echo "⚠️  HIGH PRIORITY: Multi-source anomaly detected!"
+            HIGH_PRIORITY=true
+          fi
+          
+          # Check for high priority missing links
+          if grep -q "HIGH PRIORITY" reports/meta_intelligence/missing_links_*.md 2>/dev/null; then
+            echo "⚠️  HIGH PRIORITY: Critical missing links detected!"
+            HIGH_PRIORITY=true
+          fi
+          
+          echo "high_priority=$HIGH_PRIORITY" >> $GITHUB_OUTPUT
+          
+          if [ "$HIGH_PRIORITY" = "true" ]; then
+            echo "🚨 High priority issues detected - review recommended!"
+          else
+            echo "✅ No high priority issues detected"
+          fi
+      
+      - name: Commit and push reports
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "LUFT Meta-Intelligence Bot"
+          
+          git add reports/meta_intelligence/
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🌟 Meta-Intelligence Daily Report - $(date +%Y-%m-%d)
+            
+            Automated Layer 4 Analysis:
+            - Temporal correlation detection
+            - Cross-source anomaly detection
+            - Missing link intelligence
+            - Citation validation
+            
+            Generated by Meta-Intelligence Engine v4.0"
+            
+            git push
+            echo "✅ Reports committed and pushed"
+          fi
+      
+      - name: Create Issue for High Priority Findings (if needed)
+        if: steps.priority_check.outputs.high_priority == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const date = new Date().toISOString().split('T')[0];
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🚨 HIGH PRIORITY: Meta-Intelligence Alert - ${date}`,
+              body: `# Meta-Intelligence High Priority Alert
+              
+              The daily meta-intelligence analysis has detected high priority issues requiring attention.
+              
+              ## 📊 Alert Details
+              
+              **Date:** ${date}
+              **Analysis:** Layer 4 Meta-Pattern Detection
+              
+              ## 🔴 Detected Issues
+              
+              This alert was triggered by one or more of the following:
+              - Multi-source anomaly event (2+ sources showing simultaneous anomalies)
+              - High priority missing links (concepts mentioned 10+ times without data sources)
+              - Critical temporal correlation pattern requiring validation
+              
+              ## 📁 Review Reports
+              
+              Please review the following files in \`reports/meta_intelligence/\`:
+              - Latest meta-pattern analysis report
+              - Latest missing links report
+              - \`LATEST_SUMMARY.md\` for quick overview
+              
+              ## 🎯 Recommended Actions
+              
+              1. Review the full reports for specific findings
+              2. Validate any multi-source events against raw data
+              3. Address high priority missing links
+              4. Update documentation as needed
+              
+              ---
+              
+              *Auto-generated by LUFT Meta-Intelligence Engine v4.0*`,
+              labels: ['meta-intelligence', 'high-priority', 'automated']
+            });
+      
+      - name: Upload analysis artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: meta-intelligence-analysis-${{ steps.meta_patterns.outputs.timestamp }}
+          path: |
+            reports/meta_intelligence/
+            meta_pattern_log.txt
+            missing_link_log.txt
+          retention-days: 30
+      
+      - name: Summary
+        run: |
+          echo "## 🌟 LUFT Meta-Intelligence Analysis Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Timestamp:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📊 Analysis Components" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Temporal Correlation Detection" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Cross-Source Anomaly Detection" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Missing Link Intelligence" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Citation Validation" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📁 Reports Generated" >> $GITHUB_STEP_SUMMARY
+          echo "- \`${{ steps.meta_patterns.outputs.report_file }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`${{ steps.missing_links.outputs.missing_link_file }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- \`reports/meta_intelligence/LATEST_SUMMARY.md\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.priority_check.outputs.high_priority }}" = "true" ]; then
+            echo "### 🚨 HIGH PRIORITY ALERT" >> $GITHUB_STEP_SUMMARY
+            echo "High priority issues detected! An issue has been created for review." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ✅ Status: Normal" >> $GITHUB_STEP_SUMMARY
+            echo "No high priority issues detected." >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "*Meta-Intelligence Engine v4.0 - Carl Dean Cline Sr.*" >> $GITHUB_STEP_SUMMARY
