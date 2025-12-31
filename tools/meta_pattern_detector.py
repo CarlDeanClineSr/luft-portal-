@@ -175,7 +175,8 @@ class TemporalCorrelationEngine:
                                 'data': item,
                                 'type': item.get('type', 'unknown')
                             })
-                    except:
+                    except (ValueError, TypeError, AttributeError, KeyError):
+                        # Skip items with unparseable timestamps or invalid structure
                         pass
         
         # Handle dict with nested events
@@ -191,7 +192,8 @@ class TemporalCorrelationEngine:
                             'data': data,
                             'type': data.get('type', 'unknown')
                         })
-                except:
+                except (ValueError, TypeError, AttributeError, KeyError):
+                    # Skip items with unparseable timestamps or invalid structure
                     pass
         
         return events
@@ -383,7 +385,8 @@ class CrossSourceAnomalyDetector:
                         content = f.read()
                         anomalies.extend(self._find_text_anomalies(content, source))
                         
-            except:
+            except (IOError, OSError, UnicodeDecodeError, json.JSONDecodeError) as e:
+                # Skip files that can't be processed (permissions, binary, malformed)
                 pass
         
         return anomalies
@@ -449,7 +452,8 @@ class CrossSourceAnomalyDetector:
                             'type': f'{keyword}_detected',
                             'context': match.group(0)[:200]
                         })
-                    except:
+                    except (ValueError, AttributeError):
+                        # Skip malformed timestamps
                         pass
         
         return anomalies
@@ -470,7 +474,8 @@ class CrossSourceAnomalyDetector:
                 from datetime import timezone
                 dt = dt.replace(tzinfo=timezone.utc)
             return dt
-        except:
+        except (ValueError, AttributeError, TypeError):
+            # Skip invalid timestamp formats
             pass
         
         return None

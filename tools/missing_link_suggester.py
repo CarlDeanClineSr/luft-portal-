@@ -304,8 +304,13 @@ class CitationValidator:
                                     'suggestion': 'Add link to supporting data source or analysis script'
                                 })
             
-            except Exception as e:
+            except (IOError, OSError, UnicodeDecodeError) as e:
+                # Skip files that can't be read (permissions, binary data, etc.)
                 pass
+            except Exception as e:
+                # Log unexpected errors for debugging
+                import sys
+                print(f"Warning: Error processing citation in {file_path}: {type(e).__name__}", file=sys.stderr)
         
         return self.uncited_claims
 
