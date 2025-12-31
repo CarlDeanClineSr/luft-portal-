@@ -208,6 +208,11 @@ class TemporalCorrelationEngine:
                 timestamp_str = match.group(0).replace(' ', 'T')
                 timestamp = datetime.fromisoformat(timestamp_str)
                 
+                # Make timezone-aware if naive
+                if timestamp.tzinfo is None:
+                    from datetime import timezone
+                    timestamp = timestamp.replace(tzinfo=timezone.utc)
+                
                 # Get context around timestamp (100 chars before and after)
                 start = max(0, match.start() - 100)
                 end = min(len(content), match.end() + 100)
@@ -224,20 +229,34 @@ class TemporalCorrelationEngine:
         return events
     
     def _parse_timestamp(self, timestamp_str: str) -> Optional[datetime]:
-        """Parse various timestamp formats."""
+        """Parse various timestamp formats and ensure timezone awareness."""
         if isinstance(timestamp_str, datetime):
+            # Make timezone-aware if naive
+            if timestamp_str.tzinfo is None:
+                from datetime import timezone
+                return timestamp_str.replace(tzinfo=timezone.utc)
             return timestamp_str
         
         try:
             # Try ISO 8601 format
-            return datetime.fromisoformat(str(timestamp_str).replace('Z', '+00:00'))
+            dt = datetime.fromisoformat(str(timestamp_str).replace('Z', '+00:00'))
+            # Make timezone-aware if naive
+            if dt.tzinfo is None:
+                from datetime import timezone
+                dt = dt.replace(tzinfo=timezone.utc)
+            return dt
         except:
             pass
         
         try:
             # Try common date formats
             from dateutil import parser
-            return parser.parse(str(timestamp_str))
+            dt = parser.parse(str(timestamp_str))
+            # Make timezone-aware if naive
+            if dt.tzinfo is None:
+                from datetime import timezone
+                dt = dt.replace(tzinfo=timezone.utc)
+            return dt
         except:
             pass
         
@@ -429,12 +448,21 @@ class CrossSourceAnomalyDetector:
         return anomalies
     
     def _parse_timestamp(self, timestamp_str: str) -> Optional[datetime]:
-        """Parse various timestamp formats."""
+        """Parse various timestamp formats and ensure timezone awareness."""
         if isinstance(timestamp_str, datetime):
+            # Make timezone-aware if naive
+            if timestamp_str.tzinfo is None:
+                from datetime import timezone
+                return timestamp_str.replace(tzinfo=timezone.utc)
             return timestamp_str
         
         try:
-            return datetime.fromisoformat(str(timestamp_str).replace('Z', '+00:00'))
+            dt = datetime.fromisoformat(str(timestamp_str).replace('Z', '+00:00'))
+            # Make timezone-aware if naive
+            if dt.tzinfo is None:
+                from datetime import timezone
+                dt = dt.replace(tzinfo=timezone.utc)
+            return dt
         except:
             pass
         
