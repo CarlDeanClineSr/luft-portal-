@@ -128,7 +128,7 @@ class LinkMonitor:
                     result['status_code'] = response.status_code
                     if 200 <= response.status_code < 300:
                         result['status'] = 'healthy'
-                except:
+                except requests.RequestException:
                     result['status'] = 'degraded'
             else:
                 result['status'] = 'degraded'
