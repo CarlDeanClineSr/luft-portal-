@@ -225,7 +225,9 @@ class LinkMonitor:
         port = 443
         
         try:
+            # Create SSL context with secure settings - only TLS 1.2+
             context = ssl.create_default_context()
+            context.minimum_version = ssl.TLSVersion.TLSv1_2
             with socket.create_connection((hostname, port), timeout=self.timeout) as sock:
                 with context.wrap_socket(sock, server_hostname=hostname) as ssock:
                     cert = ssock.getpeercert()
