@@ -28,6 +28,8 @@ Carl Dean Cline Sr. spent years collecting and studying space weather data:
 
 Over the last two months (October-November 2025), Carl learned extensively about plasma physics and magnetic field effects by reading the actual data. He was intelligent enough to recognize a pattern that others had not seen.
 
+**Working Evidence:** The repository contains 20 "New Text Document" files (8.5 MB) — Carl's raw chat transcripts with AI assistants showing his actual analysis sessions. These files document the complete discovery process. See `HISTORICAL_DATA_FILES.md` for details.
+
 ### The Pattern Emerges
 
 While analyzing normalized magnetic field perturbations during the November 2025 CME events, Carl observed something remarkable:

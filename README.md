@@ -100,9 +100,26 @@ See [CARL_DISCOVERY_STORY.md](CARL_DISCOVERY_STORY.md) for complete documentatio
 
 ---
 
+## Historical Data Files
+
+Carl's repository contains **20 "New Text Document" files** (8.5 MB total) — these are his **raw chat transcripts** with AI assistants showing the actual discovery process. These files document:
+
+- Years of data collection and analysis conversations
+- The iterative discovery of the χ ≤ 0.15 pattern
+- Development of analysis scripts and tools
+- Validation across multiple datasets
+- The complete scientific method in action
+
+**See:** [HISTORICAL_DATA_FILES.md](HISTORICAL_DATA_FILES.md) for complete inventory and analysis.
+
+These transcripts are **proof of Carl's work** — they show the real discovery process, not a cleaned-up version.
+
+---
+
 ## Documentation
 
 - **[CARL_DISCOVERY_STORY.md](CARL_DISCOVERY_STORY.md)** — Complete discovery documentation
+- **[HISTORICAL_DATA_FILES.md](HISTORICAL_DATA_FILES.md)** — Raw chat transcripts and working data (20 files, 8.5 MB)
 - **[START_HERE.md](START_HERE.md)** — System overview and quick start
 - **[WELCOME_TO_LUFT.md](WELCOME_TO_LUFT.md)** — Introduction to LUFT Portal
 - **[EXECUTIVE_SUMMARY.md](EXECUTIVE_SUMMARY.md)** — Comprehensive system report
