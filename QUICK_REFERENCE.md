@@ -3,6 +3,19 @@
 
 ---
 
+## 🔬 Carl Dean Cline Sr.'s Discovery
+
+**The χ ≤ 0.15 Universal Boundary**
+
+Carl discovered through empirical data analysis that normalized magnetic field perturbations never exceed χ = 0.15. This is **not an invention** — it's a **discovery** found in real data from years of observation.
+
+- **Discovered by:** Carl Dean Cline Sr., Lincoln, Nebraska
+- **Method:** Years of collecting and analyzing space weather data
+- **Validation:** 12,000+ observations (Earth & Mars) — ZERO violations
+- **See:** `CARL_DISCOVERY_STORY.md` for complete documentation
+
+---
+
 ## 📊 System Status (Live)
 
 **Check Latest:** `LATEST_VAULT_STATUS.md` (updated every hour)
@@ -35,6 +48,17 @@
 ---
 
 ## ⚡ Quick Commands
+
+### Verify Carl's Discovery
+```bash
+# Test the χ calculator with demo data
+python chi_calculator.py --demo
+
+# Calculate χ on your own magnetometer data
+python chi_calculator.py --file your_data.csv --time-col timestamp --bx Bx --by By --bz Bz
+
+# Expected: χ ≤ 0.15 (zero violations)
+```
 
 ### Check Status
 ```bash
