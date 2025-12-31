@@ -114,8 +114,13 @@ class ConceptMapper:
                             if concept_url.lower() in url_lower or url_lower in concept_url.lower():
                                 self.concept_links[concept].add(url)
                 
-            except Exception as e:
+            except (IOError, OSError, UnicodeDecodeError) as e:
+                # Skip files that can't be read (permissions, binary data, etc.)
                 pass
+            except Exception as e:
+                # Log unexpected errors but continue
+                import sys
+                print(f"Warning: Unexpected error processing {file_path}: {type(e).__name__}", file=sys.stderr)
         
         print(f"   ✓ Scanned {self.files_scanned} files")
         print(f"   ✓ Found {len(self.concept_mentions)} concepts mentioned")

@@ -147,8 +147,14 @@ class TemporalCorrelationEngine:
                         content = f.read()
                         events.extend(self._parse_text_events(content, event_type))
                         
+            except (IOError, OSError, UnicodeDecodeError) as e:
+                # Skip files that can't be read (permissions, binary data, etc.)
+                # These are expected in a diverse repository
+                pass
             except Exception as e:
-                # Silently skip files that can't be parsed
+                # Log unexpected errors but continue processing
+                import sys
+                print(f"Warning: Unexpected error parsing {file_path}: {type(e).__name__}", file=sys.stderr)
                 pass
         
         return sorted(events, key=lambda x: x['timestamp'])
@@ -223,7 +229,8 @@ class TemporalCorrelationEngine:
                     'data': {'context': context},
                     'type': 'text_event'
                 })
-            except:
+            except (ValueError, AttributeError):
+                # Skip malformed timestamps
                 pass
         
         return events
@@ -245,11 +252,11 @@ class TemporalCorrelationEngine:
                 from datetime import timezone
                 dt = dt.replace(tzinfo=timezone.utc)
             return dt
-        except:
+        except (ValueError, AttributeError):
             pass
         
         try:
-            # Try common date formats
+            # Try common date formats using dateutil
             from dateutil import parser
             dt = parser.parse(str(timestamp_str))
             # Make timezone-aware if naive
@@ -257,7 +264,7 @@ class TemporalCorrelationEngine:
                 from datetime import timezone
                 dt = dt.replace(tzinfo=timezone.utc)
             return dt
-        except:
+        except (ValueError, parser.ParserError, TypeError):
             pass
         
         return None
