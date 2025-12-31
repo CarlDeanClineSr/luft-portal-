@@ -64,9 +64,12 @@ jobs:
           echo "📝 Generating link intelligence report..."
           
           # Extract statistics and create markdown report
-          cat > data/link_intelligence/LATEST_HARVEST_REPORT.md << 'EOF'
+          CURRENT_DATE=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          DATE_TAG=$(date +%Y%m%d)
+          
+          cat > data/link_intelligence/LATEST_HARVEST_REPORT.md << EOF
           # LUFT Link Intelligence Report
-          ## Latest Harvest: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          ## Latest Harvest: ${CURRENT_DATE}
           
           ### Repository Scan Results
           
@@ -78,26 +81,26 @@ jobs:
           
           ### Data Files Generated
           
-          - `links_$(date +%Y%m%d).json` - Complete link harvest data
-          - `links_$(date +%Y%m%d).csv` - CSV export for spreadsheet analysis
-          - `link_network_$(date +%Y%m%d).json` - Network graph data
-          - `links_current.json` - Symlink to latest harvest
-          - `link_network.json` - Symlink to latest network graph
+          - \`links_${DATE_TAG}.json\` - Complete link harvest data
+          - \`links_${DATE_TAG}.csv\` - CSV export for spreadsheet analysis
+          - \`link_network_${DATE_TAG}.json\` - Network graph data
+          - \`links_current.json\` - Symlink to latest harvest
+          - \`link_network.json\` - Symlink to latest network graph
           
           ### Quick Stats
           
           Run the link harvester locally for detailed statistics:
-          ```bash
+          \`\`\`bash
           python link_harvester_core.py --scan-repo
-          ```
+          \`\`\`
           
           ### Visualization
           
-          Open `link_intelligence_dashboard.html` in your browser to explore the network interactively.
+          Open \`link_intelligence_dashboard.html\` in your browser to explore the network interactively.
           
           ### External Data Sources
           
-          See `external_data_sources_registry.yaml` for the complete catalog of 43+ scientific data sources.
+          See \`external_data_sources_registry.yaml\` for the complete catalog of 43+ scientific data sources.
           
           ---
           

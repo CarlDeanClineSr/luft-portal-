@@ -59,6 +59,9 @@ class LinkHarvester:
     }
     
     # URL pattern for comprehensive link extraction
+    # Note: This regex is intentionally permissive to catch various URL formats
+    # found in documentation, config files, and comments. For stricter validation,
+    # use urllib.parse after extraction.
     URL_PATTERN = re.compile(
         r'(?:http|https|ftp)://(?:[a-zA-Z0-9\-._~:/?#\[\]@!$&\'()*+,;=%]+)',
         re.IGNORECASE
@@ -121,7 +124,7 @@ class LinkHarvester:
         links = []
         
         try:
-            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+            with open(file_path, 'r', encoding='utf-8', errors='replace') as f:
                 content = f.read()
                 
             # Find all URLs
