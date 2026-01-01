@@ -15,7 +15,7 @@
         }
         
         body {
-            font-family: 'Courier New', monospace;
+            font-family:  'Courier New', monospace;
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
             color: #e0e0e0;
             overflow-x: hidden;
@@ -33,7 +33,7 @@
         .cockpit-title {
             color: #4da3ff;
             font-size: 1.5rem;
-            font-weight:  bold;
+            font-weight: bold;
             letter-spacing: 2px;
             text-transform: uppercase;
         }
@@ -44,23 +44,30 @@
             margin-top: 0.3rem;
         }
         
-        /* ✅ FIXED: Main Cockpit Grid - Gauges in horizontal row */
-        . cockpit-container {
+        /* ✅ FIXED:  FORCE HORIZONTAL GRID LAYOUT */
+        .cockpit-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns:  1fr 1fr 1fr 1fr; /* Explicit 4 equal columns */
             gap: 1rem;
             padding: 1.5rem;
-            max-width: 100%;
+            width: 100%;
+            max-width: none;
             margin: 0 auto;
+        }
+        
+        /* Force individual gauge panels to stay in 1 column */
+        .cockpit-container > .gauge-panel {
+            min-width: 0;
+            grid-column:  span 1;
         }
         
         /* Panel width classes */
         .panel-full-width {
-            grid-column:  1 / -1;
+            grid-column: 1 / -1 !important;
         }
         
         .panel-half-width {
-            grid-column: span 2;
+            grid-column: span 2 !important;
         }
         
         /* Gauge Panel */
@@ -73,15 +80,15 @@
             position: relative;
         }
         
-        .gauge-panel:: before {
+        .gauge-panel::before {
             content: '';
             position: absolute;
-            top: 5px;
+            top:  5px;
             left: 5px;
             right: 5px;
             height: 30px;
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent);
-            border-radius: 8px 8px 0 0;
+            border-radius:  8px 8px 0 0;
             pointer-events: none;
         }
         
@@ -100,12 +107,13 @@
             display: block;
             margin: 0 auto;
             max-width: 100%;
+            height: auto;
         }
         
         /* Digital Display */
         .digital-display {
             background: #0a0a0a;
-            border:  2px solid #333;
+            border: 2px solid #333;
             border-radius: 6px;
             padding: 0.75rem;
             margin-top: 0.75rem;
@@ -122,7 +130,7 @@
             letter-spacing: 2px;
         }
         
-        .digital-label {
+        . digital-label {
             font-size: 0.7rem;
             color: #4ade80;
             margin-top: 0.3rem;
@@ -158,7 +166,7 @@
         .light-indicator {
             width: 60px;
             height: 60px;
-            border-radius:  50%;
+            border-radius: 50%;
             border: 3px solid #444;
             position: relative;
             transition: all 0.3s ease;
@@ -180,7 +188,7 @@
             animation: pulse-amber 1. 5s infinite;
         }
         
-        .light-indicator. red {
+        . light-indicator.red {
             background: #ff0000;
             box-shadow: 0 0 30px #ff0000, inset 0 0 15px #cc0000;
             animation: pulse-red 0.8s infinite;
@@ -215,7 +223,7 @@
             box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
         }
         
-        .clock-time {
+        . clock-time {
             font-size: 1.3rem;
             font-weight:  bold;
             color: #4da3ff;
@@ -227,7 +235,7 @@
             font-size:  0.65rem;
             color: #6b7280;
             margin-top:  0.2rem;
-            text-transform:  uppercase;
+            text-transform: uppercase;
         }
         
         /* Storm Phase Display */
@@ -282,48 +290,25 @@
             box-shadow: 0 0 10px #4ade80;
         }
         
-        .status-text {
+        . status-text {
             font-size: 0.85rem;
             color: #e0e0e0;
         }
         
-        /* Mobile Optimizations */
+        /* Mobile:  Stack vertically on narrow screens */
+        @media (max-width: 1200px) {
+            .cockpit-container {
+                grid-template-columns: 1fr 1fr; /* 2 columns on medium screens */
+            }
+        }
+        
         @media (max-width: 768px) {
             .cockpit-container {
-                grid-template-columns: 1fr;
-                padding: 1rem;
-                gap: 1rem;
+                grid-template-columns: 1fr; /* 1 column on mobile */
             }
             
-            .cockpit-title {
-                font-size: 1.2rem;
-            }
-            
-            .gauge-panel {
-                padding: 0.75rem;
-            }
-            
-            .warning-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.75rem;
-            }
-            
-            . light-indicator {
-                width: 50px;
-                height: 50px;
-            }
-            
-            .digital-value {
-                font-size: 1.5rem;
-            }
-            
-            .phase-value {
-                font-size: 2rem;
-            }
-            
-            .panel-full-width,
             .panel-half-width {
-                grid-column: 1 / -1;
+                grid-column: 1 / -1 !important;
             }
         }
         
@@ -356,12 +341,6 @@
         .fullscreen-toggle:active {
             transform: scale(0.95);
         }
-        
-        @media (min-width: 769px) {
-            .fullscreen-toggle {
-                display: none;
-            }
-        }
     </style>
 </head>
 <body>
@@ -384,20 +363,13 @@
         <div style="color: #4da3ff; font-size: 0.85rem;">
             13 Temporal Correlations Active • Peak:  24h (144K matches) • Latest: Dec 28, 2025 (6h delay validated)
         </div>
-        <div style="margin-top: 0.5rem;">
-            <a href="#meta-intelligence" style="display: inline-block; background: #fbbf24; color: #000; padding: 0.4rem 1rem; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.85rem;">
-                🧠 View Full Meta-Intelligence Panel ↓
-            </a>
-        </div>
     </div>
     
-    <!-- Main Cockpit Container -->
+    <!-- Main Cockpit Container - 4 GAUGES IN HORIZONTAL ROW -->
     <div class="cockpit-container">
-        <!-- ✅ GAUGES IN HORIZONTAL ROW (4 columns) -->
-        
-        <!-- χ (Chi) Gauge -->
+        <!-- Gauge 1: χ (Chi) -->
         <div class="gauge-panel">
-            <div class="gauge-title">χ Amplitude</div>
+            <div class="gauge-title">χ AMPLITUDE</div>
             <canvas id="chi-gauge" class="gauge-canvas" width="250" height="200"></canvas>
             <div class="digital-display">
                 <div class="digital-value" id="chi-value">0.0000</div>
@@ -409,9 +381,9 @@
             </div>
         </div>
         
-        <!-- Bz Magnetic Field Gauge -->
+        <!-- Gauge 2: Bz Component -->
         <div class="gauge-panel">
-            <div class="gauge-title">Bz Component</div>
+            <div class="gauge-title">BZ COMPONENT</div>
             <canvas id="bz-gauge" class="gauge-canvas" width="250" height="200"></canvas>
             <div class="digital-display">
                 <div class="digital-value" id="bz-value">0.0</div>
@@ -423,9 +395,9 @@
             </div>
         </div>
         
-        <!-- Solar Wind Speed Gauge -->
+        <!-- Gauge 3: Solar Wind Speed -->
         <div class="gauge-panel">
-            <div class="gauge-title">SW Speed</div>
+            <div class="gauge-title">SW SPEED</div>
             <canvas id="speed-gauge" class="gauge-canvas" width="250" height="200"></canvas>
             <div class="digital-display">
                 <div class="digital-value" id="speed-value">0</div>
@@ -437,9 +409,9 @@
             </div>
         </div>
         
-        <!-- Density Gauge -->
+        <!-- Gauge 4: Plasma Density -->
         <div class="gauge-panel">
-            <div class="gauge-title">Plasma Density</div>
+            <div class="gauge-title">PLASMA DENSITY</div>
             <canvas id="density-gauge" class="gauge-canvas" width="250" height="200"></canvas>
             <div class="digital-display">
                 <div class="digital-value" id="density-value">0.0</div>
@@ -451,9 +423,9 @@
             </div>
         </div>
         
-        <!-- Storm Phase Display (half width) -->
+        <!-- Row 2: Storm Phase (2 columns) + Warning Lights (2 columns) -->
         <div class="phase-display panel-half-width">
-            <div class="phase-title">Storm Phase</div>
+            <div class="phase-title">STORM PHASE</div>
             <div class="phase-value" id="storm-phase">PRE</div>
             <div class="clock-panel" style="margin-top: 1rem;">
                 <div class="clock-time" id="storm-duration">00:00:00</div>
@@ -461,9 +433,8 @@
             </div>
         </div>
         
-        <!-- Warning Lights Panel (half width) -->
         <div class="warning-panel panel-half-width">
-            <div class="gauge-title" style="margin-bottom: 1rem;">Warning System</div>
+            <div class="gauge-title" style="margin-bottom: 1rem;">WARNING SYSTEM</div>
             <div class="warning-grid">
                 <div class="warning-light">
                     <div class="light-indicator off" id="chi-warning"></div>
@@ -484,14 +455,13 @@
             </div>
         </div>
         
-        <!-- ✅ NEW:  META-INTELLIGENCE PANEL (CORRECT DATA) -->
+        <!-- Row 3: Meta-Intelligence Panel (Full Width) -->
         <div id="meta-intelligence" class="panel-full-width" style="background: radial-gradient(circle at center, #001a00 0%, #000a00 100%); border: 3px solid #00ff88; border-radius: 12px; padding: 1.5rem;">
             <div style="color: #00ff88; font-size: 1.3rem; font-weight: bold; text-align: center; margin-bottom: 1rem;">
                 🧠 META-INTELLIGENCE ENGINE v4.0 - OPERATIONAL
             </div>
             
-            <!-- Header -->
-            <div style="background: #001100; border: 2px solid #00ff88; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; text-align: center;">
+            <div style="background: #001100; border:  2px solid #00ff88; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; text-align: center;">
                 <div style="color: #00ff88; font-size: 1.2em; font-weight: bold; margin-bottom: 0.5rem;">
                     ⏰ 13 TEMPORAL CORRELATION MODES DETECTED
                 </div>
@@ -501,7 +471,6 @@
                 </div>
             </div>
             
-            <!-- Peak Correlations -->
             <div style="background: #000; border: 2px solid #00ff88; border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
                 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
                     <div style="text-align: center;">
@@ -514,15 +483,14 @@
                         <div style="color: #fbbf24; font-size: 1.5em; font-weight: bold;">144,356</div>
                         <div style="color: #fbbf24; font-size:  0.7em;">PEAK (Solar Wind Arrival)</div>
                     </div>
-                    <div style="text-align: center;">
-                        <div style="color: #00ff88; font-size:  0.8em;">36h DELAY</div>
+                    <div style="text-align:  center;">
+                        <div style="color: #00ff88; font-size: 0.8em;">36h DELAY</div>
                         <div style="color: #00ff88; font-size:  1.5em; font-weight: bold;">78,581</div>
                         <div style="color: #4ade80; font-size: 0.7em;">L1→Earth Transit</div>
                     </div>
                 </div>
             </div>
             
-            <!-- Latest Event -->
             <div style="background: #000; border: 2px solid #00ff88; border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
                 <div style="color: #4ade80; font-size:  0.9em; font-weight: bold; margin-bottom: 0.5rem;">
                     ⚡ LATEST VALIDATED EVENT
@@ -535,9 +503,8 @@
                 </div>
             </div>
             
-            <!-- Source Status -->
-            <div style="background: #000; border: 2px solid #00ff88; border-radius: 8px; padding: 1rem; text-align: center;">
-                <div style="color:  #4ade80; font-size:  0.8em;">🛰️ DATA SOURCE STATUS</div>
+            <div style="background:  #000; border: 2px solid #00ff88; border-radius: 8px; padding:  1rem; text-align: center;">
+                <div style="color: #4ade80; font-size: 0.8em;">🛰️ DATA SOURCE STATUS</div>
                 <div style="color: #00ff88; font-size: 1.2em; font-weight: bold;">42 of 43 SOURCES ACTIVE</div>
                 <div style="color: #9ca3af; font-size: 0.7em; margin-top: 0.25rem;">
                     97. 7% uptime • NASA + NOAA + CERN + China + ESA + JAXA + ISRO
@@ -550,7 +517,7 @@
     <div class="status-bar">
         <div class="status-item">
             <div class="status-dot"></div>
-            <div class="status-text">DSCOVR Live</div>
+            <div class="status-text">🛰️ DSCOVR Live</div>
         </div>
         <div class="status-item">
             <div class="status-dot"></div>
@@ -558,7 +525,7 @@
         </div>
         <div class="status-item">
             <div class="status-dot"></div>
-            <div class="status-text" id="update-status">Updating...</div>
+            <div class="status-text" id="update-status">Live - ACE/DSCOVR</div>
         </div>
     </div>
     
@@ -569,17 +536,17 @@
     <script>
         // Fullscreen toggle
         document.getElementById('fullscreen-btn').addEventListener('click', function() {
-            if (!document.fullscreenElement) {
-                document.documentElement. requestFullscreen().then(() => {
-                    document.body.classList.add('fullscreen-mode');
+            if (! document.fullscreenElement) {
+                document.documentElement.requestFullscreen().then(() => {
+                    document. body.classList.add('fullscreen-mode');
                     if (screen.orientation && screen.orientation.lock) {
                         screen.orientation.lock('landscape').catch(err => console.log('Orientation lock failed:', err));
                     }
                 }).catch(err => console.log('Fullscreen failed:', err));
             } else {
-                document. exitFullscreen().then(() => {
+                document.exitFullscreen().then(() => {
                     document. body.classList.remove('fullscreen-mode');
-                    if (screen.orientation && screen. orientation.unlock) {
+                    if (screen.orientation && screen.orientation. unlock) {
                         screen.orientation.unlock();
                     }
                 });
@@ -596,7 +563,7 @@
         function updateUTCClock() {
             const now = new Date();
             const utcString = now.toISOString().substring(11, 19) + ' UTC';
-            document.getElementById('utc-clock').textContent = utcString;
+            document. getElementById('utc-clock').textContent = utcString;
         }
         updateUTCClock();
         setInterval(updateUTCClock, 1000);
