@@ -211,8 +211,14 @@ class BowPatternAnalyzer:
         if not self.events:
             return {}
         
-        # This is a placeholder - would need actual solar wind data loading
-        # For now, return structure for the report
+        # TODO: Implement actual solar wind correlation analysis
+        # This is a placeholder that returns the structure for the report.
+        # Full implementation would:
+        # 1. Load solar wind data (speed, Bz, density, Bt) from NOAA/DSCOVR
+        # 2. Align timestamps with bow pattern peaks
+        # 3. Extract values at specified time windows (-6h, 0h, +6h, +12h)
+        # 4. Calculate Pearson correlation coefficients
+        # 5. Perform significance tests (p-values)
         correlations = {
             'note': 'Solar wind correlation analysis requires aligned timeseries data',
             'parameters_analyzed': self.config['correlation']['parameters'],
@@ -223,7 +229,7 @@ class BowPatternAnalyzer:
         # Try to load solar wind data if paths provided
         if sw_data_paths:
             try:
-                # Load and analyze - implementation would go here
+                # Placeholder: Load and analyze - full implementation would go here
                 correlations['results'] = {
                     'speed': {'correlation': 0.0, 'p_value': 1.0},
                     'bz': {'correlation': 0.0, 'p_value': 1.0},

@@ -171,7 +171,7 @@ class BowPatternDetector:
         params = self.config['detection_parameters']
         
         # Find peaks with prominence and distance requirements
-        peaks, properties = signal.find_peaks(
+        peaks, _ = signal.find_peaks(
             chi_series.values,
             prominence=params['peak_prominence'],
             distance=params['peak_distance']
@@ -303,12 +303,19 @@ class BowPatternDetector:
             
         Returns:
             Classification string: "single_bow", "double_bow", or "failed_bow"
+            
+        Notes:
+            - "single_bow": Complete cycle with all phases present
+            - "failed_bow": Loading and relaxation but no significant reload
+            - "incomplete": Missing required phases (filtered out in detection)
+            - "double_bow": Reserved for future implementation of consecutive patterns
         """
         if has_loading and has_peak and has_relaxation and has_reload:
             return "single_bow"
         elif has_loading and has_peak and has_relaxation and not has_reload:
             return "failed_bow"
         else:
+            # Incomplete patterns are filtered out in detect_bows()
             return "incomplete"
     
     def detect_bows(self, df: pd.DataFrame) -> List[BowEvent]:
