@@ -31,7 +31,7 @@ import yaml
 import csv
 import glob
 from pathlib import Path
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Dict, List, Tuple, Optional, Any
 from dataclasses import dataclass, asdict
 import numpy as np
@@ -380,8 +380,8 @@ class BowPatternDetector:
                 start_time=timestamps.iloc[loading_start_idx].isoformat(),
                 end_time=(timestamps.iloc[reload_result[1]] if has_reload 
                          else timestamps.iloc[relax_end_idx]).isoformat(),
-                duration_hours=(timestamps.iloc[reload_result[1]] if has_reload 
-                              else timestamps.iloc[relax_end_idx] - 
+                duration_hours=((timestamps.iloc[reload_result[1]] if has_reload 
+                               else timestamps.iloc[relax_end_idx]) - 
                               timestamps.iloc[loading_start_idx]).total_seconds() / 3600,
                 loading_start=timestamps.iloc[loading_start_idx].isoformat(),
                 loading_end=timestamps.iloc[loading_end_idx].isoformat(),
@@ -431,7 +431,7 @@ class BowPatternDetector:
             return
         
         output_data = {
-            'generated_at': datetime.utcnow().isoformat() + 'Z',
+            'generated_at': datetime.now(timezone.utc).isoformat(),
             'total_events': len(self.events),
             'events': [asdict(event) for event in self.events]
         }
@@ -497,7 +497,7 @@ def main():
     output_dir = Path(detector.config['output']['report_path'])
     output_dir.mkdir(parents=True, exist_ok=True)
     
-    timestamp = datetime.utcnow().strftime('%Y-%m-%d')
+    timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%d')
     
     if args.output_csv:
         csv_path = args.output_csv

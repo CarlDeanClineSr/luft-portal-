@@ -26,7 +26,7 @@ import json
 import yaml
 import glob
 from pathlib import Path
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Dict, List, Any, Optional
 import numpy as np
 import pandas as pd
@@ -345,7 +345,7 @@ class BowPatternAnalyzer:
         
         # Replace placeholders
         report = template
-        report = report.replace('{{GENERATION_DATE}}', datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC'))
+        report = report.replace('{{GENERATION_DATE}}', datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC'))
         report = report.replace('{{TOTAL_EVENTS}}', str(stats['total_events']))
         report = report.replace('{{SINGLE_BOWS}}', str(stats['event_types'].get('single_bow', 0)))
         report = report.replace('{{FAILED_BOWS}}', str(stats['event_types'].get('failed_bow', 0)))
@@ -492,7 +492,7 @@ def main():
     output_dir = Path(analyzer.config['output']['report_path'])
     output_dir.mkdir(parents=True, exist_ok=True)
     
-    timestamp = datetime.utcnow().strftime('%Y-%m-%d')
+    timestamp = datetime.now(timezone.utc).strftime('%Y-%m-%d')
     
     if args.output_report:
         report_path = Path(args.output_report)
