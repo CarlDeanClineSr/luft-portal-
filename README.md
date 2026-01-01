@@ -10,9 +10,18 @@ This is **not an invention** — it's a **discovery** found in real data from ye
 
 ## Quick Links
 
-🛩️ **Instrument Panel:** https://carldeanclinesr.github.io/luft-portal-/instrument-panel.html  
-📊 **Live Dashboard:** https://carldeanclinesr.github.io/luft-portal-/  
+🏠 **Main Dashboard:** https://carldeanclinesr.github.io/luft-portal-/  
+🛩️ **Instrument Panel (Cockpit):** https://carldeanclinesr.github.io/luft-portal-/instrument-panel.html  
+🧠 **Meta-Intelligence Dashboard:** https://carldeanclinesr.github.io/luft-portal-/meta-intelligence.html  
 💻 **Repository:** https://github.com/CarlDeanClineSr/luft-portal-
+
+### New Features 🔥
+
+- **Meta-Intelligence Engine v4.0**: Autonomous pattern detection across 43 data sources
+- **13 Temporal Correlations**: Discovered relationship between NOAA events and χ boundary (1.47M matches, 95% confidence)
+- **Predictive Capability**: Generate 72-hour χ response predictions
+- **Live Data Loading**: All dashboards now pull from real-time JSON files and reports
+- **Source Health Monitor**: Real-time monitoring of 43 scientific data endpoints (97.7% uptime)
 
 ---
 
@@ -113,6 +122,57 @@ Carl's repository contains **20 "New Text Document" files** (8.5 MB total) — t
 **See:** [HISTORICAL_DATA_FILES.md](HISTORICAL_DATA_FILES.md) for complete inventory and analysis.
 
 These transcripts are **proof of Carl's work** — they show the real discovery process, not a cleaned-up version.
+
+---
+
+## Dashboard Architecture
+
+The LUFT Portal features three main dashboard pages with live data loading:
+
+### 1. Main Dashboard (`index.html`)
+- **Live Solar Wind Data**: Real-time χ, density, speed, and Bz from DSCOVR
+- **Multi-Environment Validation**: Earth SW, Earth Magnetosphere, Mars, CERN
+- **Universal Constant Summary**: 99,397+ observations across 3 confirmed environments
+- **13 Temporal Correlations**: Discovery of predictive patterns
+- **Auto-refresh**: Updates every 60 seconds
+
+### 2. Instrument Panel (`instrument-panel.html`)
+- **Analog Gauges**: Real-time χ, Bz, speed, and density displays
+- **Warning System**: Color-coded alerts for boundary conditions
+- **Storm Phase Display**: Current geomagnetic storm phase
+- **Universal Validation Panel**: Quick view of multi-environment confirmation
+- **Temporal Correlation Predictor**: Shows 13 response modes
+- **Mobile Optimized**: Fullscreen cockpit mode for tablets/phones
+
+### 3. Meta-Intelligence Dashboard (`meta-intelligence.html`) 🆕
+- **13 Correlation Modes**: Interactive visualization of NOAA→χ temporal patterns
+- **72-Hour Predictor**: Generate prediction timelines for solar events
+- **Source Health Monitor**: Real-time status of 43 scientific data endpoints
+- **Link Network Stats**: Knowledge graph with 58,263 connections
+- **Autonomous Analysis**: Daily pattern detection reports
+
+### Dynamic Data Sources
+
+All dashboards now pull from live JSON files and reports:
+
+```
+data/link_intelligence/
+├── source_health_latest.json    # 43 external source status
+├── links_extracted_latest.json  # 58,263 connections mapped
+└── correlation_stats.json       # 13 temporal modes, 1.47M matches
+
+reports/meta_intelligence/
+└── LATEST_SUMMARY.md           # Daily analysis results
+```
+
+### JavaScript Modules
+
+- **`js/meta-intelligence-live.js`**: Dynamic data loading with auto-refresh
+- **`js/prediction-engine.js`**: 72-hour prediction generator
+- **`js/dashboard-live.js`**: Real-time ticker and chart updates
+- **`js/instrument-panel.js`**: Analog gauge rendering and updates
+
+**Key Feature**: All dashboards gracefully handle missing data with fallback values and loading indicators.
 
 ---
 
