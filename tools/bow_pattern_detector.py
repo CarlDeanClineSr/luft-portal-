@@ -132,11 +132,14 @@ class BowPatternDetector:
         
         # 24-hour rolling baseline (CENTERED - critical!)
         # This removes long-term trends while preserving short-term fluctuations
-        # Using 'h' instead of deprecated 'H' for hours
-        # Using min_periods=1 to match Carl's original implementation
+        # Note: Using lowercase 'h' (not deprecated 'H') for hours in pandas rolling window
+        # Note: min_periods=1 matches Carl's original chi_calculator.py implementation.
+        #       While this allows baseline calculation with minimal data at edges, it matches
+        #       the empirical discovery method that validated χ ≤ 0.15 across 99,397+ observations.
+        #       Edge effects are acceptable for this scientific validation purpose.
         df['B_baseline'] = df['B_mag'].rolling(
-            window='24h',  # Changed from '24H' to '24h' (lowercase 'h')
-            min_periods=1,  # Match Carl's original chi_calculator.py implementation
+            window='24h',
+            min_periods=1,  # Match Carl's original implementation
             center=True  # MUST be centered - this is Carl's discovery method!
         ).mean()
         
@@ -169,14 +172,37 @@ class BowPatternDetector:
         all_raw_data = []  # Collect raw B-field data to calculate chi on combined dataset
         all_chi_data = []  # Collect pre-calculated chi data (with warnings)
         
-        # Column name mappings for different data sources
-        bfield_column_variations = {
-            'bx': ['bx', 'bx_gsm', 'Bx', 'BX', 'BX-OUTB'],
-            'by': ['by', 'by_gsm', 'By', 'BY', 'BY-OUTB'],
-            'bz': ['bz', 'bz_gsm', 'Bz', 'BZ', 'BZ-OUTB']
-        }
+        # Get column name mappings from config (with fallback to defaults)
+        column_mappings = self.config.get('data_sources', {}).get('column_mappings', {})
         
-        timestamp_variations = ['timestamp', 'time_tag', 'time', 'datetime', 'TT2000']
+        # Build list of column name variations from config mappings
+        bfield_column_variations = {
+            'bx': [],
+            'by': [],
+            'bz': []
+        }
+        timestamp_variations = []
+        
+        # Extract column names from all data source mappings
+        for source_config in column_mappings.values():
+            if 'bx' in source_config and source_config['bx'] not in bfield_column_variations['bx']:
+                bfield_column_variations['bx'].append(source_config['bx'])
+            if 'by' in source_config and source_config['by'] not in bfield_column_variations['by']:
+                bfield_column_variations['by'].append(source_config['by'])
+            if 'bz' in source_config and source_config['bz'] not in bfield_column_variations['bz']:
+                bfield_column_variations['bz'].append(source_config['bz'])
+            if 'timestamp' in source_config and source_config['timestamp'] not in timestamp_variations:
+                timestamp_variations.append(source_config['timestamp'])
+        
+        # Add common fallback variations if not in config
+        if not bfield_column_variations['bx']:
+            bfield_column_variations['bx'] = ['bx', 'bx_gsm', 'Bx', 'BX', 'BX-OUTB']
+        if not bfield_column_variations['by']:
+            bfield_column_variations['by'] = ['by', 'by_gsm', 'By', 'BY', 'BY-OUTB']
+        if not bfield_column_variations['bz']:
+            bfield_column_variations['bz'] = ['bz', 'bz_gsm', 'Bz', 'BZ', 'BZ-OUTB']
+        if not timestamp_variations:
+            timestamp_variations = ['timestamp', 'time_tag', 'time', 'datetime', 'TT2000']
         
         for pattern in data_paths:
             files = glob.glob(pattern)
@@ -317,7 +343,13 @@ class BowPatternDetector:
             
             print(f"  Total raw data points: {len(combined_raw)}")
             
-            # Set timestamp as index for rolling calculation
+            # Validate timestamp column before setting as index
+            if not pd.api.types.is_datetime64_any_dtype(combined_raw['timestamp']):
+                print("  Warning: Converting timestamp to datetime")
+                combined_raw['timestamp'] = pd.to_datetime(combined_raw['timestamp'], errors='coerce')
+                combined_raw = combined_raw[combined_raw['timestamp'].notna()]
+            
+            # Set timestamp as index for rolling calculation (requires sorted timestamps)
             combined_raw = combined_raw.set_index('timestamp')
             
             # Calculate χ on the combined dataset (this gives proper 24-hour context)
