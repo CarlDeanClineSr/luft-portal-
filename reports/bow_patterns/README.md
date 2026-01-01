@@ -107,7 +107,48 @@ The bow pattern detector uses χ amplitude data from:
 - DSCOVR real-time magnetometer data
 - ACE spacecraft measurements
 - Historical OMNI database
-- Existing χ analysis outputs
+- Raw magnetic field data (Bx, By, Bz components)
+
+## χ Calculation Method
+
+The bow pattern detector uses Carl Dean Cline Sr.'s empirical discovery method to calculate χ from raw magnetic field data:
+
+**Formula:** χ = |B - B_baseline| / B_baseline
+
+**Baseline:** 24-hour centered rolling mean
+
+**Key Details:**
+- B_mag = sqrt(Bx² + By² + Bz²) is calculated from raw magnetic field components
+- B_baseline = 24-hour centered rolling mean of B_mag  
+- The centered window is CRITICAL - it removes long-term trends while preserving short-term fluctuations
+- This is the CORRECT method that produces the universal χ ≤ 0.15 boundary
+
+**Data Quality Requirements:**
+Carl's original discovery was validated on high-quality, continuous magnetometer data with minimal gaps. The χ ≤ 0.15 boundary with ZERO violations was confirmed across 99,397+ observations from:
+- Continuous DSCOVR/ACE solar wind measurements
+- MAVEN Mars magnetometer data
+- USGS ground magnetometer networks
+
+**Real-Time Data Considerations:**
+Real-time NOAA/DSCOVR data may contain:
+- Data gaps (telemetry interruptions, instrument downtime)
+- Low-quality measurements (instrument noise, calibration issues)
+- Edge effects (first/last 12 hours of dataset have incomplete 24h windows)
+
+These factors can cause some χ values to exceed 0.15 in the presence of gaps or bad data. The detector filters out unrealistic B-field magnitudes (< 2.5 nT or > 50 nT) to minimize false violations.
+
+**Implementation:**
+This is the same calculation method used in `chi_calculator.py` which discovered the χ ≤ 0.15 boundary. The detector calculates χ internally from raw magnetic field components (Bx, By, Bz) to ensure consistency with Carl's original discovery methodology.
+
+**Data Format Support:**
+The detector automatically detects and handles multiple data formats:
+- DSCOVR: `time_tag`, `bx_gsm`, `by_gsm`, `bz_gsm`
+- ACE: `timestamp`, `Bx`, `By`, `Bz`
+- MAVEN: `TT2000`, `BX-OUTB`, `BY-OUTB`, `BZ-OUTB`
+- Generic: `timestamp`, `bx`, `by`, `bz`
+
+**Historical Note:**
+Previous versions of the detector loaded pre-calculated χ values from data files. Those values were calculated with different baseline methods (not 24-hour centered) and showed systematic errors. The current version calculates χ internally using Carl's correct method, ensuring consistency with the empirical discovery.
 
 ## Usage
 

@@ -120,11 +120,42 @@ correlation:
 
 # Data sources
 data_sources:
-  # Primary χ amplitude data
+  # Raw magnetic field data (Bx, By, Bz components)
+  # The detector will calculate χ internally using Carl's 24-hour centered rolling baseline
   chi_data:
-    - "data/chi_analysis_*.csv"
-    - "data/ace_plasma_audit_normalized_with_chi.json"
-    - "data/chi_boundary_tracking.jsonl"
+    - "data/noaa_solarwind/noaa_mag_*.csv"
+    - "data/dscovr_mag_*.csv"
+    - "data/dscovr_*.json"
+    - "data/ace_mag_*.csv"
+    - "data/magnetometer_*.csv"
+    # NOTE: Explicitly excluding old chi_analysis files that use incorrect baseline method
+    # - "data/chi_analysis_*.csv"  # DO NOT USE - wrong baseline calculation
+    # - "data/ace_plasma_audit_normalized_with_chi.json"  # DO NOT USE - wrong baseline
+    # - "data/chi_boundary_tracking.jsonl"  # DO NOT USE - wrong baseline
+  
+  # Column name mappings for different data sources
+  # The detector automatically detects these variations
+  column_mappings:
+    dscovr:
+      timestamp: "time_tag"
+      bx: "bx_gsm"
+      by: "by_gsm"
+      bz: "bz_gsm"
+    ace:
+      timestamp: "timestamp"
+      bx: "Bx"
+      by: "By"
+      bz: "Bz"
+    maven:
+      timestamp: "TT2000"
+      bx: "BX-OUTB"
+      by: "BY-OUTB"
+      bz: "BZ-OUTB"
+    generic:
+      timestamp: "timestamp"
+      bx: "bx"
+      by: "by"
+      bz: "bz"
   
   # Solar wind parameters
   solar_wind:
