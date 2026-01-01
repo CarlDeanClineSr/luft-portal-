@@ -341,6 +341,84 @@
         .fullscreen-toggle:active {
             transform: scale(0.95);
         }
+        
+        /* Discovery Feed Styles */
+        .discovery-feed {
+            background: radial-gradient(circle at center, #1a0033 0%, #0a0015 100%);
+            border: 3px solid #a855f7;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .discovery-feed h3 {
+            color: #a855f7;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .discovery-feed .subtitle {
+            color: #c084fc;
+            font-size: 0.85rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .discovery-card {
+            background: rgba(168, 85, 247, 0.1);
+            border-left: 4px solid #a855f7;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        
+        .discovery-card:hover {
+            background: rgba(168, 85, 247, 0.2);
+            transform: translateX(5px);
+        }
+        
+        .discovery-card strong {
+            color: #c084fc;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        
+        .discovery-card p {
+            color: #e0e0e0;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        
+        .discovery-card ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        
+        .discovery-card li {
+            color: #4ade80;
+            font-size: 0.75rem;
+            padding-left: 1rem;
+            position: relative;
+            margin-bottom: 0.25rem;
+        }
+        
+        .discovery-card li:before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #a855f7;
+        }
+        
+        .loading-message {
+            text-align: center;
+            color: #a855f7;
+            font-style: italic;
+            padding: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -455,7 +533,16 @@
             </div>
         </div>
         
-        <!-- Row 3: Meta-Intelligence Panel (Full Width) -->
+        <!-- Row 3: Engine Discovery Feed (Full Width) -->
+        <div id="discovery-feed" class="panel-full-width discovery-feed">
+            <h3>🔬 Latest Engine Discoveries</h3>
+            <p class="subtitle">Auto-ranked papers by relevance to χ = 0.15</p>
+            <div id="live-discoveries">
+                <div class="loading-message">Loading discoveries...</div>
+            </div>
+        </div>
+        
+        <!-- Row 4: Meta-Intelligence Panel (Full Width) -->
         <div id="meta-intelligence" class="panel-full-width" style="background: radial-gradient(circle at center, #001a00 0%, #000a00 100%); border: 3px solid #00ff88; border-radius: 12px; padding: 1.5rem;">
             <div style="color: #00ff88; font-size: 1.3rem; font-weight: bold; text-align: center; margin-bottom: 1rem;">
                 🧠 META-INTELLIGENCE ENGINE v4.0 - OPERATIONAL
@@ -567,6 +654,37 @@
         }
         updateUTCClock();
         setInterval(updateUTCClock, 1000);
+        
+        // Discovery Feed Loader
+        async function loadDiscoveries() {
+            try {
+                const response = await fetch('data/papers/impact_analysis.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load discoveries');
+                }
+                const discoveries = await response.json();
+                
+                const html = discoveries.slice(0, 5).map((d, i) => `
+                    <div class="discovery-card">
+                        <strong>#${i+1} (${d.score} pts)</strong>
+                        <p>${d.title}</p>
+                        <ul>
+                            ${d.reasons.map(r => `<li>${r}</li>`).join('')}
+                        </ul>
+                    </div>
+                `).join('');
+                
+                document.getElementById('live-discoveries').innerHTML = html;
+            } catch (error) {
+                console.error('Error loading discoveries:', error);
+                document.getElementById('live-discoveries').innerHTML = 
+                    '<div class="loading-message">Discovery data not yet available. Run tools/paper_impact_analyzer.py to generate.</div>';
+            }
+        }
+        
+        // Load discoveries immediately and then every minute
+        loadDiscoveries();
+        setInterval(loadDiscoveries, 60000);
     </script>
 
 </body>
