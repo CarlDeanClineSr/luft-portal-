@@ -1,0 +1,390 @@
+name: Bow Pattern Daily Analysis
+# Automated detection and analysis of bow patterns (loading-relaxation-reload cycles)
+# Discovery: Carl Dean Cline Sr., 2025-12-31
+
+on:
+  schedule:
+    # Run daily at 00:30 UTC (after main meta-intelligence workflow)
+    - cron: '30 0 * * *'
+  workflow_dispatch: # Allow manual triggering
+    inputs:
+      date_filter:
+        description: 'Optional date filter for analysis (YYYY-MM-DD)'
+        required: false
+        type: string
+
+jobs:
+  bow-pattern-analysis:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Get full history for historical data access
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install numpy pandas scipy matplotlib seaborn pyyaml
+      
+      - name: Create output directories
+        run: |
+          mkdir -p reports/bow_patterns
+          mkdir -p reports/bow_patterns/visualizations
+      
+      - name: Run Bow Pattern Detection
+        id: detection
+        run: |
+          echo "🎯 Running LUFT Bow Pattern Detector"
+          echo "===================================="
+          echo ""
+          echo "Discovery: Carl Dean Cline Sr., 2025-12-31"
+          echo "Location: Lincoln, Nebraska, USA"
+          echo ""
+          
+          # Set output filenames with date
+          DATE=$(date -u +"%Y-%m-%d")
+          CSV_FILE="reports/bow_patterns/bow_events_${DATE}.csv"
+          JSON_FILE="reports/bow_patterns/bow_events_${DATE}.json"
+          
+          # Run detection
+          python tools/bow_pattern_detector.py \
+            --config configs/bow_detection_config.yaml \
+            --output-csv "$CSV_FILE" \
+            --output-json "$JSON_FILE" \
+            2>&1 | tee bow_detection_log.txt
+          
+          # Check if any events were detected
+          if [ -f "$JSON_FILE" ]; then
+            EVENT_COUNT=$(python -c "import json; data = json.load(open('$JSON_FILE')); print(data.get('total_events', 0))")
+            echo "events_detected=$EVENT_COUNT" >> $GITHUB_OUTPUT
+            echo "csv_file=$CSV_FILE" >> $GITHUB_OUTPUT
+            echo "json_file=$JSON_FILE" >> $GITHUB_OUTPUT
+          else
+            echo "events_detected=0" >> $GITHUB_OUTPUT
+          fi
+          
+          echo "date=$DATE" >> $GITHUB_OUTPUT
+      
+      - name: Run Bow Pattern Analysis
+        id: analysis
+        if: steps.detection.outputs.events_detected != '0'
+        run: |
+          echo "📊 Running LUFT Bow Pattern Analyzer"
+          echo "====================================="
+          echo ""
+          
+          DATE="${{ steps.detection.outputs.date }}"
+          REPORT_FILE="reports/bow_patterns/bow_pattern_summary_${DATE}.md"
+          
+          # Run analysis with visualizations
+          python tools/bow_pattern_analyzer.py \
+            --config configs/bow_detection_config.yaml \
+            --events "${{ steps.detection.outputs.json_file }}" \
+            --output-report "$REPORT_FILE" \
+            --visualizations \
+            2>&1 | tee bow_analysis_log.txt
+          
+          echo "report_file=$REPORT_FILE" >> $GITHUB_OUTPUT
+          
+          # Extract key metrics for summary
+          if [ -f "$REPORT_FILE" ]; then
+            echo "✅ Report generated successfully"
+          else
+            echo "⚠️  Warning: Report file not created"
+          fi
+      
+      - name: Generate Quick Summary
+        if: steps.detection.outputs.events_detected != '0'
+        run: |
+          DATE="${{ steps.detection.outputs.date }}"
+          SUMMARY_FILE="reports/bow_patterns/LATEST_SUMMARY.md"
+          EVENT_COUNT="${{ steps.detection.outputs.events_detected }}"
+          
+          cat > "$SUMMARY_FILE" << EOF
+          # 🎯 Bow Pattern Detection - Latest Summary
+          
+          **Generated:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")  
+          **Analysis Date:** $DATE
+          
+          ---
+          
+          ## Quick Stats
+          
+          - **Bow Patterns Detected:** $EVENT_COUNT
+          - **Detection Status:** ✅ Active
+          - **Last Run:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          
+          ---
+          
+          ## What are Bow Patterns?
+          
+          Bow patterns are loading-relaxation-reload cycles in χ amplitude data that represent energy absorption and release in Earth's magnetosphere.
+          
+          **Discovered by:** Carl Dean Cline Sr., 2025-12-31  
+          **Location:** Lincoln, Nebraska, USA
+          
+          ### Pattern Structure
+          
+          \`\`\`
+                  Peak
+                 /    \
+                /      \___  Relaxation
+               /           \
+             Loading       Reload
+          \`\`\`
+          
+          ---
+          
+          ## Latest Files
+          
+          - **Events Data:** \`${{ steps.detection.outputs.csv_file }}\`
+          - **Full Report:** \`${{ steps.analysis.outputs.report_file }}\`
+          - **Visualizations:** \`reports/bow_patterns/visualizations/\`
+          
+          ---
+          
+          ## Physical Interpretation
+          
+          1. **Loading Phase:** Magnetosphere absorbs energy, χ rises toward 0.15 boundary
+          2. **Peak:** System reaches local maximum near boundary
+          3. **Relaxation:** Energy release, χ drops
+          4. **Reload:** Energy accumulation resumes
+          
+          ---
+          
+          ## View Full Details
+          
+          See \`${{ steps.analysis.outputs.report_file }}\` for complete analysis including:
+          - Pattern classification breakdown
+          - Characteristic measurements
+          - Temporal distributions
+          - Solar wind correlations
+          - Top 20 notable events
+          - Visualizations
+          
+          ---
+          
+          *Bow Pattern Detector - Part of LUFT Portal*  
+          *Carl Dean Cline Sr. - Lincoln, Nebraska, USA*
+          EOF
+          
+          echo "✅ Summary generated: $SUMMARY_FILE"
+      
+      - name: Handle No Events Case
+        if: steps.detection.outputs.events_detected == '0'
+        run: |
+          DATE="${{ steps.detection.outputs.date }}"
+          SUMMARY_FILE="reports/bow_patterns/LATEST_SUMMARY.md"
+          
+          cat > "$SUMMARY_FILE" << EOF
+          # 🎯 Bow Pattern Detection - Latest Summary
+          
+          **Generated:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")  
+          **Analysis Date:** $DATE
+          
+          ---
+          
+          ## Status
+          
+          ⚠️  **No bow patterns detected in latest data**
+          
+          This may be due to:
+          - Quiet magnetosphere conditions (low χ values)
+          - Insufficient data coverage
+          - All χ values below detection thresholds
+          
+          ---
+          
+          ## What are Bow Patterns?
+          
+          Bow patterns are loading-relaxation-reload cycles in χ amplitude data. Detection requires:
+          - Loading phase: χ rise ≥ 0.02 over 1-4 hours
+          - Peak: χ ≥ 0.125, within 0.03 of boundary
+          - Relaxation: χ drop ≥ 0.015 over 1-3 hours
+          - Reload: χ rise ≥ 0.01 over 2-5 hours (for single bow)
+          
+          **Discovery:** Carl Dean Cline Sr., 2025-12-31
+          
+          ---
+          
+          *Next analysis: Tomorrow at 00:30 UTC*
+          EOF
+          
+          echo "ℹ️  No events detected - summary updated"
+      
+      - name: Check for Significant Findings
+        id: significance_check
+        if: steps.detection.outputs.events_detected != '0'
+        run: |
+          EVENT_COUNT="${{ steps.detection.outputs.events_detected }}"
+          SIGNIFICANT=false
+          
+          # Check if we detected a large number of events (unusual activity)
+          if [ "$EVENT_COUNT" -gt 10 ]; then
+            echo "🚨 HIGH ACTIVITY: Detected $EVENT_COUNT bow patterns (threshold: >10)"
+            SIGNIFICANT=true
+          fi
+          
+          # Check for events with very high peak chi (within JSON file)
+          if [ -f "${{ steps.detection.outputs.json_file }}" ]; then
+            HIGH_CHI=$(python -c "
+          import json
+          data = json.load(open('${{ steps.detection.outputs.json_file }}'))
+          high_chi_count = sum(1 for e in data.get('events', []) if e.get('peak_chi', 0) > 0.145)
+          print(high_chi_count)
+          " || echo "0")
+            
+            if [ "$HIGH_CHI" -gt 5 ]; then
+              echo "🚨 BOUNDARY APPROACH: Detected $HIGH_CHI events with peak χ > 0.145"
+              SIGNIFICANT=true
+            fi
+          fi
+          
+          echo "significant=$SIGNIFICANT" >> $GITHUB_OUTPUT
+      
+      - name: Commit and push results
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "LUFT Bow Pattern Bot"
+          
+          git add reports/bow_patterns/
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            DATE="${{ steps.detection.outputs.date }}"
+            EVENT_COUNT="${{ steps.detection.outputs.events_detected }}"
+            
+            if [ "$EVENT_COUNT" = "0" ]; then
+              COMMIT_MSG="🎯 Bow Pattern Analysis - $DATE (No events detected)"
+            else
+              COMMIT_MSG="🎯 Bow Pattern Analysis - $DATE
+
+          Detected $EVENT_COUNT bow pattern(s):
+          - Loading-relaxation-reload cycles
+          - Energy absorption patterns in magnetosphere
+          - Analysis includes statistics and visualizations
+          
+          Discovery: Carl Dean Cline Sr., 2025-12-31
+          Generated by Bow Pattern Detector v1.0"
+            fi
+            
+            git commit -m "$COMMIT_MSG"
+            git push
+            
+            echo "✅ Results committed and pushed"
+          fi
+      
+      - name: Create Issue for Significant Activity
+        if: steps.significance_check.outputs.significant == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const date = new Date().toISOString().split('T')[0];
+            const eventCount = '${{ steps.detection.outputs.events_detected }}';
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🚨 SIGNIFICANT BOW PATTERN ACTIVITY - ${date}`,
+              body: `# Bow Pattern High Activity Alert
+              
+              The daily bow pattern analysis has detected significant activity requiring attention.
+              
+              ## 📊 Alert Details
+              
+              **Date:** ${date}  
+              **Patterns Detected:** ${eventCount}  
+              **Alert Reason:** High pattern count or multiple boundary approaches
+              
+              ## 🔴 Significance
+              
+              This alert indicates:
+              - Unusually high magnetosphere activity
+              - Multiple energy loading/release cycles
+              - Potential correlation with solar wind conditions
+              - Possible heightened geomagnetic activity
+              
+              ## 📁 Review Files
+              
+              - **Full Report:** \`${{ steps.analysis.outputs.report_file }}\`
+              - **Event Data:** \`${{ steps.detection.outputs.csv_file }}\`
+              - **Visualizations:** \`reports/bow_patterns/visualizations/\`
+              - **Quick Summary:** \`reports/bow_patterns/LATEST_SUMMARY.md\`
+              
+              ## 🎯 Recommended Actions
+              
+              1. Review top events in the full report
+              2. Check correlation with solar wind conditions
+              3. Compare with Kp/Dst geomagnetic indices
+              4. Investigate any double bow patterns
+              5. Look for CME/solar flare associations
+              
+              ## 📖 Background
+              
+              Bow patterns are loading-relaxation-reload cycles discovered by Carl Dean Cline Sr. on 2025-12-31. They represent energy absorption and release in Earth's magnetosphere.
+              
+              ---
+              
+              *Auto-generated by LUFT Bow Pattern Detector*  
+              *Discovery: Carl Dean Cline Sr., Lincoln, Nebraska, USA*`,
+              labels: ['bow-pattern', 'high-activity', 'automated', 'analysis-required']
+            });
+      
+      - name: Upload analysis artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bow-pattern-analysis-${{ steps.detection.outputs.date }}
+          path: |
+            reports/bow_patterns/bow_events_*.csv
+            reports/bow_patterns/bow_events_*.json
+            reports/bow_patterns/bow_pattern_summary_*.md
+            reports/bow_patterns/visualizations/
+            bow_detection_log.txt
+            bow_analysis_log.txt
+          retention-days: 90
+      
+      - name: Workflow Summary
+        if: always()
+        run: |
+          echo "## 🎯 Bow Pattern Analysis Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Timestamp:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> $GITHUB_STEP_SUMMARY
+          echo "**Analysis Date:** ${{ steps.detection.outputs.date }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.detection.outputs.events_detected }}" != "0" ]; then
+            echo "### ✅ Detection Results" >> $GITHUB_STEP_SUMMARY
+            echo "- **Bow Patterns Detected:** ${{ steps.detection.outputs.events_detected }}" >> $GITHUB_STEP_SUMMARY
+            echo "- **Events File:** \`${{ steps.detection.outputs.csv_file }}\`" >> $GITHUB_STEP_SUMMARY
+            echo "- **Report:** \`${{ steps.analysis.outputs.report_file }}\`" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            if [ "${{ steps.significance_check.outputs.significant }}" = "true" ]; then
+              echo "### 🚨 HIGH ACTIVITY ALERT" >> $GITHUB_STEP_SUMMARY
+              echo "Significant bow pattern activity detected! Issue created for review." >> $GITHUB_STEP_SUMMARY
+            else
+              echo "### 📊 Status: Normal" >> $GITHUB_STEP_SUMMARY
+              echo "Activity levels within expected range." >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "### ℹ️  No Events Detected" >> $GITHUB_STEP_SUMMARY
+            echo "No bow patterns met detection criteria in latest data." >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "*Discovery: Carl Dean Cline Sr., 2025-12-31*  " >> $GITHUB_STEP_SUMMARY
+          echo "*LUFT Bow Pattern Detector v1.0*" >> $GITHUB_STEP_SUMMARY
