@@ -52,4 +52,8 @@ data/papers/cern_harvest_*.json
 data/link_intelligence/*.json
 data/link_intelligence/*.csv
 !data/link_intelligence/.gitkeep
+# But keep these specific files for dashboard functionality
+!data/link_intelligence/source_health_latest.json
+!data/link_intelligence/links_extracted_latest.json
+!data/link_intelligence/correlation_stats.json
 
