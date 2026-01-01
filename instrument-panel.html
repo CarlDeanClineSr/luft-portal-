@@ -342,6 +342,46 @@
             transform: scale(0.95);
         }
         
+        /* Real-Time Mode Toggle Button */
+        .realtime-toggle {
+            position: fixed;
+            bottom: 80px;
+            right: 80px;
+            width: 50px;
+            height: 50px;
+            background: #fbbf24;
+            border: 2px solid #333;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
+        }
+        
+        .realtime-toggle:hover {
+            background: #f59e0b;
+            transform: scale(1.1);
+        }
+        
+        .realtime-toggle:active {
+            transform: scale(0.95);
+        }
+        
+        .realtime-toggle.active {
+            background: #10b981;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.8); }
+        }
+        
         /* Discovery Feed Styles */
         .discovery-feed {
             background: radial-gradient(circle at center, #1a0033 0%, #0a0015 100%);
@@ -619,6 +659,9 @@
     <!-- Fullscreen Toggle Button -->
     <button class="fullscreen-toggle" id="fullscreen-btn" aria-label="Toggle Fullscreen">⛶</button>
     
+    <!-- Real-Time Mode Toggle Button -->
+    <button class="realtime-toggle" id="realtime-btn" aria-label="Toggle Real-Time Mode" title="Enable high-speed updates for aircraft/spacecraft">⚡</button>
+    
     <script src="js/instrument-panel.js"></script>
     <script>
         // Fullscreen toggle
@@ -644,6 +687,45 @@
             if (! document.fullscreenElement) {
                 document.body.classList.remove('fullscreen-mode');
             }
+        });
+        
+        // Real-Time Mode Toggle
+        const realtimeBtn = document.getElementById('realtime-btn');
+        const isRealtimeMode = localStorage.getItem('realtimeMode') === 'true';
+        
+        // Set initial state
+        if (isRealtimeMode) {
+            realtimeBtn.classList.add('active');
+            realtimeBtn.title = 'Real-Time Mode: ON (5s updates) - Click to disable';
+        } else {
+            realtimeBtn.title = 'Real-Time Mode: OFF (60s updates) - Click to enable';
+        }
+        
+        realtimeBtn.addEventListener('click', function() {
+            const currentMode = localStorage.getItem('realtimeMode') === 'true';
+            const newMode = !currentMode;
+            
+            localStorage.setItem('realtimeMode', newMode.toString());
+            
+            if (newMode) {
+                alert('⚡ REAL-TIME MODE ENABLED\n\n' +
+                      'High-speed updates activated:\n' +
+                      '• Data: Every 5 seconds\n' +
+                      '• Clock: Every 100ms\n' +
+                      '• Research: Every 30 seconds\n' +
+                      '• Discoveries: Every 10 seconds\n\n' +
+                      'Page will reload to apply changes.');
+            } else {
+                alert('Standard Mode Enabled\n\n' +
+                      'Normal update intervals:\n' +
+                      '• Data: Every 60 seconds\n' +
+                      '• Clock: Every 1 second\n' +
+                      '• Research: Every 5 minutes\n' +
+                      '• Discoveries: Every 60 seconds\n\n' +
+                      'Page will reload to apply changes.');
+            }
+            
+            location.reload();
         });
         
         // UTC Clock
@@ -682,9 +764,17 @@
             }
         }
         
-        // Load discoveries immediately and then every minute
+        // ⚡ REAL-TIME MODE: Sync with instrument panel settings
+        const REALTIME_MODE = localStorage.getItem('realtimeMode') === 'true' || false;
+        const DISCOVERY_INTERVAL = REALTIME_MODE ? 10000 : 60000; // 10s or 60s
+        
+        // Load discoveries immediately and then at configured interval
         loadDiscoveries();
-        setInterval(loadDiscoveries, 60000);
+        setInterval(loadDiscoveries, DISCOVERY_INTERVAL);
+        
+        if (REALTIME_MODE) {
+            console.log(`⚡ Discovery feed: HIGH-SPEED MODE (${DISCOVERY_INTERVAL}ms updates)`);
+        }
     </script>
 
 </body>
