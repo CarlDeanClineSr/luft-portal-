@@ -176,28 +176,6 @@ reports/meta_intelligence/
 
 ---
 
-## Analysis Tools
-
-### Bow Pattern Detection
-Automatically detects loading-relaxation-reload cycles in χ amplitude data. These patterns represent energy absorption and release in the magnetosphere, discovered by Carl Dean Cline Sr. on 2025-12-31.
-
-**Features:**
-- Automated daily detection of bow patterns
-- Statistical analysis and visualization
-- Classification (single bow, double bow, failed bow)
-- Solar wind correlation analysis
-- Comprehensive markdown reports
-
-**See:** [reports/bow_patterns/README.md](reports/bow_patterns/README.md) for details.
-
-**Run manually:**
-```bash
-python tools/bow_pattern_detector.py --config configs/bow_detection_config.yaml
-python tools/bow_pattern_analyzer.py --events reports/bow_patterns/bow_events_*.json --visualizations
-```
-
----
-
 ## Documentation
 
 - **[CARL_DISCOVERY_STORY.md](CARL_DISCOVERY_STORY.md)** — Complete discovery documentation
