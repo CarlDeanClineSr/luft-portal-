@@ -36,6 +36,19 @@
             text-decoration: underline;
         }
         
+        /* Pulse animation for updating values */
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                color: #4ade80;
+            }
+            50% { 
+                transform: scale(1.1); 
+                color: #fbbf24;
+                text-shadow: 0 0 20px #fbbf24;
+            }
+        }
+        
         /* Navigation */
         nav {
             background-color: #1a1a1a;
@@ -452,6 +465,16 @@
                     <div><strong>NOAA Detection:</strong> December 28, 2025 09:38 UTC</div>
                     <div><strong>χ Response:</strong> December 28, 2025 15:37 UTC</div>
                     <div><strong>Delay:</strong> 6.0 hours (matches Correlation Mode #2)</div>
+                </div>
+            </div>
+            
+            <div style="background: #1a0a1a; border: 2px solid #fbbf24; border-radius: 8px; padding: 0.75rem; margin-top: 1rem; text-align: center;">
+                <div style="color: #fbbf24; font-size: 0.85rem; font-weight: bold;">🧠 System Learning Daily</div>
+                <div style="color: #9ca3af; font-size: 0.75rem; margin-top: 0.3rem;">
+                    Numbers update automatically as new correlations are discovered
+                </div>
+                <div style="color: #6b7280; font-size: 0.7rem; margin-top: 0.2rem;">
+                    Next analysis: Daily at 00:00 UTC
                 </div>
             </div>
         </div>
