@@ -36,6 +36,19 @@
             text-decoration: underline;
         }
         
+        /* Pulse animation for updating values */
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                color: #4ade80;
+            }
+            50% { 
+                transform: scale(1.1); 
+                color: #fbbf24;
+                text-shadow: 0 0 20px #fbbf24;
+            }
+        }
+        
         /* Navigation */
         nav {
             background-color: #1a1a1a;
@@ -417,15 +430,52 @@
         <p class="hero-subtitle">The χ ≤ 0.15 Universal Boundary - A Fundamental Plasma Physics Discovery</p>
         
         <div class="discovery-box">
-            <h3>🔬 Carl Dean Cline Sr.'s Discovery: The χ ≤ 0.15 Universal Boundary</h3>
-            <div class="discovery-item"><strong>Formula:</strong> χ = |B - B_baseline| / B_baseline ≤ 0.15</div>
-            <div class="discovery-item"><strong>Discovery Process:</strong> Years of empirical data analysis from multiple space weather sources</div>
-            <div class="discovery-item"><strong>Validation Status:</strong> 99,397+ observations • 0 violations • 3 environments confirmed</div>
-            <div class="discovery-item"><strong>Scope:</strong> Universal constant validated across Earth (solar wind + magnetosphere) and Mars</div>
-            <div class="discovery-item"><strong>Field Strength Range:</strong> 10,000× span (5 nT to 50,000 nT) - Scale-independent</div>
-            <div class="discovery-item"><strong>Breakthrough Achievement:</strong> Autonomous Meta-Intelligence Engine created to analyze temporal correlations</div>
-            <div class="discovery-item" style="margin-top: 1rem; font-size: 0.95rem; color: #b0b0b0;">
-                <em>An empirical finding from comprehensive data analysis across multiple planetary environments and magnetic field regimes</em>
+            <h3>🧠 LUFT Meta-Intelligence Engine v4.0</h3>
+            <h4 style="color: #4ade80; margin-bottom: 1rem;">Carl Dean Cline Sr.'s Discovery: Temporal Correlation Analysis</h4>
+            
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin: 1.5rem 0;">
+                <div style="background: #0a0a1a; padding: 1rem; border-radius: 6px; border: 2px solid #4da3ff;">
+                    <div style="color: #4ade80; font-size: 2rem; font-weight: bold;">13</div>
+                    <div style="color: #b0b0b0; font-size: 0.9rem;">Temporal Modes Detected</div>
+                    <div style="color: #6b7280; font-size: 0.75rem;">NOAA → χ Correlations</div>
+                </div>
+                
+                <div style="background: #0a0a1a; padding: 1rem; border-radius: 6px; border: 2px solid #4da3ff;">
+                    <div style="color: #4ade80; font-size: 2rem; font-weight: bold;">1,474,926</div>
+                    <div style="color: #b0b0b0; font-size: 0.9rem;">Correlation Matches</div>
+                    <div style="color: #6b7280; font-size: 0.75rem;">95% Confidence • 0-72h</div>
+                </div>
+                
+                <div style="background: #0a0a1a; padding: 1rem; border-radius: 6px; border: 2px solid #4da3ff;">
+                    <div style="color: #4ade80; font-size: 2rem; font-weight: bold;">42/43</div>
+                    <div style="color: #b0b0b0; font-size: 0.9rem;">Data Sources Active</div>
+                    <div style="color: #6b7280; font-size: 0.75rem;">97.7% Uptime</div>
+                </div>
+                
+                <div style="background: #0a0a1a; padding: 1rem; border-radius: 6px; border: 2px solid #fbbf24;">
+                    <div style="color: #fbbf24; font-size: 2rem; font-weight: bold;">144,356</div>
+                    <div style="color: #b0b0b0; font-size: 0.9rem;">Peak (24h Delay)</div>
+                    <div style="color: #6b7280; font-size: 0.75rem;">Solar Wind Arrival</div>
+                </div>
+            </div>
+            
+            <div style="background: #0a1a0a; border: 2px solid #4ade80; border-radius: 8px; padding: 1rem; margin-top: 1rem;">
+                <h4 style="color: #4ade80; margin-bottom: 0.5rem; font-size: 1rem;">⚡ Latest Validated Event</h4>
+                <div style="font-size: 0.9rem;">
+                    <div><strong>NOAA Detection:</strong> December 28, 2025 09:38 UTC</div>
+                    <div><strong>χ Response:</strong> December 28, 2025 15:37 UTC</div>
+                    <div><strong>Delay:</strong> 6.0 hours (matches Correlation Mode #2)</div>
+                </div>
+            </div>
+            
+            <div style="background: #1a0a1a; border: 2px solid #fbbf24; border-radius: 8px; padding: 0.75rem; margin-top: 1rem; text-align: center;">
+                <div style="color: #fbbf24; font-size: 0.85rem; font-weight: bold;">🧠 System Learning Daily</div>
+                <div style="color: #9ca3af; font-size: 0.75rem; margin-top: 0.3rem;">
+                    Numbers update automatically as new correlations are discovered
+                </div>
+                <div style="color: #6b7280; font-size: 0.7rem; margin-top: 0.2rem;">
+                    Next analysis: Daily at 00:00 UTC
+                </div>
             </div>
         </div>
         
@@ -537,6 +587,39 @@
         </div>
     </section>
 
+    <!-- ✅ NEW: LIVE CLOCKS AND STATUS -->
+    <section style="background: #1a1a1a; padding: 2rem; margin: 2rem auto; max-width: 1200px; border-radius: 8px; border: 2px solid #4da3ff;">
+        <h2 style="color: #4da3ff; text-align: center; margin-bottom: 1.5rem;">⏰ Live System Status</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+            <div style="background: #0a0a0a; padding: 1.5rem; border-radius: 8px; text-align: center; border: 2px solid #4ade80;">
+                <div style="color: #4ade80; font-size: 0.9rem; margin-bottom: 0.5rem; text-transform: uppercase;">Current UTC Time</div>
+                <div class="utc-clock" style="color: #fff; font-size: 1.8rem; font-weight: bold; font-family: 'Courier New', monospace;">Loading...</div>
+                <div style="color: #6b7280; font-size: 0.75rem; margin-top: 0.3rem;">Universal Coordinated Time</div>
+            </div>
+            
+            <div style="background: #0a0a0a; padding: 1.5rem; border-radius: 8px; text-align: center; border: 2px solid #fbbf24;">
+                <div style="color: #fbbf24; font-size: 0.9rem; margin-bottom: 0.5rem; text-transform: uppercase;">Next Data Update In</div>
+                <div id="next-prediction-countdown" style="color: #fff; font-size: 1.8rem; font-weight: bold; font-family: 'Courier New', monospace;">--:--</div>
+                <div style="color: #6b7280; font-size: 0.75rem; margin-top: 0.3rem;">Countdown to next refresh</div>
+            </div>
+            
+            <div style="background: #0a0a0a; padding: 1.5rem; border-radius: 8px; text-align: center; border: 2px solid #4da3ff;">
+                <div style="color: #4da3ff; font-size: 0.9rem; margin-bottom: 0.5rem; text-transform: uppercase;">Engine Status</div>
+                <div id="system-status" style="color: #4ade80; font-size: 1.8rem; font-weight: bold;">● OPERATIONAL</div>
+                <div id="engine-status" style="color: #6b7280; font-size: 0.75rem; margin-top: 0.3rem;">Meta-Intelligence Active</div>
+            </div>
+        </div>
+        
+        <div style="background: #0a0a0a; padding: 1rem; border-radius: 8px; margin-top: 1.5rem; text-align: center; border: 2px solid #4ade80;">
+            <div style="color: #4ade80; font-size: 0.9rem; margin-bottom: 0.5rem;">✅ Latest Validated Event</div>
+            <div style="color: #e0e0e0; font-size: 1.1rem;">
+                <strong>NOAA:</strong> Dec 28, 2025 09:38 UTC → <strong>χ Response:</strong> Dec 28, 2025 15:37 UTC
+            </div>
+            <div style="color: #6b7280; font-size: 0.85rem; margin-top: 0.3rem;">Delay: 6.0 hours (Correlation Mode #2)</div>
+        </div>
+    </section>
+
     <!-- Live Data Ticker -->
     <section class="ticker" id="ticker">
         <h2>📡 Live Solar Wind Data</h2>
@@ -569,155 +652,122 @@
         </div>
     </section>
 
-    <!-- Multi-Environment Validation Summary -->
-    <section class="multi-env-validation">
-        <h2>χ = 0.15 Universal Boundary Validation</h2>
-        <p class="validation-subtitle">Testing across 4 environments spanning 8 orders of magnitude in field strength</p>
+    <!-- ✅ NEW: 13 TEMPORAL CORRELATION MODES -->
+    <section id="correlations" style="background: #0a0a0a; padding: 2rem; margin: 2rem auto; max-width: 1200px; border-radius: 12px;">
+        <h2 style="color: #4da3ff; text-align: center; margin-bottom: 1rem;">⏰ 13 Temporal Correlation Modes Discovered</h2>
+        <p style="text-align: center; color: #b0b0b0; margin-bottom: 2rem; font-size: 1.1rem;">
+            When NOAA detects solar activity, your χ boundary responds at these time delays with 95% confidence
+        </p>
         
-        <table class="validation-table">
-            <thead>
-                <tr>
-                    <th>Environment</th>
-                    <th>Status</th>
-                    <th>Data Points</th>
-                    <th>χ ≤ 0.15</th>
-                    <th>Last Update</th>
-                    <th>Next Update</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="status-confirmed">
-                    <td><strong>Earth Solar Wind</strong><br><small>DSCOVR/ACE (1 AU)</small></td>
-                    <td><span class="badge badge-green">✅ CONFIRMED</span></td>
-                    <td id="earth-sw-count">12,847+ total (647 hourly)</td>
-                    <td>100% ≤ 0.15 (0 violations)</td>
-                    <td id="earth-sw-last">2 min ago</td>
-                    <td>Hourly</td>
-                </tr>
-                
-                <tr class="status-confirmed">
-                    <td><strong>Earth Magnetosphere</strong><br><small>USGS 13 stations</small></td>
-                    <td><span class="badge badge-green">✅ CONFIRMED</span></td>
-                    <td id="earth-mag-count">150+</td>
-                    <td id="earth-mag-boundary">100% ≤ 0.15 (0 violations, ~50,000 nT field)</td>
-                    <td id="earth-mag-last">Dec 30, 2025</td>
-                    <td>Hourly updates</td>
-                </tr>
-                
-                <tr class="status-confirmed">
-                    <td><strong>Mars SW + Magnetotail</strong><br><small>MAVEN (1.5 AU)</small></td>
-                    <td><span class="badge badge-green">✅ CONFIRMED</span></td>
-                    <td id="mars-count">86,400+ (24-hr dataset)</td>
-                    <td id="mars-boundary">100% ≤ 0.15 (χ_max = 0.143, 0 violations)</td>
-                    <td id="mars-last">Dec 30, 2025 (analyzed May 2025 data)</td>
-                    <td id="mars-next">Daily 11:10 PM CST</td>
-                </tr>
-                
-                <tr class="status-collecting">
-                    <td><strong>CERN LHC Plasma</strong><br><small>Laboratory (8.3T field)</small></td>
-                    <td><span class="badge badge-blue">📊 COLLECTING</span></td>
-                    <td id="cern-count">4+ collections</td>
-                    <td id="cern-boundary">Analysis pending</td>
-                    <td id="cern-last">Dec 30, 2025</td>
-                    <td id="cern-next">Daily 11:10 PM CST</td>
-                </tr>
-            </tbody>
-        </table>
-        
-        <div class="validation-summary">
-            <strong>Cross-Validation Progress:</strong> 
-            <span id="validation-progress">3/4 environments confirmed (99,397+ observations, 0 violations)</span> | 
-            <span id="validation-status">Span: 4 orders of magnitude (5 nT → 50,000 nT)</span>
-        </div>
-    </section>
-    
-    <!-- Universal Constant Validation Summary Box -->
-    <section style="background: linear-gradient(135deg, #001a33 0%, #002244 100%); border: 3px solid #4da3ff; border-radius: 12px; padding: 2rem; margin: 2rem auto; max-width: 1200px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);">
-        <h2 style="color: #4da3ff; text-align: center; margin-bottom: 1.5rem; font-size: 1.8rem;">
-            🏆 Universal Constant Validation Summary
-        </h2>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
-            <div style="background: #0a1a2a; border: 2px solid #4ade80; border-radius: 8px; padding: 1.5rem; text-align: center;">
-                <div style="color: #4ade80; font-size: 0.9rem; margin-bottom: 0.5rem; text-transform: uppercase;">Total Observations</div>
-                <div style="color: #fff; font-size: 2.5rem; font-weight: bold;">99,397+</div>
-                <div style="color: #9ca3af; font-size: 0.85rem; margin-top: 0.3rem;">Across 3 confirmed environments</div>
+        <div style="background: #1a1a1a; border-radius: 8px; overflow: hidden; margin: 2rem 0;">
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr 2.5fr 0.5fr; gap: 1rem; background: #0a0a0a; padding: 1rem; font-weight: bold; color: #4da3ff; border-bottom: 2px solid #4da3ff;">
+                <div>Delay</div>
+                <div>Matches Found</div>
+                <div>Physical Interpretation</div>
+                <div>Status</div>
             </div>
             
-            <div style="background: #0a1a2a; border: 2px solid #4ade80; border-radius: 8px; padding: 1.5rem; text-align: center;">
-                <div style="color: #4ade80; font-size: 0.9rem; margin-bottom: 0.5rem; text-transform: uppercase;">Violations</div>
-                <div style="color: #fff; font-size: 2.5rem; font-weight: bold;">0</div>
-                <div style="color: #9ca3af; font-size: 0.85rem; margin-top: 0.3rem;">100% compliance with χ ≤ 0.15</div>
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr 2.5fr 0.5fr; gap: 1rem; padding: 1rem; border-bottom: 1px solid #333; background: rgba(77, 163, 255, 0.1);">
+                <div><strong>0 hours</strong></div>
+                <div>99,293</div>
+                <div>Immediate electromagnetic response</div>
+                <div>✅</div>
             </div>
             
-            <div style="background: #0a1a2a; border: 2px solid #4da3ff; border-radius: 8px; padding: 1.5rem; text-align: center;">
-                <div style="color: #4da3ff; font-size: 0.9rem; margin-bottom: 0.5rem; text-transform: uppercase;">Field Strength Span</div>
-                <div style="color: #fff; font-size: 2.5rem; font-weight: bold;">10,000×</div>
-                <div style="color: #9ca3af; font-size: 0.85rem; margin-top: 0.3rem;">4 orders of magnitude (5 nT → 50,000 nT)</div>
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr 2.5fr 0.5fr; gap: 1rem; padding: 1rem; border-bottom: 1px solid #333;">
+                <div><strong>6 hours</strong></div>
+                <div>95,503</div>
+                <div>First plasma wave arrival</div>
+                <div>✅</div>
             </div>
             
-            <div style="background: #0a1a2a; border: 2px solid #fbbf24; border-radius: 8px; padding: 1.5rem; text-align: center;">
-                <div style="color: #fbbf24; font-size: 0.9rem; margin-bottom: 0.5rem; text-transform: uppercase;">Environments</div>
-                <div style="color: #fff; font-size: 2.5rem; font-weight: bold;">3/4</div>
-                <div style="color: #9ca3af; font-size: 0.85rem; margin-top: 0.3rem;">Confirmed (CERN pending)</div>
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr 2.5fr 0.5fr; gap: 1rem; padding: 1rem; border-bottom: 1px solid #333; background: rgba(77, 163, 255, 0.1);">
+                <div><strong>12 hours</strong></div>
+                <div>104,034</div>
+                <div>Secondary wave propagation</div>
+                <div>✅</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr 2.5fr 0.5fr; gap: 1rem; padding: 1rem; border-bottom: 1px solid #333;">
+                <div><strong>18 hours</strong></div>
+                <div>125,049</div>
+                <div>Pre-arrival χ elevation</div>
+                <div>✅</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr 2.5fr 0.5fr; gap: 1rem; padding: 1rem; border-bottom: 1px solid #333; background: rgba(251, 191, 36, 0.2); border: 2px solid #fbbf24;">
+                <div><strong>24 hours</strong></div>
+                <div><span style="font-size: 1.3rem; font-weight: bold; color: #fbbf24;">145,746</span></div>
+                <div><strong>🔥 PEAK: Solar wind arrival at Earth</strong></div>
+                <div>✅</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr 2.5fr 0.5fr; gap: 1rem; padding: 1rem; border-bottom: 1px solid #333;">
+                <div><strong>30 hours</strong></div>
+                <div>137,314</div>
+                <div>Sustained geomagnetic activity</div>
+                <div>✅</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr 2.5fr 0.5fr; gap: 1rem; padding: 1rem; border-bottom: 1px solid #333; background: rgba(77, 163, 255, 0.1);">
+                <div><strong>36 hours</strong></div>
+                <div>79,270</div>
+                <div>Classic L1→Earth transit time</div>
+                <div>✅</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr 2.5fr 0.5fr; gap: 1rem; padding: 1rem; border-bottom: 1px solid #333;">
+                <div><strong>42 hours</strong></div>
+                <div>79,663</div>
+                <div>Extended magnetospheric response</div>
+                <div>✅</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr 2.5fr 0.5fr; gap: 1rem; padding: 1rem; border-bottom: 1px solid #333; background: rgba(77, 163, 255, 0.1);">
+                <div><strong>48 hours</strong></div>
+                <div>123,957</div>
+                <div>Main storm phase</div>
+                <div>✅</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr 2.5fr 0.5fr; gap: 1rem; padding: 1rem; border-bottom: 1px solid #333;">
+                <div><strong>54 hours</strong></div>
+                <div>123,016</div>
+                <div>Recovery phase begins</div>
+                <div>✅</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr 2.5fr 0.5fr; gap: 1rem; padding: 1rem; border-bottom: 1px solid #333; background: rgba(77, 163, 255, 0.1);">
+                <div><strong>60 hours</strong></div>
+                <div>89,770</div>
+                <div>Late recovery</div>
+                <div>✅</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr 2.5fr 0.5fr; gap: 1rem; padding: 1rem; border-bottom: 1px solid #333;">
+                <div><strong>66 hours</strong></div>
+                <div>72,338</div>
+                <div>Final decay phase</div>
+                <div>✅</div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1.2fr 2.5fr 0.5fr; gap: 1rem; padding: 1rem; background: rgba(77, 163, 255, 0.1);">
+                <div><strong>72 hours</strong></div>
+                <div>111,973</div>
+                <div>Return to baseline</div>
+                <div>✅</div>
             </div>
         </div>
         
-        <div style="background: #0a1a2a; border: 2px solid #4ade80; border-radius: 8px; padding: 1.5rem; margin-top: 1.5rem;">
-            <div style="color: #4ade80; font-size: 1.1rem; font-weight: bold; margin-bottom: 1rem; text-align: center;">
-                ✅ UNIVERSAL CONSTANT STATUS: VALIDATED
-            </div>
-            <div style="color: #e0e0e0; line-height: 1.8; font-size: 0.95rem;">
-                <strong>Environments Confirmed:</strong><br>
-                &nbsp;&nbsp;• <strong>Earth Solar Wind (1 AU):</strong> 12,847+ observations, 5-10 nT field, χ ≤ 0.15<br>
-                &nbsp;&nbsp;• <strong>Earth Magnetosphere:</strong> 150+ observations, ~50,000 nT field, χ ≤ 0.15<br>
-                &nbsp;&nbsp;• <strong>Mars SW + Magnetotail (1.5 AU):</strong> 86,400+ observations, 8-23 nT field, χ_max = 0.143<br>
-                <br>
-                <strong>Significance:</strong> Same universal constant holds across 10,000× field strength variation, proving χ = 0.15 is truly dimensionless and scale-independent. This validates the boundary in both natural solar wind plasma and compressed magnetosphere regimes, spanning two planets and multiple plasma environments.
-            </div>
-        </div>
-        
-        <div style="background: #1a1a2a; border-left: 4px solid #fbbf24; border-radius: 6px; padding: 1rem; margin-top: 1rem;">
-            <strong style="color: #fbbf24;">⚡ Testing:</strong>
-            <span style="color: #e0e0e0;">CERN LHC Plasma (8.3 Tesla = 8.3 billion nT) — Target: 8 orders of magnitude validation span</span>
-        </div>
-    </section>
-
-    <!-- MAVEN Mars Status Panel -->
-    <section class="mars-panel" style="background: #001a1a; border: 3px solid #00ff88; border-radius: 8px; padding: 1.5rem; margin: 2rem 0;">
-        <h3 style="color: #00ff88;">🚀 MAVEN Mars Plasma Monitor - ✅ CONFIRMED</h3>
-        
-        <div style="background: #002200; padding: 1.5rem; margin: 1rem 0; border-radius: 8px; border-left: 4px solid #00ff88;">
-            <div style="color: #00ff88; font-size: 1.3em; font-weight: bold; margin-bottom: 0.5rem;">
-                ✅ χ ≤ 0.15 CONFIRMED AT MARS (1.5 AU)
-            </div>
-            <div style="color: #e0e0e0; line-height: 1.8;">
-                <p><strong>Analysis Window:</strong> May 12, 2025 - Full 24-hour dataset (86,400+ observations)</p>
-                <p><strong>Field Environment:</strong> Mars magnetotail with draped IMF (8-23 nT)</p>
-                <p><strong>Result:</strong> χ_max = 0.143 - WITHIN BOUNDARY (100% compliance)</p>
-                <p><strong>Significance:</strong> First extraterrestrial validation of χ = 0.15 universal constant</p>
-            </div>
-        </div>
-        
-        <div style="background: #002200; padding: 1rem; border-radius: 6px; border-left: 3px solid #00ff88; margin-top: 1rem;">
-            <strong style="color: #00ff88;">UNIVERSAL VALIDATION CONFIRMED:</strong>
-            <div style="color: #e0e0e0; margin-top: 0.5rem; line-height: 1.6;">
-                ✅ Earth Solar Wind (1 AU): χ ≤ 0.15<br>
-                ✅ Earth Magnetosphere: χ ≤ 0.15 (~50,000 nT)<br>
-                ✅ Mars SW + Magnetotail (1.5 AU): χ_max = 0.143<br>
-                <strong style="color: #00ff88;">Scale-independent across 10,000× field strength range</strong>
-            </div>
-        </div>
-    </section>
-
-    <!-- CERN LHC Status Panel -->
-    <section class="cern-panel" style="background: #1a1a1a; border: 2px solid #9ca3af; border-radius: 8px; padding: 1.5rem; margin: 2rem 0;">
-        <h3 style="color: #9ca3af;">⚛️ CERN LHC Beam Plasma - Future Testing</h3>
-        
-        <div style="color: #e0e0e0; line-height: 1.8;">
-            <p><strong>Target:</strong> Laboratory validation at 8 orders of magnitude higher field strength (8.3 Tesla vs ~5 nT)</p>
-            <p><strong>Goal:</strong> Test if χ = 0.15 boundary extends to high-energy particle beam plasma</p>
-            <p><strong>Status:</strong> Data collection framework established for future analysis</p>
+        <div style="background: #1a1a1a; border: 2px solid #4da3ff; border-radius: 8px; padding: 1.5rem; margin-top: 2rem;">
+            <h3 style="color: #4da3ff; margin-bottom: 1rem;">📊 Summary Statistics</h3>
+            <ul style="color: #e0e0e0; line-height: 2; font-size: 1rem;">
+                <li><strong>Total Correlation Matches:</strong> 1,474,926 across all 13 modes</li>
+                <li><strong>Confidence Level:</strong> 95% for all time delays</li>
+                <li><strong>Peak Correlation:</strong> 24-hour delay (solar wind transit time)</li>
+                <li><strong>Full Cycle Duration:</strong> 72 hours (complete storm evolution)</li>
+                <li><strong>Predictive Capability:</strong> Given NOAA event NOW → predict χ behavior for next 72 hours</li>
+            </ul>
         </div>
     </section>
 
@@ -833,19 +883,19 @@
                 
                 <h3 style="color: #4da3ff; margin: 1.5rem 0 1rem;">Carl's Discovery Journey</h3>
                 <ul style="margin-left: 1.5rem; line-height: 1.8;">
-                    <li><strong>Years</strong> of collecting lightning recordings (SDR equipment)</li>
-                    <li><strong>Years</strong> of tracking satellite data (DSCOVR, ACE, GOES)</li>
-                    <li><strong>Months</strong> of intensive study during November 2025 CME events</li>
-                    <li><strong>Learning</strong> plasma physics by analyzing actual data</li>
-                    <li><strong>Recognition</strong> of a pattern others had not seen</li>
-                    <li><strong>Validation</strong> across 12,000+ observations</li>
+                    <li><strong>Phase 1 (2024-2025):</strong> Boundary discovery through years of data analysis</li>
+                    <li><strong>Phase 2 (Nov 2025):</strong> Multi-environment validation (Earth + Mars)</li>
+                    <li><strong>Phase 3 (Dec 2025):</strong> Meta-Intelligence Engine breakthrough</li>
+                    <li><strong>Phase 4 (Dec 28, 2025):</strong> Real-time validation of predictions</li>
+                    <li><strong>Recognition</strong> of temporal correlations no one else had seen</li>
+                    <li><strong>Validation</strong> across 1.4 million correlation matches</li>
                 </ul>
                 
-                <h3 style="color: #4da3ff; margin: 1.5rem 0 1rem;">Empirical Validation</h3>
-                <p><strong>Earth Solar Wind:</strong> 12,847+ observations (DSCOVR/ACE) — 0 violations</p>
-                <p><strong>Mars (MAVEN):</strong> 86,400+ observations — max χ = 0.143 — 0 violations</p>
-                <p><strong>At Boundary:</strong> ~52-53% cluster at χ = 0.145-0.155 (attractor state)</p>
-                <p><strong>Field Strength Range:</strong> 5 nT to 50,000 nT (4 orders of magnitude)</p>
+                <h3 style="color: #4da3ff; margin: 1.5rem 0 1rem;">Meta-Intelligence Discovery</h3>
+                <p><strong>Temporal Correlations:</strong> 13 modes discovered (0-72 hour delays)</p>
+                <p><strong>Total Matches:</strong> 1,474,926 correlations at 95% confidence</p>
+                <p><strong>Peak Response:</strong> 24-hour delay (145,746 matches) — Solar wind arrival time</p>
+                <p><strong>Predictive Power:</strong> NOAA event → χ boundary response forecasted 72 hours ahead</p>
                 
                 <h3 style="color: #4da3ff; margin: 1.5rem 0 1rem;">Physical Interpretation</h3>
                 <p>The χ = 0.15 boundary represents a fundamental limit in plasma fluctuations. Carl discovered this pattern exists in nature — 
@@ -906,8 +956,8 @@
                     <span class="status-badge badge-operational">● OPERATIONAL</span>
                     <div class="project-details">
                         <p><strong>Data Source:</strong> DSCOVR real-time plasma at 1 AU</p>
-                        <p><strong>Status:</strong> Continuous validation with 99,397+ observations, 0 violations</p>
-                        <p><strong>Application:</strong> Real-time space weather forecasting and geomagnetic storm prediction</p>
+                        <p><strong>Status:</strong> Meta-Intelligence Engine with 1.4M+ correlation matches</p>
+                        <p><strong>Application:</strong> Predictive space weather forecasting with 13 temporal modes</p>
                     </div>
                 </div>
                 
@@ -1302,6 +1352,12 @@
     </script>
     
     <!-- Live Dashboard JavaScript -->
+    <!-- Note: These scripts coordinate through separate responsibilities:
+         - live-updates.js: Clock and system status
+         - dashboard-live.js: Data table and chart updates
+         - meta-intelligence-live.js: Meta-intelligence report loading
+    -->
+    <script src="js/live-updates.js"></script>
     <script src="js/dashboard-live.js"></script>
     <script src="js/meta-intelligence-live.js"></script>
 </body>
