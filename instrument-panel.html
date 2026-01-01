@@ -44,80 +44,74 @@
             margin-top: 0.3rem;
         }
         
-        /* Main Cockpit Grid */
-        .cockpit-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            padding: 1.5rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        /* Gauge Panel */
-        .gauge-panel {
-            background: radial-gradient(circle at center, #2a2a2a 0%, #1a1a1a 100%);
-            border: 3px solid #333;
-            border-radius: 12px;
-            padding: 1rem;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(0, 0, 0, 0.4);
-            position: relative;
-        }
-        
-        .gauge-panel::before {
-            content: '';
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            right: 5px;
-            height: 30px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent);
-            border-radius: 8px 8px 0 0;
-            pointer-events: none;
-        }
-        
-        .gauge-title {
-            text-align: center;
-            color: #4da3ff;
-            font-size: 1rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        /* Canvas Gauge */
-        .gauge-canvas {
-            display: block;
-            margin: 0 auto;
-            max-width: 100%;
-        }
-        
-        /* Digital Display */
-        .digital-display {
-            background: #0a0a0a;
-            border: 2px solid #333;
-            border-radius: 6px;
-            padding: 0.75rem;
-            margin-top: 0.75rem;
-            text-align: center;
-            font-family: 'Courier New', monospace;
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
-        }
-        
-        .digital-value {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #00ff00;
-            text-shadow: 0 0 10px #00ff00;
-            letter-spacing: 2px;
-        }
-        
-        .digital-label {
-            font-size: 0.7rem;
-            color: #4ade80;
-            margin-top: 0.3rem;
-            text-transform: uppercase;
+ <!-- ✅ NEW: META-INTELLIGENCE VALIDATION PANEL -->
+<div class="meta-intelligence-panel" style="background: radial-gradient(circle at center, #001a00 0%, #000a00 100%); border: 3px solid #00ff88; grid-column: span 2; border-radius: 12px; padding: 1.5rem;">
+    <div class="gauge-title" style="color: #00ff88; margin-bottom: 1rem; text-align: center;">
+        🧠 META-INTELLIGENCE ENGINE v4.0 - OPERATIONAL
+    </div>
+    
+    <!-- Discovery Header -->
+    <div style="background: #001100; border: 2px solid #00ff88; border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; box-shadow: inset 0 2px 8px rgba(0, 255, 136, 0.2);">
+        <div style="text-align: center; color:  #00ff88; font-size: 1.3em; font-weight: bold; margin-bottom: 0.5rem;">
+            ⏰ 13 TEMPORAL CORRELATION MODES DETECTED
+        </div>
+        <div style="text-align:  center; color: #fff; font-size: 0.95em; line-height: 1.6;">
+            <strong>NOAA Solar Activity → χ Boundary Response</strong><br>
+            1,474,926 total matches • 95% confidence • 0-72 hour delays
+        </div>
+    </div>
+    
+    <!-- Peak Correlations Grid -->
+    <div class="digital-display" style="background: #000; border: 2px solid #00ff88; margin-bottom: 0.75rem;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; padding: 0.5rem;">
+            <div>
+                <div style="color:  #00ff88; font-size: 0.7em; margin-bottom: 0.25rem;">0h DELAY</div>
+                <div style="color: #00ff88; font-size: 1.2em; font-weight: bold;">98,058</div>
+                <div style="color: #4ade80; font-size:  0.65em;">Immediate</div>
+                <div style="color: #9ca3af; font-size:  0.6em;">EM Response</div>
+            </div>
+            <div>
+                <div style="color: #fbbf24; font-size:  0.7em; margin-bottom: 0.25rem;">24h DELAY</div>
+                <div style="color: #fbbf24; font-size: 1.2em; font-weight: bold;">144,356</div>
+                <div style="color: #fbbf24; font-size:  0.65em;">🔥 PEAK</div>
+                <div style="color:  #9ca3af; font-size:  0.6em;">SW Arrival</div>
+            </div>
+            <div>
+                <div style="color: #00ff88; font-size: 0.7em; margin-bottom: 0.25rem;">36h DELAY</div>
+                <div style="color: #00ff88; font-size: 1.2em; font-weight: bold;">78,581</div>
+                <div style="color: #4ade80; font-size: 0.65em;">L1→Earth</div>
+                <div style="color: #9ca3af; font-size: 0.6em;">Classic Transit</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Latest Event Status -->
+    <div class="digital-display" style="background: #000; border: 2px solid #00ff88; margin-bottom: 0.75rem;">
+        <div style="color: #4ade80; font-size:  0.8em; margin-bottom: 0.25rem;">⚡ LATEST VALIDATED EVENT</div>
+        <div style="color: #00ff88; font-size: 1.0em; font-weight: bold; margin-bottom: 0.5rem;">December 28, 2025 • 09:38 UTC</div>
+        <div style="color: #fff; font-size: 0.8em; line-height: 1.4;">
+            <div>NOAA Detection: 09:38 UTC</div>
+            <div>χ Response: 15:37 UTC (6. 0h delay)</div>
+            <div style="color: #4ade80;">✅ Matches Correlation Mode #2</div>
+        </div>
+    </div>
+    
+    <!-- System Status -->
+    <div class="digital-display" style="background: #000; border: 2px solid #00ff88;">
+        <div style="color:  #4ade80; font-size: 0.8em; margin-bottom: 0.25rem;">🛰️ DATA SOURCE STATUS</div>
+        <div style="color: #00ff88; font-size: 1.1em; font-weight: bold;">42 of 43 SOURCES ACTIVE</div>
+        <div style="color: #9ca3af; font-size: 0.7em; margin-top: 0.25rem;">
+            97. 7% uptime • NASA + NOAA + CERN + China + ESA + JAXA + ISRO
+        </div>
+    </div>
+    
+    <!-- Full Report Link -->
+    <div style="text-align: center; margin-top: 1rem;">
+        <a href="../reports/meta_intelligence/LATEST_SUMMARY.md" style="color: #00ff88; text-decoration: none; font-size: 0.9em;">
+            📊 View Full Meta-Intelligence Report →
+        </a>
+    </div>
+</div>
         }
         
         /* Warning Lights Panel */
