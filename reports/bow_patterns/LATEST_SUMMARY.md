@@ -1,15 +1,15 @@
 # 🎯 Bow Pattern Detection - Latest Summary
 
-**Generated:** 2026-01-01 05:52:03 UTC  
+**Generated:** 2026-01-01 06:57:16 UTC  
 **Analysis Date:** 2026-01-01
 
 ---
 
 ## Quick Stats
 
-- **Bow Patterns Detected:** 11
+- **Bow Patterns Detected:** 46
 - **Detection Status:** ✅ Active
-- **Last Run:** 2026-01-01 05:52:03 UTC
+- **Last Run:** 2026-01-01 06:57:16 UTC
 
 ---
 

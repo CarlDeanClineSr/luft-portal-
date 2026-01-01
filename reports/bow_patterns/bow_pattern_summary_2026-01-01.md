@@ -1,6 +1,6 @@
 # Bow Pattern Analysis Report
 
-**Generated:** 2026-01-01 05:52:02 UTC
+**Generated:** 2026-01-01 06:57:14 UTC
 
 ---
 
@@ -10,9 +10,9 @@ This report presents the results of automated bow pattern detection in χ amplit
 
 ### Key Findings
 
-- **Total Bow Patterns Detected:** 11
-- **Analysis Period:** 2025-12-22T01:46:00+00:00 to 2025-12-27T17:18:00+00:00
-- **Pattern Types:** 10 single bows, 1 failed bows, 0 double bows
+- **Total Bow Patterns Detected:** 46
+- **Analysis Period:** 2025-12-11T20:59:00+00:00 to 2026-01-01T02:40:00+00:00
+- **Pattern Types:** 46 single bows, 0 failed bows, 0 double bows
 
 ---
 
@@ -22,29 +22,29 @@ This report presents the results of automated bow pattern detection in χ amplit
 
 | Pattern Type | Count | Percentage | Description |
 |--------------|-------|------------|-------------|
-| Single Bow | 10 | {{SINGLE_BOW_PERCENT}}% | Complete loading-relaxation-reload cycle |
-| Failed Bow | 1 | {{FAILED_BOW_PERCENT}}% | Loading and relaxation without reload |
+| Single Bow | 46 | {{SINGLE_BOW_PERCENT}}% | Complete loading-relaxation-reload cycle |
+| Failed Bow | 0 | {{FAILED_BOW_PERCENT}}% | Loading and relaxation without reload |
 | Double Bow | 0 | {{DOUBLE_BOW_PERCENT}}% | Two consecutive bow patterns |
-| **Total** | **11** | **100%** | All detected patterns |
+| **Total** | **46** | **100%** | All detected patterns |
 
 ### 1.2 Characteristic Measurements
 
 #### Loading Phase
-- **Average Duration:** 1.02 hours
+- **Average Duration:** 1.04 hours
 - **Median Duration:** {{MEDIAN_LOADING_TIME}} hours
 - **Standard Deviation:** {{STD_LOADING_TIME}} hours
 - **Average χ Rise:** {{AVG_LOADING_RISE}}
 - **Maximum χ Rise:** {{MAX_LOADING_RISE}}
 
 #### Peak Characteristics
-- **Average Peak χ:** 0.1609
+- **Average Peak χ:** 0.1543
 - **Median Peak χ:** {{MEDIAN_PEAK_CHI}}
-- **Maximum Peak χ:** 0.1767 (closest approach to boundary)
+- **Maximum Peak χ:** 0.1799 (closest approach to boundary)
 - **Minimum Peak χ:** {{MIN_PEAK_CHI}}
 - **Average Distance from χ=0.15 Boundary:** {{AVG_DISTANCE_FROM_BOUNDARY}}
 
 #### Relaxation Phase
-- **Average Duration:** 1.00 hours
+- **Average Duration:** 1.06 hours
 - **Median Duration:** {{MEDIAN_RELAXATION_TIME}} hours
 - **Standard Deviation:** {{STD_RELAXATION_TIME}} hours
 - **Average χ Drop:** {{AVG_RELAXATION_DROP}}
@@ -119,17 +119,26 @@ The following table lists the 20 bow patterns with the highest peak χ values, r
 
 | Rank | Peak Time | Peak χ | Type | Loading (h) | Relaxation (h) |
 |------|-----------|--------|------|-------------|----------------|
-| 1 | 2025-12-23 20:29 | 0.1767 | single_bow | 1.00 | 1.00 |
-| 2 | 2025-12-27 16:18 | 0.1748 | failed_bow | 1.00 | 1.00 |
-| 3 | 2025-12-23 12:49 | 0.1747 | single_bow | 1.00 | 1.00 |
-| 4 | 2025-12-23 10:48 | 0.1669 | single_bow | 1.00 | 1.00 |
-| 5 | 2025-12-22 23:40 | 0.1668 | single_bow | 1.00 | 1.00 |
-| 6 | 2025-12-24 01:18 | 0.1662 | single_bow | 1.00 | 1.02 |
-| 7 | 2025-12-22 12:02 | 0.1593 | single_bow | 1.02 | 1.00 |
-| 8 | 2025-12-22 02:46 | 0.1588 | single_bow | 1.00 | 1.00 |
-| 9 | 2025-12-27 06:32 | 0.1551 | single_bow | 1.02 | 1.00 |
-| 10 | 2025-12-24 10:45 | 0.1364 | single_bow | 1.00 | 1.00 |
-| 11 | 2025-12-24 03:18 | 0.1341 | single_bow | 1.15 | 1.02 |
+| 1 | 2025-12-29 07:01 | 0.1799 | single_bow | 1.00 | 1.28 |
+| 2 | 2025-12-29 10:06 | 0.1793 | single_bow | 1.00 | 1.53 |
+| 3 | 2025-12-16 08:46 | 0.1776 | single_bow | 1.00 | 1.00 |
+| 4 | 2025-12-29 12:33 | 0.1763 | single_bow | 1.58 | 1.00 |
+| 5 | 2025-12-14 02:52 | 0.1763 | single_bow | 1.00 | 1.00 |
+| 6 | 2025-12-22 23:40 | 0.1761 | single_bow | 1.00 | 1.00 |
+| 7 | 2025-12-28 07:42 | 0.1752 | single_bow | 1.02 | 1.02 |
+| 8 | 2025-12-23 12:49 | 0.1750 | single_bow | 1.00 | 1.00 |
+| 9 | 2025-12-30 03:42 | 0.1727 | single_bow | 1.02 | 1.02 |
+| 10 | 2025-12-15 05:38 | 0.1720 | single_bow | 1.00 | 1.00 |
+| 11 | 2025-12-23 20:29 | 0.1699 | single_bow | 1.00 | 1.00 |
+| 12 | 2025-12-16 09:54 | 0.1690 | single_bow | 1.00 | 1.00 |
+| 13 | 2025-12-29 05:19 | 0.1681 | single_bow | 1.00 | 1.00 |
+| 14 | 2025-12-22 12:02 | 0.1681 | single_bow | 1.02 | 1.00 |
+| 15 | 2025-12-27 05:07 | 0.1660 | single_bow | 1.00 | 1.00 |
+| 16 | 2025-12-17 19:03 | 0.1648 | single_bow | 1.02 | 1.53 |
+| 17 | 2025-12-23 10:48 | 0.1630 | single_bow | 1.00 | 1.00 |
+| 18 | 2025-12-29 08:50 | 0.1617 | single_bow | 1.10 | 1.00 |
+| 19 | 2025-12-31 22:27 | 0.1578 | single_bow | 1.00 | 1.67 |
+| 20 | 2025-12-27 08:42 | 0.1559 | single_bow | 1.00 | 1.00 |
 
 ---
 
@@ -245,7 +254,7 @@ Detailed visualization plots are available in the `visualizations/` subdirectory
 
 ## 10. Conclusion
 
-This analysis detected **11** bow patterns in χ amplitude data, revealing systematic loading-relaxation-reload cycles in Earth's magnetosphere. The patterns demonstrate that the χ = 0.15 boundary represents not just a static limit, but a dynamic equilibrium point that the magnetosphere approaches and retreats from in regular cycles.
+This analysis detected **46** bow patterns in χ amplitude data, revealing systematic loading-relaxation-reload cycles in Earth's magnetosphere. The patterns demonstrate that the χ = 0.15 boundary represents not just a static limit, but a dynamic equilibrium point that the magnetosphere approaches and retreats from in regular cycles.
 
 These findings complement the existing 13 temporal correlation modes and provide new insights into micro-scale magnetosphere dynamics.
 
