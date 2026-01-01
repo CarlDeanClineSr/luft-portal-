@@ -133,10 +133,10 @@ class BowPatternDetector:
         # 24-hour rolling baseline (CENTERED - critical!)
         # This removes long-term trends while preserving short-term fluctuations
         # Using 'h' instead of deprecated 'H' for hours
-        # min_periods set to require at least 12 hours of data (half the window)
+        # Using min_periods=1 to match Carl's original implementation
         df['B_baseline'] = df['B_mag'].rolling(
             window='24h',  # Changed from '24H' to '24h' (lowercase 'h')
-            min_periods=720,  # 720 minutes = 12 hours (require at least half window)
+            min_periods=1,  # Match Carl's original chi_calculator.py implementation
             center=True  # MUST be centered - this is Carl's discovery method!
         ).mean()
         

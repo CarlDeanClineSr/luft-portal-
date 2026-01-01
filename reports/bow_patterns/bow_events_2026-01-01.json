@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-01-01T06:35:49.059918+00:00",
-  "total_events": 45,
+  "generated_at": "2026-01-01T06:38:24.662774+00:00",
+  "total_events": 46,
   "events": [
     {
       "event_id": "BOW_20251211_215900",
@@ -603,6 +603,30 @@
       "notes": ""
     },
     {
+      "event_id": "BOW_20251226_033800",
+      "event_type": "single_bow",
+      "start_time": "2025-12-26T02:38:00+00:00",
+      "end_time": "2025-12-26T06:41:00+00:00",
+      "duration_hours": 4.05,
+      "loading_start": "2025-12-26T02:38:00+00:00",
+      "loading_end": "2025-12-26T03:38:00+00:00",
+      "loading_duration_hours": 1.0,
+      "loading_chi_rise": 0.09175241887734911,
+      "peak_time": "2025-12-26T03:38:00+00:00",
+      "peak_chi": 0.14849880661846462,
+      "distance_from_boundary": 0.0015011933815353706,
+      "relaxation_start": "2025-12-26T03:38:00+00:00",
+      "relaxation_end": "2025-12-26T04:39:00+00:00",
+      "relaxation_duration_hours": 1.0166666666666666,
+      "relaxation_chi_drop": 0.13669184121387193,
+      "reload_start": "2025-12-26T04:39:00+00:00",
+      "reload_end": "2025-12-26T06:41:00+00:00",
+      "reload_duration_hours": 2.033333333333333,
+      "reload_chi_rise": 0.04607655411757611,
+      "confidence": 1.0,
+      "notes": ""
+    },
+    {
       "event_id": "BOW_20251227_050700",
       "event_type": "single_bow",
       "start_time": "2025-12-27T04:07:00+00:00",
@@ -1060,10 +1084,10 @@
     },
     {
       "event_id": "BOW_20251231_222700",
-      "event_type": "failed_bow",
+      "event_type": "single_bow",
       "start_time": "2025-12-31T21:27:00+00:00",
-      "end_time": "2026-01-01T00:07:00+00:00",
-      "duration_hours": 2.6666666666666665,
+      "end_time": "2026-01-01T02:40:00+00:00",
+      "duration_hours": 5.216666666666667,
       "loading_start": "2025-12-31T21:27:00+00:00",
       "loading_end": "2025-12-31T22:27:00+00:00",
       "loading_duration_hours": 1.0,
@@ -1075,10 +1099,10 @@
       "relaxation_end": "2026-01-01T00:07:00+00:00",
       "relaxation_duration_hours": 1.6666666666666667,
       "relaxation_chi_drop": 0.04879504316424399,
-      "reload_start": null,
-      "reload_end": null,
-      "reload_duration_hours": null,
-      "reload_chi_rise": null,
+      "reload_start": "2026-01-01T00:07:00+00:00",
+      "reload_end": "2026-01-01T02:40:00+00:00",
+      "reload_duration_hours": 2.55,
+      "reload_chi_rise": 0.030052786243545265,
       "confidence": 1.0,
       "notes": ""
     }
