@@ -56,47 +56,14 @@ async function updateMetaIntelligenceData() {
 
 async function updateFullMetaReport() {
     try {
-        // Get the latest full report
-        const reportList = await fetch('reports/meta_intelligence/');
-        const reportText = await reportList.text();
+        // Try to load the most recent report directly
+        // The workflow creates reports with timestamp in filename
+        // We'll try a few recent timestamps or use the LATEST_SUMMARY fallback
         
-        // Find most recent report file
-        const reportMatch = reportText.match(/report_\d{8}_\d{6}\.md/g);
-        if (reportMatch && reportMatch.length > 0) {
-            const latestReport = reportMatch[reportMatch.length - 1];
-            
-            const response = await fetch(`reports/meta_intelligence/${latestReport}`);
-            if (response.ok) {
-                const fullText = await response.text();
-                
-                // Extract match counts from all correlations
-                const matchRegex = /\*\*Matches Found:\*\*\s*([\d,]+)/g;
-                let totalMatches = 0;
-                let match;
-                
-                while ((match = matchRegex.exec(fullText)) !== null) {
-                    const matches = parseInt(match[1].replace(/,/g, ''));
-                    if (!isNaN(matches)) {
-                        totalMatches += matches;
-                    }
-                }
-                
-                // Update total matches display
-                const liveMatchesEl = document.getElementById('live-matches');
-                if (liveMatchesEl && totalMatches > 0) {
-                    liveMatchesEl.textContent = totalMatches.toLocaleString();
-                }
-                
-                // Extract active sources count
-                const sourcesMatch = fullText.match(/\*\*Active Sources:\*\*\s*(\d+)/);
-                if (sourcesMatch) {
-                    const liveSourcesEl = document.getElementById('live-sources');
-                    if (liveSourcesEl) {
-                        liveSourcesEl.textContent = `${sourcesMatch[1]}/43`;
-                    }
-                }
-            }
-        }
+        // For now, just rely on the summary that's already working
+        // Future enhancement: Add an index.json file listing available reports
+        console.log('Using LATEST_SUMMARY for correlation data');
+        
     } catch (error) {
         console.error('Failed to parse full meta report:', error);
     }
@@ -105,22 +72,22 @@ async function updateFullMetaReport() {
 function setFallbackValues() {
     // Set static values as fallback
     const liveCorrelationsEl = document.getElementById('live-correlations');
-    if (liveCorrelationsEl && liveCorrelationsEl.textContent === '') {
+    if (liveCorrelationsEl && !liveCorrelationsEl.textContent.trim()) {
         liveCorrelationsEl.textContent = '13';
     }
     
     const liveMatchesEl = document.getElementById('live-matches');
-    if (liveMatchesEl && liveMatchesEl.textContent === '') {
+    if (liveMatchesEl && !liveMatchesEl.textContent.trim()) {
         liveMatchesEl.textContent = '1,474,926';
     }
     
     const liveSourcesEl = document.getElementById('live-sources');
-    if (liveSourcesEl && liveSourcesEl.textContent === '') {
+    if (liveSourcesEl && !liveSourcesEl.textContent.trim()) {
         liveSourcesEl.textContent = '42/43';
     }
     
     const livePeakEl = document.getElementById('live-peak');
-    if (livePeakEl && livePeakEl.textContent === '') {
+    if (livePeakEl && !livePeakEl.textContent.trim()) {
         livePeakEl.textContent = '144,356';
     }
 }
@@ -197,8 +164,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load meta-intelligence data
     updateMetaIntelligenceData();
     
-    // Refresh meta-intelligence data every 60 seconds
-    setInterval(updateMetaIntelligenceData, 60000);
+    // Refresh meta-intelligence data every 5 minutes (300 seconds)
+    // This reduces server load while keeping data reasonably fresh
+    setInterval(updateMetaIntelligenceData, 300000);
     
     console.log('✅ All live update systems active');
 });
