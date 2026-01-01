@@ -44,14 +44,23 @@
             margin-top: 0.3rem;
         }
         
-        /* Main Cockpit Grid - CRITICAL FIX */
-        .cockpit-container {
+        /* ✅ FIXED: Main Cockpit Grid - Gauges in horizontal row */
+        . cockpit-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
             padding: 1.5rem;
-            max-width: 1400px;
+            max-width: 100%;
             margin: 0 auto;
+        }
+        
+        /* Panel width classes */
+        .panel-full-width {
+            grid-column:  1 / -1;
+        }
+        
+        .panel-half-width {
+            grid-column: span 2;
         }
         
         /* Gauge Panel */
@@ -72,7 +81,7 @@
             right: 5px;
             height: 30px;
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), transparent);
-            border-radius:  8px 8px 0 0;
+            border-radius: 8px 8px 0 0;
             pointer-events: none;
         }
         
@@ -96,7 +105,7 @@
         /* Digital Display */
         .digital-display {
             background: #0a0a0a;
-            border: 2px solid #333;
+            border:  2px solid #333;
             border-radius: 6px;
             padding: 0.75rem;
             margin-top: 0.75rem;
@@ -114,7 +123,7 @@
         }
         
         .digital-label {
-            font-size:  0.7rem;
+            font-size: 0.7rem;
             color: #4ade80;
             margin-top: 0.3rem;
             text-transform: uppercase;
@@ -160,7 +169,7 @@
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
         }
         
-        .light-indicator.green {
+        . light-indicator.green {
             background: #00ff00;
             box-shadow: 0 0 20px #00ff00, inset 0 0 10px #00cc00;
         }
@@ -171,7 +180,7 @@
             animation: pulse-amber 1. 5s infinite;
         }
         
-        . light-indicator.red {
+        .light-indicator. red {
             background: #ff0000;
             box-shadow: 0 0 30px #ff0000, inset 0 0 15px #cc0000;
             animation: pulse-red 0.8s infinite;
@@ -206,7 +215,7 @@
             box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
         }
         
-        . clock-time {
+        .clock-time {
             font-size: 1.3rem;
             font-weight:  bold;
             color: #4da3ff;
@@ -268,21 +277,21 @@
         .status-dot {
             width: 12px;
             height: 12px;
-            border-radius:  50%;
+            border-radius: 50%;
             background: #4ade80;
             box-shadow: 0 0 10px #4ade80;
         }
         
         .status-text {
-            font-size:  0.85rem;
+            font-size: 0.85rem;
             color: #e0e0e0;
         }
         
         /* Mobile Optimizations */
         @media (max-width: 768px) {
             .cockpit-container {
-                grid-template-columns:  1fr;
-                padding:  1rem;
+                grid-template-columns: 1fr;
+                padding: 1rem;
                 gap: 1rem;
             }
             
@@ -299,7 +308,7 @@
                 gap: 0.75rem;
             }
             
-            .light-indicator {
+            . light-indicator {
                 width: 50px;
                 height: 50px;
             }
@@ -311,11 +320,16 @@
             .phase-value {
                 font-size: 2rem;
             }
+            
+            .panel-full-width,
+            .panel-half-width {
+                grid-column: 1 / -1;
+            }
         }
         
         /* Fullscreen Toggle Button */
         .fullscreen-toggle {
-            position:  fixed;
+            position: fixed;
             bottom: 80px;
             right: 20px;
             width: 50px;
@@ -352,14 +366,14 @@
 </head>
 <body>
     <!-- Back Navigation -->
-    <div style="background: #1a1a1a; padding: 0.75rem 1. 5rem; border-bottom: 2px solid #4da3ff;">
+    <div style="background: #1a1a1a; padding: 0.75rem 1.5rem; border-bottom: 2px solid #4da3ff;">
         <a href="index.html" style="color: #4da3ff; text-decoration: none; font-weight: bold;">← Back to Main Dashboard</a>
     </div>
     
     <!-- Cockpit Header -->
     <div class="cockpit-header">
-        <div class="cockpit-title">⚡ Space Weather Cockpit ⚡</div>
-        <div class="cockpit-subtitle">🧠 Meta-Intelligence v4.0 • 13 Temporal Correlations • 1.47M Matches • 95% Confidence</div>
+        <div class="cockpit-title">⚡ SPACE WEATHER COCKPIT ⚡</div>
+        <div class="cockpit-subtitle">🧠 Meta-Intelligence v4.0 • 13 Temporal Correlations • 1. 47M Matches • 95% Confidence</div>
     </div>
     
     <!-- DISCOVERY BANNER -->
@@ -367,13 +381,20 @@
         <div style="color: #fbbf24; font-size: 1.1rem; font-weight: bold; margin-bottom: 0.3rem;">
             🚨 PREDICTIVE MODE ENABLED
         </div>
-        <div style="color: #4da3ff; font-size:  0.85rem;">
+        <div style="color: #4da3ff; font-size: 0.85rem;">
             13 Temporal Correlations Active • Peak:  24h (144K matches) • Latest: Dec 28, 2025 (6h delay validated)
+        </div>
+        <div style="margin-top: 0.5rem;">
+            <a href="#meta-intelligence" style="display: inline-block; background: #fbbf24; color: #000; padding: 0.4rem 1rem; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.85rem;">
+                🧠 View Full Meta-Intelligence Panel ↓
+            </a>
         </div>
     </div>
     
     <!-- Main Cockpit Container -->
     <div class="cockpit-container">
+        <!-- ✅ GAUGES IN HORIZONTAL ROW (4 columns) -->
+        
         <!-- χ (Chi) Gauge -->
         <div class="gauge-panel">
             <div class="gauge-title">χ Amplitude</div>
@@ -430,8 +451,8 @@
             </div>
         </div>
         
-        <!-- Storm Phase Display -->
-        <div class="phase-display">
+        <!-- Storm Phase Display (half width) -->
+        <div class="phase-display panel-half-width">
             <div class="phase-title">Storm Phase</div>
             <div class="phase-value" id="storm-phase">PRE</div>
             <div class="clock-panel" style="margin-top: 1rem;">
@@ -440,89 +461,8 @@
             </div>
         </div>
         
-        <!-- Research Status Panel -->
-        <div class="phase-display">
-            <div class="phase-title">🔬 Meta-Intelligence</div>
-            <div style="margin-top: 1rem;">
-                <div class="digital-display" style="background: #0a1a0a;">
-                    <div class="digital-value" style="font-size: 1.5rem; color: #4ade80;">13</div>
-                    <div class="digital-label">Correlation Modes</div>
-                </div>
-                <div class="digital-display" style="background: #0a0a1a; margin-top: 0.75rem;">
-                    <div class="digital-value" style="font-size: 1.2rem; color: #fbbf24;">1.47M</div>
-                    <div class="digital-label">Total Matches</div>
-                </div>
-                <div class="clock-panel" style="margin-top: 0.75rem;">
-                    <div class="clock-time" style="font-size: 0.85rem;">95%</div>
-                    <div class="clock-label">Confidence Level</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- ✅ NEW: META-INTELLIGENCE VALIDATION PANEL -->
-        <div style="background: radial-gradient(circle at center, #001a00 0%, #000a00 100%); border: 3px solid #00ff88; grid-column: span 2; border-radius: 12px; padding: 1.5rem;">
-            <div class="gauge-title" style="color: #00ff88; margin-bottom: 1rem; text-align: center;">
-                🧠 META-INTELLIGENCE ENGINE v4.0 - OPERATIONAL
-            </div>
-            
-            <!-- Discovery Header -->
-            <div style="background: #001100; border:  2px solid #00ff88; border-radius: 8px; padding: 1rem; margin-bottom: 0.75rem; box-shadow: inset 0 2px 8px rgba(0, 255, 136, 0.2);">
-                <div style="text-align: center; color: #00ff88; font-size:  1.3em; font-weight: bold; margin-bottom: 0.5rem;">
-                    ⏰ 13 TEMPORAL CORRELATION MODES DETECTED
-                </div>
-                <div style="text-align: center; color: #fff; font-size: 0.95em; line-height: 1.6;">
-                    <strong>NOAA Solar Activity → χ Boundary Response</strong><br>
-                    1,474,926 total matches • 95% confidence • 0-72 hour delays
-                </div>
-            </div>
-            
-            <!-- Peak Correlations Grid -->
-            <div class="digital-display" style="background: #000; border: 2px solid #00ff88; margin-bottom: 0.75rem;">
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; padding: 0.5rem;">
-                    <div>
-                        <div style="color: #00ff88; font-size: 0.7em; margin-bottom: 0.25rem;">0h DELAY</div>
-                        <div style="color: #00ff88; font-size: 1.2em; font-weight: bold;">98,058</div>
-                        <div style="color: #4ade80; font-size:  0.65em;">Immediate</div>
-                        <div style="color: #9ca3af; font-size: 0.6em;">EM Response</div>
-                    </div>
-                    <div>
-                        <div style="color:  #fbbf24; font-size:  0.7em; margin-bottom: 0.25rem;">24h DELAY</div>
-                        <div style="color:  #fbbf24; font-size: 1.2em; font-weight: bold;">144,356</div>
-                        <div style="color: #fbbf24; font-size:  0.65em;">🔥 PEAK</div>
-                        <div style="color: #9ca3af; font-size:  0.6em;">SW Arrival</div>
-                    </div>
-                    <div>
-                        <div style="color:  #00ff88; font-size: 0.7em; margin-bottom: 0.25rem;">36h DELAY</div>
-                        <div style="color: #00ff88; font-size:  1.2em; font-weight: bold;">78,581</div>
-                        <div style="color: #4ade80; font-size:  0.65em;">L1→Earth</div>
-                        <div style="color: #9ca3af; font-size: 0.6em;">Classic Transit</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Latest Event Status -->
-            <div class="digital-display" style="background: #000; border: 2px solid #00ff88; margin-bottom: 0.75rem;">
-                <div style="color: #4ade80; font-size:  0.8em; margin-bottom: 0.25rem;">⚡ LATEST VALIDATED EVENT</div>
-                <div style="color: #00ff88; font-size: 1.0em; font-weight: bold; margin-bottom: 0.5rem;">December 28, 2025 • 09:38 UTC</div>
-                <div style="color: #fff; font-size: 0.8em; line-height: 1.4;">
-                    <div>NOAA Detection:  09:38 UTC</div>
-                    <div>χ Response: 15: 37 UTC (6. 0h delay)</div>
-                    <div style="color: #4ade80;">✅ Matches Correlation Mode #2</div>
-                </div>
-            </div>
-            
-            <!-- System Status -->
-            <div class="digital-display" style="background:  #000; border: 2px solid #00ff88;">
-                <div style="color:  #4ade80; font-size:  0.8em; margin-bottom: 0.25rem;">🛰️ DATA SOURCE STATUS</div>
-                <div style="color: #00ff88; font-size: 1.1em; font-weight: bold;">42 of 43 SOURCES ACTIVE</div>
-                <div style="color: #9ca3af; font-size:  0.7em; margin-top: 0.25rem;">
-                    97. 7% uptime • NASA + NOAA + CERN + China + ESA + JAXA + ISRO
-                </div>
-            </div>
-        </div>
-        
-        <!-- Warning Lights Panel -->
-        <div class="warning-panel">
+        <!-- Warning Lights Panel (half width) -->
+        <div class="warning-panel panel-half-width">
             <div class="gauge-title" style="margin-bottom: 1rem;">Warning System</div>
             <div class="warning-grid">
                 <div class="warning-light">
@@ -540,6 +480,67 @@
                 <div class="warning-light">
                     <div class="light-indicator off" id="violation-warning"></div>
                     <div class="light-label">Violation</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ✅ NEW:  META-INTELLIGENCE PANEL (CORRECT DATA) -->
+        <div id="meta-intelligence" class="panel-full-width" style="background: radial-gradient(circle at center, #001a00 0%, #000a00 100%); border: 3px solid #00ff88; border-radius: 12px; padding: 1.5rem;">
+            <div style="color: #00ff88; font-size: 1.3rem; font-weight: bold; text-align: center; margin-bottom: 1rem;">
+                🧠 META-INTELLIGENCE ENGINE v4.0 - OPERATIONAL
+            </div>
+            
+            <!-- Header -->
+            <div style="background: #001100; border: 2px solid #00ff88; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; text-align: center;">
+                <div style="color: #00ff88; font-size: 1.2em; font-weight: bold; margin-bottom: 0.5rem;">
+                    ⏰ 13 TEMPORAL CORRELATION MODES DETECTED
+                </div>
+                <div style="color: #fff; font-size: 0.95em;">
+                    <strong>NOAA Solar Activity → χ Boundary Response</strong><br>
+                    1,474,926 total matches • 95% confidence • 0-72 hour delays
+                </div>
+            </div>
+            
+            <!-- Peak Correlations -->
+            <div style="background: #000; border: 2px solid #00ff88; border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                    <div style="text-align: center;">
+                        <div style="color: #00ff88; font-size: 0.8em;">0h DELAY</div>
+                        <div style="color: #00ff88; font-size: 1.5em; font-weight: bold;">98,058</div>
+                        <div style="color: #4ade80; font-size:  0.7em;">Immediate Response</div>
+                    </div>
+                    <div style="text-align: center; background: rgba(251, 191, 36, 0.1); padding: 0.5rem; border-radius: 6px;">
+                        <div style="color: #fbbf24; font-size:  0.8em;">24h DELAY 🔥</div>
+                        <div style="color: #fbbf24; font-size: 1.5em; font-weight: bold;">144,356</div>
+                        <div style="color: #fbbf24; font-size:  0.7em;">PEAK (Solar Wind Arrival)</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="color: #00ff88; font-size:  0.8em;">36h DELAY</div>
+                        <div style="color: #00ff88; font-size:  1.5em; font-weight: bold;">78,581</div>
+                        <div style="color: #4ade80; font-size: 0.7em;">L1→Earth Transit</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Latest Event -->
+            <div style="background: #000; border: 2px solid #00ff88; border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                <div style="color: #4ade80; font-size:  0.9em; font-weight: bold; margin-bottom: 0.5rem;">
+                    ⚡ LATEST VALIDATED EVENT
+                </div>
+                <div style="color: #fff; font-size: 0.85em; line-height: 1.6;">
+                    <strong>December 28, 2025</strong><br>
+                    NOAA Detection: 09:38 UTC<br>
+                    χ Response: 15: 37 UTC (6. 0h delay)<br>
+                    <span style="color: #4ade80;">✅ Matches Correlation Mode #2</span>
+                </div>
+            </div>
+            
+            <!-- Source Status -->
+            <div style="background: #000; border: 2px solid #00ff88; border-radius: 8px; padding: 1rem; text-align: center;">
+                <div style="color:  #4ade80; font-size:  0.8em;">🛰️ DATA SOURCE STATUS</div>
+                <div style="color: #00ff88; font-size: 1.2em; font-weight: bold;">42 of 43 SOURCES ACTIVE</div>
+                <div style="color: #9ca3af; font-size: 0.7em; margin-top: 0.25rem;">
+                    97. 7% uptime • NASA + NOAA + CERN + China + ESA + JAXA + ISRO
                 </div>
             </div>
         </div>
@@ -568,16 +569,16 @@
     <script>
         // Fullscreen toggle
         document.getElementById('fullscreen-btn').addEventListener('click', function() {
-            if (! document.fullscreenElement) {
-                document.documentElement.requestFullscreen().then(() => {
-                    document. body.classList.add('fullscreen-mode');
+            if (!document.fullscreenElement) {
+                document.documentElement. requestFullscreen().then(() => {
+                    document.body.classList.add('fullscreen-mode');
                     if (screen.orientation && screen.orientation.lock) {
                         screen.orientation.lock('landscape').catch(err => console.log('Orientation lock failed:', err));
                     }
                 }).catch(err => console.log('Fullscreen failed:', err));
             } else {
-                document.exitFullscreen().then(() => {
-                    document.body.classList.remove('fullscreen-mode');
+                document. exitFullscreen().then(() => {
+                    document. body.classList.remove('fullscreen-mode');
                     if (screen.orientation && screen. orientation.unlock) {
                         screen.orientation.unlock();
                     }
@@ -587,9 +588,18 @@
         
         document.addEventListener('fullscreenchange', function() {
             if (! document.fullscreenElement) {
-                document.body.classList. remove('fullscreen-mode');
+                document.body.classList.remove('fullscreen-mode');
             }
         });
+        
+        // UTC Clock
+        function updateUTCClock() {
+            const now = new Date();
+            const utcString = now.toISOString().substring(11, 19) + ' UTC';
+            document.getElementById('utc-clock').textContent = utcString;
+        }
+        updateUTCClock();
+        setInterval(updateUTCClock, 1000);
     </script>
 
 </body>
