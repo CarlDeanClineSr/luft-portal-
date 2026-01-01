@@ -68,11 +68,11 @@ async function updateSourceHealth() {
         // Update uptime percentage
         const uptime = ((activeCount / totalCount) * 100).toFixed(1);
         if (document.getElementById('source-uptime')) {
-            document.getElementById('source-uptime').textContent = `${uptime}% uptime`;
+            document.getElementById('source-uptime').textContent = `${uptime}%`;
         }
         
         // Populate health grid if it exists
-        const grid = document.getElementById('source-health-grid');
+        const grid = document.getElementById('health-grid');
         if (grid) {
             grid.innerHTML = healthData.external_sources.slice(0, 10).map(source => `
                 <div class="source-card ${source.health}">
@@ -90,7 +90,7 @@ async function updateSourceHealth() {
             document.getElementById('sources-active').textContent = '42/43';
         }
         if (document.getElementById('source-uptime')) {
-            document.getElementById('source-uptime').textContent = '97.7% uptime';
+            document.getElementById('source-uptime').textContent = '97.7%';
         }
     }
 }
