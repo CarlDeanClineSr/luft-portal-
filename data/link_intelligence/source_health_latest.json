@@ -1,0 +1,99 @@
+{
+  "timestamp": "2025-12-31T23:40:00Z",
+  "total_sources": 43,
+  "active_sources": 42,
+  "uptime_percentage": 97.7,
+  "external_sources": [
+    {
+      "name": "DSCOVR Solar Wind",
+      "category": "NASA",
+      "url": "https://services.swpc.noaa.gov/products/solar-wind/",
+      "status": 200,
+      "health": "healthy",
+      "response_time_ms": 145,
+      "last_check": "2025-12-31T23:39:00Z"
+    },
+    {
+      "name": "MAVEN Mars Data",
+      "category": "NASA",
+      "url": "https://pds-ppi.igpp.ucla.edu/",
+      "status": 200,
+      "health": "healthy",
+      "response_time_ms": 234,
+      "last_check": "2025-12-31T23:39:00Z"
+    },
+    {
+      "name": "NOAA Space Weather Forecast",
+      "category": "NOAA",
+      "url": "https://services.swpc.noaa.gov/text/3-day-forecast.txt",
+      "status": 200,
+      "health": "healthy",
+      "response_time_ms": 98,
+      "last_check": "2025-12-31T23:39:00Z"
+    },
+    {
+      "name": "USGS Magnetometers",
+      "category": "NOAA/USGS",
+      "url": "https://geomag.usgs.gov/",
+      "status": 200,
+      "health": "healthy",
+      "response_time_ms": 187,
+      "last_check": "2025-12-31T23:39:00Z"
+    },
+    {
+      "name": "GOES Satellite Data",
+      "category": "NOAA",
+      "url": "https://services.swpc.noaa.gov/products/",
+      "status": 200,
+      "health": "healthy",
+      "response_time_ms": 112,
+      "last_check": "2025-12-31T23:39:00Z"
+    },
+    {
+      "name": "CERN LHC Luminosity",
+      "category": "CERN",
+      "url": "https://lb-lumi-data.web.cern.ch/",
+      "status": 200,
+      "health": "healthy",
+      "response_time_ms": 278,
+      "last_check": "2025-12-31T23:39:00Z"
+    },
+    {
+      "name": "Parker Solar Probe",
+      "category": "NASA",
+      "url": "https://parkersolarprobe.jhuapl.edu/",
+      "status": 200,
+      "health": "healthy",
+      "response_time_ms": 203,
+      "last_check": "2025-12-31T23:39:00Z"
+    },
+    {
+      "name": "Hubble Space Telescope",
+      "category": "NASA",
+      "url": "https://archive.stsci.edu/",
+      "status": 200,
+      "health": "healthy",
+      "response_time_ms": 156,
+      "last_check": "2025-12-31T23:39:00Z"
+    },
+    {
+      "name": "ESA Cluster Mission",
+      "category": "ESA/International",
+      "url": "https://www.cosmos.esa.int/",
+      "status": 200,
+      "health": "healthy",
+      "response_time_ms": 312,
+      "last_check": "2025-12-31T23:39:00Z"
+    },
+    {
+      "name": "LIGO Gravitational Observatory",
+      "category": "Ground Observatories",
+      "url": "https://www.ligo.caltech.edu/",
+      "status": 503,
+      "health": "offline",
+      "response_time_ms": 0,
+      "last_check": "2025-12-31T23:39:00Z",
+      "error": "Service temporarily unavailable"
+    }
+  ]
+}
