@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper Discoveries - LUFT Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #e0e0e0;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: rgba(77, 163, 255, 0.1);
+            border-radius: 10px;
+            border: 2px solid #4da3ff;
+        }
+        
+        h1 {
+            color: #4da3ff;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            color: #4ade80;
+            font-size: 1.2rem;
+        }
+        
+        .paper-discoveries {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .paper-card {
+            background: rgba(42, 42, 42, 0.8);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid #4da3ff;
+            transition: all 0.3s ease;
+        }
+        
+        .paper-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 20px rgba(77, 163, 255, 0.3);
+        }
+        
+        .paper-card.priority-1 {
+            border-left-color: #ff4d4d;
+            background: rgba(255, 77, 77, 0.1);
+        }
+        
+        .paper-card.priority-2 {
+            border-left-color: #ffa500;
+            background: rgba(255, 165, 0, 0.1);
+        }
+        
+        .paper-card.priority-3 {
+            border-left-color: #ffff00;
+            background: rgba(255, 255, 0, 0.1);
+        }
+        
+        .paper-card h3 {
+            color: #4da3ff;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .paper-card ul {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+        
+        .paper-card li {
+            color: #4ade80;
+            padding: 0.3rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .paper-card li:before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #4da3ff;
+        }
+        
+        .paper-card a {
+            display: inline-block;
+            color: #4da3ff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            background: rgba(77, 163, 255, 0.2);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .paper-card a:hover {
+            background: rgba(77, 163, 255, 0.4);
+            transform: scale(1.05);
+        }
+        
+        .stats {
+            text-align: center;
+            margin: 2rem 0;
+            padding: 1rem;
+            background: rgba(74, 222, 128, 0.1);
+            border-radius: 10px;
+            border: 2px solid #4ade80;
+        }
+        
+        .stats-number {
+            font-size: 2rem;
+            color: #4ade80;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔬 Engine-Discovered High-Impact Papers</h1>
+        <p class="subtitle">Auto-ranked by relevance to χ = 0.15 boundary</p>
+    </div>
+    
+    <div class="stats">
+        <div class="stats-number">22</div>
+        <div>High-Impact Papers Discovered</div>
+    </div>
+    
+    <div class="paper-discoveries">
+
+        <div class="paper-card priority-1">
+            <h3>#1 (60 pts): UK White Paper on Magnetic Reconnection</h3>
+            <ul>
+                <li>6 plasma/magnetic keywords found</li>
+            </ul>
+            <a href="https://arxiv.org/abs/2512.11631v1" target="_blank">Read Paper →</a>
+        </div>
+        
+        <div class="paper-card priority-2">
+            <h3>#2 (50 pts): The role of particle feedback on particle acceleration in magnetic reconnection</h3>
+            <ul>
+                <li>5 plasma/magnetic keywords found</li>
+            </ul>
+            <a href="https://arxiv.org/abs/2512.24054v1" target="_blank">Read Paper →</a>
+        </div>
+        
+        <div class="paper-card priority-3">
+            <h3>#3 (50 pts): NASA/NOAA MOU Annex Final Report: Evaluating Model Advancements for Predicting CME Arrival Time</h3>
+            <ul>
+                <li>Period 0.9hour matches your temporal modes</li>
+            </ul>
+            <a href="https://arxiv.org/abs/2512.14462v1" target="_blank">Read Paper →</a>
+        </div>
+        
+        <div class="paper-card ">
+            <h3>#4 (40 pts): Ion-acoustic shock and solitary waves in magnetized plasma with Cairns-Gurevich distribution electrons</h3>
+            <ul>
+                <li>4 plasma/magnetic keywords found</li>
+            </ul>
+            <a href="https://arxiv.org/abs/2512.07895v2" target="_blank">Read Paper →</a>
+        </div>
+        
+        <div class="paper-card ">
+            <h3>#5 (30 pts): The sun as colliding beam, betatron cosmic ray factory</h3>
+            <ul>
+                <li>3 plasma/magnetic keywords found</li>
+            </ul>
+            <a href="https://arxiv.org/abs/2512.24363v1" target="_blank">Read Paper →</a>
+        </div>
+        
+        <div class="paper-card ">
+            <h3>#6 (30 pts): A Generative Reconstruction of Low-$\ell$ CMB B-Mode Signal using Reverse Diffusion in Deep Learning</h3>
+            <ul>
+                <li>Has R-like charge ratio parameter</li>
+            </ul>
+            <a href="https://arxiv.org/abs/2512.22683v1" target="_blank">Read Paper →</a>
+        </div>
+        
+        <div class="paper-card ">
+            <h3>#7 (30 pts): Thermal wakefield structure in plasma acceleration processes: insights from fluid models and PIC simulations</h3>
+            <ul>
+                <li>3 plasma/magnetic keywords found</li>
+            </ul>
+            <a href="https://arxiv.org/abs/2512.20150v1" target="_blank">Read Paper →</a>
+        </div>
+        
+        <div class="paper-card ">
+            <h3>#8 (30 pts): Superluminal Wave Activation at Relativistic Magnetized Shocks</h3>
+            <ul>
+                <li>3 plasma/magnetic keywords found</li>
+            </ul>
+            <a href="https://arxiv.org/abs/2512.19892v1" target="_blank">Read Paper →</a>
+        </div>
+        
+        <div class="paper-card ">
+            <h3>#9 (30 pts): Magnetically confined charged particles: From steep density profiles to the breaking of the adiabatic invariant</h3>
+            <ul>
+                <li>3 plasma/magnetic keywords found</li>
+            </ul>
+            <a href="https://arxiv.org/abs/2512.19211v1" target="_blank">Read Paper →</a>
+        </div>
+        
+        <div class="paper-card ">
+            <h3>#10 (30 pts): Energetically-dominant Sunward-Propagating Alfvén Waves Near 1 au and Their Relation to Large-scale Magnetic Switchbacks</h3>
+            <ul>
+                <li>3 plasma/magnetic keywords found</li>
+            </ul>
+            <a href="https://arxiv.org/abs/2512.18806v1" target="_blank">Read Paper →</a>
+        </div>
+        
+    </div>
+</body>
+</html>

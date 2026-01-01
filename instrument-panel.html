@@ -341,6 +341,124 @@
         .fullscreen-toggle:active {
             transform: scale(0.95);
         }
+        
+        /* Real-Time Mode Toggle Button */
+        .realtime-toggle {
+            position: fixed;
+            bottom: 80px;
+            right: 80px;
+            width: 50px;
+            height: 50px;
+            background: #fbbf24;
+            border: 2px solid #333;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
+        }
+        
+        .realtime-toggle:hover {
+            background: #f59e0b;
+            transform: scale(1.1);
+        }
+        
+        .realtime-toggle:active {
+            transform: scale(0.95);
+        }
+        
+        .realtime-toggle.active {
+            background: #10b981;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.8); }
+        }
+        
+        /* Discovery Feed Styles */
+        .discovery-feed {
+            background: radial-gradient(circle at center, #1a0033 0%, #0a0015 100%);
+            border: 3px solid #a855f7;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .discovery-feed h3 {
+            color: #a855f7;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .discovery-feed .subtitle {
+            color: #c084fc;
+            font-size: 0.85rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .discovery-card {
+            background: rgba(168, 85, 247, 0.1);
+            border-left: 4px solid #a855f7;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        
+        .discovery-card:hover {
+            background: rgba(168, 85, 247, 0.2);
+            transform: translateX(5px);
+        }
+        
+        .discovery-card strong {
+            color: #c084fc;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        
+        .discovery-card p {
+            color: #e0e0e0;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        
+        .discovery-card ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        
+        .discovery-card li {
+            color: #4ade80;
+            font-size: 0.75rem;
+            padding-left: 1rem;
+            position: relative;
+            margin-bottom: 0.25rem;
+        }
+        
+        .discovery-card li:before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #a855f7;
+        }
+        
+        .loading-message {
+            text-align: center;
+            color: #a855f7;
+            font-style: italic;
+            padding: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -455,7 +573,16 @@
             </div>
         </div>
         
-        <!-- Row 3: Meta-Intelligence Panel (Full Width) -->
+        <!-- Row 3: Engine Discovery Feed (Full Width) -->
+        <div id="discovery-feed" class="panel-full-width discovery-feed">
+            <h3>🔬 Latest Engine Discoveries</h3>
+            <p class="subtitle">Auto-ranked papers by relevance to χ = 0.15</p>
+            <div id="live-discoveries">
+                <div class="loading-message">Loading discoveries...</div>
+            </div>
+        </div>
+        
+        <!-- Row 4: Meta-Intelligence Panel (Full Width) -->
         <div id="meta-intelligence" class="panel-full-width" style="background: radial-gradient(circle at center, #001a00 0%, #000a00 100%); border: 3px solid #00ff88; border-radius: 12px; padding: 1.5rem;">
             <div style="color: #00ff88; font-size: 1.3rem; font-weight: bold; text-align: center; margin-bottom: 1rem;">
                 🧠 META-INTELLIGENCE ENGINE v4.0 - OPERATIONAL
@@ -532,6 +659,9 @@
     <!-- Fullscreen Toggle Button -->
     <button class="fullscreen-toggle" id="fullscreen-btn" aria-label="Toggle Fullscreen">⛶</button>
     
+    <!-- Real-Time Mode Toggle Button -->
+    <button class="realtime-toggle" id="realtime-btn" aria-label="Toggle Real-Time Mode" title="Enable high-speed updates for aircraft/spacecraft">⚡</button>
+    
     <script src="js/instrument-panel.js"></script>
     <script>
         // Fullscreen toggle
@@ -559,6 +689,45 @@
             }
         });
         
+        // Real-Time Mode Toggle
+        const realtimeBtn = document.getElementById('realtime-btn');
+        const isRealtimeMode = localStorage.getItem('realtimeMode') === 'true';
+        
+        // Set initial state
+        if (isRealtimeMode) {
+            realtimeBtn.classList.add('active');
+            realtimeBtn.title = 'Real-Time Mode: ON (5s updates) - Click to disable';
+        } else {
+            realtimeBtn.title = 'Real-Time Mode: OFF (60s updates) - Click to enable';
+        }
+        
+        realtimeBtn.addEventListener('click', function() {
+            const currentMode = localStorage.getItem('realtimeMode') === 'true';
+            const newMode = !currentMode;
+            
+            localStorage.setItem('realtimeMode', newMode.toString());
+            
+            if (newMode) {
+                alert('⚡ REAL-TIME MODE ENABLED\n\n' +
+                      'High-speed updates activated:\n' +
+                      '• Data: Every 5 seconds\n' +
+                      '• Clock: Every 100ms\n' +
+                      '• Research: Every 30 seconds\n' +
+                      '• Discoveries: Every 10 seconds\n\n' +
+                      'Page will reload to apply changes.');
+            } else {
+                alert('Standard Mode Enabled\n\n' +
+                      'Normal update intervals:\n' +
+                      '• Data: Every 60 seconds\n' +
+                      '• Clock: Every 1 second\n' +
+                      '• Research: Every 5 minutes\n' +
+                      '• Discoveries: Every 60 seconds\n\n' +
+                      'Page will reload to apply changes.');
+            }
+            
+            location.reload();
+        });
+        
         // UTC Clock
         function updateUTCClock() {
             const now = new Date();
@@ -567,6 +736,45 @@
         }
         updateUTCClock();
         setInterval(updateUTCClock, 1000);
+        
+        // Discovery Feed Loader
+        async function loadDiscoveries() {
+            try {
+                const response = await fetch('data/papers/impact_analysis.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load discoveries');
+                }
+                const discoveries = await response.json();
+                
+                const html = discoveries.slice(0, 5).map((d, i) => `
+                    <div class="discovery-card">
+                        <strong>#${i+1} (${d.score} pts)</strong>
+                        <p>${d.title}</p>
+                        <ul>
+                            ${d.reasons.map(r => `<li>${r}</li>`).join('')}
+                        </ul>
+                    </div>
+                `).join('');
+                
+                document.getElementById('live-discoveries').innerHTML = html;
+            } catch (error) {
+                console.error('Error loading discoveries:', error);
+                document.getElementById('live-discoveries').innerHTML = 
+                    '<div class="loading-message">Discovery data not yet available. Run tools/paper_impact_analyzer.py to generate.</div>';
+            }
+        }
+        
+        // ⚡ REAL-TIME MODE: Sync with instrument panel settings
+        const REALTIME_MODE = localStorage.getItem('realtimeMode') === 'true' || false;
+        const DISCOVERY_INTERVAL = REALTIME_MODE ? 10000 : 60000; // 10s or 60s
+        
+        // Load discoveries immediately and then at configured interval
+        loadDiscoveries();
+        setInterval(loadDiscoveries, DISCOVERY_INTERVAL);
+        
+        if (REALTIME_MODE) {
+            console.log(`⚡ Discovery feed: HIGH-SPEED MODE (${DISCOVERY_INTERVAL}ms updates)`);
+        }
     </script>
 
 </body>

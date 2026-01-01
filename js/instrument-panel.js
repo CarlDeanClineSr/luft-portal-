@@ -592,8 +592,29 @@ async function updateResearchStatus() {
 // INITIALIZATION
 // ========================================
 
+// ⚡ REAL-TIME MODE CONFIGURATION
+// Set REALTIME_MODE=true for spacecraft/aircraft operations (faster updates)
+const REALTIME_MODE = localStorage.getItem('realtimeMode') === 'true' || false;
+const UPDATE_INTERVALS = REALTIME_MODE ? {
+    data: 5000,        // Update data every 5 seconds (was 60s)
+    research: 30000,   // Update research every 30 seconds (was 5min)
+    clock: 100,        // Update clock every 100ms (was 1s) for smooth operation
+    discovery: 10000   // Update discoveries every 10 seconds (was 60s)
+} : {
+    data: 60000,       // Standard mode: 60 seconds
+    research: 300000,  // Standard mode: 5 minutes
+    clock: 1000,       // Standard mode: 1 second
+    discovery: 60000   // Standard mode: 60 seconds
+};
+
 window.addEventListener('DOMContentLoaded', () => {
-    console.log('Instrument Panel initializing...');
+    console.log(`Instrument Panel initializing... [${REALTIME_MODE ? '⚡ REAL-TIME MODE' : 'Standard Mode'}]`);
+    
+    // Display mode indicator
+    if (REALTIME_MODE) {
+        console.log('⚡ HIGH-SPEED UPDATES ENABLED FOR AIRCRAFT/SPACECRAFT OPERATIONS');
+        console.log(`   Data: ${UPDATE_INTERVALS.data}ms | Research: ${UPDATE_INTERVALS.research}ms | Clock: ${UPDATE_INTERVALS.clock}ms`);
+    }
     
     // Initial update (which includes first animation frame)
     updateInstrumentPanel();
@@ -601,14 +622,14 @@ window.addEventListener('DOMContentLoaded', () => {
     // Update research status
     updateResearchStatus();
     
-    // Update data every 60 seconds
-    setInterval(updateInstrumentPanel, 60000);
+    // Update data at configured interval
+    setInterval(updateInstrumentPanel, UPDATE_INTERVALS.data);
     
-    // Update research status every 5 minutes
-    setInterval(updateResearchStatus, 300000);
+    // Update research status at configured interval
+    setInterval(updateResearchStatus, UPDATE_INTERVALS.research);
     
-    // Update clocks every second
-    setInterval(updateClocks, 1000);
+    // Update clocks at configured interval
+    setInterval(updateClocks, UPDATE_INTERVALS.clock);
     
     console.log('Instrument Panel ready!');
 });
