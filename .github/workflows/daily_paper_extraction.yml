@@ -84,6 +84,7 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "🔬 Daily paper extraction - $(date -u '+%Y-%m-%d %H:%M UTC')"
+            git pull --rebase origin main --autostash
             git push
             echo "✅ Extraction results pushed to repository"
           fi

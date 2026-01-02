@@ -28,6 +28,7 @@ jobs:
           git config user.email "bot@luft.local"
           git add results/historical_storms/ 2>/dev/null || echo "No historical storm results to add"
           git commit -m "results: Historical storm χ analysis" || echo "No new results"
+          git pull --rebase origin main --autostash
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
