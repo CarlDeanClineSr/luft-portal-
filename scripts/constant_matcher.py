@@ -13,7 +13,18 @@ import argparse
 
 def load_chi_data(filepath):
     """Load χ boundary tracking data"""
-    df = pd.read_json(filepath, lines=True)
+    # Try to load as JSONL first
+    if filepath.endswith('.jsonl'):
+        df = pd.read_json(filepath, lines=True)
+    # Try to load as CSV
+    elif filepath.endswith('.csv'):
+        df = pd.read_csv(filepath)
+    else:
+        # Try JSONL by default
+        try:
+            df = pd.read_json(filepath, lines=True)
+        except:
+            df = pd.read_csv(filepath)
     return df
 
 def load_constants(filepath):
@@ -38,22 +49,32 @@ def find_constant_matches(chi_values, constants, tolerance=0.01):
     
     return matches
 
-def find_ratio_matches(chi_values, constants, tolerance=0.01):
+def find_ratio_matches(chi_values, constants, tolerance=0.01, max_samples=1000):
     """Find ratios between χ values that match constants"""
     matches = []
     
-    # Calculate all pairwise ratios
-    for i in range(len(chi_values)):
-        for j in range(i+1, len(chi_values)):
-            if chi_values[j] > 0:
-                ratio = chi_values[i] / chi_values[j]
+    # Limit the number of comparisons for large datasets
+    n = len(chi_values)
+    if n > max_samples:
+        # Sample indices randomly
+        import random
+        indices = random.sample(range(n), max_samples)
+        chi_sample = chi_values[indices]
+    else:
+        chi_sample = chi_values
+    
+    # Calculate pairwise ratios for sample
+    for i in range(len(chi_sample)):
+        for j in range(i+1, min(i+100, len(chi_sample))):  # Limit inner loop
+            if chi_sample[j] > 0:
+                ratio = chi_sample[i] / chi_sample[j]
                 
                 # Check against constants
                 for name, value in constants.items():
                     if abs(ratio - value) < tolerance:
                         matches.append({
-                            'chi_1': float(chi_values[i]),
-                            'chi_2': float(chi_values[j]),
+                            'chi_1': float(chi_sample[i]),
+                            'chi_2': float(chi_sample[j]),
                             'ratio': float(ratio),
                             'constant_name': name,
                             'constant_value': float(value),
@@ -71,7 +92,18 @@ def main():
     
     print("Loading χ data...")
     df = load_chi_data(args.chi_data)
-    chi_values = df['chi'].values
+    
+    # Extract χ values - try different column names
+    if 'chi' in df.columns:
+        chi_values = df['chi'].values
+    elif 'chi_amplitude' in df.columns:
+        chi_values = df['chi_amplitude'].values
+    elif 'chi_mean' in df.columns:
+        chi_values = df['chi_mean'].values
+    else:
+        print("Error: Could not find chi data column (tried 'chi', 'chi_amplitude', 'chi_mean')")
+        print(f"Available columns: {list(df.columns)}")
+        return
     
     print(f"Loaded {len(chi_values)} χ observations")
     

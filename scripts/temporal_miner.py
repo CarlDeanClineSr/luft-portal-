@@ -15,7 +15,18 @@ from collections import Counter
 
 def load_chi_data(filepath):
     """Load χ boundary tracking data"""
-    df = pd.read_json(filepath, lines=True)
+    # Try to load as JSONL first
+    if filepath.endswith('.jsonl'):
+        df = pd.read_json(filepath, lines=True)
+    # Try to load as CSV
+    elif filepath.endswith('.csv'):
+        df = pd.read_csv(filepath)
+    else:
+        # Try JSONL by default
+        try:
+            df = pd.read_json(filepath, lines=True)
+        except:
+            df = pd.read_csv(filepath)
     return df
 
 def find_temporal_patterns(times, chi_values, threshold=0.14):
@@ -28,6 +39,10 @@ def find_temporal_patterns(times, chi_values, threshold=0.14):
     
     # Get peak times
     peak_times = times[peaks]
+    
+    # Remove timezone if present to avoid conversion issues
+    if hasattr(peak_times, 'dt') and peak_times.dt.tz is not None:
+        peak_times = peak_times.dt.tz_localize(None)
     
     # Calculate intervals between peaks (in seconds)
     intervals = np.diff(peak_times.astype('datetime64[s]').astype(int))
@@ -79,8 +94,18 @@ def main():
     
     print(f"Loaded {len(df)} observations")
     
-    # Extract χ values and times
-    chi_values = df['chi'].values
+    # Extract χ values and times - try different column names
+    if 'chi' in df.columns:
+        chi_values = df['chi'].values
+    elif 'chi_amplitude' in df.columns:
+        chi_values = df['chi_amplitude'].values
+    elif 'chi_mean' in df.columns:
+        chi_values = df['chi_mean'].values
+    else:
+        print("Error: Could not find chi data column (tried 'chi', 'chi_amplitude', 'chi_mean')")
+        print(f"Available columns: {list(df.columns)}")
+        return
+    
     times = pd.to_datetime(df['timestamp'])
     
     # Find temporal patterns

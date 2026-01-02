@@ -27,7 +27,18 @@ FUNDAMENTAL_CONSTANTS = {
 
 def load_chi_data(filepath):
     """Load χ boundary tracking data"""
-    df = pd.read_json(filepath, lines=True)
+    # Try to load as JSONL first
+    if filepath.endswith('.jsonl'):
+        df = pd.read_json(filepath, lines=True)
+    # Try to load as CSV
+    elif filepath.endswith('.csv'):
+        df = pd.read_csv(filepath)
+    else:
+        # Try JSONL by default
+        try:
+            df = pd.read_json(filepath, lines=True)
+        except:
+            df = pd.read_csv(filepath)
     return df
 
 def find_ratios(chi_values):
@@ -63,6 +74,10 @@ def find_repeating_intervals(times, chi_values, threshold=0.14):
     if len(crossings) < 2:
         return []
     
+    # Remove timezone if present to avoid conversion issues
+    if hasattr(crossings, 'dt') and crossings.dt.tz is not None:
+        crossings = crossings.dt.tz_localize(None)
+    
     # Calculate intervals between crossings
     intervals = np.diff(crossings.astype('datetime64[s]').astype(int))
     
@@ -83,8 +98,18 @@ def main():
     
     print(f"Loaded {len(df)} observations")
     
-    # Extract χ values
-    chi_values = df['chi'].values
+    # Extract χ values - try different column names
+    if 'chi' in df.columns:
+        chi_values = df['chi'].values
+    elif 'chi_amplitude' in df.columns:
+        chi_values = df['chi_amplitude'].values
+    elif 'chi_mean' in df.columns:
+        chi_values = df['chi_mean'].values
+    else:
+        print("Error: Could not find chi data column (tried 'chi', 'chi_amplitude', 'chi_mean')")
+        print(f"Available columns: {list(df.columns)}")
+        return
+    
     times = pd.to_datetime(df['timestamp'])
     
     # Find ratios
