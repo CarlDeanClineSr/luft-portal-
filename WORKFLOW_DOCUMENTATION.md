@@ -253,6 +253,28 @@ Add to README.md:
 3. Check file permissions
 4. Look for error messages in logs
 
+### Git Conflict Errors
+**Problem:** Multiple workflows pushing simultaneously cause conflicts:
+```
+Error: ! [rejected] main -> main (non-fast-forward)
+Hint: Updates were rejected because the tip of your current branch is behind
+```
+
+**Solution:** All workflows now include automatic conflict resolution before pushing:
+```yaml
+# This is added before every git push in all workflows:
+git pull --rebase origin main --autostash
+git push
+```
+
+This ensures that:
+- Changes from other workflows are pulled first
+- Local changes are rebased on top of remote changes
+- Any local uncommitted changes are temporarily stashed
+- Push succeeds even when multiple workflows run simultaneously
+
+**Status:** ✅ Fixed in all 37 workflows with git push operations (as of 2026-01-02)
+
 ---
 
 ## 📊 Expected Outputs
