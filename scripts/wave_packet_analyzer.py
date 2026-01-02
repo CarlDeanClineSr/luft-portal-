@@ -56,6 +56,8 @@ class WavePacketAnalyzer:
         dict : Detection results
         """
         # Ensure hourly sampling
+        if len(timestamps) < 2:
+            raise ValueError("Need at least 2 timestamps for analysis")
         dt_hours = (timestamps[1] - timestamps[0]).total_seconds() / 3600
         
         if dt_hours > 1.5: 
@@ -180,6 +182,11 @@ class WavePacketAnalyzer:
 def main():
     """Demo: Analyze solar wind data for wave packets"""
     
+    # Demo data parameters
+    DEMO_BASE_AMPLITUDE = 10
+    DEMO_MODULATION_AMPLITUDE = 2
+    DEMO_PERIOD = 0.9  # hours (matches expected wave packet period)
+    
     print("=" * 70)
     print("LUFT WAVE PACKET ANALYZER")
     print("Detecting 0.9-hour CME shock structure")
@@ -210,7 +217,9 @@ def main():
         timestamps = pd.date_range('2025-12-01', '2025-12-31', freq='1H')
         np.random.seed(42)
         df = pd.DataFrame({
-            'B_mag': 10 + 2*np.sin(2*np.pi*np.arange(len(timestamps))/(0.9)) + np.random.randn(len(timestamps))
+            'B_mag': (DEMO_BASE_AMPLITUDE + 
+                     DEMO_MODULATION_AMPLITUDE * np.sin(2*np.pi*np.arange(len(timestamps))/DEMO_PERIOD) + 
+                     np.random.randn(len(timestamps)))
         }, index=timestamps)
     
     # Initialize analyzer

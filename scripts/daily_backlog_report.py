@@ -233,6 +233,10 @@ def generate_backlog_report():
     report_file = Path(f'reports/daily_backlog_{datetime.utcnow().strftime("%Y%m%d_%H%M%S")}.txt')
     report_file.parent.mkdir(exist_ok=True)
     
+    # Write report to file (capture stdout for file saving)
+    # Note: Since we already printed the report, we won't duplicate it here
+    # Future enhancement: refactor to build report string first, then print/save
+    
     # Return summary for programmatic use
     return {
         'file_count': file_report['total_files'],

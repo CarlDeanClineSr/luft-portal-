@@ -12,10 +12,13 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
-# Add parent directory to path to import wave_packet_analyzer
-sys.path.insert(0, str(Path(__file__).parent))
-
-from wave_packet_analyzer import WavePacketAnalyzer
+# Import wave packet analyzer from same directory
+try:
+    from wave_packet_analyzer import WavePacketAnalyzer
+except ImportError:
+    # If running from different directory, try adding scripts to path
+    sys.path.insert(0, str(Path(__file__).parent))
+    from wave_packet_analyzer import WavePacketAnalyzer
 
 def load_and_combine_data():
     """Load and combine December 2025 and January 2026 data"""
