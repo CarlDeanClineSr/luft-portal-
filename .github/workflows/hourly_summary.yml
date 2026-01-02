@@ -1,0 +1,77 @@
+name: Hourly Summary Generator
+
+on:
+  schedule:
+    # Run every hour at minute 5
+    - cron: '5 * * * *'
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  generate-hourly-summary:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      
+      - name: Generate hourly summary
+        run: |
+          echo "🔄 Generating hourly summary report..."
+          python tools/generate_hourly_summary.py --output reports/HOURLY_SUMMARY.md
+          
+          # Show summary size
+          ls -lh reports/HOURLY_SUMMARY.md
+          
+          echo "✅ Hourly summary generated"
+      
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "LUFT Portal Bot"
+          
+          git add reports/HOURLY_SUMMARY.md
+          git add reports/hourly_summary_*.md
+          
+          # Check if there are changes
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🤖 Hourly summary update - $(date -u '+%Y-%m-%d %H:%M UTC')"
+            git push
+            echo "✅ Summary pushed to repository"
+          fi
+      
+      - name: Summary report
+        run: |
+          echo "### 📋 Hourly Summary Generated" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Time:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "**File:** \`reports/HOURLY_SUMMARY.md\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Get file size
+          SIZE=$(stat -c%s reports/HOURLY_SUMMARY.md)
+          SIZE_KB=$(echo "scale=2; $SIZE/1024" | bc)
+          echo "**Size:** ${SIZE_KB} KB (target: <5KB)" >> $GITHUB_STEP_SUMMARY
+          
+          if (( $(echo "$SIZE_KB < 5" | bc -l) )); then
+            echo "**Status:** ✅ Within size limit" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "**Status:** ⚠️ Exceeds 5KB limit" >> $GITHUB_STEP_SUMMARY
+          fi

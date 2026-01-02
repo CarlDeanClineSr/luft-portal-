@@ -15,6 +15,12 @@ This is **not an invention** — it's a **discovery** found in real data from ye
 🧠 **Meta-Intelligence Dashboard:** https://carldeanclinesr.github.io/luft-portal-/meta-intelligence.html  
 💻 **Repository:** https://github.com/CarlDeanClineSr/luft-portal-
 
+### 🆕 Quick Reference Documents
+
+📋 **[HOURLY SUMMARY](reports/HOURLY_SUMMARY.md)** - Complete system status (<5KB, updates hourly)  
+📚 **[DATA MASTER INDEX](DATA_MASTER_INDEX.md)** - Find any data file instantly  
+🔬 **[Paper Analysis Results](data/papers/extracted_parameters.json)** - χ-relevant parameters from 50+ papers
+
 ### New Features 🔥
 
 - **Meta-Intelligence Engine v4.0**: Autonomous pattern detection across 43 data sources
