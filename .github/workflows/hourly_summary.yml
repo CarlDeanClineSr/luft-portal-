@@ -53,6 +53,7 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "🤖 Hourly summary update - $(date -u '+%Y-%m-%d %H:%M UTC')"
+            git pull --rebase origin main --autostash
             git push
             echo "✅ Summary pushed to repository"
           fi

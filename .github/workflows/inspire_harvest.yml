@@ -33,6 +33,7 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "docs: weekly INSPIRE paper harvest"
+            git pull --rebase origin main --autostash
             git push
           fi
         env:

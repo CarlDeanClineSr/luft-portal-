@@ -476,6 +476,7 @@ jobs:
           BRANCH_NAME="voyager-audit-${{ steps.timestamp.outputs.audit_time_file }}"
 
           # Push to origin (will create remote branch if doesn't exist)
+          git pull --rebase origin main --autostash
           git push -u origin "${BRANCH_NAME}"
 
           echo "✅ Feature branch pushed to origin: ${BRANCH_NAME}"
