@@ -475,7 +475,8 @@ jobs:
         run: |
           BRANCH_NAME="voyager-audit-${{ steps.timestamp.outputs.audit_time_file }}"
 
-          # Push to origin (will create remote branch if doesn't exist)
+          # Ensure we're up to date with main before creating feature branch
+          # This prevents conflicts when the branch is later merged back to main
           git pull --rebase origin main --autostash
           git push -u origin "${BRANCH_NAME}"
 
