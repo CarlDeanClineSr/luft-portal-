@@ -10,6 +10,7 @@ import pandas as pd
 import numpy as np
 import json
 import argparse
+import random
 
 def load_chi_data(filepath):
     """Load χ boundary tracking data"""
@@ -20,10 +21,10 @@ def load_chi_data(filepath):
     elif filepath.endswith('.csv'):
         df = pd.read_csv(filepath)
     else:
-        # Try JSONL by default
+        # Try JSONL by default, fall back to CSV
         try:
             df = pd.read_json(filepath, lines=True)
-        except:
+        except (ValueError, json.JSONDecodeError):
             df = pd.read_csv(filepath)
     return df
 
@@ -57,7 +58,6 @@ def find_ratio_matches(chi_values, constants, tolerance=0.01, max_samples=1000):
     n = len(chi_values)
     if n > max_samples:
         # Sample indices randomly
-        import random
         indices = random.sample(range(n), max_samples)
         chi_sample = chi_values[indices]
     else:

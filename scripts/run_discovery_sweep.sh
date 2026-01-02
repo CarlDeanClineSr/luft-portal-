@@ -4,8 +4,6 @@
 # Author: LUFT Portal Engine
 # Date: 2026-01-02
 
-set -e  # Exit on error
-
 echo "========================================="
 echo "LUFT ENGINE DISCOVERY SWEEP"
 echo "Date: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"

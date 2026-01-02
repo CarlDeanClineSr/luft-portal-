@@ -22,10 +22,10 @@ def load_chi_data(filepath):
     elif filepath.endswith('.csv'):
         df = pd.read_csv(filepath)
     else:
-        # Try JSONL by default
+        # Try JSONL by default, fall back to CSV
         try:
             df = pd.read_json(filepath, lines=True)
-        except:
+        except (ValueError, json.JSONDecodeError):
             df = pd.read_csv(filepath)
     return df
 
@@ -45,7 +45,7 @@ def find_temporal_patterns(times, chi_values, threshold=0.14):
         peak_times = peak_times.dt.tz_localize(None)
     
     # Calculate intervals between peaks (in seconds)
-    intervals = np.diff(peak_times.astype('datetime64[s]').astype(int))
+    intervals = np.diff((peak_times.values.astype('datetime64[s]')).astype(int))
     
     # Count interval frequencies
     interval_counts = Counter(intervals)

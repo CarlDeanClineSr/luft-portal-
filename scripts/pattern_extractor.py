@@ -10,7 +10,9 @@ import pandas as pd
 import numpy as np
 import json
 import argparse
+import random
 from scipy.stats import zscore
+from collections import Counter
 
 # Fundamental constants to check against
 FUNDAMENTAL_CONSTANTS = {
@@ -34,10 +36,10 @@ def load_chi_data(filepath):
     elif filepath.endswith('.csv'):
         df = pd.read_csv(filepath)
     else:
-        # Try JSONL by default
+        # Try JSONL by default, fall back to CSV
         try:
             df = pd.read_json(filepath, lines=True)
-        except:
+        except (ValueError, json.JSONDecodeError):
             df = pd.read_csv(filepath)
     return df
 
@@ -78,11 +80,9 @@ def find_repeating_intervals(times, chi_values, threshold=0.14):
     if hasattr(crossings, 'dt') and crossings.dt.tz is not None:
         crossings = crossings.dt.tz_localize(None)
     
-    # Calculate intervals between crossings
-    intervals = np.diff(crossings.astype('datetime64[s]').astype(int))
+    # Calculate intervals between crossings (in seconds)
+    intervals = np.diff((crossings.values.astype('datetime64[s]')).astype(int))
     
-    # Find most common intervals
-    from collections import Counter
     interval_counts = Counter(intervals)
     
     return interval_counts.most_common(10)
