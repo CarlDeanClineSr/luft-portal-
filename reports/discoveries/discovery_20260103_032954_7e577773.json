@@ -1,0 +1,27 @@
+{
+  "id": "discovery_20260103_032954_7e577773",
+  "type": "beam_speed_analysis",
+  "title": "Proton Beam Speed Ratio Near Chi Threshold",
+  "summary": "Analysis of 515 solar wind events reveals median speed ratio (V_sw/V_Alfven) of 0.149 during beam-like events, remarkably close to chi=0.15 boundary. 32.6% of events classified as beam-like with 1.37x speed enhancement.",
+  "status": "preliminary",
+  "created_at": "2026-01-03T03:29:54.676865+00:00",
+  "updated_at": "2026-01-03T03:29:54.676871+00:00",
+  "input_files": [
+    "plots/proton_beam_ratio_results.csv",
+    "plots/beam_events.csv"
+  ],
+  "metadata": {
+    "sample_size": 515,
+    "median_speed_ratio": 0.149,
+    "speed_enhancement": 1.365,
+    "beam_events_pct": 32.6,
+    "chi_correlation": -0.023,
+    "confidence": 0.95
+  },
+  "quality_gates": {
+    "passed": true,
+    "failures": []
+  },
+  "validated_by": null,
+  "validation_notes": null
+}
