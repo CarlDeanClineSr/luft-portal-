@@ -78,10 +78,12 @@ def score_paper(paper: Dict) -> Tuple[int, Dict[str, List[str]]]:
     
     searchable_text = f"{title} {summary}"
     
-    # Score keywords
+    # Score keywords using word boundary matching
     for keyword, weight in KEYWORD_WEIGHTS.items():
         keyword_lower = keyword.lower()
-        if keyword_lower in searchable_text:
+        # Use word boundary regex for accurate matching
+        pattern = r'\b' + re.escape(keyword_lower) + r'\b'
+        if re.search(pattern, searchable_text):
             total_score += weight
             breakdown["keywords"].append(f"{keyword} ({weight})")
     
@@ -231,8 +233,8 @@ def generate_bibtex(
     for i, (paper, score, breakdown) in enumerate(ranked_papers[:TOP_N_PAPERS], 1):
         # Extract arXiv ID for citation key
         arxiv_id = paper.get("id", f"paper{i}")
-        # Clean up the ID for use in citation key
-        citation_key = arxiv_id.replace(".", "_").replace("v", "_v")
+        # Clean up the ID for use in citation key (handle version number properly)
+        citation_key = re.sub(r'v(\d+)$', r'_v\1', arxiv_id.replace(".", "_"))
         
         title = paper.get("title", "Untitled")
         authors = paper.get("authors", [])
