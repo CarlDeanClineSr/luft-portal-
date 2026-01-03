@@ -81,11 +81,18 @@ def score_paper(paper: Dict) -> Tuple[int, Dict[str, List[str]]]:
     # Score keywords using word boundary matching
     for keyword, weight in KEYWORD_WEIGHTS.items():
         keyword_lower = keyword.lower()
-        # Use word boundary regex for accurate matching
-        pattern = r'\b' + re.escape(keyword_lower) + r'\b'
-        if re.search(pattern, searchable_text):
-            total_score += weight
-            breakdown["keywords"].append(f"{keyword} ({weight})")
+        # Special handling for non-ASCII characters like χ (Greek chi)
+        if keyword_lower in ['χ', 'chi']:
+            # Match both the Greek letter and the word "chi" with boundaries
+            if 'χ' in searchable_text or re.search(r'\bchi\b', searchable_text):
+                total_score += weight
+                breakdown["keywords"].append(f"{keyword} ({weight})")
+        else:
+            # Use word boundary regex for accurate matching
+            pattern = r'\b' + re.escape(keyword_lower) + r'\b'
+            if re.search(pattern, searchable_text):
+                total_score += weight
+                breakdown["keywords"].append(f"{keyword} ({weight})")
     
     # Score authors
     for author in authors:
@@ -233,8 +240,10 @@ def generate_bibtex(
     for i, (paper, score, breakdown) in enumerate(ranked_papers[:TOP_N_PAPERS], 1):
         # Extract arXiv ID for citation key
         arxiv_id = paper.get("id", f"paper{i}")
-        # Clean up the ID for use in citation key (handle version number properly)
-        citation_key = re.sub(r'v(\d+)$', r'_v\1', arxiv_id.replace(".", "_"))
+        # Clean up the ID for use in citation key (handle version number before dots)
+        # First handle version number, then replace dots
+        citation_key = re.sub(r'v(\d+)$', r'_v\1', arxiv_id)
+        citation_key = citation_key.replace(".", "_")
         
         title = paper.get("title", "Untitled")
         authors = paper.get("authors", [])
@@ -244,7 +253,11 @@ def generate_bibtex(
         
         # Extract year from published date
         published = paper.get("published", "")
-        year = published[:4] if published else "YYYY"
+        if published:
+            year = published[:4]
+        else:
+            # Use current year as fallback for missing publication dates
+            year = str(datetime.now(timezone.utc).year)
         
         # Get arXiv info
         link = paper.get("link", "")

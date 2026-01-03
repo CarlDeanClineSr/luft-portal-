@@ -1,26 +1,26 @@
 ============================================================
 LUFT Portal - arXiv Paper Relevance Analysis
 ============================================================
-Generated: 2026-01-03 19:40:00 UTC
+Generated: 2026-01-03 19:41:33 UTC
 Loaded 132 papers from harvest file
 
 Top 20 Most Relevant Papers:
 ------------------------------------------------------------
 
-1. [Score: 16] Electrode Geometry Optimization in Vortex-Type Seawater Magnetohydrodynamic Generators
+1. [Score: 18] Probing a NED inspired Magnetically Charged Black Hole in the Hernquist Dark Matter Halo
+   Authors: Sohan Kumar Jha
+   Link: https://arxiv.org/abs/2512.24753v1
+   Keywords: chi (9), χ (9)
+
+2. [Score: 16] Electrode Geometry Optimization in Vortex-Type Seawater Magnetohydrodynamic Generators
    Authors: Arleen Natalie, Budiarso, Ridho Irwansyah
    Link: https://arxiv.org/abs/2512.22446v2
    Keywords: magnetohydrodynamics (8), MHD (8)
 
-2. [Score: 10] CARONTE: a Physics-Informed Extreme Learning Machine-Based Algorithm for Plasma Boundary Reconstruction in Magnetically Confined Fusion Devices
+3. [Score: 10] CARONTE: a Physics-Informed Extreme Learning Machine-Based Algorithm for Plasma Boundary Reconstruction in Magnetically Confined Fusion Devices
    Authors: Federico Fiorenza, Sara Dubbioso, Gianmaria De Tommasi, Alfredo Pironti
    Link: https://arxiv.org/abs/2512.16689v1
    Keywords: plasma boundary (10)
-
-3. [Score: 9] Probing a NED inspired Magnetically Charged Black Hole in the Hernquist Dark Matter Halo
-   Authors: Sohan Kumar Jha
-   Link: https://arxiv.org/abs/2512.24753v1
-   Keywords: χ (9)
 
 4. [Score: 8] Turbulence-Driven Corrugation of Collisionless Fast-Magnetosonic Shocks
    Authors: Immanuel Christopher Jebaraj, Mikhail Malkov, Nicolas Wijsen, Jens Pomoell, Vladimir Krasnoselskikh, et al.
@@ -112,8 +112,9 @@ Keyword Matches in Top Papers:
   - MHD: 9 papers
   - magnetohydrodynamics: 4 papers
   - anomalous: 2 papers
-  - plasma boundary: 1 papers
+  - chi: 1 papers
   - χ: 1 papers
+  - plasma boundary: 1 papers
   - firehose instability: 1 papers
 
 ------------------------------------------------------------
@@ -121,5 +122,5 @@ Summary Statistics:
 ------------------------------------------------------------
 Total papers analyzed: 132
 Papers with non-zero scores: 17
-Highest score: 16
-Average score: 1.10
+Highest score: 18
+Average score: 1.17
