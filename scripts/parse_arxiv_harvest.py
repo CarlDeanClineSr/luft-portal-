@@ -1,352 +1,259 @@
 #!/usr/bin/env python3
 """
-parse_arxiv_harvest.py - LUFT Portal arXiv Paper Relevance Analysis
-
-Analyzes harvested arXiv papers and ranks them by relevance using weighted keywords
-and author names. Generates markdown reports and BibTeX files for top papers.
-
-Requirements:
-- Python 3.10+
-- No external dependencies required (uses only standard library)
+arXiv Paper Parser & Relevance Ranker
+Analyzes harvested papers and ranks by relevance to LUFT research
+Author: Carl Dean Cline Sr. / LUFT Portal
+Date: 2026-01-03
 """
 
 import json
 import re
 from pathlib import Path
-from datetime import datetime, timezone
 from collections import defaultdict
-from typing import List, Dict, Tuple
+import datetime
 
-# ============================================================
-# CONFIGURATION
-# ============================================================
-
-# Weighted keywords for relevance scoring
-KEYWORD_WEIGHTS = {
-    # High priority physics concepts
-    "plasma boundary": 10,
-    "causality constraint": 10,
+# Keywords for relevance scoring (weighted by importance)
+RELEVANCE_KEYWORDS = {
+    # Core discovery keywords (highest weight)
+    'plasma boundary': 10,
+    'universal constant': 10,
+    'causality constraint': 10,
+    'chi': 9,
+    'χ': 9,
     
-    # Chi-related terms
-    "chi": 9,
-    "χ": 9,
+    # Primary physics keywords
+    'magnetohydrodynamics': 8,
+    'mhd': 8,
+    'firehose instability': 8,
+    'plasma instability': 7,
+    'relativistic plasma': 7,
+    'magnetized plasma': 7,
     
-    # MHD and plasma physics
-    "magnetohydrodynamics": 8,
-    "MHD": 8,
-    "firehose instability": 8,
+    # Theoretical framework
+    'causality': 6,
+    'anomalous mhd': 7,
+    'electroweak': 6,
+    'pseudoscalar': 6,
+    'temporal correlation': 6,
     
-    # Anomalous phenomena
-    "anomalous": 7,
+    # Observational domains
+    'solar wind': 5,
+    'magnetosphere': 5,
+    'mars': 5,
+    'parker solar probe': 6,
+    'maven': 5,
+    
+    # Related phenomena
+    'shock': 5,
+    'turbulence': 4,
+    'magnetic field': 4,
+    'wave packet': 5,
+    'harmonic': 5,
+    
+    # Astrophysical connections
+    'black hole': 4,
+    'accretion disk': 5,
+    'neutron star': 4,
+    'gravitational wave': 4,
+    
+    # Authors we care about
+    'cordeiro': 8,
+    'giovannini': 8,
+    'hoult': 7,
+    'kovtun': 7,
+    'speranza': 7,
+    'noronha': 7,
 }
 
-# Weighted author names
-AUTHOR_WEIGHTS = {
-    "Cordeiro": 8,
-    "Giovannini": 8,
-    "Hoult": 7,
-}
-
-# Number of top papers to include in report
-TOP_N_PAPERS = 20
-
-# ============================================================
-# PAPER SCORING
-# ============================================================
-
-def score_paper(paper: Dict) -> Tuple[int, Dict[str, List[str]]]:
-    """
-    Score a paper based on keyword and author matches.
-    
-    Args:
-        paper: Dictionary containing paper metadata
-        
-    Returns:
-        Tuple of (total_score, breakdown_dict)
-        breakdown_dict contains matched keywords and authors
-    """
-    total_score = 0
-    breakdown = {
-        "keywords": [],
-        "authors": [],
-    }
-    
-    # Prepare searchable text
-    title = paper.get("title", "").lower()
-    summary = paper.get("summary", "").lower()
-    authors = paper.get("authors", [])
-    
-    searchable_text = f"{title} {summary}"
-    
-    # Score keywords using word boundary matching
-    for keyword, weight in KEYWORD_WEIGHTS.items():
-        keyword_lower = keyword.lower()
-        # Special handling for non-ASCII characters like χ (Greek chi)
-        if keyword_lower in ['χ', 'chi']:
-            # Match both the Greek letter and the word "chi" with boundaries
-            if 'χ' in searchable_text or re.search(r'\bchi\b', searchable_text):
-                total_score += weight
-                breakdown["keywords"].append(f"{keyword} ({weight})")
-        else:
-            # Use word boundary regex for accurate matching
-            pattern = r'\b' + re.escape(keyword_lower) + r'\b'
-            if re.search(pattern, searchable_text):
-                total_score += weight
-                breakdown["keywords"].append(f"{keyword} ({weight})")
-    
-    # Score authors
-    for author in authors:
-        for target_author, weight in AUTHOR_WEIGHTS.items():
-            if target_author.lower() in author.lower():
-                total_score += weight
-                breakdown["authors"].append(f"{author} ({weight})")
-                break  # Only count each author once
-    
-    return total_score, breakdown
-
-# ============================================================
-# FILE OPERATIONS
-# ============================================================
-
-def load_latest_harvest(data_dir: Path) -> Dict:
-    """
-    Load the most recent arXiv harvest file.
-    
-    Args:
-        data_dir: Path to arxiv data directory
-        
-    Returns:
-        Dictionary containing harvest data
-    """
-    harvest_files = sorted(data_dir.glob("arxiv_harvest_*.json"), reverse=True)
-    
-    if not harvest_files:
-        raise FileNotFoundError(f"No harvest files found in {data_dir}")
-    
-    latest_file = harvest_files[0]
-    print(f"Loading: {latest_file.name}")
-    
-    with open(latest_file, 'r') as f:
+def load_harvest_json(filepath):
+    """Load the arXiv harvest JSON file"""
+    with open(filepath, 'r') as f:
         return json.load(f)
 
-def generate_markdown_report(
-    ranked_papers: List[Tuple[Dict, int, Dict]],
-    output_path: Path,
-    harvest_info: Dict
-) -> None:
-    """
-    Generate a markdown report of ranked papers.
+def calculate_relevance_score(paper):
+    """Calculate relevance score for a paper"""
+    score = 0
+    text = f"{paper.get('title', '')} {paper.get('summary', '')} {' '.join(paper.get('authors', []))}".lower()
     
-    Args:
-        ranked_papers: List of (paper, score, breakdown) tuples
-        output_path: Path where report should be saved
-        harvest_info: Metadata from the harvest file
-    """
-    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
-    total_papers = harvest_info.get("total_papers", len(harvest_info.get("papers", [])))
+    # Check each keyword
+    matches = []
+    for keyword, weight in RELEVANCE_KEYWORDS.items():
+        if keyword.lower() in text:
+            count = text.count(keyword.lower())
+            contribution = weight * count
+            score += contribution
+            if count > 0:
+                matches.append(f"{keyword} (×{count}, +{contribution})")
     
-    lines = []
-    lines.append("=" * 60)
-    lines.append("LUFT Portal - arXiv Paper Relevance Analysis")
-    lines.append("=" * 60)
-    lines.append(f"Generated: {timestamp}")
-    lines.append(f"Loaded {total_papers} papers from harvest file")
-    lines.append("")
-    lines.append(f"Top {TOP_N_PAPERS} Most Relevant Papers:")
-    lines.append("-" * 60)
-    lines.append("")
-    
-    # Add each paper
-    for i, (paper, score, breakdown) in enumerate(ranked_papers[:TOP_N_PAPERS], 1):
-        title = paper.get("title", "Untitled")
-        authors = paper.get("authors", [])
-        link = paper.get("link", "")
-        
-        # Format authors (show first 5, then et al.)
-        if len(authors) <= 5:
-            author_str = ", ".join(authors)
-        else:
-            author_str = ", ".join(authors[:5]) + ", et al."
-        
-        lines.append(f"{i}. [Score: {score}] {title}")
-        lines.append(f"   Authors: {author_str}")
-        lines.append(f"   Link: {link}")
-        
-        # Add score breakdown if there are matches
-        if breakdown["keywords"]:
-            lines.append(f"   Keywords: {', '.join(breakdown['keywords'])}")
-        if breakdown["authors"]:
-            lines.append(f"   Author Matches: {', '.join(breakdown['authors'])}")
-        
-        lines.append("")
-    
-    # Add summary statistics
-    lines.append("-" * 60)
-    lines.append("Score Breakdown by Category:")
-    lines.append("-" * 60)
-    lines.append("")
-    
-    # Count keyword and author matches
-    keyword_counts = defaultdict(int)
-    author_counts = defaultdict(int)
-    
-    for paper, score, breakdown in ranked_papers[:TOP_N_PAPERS]:
-        for kw_match in breakdown["keywords"]:
-            # Extract keyword name from "keyword (weight)" format
-            keyword = kw_match.split(" (")[0]
-            keyword_counts[keyword] += 1
-        for auth_match in breakdown["authors"]:
-            author_counts[auth_match] += 1
-    
-    lines.append("Keyword Matches in Top Papers:")
-    for keyword, count in sorted(keyword_counts.items(), key=lambda x: x[1], reverse=True):
-        lines.append(f"  - {keyword}: {count} papers")
-    
-    if author_counts:
-        lines.append("")
-        lines.append("Author Matches in Top Papers:")
-        for author, count in sorted(author_counts.items(), key=lambda x: x[1], reverse=True):
-            lines.append(f"  - {author}: {count}")
-    
-    lines.append("")
-    lines.append("-" * 60)
-    lines.append("Summary Statistics:")
-    lines.append("-" * 60)
-    lines.append(f"Total papers analyzed: {total_papers}")
-    lines.append(f"Papers with non-zero scores: {sum(1 for _, s, _ in ranked_papers if s > 0)}")
-    if ranked_papers:
-        scores = [s for _, s, _ in ranked_papers]
-        lines.append(f"Highest score: {max(scores)}")
-        lines.append(f"Average score: {sum(scores) / len(scores):.2f}")
-    lines.append("")
-    
-    # Write to file
-    with open(output_path, 'w') as f:
-        f.write("\n".join(lines))
+    return score, matches
 
-def generate_bibtex(
-    ranked_papers: List[Tuple[Dict, int, Dict]],
-    output_path: Path
-) -> None:
-    """
-    Generate a BibTeX file for top papers.
+def rank_papers(papers):
+    """Rank papers by relevance score"""
+    ranked = []
+    for paper in papers:
+        score, matches = calculate_relevance_score(paper)
+        if score > 0:  # Only include papers with some relevance
+            paper['relevance_score'] = score
+            paper['keyword_matches'] = matches
+            ranked.append(paper)
     
-    Args:
-        ranked_papers: List of (paper, score, breakdown) tuples
-        output_path: Path where BibTeX file should be saved
-    """
-    entries = []
+    # Sort by score descending
+    ranked.sort(key=lambda x: x['relevance_score'], reverse=True)
+    return ranked
+
+def format_paper_summary(paper, rank):
+    """Format a paper for display"""
+    title = paper.get('title', 'Unknown Title')
+    authors = paper.get('authors', [])
+    author_str = ', '.join(authors[:3])
+    if len(authors) > 3:
+        author_str += f" et al. ({len(authors)} total)"
     
-    for i, (paper, score, breakdown) in enumerate(ranked_papers[:TOP_N_PAPERS], 1):
-        # Extract arXiv ID for citation key
-        arxiv_id = paper.get("id", f"paper{i}")
-        # Clean up the ID for use in citation key (handle version number before dots)
-        # First handle version number, then replace dots
-        citation_key = re.sub(r'v(\d+)$', r'_v\1', arxiv_id)
-        citation_key = citation_key.replace(".", "_")
-        
-        title = paper.get("title", "Untitled")
-        authors = paper.get("authors", [])
-        
-        # Format authors for BibTeX
-        author_str = " and ".join(authors)
-        
-        # Extract year from published date
-        published = paper.get("published", "")
-        if published:
-            year = published[:4]
-        else:
-            # Use current year as fallback for missing publication dates
-            year = str(datetime.now(timezone.utc).year)
-        
-        # Get arXiv info
-        link = paper.get("link", "")
-        
-        # Create BibTeX entry
-        entry = f"""@article{{{citation_key},
-  title = {{{{{title}}}}},
-  author = {{{author_str}}},
-  journal = {{arXiv preprint arXiv:{arxiv_id}}},
-  year = {{{year}}},
-  url = {{{link}}},
-  note = {{LUFT Relevance Score: {score}}}
+    categories = ', '.join(paper.get('categories', []))
+    score = paper.get('relevance_score', 0)
+    link = paper.get('link', '')
+    published = paper.get('published', '')[:10]  # Just date
+    
+    matches = paper.get('keyword_matches', [])
+    match_summary = ', '.join(matches[:5])
+    if len(matches) > 5:
+        match_summary += f" (+{len(matches)-5} more)"
+    
+    return f"""
+{'='*80}
+RANK #{rank} - RELEVANCE SCORE: {score}
+{'='*80}
+Title: {title}
+Authors: {author_str}
+Published: {published}
+Categories: {categories}
+Link: {link}
+
+Key Matches: {match_summary}
+
+Abstract: {paper.get('summary', 'N/A')[:300]}...
+
+"""
+
+def generate_bibtex(paper):
+    """Generate BibTeX entry for a paper"""
+    # Extract arXiv ID from link
+    arxiv_id = paper.get('link', '').split('/')[-1].replace('v1', '')
+    
+    # Clean title
+    title = paper.get('title', 'Unknown').replace('\n', ' ').strip()
+    
+    # Format authors
+    authors = paper.get('authors', [])
+    author_str = ' and '.join(authors)
+    
+    # Extract year
+    published = paper.get('published', '')[:4]
+    
+    # Create citation key
+    first_author = authors[0].split()[-1].lower() if authors else 'unknown'
+    cite_key = f"{first_author}{published}"
+    
+    return f"""@article{{{cite_key},
+    title = {{{title}}},
+    author = {{{author_str}}},
+    journal = {{arXiv preprint arXiv:{arxiv_id}}},
+    year = {{{published}}},
+    eprint = {{{arxiv_id}}},
+    archivePrefix = {{arXiv}},
+    primaryClass = {{{paper.get('categories', [''])[0]}}},
+    url = {{{paper.get('link', '')}}}
 }}"""
-        
-        entries.append(entry)
-    
-    # Write to file
-    with open(output_path, 'w') as f:
-        f.write("\n\n".join(entries))
-        f.write("\n")
-
-# ============================================================
-# MAIN EXECUTION
-# ============================================================
 
 def main():
-    """Main execution function."""
-    print("=" * 60)
-    print("LUFT Portal - arXiv Paper Relevance Analysis")
-    print("=" * 60)
+    print("="*80)
+    print("LUFT PORTAL - arXiv Paper Relevance Analyzer")
+    print("="*80)
+    print()
     
-    # Set up paths
-    script_dir = Path(__file__).parent
-    repo_root = script_dir.parent
-    data_dir = repo_root / "data" / "papers" / "arxiv"
-    output_dir = repo_root / "reports" / "arxiv_analysis"
+    # Find most recent harvest file
+    data_dir = Path('data/papers/arxiv')
+    harvest_files = sorted(data_dir.glob('arxiv_harvest_*.json'), reverse=True)
     
-    # Create output directory if needed
-    output_dir.mkdir(parents=True, exist_ok=True)
-    print(f"Output directory: {output_dir}")
+    if not harvest_files:
+        print("❌ No harvest files found!")
+        return
     
-    # Load harvest data
-    try:
-        harvest_data = load_latest_harvest(data_dir)
-    except FileNotFoundError as e:
-        print(f"\n❌ Error: {e}")
-        print("Please run harvest_arxiv.py first to collect papers.")
-        return 1
+    harvest_file = harvest_files[0]
+    print(f"📂 Loading: {harvest_file}")
     
-    papers = harvest_data.get("papers", [])
-    print(f"Loaded {len(papers)} papers from harvest file")
-    print("")
+    # Load and rank papers
+    data = load_harvest_json(harvest_file)
+    papers = data if isinstance(data, list) else data.get('papers', [])
     
-    # Score all papers
-    print("Scoring papers...")
-    scored_papers = []
-    for paper in papers:
-        score, breakdown = score_paper(paper)
-        scored_papers.append((paper, score, breakdown))
+    print(f"📊 Total papers in harvest: {len(papers)}")
+    print(f"🔍 Analyzing relevance...")
+    print()
     
-    # Sort by score (highest first)
-    ranked_papers = sorted(scored_papers, key=lambda x: x[1], reverse=True)
+    ranked = rank_papers(papers)
     
-    # Show top papers
-    print(f"\nTop {min(TOP_N_PAPERS, len(ranked_papers))} Most Relevant Papers:")
-    print("-" * 60)
-    for i, (paper, score, breakdown) in enumerate(ranked_papers[:TOP_N_PAPERS], 1):
-        title = paper.get("title", "Untitled")
-        # Truncate long titles
-        if len(title) > 70:
-            title = title[:67] + "..."
-        print(f"{i:2d}. [Score: {score:2d}] {title}")
+    print(f"✅ Found {len(ranked)} relevant papers")
+    print()
     
-    # Generate output files with timestamp
-    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    # Generate report
+    report_dir = Path('reports/arxiv_analysis')
+    report_dir.mkdir(parents=True, exist_ok=True)
     
-    markdown_path = output_dir / f"relevance_ranking_{timestamp}.md"
-    bibtex_path = output_dir / f"top_papers_{timestamp}.bib"
+    timestamp = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+    report_file = report_dir / f'relevance_ranking_{timestamp}.md'
+    bibtex_file = report_dir / f'top_papers_{timestamp}.bib'
     
-    print("\nGenerating reports...")
-    generate_markdown_report(ranked_papers, markdown_path, harvest_data)
-    generate_bibtex(ranked_papers, bibtex_path)
+    with open(report_file, 'w') as f:
+        f.write("# arXiv Paper Relevance Analysis\n\n")
+        f.write(f"**Generated:** {datetime.datetime.now().isoformat()}\n")
+        f.write(f"**Source:** {harvest_file.name}\n")
+        f.write(f"**Total Papers:** {len(papers)}\n")
+        f.write(f"**Relevant Papers:** {len(ranked)}\n\n")
+        f.write("---\n\n")
+        f.write("## Top 20 Most Relevant Papers\n\n")
+        
+        for i, paper in enumerate(ranked[:20], 1):
+            f.write(format_paper_summary(paper, i))
     
-    print(f"\n✅ Analysis complete!")
-    print(f"📄 Saved report to: {markdown_path}")
-    print(f"📚 Saved BibTeX to: {bibtex_path}")
-    print("")
+    # Generate BibTeX for top 20
+    with open(bibtex_file, 'w') as f:
+        f.write("% Top 20 Most Relevant Papers from arXiv Harvest\n")
+        f.write(f"% Generated: {datetime.datetime.now().isoformat()}\n\n")
+        for paper in ranked[:20]:
+            f.write(generate_bibtex(paper))
+            f.write("\n\n")
     
-    return 0
+    print(f"📝 Report saved: {report_file}")
+    print(f"📚 BibTeX saved: {bibtex_file}")
+    print()
+    
+    # Display top 10 in console
+    print("="*80)
+    print("TOP 10 MOST RELEVANT PAPERS")
+    print("="*80)
+    print()
+    
+    for i, paper in enumerate(ranked[:10], 1):
+        print(f"#{i} - Score: {paper['relevance_score']}")
+        print(f"    {paper.get('title', 'Unknown')}")
+        print(f"    {paper.get('link', '')}")
+        print()
+    
+    # Statistics
+    print("="*80)
+    print("STATISTICS")
+    print("="*80)
+    print()
+    
+    if ranked:
+        scores = [p['relevance_score'] for p in ranked]
+        print(f"Score range: {min(scores)} - {max(scores)}")
+        print(f"Average score: {sum(scores)/len(scores):.1f}")
+        print(f"Papers with score > 50: {len([s for s in scores if s > 50])}")
+        print(f"Papers with score > 100: {len([s for s in scores if s > 100])}")
+    
+    print()
+    print("✅ Analysis complete!")
 
-if __name__ == "__main__":
-    exit(main())
+if __name__ == '__main__':
+    main()
