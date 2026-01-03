@@ -1,569 +1,299 @@
 #!/usr/bin/env python3
 """
-LUFT Missing Link Suggester
-============================
-
-Layer 4 Intelligence: Identifies gaps in the knowledge network by finding
-concepts mentioned but not linked to data sources, and suggests missing sources.
-
-Author: Carl Dean Cline Sr.
-Created: December 31, 2025
-Location: Lincoln, Nebraska, USA
-Email: CARLDCLINE@GMAIL.COM
-
-Mission: Find the missing connections that make the LUFT knowledge graph complete.
-
-Usage:
-    python missing_link_suggester.py --scan-concepts
-    python missing_link_suggester.py --suggest-sources
-    python missing_link_suggester.py --full-analysis
+Missing Link Suggester for LUFT Documentation
+Analyzes markdown files to suggest missing internal links between concepts.
 """
 
-import json
-import yaml
+import os
 import re
-import argparse
 from pathlib import Path
-from typing import Dict, List, Set, Tuple, Optional
-from collections import defaultdict, Counter
-
-
-class ConceptMapper:
-    """
-    Track which concepts are mentioned vs. which are actually linked to data sources.
-    """
-    
-    # Key scientific concepts and their associated data sources
-    CONCEPT_SOURCE_MAP = {
-        'parker solar probe': ['https://spdf.gsfc.nasa.gov/pub/data/psp/', 'https://parkersolarprobe.jhuapl.edu/'],
-        'psp': ['https://spdf.gsfc.nasa.gov/pub/data/psp/'],
-        'solar orbiter': ['https://soar.esac.esa.int/soar/', 'https://www.cosmos.esa.int/web/soar'],
-        'hinode': ['https://hinode.isas.jaxa.jp/', 'https://www.isas.jaxa.jp/en/missions/spacecraft/current/hinode.html'],
-        'aditya-l1': ['https://www.isro.gov.in/Aditya_L1.html'],
-        'ligo': ['https://www.ligo.caltech.edu/', 'https://gwosc.org/'],
-        'virgo': ['https://www.virgo-gw.eu/', 'http://public.virgo-gw.eu/'],
-        'gravitational wave': ['https://gwosc.org/', 'https://www.ligo.org/'],
-        'cern': ['https://home.cern/', 'http://opendata.cern.ch/'],
-        'lhc': ['https://home.cern/science/accelerators/large-hadron-collider', 'http://opendata.cern.ch/'],
-        'fast': ['https://fast.bao.ac.cn/', 'http://crafts.bao.ac.cn/'],
-        'alma': ['https://www.almaobservatory.org/', 'https://almascience.org/'],
-        'jwst': ['https://www.stsci.edu/jwst', 'https://mast.stsci.edu/'],
-        'hubble': ['https://hubblesite.org/', 'https://archive.stsci.edu/'],
-        'dscovr': ['https://www.ngdc.noaa.gov/dscovr/', 'https://services.swpc.noaa.gov/'],
-        'maven': ['https://pds-ppi.igpp.ucla.edu/', 'https://lasp.colorado.edu/maven/'],
-        'ace': ['https://www.srl.caltech.edu/ACE/', 'https://www.swpc.noaa.gov/products/ace-real-time-solar-wind'],
-        'wind': ['https://wind.nasa.gov/', 'https://cdaweb.gsfc.nasa.gov/'],
-        'voyager': ['https://voyager.jpl.nasa.gov/', 'https://spdf.gsfc.nasa.gov/pub/data/voyager/'],
-        'magnetosphere': ['https://www.usgs.gov/programs/geomagnetism'],
-        'cosmic ray': ['https://www.nmdb.eu/', 'https://cosmicrays.oulu.fi/'],
-        'neutron monitor': ['https://www.nmdb.eu/'],
-        'dst index': ['https://wdc.kugi.kyoto-u.ac.jp/dstdir/', 'https://www.usgs.gov/programs/geomagnetism'],
-        'kp index': ['https://www.swpc.noaa.gov/products/planetary-k-index'],
-        'solar flare': ['https://www.swpc.noaa.gov/products/solar-and-geophysical-event-reports'],
-        'cme': ['https://www.swpc.noaa.gov/products/wsa-enlil-solar-wind-prediction'],
-        'chi boundary': [],  # Internal LUFT concept
-        'graviton': ['https://gwosc.org/'],  # Theoretical, but gravity wave data relevant
-    }
-    
-    def __init__(self, repo_path: str = '.'):
-        """Initialize concept mapper."""
-        self.repo_path = Path(repo_path)
-        self.concept_mentions = defaultdict(list)  # concept -> list of files
-        self.concept_links = defaultdict(set)  # concept -> set of URLs
-        self.files_scanned = 0
-        
-    def scan_repository(self):
-        """Scan repository for concept mentions and links."""
-        print("🔍 Scanning repository for concepts and links...")
-        
-        # File extensions to scan
-        text_extensions = {'.md', '.txt', '.py', '.yaml', '.yml', '.json', '.html'}
-        
-        for file_path in self.repo_path.rglob('*'):
-            if not file_path.is_file():
-                continue
-            
-            if file_path.suffix not in text_extensions:
-                continue
-            
-            # Skip hidden files
-            if any(part.startswith('.') for part in file_path.parts if part != '.github'):
-                continue
-            
-            try:
-                with open(file_path, 'r', encoding='utf-8', errors='replace') as f:
-                    content = f.read().lower()
-                
-                self.files_scanned += 1
-                rel_path = str(file_path.relative_to(self.repo_path))
-                
-                # Check for concept mentions
-                for concept in self.CONCEPT_SOURCE_MAP.keys():
-                    if concept in content:
-                        self.concept_mentions[concept].append(rel_path)
-                
-                # Extract URLs from file
-                url_pattern = r'https?://[^\s<>"]+|www\.[^\s<>"]+'
-                urls = re.findall(url_pattern, content)
-                
-                # Match URLs to concepts
-                for url in urls:
-                    url_lower = url.lower()
-                    for concept, concept_urls in self.CONCEPT_SOURCE_MAP.items():
-                        for concept_url in concept_urls:
-                            if concept_url.lower() in url_lower or url_lower in concept_url.lower():
-                                self.concept_links[concept].add(url)
-                
-            except (IOError, OSError, UnicodeDecodeError) as e:
-                # Skip files that can't be read (permissions, binary data, etc.)
-                pass
-            except Exception as e:
-                # Log unexpected errors but continue
-                import sys
-                print(f"Warning: Unexpected error processing {file_path}: {type(e).__name__}", file=sys.stderr)
-        
-        print(f"   ✓ Scanned {self.files_scanned} files")
-        print(f"   ✓ Found {len(self.concept_mentions)} concepts mentioned")
-        print(f"   ✓ Found {len(self.concept_links)} concepts with links")
-    
-    def get_concept_statistics(self) -> Dict:
-        """Generate statistics about concept coverage."""
-        stats = {
-            'concepts_mentioned': len(self.concept_mentions),
-            'concepts_linked': len(self.concept_links),
-            'concepts_mentioned_not_linked': [],
-            'top_mentioned_concepts': [],
-            'total_mentions': sum(len(files) for files in self.concept_mentions.values()),
-            'total_links': sum(len(urls) for urls in self.concept_links.values())
-        }
-        
-        # Find concepts mentioned but not linked
-        for concept in self.concept_mentions.keys():
-            if concept not in self.concept_links or len(self.concept_links[concept]) == 0:
-                mention_count = len(self.concept_mentions[concept])
-                stats['concepts_mentioned_not_linked'].append({
-                    'concept': concept,
-                    'mentions': mention_count,
-                    'files': self.concept_mentions[concept][:5]  # Show first 5 files
-                })
-        
-        # Sort by mention count
-        stats['concepts_mentioned_not_linked'].sort(key=lambda x: x['mentions'], reverse=True)
-        
-        # Top mentioned concepts
-        concept_counts = [(c, len(files)) for c, files in self.concept_mentions.items()]
-        stats['top_mentioned_concepts'] = sorted(concept_counts, key=lambda x: x[1], reverse=True)[:10]
-        
-        return stats
+from collections import defaultdict
+import argparse
 
 
 class MissingLinkSuggester:
-    """
-    Propose sources you SHOULD be linking but aren't.
-    """
-    
-    def __init__(self, repo_path: str = '.', registry_file: str = 'external_data_sources_registry.yaml'):
-        """Initialize missing link suggester."""
-        self.repo_path = Path(repo_path)
-        self.registry_file = Path(registry_file)
-        self.concept_mapper = ConceptMapper(repo_path)
-        self.registry_sources = {}
+    def __init__(self, docs_dir):
+        self.docs_dir = Path(docs_dir)
+        self.concepts = {}  # concept_name -> file_path
+        self.concept_stats = defaultdict(lambda: {
+            'file': '',
+            'mentions': 0,
+            'linked_mentions': 0,
+            'concepts_linked_count': 0,
+            'concepts_linked_list': []
+        })
         self.suggestions = []
-        
-    def load_registry(self):
-        """Load external data source registry."""
-        if not self.registry_file.exists():
-            print(f"⚠️  Warning: Registry file not found: {self.registry_file}")
-            return
-        
-        with open(self.registry_file, 'r') as f:
-            registry = yaml.safe_load(f)
-        
-        # Extract all sources
-        for category_key, category_data in registry.items():
-            if isinstance(category_data, dict) and 'sources' in category_data:
-                for source in category_data['sources']:
-                    name = source.get('name', 'unknown')
-                    self.registry_sources[name.lower()] = {
-                        'name': source.get('name'),
-                        'description': source.get('description', ''),
-                        'urls': source.get('urls', []),
-                        'category': category_data.get('category', 'Unknown'),
-                        'data_types': source.get('data_types', [])
-                    }
-    
-    def suggest_missing_sources(self, concept: str = None) -> List[Dict]:
-        """
-        Suggest sources that should be added based on concept mentions.
-        
-        Args:
-            concept: Specific concept to check (default: check all)
-            
-        Returns:
-            List of suggestions with rationale
-        """
-        self.suggestions = []
-        
-        # Scan repository for concepts
-        self.concept_mapper.scan_repository()
-        stats = self.concept_mapper.get_concept_statistics()
-        
-        # Generate suggestions for concepts mentioned but not linked
-        for item in stats['concepts_mentioned_not_linked']:
-            concept_name = item['concept']
-            mention_count = item['mentions']
-            
-            # Get recommended sources for this concept
-            recommended_urls = self.concept_mapper.CONCEPT_SOURCE_MAP.get(concept_name, [])
-            
-            if not recommended_urls:
-                # This is an internal concept, no external source needed
-                continue
-            
-            # Create suggestion
-            suggestion = {
-                'concept': concept_name,
-                'mention_count': mention_count,
-                'example_files': item['files'],
-                'recommended_sources': recommended_urls,
-                'priority': 'HIGH' if mention_count >= 10 else 'MEDIUM' if mention_count >= 5 else 'LOW',
-                'rationale': f"'{concept_name}' is mentioned {mention_count} times but has no links to data sources. " +
-                            f"This suggests missing validation opportunities.",
-                'action': f"Add links to {recommended_urls[0]} and validate chi boundary with {concept_name} data."
-            }
-            
-            self.suggestions.append(suggestion)
-        
-        # Sort by priority and mention count
-        priority_order = {'HIGH': 0, 'MEDIUM': 1, 'LOW': 2}
-        self.suggestions.sort(key=lambda x: (priority_order[x['priority']], -x['mention_count']))
-        
-        return self.suggestions
 
-
-class CitationValidator:
-    """
-    Check that claims in documentation are backed by linked data sources.
-    """
-    
-    def __init__(self, repo_path: str = '.'):
-        """Initialize citation validator."""
-        self.repo_path = Path(repo_path)
-        self.uncited_claims = []
+    def scan_markdown_files(self):
+        """Scan all markdown files and extract concepts."""
+        print(f"Scanning markdown files in {self.docs_dir}...")
         
-    def validate_citations(self) -> List[Dict]:
-        """
-        Find claims that lack supporting data source citations.
-        
-        Returns:
-            List of uncited claims with context
-        """
-        # Claim indicators (phrases that suggest a claim is being made)
-        claim_patterns = [
-            r'(proves?|demonstrates?|shows?|validates?|confirms?)\s+that\s+[\w\s]+',
-            r'(evidence|data|results?)\s+(shows?|indicates?|suggests?)\s+[\w\s]+',
-            r'(discovered|found|observed)\s+[\w\s]+',
-            r'chi\s*(=|≤|>=|<|>)\s*0\.15',
-            r'universal(ly)?\s+(bound|boundary|constraint|limit)',
-        ]
-        
-        # URL pattern to check for nearby citations
-        url_pattern = r'https?://[^\s<>")]+|www\.[^\s<>")]+|\[[^\]]+\]\([^\)]+\)'
-        
-        markdown_files = list(self.repo_path.glob('**/*.md'))
-        
-        for file_path in markdown_files:
-            # Skip hidden directories
-            if any(part.startswith('.') for part in file_path.parts if part != '.github'):
-                continue
-            
+        for md_file in self.docs_dir.rglob("*.md"):
             try:
-                with open(file_path, 'r', encoding='utf-8', errors='replace') as f:
-                    content = f.read()
-                
-                lines = content.split('\n')
-                
-                for i, line in enumerate(lines):
-                    for pattern in claim_patterns:
-                        matches = re.finditer(pattern, line, re.IGNORECASE)
-                        
-                        for match in matches:
-                            # Check if there's a URL within 3 lines
-                            context_start = max(0, i - 3)
-                            context_end = min(len(lines), i + 4)
-                            context = '\n'.join(lines[context_start:context_end])
-                            
-                            has_citation = bool(re.search(url_pattern, context))
-                            
-                            if not has_citation:
-                                self.uncited_claims.append({
-                                    'file': str(file_path.relative_to(self.repo_path)),
-                                    'line': i + 1,
-                                    'claim': match.group(0),
-                                    'context': line.strip(),
-                                    'suggestion': 'Add link to supporting data source or analysis script'
-                                })
-            
-            except (IOError, OSError, UnicodeDecodeError) as e:
-                # Skip files that can't be read (permissions, binary data, etc.)
-                pass
+                self._process_file(md_file)
             except Exception as e:
-                # Log unexpected errors for debugging
-                import sys
-                print(f"Warning: Error processing citation in {file_path}: {type(e).__name__}", file=sys.stderr)
+                print(f"Warning: Error processing {md_file}: {e}")
+                continue
+
+    def _process_file(self, file_path):
+        """Process a single markdown file to extract concepts."""
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+        except Exception as e:
+            print(f"Warning: Could not read {file_path}: {e}")
+            return
+
+        relative_path = file_path.relative_to(self.docs_dir)
         
-        return self.uncited_claims
+        # Extract concepts from headers
+        headers = re.findall(r'^#+\s+(.+)$', content, re.MULTILINE)
+        for header in headers:
+            # Clean header text
+            concept = self._clean_concept(header)
+            if concept and len(concept) > 3:  # Avoid very short concepts
+                self.concepts[concept.lower()] = str(relative_path)
+                self.concept_stats[concept.lower()]['file'] = str(relative_path)
 
+        # Extract concepts from bold text (potential important terms)
+        bold_terms = re.findall(r'\*\*([^*]+)\*\*', content)
+        for term in bold_terms:
+            concept = self._clean_concept(term)
+            if concept and len(concept) > 3:
+                concept_lower = concept.lower()
+                if concept_lower not in self.concepts:
+                    self.concepts[concept_lower] = str(relative_path)
+                    self.concept_stats[concept_lower]['file'] = str(relative_path)
 
-def generate_missing_link_report(suggestions: List[Dict], 
-                                 uncited_claims: List[Dict],
-                                 concept_stats: Dict,
-                                 output_path: str = None) -> str:
-    """
-    Generate comprehensive missing link report.
-    
-    Args:
-        suggestions: Missing source suggestions
-        uncited_claims: Claims without citations
-        concept_stats: Concept coverage statistics
-        output_path: Path to save report (optional)
+    def _clean_concept(self, text):
+        """Clean concept text by removing special characters and extra whitespace."""
+        # Remove markdown links
+        text = re.sub(r'\[([^\]]+)\]\([^\)]+\)', r'\1', text)
+        # Remove special characters but keep spaces and hyphens
+        text = re.sub(r'[^a-zA-Z0-9\s\-]', '', text)
+        # Normalize whitespace
+        text = ' '.join(text.split())
+        return text.strip()
+
+    def analyze_links(self):
+        """Analyze existing links and find missing link opportunities."""
+        print("Analyzing existing links and finding opportunities...")
         
-    Returns:
-        Report content as markdown string
-    """
-    from datetime import datetime
-    
-    report_date = datetime.now().strftime('%Y-%m-%d')
-    
-    report = f"""# 🔗 LUFT MISSING LINK INTELLIGENCE REPORT
-**Date:** {report_date}  
-**Files Scanned:** {concept_stats.get('total_mentions', 0)}  
-**Concepts Tracked:** {len(ConceptMapper.CONCEPT_SOURCE_MAP)}
+        for md_file in self.docs_dir.rglob("*.md"):
+            try:
+                self._analyze_file_links(md_file)
+            except Exception as e:
+                print(f"Warning: Error analyzing links in {md_file}: {e}")
+                continue
 
----
+    def _analyze_file_links(self, file_path):
+        """Analyze links in a single file."""
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+        except Exception as e:
+            print(f"Warning: Could not read {file_path}: {e}")
+            return
 
-## 🎯 EXECUTIVE SUMMARY
+        relative_path = file_path.relative_to(self.docs_dir)
+        
+        # Find all existing markdown links
+        existing_links = set()
+        for match in re.finditer(r'\[([^\]]+)\]\(([^\)]+)\)', content):
+            link_text = match.group(1).lower()
+            existing_links.add(self._clean_concept(link_text))
 
-"""
-    
-    high_priority = [s for s in suggestions if s['priority'] == 'HIGH']
-    medium_priority = [s for s in suggestions if s['priority'] == 'MEDIUM']
-    
-    report += f"""- **High Priority Gaps:** {len(high_priority)} concepts need data source links
-- **Medium Priority Gaps:** {len(medium_priority)} concepts could benefit from validation
-- **Uncited Claims:** {len(uncited_claims)} claims found without supporting citations
-- **Coverage:** {concept_stats['concepts_linked']}/{concept_stats['concepts_mentioned']} concepts have data links
+        # Check for mentions of other concepts
+        for concept, concept_file in self.concepts.items():
+            if str(relative_path) == concept_file:
+                continue  # Skip self-references
 
----
-
-## 🚨 HIGH PRIORITY: Missing Data Sources
-
-"""
-    
-    if high_priority:
-        for i, suggestion in enumerate(high_priority[:5], 1):
-            report += f"""### {i}. {suggestion['concept'].upper()}
-**Mentions:** {suggestion['mention_count']} times across {len(suggestion['example_files'])} files  
-**Status:** ❌ NO DATA SOURCE LINKS FOUND
-
-**Example Files:**
-"""
-            for file in suggestion['example_files'][:3]:
-                report += f"- `{file}`\n"
+            # Count mentions of this concept in the file
+            # Use word boundaries to avoid partial matches
+            pattern = r'\b' + re.escape(concept) + r'\b'
+            mentions = re.findall(pattern, content, re.IGNORECASE)
             
-            report += f"""
-**Recommended Action:**
-```
-{suggestion['action']}
-```
+            if mentions:
+                self.concept_stats[concept]['mentions'] += len(mentions)
+                
+                # Check if any mentions are already linked
+                linked_count = 0
+                for match in re.finditer(r'\[([^\]]+)\]\([^\)]+\)', content):
+                    link_text = self._clean_concept(match.group(1))
+                    if concept in link_text.lower() or link_text.lower() in concept:
+                        linked_count += 1
 
-**Data Sources to Add:**
-"""
-            for url in suggestion['recommended_sources']:
-                report += f"- {url}\n"
+                self.concept_stats[concept]['linked_mentions'] += linked_count
+                unlinked_mentions = len(mentions) - linked_count
+
+                # If there are unlinked mentions, create a suggestion
+                if unlinked_mentions > 0:
+                    # Check if we've already linked from this file to the concept
+                    if concept not in self.concept_stats[str(relative_path)]['concepts_linked_list']:
+                        self.suggestions.append({
+                            'from_file': str(relative_path),
+                            'to_concept': concept,
+                            'to_file': concept_file,
+                            'unlinked_mentions': unlinked_mentions,
+                            'priority': self._calculate_priority(unlinked_mentions, concept)
+                        })
+                        self.concept_stats[str(relative_path)]['concepts_linked_list'].append(concept)
+                        self.concept_stats[str(relative_path)]['concepts_linked_count'] += 1
+
+    def _calculate_priority(self, mentions, concept):
+        """Calculate priority score for a suggestion."""
+        # Higher priority for more mentions and longer concept names
+        score = mentions * 10
+        score += len(concept.split()) * 5  # Multi-word concepts get bonus
+        return score
+
+    def generate_report(self, output_file=None):
+        """Generate a comprehensive report of missing link suggestions."""
+        print("\n" + "="*80)
+        print("MISSING LINK SUGGESTIONS REPORT")
+        print("="*80)
+
+        # Sort suggestions by priority
+        sorted_suggestions = sorted(
+            self.suggestions,
+            key=lambda x: x['priority'],
+            reverse=True
+        )
+
+        print(f"\nTotal concepts identified: {len(self.concepts)}")
+        print(f"Total link suggestions: {len(sorted_suggestions)}")
+        print("\n" + "-"*80)
+
+        # Group suggestions by source file
+        suggestions_by_file = defaultdict(list)
+        for suggestion in sorted_suggestions:
+            suggestions_by_file[suggestion['from_file']].append(suggestion)
+
+        report_lines = []
+        report_lines.append("="*80)
+        report_lines.append("MISSING LINK SUGGESTIONS REPORT")
+        report_lines.append("="*80)
+        report_lines.append(f"\nTotal concepts identified: {len(self.concepts)}")
+        report_lines.append(f"Total link suggestions: {len(sorted_suggestions)}")
+        report_lines.append("\n" + "-"*80)
+
+        # Display suggestions grouped by file
+        for file_path in sorted(suggestions_by_file.keys()):
+            file_suggestions = suggestions_by_file[file_path]
+            print(f"\n📄 File: {file_path}")
+            print(f"   Suggested links: {len(file_suggestions)}")
             
-            report += f"""
-**Rationale:**  
-{suggestion['rationale']}
+            report_lines.append(f"\n📄 File: {file_path}")
+            report_lines.append(f"   Suggested links: {len(file_suggestions)}")
 
----
+            for suggestion in sorted(file_suggestions, key=lambda x: x['priority'], reverse=True):
+                print(f"   → Link to: {suggestion['to_concept']}")
+                print(f"      Target: {suggestion['to_file']}")
+                print(f"      Unlinked mentions: {suggestion['unlinked_mentions']}")
+                print(f"      Priority: {suggestion['priority']}")
+                
+                report_lines.append(f"   → Link to: {suggestion['to_concept']}")
+                report_lines.append(f"      Target: {suggestion['to_file']}")
+                report_lines.append(f"      Unlinked mentions: {suggestion['unlinked_mentions']}")
+                report_lines.append(f"      Priority: {suggestion['priority']}")
 
-"""
-    else:
-        report += "✅ No high-priority missing links detected!\n\n"
-    
-    report += """## 🟡 MEDIUM PRIORITY: Suggested Enhancements
-
-"""
-    
-    if medium_priority:
-        for i, suggestion in enumerate(medium_priority[:5], 1):
-            report += f"""### {i}. {suggestion['concept'].title()}
-Mentioned {suggestion['mention_count']} times. Consider adding: {suggestion['recommended_sources'][0] if suggestion['recommended_sources'] else 'N/A'}
-
-"""
-    else:
-        report += "ℹ️ No medium-priority suggestions at this time.\n\n"
-    
-    report += """## 📝 UNCITED CLAIMS REQUIRING VALIDATION
-
-"""
-    
-    if uncited_claims:
-        # Group by file
-        by_file = defaultdict(list)
-        for claim in uncited_claims:
-            by_file[claim['file']].append(claim)
+        # Statistics section
+        print("\n" + "="*80)
+        print("CONCEPT STATISTICS")
+        print("="*80)
         
-        for file, file_claims in sorted(by_file.items())[:10]:
-            report += f"""### File: `{file}`
-Found {len(file_claims)} claim(s) without citations:
+        report_lines.append("\n" + "="*80)
+        report_lines.append("CONCEPT STATISTICS")
+        report_lines.append("="*80)
 
-"""
-            for claim in file_claims[:3]:
-                report += f"""- **Line {claim['line']}:** "{claim['context'][:80]}..."
-  - Suggestion: {claim['suggestion']}
+        # Sort concepts by mention count
+        sorted_concepts = sorted(
+            self.concept_stats.items(),
+            key=lambda x: x[1]['mentions'],
+            reverse=True
+        )
 
-"""
+        print(f"\nTop 20 Most Mentioned Concepts:")
+        report_lines.append(f"\nTop 20 Most Mentioned Concepts:")
         
-        if len(by_file) > 10:
-            report += f"\n... and {len(by_file) - 10} more files with uncited claims.\n\n"
-    else:
-        report += "✅ All major claims appear to have supporting citations.\n\n"
-    
-    report += f"""---
+        for concept, stats in sorted_concepts[:20]:
+            if stats['mentions'] > 0:
+                linked_percentage = (stats['linked_mentions'] / stats['mentions'] * 100) if stats['mentions'] > 0 else 0
+                print(f"  • {concept}")
+                print(f"      Mentions: {stats['mentions']} | Linked: {stats['linked_mentions']} ({linked_percentage:.1f}%)")
+                print(f"      Defined in: {stats['file']}")
+                
+                report_lines.append(f"  • {concept}")
+                report_lines.append(f"      Mentions: {stats['mentions']} | Linked: {stats['linked_mentions']} ({linked_percentage:.1f}%)")
+                report_lines.append(f"      Defined in: {stats['file']}")
 
-## 📊 CONCEPT COVERAGE STATISTICS
+        # Concepts with low link coverage
+        print(f"\nConcepts with Low Link Coverage (< 50%):")
+        report_lines.append(f"\nConcepts with Low Link Coverage (< 50%):")
+        
+        low_coverage = [
+            (concept, stats) for concept, stats in sorted_concepts
+            if stats['mentions'] >= 3 and 
+               (stats['linked_mentions'] / stats['mentions'] * 100 if stats['mentions'] > 0 else 0) < 50
+        ]
 
-**Total Concepts Mentioned:** {concept_stats['concepts_mentioned']}  
-**Concepts with Data Links:** {concept_stats['concepts_linked']}  
-**Coverage Rate:** {(concept_stats['concepts_linked'] / max(concept_stats['concepts_mentioned'], 1) * 100):.1f}%
+        for concept, stats in low_coverage[:15]:
+            linked_percentage = (stats['linked_mentions'] / stats['mentions'] * 100) if stats['mentions'] > 0 else 0
+            print(f"  • {concept}")
+            print(f"      Mentions: {stats['mentions']} | Linked: {stats['linked_mentions']} ({linked_percentage:.1f}%)")
+            
+            report_lines.append(f"  • {concept}")
+            report_lines.append(f"      Mentions: {stats['mentions']} | Linked: {stats['linked_mentions']} ({linked_percentage:.1f}%)")
 
-### Top Mentioned Concepts:
-"""
-    
-    for concept, count in concept_stats['top_mentioned_concepts'][:10]:
-        linked = '✅' if concept in concept_stats.get('concepts_linked', []) else '❌'
-        report += f"{linked} **{concept}**: {count} mentions\n"
-    
-    report += """
+        # Write to file if specified
+        if output_file:
+            try:
+                with open(output_file, 'w', encoding='utf-8') as f:
+                    f.write('\n'.join(report_lines))
+                print(f"\n✅ Report saved to: {output_file}")
+            except Exception as e:
+                print(f"\n⚠️ Warning: Could not save report to {output_file}: {e}")
 
----
+        print("\n" + "="*80)
+        print("END OF REPORT")
+        print("="*80)
 
-## 🎯 RECOMMENDED ACTIONS
-
-1. **Immediate:** Address HIGH priority missing links (concepts mentioned 10+ times)
-2. **This Week:** Add citations to major claims in documentation
-3. **This Month:** Enhance MEDIUM priority concept coverage
-4. **Ongoing:** Maintain citation discipline for new claims
-
----
-
-*Report generated by LUFT Missing Link Intelligence*  
-*Carl Dean Cline Sr. - Lincoln, Nebraska, USA*
-"""
-    
-    # Save report if output path provided
-    if output_path:
-        output_file = Path(output_path)
-        output_file.parent.mkdir(parents=True, exist_ok=True)
-        with open(output_file, 'w', encoding='utf-8') as f:
-            f.write(report)
-        print(f"Report saved to: {output_file}")
-    
-    return report
+    def run(self, output_file=None):
+        """Run the complete analysis."""
+        self.scan_markdown_files()
+        self.analyze_links()
+        self.generate_report(output_file)
 
 
 def main():
-    """Main entry point for missing link suggester."""
     parser = argparse.ArgumentParser(
-        description='LUFT Missing Link Suggester - Find gaps in knowledge network',
-        formatter_class=argparse.RawDescriptionHelpFormatter
+        description='Analyze LUFT documentation for missing internal links'
     )
-    
-    parser.add_argument('--scan-concepts', action='store_true',
-                       help='Scan repository for concept mentions')
-    parser.add_argument('--suggest-sources', action='store_true',
-                       help='Suggest missing data sources')
-    parser.add_argument('--validate-citations', action='store_true',
-                       help='Find claims without citations')
-    parser.add_argument('--full-analysis', action='store_true',
-                       help='Run complete missing link analysis')
-    parser.add_argument('--repo-path', default='.',
-                       help='Path to repository')
-    parser.add_argument('--registry', default='external_data_sources_registry.yaml',
-                       help='Path to data source registry')
-    parser.add_argument('--output', default=None,
-                       help='Output file for report')
-    
+    parser.add_argument(
+        '--docs-dir',
+        default='docs',
+        help='Directory containing markdown documentation (default: docs)'
+    )
+    parser.add_argument(
+        '--output',
+        '-o',
+        help='Output file for the report (optional)'
+    )
+
     args = parser.parse_args()
-    
-    # Default to full analysis
-    if not (args.scan_concepts or args.suggest_sources or 
-            args.validate_citations or args.full_analysis):
-        args.full_analysis = True
-    
-    print("="*70)
-    print("🔗 LUFT MISSING LINK INTELLIGENCE ENGINE")
-    print("="*70)
-    print()
-    
-    suggester = MissingLinkSuggester(args.repo_path, args.registry)
-    validator = CitationValidator(args.repo_path)
-    
-    suggestions = []
-    uncited_claims = []
-    concept_stats = {}
-    
-    # Load registry
-    suggester.load_registry()
-    print(f"📚 Loaded {len(suggester.registry_sources)} sources from registry")
-    print()
-    
-    # Run analyses
-    if args.suggest_sources or args.full_analysis:
-        print("🔍 Analyzing concept coverage and suggesting missing sources...")
-        suggestions = suggester.suggest_missing_sources()
-        concept_stats = suggester.concept_mapper.get_concept_statistics()
-        
-        print(f"   ✓ Found {len(suggestions)} missing link opportunities")
-        print(f"   ✓ Coverage: {concept_stats['concepts_linked']}/{concept_stats['concepts_mentioned']} concepts linked")
-        print()
-    
-    if args.validate_citations or args.full_analysis:
-        print("📝 Validating citations in documentation...")
-        uncited_claims = validator.validate_citations()
-        
-        print(f"   ✓ Found {len(uncited_claims)} uncited claims")
-        print()
-    
-    # Generate report
-    if args.full_analysis:
-        print("📊 Generating missing link intelligence report...")
-        
-        if args.output is None:
-            from datetime import datetime
-            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-            args.output = f'reports/meta_intelligence/missing_links_{timestamp}.md'
-        
-        report = generate_missing_link_report(
-            suggestions, uncited_claims, concept_stats, args.output
-        )
-        
-        print()
-        print("="*70)
-        print(report[:2000] + "\n... (truncated for display)")
-        print("="*70)
-    
-    print()
-    print("✨ Missing link analysis complete!")
-    
-    # Print summary statistics
-    if suggestions:
-        high_pri = len([s for s in suggestions if s['priority'] == 'HIGH'])
-        if high_pri > 0:
-            print(f"⚠️  {high_pri} HIGH PRIORITY gaps need immediate attention!")
+
+    # Check if docs directory exists
+    if not os.path.isdir(args.docs_dir):
+        print(f"Error: Documentation directory '{args.docs_dir}' not found.")
+        print("Please specify a valid directory with --docs-dir")
+        return 1
+
+    # Run the analysis
+    suggester = MissingLinkSuggester(args.docs_dir)
+    suggester.run(args.output)
+
+    return 0
 
 
 if __name__ == '__main__':
-    main()
+    exit(main())
