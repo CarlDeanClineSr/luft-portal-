@@ -16,10 +16,14 @@ discovery_system:
   # Notification settings
   max_notifications_per_hour: 1  # Rate limiting to prevent spam
   notification_channels:
-    file_system: true   # Save to reports/discoveries/
-    dashboard: true     # Display in cockpit widget
-    email: false        # Do NOT auto-email (Carl checks manually)
-    discussions: false  # Do NOT auto-post to GitHub Discussions
+    file_system:
+      enabled: true   # Save to reports/discoveries/
+    dashboard:
+      enabled: true   # Display in cockpit widget
+    email:
+      enabled: false  # Do NOT auto-email (Carl checks manually)
+    discussions:
+      enabled: false  # Do NOT auto-post to GitHub Discussions
   
   # Audio features (SAFETY: DISABLED BY DEFAULT)
   audio_readout:

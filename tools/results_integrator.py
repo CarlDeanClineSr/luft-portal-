@@ -38,7 +38,7 @@ import argparse
 import hashlib
 from pathlib import Path
 from datetime import datetime, timezone
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional, Any, Tuple
 import sys
 
 
@@ -109,7 +109,7 @@ class ResultsIntegrator:
         
         return f"discovery_{timestamp}_{hash_suffix}"
     
-    def check_quality_gates(self, metadata: Dict[str, Any]) -> tuple[bool, List[str]]:
+    def check_quality_gates(self, metadata: Dict[str, Any]) -> Tuple[bool, List[str]]:
         """
         Check if discovery meets quality thresholds.
         

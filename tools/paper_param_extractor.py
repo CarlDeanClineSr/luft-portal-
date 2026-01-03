@@ -93,14 +93,14 @@ def extract_time_periods(text: str) -> List[str]:
     Returns:
         List of time period mentions
     """
-    # Patterns for time periods
+    # Patterns for time periods with improved regex
     patterns = [
-        r'\d+\.?\d*\s*(?:hour|hr|h)\b',
-        r'\d+\.?\d*\s*(?:minute|min|m)\b',
-        r'\d+\.?\d*\s*(?:second|sec|s)\b',
-        r'\d+\.?\d*\s*(?:day|d)\b',
-        r'period[s]?\s+of\s+\d+\.?\d*',
-        r'oscillation[s]?\s+(?:of|at|with)\s+\d+\.?\d*',
+        r'\d+(?:\.\d+)?\s*(?:hour|hr|h)\b',
+        r'\d+(?:\.\d+)?\s*(?:minute|min|m)\b',
+        r'\d+(?:\.\d+)?\s*(?:second|sec|s)\b',
+        r'\d+(?:\.\d+)?\s*(?:day|d)\b',
+        r'\bperiod[s]?\s+of\s+\d+(?:\.\d+)?',
+        r'\boscillation[s]?\s+(?:of|at|with)\s+\d+(?:\.\d+)?',
     ]
     
     periods = []
@@ -123,10 +123,10 @@ def extract_thresholds(text: str) -> List[str]:
     """
     patterns = [
         r'\b0\.\d+\b',  # Decimal numbers like 0.15, 0.9
-        r'threshold[s]?\s+(?:of|at|near|around)\s+\d+\.?\d*',
-        r'critical\s+(?:value|threshold|point)[s]?\s+(?:of|at)?\s*\d+\.?\d*',
-        r'saturate[s]?\s+at\s+\d+\.?\d*',
-        r'limit[s]?\s+(?:of|at)\s+\d+\.?\d*',
+        r'\bthreshold[s]?\s+(?:of|at|near|around)\s+\d+(?:\.\d+)?',
+        r'\bcritical\s+(?:value|threshold|point)[s]?\s+(?:of|at)?\s*\d+(?:\.\d+)?',
+        r'\bsaturate[s]?\s+at\s+\d+(?:\.\d+)?',
+        r'\blimit[s]?\s+(?:of|at)\s+\d+(?:\.\d+)?',
     ]
     
     thresholds = []

@@ -203,9 +203,15 @@ def main():
     print("\nCalculating plasma beta...")
     df['beta'] = calculate_beta(df['density_p_cm3'], df['temperature'], df['bt_nT'])
     
+    # Count invalid values before filtering
+    invalid_count = (~np.isfinite(df['beta'])).sum()
+    total_before = len(df)
+    
     # Remove any inf or nan values
     df = df[np.isfinite(df['beta'])]
     print(f"  Valid beta calculations: {len(df)}")
+    if invalid_count > 0:
+        print(f"  Filtered out {invalid_count} invalid/infinite beta values ({100*invalid_count/total_before:.1f}%)")
     
     # Calculate correlation
     print("\nCorrelation Analysis:")
