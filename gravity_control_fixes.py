@@ -20,25 +20,24 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
+from engine_core import ENGINE_CONSTANTS, CHI, compute_physics_repairs  # noqa: E402
 from scipy import constants as const  # noqa: E402
 
-# Constants
-CHI = 0.15  # ClineConstant - universal perturbation cap
-G = const.gravitational_constant  # m³/(kg·s²)
-C = const.speed_of_light  # m/s
-H_BAR = const.hbar  # J·s
-PLANCK = const.h  # J·s
-M_E = const.m_e  # kg (electron)
-M_P = const.m_p  # kg (proton)
-MASS_RATIO_EXPONENT = 0.25  # Dimensionless attenuation exponent from LUFT χ boundary recoil heuristic
-ELEMENT_119_BINDING_ESTIMATE = 8.5  # MeV/nucleon placeholder extrapolated from actinide binding trend
-# Estimate above mirrors semi-empirical mass formula falloff; replace when measured data becomes available.
-GRAVITY_Q = 1.6e-19  # C, assumed charge per pack
-GRAVITY_V = 1000  # m/s, pack velocity assumption
-GRAVITY_B_EXT = 0.1  # T, external field
-GRAVITY_PACK_DENSITY = 1e20  # packs/m³, volumetric density
-GRAVITY_AREA = 1.0  # m², tunnel cross-section
-GRAVITY_T_TUNNEL = 0.9  # dimensionless transmission after χ cap
+# Constants derived from the centralized engine core
+G = ENGINE_CONSTANTS["G"]
+C = ENGINE_CONSTANTS["C"]
+H_BAR = ENGINE_CONSTANTS["H_BAR"]
+PLANCK = ENGINE_CONSTANTS["PLANCK"]
+M_E = ENGINE_CONSTANTS["M_E"]
+M_P = ENGINE_CONSTANTS["M_P"]
+MASS_RATIO_EXPONENT = ENGINE_CONSTANTS["MASS_RATIO_EXPONENT"]
+ELEMENT_119_BINDING_ESTIMATE = ENGINE_CONSTANTS["ELEMENT_119_BINDING_ESTIMATE"]
+GRAVITY_Q = ENGINE_CONSTANTS["GRAVITY_Q"]
+GRAVITY_V = ENGINE_CONSTANTS["GRAVITY_V"]
+GRAVITY_B_EXT = ENGINE_CONSTANTS["GRAVITY_B_EXT"]
+GRAVITY_PACK_DENSITY = ENGINE_CONSTANTS["GRAVITY_PACK_DENSITY"]
+GRAVITY_AREA = ENGINE_CONSTANTS["GRAVITY_AREA"]
+GRAVITY_T_TUNNEL = ENGINE_CONSTANTS["GRAVITY_T_TUNNEL"]
 
 
 def _ensure_output_dirs(base: Path) -> Dict[str, Path]:
@@ -167,59 +166,7 @@ def _plot_periodic_table(output_path: Path) -> Path:
 
 
 def _compute_repairs() -> Dict[str, Dict[str, float]]:
-    # Newton's Gravity Fix
-    m1, m2, r = 5.97e24, 7.35e22, 3.84e8  # Earth-Moon
-    f_orig = G * m1 * m2 / r**2
-    f_fixed = G * m1 * m2 / (r * (1 + CHI)) ** 2
-
-    # Einstein E=mc² Fix
-    mass = 1.0  # kg
-    e_orig = mass * C**2
-    # Mass-energy correction includes electron/proton mass ratio term to cap conversion near χ boundary.
-    # Quarter-power reflects the empirical attenuation used in LUFT χ models to limit lepton-proton coupling.
-    e_fixed = mass * C**2 * (1 + CHI - (M_E / M_P) ** MASS_RATIO_EXPONENT)
-
-    # Schrödinger Hydrogen Fix
-    e_n_orig = -13.6  # eV for n=1
-    e_n_fixed = e_n_orig * (1 + CHI)
-
-    # Planck Energy Fix
-    nu = 5e14  # Hz (visible light)
-    e_photon_orig = PLANCK * nu
-    e_photon_fixed = PLANCK * nu * (1 + CHI)
-
-    # Gravity Control Force Calculation
-    f_pack = GRAVITY_Q * GRAVITY_V * GRAVITY_B_EXT
-    f_total = GRAVITY_PACK_DENSITY * GRAVITY_AREA * f_pack * GRAVITY_T_TUNNEL
-
-    return {
-        "Newton_Gravity": {
-            "original": f_orig,
-            "fixed": f_fixed,
-            "change_pct": (f_fixed - f_orig) / f_orig * 100,
-        },
-        "Einstein_Energy": {
-            "original": e_orig,
-            "fixed": e_fixed,
-            "change_pct": (e_fixed - e_orig) / e_orig * 100,
-        },
-        # ASCII key retained for Schrödinger hydrogen ground state
-        "Schroedinger_H": {
-            "original": e_n_orig,
-            "fixed": e_n_fixed,
-            "change_pct": CHI * 100,
-        },
-        "Planck_Photon": {
-            "original": e_photon_orig,
-            "fixed": e_photon_fixed,
-            "change_pct": CHI * 100,
-        },
-        "Gravity_Control": {
-            "F_per_pack": f_pack,
-            "F_total": f_total,
-            "equivalentKG_lift": f_total / 9.8,
-        },
-    }
+    return compute_physics_repairs(chi=CHI)
 
 
 def _build_report(
