@@ -1,638 +1,495 @@
 <!DOCTYPE html>
-<!-- LUFT Portal - Advanced Cockpit Dashboard -->
-<!-- Updated: 2026-01-03 - Complete Intelligence Integration -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="300">
-    <title>LUFT Cockpit - Advanced Intelligence Dashboard</title>
-    
+    <title>LUFT Instrument Panel | Live χ Boundary Cockpit</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        :root {
+            --bg: #040810;
+            --card: #0b1220;
+            --card-border: #14213d;
+            --text: #e5e7eb;
+            --muted: #94a3b8;
+            --accent: #38bdf8;
+            --success: #4ade80;
+            --amber: #fbbf24;
+            --danger: #f87171;
+        }
+
+        * { box-sizing: border-box; }
+
         body {
-            font-family: 'Courier New', monospace;
-            background: #000;
-            color: #0f0;
-            overflow-x: hidden;
-            line-height: 1.4;
+            margin: 0;
+            font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+            background: radial-gradient(120% 120% at 10% 20%, #0f172a 0%, #040810 35%, #030712 100%);
+            color: var(--text);
+            line-height: 1.5;
         }
-        
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(77, 163, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 50%, rgba(74, 222, 128, 0.1) 0%, transparent 50%);
-            animation: pulse 10s ease-in-out infinite;
-            pointer-events: none;
-            z-index: -1;
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .muted { color: var(--muted); }
+
+        .hero {
+            padding: 1.75rem 1.5rem;
+            border-bottom: 1px solid #0f172a;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(74, 222, 128, 0.05));
         }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 0.8; }
-        }
-        
-        .cockpit-header {
-            background: linear-gradient(180deg, #001a00 0%, #000 100%);
-            border-bottom: 2px solid #0f0;
-            padding: 1rem;
-            text-align: center;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
-        }
-        
-        .main-title {
-            color: #0f0;
-            font-size: 2rem;
-            font-weight: bold;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            text-shadow: 0 0 10px #0f0;
-            margin-bottom: 0.5rem;
-        }
-        
-        .subtitle {
-            color: #4da3ff;
-            font-size: 1rem;
-            letter-spacing: 2px;
-        }
-        
-        .timestamp {
-            color: #888;
-            font-size: 0.8rem;
-            margin-top: 0.3rem;
-        }
-        
-        .dashboard-grid {
+
+        .hero-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 1rem;
-            padding: 1rem;
-            max-width: 2000px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            align-items: center;
+            gap: 1.25rem;
+            max-width: 1400px;
             margin: 0 auto;
         }
-        
-        .panel {
-            background: linear-gradient(135deg, #001a00 0%, #000 100%);
-            border: 2px solid #0f0;
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        h1 {
+            margin: 0.35rem 0 0.25rem;
+            font-size: 2rem;
+            color: var(--text);
+        }
+
+        .lede { margin: 0; color: var(--muted); }
+
+        .chip-row {
+            margin-top: 0.75rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .chip {
+            padding: 0.35rem 0.7rem;
+            border: 1px solid var(--card-border);
+            border-radius: 999px;
+            background: rgba(20, 33, 61, 0.6);
+            font-size: 0.85rem;
+        }
+
+        .hero-right {
+            display: grid;
+            gap: 0.75rem;
+            justify-items: start;
+        }
+
+        .status-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .status-card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 0.75rem 0.85rem;
+        }
+
+        .status-label { color: var(--muted); font-size: 0.85rem; }
+        .status-value { font-weight: 700; font-size: 1.1rem; }
+
+        .badge {
+            display: inline-block;
+            padding: 0.35rem 0.65rem;
             border-radius: 8px;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        button {
+            cursor: pointer;
+            border: 1px solid var(--card-border);
+            background: var(--card);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 0.65rem 0.85rem;
+            font-weight: 600;
+        }
+
+        button.primary {
+            background: linear-gradient(135deg, #38bdf8, #2563eb);
+            color: #0b1220;
+            border: none;
+        }
+
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .gauges-grid {
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        }
+
+        .two-grid { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
             padding: 1rem;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.8);
             position: relative;
             overflow: hidden;
         }
-        
-        .panel::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; height: 3px;
-            background: linear-gradient(90deg, transparent, #0f0, transparent);
-            animation: scan 3s linear infinite;
+
+        .card h2, .card h3 {
+            margin: 0 0 0.35rem;
+            color: var(--text);
         }
-        
-        @keyframes scan {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        
-        .panel-header {
-            color: #0f0;
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 0.8rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid #0f0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .panel-status {
-            display: inline-block;
-            padding: 0.2rem 0.5rem;
-            background: #0f0;
-            color: #000;
-            font-size: 0.7rem;
-            border-radius: 3px;
-            margin-left: 0.5rem;
-            font-weight: bold;
-        }
-        
-        .panel-status.warning { background: #ff0; color: #000; }
-        .panel-status.critical { background: #f00; color: #fff; }
-        
-        .metric-row {
+
+        .card p { margin: 0; color: var(--muted); }
+
+        .gauge-card header {
             display: flex;
             justify-content: space-between;
-            padding: 0.4rem 0;
-            border-bottom: 1px solid #003300;
+            align-items: center;
+            margin-bottom: 0.25rem;
         }
-        
-        .metric-row:last-child { border-bottom: none; }
-        
-        .metric-label { color: #0f0; font-size: 0.85rem; }
-        
-        .metric-value {
-            color: #4da3ff;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-        
-        .metric-value.highlight {
-            color: #4ade80;
-            text-shadow: 0 0 5px #4ade80;
-        }
-        
-        .big-number { text-align: center; padding: 1rem 0; }
-        
-        .big-number-value {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #4ade80;
-            text-shadow: 0 0 20px #4ade80;
-            line-height: 1;
-        }
-        
-        .big-number-label {
-            color: #0f0;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-        }
-        
-        .big-number-sub {
-            color: #888;
-            font-size: 0.75rem;
-            margin-top: 0.3rem;
-        }
-        
-        .progress-bar {
+
+        canvas {
             width: 100%;
-            height: 20px;
-            background: #001100;
-            border: 1px solid #0f0;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 0.5rem 0;
+            height: auto;
+            display: block;
+            margin: 0.25rem 0 0.5rem;
         }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #0f0, #4ade80);
-            transition: width 0.3s ease;
-            box-shadow: 0 0 10px #0f0;
+
+        .metric {
+            display: flex;
+            align-items: baseline;
+            gap: 0.35rem;
+            font-weight: 700;
+            font-size: 1.4rem;
         }
-        
-        .progress-label {
-            text-align: center;
-            color: #0f0;
-            font-size: 0.8rem;
-            margin-top: 0.3rem;
+
+        .metric .label {
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--muted);
         }
-        
-        .discovery-list { list-style: none; padding: 0; }
-        
-        .discovery-item {
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #003300;
-            color: #4da3ff;
-            font-size: 0.85rem;
+
+        .time-row {
+            margin-top: 0.35rem;
+            color: var(--muted);
+            font-size: 0.9rem;
         }
-        
-        .discovery-item::before {
-            content: '▶';
-            color: #0f0;
-            margin-right: 0.5rem;
-        }
-        
-        .discovery-item:last-child { border-bottom: none; }
-        
-        .action-button {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: #0f0;
-            color: #000;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            margin: 0.3rem 0.3rem 0 0;
-            transition: all 0.3s;
-            font-size: 0.85rem;
-        }
-        
-        .action-button:hover {
-            background: #4ade80;
-            box-shadow: 0 0 15px #0f0;
-            transform: scale(1.05);
-        }
-        
-        .action-button.secondary {
-            background: #4da3ff;
-            color: #fff;
-        }
-        
-        .action-button.secondary:hover {
-            background: #6bb5ff;
-            box-shadow: 0 0 15px #4da3ff;
-        }
-        
-        .panel-full { grid-column: 1 / -1; }
-        
-        .status-grid {
+
+        .mono { font-family: "JetBrains Mono", "SFMono-Regular", Menlo, monospace; }
+
+        .light-panel {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 0.5rem;
-            margin-top: 0.5rem;
         }
-        
-        .status-indicator {
-            text-align: center;
-            padding: 0.5rem;
-            background: #001100;
-            border: 1px solid #0f0;
-            border-radius: 5px;
+
+        .light-indicator {
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 0.75rem;
+            background: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
         }
-        
-        .status-icon { font-size: 1.5rem; margin-bottom: 0.3rem; }
-        .status-label { font-size: 0.7rem; color: #0f0; }
-        
-        .modes-grid {
+
+        .light-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 999px;
+            box-shadow: 0 0 12px currentColor;
+        }
+
+        .light-indicator span { font-weight: 700; }
+
+        .light-indicator.off { color: #475569; }
+        .light-indicator.green { color: var(--success); }
+        .light-indicator.amber { color: var(--amber); }
+        .light-indicator.red { color: var(--danger); }
+
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 8px #f87171); }
+            50% { opacity: 0.55; filter: drop-shadow(0 0 16px #f87171); }
+        }
+
+        @keyframes pulse-amber {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 8px #fbbf24); }
+            50% { opacity: 0.55; filter: drop-shadow(0 0 16px #fbbf24); }
+        }
+
+        .phase-card {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 0.3rem;
-            margin-top: 0.5rem;
+            gap: 0.35rem;
         }
-        
-        .mode-cell {
-            text-align: center;
-            padding: 0.5rem;
-            background: #001100;
-            border: 1px solid #0f0;
-            border-radius: 3px;
-            font-size: 0.7rem;
+
+        .phase-chip {
+            display: inline-block;
+            padding: 0.35rem 0.65rem;
+            border-radius: 8px;
+            background: rgba(59, 130, 246, 0.15);
+            color: #93c5fd;
+            font-weight: 700;
         }
-        
-        .mode-cell.active {
-            background: #0f0;
-            color: #000;
-            font-weight: bold;
-            box-shadow: 0 0 10px #0f0;
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 0.5rem;
         }
-        
-        .mode-cell.peak {
-            background: #4ade80;
-            color: #000;
-            font-weight: bold;
-            box-shadow: 0 0 15px #4ade80;
+
+        .stat {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 0.75rem;
+            border: 1px solid var(--card-border);
         }
-        
-        .cockpit-footer {
-            text-align: center;
-            padding: 1rem;
-            color: #0f0;
-            font-size: 0.8rem;
-            border-top: 2px solid #0f0;
-            margin-top: 1rem;
-            background: #001a00;
+
+        .stat .label { color: var(--muted); font-size: 0.9rem; }
+        .stat .value { font-weight: 700; font-size: 1.2rem; }
+
+        .list {
+            list-style: none;
+            padding: 0;
+            margin: 0.25rem 0 0;
+            display: grid;
+            gap: 0.35rem;
         }
-        
-        .footer-links { margin-top: 0.5rem; }
-        
-        .footer-links a {
-            color: #4da3ff;
-            text-decoration: none;
-            margin: 0 1rem;
+
+        .list li {
+            padding: 0.6rem 0.75rem;
+            background: #0f172a;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
         }
-        
-        .footer-links a:hover {
-            color: #4ade80;
-            text-shadow: 0 0 5px #4ade80;
+
+        footer {
+            max-width: 1400px;
+            margin: 1rem auto 2rem;
+            padding: 1rem 1.5rem;
+            color: var(--muted);
         }
-        
-        @media (max-width: 768px) {
-            .dashboard-grid { grid-template-columns: 1fr; }
-            .panel-full { grid-column: 1; }
-            .main-title { font-size: 1.5rem; }
-            .modes-grid { grid-template-columns: repeat(4, 1fr); }
+
+        @media (max-width: 720px) {
+            .hero { padding: 1.25rem 1rem; }
+            main { padding: 1rem; }
+            h1 { font-size: 1.55rem; }
         }
     </style>
 </head>
 <body>
-    <div class="cockpit-header">
-        <div class="main-title">⚡ LUFT COCKPIT ⚡</div>
-        <div class="subtitle">Unified Field Theory Engine - Advanced Intelligence</div>
-        <div class="timestamp">Last Updated: <span id="currentTime">2026-01-03 00:00 UTC</span> | Auto-refresh: 5 min</div>
-    </div>
-
-    <div class="dashboard-grid">
-        <div class="panel">
-            <div class="panel-header">
-                χ = 0.15 BOUNDARY
-                <span class="panel-status">VALIDATED</span>
+    <header class="hero">
+        <div class="hero-content">
+            <div>
+                <div class="eyebrow">LUFT cockpit · live telemetry</div>
+                <h1>Instrument Panel</h1>
+                <p class="lede">Live χ boundary watch with animated gauges, storm timers, and real-time NOAA DSCOVR feed.</p>
+                <div class="chip-row">
+                    <span class="chip">χ boundary 0.1500</span>
+                    <span class="chip">Southward Bz watchdog</span>
+                    <span class="chip">60s updates · realtime toggle</span>
+                </div>
             </div>
-            <div class="big-number">
-                <div class="big-number-value">0%</div>
-                <div class="big-number-label">VIOLATIONS</div>
-                <div class="big-number-sub">1.4M+ observations</div>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Attractor State:</span>
-                <span class="metric-value highlight">56.1%</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Field Range:</span>
-                <span class="metric-value">5-50,000 nT</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Environments:</span>
-                <span class="metric-value">3 Validated</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: 100%;"></div>
-            </div>
-            <div class="progress-label">✅ Boundary Holding: 10,000× Dynamic Range</div>
-        </div>
-
-        <div class="panel">
-            <div class="panel-header">
-                TEMPORAL MODES
-                <span class="panel-status">13 DETECTED</span>
-            </div>
-            <div class="big-number">
-                <div class="big-number-value">1.47M</div>
-                <div class="big-number-label">CORRELATIONS</div>
-                <div class="big-number-sub">NOAA Event → χ Response</div>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Peak Mode:</span>
-                <span class="metric-value highlight">24 hours</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Peak Matches:</span>
-                <span class="metric-value">144,356</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Confidence:</span>
-                <span class="metric-value highlight">95%</span>
-            </div>
-            <div class="modes-grid">
-                <div class="mode-cell active">0h</div>
-                <div class="mode-cell active">6h</div>
-                <div class="mode-cell active">12h</div>
-                <div class="mode-cell active">18h</div>
-                <div class="mode-cell peak">24h</div>
-                <div class="mode-cell active">30h</div>
-                <div class="mode-cell active">36h</div>
-                <div class="mode-cell active">42h</div>
-                <div class="mode-cell active">48h</div>
-                <div class="mode-cell active">54h</div>
-                <div class="mode-cell active">60h</div>
-                <div class="mode-cell active">66h</div>
-                <div class="mode-cell active">72h</div>
+            <div class="hero-right">
+                <div class="status-stack">
+                    <div class="status-card">
+                        <div class="status-label">UTC Clock</div>
+                        <div class="status-value mono" id="utc-clock">--:--:-- UTC</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="status-label">Data Feed</div>
+                        <div class="status-value" id="update-status">Initializing…</div>
+                        <div class="status-label">Data Timestamp</div>
+                        <div class="status-value mono" id="data-timestamp">--</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="status-label">Mode</div>
+                        <div class="status-value" id="realtime-mode-label">Standard · 60s cadence</div>
+                        <div class="status-label">Source</div>
+                        <div class="status-value mono" id="data-source">Awaiting first packet</div>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button id="realtime-toggle" class="primary">⚡ Enable Real-Time</button>
+                    <button id="fullscreen-btn">⛶ Fullscreen</button>
+                </div>
             </div>
         </div>
+    </header>
 
-        <div class="panel">
-            <div class="panel-header">
-                WAVE PACKET STRUCTURE
-                <span class="panel-status">DISCOVERED</span>
+    <main>
+        <div class="grid gauges-grid">
+            <div class="card gauge-card">
+                <header>
+                    <h3>χ Amplitude</h3>
+                    <span class="badge">Boundary 0.1500</span>
+                </header>
+                <canvas id="chi-gauge" width="340" height="240"></canvas>
+                <div class="metric">
+                    <span class="value mono" id="chi-value">--</span>
+                    <span class="label">χ</span>
+                </div>
+                <div class="time-row">Time since refresh: <span class="mono" id="chi-time">--:--:--</span></div>
             </div>
-            <div class="big-number">
-                <div class="big-number-value">0.9h</div>
-                <div class="big-number-label">FUNDAMENTAL PERIOD</div>
-                <div class="big-number-sub">CME Shock Wave Packets</div>
+
+            <div class="card gauge-card">
+                <header>
+                    <h3>Bz Magnetic Field</h3>
+                    <span class="badge">Southward Watch</span>
+                </header>
+                <canvas id="bz-gauge" width="340" height="240"></canvas>
+                <div class="metric">
+                    <span class="value mono" id="bz-value">--</span>
+                    <span class="label">nT</span>
+                </div>
+                <div class="time-row">Southward duration: <span class="mono" id="bz-time">--:--:--</span></div>
             </div>
-            <div class="metric-row">
-                <span class="metric-label">Source:</span>
-                <span class="metric-value">arXiv:2512.14462v1</span>
+
+            <div class="card gauge-card">
+                <header>
+                    <h3>Solar Wind Speed</h3>
+                    <span class="badge">600 km/s alert</span>
+                </header>
+                <canvas id="speed-gauge" width="340" height="240"></canvas>
+                <div class="metric">
+                    <span class="value mono" id="speed-value">--</span>
+                    <span class="label">km/s</span>
+                </div>
+                <div class="time-row">Time since refresh: <span class="mono" id="speed-time">--:--:--</span></div>
             </div>
-            <div class="metric-row">
-                <span class="metric-label">6h Mode:</span>
-                <span class="metric-value">7 × 0.9h packets</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">24h Peak:</span>
-                <span class="metric-value highlight">27 × 0.9h packets</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Wavelength:</span>
-                <span class="metric-value">1.62M km</span>
+
+            <div class="card gauge-card">
+                <header>
+                    <h3>Plasma Density</h3>
+                    <span class="badge">8 p/cm³ alert</span>
+                </header>
+                <canvas id="density-gauge" width="340" height="240"></canvas>
+                <div class="metric">
+                    <span class="value mono" id="density-value">--</span>
+                    <span class="label">p/cm³</span>
+                </div>
+                <div class="time-row">Time since refresh: <span class="mono" id="density-time">--:--:--</span></div>
             </div>
         </div>
 
-        <div class="panel">
-            <div class="panel-header">
-                MARS VALIDATION
-                <span class="panel-status">CONFIRMED</span>
+        <div class="grid two-grid" style="margin-top: 1rem;">
+            <div class="card">
+                <h3>Warning Stack</h3>
+                <p>Live boundary lights with pulsing alerts for χ, Bz southward, storm phase, and violations.</p>
+                <div class="light-panel" style="margin-top: 0.75rem;">
+                    <div class="light-indicator off" id="chi-warning">
+                        <div class="light-dot"></div>
+                        <div><span>χ Boundary</span><br><small class="muted">0.13 → 0.15 alerting</small></div>
+                    </div>
+                    <div class="light-indicator off" id="bz-warning">
+                        <div class="light-dot"></div>
+                        <div><span>Bz South</span><br><small class="muted">Amber < 0 · Red < -8</small></div>
+                    </div>
+                    <div class="light-indicator off" id="storm-warning">
+                        <div class="light-dot"></div>
+                        <div><span>Storm Phase</span><br><small class="muted">PRE → PEAK → POST</small></div>
+                    </div>
+                    <div class="light-indicator off" id="violation-warning">
+                        <div class="light-dot"></div>
+                        <div><span>Violation</span><br><small class="muted">χ > 0.1500</small></div>
+                    </div>
+                </div>
             </div>
-            <div class="big-number">
-                <div class="big-number-value">1.5 AU</div>
-                <div class="big-number-label">DISTANCE FROM SUN</div>
-                <div class="big-number-sub">MAVEN Data</div>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Median χ:</span>
-                <span class="metric-value highlight">0.143</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Boundary Status:</span>
-                <span class="metric-value">χ ≤ 0.15 ✓</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Observations:</span>
-                <span class="metric-value">Thousands</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: 95.3%;"></div>
-            </div>
-            <div class="progress-label">✅ χ = 0.143/0.15 (95.3%)</div>
-        </div>
 
-        <div class="panel">
-            <div class="panel-header">
-                NOVEMBER EVENTS
-                <span class="panel-status">2 CONFIRMED</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Nov 2024:</span>
-                <span class="metric-value">S2 Proton, M1.6 Flare</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Result:</span>
-                <span class="metric-value highlight">χ ≤ 0.15 ✓</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Nov 2025:</span>
-                <span class="metric-value">710 km/s Stream</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Result:</span>
-                <span class="metric-value highlight">χ ≤ 0.15 ✓</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Repeatability:</span>
-                <span class="metric-value highlight">PROVEN</span>
-            </div>
-        </div>
-
-        <div class="panel">
-            <div class="panel-header">
-                META-INTELLIGENCE
-                <span class="panel-status">ACTIVE</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Version:</span>
-                <span class="metric-value">v4.0</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Last Run:</span>
-                <span class="metric-value">Jan 2, 00:17 UTC</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Correlations:</span>
-                <span class="metric-value">13 Detected</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Missing Links:</span>
-                <span class="metric-value">0 Found</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Coverage:</span>
-                <span class="metric-value highlight">27/28 (96.4%)</span>
+            <div class="card phase-card">
+                <div style="display:flex;align-items:center;gap:0.5rem;justify-content:space-between;">
+                    <div>
+                        <h3>Storm Phase Tracker</h3>
+                        <p>Live PRE countdown and PEAK duration for flight and grid procedures.</p>
+                    </div>
+                    <span class="phase-chip mono" id="storm-phase">--</span>
+                </div>
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="label">Phase Timer</div>
+                        <div class="value mono" id="storm-duration">--:--:--</div>
+                    </div>
+                    <div class="stat">
+                        <div class="label">Realtime Mode</div>
+                        <div class="value" id="storm-realtime-flag">Adaptive cadence</div>
+                    </div>
+                </div>
+                <div class="list">
+                    <div class="stat">
+                        <div class="label">Boundary Rule</div>
+                        <div class="value">χ ≤ 0.1500 · universal ceiling</div>
+                    </div>
+                    <div class="stat">
+                        <div class="label">Southward Counter</div>
+                        <div class="value mono" id="south-counter">Bz watch active</div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="panel">
-            <div class="panel-header">
-                PAPER HARVEST
-                <span class="panel-status">132 NEW</span>
+        <div class="grid two-grid" style="margin-top: 1rem;">
+            <div class="card">
+                <h3>Research Feed</h3>
+                <p>Latest INSPIRE harvest and ATLAS readiness from the link intelligence sweep.</p>
+                <div class="stats-row" style="margin-top:0.5rem;">
+                    <div class="stat">
+                        <div class="label">INSPIRE Papers</div>
+                        <div class="value" id="paper-count">--</div>
+                        <div class="label">Updated <span id="harvest-time">--</span></div>
+                    </div>
+                    <div class="stat">
+                        <div class="label">ATLAS Status</div>
+                        <div class="value" id="atlas-status">READY</div>
+                        <div class="label">CERN trigger visibility</div>
+                    </div>
+                </div>
+                <ul class="list">
+                    <li>Live NOAA DSCOVR pull → χ computation → animated gauges.</li>
+                    <li>CSV fallback at <code>data/cme_heartbeat_log_2025_12.csv</code> if live feed fails.</li>
+                    <li>Timer overlays show data age and southward Bz duration.</li>
+                </ul>
             </div>
-            <div class="big-number">
-                <div class="big-number-value">267</div>
-                <div class="big-number-label">PAPERS FETCHED</div>
-                <div class="big-number-sub">Jan 2, 2026 Harvest</div>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">LUFT-Relevant:</span>
-                <span class="metric-value">132 Papers</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Categories:</span>
-                <span class="metric-value">6 Domains</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Top Match:</span>
-                <span class="metric-value highlight">Lorentzian Shocks</span>
-            </div>
-            <a href="docs/paper_discoveries.html" class="action-button">View Discoveries</a>
-        </div>
 
-        <div class="panel">
-            <div class="panel-header">
-                PSP COLLABORATION
-                <span class="panel-status warning">PENDING</span>
+            <div class="card">
+                <h3>Quick Actions</h3>
+                <div class="list">
+                    <li><a href="COCKPIT_USER_GUIDE.md">Cockpit User Guide</a></li>
+                    <li><a href="COCKPIT_IMPLEMENTATION.md">Implementation Notes</a></li>
+                    <li><a href="META_INTELLIGENCE_INTEGRATION_GUIDE.md">Meta Intelligence Integration</a></li>
+                    <li><a href="TEMPORAL_CORRELATION_DISCOVERY.md">Temporal Mode Discovery</a></li>
+                    <li><a href="CHI_015_HISTORICAL_VALIDATION_REPORT.md">χ = 0.15 Validation Report</a></li>
+                </div>
             </div>
-            <div class="metric-row">
-                <span class="metric-label">Status:</span>
-                <span class="metric-value">Email Draft Ready</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Recipients:</span>
-                <span class="metric-value">3 Scientists</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Encounter 24:</span>
-                <span class="metric-value">June-Aug 2025</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Distance:</span>
-                <span class="metric-value">0.05-0.1 AU</span>
-            </div>
-            <div class="metric-row">
-                <span class="metric-label">Expected Field:</span>
-                <span class="metric-value">50-100 nT</span>
-            </div>
-            <a href="PSP_COLLABORATION_EMAIL_DRAFT.md" class="action-button secondary">Review Email</a>
         </div>
+    </main>
 
-        <div class="panel panel-full">
-            <div class="panel-header">
-                🔍 PATTERNS AWAITING DISCOVERY
-                <span class="panel-status warning">UNEXPLORED</span>
-            </div>
-            <ul class="discovery-list">
-                <li class="discovery-item">Energy Equipartition: σ_R ≈ 0 when χ ≈ 0.15 (Solar Orbiter paper hints)</li>
-                <li class="discovery-item">Cross-Domain 0.9h Periodicity: CERN, LIGO, FAST timing (universal timescale?)</li>
-                <li class="discovery-item">Fundamental Constants: Fine structure α × 20 ≈ 0.15 connection</li>
-                <li class="discovery-item">November Universality: Seasonal heliospheric structure (need more years)</li>
-                <li class="discovery-item">GW Echoes: Gravitational wave periodicity matching temporal modes</li>
-                <li class="discovery-item">THEMIS Ground Data: χ validation at 100+ magnetometer stations</li>
-                <li class="discovery-item">PSP Extreme Test: χ boundary at 0.05 AU, 50-100 nT fields</li>
-            </ul>
-        </div>
+    <footer>
+        LUFT Portal · χ boundary cockpit · Live DSCOVR telemetry · Lincoln, Nebraska · CARLDCLINE@GMAIL.COM
+    </footer>
 
-        <div class="panel panel-full">
-            <div class="panel-header">
-                🎯 CONFIRMED DISCOVERIES (2025-2026)
-            </div>
-            <ul class="discovery-list">
-                <li class="discovery-item"><strong>Dec 28, 2025:</strong> χ = 0.15 Universal Boundary - 1.4M observations, 0% violations</li>
-                <li class="discovery-item"><strong>Dec 30, 2025:</strong> 13 Temporal Correlation Modes - 1.47M NOAA-χ matches</li>
-                <li class="discovery-item"><strong>Jan 1, 2026:</strong> 0.9-Hour Wave Packet Structure - CME fundamental period</li>
-                <li class="discovery-item"><strong>Jan 1, 2026:</strong> Mars Validation - χ boundary holds at 1.5 AU</li>
-                <li class="discovery-item"><strong>Jan 2, 2026:</strong> November Event Repeatability - 2024 & 2025 confirmed</li>
-                <li class="discovery-item"><strong>Jan 2, 2026:</strong> 132 New Papers Harvested - Lorentzian shock enhancement match</li>
-                <li class="discovery-item"><strong>Jan 3, 2026:</strong> Energy Balance Hypothesis - σ_R = 0 when χ ≈ 0.15 proposed</li>
-            </ul>
-        </div>
-
-        <div class="panel panel-full">
-            <div class="panel-header">⚡ QUICK ACCESS</div>
-            <div style="padding: 1rem 0;">
-                <a href="index.html" class="action-button">Main Dashboard</a>
-                <a href="temporal_correlation_dashboard.html" class="action-button">Temporal Correlations</a>
-                <a href="link_intelligence_dashboard.html" class="action-button">Link Intelligence</a>
-                <a href="meta-intelligence.html" class="action-button">Meta-Intelligence</a>
-                <a href="docs/paper_discoveries.html" class="action-button secondary">Paper Discoveries</a>
-                <a href="CHI_015_HISTORICAL_VALIDATION_REPORT.md" class="action-button secondary">χ = 0.15 Report</a>
-                <a href="TEMPORAL_CORRELATION_DISCOVERY.md" class="action-button secondary">Temporal Modes Report</a>
-                <a href="MARS_CHI_VALIDATION_SUMMARY.md" class="action-button secondary">Mars Validation</a>
-                <a href="AGENT_TASKS_2026_01_03.md" class="action-button secondary">Agent Tasks</a>
-                <a href="PSP_COLLABORATION_EMAIL_DRAFT.md" class="action-button secondary">PSP Email Draft</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="cockpit-footer">
-        <div>🌟 LUFT Portal - Layer 4 Meta-Intelligence System 🌟</div>
-        <div style="margin-top: 0.5rem;">Carl Dean Cline Sr. | Lincoln, Nebraska, USA | CARLDCLINE@GMAIL.COM</div>
-        <div class="footer-links">
-            <a href="https://github.com/CarlDeanClineSr/luft-portal-" target="_blank">GitHub Repository</a>
-            <a href="README.md">Documentation</a>
-            <a href="DOCUMENTATION_INDEX.md">Full Index</a>
-        </div>
-        <div style="margin-top: 0.5rem; font-size: 0.7rem; color: #888;">
-            Engine Status: 🟢 OPERATIONAL | Data Sources: 43 Monitored | Last Updated: 2026-01-03 00:00 UTC
-        </div>
-    </div>
-
-    <script>
-        function updateTime() {
-            const now = new Date();
-            const utcString = now.toISOString().slice(0, 19).replace('T', ' ') + ' UTC';
-            document.getElementById('currentTime').textContent = utcString;
-        }
-        updateTime();
-        setInterval(updateTime, 1000);
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 LUFT Cockpit loaded successfully');
-            console.log('📊 Monitoring 43 data sources');
-            console.log('🔬 χ = 0.15 boundary: VALIDATED');
-            console.log('⚡ Temporal modes: 13 DETECTED');
-            console.log('🌊 Wave packet: 0.9h DISCOVERED');
-        });
-    </script>
+    <script src="js/instrument-panel.js"></script>
 </body>
 </html>
