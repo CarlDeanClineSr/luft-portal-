@@ -38,7 +38,7 @@ def test_daily_rebound(tmp_path) -> bool:
     print(f"Loading data from: {data_path}")
     df = sample
     
-    if 'chi_amplitude' not in df.columns or 'timestamp' not in df. columns:
+    if 'chi_amplitude' not in df.columns or 'timestamp' not in df.columns:
         print("Error:  Required columns 'chi_amplitude' and 'timestamp' not found")
         return False
     
@@ -46,7 +46,7 @@ def test_daily_rebound(tmp_path) -> bool:
     df['timestamp'] = pd.to_datetime(df['timestamp'])
     
     # Sort by timestamp
-    df = df. sort_values('timestamp').reset_index(drop=True)
+    df = df.sort_values('timestamp').reset_index(drop=True)
     
     print(f"Testing {len(df)} observations...")
     
