@@ -1,0 +1,197 @@
+{
+  "chi_value": 0.15,
+  "repairs": [
+    {
+      "id": "newton_gravity",
+      "scientist": "Isaac Newton",
+      "year": 1687,
+      "work": "Philosophiæ Naturalis Principia Mathematica",
+      "original_equation": "F = G*m1*m2/r^2",
+      "problem": "Singularity as r→0 creates unbounded force and ignores χ cap.",
+      "chi_correction": "Fχ = G*m1*m2/(r*(1+χ))^2 with χ capped at 0.15",
+      "chi_value": 0.15,
+      "test_case": {
+        "description": "Earth-Moon system at mean distance",
+        "m1_kg": 5.97e24,
+        "m2_kg": 7.35e22,
+        "r_m": 3.84e8,
+        "F_original_N": 1.98e20,
+        "F_corrected_N": 1.49e20,
+        "percent_change": -24.4
+      },
+      "chain_effects": [
+        "Caps close-approach divergence",
+        "Smooths tidal force prediction",
+        "Provides χ-aware gravity feed for LUFT engine"
+      ]
+    },
+    {
+      "id": "einstein_gr_curvature",
+      "scientist": "Albert Einstein",
+      "year": 1915,
+      "work": "General Relativity",
+      "original_equation": "G_{μν} = 8πT_{μν}",
+      "problem": "Unbounded curvature at χ ceiling; no guardrail for vacuum stress.",
+      "chi_correction": "G_{μν} = 8πT_{μν} * (1-χ) with χ ≤ 0.15",
+      "chi_value": 0.15,
+      "test_case": {
+        "description": "Solar corona limb at χ=0.15",
+        "curvature_scale_ratio": 0.85
+      },
+      "chain_effects": [
+        "Limits curvature blow-up near flares",
+        "Keeps χ-consistent with Newtonian limit"
+      ]
+    },
+    {
+      "id": "planck_blackbody",
+      "scientist": "Max Planck",
+      "year": 1900,
+      "work": "Blackbody Radiation",
+      "original_equation": "E = hν",
+      "problem": "No χ modulation; energy diverges with ν without vacuum cap.",
+      "chi_correction": "Eχ = hν/(1+χ)",
+      "chi_value": 0.15,
+      "test_case": {
+        "description": "1 THz photon",
+        "E_original_eV": 4.14e-3,
+        "E_corrected_eV": 3.60e-3,
+        "percent_change": -13.0
+      },
+      "chain_effects": [
+        "Caps thermal tails in CMB fits",
+        "Feeds LUFT engine Planck limit"
+      ]
+    },
+    {
+      "id": "maxwell_em_stress",
+      "scientist": "James Clerk Maxwell",
+      "year": 1865,
+      "work": "Treatise on Electricity and Magnetism",
+      "original_equation": "u = (ε0E^2 + B^2/μ0)/2",
+      "problem": "Vacuum energy density unbounded for strong fields.",
+      "chi_correction": "uχ = u * (1-χ) with χ ceiling",
+      "chi_value": 0.15,
+      "test_case": {
+        "description": "Solar wind peak E/B event",
+        "energy_density_reduction": 0.15
+      },
+      "chain_effects": [
+        "Stabilizes plasma estimates",
+        "Aligns EM stress with χ boundary"
+      ]
+    },
+    {
+      "id": "schrodinger_potential",
+      "scientist": "Erwin Schrödinger",
+      "year": 1926,
+      "work": "Wave Mechanics",
+      "original_equation": "iħ∂ψ/∂t = (-ħ²/2m)∇²ψ + Vψ",
+      "problem": "Unbounded potentials ignore χ floor/ceiling modulation.",
+      "chi_correction": "Vχ = V*(1-χ) within χ≤0.15 envelope",
+      "chi_value": 0.15,
+      "test_case": {
+        "description": "Hydrogen 1s orbital",
+        "binding_energy_original_eV": 13.6,
+        "binding_energy_corrected_eV": 15.64,
+        "percent_change": 15.0
+      },
+      "chain_effects": [
+        "Adjusts orbital radii",
+        "Feeds periodic table χ corrections"
+      ]
+    },
+    {
+      "id": "dirac_magnetic_moment",
+      "scientist": "Paul Dirac",
+      "year": 1928,
+      "work": "Relativistic Quantum Theory",
+      "original_equation": "μ = g(qħ/2m)",
+      "problem": "g-factor drift at high χ not bounded.",
+      "chi_correction": "μχ = μ*(1-χ/2)",
+      "chi_value": 0.15,
+      "test_case": {
+        "description": "Electron g-factor",
+        "g_original": 2.0023,
+        "g_corrected": 1.8520,
+        "percent_change": -7.5
+      },
+      "chain_effects": [
+        "Stabilizes magnetic moment tables",
+        "Keeps LUFT comms calibration bounded"
+      ]
+    },
+    {
+      "id": "heisenberg_uncertainty",
+      "scientist": "Werner Heisenberg",
+      "year": 1927,
+      "work": "Uncertainty Principle",
+      "original_equation": "Δx Δp ≥ ħ/2",
+      "problem": "No χ control; near χ ceiling momentum spikes.",
+      "chi_correction": "Δx Δp ≥ ħ/2 * (1+χ)",
+      "chi_value": 0.15,
+      "test_case": {
+        "description": "Cold atom trap",
+        "uncertainty_increase": 15.0
+      },
+      "chain_effects": [
+        "Smooths trap stability",
+        "Sets floor for quantum sensors"
+      ]
+    },
+    {
+      "id": "bohr_radius",
+      "scientist": "Niels Bohr",
+      "year": 1913,
+      "work": "Atomic Model",
+      "original_equation": "a0 = ħ²/(m e²)",
+      "problem": "Ignores χ shrinking at high coherence.",
+      "chi_correction": "a0χ = a0/(1+χ)",
+      "chi_value": 0.15,
+      "test_case": {
+        "description": "Hydrogen radius",
+        "radius_change_percent": -13.0
+      },
+      "chain_effects": [
+        "Feeds χ-corrected orbital sizes",
+        "Impacts periodic χ CSV export"
+      ]
+    },
+    {
+      "id": "hubble_law",
+      "scientist": "Edwin Hubble",
+      "year": 1929,
+      "work": "Cosmic Expansion",
+      "original_equation": "v = H0 d",
+      "problem": "Neglects χ ceiling during high-curvature epochs.",
+      "chi_correction": "vχ = H0 d (1-χ)",
+      "chi_value": 0.15,
+      "test_case": {
+        "description": "Local Group scale",
+        "expansion_slowdown": 15.0
+      },
+      "chain_effects": [
+        "Relates χ to dark energy cap",
+        "Keeps cosmology consistent with χ boundary"
+      ]
+    },
+    {
+      "id": "navier_stokes_energy",
+      "scientist": "Claude-Louis Navier",
+      "year": 1822,
+      "work": "Fluid Mechanics",
+      "original_equation": "∂u/∂t + (u·∇)u = -∇p/ρ + ν∇²u",
+      "problem": "Ignores χ damping in high-energy plasmas.",
+      "chi_correction": "νχ = ν*(1+χ) with viscosity boosted at χ ceiling",
+      "chi_value": 0.15,
+      "test_case": {
+        "description": "CME sheath flow",
+        "viscosity_increase_percent": 15.0
+      },
+      "chain_effects": [
+        "Stabilizes CME sheath modeling",
+        "Feeds LUFT solar wind dashboard"
+      ]
+    }
+  ]
+}
