@@ -39,4 +39,5 @@ python tools/validate_chi_repairs.py
 ## Notes
 - χ cap is explicit in all ledger rows for auditability.
 - CSV values use simple 1.15× scaling; adjust if new lab values supersede.
+- Binding energies are total per nucleus in eV (MeV-scale; heavy rows show millions of eV, not per-nucleon values).
 - Extend `tools/validate_chi_repairs.py` with additional domain checks as new repairs land.

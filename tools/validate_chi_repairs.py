@@ -15,13 +15,14 @@ from typing import Dict, List
 
 CHI_CAP = 0.15
 G_CONST = 6.67430e-11  # m^3 kg^-1 s^-2
+BINDING_TOLERANCE = 0.01
 
 
 @dataclass
 class ValidationResult:
     id: str
     status: str
-    details: Dict[str, float]
+    details: Dict[str, object]
 
     def as_dict(self) -> Dict[str, object]:
         return {"id": self.id, "status": self.status, **self.details}
@@ -33,19 +34,19 @@ def load_repairs(base_path: Path | None = None) -> Dict[str, object]:
         return json.load(f)
 
 
-def validate_newton_repair(repairs: List[Dict[str, object]]) -> ValidationResult:
+def validate_newton_repair(repairs: List[Dict[str, object]], chi_value: float = CHI_CAP) -> ValidationResult:
     entry = next((r for r in repairs if r.get("id") == "newton_gravity"), None)
     if entry is None:
         return ValidationResult(id="newton_gravity", status="FAIL", details={"reason": "missing entry"})
 
     tc = entry.get("test_case", {})
-    chi = entry.get("chi_value", CHI_CAP)
+    chi = float(entry.get("chi_value", chi_value))
     try:
         m1 = float(tc["m1_kg"])
         m2 = float(tc["m2_kg"])
         r = float(tc["r_m"])
         expected_percent = float(tc["percent_change"])
-    except Exception:
+    except (KeyError, TypeError, ValueError):
         return ValidationResult(id="newton_gravity", status="FAIL", details={"reason": "invalid test case"})
 
     f_original = G_CONST * m1 * m2 / (r ** 2)
@@ -66,7 +67,7 @@ def validate_newton_repair(repairs: List[Dict[str, object]]) -> ValidationResult
     )
 
 
-def validate_periodic_table(base_path: Path | None = None) -> ValidationResult:
+def validate_periodic_table(base_path: Path | None = None, chi_value: float = CHI_CAP) -> ValidationResult:
     base = base_path or Path(__file__).resolve().parent.parent
     csv_path = base / "data" / "chi_repairs" / "periodic_table_chi.csv"
 
@@ -81,8 +82,8 @@ def validate_periodic_table(base_path: Path | None = None) -> ValidationResult:
                 mismatches.append(row.get("Element", "unknown"))
                 continue
 
-            expected = original * (1 + CHI_CAP)
-            if abs((corrected - expected) / expected) > 0.01:
+            expected = original * (1 + chi_value)
+            if abs((corrected - expected) / original) > BINDING_TOLERANCE:
                 mismatches.append(row.get("Element", "unknown"))
 
     status = "PASS" if not mismatches else "FAIL"
@@ -92,13 +93,14 @@ def validate_periodic_table(base_path: Path | None = None) -> ValidationResult:
 def run_all_validations(base_path: Path | None = None) -> Dict[str, object]:
     payload = load_repairs(base_path)
     repairs = payload.get("repairs", [])
+    chi_value = float(payload.get("chi_value", CHI_CAP))
 
     results = [
-        validate_newton_repair(repairs),
-        validate_periodic_table(base_path),
+        validate_newton_repair(repairs, chi_value=chi_value),
+        validate_periodic_table(base_path, chi_value=chi_value),
     ]
 
-    summary = {"chi_cap": payload.get("chi_value", CHI_CAP), "results": [r.as_dict() for r in results]}
+    summary = {"chi_cap": chi_value, "results": [r.as_dict() for r in results]}
     summary["status"] = "PASS" if all(r.status == "PASS" for r in results) else "FAIL"
     return summary
 
