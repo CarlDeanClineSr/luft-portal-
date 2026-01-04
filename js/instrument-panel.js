@@ -62,6 +62,15 @@ function formatTime(seconds) {
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 }
 
+function formatTimestamp(value) {
+    if (value === null || value === undefined) return 'Live';
+    const spaced = String(value).replace('T', ' ');
+    if (spaced.endsWith('Z')) {
+        return spaced.slice(0, -1) + ' UTC';
+    }
+    return /\bUTC\b/.test(spaced) ? spaced : `${spaced} UTC`;
+}
+
 // ========================================
 // ANALOG GAUGE RENDERING
 // ========================================
@@ -394,7 +403,7 @@ function updateDigitalDisplays(data) {
         stormPhase.textContent = phase;
         
         // Track phase changes
-        if (!phaseStartTime || latestData?.storm_phase !== data.storm_phase) {
+        if (!phaseStartTime || (latestData?.storm_phase !== data.storm_phase)) {
             phaseStartTime = Date.now();
         }
     }
@@ -462,6 +471,19 @@ async function updateInstrumentPanel() {
     
     latestData = data;
     lastUpdateTime = Date.now();
+    
+    const dataTimestampEl = document.getElementById('data-timestamp');
+    const dataSourceEl = document.getElementById('data-source');
+    // Prefer live API timestamp (data_timestamp from NOAA/DSCOVR), fall back to the last CSV log line when API is unavailable
+    const rawTimestamp = data.data_timestamp || data.timestamp;
+    
+    if (dataTimestampEl) {
+        dataTimestampEl.textContent = formatTimestamp(rawTimestamp);
+    }
+    
+    if (dataSourceEl) {
+        dataSourceEl.textContent = data.source || 'CSV fallback';
+    }
     
     // Update all gauges with animation
     drawAnalogGauge('chi-gauge', data.chi, 0, 0.20, 0.15, 'CHI', '', true);
@@ -542,10 +564,8 @@ async function updateResearchStatus() {
             // Get harvest timestamp from file metadata
             const harvestTimeEl = document.getElementById('harvest-time');
             if (harvestTimeEl) {
-                // Try to parse timestamp from data if available
                 const now = new Date();
-                const fileResponse = await fetch('data/papers/inspire_latest.json', { method: 'HEAD' });
-                const lastModified = fileResponse.headers.get('last-modified');
+                const lastModified = response.headers.get('last-modified');
                 if (lastModified) {
                     const modDate = new Date(lastModified);
                     const hoursSince = Math.floor((now - modDate) / (1000 * 60 * 60));
@@ -594,18 +614,131 @@ async function updateResearchStatus() {
 
 // ⚡ REAL-TIME MODE CONFIGURATION
 // Set REALTIME_MODE=true for spacecraft/aircraft operations (faster updates)
+function getUpdateIntervals(isRealtime) {
+    return isRealtime ? {
+        data: 5000,        // Update data every 5 seconds (was 60s)
+        research: 30000,   // Update research every 30 seconds (was 5min)
+        clock: 100,        // Update clock every 100ms (was 1s) for smooth operation
+        discovery: 10000   // Update discoveries every 10 seconds (was 60s)
+    } : {
+        data: 60000,       // Standard mode: 60 seconds
+        research: 300000,  // Standard mode: 5 minutes
+        clock: 1000,       // Standard mode: 1 second
+        discovery: 60000   // Standard mode: 60 seconds
+    };
+}
+
 const REALTIME_MODE = localStorage.getItem('realtimeMode') === 'true' || false;
-const UPDATE_INTERVALS = REALTIME_MODE ? {
-    data: 5000,        // Update data every 5 seconds (was 60s)
-    research: 30000,   // Update research every 30 seconds (was 5min)
-    clock: 100,        // Update clock every 100ms (was 1s) for smooth operation
-    discovery: 10000   // Update discoveries every 10 seconds (was 60s)
-} : {
-    data: 60000,       // Standard mode: 60 seconds
-    research: 300000,  // Standard mode: 5 minutes
-    clock: 1000,       // Standard mode: 1 second
-    discovery: 60000   // Standard mode: 60 seconds
+const UPDATE_INTERVALS = getUpdateIntervals(REALTIME_MODE);
+window.currentRealtimeMode = REALTIME_MODE;
+const intervalHandles = {
+    data: null,
+    research: null,
+    clock: null
 };
+
+function startIntervals(intervals) {
+    if (intervalHandles.data) clearInterval(intervalHandles.data);
+    if (intervalHandles.research) clearInterval(intervalHandles.research);
+    if (intervalHandles.clock) clearInterval(intervalHandles.clock);
+    
+    intervalHandles.data = setInterval(updateInstrumentPanel, intervals.data);
+    intervalHandles.research = setInterval(updateResearchStatus, intervals.research);
+    intervalHandles.clock = setInterval(updateClocks, intervals.clock);
+    
+    window.currentIntervals = intervals;
+    return intervalHandles;
+}
+
+window.getUpdateIntervals = getUpdateIntervals;
+window.applyRealtimeMode = function(enableRealtime) {
+    const intervals = getUpdateIntervals(enableRealtime);
+    localStorage.setItem('realtimeMode', enableRealtime ? 'true' : 'false');
+    startIntervals(intervals);
+    window.currentRealtimeMode = enableRealtime;
+    
+    try {
+        updateInstrumentPanel();
+    } catch (error) {
+        console.error('Error applying realtime mode updateInstrumentPanel:', error);
+    }
+    
+    try {
+        updateResearchStatus();
+    } catch (error) {
+        console.error('Error applying realtime mode updateResearchStatus:', error);
+    }
+};
+
+function initializeControlPanel() {
+    const modeLabel = document.getElementById('realtime-mode-label');
+    const stormRealtimeFlag = document.getElementById('storm-realtime-flag');
+    const toggle = document.getElementById('realtime-toggle');
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+    const southCounter = document.getElementById('south-counter');
+    
+    let currentMode = window.currentRealtimeMode ?? REALTIME_MODE;
+    let currentIntervals = window.currentIntervals || getUpdateIntervals(currentMode);
+    
+    const updateModeLabel = () => {
+        currentIntervals = window.currentIntervals || getUpdateIntervals(currentMode);
+        const dataCadence = currentIntervals?.data ?? (currentMode ? 5000 : 60000);
+        const cadenceSeconds = Math.round(dataCadence / 1000);
+        
+        if (modeLabel) {
+            modeLabel.textContent = `${currentMode ? 'Real-Time' : 'Standard'} · ${cadenceSeconds}s cadence`;
+        }
+        
+        if (stormRealtimeFlag) {
+            stormRealtimeFlag.textContent = currentMode ? 'High-rate tracking enabled' : 'Standard tracking';
+        }
+        
+        if (toggle) {
+            toggle.textContent = currentMode ? '↩︎ Return to 60s mode' : '⚡ Enable Real-Time';
+        }
+    };
+    
+    if (toggle) {
+        toggle.addEventListener('click', () => {
+            currentMode = !currentMode;
+            window.currentRealtimeMode = currentMode;
+            window.applyRealtimeMode(currentMode);
+            currentIntervals = window.currentIntervals || getUpdateIntervals(currentMode);
+            updateModeLabel();
+        });
+    }
+    
+    if (fullscreenBtn) {
+        const requestFull = document.documentElement.requestFullscreen ||
+            document.documentElement.webkitRequestFullscreen ||
+            document.documentElement.mozRequestFullScreen ||
+            document.documentElement.msRequestFullscreen;
+        
+        const exitFull = document.exitFullscreen ||
+            document.webkitExitFullscreen ||
+            document.mozCancelFullScreen ||
+            document.msExitFullscreen;
+        
+        fullscreenBtn.addEventListener('click', () => {
+            const isFull = document.fullscreenElement ||
+                document.webkitFullscreenElement ||
+                document.mozFullScreenElement ||
+                document.msFullscreenElement;
+            
+            if (!isFull && requestFull) {
+                requestFull.call(document.documentElement);
+            } else if (isFull && exitFull) {
+                exitFull.call(document);
+            }
+        });
+    }
+    
+    if (southCounter) {
+        southCounter.textContent = 'Southward counter live';
+    }
+    
+    updateModeLabel();
+}
 
 window.addEventListener('DOMContentLoaded', () => {
     console.log(`Instrument Panel initializing... [${REALTIME_MODE ? '⚡ REAL-TIME MODE' : 'Standard Mode'}]`);
@@ -623,13 +756,13 @@ window.addEventListener('DOMContentLoaded', () => {
     updateResearchStatus();
     
     // Update data at configured interval
-    setInterval(updateInstrumentPanel, UPDATE_INTERVALS.data);
+    startIntervals(UPDATE_INTERVALS);
     
-    // Update research status at configured interval
-    setInterval(updateResearchStatus, UPDATE_INTERVALS.research);
+    // Kick clocks immediately for visible UTC stamp
+    updateClocks();
     
-    // Update clocks at configured interval
-    setInterval(updateClocks, UPDATE_INTERVALS.clock);
+    // Wire UI controls
+    initializeControlPanel();
     
     console.log('Instrument Panel ready!');
 });
