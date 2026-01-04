@@ -17,16 +17,14 @@ This is the latest meta-intelligence analysis combining:
    Multi-source events detected: 0
 
 ### Missing Link Analysis
-   ✓ Found 0 missing link opportunities
-   ✓ Coverage: 27/28 concepts linked
 
 
 ---
 
 ## 📁 Full Reports
 
-- **Meta-Pattern Analysis:** See `reports/meta_intelligence/report_20260103_001600.md`
-- **Missing Links Report:** See `reports/meta_intelligence/missing_links_20260103_002037.md`
+- **Meta-Pattern Analysis:** See `reports/meta_intelligence/report_20260104_001856.md`
+- **Missing Links Report:** See `reports/meta_intelligence/missing_links_20260104_002353.md`
 
 ---
 
