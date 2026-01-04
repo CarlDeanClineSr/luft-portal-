@@ -1,0 +1,52 @@
+name: Physics Repairs - ClineConstant Application
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run-repairs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy pandas matplotlib
+
+      - name: Run gravity control fixes
+        run: python gravity_control_fixes.py
+
+      - name: Configure git
+        if: github.event_name != 'pull_request'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git pull --rebase origin "${GITHUB_REF_NAME:-main}" --autostash || true
+
+      - name: Commit results
+        if: github.event_name != 'pull_request'
+        run: |
+          git add figures/ data/ reports/
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Physics repairs - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
