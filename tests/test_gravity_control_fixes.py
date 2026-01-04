@@ -1,20 +1,9 @@
-import importlib.util
 import json
 from pathlib import Path
 
 import pandas as pd
 
-ROOT = Path(__file__).resolve().parents[1]
-MODULE_PATH = ROOT / "gravity_control_fixes.py"
-spec = importlib.util.spec_from_file_location("gravity_control_fixes", MODULE_PATH)
-if spec is None or spec.loader is None:
-    raise ImportError(f"Unable to load gravity_control_fixes module from {MODULE_PATH}")
-
-module = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(module)
-
-CHI = module.CHI
-run_pipeline = module.run_pipeline
+from gravity_control_fixes import CHI, run_pipeline
 
 
 def test_run_pipeline_creates_expected_outputs(tmp_path):

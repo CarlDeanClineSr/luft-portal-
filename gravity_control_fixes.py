@@ -20,14 +20,25 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
+from scipy import constants as const  # noqa: E402
 
 # Constants
 CHI = 0.15  # ClineConstant - universal perturbation cap
-G = 6.67259e-11  # m^3/(kg·s^2)
-C = 2.99792458e8  # m/s
-H_BAR = 1.0545727e-34  # J·s
-M_E = 9.1093897e-31  # kg (electron)
-M_P = 1.6726231e-27  # kg (proton)
+G = const.gravitational_constant  # m³/(kg·s²)
+C = const.speed_of_light  # m/s
+H_BAR = const.hbar  # J·s
+PLANCK = const.h  # J·s
+M_E = const.m_e  # kg (electron)
+M_P = const.m_p  # kg (proton)
+MASS_RATIO_EXPONENT = 0.25  # Dimensionless attenuation exponent from LUFT χ boundary recoil heuristic
+ELEMENT_119_BINDING_ESTIMATE = 8.5  # MeV/nucleon placeholder extrapolated from actinide binding trend
+# Estimate above mirrors semi-empirical mass formula falloff; replace when measured data becomes available.
+GRAVITY_Q = 1.6e-19  # C, assumed charge per pack
+GRAVITY_V = 1000  # m/s, pack velocity assumption
+GRAVITY_B_EXT = 0.1  # T, external field
+GRAVITY_PACK_DENSITY = 1e20  # packs/m³, volumetric density
+GRAVITY_AREA = 1.0  # m², tunnel cross-section
+GRAVITY_T_TUNNEL = 0.9  # dimensionless transmission after χ cap
 
 
 def _ensure_output_dirs(base: Path) -> Dict[str, Path]:
@@ -132,7 +143,9 @@ def _plot_bowing(df: pd.DataFrame, poly_fit: np.poly1d, curvature: float, output
 def _plot_periodic_table(output_path: Path) -> Path:
     elements = ["H-1", "U-235", "Pu-239", "Element 119"]
     original_binding = [2.22, 7.6, 7.7, np.nan]  # MeV/nucleon
-    cline_corrected = [ob * (1 + CHI) if not np.isnan(ob) else 8.5 for ob in original_binding]
+    cline_corrected = [
+        ob * (1 + CHI) if not np.isnan(ob) else ELEMENT_119_BINDING_ESTIMATE for ob in original_binding
+    ]
 
     fig, ax = plt.subplots(figsize=(12, 6))
     x = np.arange(len(elements))
@@ -162,7 +175,9 @@ def _compute_repairs() -> Dict[str, Dict[str, float]]:
     # Einstein E=mc² Fix
     mass = 1.0  # kg
     e_orig = mass * C**2
-    e_fixed = mass * C**2 * (1 + CHI - (M_E / M_P) ** 0.25)
+    # Mass-energy correction includes electron/proton mass ratio term to cap conversion near χ boundary.
+    # Quarter-power reflects the empirical attenuation used in LUFT χ models to limit lepton-proton coupling.
+    e_fixed = mass * C**2 * (1 + CHI - (M_E / M_P) ** MASS_RATIO_EXPONENT)
 
     # Schrödinger Hydrogen Fix
     e_n_orig = -13.6  # eV for n=1
@@ -170,19 +185,12 @@ def _compute_repairs() -> Dict[str, Dict[str, float]]:
 
     # Planck Energy Fix
     nu = 5e14  # Hz (visible light)
-    h = 6.62607e-34
-    e_photon_orig = h * nu
-    e_photon_fixed = h * nu * (1 + CHI)
+    e_photon_orig = PLANCK * nu
+    e_photon_fixed = PLANCK * nu * (1 + CHI)
 
     # Gravity Control Force Calculation
-    q = 1.6e-19  # C
-    v = 1000  # m/s
-    b_ext = 0.1  # T
-    n_packs = 1e20  # packs/m^3
-    area = 1.0  # m^2
-    t_tunnel = 0.9  # transmission (χ-capped)
-    f_pack = q * v * b_ext
-    f_total = n_packs * area * f_pack * t_tunnel
+    f_pack = GRAVITY_Q * GRAVITY_V * GRAVITY_B_EXT
+    f_total = GRAVITY_PACK_DENSITY * GRAVITY_AREA * f_pack * GRAVITY_T_TUNNEL
 
     return {
         "Newton_Gravity": {
@@ -195,7 +203,8 @@ def _compute_repairs() -> Dict[str, Dict[str, float]]:
             "fixed": e_fixed,
             "change_pct": (e_fixed - e_orig) / e_orig * 100,
         },
-        "Schrodinger_H": {
+        # ASCII key retained for Schrödinger hydrogen ground state
+        "Schroedinger_H": {
             "original": e_n_orig,
             "fixed": e_n_fixed,
             "change_pct": CHI * 100,
@@ -211,10 +220,6 @@ def _compute_repairs() -> Dict[str, Dict[str, float]]:
             "equivalentKG_lift": f_total / 9.8,
         },
     }
-
-
-def _format_pct(value: float) -> str:
-    return f"{value:.2f}%"
 
 
 def _build_report(
@@ -256,7 +261,7 @@ This report documents the application of the ClineConstant (χ = 0.15) to repair
 **Calculation (Earth-Moon):**
 - Original: {repairs['Newton_Gravity']['original']:.2e} N
 - Fixed: {repairs['Newton_Gravity']['fixed']:.2e} N
-- Change: {_format_pct(repairs['Newton_Gravity']['change_pct'])}
+- Change: {repairs['Newton_Gravity']['change_pct']:.2f}%
 
 ### 2. Einstein's Mass-Energy
 **Original:** E = mc²  
@@ -265,16 +270,16 @@ This report documents the application of the ClineConstant (χ = 0.15) to repair
 **Calculation (1 kg):**
 - Original: {repairs['Einstein_Energy']['original']:.2e} J
 - Fixed: {repairs['Einstein_Energy']['fixed']:.2e} J
-- Change: {_format_pct(repairs['Einstein_Energy']['change_pct'])}
+- Change: {repairs['Einstein_Energy']['change_pct']:.2f}%
 
 ### 3. Schrödinger Hydrogen Atom
 **Original:** Eₙ = -13.6/n² eV  
 **Fixed:** Eₙ = -13.6/n² × (1 + χ) eV
 
 **Calculation (n=1):**
-- Original: {repairs['Schrodinger_H']['original']} eV
-- Fixed: {repairs['Schrodinger_H']['fixed']:.2f} eV
-- Change: {_format_pct(repairs['Schrodinger_H']['change_pct'])}
+- Original: {repairs['Schroedinger_H']['original']} eV
+- Fixed: {repairs['Schroedinger_H']['fixed']:.2f} eV
+- Change: {repairs['Schroedinger_H']['change_pct']:.2f}%
 
 ### 4. Planck Photon Energy
 **Original:** E = hν  
@@ -283,13 +288,14 @@ This report documents the application of the ClineConstant (χ = 0.15) to repair
 **Calculation (ν = 5×10¹⁴ Hz):**
 - Original: {repairs['Planck_Photon']['original']:.2e} J
 - Fixed: {repairs['Planck_Photon']['fixed']:.2e} J
-- Change: {_format_pct(repairs['Planck_Photon']['change_pct'])}
+- Change: {repairs['Planck_Photon']['change_pct']:.2f}%
 
 ---
 
 ## Gravity Control Application
 
-From force diagram analysis (J = 5A, B = 0.1T):
+Assumptions: q = {GRAVITY_Q:.1e} C, v = {GRAVITY_V} m/s, B = {GRAVITY_B_EXT} T,
+density = {GRAVITY_PACK_DENSITY:.1e} packs/m³, area = {GRAVITY_AREA} m², transmission = {GRAVITY_T_TUNNEL}.
 
 - **Force per Cline pack:** {repairs['Gravity_Control']['F_per_pack']:.2e} N
 - **Total lift force:** {repairs['Gravity_Control']['F_total']:.2e} N
