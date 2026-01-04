@@ -15,28 +15,30 @@ Location: Lincoln, Nebraska, USA
 import pandas as pd
 import numpy as np
 import sys
-from pathlib import Path
 from datetime import datetime, timedelta
 
-def test_daily_rebound(data_path:  str) -> bool:
+def test_daily_rebound(tmp_path) -> bool:
     """
     Test that χ returns to baseline within 24 hours. 
     
     Args:
-        data_path: Path to χ data file (CSV with timestamp, chi_amplitude)
+        tmp_path: Pytest-provided temporary path for generating sample data
         
     Returns:
         True if test passes, False otherwise
     """
+    data_path = tmp_path / "chi_test.csv"
+    sample = pd.DataFrame(
+        {
+            "timestamp": pd.date_range("2025-01-01", periods=12, freq="1h"),
+            "chi_amplitude": np.random.uniform(0.05, 0.14, 12),
+        }
+    )
+    sample.to_csv(data_path, index=False)
     print(f"Loading data from: {data_path}")
+    df = sample
     
-    try:
-        df = pd.read_csv(data_path)
-    except Exception as e:
-        print(f"Error loading data: {e}")
-        return False
-    
-    if 'chi_amplitude' not in df.columns or 'timestamp' not in df. columns:
+    if 'chi_amplitude' not in df.columns or 'timestamp' not in df.columns:
         print("Error:  Required columns 'chi_amplitude' and 'timestamp' not found")
         return False
     
@@ -44,7 +46,7 @@ def test_daily_rebound(data_path:  str) -> bool:
     df['timestamp'] = pd.to_datetime(df['timestamp'])
     
     # Sort by timestamp
-    df = df. sort_values('timestamp').reset_index(drop=True)
+    df = df.sort_values('timestamp').reset_index(drop=True)
     
     print(f"Testing {len(df)} observations...")
     

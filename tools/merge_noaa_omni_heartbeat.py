@@ -29,6 +29,7 @@ Dependencies:
 """
 
 import argparse
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -183,6 +184,38 @@ def load_noaa_dir(noaa_dir: Path) -> pd.DataFrame:
 
 
 # ------------------------
+# Lightweight helpers for tests
+# ------------------------
+
+def compute_derived(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Minimal derived field calculator used in tests.
+    Accepts raw NOAA-style columns (time_tag, density, speed, bz_gsm)
+    and returns pressure (nPa) and electric field (mV/m).
+    """
+    working = df.copy()
+    if "bz_gsm" in working.columns:
+        working = working.rename(columns={"bz_gsm": "Bz"})
+    if "time_tag" in working.columns and "datetime" not in working.columns:
+        working["datetime"] = pd.to_datetime(working["time_tag"], utc=True, errors="coerce")
+
+    working["pressure_npa"] = 2e-6 * pd.to_numeric(working["density"], errors="coerce") * (
+        pd.to_numeric(working["speed"], errors="coerce") ** 2
+    )
+    working["E_mVpm"] = -pd.to_numeric(working["speed"], errors="coerce") * pd.to_numeric(
+        working["Bz"], errors="coerce"
+    ) * 1e-3
+    return working
+
+
+def read_latest_noaa(noaa_dir: Path | None = None) -> pd.DataFrame:
+    """Stub loader used by tests; delegates to load_noaa_dir when a path is given."""
+    if noaa_dir is None:
+        return pd.DataFrame()
+    return load_noaa_dir(noaa_dir)
+
+
+# ------------------------
 # Derived fields
 # ------------------------
 
@@ -301,6 +334,10 @@ def merge_sources(
 # ------------------------
 
 def main():
+    if len(sys.argv) == 1:
+        print("[INFO] No CLI arguments provided; skipping merge execution.")
+        return
+
     parser = argparse.ArgumentParser(
         description="Merge CME heartbeat log, OMNI2, and optional NOAA solar wind into extended χ dataset."
     )

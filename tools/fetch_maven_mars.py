@@ -21,6 +21,22 @@ import pandas as pd
 OUTPUT_DIR = Path("data/maven_mars")
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
+def validate_csv_file(filepath):
+    """Check if a local CSV is valid (not an HTML error page)."""
+    try:
+        with open(filepath, 'r', encoding='utf-8') as f:
+            first_chunk = f.read(500).lower()
+            if any(tag in first_chunk for tag in ['<html', '<!doctype', '<head', '<body', 'page not found']):
+                print(f"ERROR: {filepath} contains HTML, not CSV data")
+                return False
+            if any(msg in first_chunk for msg in ['404', 'error 404', 'not found']):
+                print(f"ERROR: {filepath} contains error text")
+                return False
+        return True
+    except Exception as e:
+        print(f"ERROR: Cannot validate {filepath}: {e}")
+        return False
+
 def calculate_chi(B_mag, baseline_percentile=10):
     """
     Calculate χ (chi) parameter: relative deviation from baseline magnetic field.
