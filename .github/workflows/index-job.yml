@@ -2,107 +2,97 @@ name: Capsule Index Job - Master Manifest & Dashboard
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # Daily at 06:00 UTC
-  workflow_dispatch:     # Manual trigger support
+    - cron: "0 6 * * *"   # Daily at 06:00 UTC
+  workflow_dispatch:       # Manual trigger
   push:
     paths:
-      - 'capsules/**'
-      - 'scripts/capsule_index_job.py'
-      - 'scripts/generate_dashboard.py'
+      - "capsules/**"
+      - "scripts/capsule_index_job.py"
+      - "scripts/generate_dashboard.py"
+
+concurrency:
+  group: capsule-index
+  cancel-in-progress: true
 
 jobs:
   generate-index-and-dashboard:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    
+
     steps:
-      - name: Checkout repository
+      - name: Checkout main branch
         uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: true
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install pyyaml
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml jinja2
 
       - name: Run capsule index job
-        id: run_index
-        continue-on-error: true
         run: |
           echo "Running capsule index job..."
           python scripts/capsule_index_job.py
-          echo "Index job completed with exit code: $?"
 
       - name: Run dashboard generator
-        id: run_dashboard
-        continue-on-error: true
         run: |
           echo "Running dashboard generator..."
           python scripts/generate_dashboard.py
-          echo "Dashboard generation completed with exit code: $?"
 
-      - name: Check generated files
+      - name: Verify generated files
         run: |
-          echo "Checking generated files..."
-          if [ -f "docs/manifest_master_index.yaml" ]; then
-            echo "✅ manifest_master_index.yaml generated"
-            echo "   File size: $(wc -c < docs/manifest_master_index.yaml) bytes"
+          echo "Verifying generated files..."
+          ls -al docs || true
+          if [ -s "docs/manifest_master_index.yaml" ]; then
+            echo "✅ docs/manifest_master_index.yaml exists and is non-empty"
           else
-            echo "⚠️ manifest_master_index.yaml not found"
+            echo "❌ docs/manifest_master_index.yaml missing or empty"; exit 1
           fi
-          
-          if [ -f "docs/manifest_dashboard.html" ]; then
-            echo "✅ manifest_dashboard.html generated"
-            echo "   File size: $(wc -c < docs/manifest_dashboard.html) bytes"
+          if [ -s "docs/manifest_dashboard.html" ]; then
+            echo "✅ docs/manifest_dashboard.html exists and is non-empty"
           else
-            echo "⚠️ manifest_dashboard.html not found"
+            echo "❌ docs/manifest_dashboard.html missing or empty"; exit 1
           fi
 
-      - name: Configure git
+      - name: Configure Git
         run: |
-          git config --local user.name "LUFT Capsule Indexer"
-          git config --local user.email "capsule-index@luft.local"
+          git config --local user.name "LUFT-bot"
+          git config --local user.email "auto@luft-portal"
 
-      - name: Commit and push changes
+      - name: Commit changes (if any)
         run: |
-          git pull --rebase origin main --autostash || true
           git add docs/manifest_master_index.yaml docs/manifest_dashboard.html
-          
           if git diff --staged --quiet; then
-            echo "No changes to manifest index or dashboard"
+            echo "No changes to commit."
           else
-            git commit -m "Capsule Index: Auto-update manifest and dashboard $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-            git push
-            echo "✅ Successfully committed and pushed manifest index and dashboard"
+            git commit -m "Capsule Index: Auto-update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            echo "Committed changes."
           fi
+
+      - name: Push to main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Report status
-        if: always()
         run: |
-          echo ""
-          echo "============================================"
-          echo "Capsule Index Job Summary"
-          echo "============================================"
-          
-          if [ "${{ steps.run_index.outcome }}" == "success" ]; then
-            echo "✅ Index job completed successfully"
-          else
-            echo "⚠️ Index job encountered issues (check logs above)"
+          # Ensure we are pushing to main even if runner ends up detached
+          git fetch origin main
+          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          echo "Current branch: $CURRENT_BRANCH"
+          if [ "$CURRENT_BRANCH" != "main" ]; then
+            git checkout main
           fi
-          
-          if [ "${{ steps.run_dashboard.outcome }}" == "success" ]; then
-            echo "✅ Dashboard generation completed successfully"
+          # Only push if there are commits ahead
+          if [ -n "$(git log origin/main..HEAD)" ]; then
+            git push origin HEAD:main
+            echo "✅ Pushed changes to main."
           else
-            echo "⚠️ Dashboard generation encountered issues (check logs above)"
+            echo "No new commits to push."
           fi
-          
-          echo "============================================"
-          
-          # Exit with success even if individual steps had continue-on-error
-          # This allows the workflow to complete and commit partial results
-          exit 0
