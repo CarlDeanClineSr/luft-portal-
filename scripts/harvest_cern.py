@@ -1,218 +1,354 @@
 #!/usr/bin/env python3
 """
-CERN Document Server Paper Harvester for LUFT Portal
-Fetches recent physics papers from CERN Document Server and filters for LUFT-relevant topics.
+LUFT Portal — CERN/Physics Paper Harvester (resilient)
+
+Purpose:
+- Harvest physics papers relevant to LUFT topics from multiple sources:
+  1) CERN Document Server (RSS and JSON 'recjson' endpoints)
+  2) CERN Open Data (Invenio REST API)
+  3) arXiv (Atom API) as a fallback if CERN blocks automated requests
+
+Features:
+- Polite headers (User-Agent, From), configurable via env HARVEST_CONTACT
+- Backoff/retry on 403/429/503
+- Keyword-based relevance filtering
+- Deduplication across sources
+- Timestamped output + latest.json for easy consumption
+
+Outputs:
+- data/papers/cern/cern_harvest_YYYYMMDD_HHMMSS.json
+- data/papers/cern/latest.json
 """
 
 import os
+import time
 import json
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import List, Dict, Any
+
 import requests
 import feedparser
-from datetime import datetime, timedelta, timezone
-from pathlib import Path
 
-# LUFT-relevant keywords for filtering
+
+# -----------------------------
+# Configuration
+# -----------------------------
+CONTACT_EMAIL = os.getenv("HARVEST_CONTACT", "contact@luft-portal.local")
+USER_AGENT = "LUFT-Portal/2026 (+https://github.com/CarlDeanClineSr/luft-portal-)"
+
+# Queries to run (override via HARVEST_QUERIES env as CSV)
+DEFAULT_QUERIES = [
+    "plasma physics",
+    "space physics",
+    "magnetohydrodynamics",
+    "cosmology",
+    "gravitational waves",
+    "unified field theory",
+]
+
+ENV_QUERIES = os.getenv("HARVEST_QUERIES", "")
+QUERIES = (
+    [q.strip() for q in ENV_QUERIES.split(",") if q.strip()]
+    if ENV_QUERIES
+    else DEFAULT_QUERIES
+)
+
+# LUFT-relevant keywords
 LUFT_KEYWORDS = [
-    'plasma',
-    'magnetohydrodynamic',
-    'MHD',
-    'solar wind',
-    'cosmic ray',
-    'magnetic field',
-    'coherence',
-    'oscillation',
-    'cosmology',
-    'dark energy',
-    'gravitational wave',
-    'unified field',
-    'field theory',
-    'plasma instability',
-    'coronal mass ejection',
-    'CME',
-    'space weather',
-    'heliosphere',
-    'particle physics',
-    'high energy physics',
+    "plasma",
+    "magnetohydrodynamic",
+    "mhd",
+    "solar wind",
+    "cosmic ray",
+    "magnetic field",
+    "coherence",
+    "oscillation",
+    "cosmology",
+    "dark energy",
+    "gravitational wave",
+    "unified field",
+    "field theory",
+    "plasma instability",
+    "coronal mass ejection",
+    "cme",
+    "space weather",
+    "heliosphere",
+    "particle physics",
+    "high energy physics",
 ]
 
-# CERN collections to search
-CERN_COLLECTIONS = [
-    'Preprints',
-    'Published Articles',
-    'CERN Yellow Reports',
-]
+# Output locations
+REPO_ROOT = Path(__file__).resolve().parent.parent
+OUT_DIR = REPO_ROOT / "data" / "papers" / "cern"
+OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def fetch_cern_papers(search_query, max_results=100):
-    """Fetch recent papers from CERN Document Server API."""
-    # CERN CDS often blocks automated requests to their JSON API
-    # We use their RSS feed instead which is more accessible
-    # RSS feeds are typically more permissive than JSON APIs for automated access
-    base_url = 'https://cds.cern.ch/rss'
-    
-    params = {
-        'p': search_query,
-        'rg': min(max_results, 100),  # RSS feeds typically limit to 100
-        'ln': 'en',  # Language English
-    }
-    
-    try:
-        print(f"Fetching CERN papers with query: {search_query[:50]}...")
-        response = requests.get(base_url, params=params, timeout=30, headers={
-            'User-Agent': 'LUFT-Portal-Harvester/1.0 (Physics Research)'
-        })
-        response.raise_for_status()
-        
-        # Parse RSS feed using feedparser
-        feed = feedparser.parse(response.content)
-        papers = []
-        
-        for entry in feed.entries:
-            # Extract paper information from RSS entry
-            paper = {
-                'id': entry.get('id', '').split('/')[-1],
-                'title': entry.get('title', '').replace('\n', ' ').strip(),
-                'authors': [],
-                'summary': entry.get('summary', '').replace('\n', ' ').strip(),
-                'published': entry.get('published', ''),
-                'categories': [],
-                'link': entry.get('link', ''),
-                'source': 'cern',
+# -----------------------------
+# HTTP helpers
+# -----------------------------
+def polite_get(
+    url: str,
+    params: Dict[str, Any] | None = None,
+    accept: str = "*/*",
+    tries: int = 3,
+    backoff_seconds: int = 2,
+    timeout: int = 25,
+) -> requests.Response | None:
+    """HTTP GET with polite headers and exponential backoff."""
+    for i in range(tries):
+        try:
+            headers = {
+                "User-Agent": USER_AGENT,
+                "From": CONTACT_EMAIL,
+                "Accept": accept,
+                "Accept-Language": "en-US,en;q=0.9",
+                "Connection": "close",
             }
-            
-            # Extract authors if available
-            if hasattr(entry, 'authors'):
-                for author in entry.authors:
-                    if hasattr(author, 'name'):
-                        paper['authors'].append(author.name)
-            elif 'author' in entry:
-                paper['authors'].append(entry.author)
-            
-            # Extract categories from tags
-            if hasattr(entry, 'tags'):
-                paper['categories'] = [tag.term for tag in entry.tags]
-            
-            papers.append(paper)
-        
-        return papers
-    
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching CERN papers: {e}")
-        print(f"  Note: CERN API may be temporarily unavailable or blocking automated requests")
-        return []
-    except Exception as e:
-        print(f"Error parsing CERN response: {e}")
-        return []
+            resp = requests.get(url, params=params, headers=headers, timeout=timeout)
+            if resp.status_code == 200:
+                return resp
+            if resp.status_code in (403, 429, 503):
+                # backoff and retry
+                sleep_for = backoff_seconds * (i + 1)
+                time.sleep(sleep_for)
+                continue
+            # other codes: return None
+            return None
+        except requests.RequestException:
+            time.sleep(backoff_seconds * (i + 1))
+    return None
 
 
-def is_luft_relevant(paper):
-    """Check if a paper is relevant to LUFT research based on keywords."""
-    text_to_search = (
-        str(paper.get('title', '')) + ' ' + 
-        str(paper.get('summary', '')) + ' ' + 
-        ' '.join(paper.get('categories', []))
+# -----------------------------
+# Harvesters
+# -----------------------------
+def harvest_cds_rss(query: str, max_results: int = 50) -> List[Dict[str, Any]]:
+    """Harvest from CERN Document Server RSS (more likely to allow bots)."""
+    url = "https://cds.cern.ch/rss"
+    params = {"ln": "en", "p": query, "rg": min(max_results, 100)}
+    resp = polite_get(url, params=params, accept="application/rss+xml")
+    if not resp:
+        return []
+    feed = feedparser.parse(resp.text)
+    results: List[Dict[str, Any]] = []
+    for e in feed.entries:
+        results.append(
+            {
+                "source": "CDS_RSS",
+                "id": (e.get("id") or "").split("/")[-1],
+                "title": (e.get("title") or "").replace("\n", " ").strip(),
+                "authors": [a.get("name") for a in e.get("authors", [])] if hasattr(e, "authors") else [],
+                "summary": (e.get("summary") or "").replace("\n", " ").strip(),
+                "published": e.get("published") or e.get("updated"),
+                "categories": [t.get("term") for t in e.get("tags", [])] if hasattr(e, "tags") else [],
+                "link": e.get("link"),
+                "query": query,
+            }
+        )
+    return results
+
+
+def harvest_cds_json(query: str, max_results: int = 50) -> List[Dict[str, Any]]:
+    """Harvest from CERN Document Server JSON 'recjson' endpoint."""
+    url = "https://cds.cern.ch/search"
+    params = {"ln": "en", "p": query, "rg": min(max_results, 100), "of": "recjson"}
+    resp = polite_get(url, params=params, accept="application/json")
+    if not resp:
+        return []
+    results: List[Dict[str, Any]] = []
+    try:
+        data = resp.json()
+    except Exception:
+        return results
+    items = data if isinstance(data, list) else data.get("records", [])
+    for r in items:
+        title = r.get("title")
+        if isinstance(title, dict):
+            title = title.get("title")
+        recid = r.get("recid") or r.get("record_id")
+        results.append(
+            {
+                "source": "CDS_JSON",
+                "id": str(recid) if recid else "",
+                "title": (title or "").replace("\n", " ").strip(),
+                "authors": [],
+                "summary": (r.get("abstract") or r.get("summary") or "").replace("\n", " ").strip(),
+                "published": r.get("publication_date") or r.get("date"),
+                "categories": [],
+                "link": f"https://cds.cern.ch/record/{recid}" if recid else None,
+                "query": query,
+            }
+        )
+    return results
+
+
+def harvest_cern_opendata(query: str, max_results: int = 50) -> List[Dict[str, Any]]:
+    """Harvest from CERN Open Data API."""
+    url = "https://opendata.cern.ch/api/records/"
+    params = {"q": query, "size": min(max_results, 50)}
+    resp = polite_get(url, params=params, accept="application/json")
+    if not resp:
+        return []
+    results: List[Dict[str, Any]] = []
+    try:
+        data = resp.json()
+    except Exception:
+        return results
+    hits = data.get("hits", {}).get("hits", [])
+    for h in hits:
+        md = h.get("metadata", {}) or {}
+        rid = h.get("id")
+        results.append(
+            {
+                "source": "CERN_OPEN_DATA",
+                "id": str(rid or ""),
+                "title": (md.get("title") or "").replace("\n", " ").strip(),
+                "authors": md.get("authors") or [],
+                "summary": (md.get("abstract") or md.get("description") or "").replace("\n", " ").strip(),
+                "published": md.get("publication_date") or md.get("date"),
+                "categories": md.get("keywords") or [],
+                "link": md.get("url") or md.get("doi") or (f"https://opendata.cern.ch/record/{rid}" if rid else None),
+                "query": query,
+            }
+        )
+    return results
+
+
+def harvest_arxiv(query: str, max_results: int = 50) -> List[Dict[str, Any]]:
+    """Harvest from arXiv Atom API as a fallback."""
+    url = "http://export.arxiv.org/api/query"
+    params = {"search_query": f"all:{query}", "start": 0, "max_results": min(max_results, 50)}
+    resp = polite_get(url, params=params, accept="application/atom+xml")
+    if not resp:
+        return []
+    feed = feedparser.parse(resp.text)
+    results: List[Dict[str, Any]] = []
+    for e in feed.entries:
+        results.append(
+            {
+                "source": "arXiv",
+                "id": e.get("id") or "",
+                "title": (e.get("title") or "").replace("\n", " ").strip(),
+                "authors": [a.get("name") for a in e.get("authors", [])],
+                "summary": (e.get("summary") or "").replace("\n", " ").strip(),
+                "published": e.get("published") or e.get("updated"),
+                "categories": [t.get("term") for t in e.get("tags", [])] if hasattr(e, "tags") else [],
+                "link": e.get("id"),
+                "query": query,
+            }
+        )
+    return results
+
+
+# -----------------------------
+# Relevance & saving
+# -----------------------------
+def is_luft_relevant(paper: Dict[str, Any]) -> bool:
+    text = " ".join(
+        [
+            str(paper.get("title", "")),
+            str(paper.get("summary", "")),
+            " ".join([str(c) for c in paper.get("categories", [])]),
+        ]
     ).lower()
-    
-    for keyword in LUFT_KEYWORDS:
-        if keyword.lower() in text_to_search:
-            return True
-    
-    return False
+    return any(k.lower() in text for k in LUFT_KEYWORDS)
 
 
-def save_papers(papers, output_dir):
-    """Save papers to JSON files."""
+def dedup(items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Deduplicate by normalized (title + link) or id if present."""
+    seen: Dict[str, Dict[str, Any]] = {}
+    for r in items:
+        key = (r.get("id") or "") + "|" + (r.get("title") or "") + "|" + (r.get("link") or "")
+        key = key.strip().lower()
+        if key and key not in seen:
+            seen[key] = r
+    return list(seen.values())
+
+
+def save_results(papers: List[Dict[str, Any]]) -> Path:
     now = datetime.now(timezone.utc)
-    timestamp = now.strftime('%Y%m%d_%H%M%S')
-    output_file = output_dir / f'cern_harvest_{timestamp}.json'
-    
-    with open(output_file, 'w') as f:
-        json.dump({
-            'timestamp': timestamp,
-            'harvest_date': now.isoformat(),
-            'total_papers': len(papers),
-            'papers': papers
-        }, f, indent=2)
-    
-    print(f"Saved {len(papers)} papers to {output_file}")
-    
-    # Also save a latest.json for easy access
-    latest_file = output_dir / 'latest.json'
-    with open(latest_file, 'w') as f:
-        json.dump({
-            'timestamp': timestamp,
-            'harvest_date': now.isoformat(),
-            'total_papers': len(papers),
-            'papers': papers
-        }, f, indent=2)
-    
-    return output_file
+    ts = now.strftime("%Y%m%d_%H%M%S")
+    payload = {
+        "timestamp": ts,
+        "harvest_date": now.isoformat(),
+        "total_papers": len(papers),
+        "papers": papers,
+        "queries": QUERIES,
+    }
+    out_file = OUT_DIR / f"cern_harvest_{ts}.json"
+    with open(out_file, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
+
+    latest = OUT_DIR / "latest.json"
+    with open(latest, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
+
+    print(f"Saved {len(papers)} papers to {out_file}")
+    print(f"Updated {latest}")
+    return out_file
 
 
-def main():
-    """Main harvesting function."""
+# -----------------------------
+# Main
+# -----------------------------
+def main() -> int:
     print("=" * 60)
-    print("LUFT Portal - CERN Paper Harvester")
+    print("LUFT Portal — CERN/Physics Paper Harvester (resilient)")
     print("=" * 60)
-    print("\nNote: CERN Document Server may block automated requests.")
-    print("This is expected behavior and the script will handle it gracefully.\n")
-    
-    # Set up output directory
-    script_dir = Path(__file__).parent
-    repo_root = script_dir.parent
-    output_dir = repo_root / 'data' / 'papers' / 'cern'
-    output_dir.mkdir(parents=True, exist_ok=True)
-    
-    # Build search queries for LUFT-relevant topics
-    search_queries = [
-        'plasma physics',
-        'cosmology',
-        'gravitational waves',
-        'unified field theory',
-        'magnetohydrodynamics',
-        'space physics',
-    ]
-    
-    all_papers = []
-    
-    # Fetch papers for each query
-    for query in search_queries:
-        papers = fetch_cern_papers(query, max_results=50)
-        print(f"  Found {len(papers)} papers for query: {query}")
-        all_papers.extend(papers)
-    
-    # Remove duplicates based on paper ID, using link as fallback
-    unique_papers = {}
-    for paper in all_papers:
-        # Use ID if available, otherwise use link as identifier
-        identifier = paper['id'] if paper['id'] else paper.get('link', '')
-        if identifier:
-            unique_papers[identifier] = paper
-    all_papers = list(unique_papers.values())
-    
-    print(f"\nTotal unique papers: {len(all_papers)}")
-    
-    # Filter for LUFT-relevant papers
-    relevant_papers = [p for p in all_papers if is_luft_relevant(p)]
-    print(f"LUFT-relevant papers: {len(relevant_papers)}")
-    
-    # Save papers
-    if relevant_papers:
-        output_file = save_papers(relevant_papers, output_dir)
-        print(f"\n✅ Harvest complete!")
-        print(f"📄 Output: {output_file}")
-        
-        # Print sample of papers
-        print("\nSample of harvested papers:")
-        for paper in relevant_papers[:3]:
-            print(f"\n  • {paper.get('title', 'No title')}")
-            print(f"    Authors: {', '.join(paper.get('authors', [])[:3])}")
-            print(f"    Link: {paper.get('link', 'No link')}")
-    else:
-        print("\n⚠️  No relevant papers found in this harvest.")
-        print("This may be due to API restrictions or no recent papers matching criteria.")
-        print("The arXiv harvester will still provide physics papers for the LUFT Portal.")
+    print(f"Contact: {CONTACT_EMAIL}")
+    print(f"Queries: {', '.join(QUERIES)}")
+    print("Note: CERN endpoints may block bots; using polite headers and fallbacks.\n")
+
+    all_results: List[Dict[str, Any]] = []
+    for q in QUERIES:
+        print(f"Query: {q}")
+        # Try CDS RSS first
+        rss = harvest_cds_rss(q)
+        print(f"  CDS_RSS: {len(rss)}")
+        all_results.extend(rss)
+
+        # Then CDS JSON
+        recjson = harvest_cds_json(q)
+        print(f"  CDS_JSON: {len(recjson)}")
+        all_results.extend(recjson)
+
+        # CERN Open Data
+        cod = harvest_cern_opendata(q)
+        print(f"  CERN_OPEN_DATA: {len(cod)}")
+        all_results.extend(cod)
+
+        # arXiv fallback
+        ax = harvest_arxiv(q)
+        print(f"  arXiv: {len(ax)}")
+        all_results.extend(ax)
+
+        time.sleep(2)  # politeness gap between queries
+
+    print(f"\nRaw total results: {len(all_results)}")
+    deduped = dedup(all_results)
+    print(f"Deduped total: {len(deduped)}")
+
+    relevant = [p for p in deduped if is_luft_relevant(p)]
+    print(f"LUFT-relevant: {len(relevant)}")
+
+    out_file = save_results(relevant)
+
+    # Print sample
+    for i, p in enumerate(relevant[:5], 1):
+        print(f"\n[{i}] {p.get('title', 'No title')}")
+        auth = p.get("authors") or []
+        if isinstance(auth, list):
+            auth = ", ".join(auth[:4])
+        print(f"    Authors: {auth or '--'}")
+        print(f"    Source: {p.get('source')}")
+        print(f"    Link:   {p.get('link', '--')}")
+
+    print("\n✅ Harvest complete.")
+    print(f"📄 Output: {out_file}")
+    return 0
 
 
-if __name__ == '__main__':
-    main()
+if __name__ == "__main__":
+    sys.exit(main())
