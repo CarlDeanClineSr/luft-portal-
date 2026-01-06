@@ -7,6 +7,7 @@ This is the canonical, text-first specification for Carl Dean Cline Sr.'s Imperi
 - Keep physical units explicit (no hidden constants).
 - Compute χ (chi) = `abs(delta_force per force_raw)`.
 - Apply the χ boundary: if `chi > 0.15`, scale by `0.85`.
+- Constants: `CHI_THRESHOLD = 0.15`, `CHI_SCALE_FACTOR = 0.85`.
 
 ## Reference pattern (swap nouns into your language)
 ```
