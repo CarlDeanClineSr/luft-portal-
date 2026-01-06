@@ -1,6 +1,6 @@
 {
-  "extraction_date": "2026-01-05T02:49:55.760619Z",
-  "total_analyzed": 50,
+  "extraction_date": "2026-01-06T02:41:31.642433Z",
+  "total_analyzed": 43,
   "papers_with_parameters": 0,
   "results": [
     {
@@ -116,6 +116,72 @@
         "shock",
         "magnetosphere",
         "perturbation"
+      ],
+      "relevance_score": 5
+    },
+    {
+      "paper_id": "2601.00485v1",
+      "title": "Spectral performance of single-channel plastic and GAGG scintillator bars of the CUbesat Solar Polarimeter (CUSP)",
+      "authors": [
+        "Nicolas De Angelis",
+        "Abhay Kumar",
+        "Sergio Fabiani",
+        "Ettore Del Monte",
+        "Enrico Costa",
+        "Giovanni Lombardi",
+        "Alda Rubini",
+        "Paolo Soffitta",
+        "Andrea Alimenti",
+        "Riccardo Campana",
+        "Mauro Centrone",
+        "Giovanni De Cesare",
+        "Sergio Di Cosimo",
+        "Giuseppe Di Persio",
+        "Alessandro Lacerenza",
+        "Pasqualino Loffredo",
+        "Gabriele Minervini",
+        "Fabio Muleri",
+        "Paolo Romano",
+        "Emanuele Scalise",
+        "Enrico Silva",
+        "Davide Albanesi",
+        "Ilaria Baffo",
+        "Daniele Brienza",
+        "Valerio Campomaggiore",
+        "Giovanni Cucinella",
+        "Andrea Curatolo",
+        "Giulia de Iulis",
+        "Andrea Del Re",
+        "Vito Di Bari",
+        "Simone Di Filippo",
+        "Immacolata Donnarumma",
+        "Pierluigi Fanelli",
+        "Nicolas Gagliardi",
+        "Paolo Leonetti",
+        "Matteo Merg\u00e8",
+        "Dario Modenini",
+        "Andrea Negri",
+        "Daniele Pecorella",
+        "Massimo Perelli",
+        "Alice Ponti",
+        "Francesca Sbop",
+        "Paolo Tortora",
+        "Alessandro Turchi",
+        "Valerio Vagelli",
+        "Emanuele Zaccagnino",
+        "Alessandro Zambardi",
+        "Costantino Zazza"
+      ],
+      "link": "https://arxiv.org/abs/2601.00485v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.00485v1",
+      "published": "2026-01-01T21:40:47Z",
+      "parameters_found": {},
+      "keywords": [
+        "reconnection",
+        "magnetic",
+        "particle",
+        "acceleration",
+        "solar flare"
       ],
       "relevance_score": 5
     },
@@ -369,52 +435,6 @@
       "relevance_score": 4
     },
     {
-      "paper_id": "2512.16689v1",
-      "title": "CARONTE: a Physics-Informed Extreme Learning Machine-Based Algorithm for Plasma Boundary Reconstruction in Magnetically Confined Fusion Devices",
-      "authors": [
-        "Federico Fiorenza",
-        "Sara Dubbioso",
-        "Gianmaria De Tommasi",
-        "Alfredo Pironti"
-      ],
-      "link": "https://arxiv.org/abs/2512.16689v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.16689v1",
-      "published": "2025-12-18T15:55:33Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "plasma",
-        "boundary",
-        "chi"
-      ],
-      "relevance_score": 4
-    },
-    {
-      "paper_id": "2512.16630v1",
-      "title": "Photon Accelerator in Magnetized Plasma",
-      "authors": [
-        "Sergei Bulanov",
-        "Stepan Bulanov",
-        "Timur Esirkepov",
-        "Gianluca Gregori",
-        "Gabriele Grittani",
-        "Brandon Russell",
-        "Alec Thomas",
-        "Petr Valenta"
-      ],
-      "link": "https://arxiv.org/abs/2512.16630v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.16630v1",
-      "published": "2025-12-18T15:06:33Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "plasma",
-        "particle",
-        "acceleration"
-      ],
-      "relevance_score": 4
-    },
-    {
       "paper_id": "2512.18629v1",
       "title": "Revisiting Mars' Induced Magnetic Field and Clock Angle Departures under Real-Time Upstream Solar Wind Conditions",
       "authors": [
@@ -586,23 +606,24 @@
       "relevance_score": 4
     },
     {
-      "paper_id": "2512.23960v1",
-      "title": "Towards a bottom-up formulation of spin kinetic theory",
+      "paper_id": "2601.00518v1",
+      "title": "High-energy Emission from Turbulent Electron-ion Coronae of Accreting Black Holes",
       "authors": [
-        "Zonglin Mo",
-        "Yi Yin"
+        "Daniel Groselj",
+        "Alexander Philippov",
+        "Andrei M. Beloborodov",
+        "Richard Mushotzky"
       ],
-      "link": "https://arxiv.org/abs/2512.23960v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.23960v1",
-      "published": "2025-12-30T03:21:14Z",
+      "link": "https://arxiv.org/abs/2601.00518v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.00518v1",
+      "published": "2026-01-02T00:45:22Z",
       "parameters_found": {},
       "keywords": [
-        "magnetic",
         "plasma",
-        "perturbation",
-        "chi"
+        "particle",
+        "shock"
       ],
-      "relevance_score": 4
+      "relevance_score": 3
     },
     {
       "paper_id": "2512.24363v1",
@@ -819,125 +840,6 @@
         "plasma",
         "particle",
         "threshold"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2512.17337v1",
-      "title": "Influence of plasma shaping on the parity of core-localized toroidal Alfv\u00e9n eigenmode in an advanced tokamak configuration",
-      "authors": [
-        "Shiwei Xue",
-        "Ping Zhu",
-        "Haolong Li"
-      ],
-      "link": "https://arxiv.org/abs/2512.17337v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.17337v1",
-      "published": "2025-12-19T08:30:30Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "plasma",
-        "particle"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2512.17176v1",
-      "title": "Doppler-induced continuous spectral broadening of ultraviolet lasers",
-      "authors": [
-        "Huanhuan Wu",
-        "Yuhan Liu",
-        "Shengqiang Zhong",
-        "Yaozhi Yi",
-        "Zhuwen Lin",
-        "Hongwei Yin",
-        "Yilin Xu",
-        "Fan Yang",
-        "Xiantao Jiang",
-        "Yao Zhao"
-      ],
-      "link": "https://arxiv.org/abs/2512.17176v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.17176v1",
-      "published": "2025-12-19T02:31:18Z",
-      "parameters_found": {},
-      "keywords": [
-        "plasma",
-        "chi",
-        "temporal"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2512.16867v1",
-      "title": "Electric field diagnostics in a continuous rf plasma using Rydberg-EIT",
-      "authors": [
-        "Bineet Dash",
-        "Xinyan Xiang",
-        "Dingkun Feng",
-        "Eric Paradis",
-        "Georg Raithel"
-      ],
-      "link": "https://arxiv.org/abs/2512.16867v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.16867v1",
-      "published": "2025-12-18T18:37:58Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "plasma",
-        "temporal"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2512.16604v1",
-      "title": "Disruption Modelling for Engineering and Physics Design of Tokamak Energy ST-E1 Fusion Power Plant",
-      "authors": [
-        "M. Scarpari",
-        "X. Zhang",
-        "K. Borowiec",
-        "P. F. Buxton",
-        "G. Calabro",
-        "S. Carusotti",
-        "A. Ciula",
-        "V. Godhani",
-        "J. D. Lore",
-        "E. N. J. Maartensson",
-        "S. A. M. McNamara",
-        "J. H. Nichols",
-        "M. Notazio",
-        "M. Robinson",
-        "M. Romanelli",
-        "J. Willis",
-        "ST-E1 Team"
-      ],
-      "link": "https://arxiv.org/abs/2512.16604v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.16604v1",
-      "published": "2025-12-18T14:46:08Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "plasma",
-        "chi"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2512.15924v1",
-      "title": "Tensor network approaches for plasma dynamics",
-      "authors": [
-        "Ryan J. J. Connor",
-        "Preetma Soin",
-        "Callum W. Duncan",
-        "Andrew J. Daley"
-      ],
-      "link": "https://arxiv.org/abs/2512.15924v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.15924v1",
-      "published": "2025-12-17T19:39:44Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "plasma",
-        "particle"
       ],
       "relevance_score": 3
     },
@@ -1159,26 +1061,6 @@
         "magnetic",
         "plasma",
         "temporal"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2512.03269v1",
-      "title": "Understanding cold electron impact on parallel-propagating whistler chorus waves via moment-based quasilinear theory",
-      "authors": [
-        "Opal Issan",
-        "Vadim Roytershteyn",
-        "Gian Luca Delzanno",
-        "Salomon Janhunen"
-      ],
-      "link": "https://arxiv.org/abs/2512.03269v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.03269v1",
-      "published": "2025-12-02T22:21:41Z",
-      "parameters_found": {},
-      "keywords": [
-        "plasma",
-        "particle",
-        "magnetosphere"
       ],
       "relevance_score": 3
     },
