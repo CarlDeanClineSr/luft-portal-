@@ -334,8 +334,9 @@ def merge_sources(
 # ------------------------
 
 def main(argv: list[str] | None = None):
-    argv = [] if argv is None else argv
-    if len(argv) == 0:
+    if argv is None:
+        argv = []
+    if not argv:
         print("[INFO] No CLI arguments provided; skipping merge execution.")
         return
 
