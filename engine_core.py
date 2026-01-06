@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+import logging
+
 import yaml
 from scipy import constants as const
 
@@ -26,6 +28,33 @@ ENGINE_CONSTANTS = {
     "GRAVITY_AREA": 1.0,
     "GRAVITY_T_TUNNEL": 0.9,
 }
+
+logger = logging.getLogger(__name__)
+
+
+def lattice_energy(N: float, alpha: float = CHI, beta: float = 1.0, E_base: float = 1.0) -> float:
+    """
+    LUFT lattice energy scaling (power-law form):
+    E_lattice = alpha * (N^beta) * E_base
+    """
+    return alpha * (N**beta) * E_base
+
+
+def chi_audit(delta_E: float, E_base: float, max_chi: float = CHI) -> tuple[float, bool]:
+    """
+    Foam mod audit for χ = |ΔE / E_base|.
+    Returns (chi, violated) and prints audit if boundary exceeded.
+    """
+    if E_base == 0:
+        raise ValueError("E_base must be non-zero for chi audit.")
+
+    chi = abs(delta_E / E_base)
+    violated = chi > max_chi
+
+    if violated:
+        logger.warning("[AUDIT] chi = %.4f > %s — FOAM MOD ACTIVE", chi, max_chi)
+
+    return chi, violated
 
 
 def load_engine_directive(filepath="configs/engine_core_directive.yaml"):

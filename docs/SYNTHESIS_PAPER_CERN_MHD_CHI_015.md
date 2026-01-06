@@ -68,7 +68,44 @@ Where:
 
 ## II. Theoretical Framework
 
-### 2.1 Causality Bounds in GRMHD (Cordeiro et al., 2024)
+### 2.1 The LUFT Principle
+
+Any observable property scales between micro and macro regimes as:
+
+$$
+\mathcal{O}_{\text{macro}} = \lambda^{k} \, \mathcal{O}_{\text{micro}}
+$$
+
+where $\lambda$ is the scaling factor (length, mass, or time) and $k$ is the property-dependent exponent. This captures the LUFT principle of scale invariance: the lattice looks the same across magnitudes when scaled by $\lambda$.
+
+### 2.2 The χ Boundary as a Lattice Property
+
+Perturbations on the lattice are bounded by:
+
+$$
+\chi \equiv \frac{\delta E}{E} \le \alpha \cdot N^{\beta - 1}
+$$
+
+For weak coupling ($\beta \approx 1$) with coupling constant $\alpha \approx 0.15$:
+
+$$
+\chi \le 0.15
+$$
+
+This is the maximum fractional perturbation before lattice reorganization (foam mod activation).
+In the portal engine implementation, this audit is applied as $\chi = |\Delta E / E|$ with $N \approx 1$ for local perturbations.
+
+### 2.3 Connection to Fundamental Constants and Galactic Scaling
+
+The lattice χ ceiling matches the electron-to-proton mass ratio scaling:
+
+$$
+\chi \approx \left(\frac{m_e}{m_p}\right)^{1/4} \approx 0.153
+$$
+
+The same $1/4$-power appears in the Tully–Fisher relation ($V_{\text{rot}} \propto L^{1/4}$), linking micro (mass ratio) and macro (galactic rotation) scales through LUFT’s scale invariance. A comparative view of the shared scaling is shown in `figures/chi_tully_fisher_connection.png`.
+
+### 2.4 Causality Bounds in GRMHD (Cordeiro et al., 2024)
 
 **Paper:** "Causality Bounds on Dissipative General-Relativistic Magnetohydrodynamics"  
 **Reference:** Phys. Rev. Lett. 133, 091401 (2024)
@@ -105,7 +142,7 @@ For typical solar wind (b²/E ≈ 0.1):
 
 **Our empirical result (χ ≤ 0.15) confirms their theoretical prediction.**
 
-### 2.2 Anomalous MHD and Wave Packets (Giovannini, 2013)
+### 2.5 Anomalous MHD and Wave Packets (Giovannini, 2013)
 
 **Paper:** "Anomalous Magnetohydrodynamics"  
 **Reference:** Phys. Rev. D 88, 063536 (2013)
