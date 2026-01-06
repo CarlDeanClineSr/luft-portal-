@@ -20,6 +20,7 @@ This is **not an invention** — it's a **discovery** found in real data from ye
 📋 **[HOURLY SUMMARY](reports/HOURLY_SUMMARY.md)** - Complete system status (<5KB, updates hourly)  
 📚 **[DATA MASTER INDEX](DATA_MASTER_INDEX.md)** - Find any data file instantly  
 🔬 **[Paper Analysis Results](data/papers/extracted_parameters.json)** - χ-relevant parameters from 50+ papers
+🌐 **[Imperial Math Multilingual Guide](IMPERIAL_MATH_MULTILINGUAL.md)** - Language-agnostic grammar (swap nouns, keep `by`/`per`)
 
 ### New Features 🔥
 
