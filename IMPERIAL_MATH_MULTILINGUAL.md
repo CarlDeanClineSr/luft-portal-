@@ -11,11 +11,14 @@ This is the canonical, text-first specification for Carl Dean Cline Sr.'s Imperi
 
 ## Reference pattern (swap nouns into your language)
 ```
+CHI_THRESHOLD = 0.15
+CHI_SCALE_FACTOR = 0.85
+
 force = G by mass1 by mass2 per distance^2
 force_raw = G by mass1 by mass2 per distance^2
 chi = abs(delta_force per force_raw)
-if chi > 0.15:
-    force = force_raw by 0.85
+if chi > CHI_THRESHOLD:
+    force = force_raw by CHI_SCALE_FACTOR
 else:
     force = force_raw
 ```
