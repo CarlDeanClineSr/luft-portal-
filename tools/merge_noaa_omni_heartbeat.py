@@ -333,8 +333,10 @@ def merge_sources(
 # CLI
 # ------------------------
 
-def main():
-    if len(sys.argv) == 1:
+def main(argv: list[str] | None = None):
+    if argv is None:
+        argv = []
+    if not argv:
         print("[INFO] No CLI arguments provided; skipping merge execution.")
         return
 
@@ -350,7 +352,7 @@ def main():
         default=None,
         help="Optional NOAA solar wind CSV directory (e.g., data/noaa_solarwind)",
     )
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     hb = load_heartbeat(args.heartbeat)
     omni = load_omni(args.omni)
@@ -364,4 +366,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])
