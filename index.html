@@ -162,6 +162,39 @@
         .status-yellow { color: #fbbf24; }
         .status-red { color: #f87171; }
         .status-gray { color: #9ca3af; }
+        .multilingual-section {
+            background: #0a0a0a;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            border-radius: 12px;
+            border: 2px solid #4da3ff;
+        }
+        .multilingual-pre {
+            background: #1a1a1a;
+            color: #e0e0e0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.95rem;
+        }
+        .multilingual-note {
+            text-align: center;
+            color: #9ca3af;
+            margin-bottom: 0.75rem;
+        }
+        .multilingual-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        .lang-card {
+            background: #1a1a1a;
+            padding: 0.9rem;
+            border-radius: 8px;
+            border: 1px solid #4da3ff;
+        }
         
         /* Container */
         .container {
@@ -649,12 +682,12 @@
     </section>
 
     <!-- 🌐 Imperial Math Multilingual -->
-    <section id="multilingual" style="background: #0a0a0a; padding: 2rem; margin: 2rem auto; max-width: 1200px; border-radius: 12px; border: 2px solid #4da3ff;">
+    <section id="multilingual" class="multilingual-section">
         <h2 style="color: #4da3ff; text-align: center; margin-bottom: 1rem;">🌐 Imperial Math — Works in Any Language</h2>
-        <p style="text-align: center; color: #b0b0b0; margin-bottom: 1rem;">Machine-readable grammar using <code>by</code> (×) and <code>per</code> (÷). Swap nouns into your language; keep the operators.</p>
-        <p style="text-align: center; color: #9ca3af; margin-bottom: 0.75rem;">Constants: <code>CHI_THRESHOLD = 0.15</code>, <code>CHI_SCALE_FACTOR = 0.85</code>.</p>
-        <p style="text-align: center; color: #9ca3af; margin-bottom: 0.75rem;">Excerpt from the canonical <a href="IMPERIAL_MATH_MULTILINGUAL.md" style="color: #4da3ff;">multilingual guide</a> — update that file as the source of truth.</p>
-        <pre style="background: #1a1a1a; color: #e0e0e0; padding: 1rem; border-radius: 8px; overflow-x: auto; font-size: 0.95rem;">CHI_THRESHOLD = 0.15
+        <p class="multilingual-note" style="color: #b0b0b0; margin-bottom: 1rem;">Machine-readable grammar using <code>by</code> (×) and <code>per</code> (÷). Swap nouns into your language; keep the operators.</p>
+        <p class="multilingual-note">Constants: <code>CHI_THRESHOLD = 0.15</code>, <code>CHI_SCALE_FACTOR = 0.85</code>.</p>
+        <p class="multilingual-note">Excerpt from the canonical <a href="IMPERIAL_MATH_MULTILINGUAL.md" style="color: #4da3ff;">multilingual guide</a> (source of truth). Inline copy shown for offline readability.</p>
+        <pre class="multilingual-pre">CHI_THRESHOLD = 0.15
 CHI_SCALE_FACTOR = 0.85
 
 force = G by mass1 by mass2 per distance^2
@@ -664,10 +697,7 @@ if chi > CHI_THRESHOLD:
     force = force_raw by CHI_SCALE_FACTOR
 else:
     force = force_raw</pre>
-        <style>
-            .lang-card { background: #1a1a1a; padding: 0.9rem; border-radius: 8px; border: 1px solid #4da3ff; }
-        </style>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.75rem; margin-top: 1rem;">
+        <div class="multilingual-grid">
             <div class="lang-card">English: <code>force</code>, <code>mass</code>, <code>distance</code></div>
             <div class="lang-card">Español: <code>fuerza</code>, <code>masa</code>, <code>distancia</code></div>
             <div class="lang-card">العربية: <code>قوة</code>, <code>كتلة</code>, <code>مسافة</code></div>
