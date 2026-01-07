@@ -20,13 +20,18 @@ jobs:
       - name: Run LUFT Portal Engine Status Script
         run: python space_weather_rapid_report.py
 
-      - name: Commit and push markdown reports
-        run: |
-          git config --global user.name "vault-bot"
-          git config --global user.email "vault-bot@users.noreply.github.com"
-          git pull --rebase origin main --autostash || true
-          git add *.md
-          git diff --quiet && git diff --staged --quiet || git commit -m "Automated space weather report $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+       - name: Commit and push markdown reports
+         run: |
+           git config --global user.name "vault-bot"
+           git config --global user.email "vault-bot@users.noreply.github.com"
+           git pull --rebase origin main --autostash || true
+           git add *.md
+           git diff --quiet && git diff --staged --quiet || git commit -m "Automated space weather report $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+           git push
+         env:
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  update-dashboards:
+    needs: engine-report
+    uses: ./.github/workflows/update_dashboards.yml
+    secrets: inherit

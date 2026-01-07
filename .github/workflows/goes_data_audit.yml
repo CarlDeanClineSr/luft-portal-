@@ -58,7 +58,12 @@ jobs:
           echo "⏱️  File age: $file_age_hours hours"
           
           if [ $file_age_hours -gt 24 ]; then
-            echo "⚠️  Warning:  GOES capsule is older than 24 hours"
-          else
-            echo "✅ GOES capsule is recent"
-          fi
+           echo "⚠️  Warning:  GOES capsule is older than 24 hours"
+         else
+           echo "✅ GOES capsule is recent"
+         fi
+
+  update-dashboards:
+    needs: audit-goes-data
+    uses: ./.github/workflows/update_dashboards.yml
+    secrets: inherit
