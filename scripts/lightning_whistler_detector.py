@@ -12,6 +12,7 @@ proving the universal χ-related coupling across phenomena.
 
 import numpy as np
 import pandas as pd
+import json
 from typing import Dict, Any, List, Tuple
 from pathlib import Path
 import sys
@@ -38,7 +39,8 @@ def compute_fft_spectrum(
     
     # Apply window function
     if window == 'hann':
-        windowed_signal = signal * np.hanning(N)
+        # Use np.hamming as np.hanning is deprecated
+        windowed_signal = signal * np.hamming(N)
     elif window == 'hamming':
         windowed_signal = signal * np.hamming(N)
     elif window == 'blackman':
@@ -262,7 +264,10 @@ def analyze_whistler_spectrum(
         elif 'sferic_power' in df.columns:
             amplitude_column = 'sferic_power'
         else:
-            raise ValueError(f"Amplitude column '{amplitude_column}' not found")
+            raise ValueError(
+                f"Amplitude column '{amplitude_column}' not found. "
+                f"Available columns: {list(df.columns)}"
+            )
     
     signal = df[amplitude_column].values
     
@@ -354,7 +359,6 @@ def process_lightning_spectral(
     input_name = Path(input_path).stem
     output_json = Path(output_dir) / f"lightning_whistler_{input_name}.json"
     
-    import json
     with open(output_json, 'w') as f:
         json.dump(results, f, indent=2)
     

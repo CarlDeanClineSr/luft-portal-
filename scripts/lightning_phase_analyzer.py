@@ -12,6 +12,7 @@ QCD, CME, solar wind, black holes, lattice QCD, turbulence, and now lightning.
 
 import pandas as pd
 import numpy as np
+import json
 from typing import Dict, Any, Tuple
 import sys
 import os
@@ -128,12 +129,26 @@ def analyze_lightning_events(
         has_storm = True
         
         # Detect individual strokes (groups of consecutive PEAK points)
-        # Mark transitions
-        df['peak_flag'] = peak_mask.astype(int)
-        df['stroke_id'] = (df['peak_flag'].diff() != 0).cumsum()
+        # Create a stroke ID by checking for gaps in peak indices
+        peak_indices = df.index[peak_mask].tolist()
+        stroke_groups = []
+        current_group = [peak_indices[0]] if peak_indices else []
         
-        # Count distinct stroke events
-        num_strokes = df.loc[peak_mask, 'stroke_id'].nunique()
+        for i in range(1, len(peak_indices)):
+            if peak_indices[i] - peak_indices[i-1] == 1:
+                # Consecutive - same stroke
+                current_group.append(peak_indices[i])
+            else:
+                # Gap - new stroke
+                if current_group:
+                    stroke_groups.append(current_group)
+                current_group = [peak_indices[i]]
+        
+        # Add final group
+        if current_group:
+            stroke_groups.append(current_group)
+        
+        num_strokes = len(stroke_groups)
         
         first_peak_idx = df.index[peak_mask][0]
         last_peak_idx = df.index[peak_mask][-1]
@@ -159,10 +174,6 @@ def analyze_lightning_events(
         num_strokes = 0
         first_peak_time = None
         last_peak_time = None
-    
-    # Clean up temporary columns
-    if 'peak_flag' in df.columns:
-        df = df.drop(columns=['peak_flag', 'stroke_id'])
     
     # Aggregate statistics
     total_obs = len(df)
@@ -267,7 +278,6 @@ def process_lightning_recording(
     print(f"\n✅ Saved phase data to: {output_csv}")
     
     # Save summary as JSON
-    import json
     with open(output_json, 'w') as f:
         json.dump(summary, f, indent=2)
     print(f"✅ Saved summary to: {output_json}")
