@@ -12,6 +12,8 @@ Usage:
 
 import json
 import csv
+import glob
+import re
 from pathlib import Path
 from datetime import datetime, timezone
 import argparse
@@ -50,40 +52,64 @@ def count_csv_rows(filepath):
 
 def get_chi_status():
     """Get latest χ boundary status."""
-    # Try January 2026 data first
-    jan_file = Path('data/cme_heartbeat_log_2026_01.csv')
-    dec_file = Path('data/cme_heartbeat_log_2025_12.csv')
+    # Find all heartbeat log files - match YYYY_MM pattern to exclude modified files like _with_phases
+    all_files = sorted(glob.glob('data/cme_heartbeat_log_*.csv'))
+    # Filter to only include files that end with YYYY_MM.csv pattern
+    chi_files = [f for f in all_files if re.search(r'_\d{4}_\d{2}\.csv$', f)]
     
-    chi_file = jan_file if jan_file.exists() else dec_file
+    if not chi_files:
+        return "NO DATA", 0, 0.0, 0.0, 0.0
     
-    if not chi_file.exists():
-        return "NO DATA", 0, 0.0, 0.0
+    total_obs = 0
+    total_violations = 0
+    chi_max = 0.0
+    latest_chi = 0.0
     
     try:
-        with open(chi_file, 'r') as f:
-            lines = f.readlines()
-            if len(lines) < 2:
-                return "EMPTY", 0, 0.0, 0.0
-            
-            # Get last line
-            last = lines[-1].strip().split(',')
-            if len(last) >= 2:
-                chi_val = float(last[1])
-                total_obs = len(lines) - 1
+        for chi_file in chi_files:
+            with open(chi_file, 'r') as f:
+                lines = f.readlines()
+                if len(lines) < 2:
+                    continue
                 
-                # Count violations
-                violations = 0
+                # Process each data line
                 for line in lines[1:]:
                     parts = line.strip().split(',')
                     if len(parts) >= 2:
-                        if float(parts[1]) > 0.155:
-                            violations += 1
-                
-                return "ACTIVE", total_obs, chi_val, violations
-    except:
+                        try:
+                            chi_val = float(parts[1])
+                            total_obs += 1
+                            
+                            # Track max chi
+                            if chi_val > chi_max:
+                                chi_max = chi_val
+                            
+                            # Count violations - χ boundary is 0.15, but we use 0.155 threshold
+                            # to account for measurement/rounding tolerance near the boundary
+                            if chi_val > 0.155:
+                                total_violations += 1
+                        except ValueError:
+                            continue
+        
+        # Get latest chi from most recent file
+        latest_file = chi_files[-1]
+        with open(latest_file, 'r') as f:
+            lines = f.readlines()
+            if len(lines) >= 2:
+                last_parts = lines[-1].strip().split(',')
+                if len(last_parts) >= 2:
+                    try:
+                        latest_chi = float(last_parts[1])
+                    except ValueError:
+                        pass
+        
+        if total_obs > 0:
+            return "ACTIVE", total_obs, latest_chi, total_violations, chi_max
+        
+    except Exception:
         pass
     
-    return "ERROR", 0, 0.0, 0.0
+    return "ERROR", 0, 0.0, 0.0, 0.0
 
 
 def get_paper_status():
@@ -107,12 +133,17 @@ def get_link_intelligence():
     sources = load_json_safe('data/link_intelligence/source_health_latest.json')
     links = load_json_safe('data/link_intelligence/links_extracted_latest.json')
     
-    correlations = len(stats.get('correlations', {}).get('NOAA->CHI_BOUNDARY', {}).get('delays', []))
-    total_sources = sources.get('summary', {}).get('total_sources', 0)
-    active_sources = sources.get('summary', {}).get('active_sources', 0)
+    # Read total correlations from stats - the JSON has total_correlations and total_matches
+    correlations = stats.get('total_correlations', 0)
+    total_matches = stats.get('total_matches', 0)
+    
+    # Read source health - data is at top level, not nested under 'summary'
+    total_sources = sources.get('total_sources', 0)
+    active_sources = sources.get('active_sources', 0)
+    
     total_links = links.get('total_links', 0)
     
-    return correlations, total_sources, active_sources, total_links
+    return correlations, total_sources, active_sources, total_links, total_matches
 
 
 def get_mars_status():
@@ -123,8 +154,20 @@ def get_mars_status():
     
     try:
         data = load_json_safe(mars_file)
-        chi_val = data.get('chi_max', 0.0)
-        total_obs = data.get('total_observations', 0)
+        # The JSON structure has time_window.records for total observations
+        # and chi_rolling_coherent.max for the max chi value
+        time_window = data.get('time_window', {})
+        total_obs = time_window.get('records', 0)
+        
+        # Get chi max - prefer chi_rolling_coherent.max as it's the coherent measure
+        chi_rolling = data.get('chi_rolling_coherent', {})
+        chi_val = chi_rolling.get('max', 0.0)
+        
+        # Fallback to chi_instantaneous.max if rolling not available
+        if chi_val == 0.0:
+            chi_inst = data.get('chi_instantaneous', {})
+            chi_val = chi_inst.get('max', 0.0)
+        
         return "VALIDATED", total_obs, chi_val
     except:
         return "ERROR", 0, 0.0
@@ -172,9 +215,9 @@ def generate_summary():
     now = datetime.now(timezone.utc)
     
     # Get all status information
-    chi_status, chi_obs, chi_latest, chi_violations = get_chi_status()
+    chi_status, chi_obs, chi_latest, chi_violations, chi_max = get_chi_status()
     paper_count, paper_date = get_paper_status()
-    correlations, total_sources, active_sources, total_links = get_link_intelligence()
+    correlations, total_sources, active_sources, total_links, total_matches = get_link_intelligence()
     mars_status, mars_obs, mars_chi = get_mars_status()
     params_total, params_with, params_date = get_extracted_params()
     file_stats = get_file_stats()
@@ -191,6 +234,7 @@ def generate_summary():
 **Status:** {chi_status}  
 **Total Observations:** {chi_obs:,}  
 **Latest χ Value:** {chi_latest:.4f}  
+**χ Max:** {chi_max:.4f}  
 **Violations:** {chi_violations} ({'✅ ZERO' if chi_violations == 0 else '⚠️ CHECK'})  
 **Boundary Test:** {'✅ PASSED' if chi_violations == 0 else '❌ FAILED'}
 
@@ -213,7 +257,8 @@ def generate_summary():
 
 **Data Sources:** {active_sources}/{total_sources} active  
 **Network Links:** {total_links:,} scientific connections mapped  
-**Temporal Correlations:** {correlations} discovered (NOAA→χ)  
+**Temporal Correlations:** {total_matches:,} discovered (NOAA→χ)  
+**Temporal Modes:** {correlations} confirmed  
 **Delays:** 0, 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72 hours
 
 ---
@@ -223,7 +268,7 @@ def generate_summary():
 ### Earth Solar Wind (1 AU)
 - Status: ✅ PRIMARY
 - Observations: {chi_obs:,}
-- χ Max: {chi_latest:.4f}
+- χ Max: {chi_max:.4f}
 - Violations: {chi_violations}
 
 ### Mars Magnetotail (1.5 AU)
@@ -292,6 +337,7 @@ python tools/simulate_reconnection_chi.py
 | Papers Analyzed | {paper_count} | ✅ |
 | Data Sources | {active_sources}/{total_sources} | {'✅' if total_sources > 0 and active_sources/total_sources > 0.9 else '⚠️'} |
 | Temporal Modes | {correlations} | ✅ |
+| Correlations | {total_matches:,} | ✅ |
 
 ---
 
