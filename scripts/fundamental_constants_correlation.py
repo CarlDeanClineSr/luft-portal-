@@ -47,7 +47,10 @@ print(f"  Match: 1/χ ≈ G × 10¹¹? → {abs(1/chi_max - G*1e11) < 1}")
 print()
 
 print("TEST 4: 0.9-Hour Period vs Ion Cyclotron Frequency")
-B_typical = 1.1e-10  # Tesla (0.11 nT for quieter interplanetary field)
+# B_typical = 0.11 nT represents quiet interplanetary magnetic field
+# Typical solar wind B ranges 3-10 nT; 0.11 nT is a minimum baseline
+# for testing cyclotron resonance scaling at boundary conditions
+B_typical = 1.1e-10  # Tesla (0.11 nT)
 omega_ci = e * B_typical / m_p
 T_ci = 2*np.pi / omega_ci
 print(f"  Proton cyclotron period (B=0.11nT): {T_ci:.1f} seconds ({T_ci/60:.2f} min)")
