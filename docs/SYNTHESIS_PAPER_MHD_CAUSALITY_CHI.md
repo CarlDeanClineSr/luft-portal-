@@ -12,7 +12,7 @@ We present a unified framework connecting three independent lines of evidence fo
 
 1. **Theoretically predicted** by relativistic causality constraints in dissipative magnetohydrodynamics (Cordeiro et al., 2024)
 2. **Derived from early universe physics** via anomalous MHD with pseudoscalar fields (Giovannini, 2013)
-3. **Empirically validated** across 1. 4 million+ observations in Earth and Mars environments (Cline, 2026)
+3. **Empirically validated** across 1.4 million+ observations in Earth and Mars environments (Cline, 2026)
 4. **Observed in multiband whistler modes** via MMS satellite data (Shah & Burgess, 2024)
 
 Furthermore, we demonstrate that χ = 0.15 is connected to fundamental constants:  (m_e/m_p)^(1/4) ≈ 0.153, 20α ≈ 0.146, and 1/χ ≈ G × 10¹¹.  The 0.9-hour wave packet period discovered in solar wind data matches the timescale predicted by electroweak-scale MHD coupling. This synthesis establishes χ = 0.15 as a **universal plasma coherence threshold** spanning micro (electron cyclotron) to macro (CME shock) scales.
@@ -220,7 +220,7 @@ Using MMS burst data from 2021-02-23 at L=10.19, Shah & Burgess identified **mul
 
 ### 7.1 For MHD Simulations
 
-**Black hole accretion disks** (Cordeiro et al. ):
+**Black hole accretion disks (Cordeiro et al.)**:
 - Check if χ violates 0.15 during turbulence
 - Expect reorganization, not runaway growth
 

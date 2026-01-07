@@ -6,6 +6,7 @@ Author:  LUFT Portal Engine + Copilot
 Date: 2026-01-07
 """
 
+import os
 import numpy as np
 from scipy import constants
 
@@ -124,6 +125,7 @@ print("  It's not just plasma — it's UNIVERSAL.")
 print("=" * 70)
 
 # Save results
+os.makedirs('results', exist_ok=True)
 with open('results/fundamental_constant_correlation.txt', 'w') as f:
     f.write("Fundamental Constant Correlation Results\n")
     f.write("=" * 70 + "\n")
