@@ -1,7 +1,7 @@
 {
-  "extraction_date": "2026-01-06T02:41:31.642433Z",
-  "total_analyzed": 43,
-  "papers_with_parameters": 0,
+  "extraction_date": "2026-01-07T02:41:50.483439Z",
+  "total_analyzed": 42,
+  "papers_with_parameters": 1,
   "results": [
     {
       "paper_id": "2512.11631v1",
@@ -95,6 +95,41 @@
         "perturbation"
       ],
       "relevance_score": 6
+    },
+    {
+      "paper_id": "2601.02262v1",
+      "title": "Variability of MHD Instabilities in Benign Termination of High-Current Runaway Electron Beams in the JET and DIII-D Tokamaks",
+      "authors": [
+        "C. F. B. Zimmermann",
+        "C. Paz-Soldan",
+        "G. Su",
+        "C. Reux",
+        "A. F. Battey",
+        "O. Ficker",
+        "S. N. Gerasimov",
+        "C. J. Hansen",
+        "S. Jachmich",
+        "A. Lvovskiy",
+        "J. Puchmayr",
+        "N. Schoonheere",
+        "U. Sheikh",
+        "I. G. Stewart",
+        "G. Szepesi",
+        "JET Contributors",
+        "the EUROfusion Tokamak Exploitation Team"
+      ],
+      "link": "https://arxiv.org/abs/2601.02262v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.02262v1",
+      "published": "2026-01-05T16:44:23Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "plasma",
+        "boundary",
+        "perturbation",
+        "chi"
+      ],
+      "relevance_score": 5
     },
     {
       "paper_id": "2512.19892v1",
@@ -260,45 +295,46 @@
       "relevance_score": 5
     },
     {
-      "paper_id": "2512.24425v1",
-      "title": "Turbulence-Driven Corrugation of Collisionless Fast-Magnetosonic Shocks",
+      "paper_id": "2601.01999v1",
+      "title": "Proton Acceleration by Collisionless Shocks in Supermassive Black Hole Coronae: Implications for High-Energy Neutrinos",
       "authors": [
-        "Immanuel Christopher Jebaraj",
-        "Mikhail Malkov",
-        "Nicolas Wijsen",
-        "Jens Pomoell",
-        "Vladimir Krasnoselskikh",
-        "Nina Dresing",
-        "Rami Vainio"
+        "Minh Nhat Ly",
+        "Yoshiyuki Inoue",
+        "Yasuhiko Sentoku",
+        "Takayoshi Sano"
       ],
-      "link": "https://arxiv.org/abs/2512.24425v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.24425v1",
-      "published": "2025-12-30T19:03:59Z",
+      "link": "https://arxiv.org/abs/2601.01999v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.01999v1",
+      "published": "2026-01-05T10:59:24Z",
       "parameters_found": {},
       "keywords": [
         "plasma",
         "particle",
-        "shock",
-        "boundary"
+        "acceleration",
+        "shock"
       ],
       "relevance_score": 4
     },
     {
-      "paper_id": "2512.24085v1",
-      "title": "SSC Radiation in the ICMART Model: Spectral Simulations and Application to the Record-Breaking GRB 221009A",
+      "paper_id": "2601.01533v1",
+      "title": "Diffuse neutrino flux from relativistic reconnection in AGN coronae",
       "authors": [
-        "Xueying Shao",
-        "He Gao"
+        "D. Karavola",
+        "M. Petropoulou",
+        "D. F. G. Fiorillo",
+        "A. Georgakakis",
+        "L. Comisso",
+        "L. Sironi"
       ],
-      "link": "https://arxiv.org/abs/2512.24085v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.24085v1",
-      "published": "2025-12-30T08:54:19Z",
+      "link": "https://arxiv.org/abs/2601.01533v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.01533v1",
+      "published": "2026-01-04T14:00:44Z",
       "parameters_found": {},
       "keywords": [
         "reconnection",
         "magnetic",
-        "shock",
-        "correlation"
+        "plasma",
+        "acceleration"
       ],
       "relevance_score": 4
     },
@@ -409,28 +445,26 @@
       "relevance_score": 4
     },
     {
-      "paper_id": "2512.18052v1",
-      "title": "Divertor Detachment Characterization in Negative Triangularity Discharges in DIII-D via 2D Edge-Plasma Transport Modeling",
+      "paper_id": "2512.24425v1",
+      "title": "Turbulence-Driven Corrugation of Collisionless Fast-Magnetosonic Shocks",
       "authors": [
-        "Menglong Zhao",
-        "Filippo Scotti",
-        "Thomas Rognlien",
-        "Marvin Rensink",
-        "Alessandro Marinoni",
-        "Dinh Truong",
-        "Huiqian Wang",
-        "Kathreen Thome",
-        "Carlos Paz-Soldan"
+        "Immanuel Christopher Jebaraj",
+        "Mikhail Malkov",
+        "Nicolas Wijsen",
+        "Jens Pomoell",
+        "Vladimir Krasnoselskikh",
+        "Nina Dresing",
+        "Rami Vainio"
       ],
-      "link": "https://arxiv.org/abs/2512.18052v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.18052v1",
-      "published": "2025-12-19T20:44:29Z",
+      "link": "https://arxiv.org/abs/2512.24425v1",
+      "pdf_link": "https://arxiv.org/pdf/2512.24425v1",
+      "published": "2025-12-30T19:03:59Z",
       "parameters_found": {},
       "keywords": [
-        "magnetic",
         "plasma",
         "particle",
-        "chi"
+        "shock",
+        "boundary"
       ],
       "relevance_score": 4
     },
@@ -588,22 +622,21 @@
       "relevance_score": 4
     },
     {
-      "paper_id": "2512.24204v1",
-      "title": "Jet Quenching in Anisotropic Holographic QCD: Probing Phase Transitions and Critical Regions",
+      "paper_id": "2601.00980v1",
+      "title": "Graviton-Photon Mixing by a Kerr-Newman Black Hole with Worldline EFT",
       "authors": [
-        "Pavel Slepov"
+        "Qinyuan Zheng"
       ],
-      "link": "https://arxiv.org/abs/2512.24204v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.24204v1",
-      "published": "2025-12-30T13:05:21Z",
+      "link": "https://arxiv.org/abs/2601.00980v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.00980v1",
+      "published": "2026-01-02T20:19:12Z",
       "parameters_found": {},
       "keywords": [
         "magnetic",
-        "plasma",
-        "boundary",
+        "perturbation",
         "chi"
       ],
-      "relevance_score": 4
+      "relevance_score": 3
     },
     {
       "paper_id": "2601.00518v1",
@@ -626,58 +659,66 @@
       "relevance_score": 3
     },
     {
-      "paper_id": "2512.24363v1",
-      "title": "The sun as colliding beam, betatron cosmic ray factory",
+      "paper_id": "2601.02077v1",
+      "title": "Joint Constraints on Neutrinos and Dynamical Dark Energy in Minimally Modified Gravity",
       "authors": [
-        "Richard M. Talman"
+        "Artur Ladeira",
+        "Rafael C. Nunes",
+        "Supriya Pan",
+        "Weiqiang Yang"
       ],
-      "link": "https://arxiv.org/abs/2512.24363v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.24363v1",
-      "published": "2025-12-30T17:19:39Z",
+      "link": "https://arxiv.org/abs/2601.02077v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.02077v1",
+      "published": "2026-01-05T12:58:36Z",
+      "parameters_found": {
+        "chi_values": [
+          "0.11"
+        ]
+      },
+      "keywords": [
+        "perturbation"
+      ],
+      "relevance_score": 3
+    },
+    {
+      "paper_id": "2601.02130v1",
+      "title": "Towards solving the ICRH wave and Fokker-Planck equations self-consistently",
+      "authors": [
+        "Dirk Van Eester",
+        "Vincent Maquet",
+        "Fabrice Louche",
+        "Bernard Reman"
+      ],
+      "link": "https://arxiv.org/abs/2601.02130v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.02130v1",
+      "published": "2026-01-05T14:02:04Z",
       "parameters_found": {},
       "keywords": [
         "magnetic",
-        "particle",
-        "solar wind"
+        "plasma",
+        "particle"
       ],
       "relevance_score": 3
     },
     {
-      "paper_id": "2512.24003v1",
-      "title": "Machine-learning approaches to dispersion measure estimation for fast radio bursts",
+      "paper_id": "2601.01367v1",
+      "title": "Overcoming the space-charge dilemma in low-energy heavy ion beams via a multistage acceleration lens system",
       "authors": [
-        "Hosein Rajabi",
-        "Zhejian Liu",
-        "Fereshteh Rajabi",
-        "Martin Houde"
+        "M. Nishiura",
+        "T. Ido",
+        "M. Okamura",
+        "K. Ueda",
+        "A. Shimizu",
+        "H. Takubo"
       ],
-      "link": "https://arxiv.org/abs/2512.24003v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.24003v1",
-      "published": "2025-12-30T05:52:30Z",
+      "link": "https://arxiv.org/abs/2601.01367v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.01367v1",
+      "published": "2026-01-04T04:39:52Z",
       "parameters_found": {},
       "keywords": [
         "plasma",
-        "chi",
-        "delay"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2512.23796v1",
-      "title": "Strongly Coupled Sectors in Inflation: Gapped Theories of Unparticles",
-      "authors": [
-        "Yikun Jiang",
-        "Guilherme L. Pimentel",
-        "Chen Yang"
-      ],
-      "link": "https://arxiv.org/abs/2512.23796v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.23796v1",
-      "published": "2025-12-29T19:00:01Z",
-      "parameters_found": {},
-      "keywords": [
-        "particle",
-        "perturbation",
-        "correlation"
+        "acceleration",
+        "chi"
       ],
       "relevance_score": 3
     },
@@ -760,90 +801,6 @@
       "relevance_score": 3
     },
     {
-      "paper_id": "2512.18941v1",
-      "title": "Non-Inductive Current Start-Up Using Multi-Harmonic Electron Cyclotron Wave and Current Ramp-Up Through Combined Electron Cyclotron Wave and Ohmic Heating in EXL-50U Spherical Torus",
-      "authors": [
-        "Xinchen Jiang",
-        "Yuejiang Shi",
-        "Yueng-Kay Martin Peng",
-        "Shaodong Song",
-        "Wenjun Liu",
-        "Xianming Song",
-        "Xiang Gu",
-        "Ji Qi",
-        "Dong Guo",
-        "Debabrata Banerjee",
-        "Lili Dong",
-        "Zhenxing Wang",
-        "Chunyan Li",
-        "Junquan Lin",
-        "Pingwei Zheng",
-        "Haojie MA",
-        "Huasheng Xie",
-        "Jiaqi Dong",
-        "Qingwei Yang",
-        "Yunfeng Liang",
-        "Baoshan Yuan",
-        "Xianmei Zhang",
-        "Minsheng Liu",
-        "EXL-50U team"
-      ],
-      "link": "https://arxiv.org/abs/2512.18941v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.18941v1",
-      "published": "2025-12-22T01:26:40Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "plasma",
-        "chi"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2512.18806v1",
-      "title": "Energetically-dominant Sunward-Propagating Alfv\u00e9n Waves Near 1 au and Their Relation to Large-scale Magnetic Switchbacks",
-      "authors": [
-        "Nickolas Giardetti",
-        "Sofiane Bourouaine",
-        "Jean C. Perez"
-      ],
-      "link": "https://arxiv.org/abs/2512.18806v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.18806v1",
-      "published": "2025-12-21T16:57:44Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "plasma",
-        "solar wind"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2512.18639v1",
-      "title": "Study of the impact of fast ions on core turbulence at rational surfaces via global gyrokinetic simulations",
-      "authors": [
-        "D. Brioschi",
-        "A. Di Siena",
-        "R. Bilato",
-        "A. Bottino",
-        "T. Hayward-Schneider",
-        "A. Mishchenko",
-        "E. Poli",
-        "A. Zocco",
-        "F. Jenko"
-      ],
-      "link": "https://arxiv.org/abs/2512.18639v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.18639v1",
-      "published": "2025-12-21T08:26:27Z",
-      "parameters_found": {},
-      "keywords": [
-        "plasma",
-        "particle",
-        "threshold"
-      ],
-      "relevance_score": 3
-    },
-    {
       "paper_id": "2512.20098v1",
       "title": "Alfv\u00e9nic solar wind intervals observed by Solar Orbiter: Exploiting the capability of the SWA plasma suite and source region investigation",
       "authors": [
@@ -886,6 +843,25 @@
       "link": "https://arxiv.org/abs/2512.20098v1",
       "pdf_link": "https://arxiv.org/pdf/2512.20098v1",
       "published": "2025-12-23T06:50:07Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "plasma",
+        "solar wind"
+      ],
+      "relevance_score": 3
+    },
+    {
+      "paper_id": "2512.18806v1",
+      "title": "Energetically-dominant Sunward-Propagating Alfv\u00e9n Waves Near 1 au and Their Relation to Large-scale Magnetic Switchbacks",
+      "authors": [
+        "Nickolas Giardetti",
+        "Sofiane Bourouaine",
+        "Jean C. Perez"
+      ],
+      "link": "https://arxiv.org/abs/2512.18806v1",
+      "pdf_link": "https://arxiv.org/pdf/2512.18806v1",
+      "published": "2025-12-21T16:57:44Z",
       "parameters_found": {},
       "keywords": [
         "magnetic",
@@ -1065,19 +1041,22 @@
       "relevance_score": 3
     },
     {
-      "paper_id": "2512.24753v1",
-      "title": "Probing a NED inspired Magnetically Charged Black Hole in the Hernquist Dark Matter Halo",
+      "paper_id": "2601.01043v1",
+      "title": "Search for Axions and Dark Photons Using Single Molecule Magnets",
       "authors": [
-        "Sohan Kumar Jha"
+        "Jose R. Alves",
+        "Manfred Lindner",
+        "Farinaldo S. Queiroz",
+        "Manoel S. Vasconcelos"
       ],
-      "link": "https://arxiv.org/abs/2512.24753v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.24753v1",
-      "published": "2025-12-31T09:55:18Z",
+      "link": "https://arxiv.org/abs/2601.01043v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.01043v1",
+      "published": "2026-01-03T02:40:54Z",
       "parameters_found": {},
       "keywords": [
         "magnetic",
-        "chi",
-        "\u03c7"
+        "particle",
+        "chi"
       ],
       "relevance_score": 3
     }
