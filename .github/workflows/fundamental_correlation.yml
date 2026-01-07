@@ -1,0 +1,40 @@
+name: Run Fundamental Constants Correlation
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Hourly
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install numpy scipy
+      - name: Run script
+        run: python scripts/fundamental_constants_correlation.py > results/fundamental_matches.txt
+      - name: Configure git
+        run: |
+          git config user.name "LUFT Bot"
+          git config user.email "bot@luft.local"
+      - name: Commit and push results
+        run: |
+          git pull --rebase origin main --autostash || true
+          git add results/fundamental_matches.txt
+          if git diff --staged --quiet; then
+            echo "No changes to results/fundamental_matches.txt"
+          else
+            git commit -m "Update fundamental matches - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
