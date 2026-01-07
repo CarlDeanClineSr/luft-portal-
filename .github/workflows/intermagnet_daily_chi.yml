@@ -85,7 +85,15 @@ jobs:
         run: |
           git config user.name "LUFT Portal Bot"
           git config user.email "luft-bot@users.noreply.github.com"
-          git add data/intermagnet_csv/*.csv data/intermagnet_chi_calculations_*.csv figures/*.png 2>/dev/null || true
+          for file in \
+            data/intermagnet_csv/dou_${{ steps.date.outputs.date_compact }}.csv \
+            data/intermagnet_csv/sua_${{ steps.date.outputs.date_compact }}.csv \
+            data/intermagnet_chi_calculations_${{ steps.date.outputs.date_compact }}_dou.csv \
+            data/intermagnet_chi_calculations_${{ steps.date.outputs.date_compact }}_sua.csv \
+            figures/intermagnet_chi_timeseries_${{ steps.date.outputs.date_compact }}_dou.png \
+            figures/intermagnet_chi_timeseries_${{ steps.date.outputs.date_compact }}_sua.png; do
+            [ -f "$file" ] && git add "$file"
+          done
           git commit -m "Auto: INTERMAGNET χ results for ${{ steps.date.outputs.date }}" || echo "No changes to commit"
           git push
 
@@ -94,26 +102,45 @@ jobs:
           DATE: ${{ steps.date.outputs.date }}
           DATE_COMPACT: ${{ steps.date.outputs.date_compact }}
         run: |
-          CHI_MAX_DOU=$(python - <<'PY'
+          stats_for_station() {
+            local station="$1"
+            python - <<'PY' "$station"
 import os
+import sys
 import pandas as pd
 
-dc = os.environ["DATE_COMPACT"]
-df = pd.read_csv(f"data/intermagnet_chi_calculations_{dc}_dou.csv")
-print(f"{df['chi'].max():.6f}")
-PY
-)
+station = sys.argv[1]
+date_compact = os.environ["DATE_COMPACT"]
+file_path = f"data/intermagnet_chi_calculations_{date_compact}_{station}.csv"
 
-          CHI_MAX_SUA=$(python - <<'PY'
-import os
-import pandas as pd
+if not os.path.exists(file_path):
+    print(f"Missing chi file: {file_path}", file=sys.stderr)
+    sys.exit(1)
 
-dc = os.environ["DATE_COMPACT"]
-df = pd.read_csv(f"data/intermagnet_chi_calculations_{dc}_sua.csv")
-print(f"{df['chi'].max():.6f}")
+df = pd.read_csv(file_path)
+if df.empty:
+    print(f"No data in {file_path}", file=sys.stderr)
+    sys.exit(1)
+
+chi_max = df['chi'].max()
+violations = (df['chi'] > 0.15).sum()
+print(f"{chi_max:.6f} {violations}")
 PY
-)
+          }
+
+          if ! OUTPUT_DOU=$(stats_for_station dou); then
+            echo "Failed to compute stats for DOU" >&2
+            exit 1
+          fi
+          read CHI_MAX_DOU VIOLATIONS_DOU <<< "$OUTPUT_DOU"
+
+          if ! OUTPUT_SUA=$(stats_for_station sua); then
+            echo "Failed to compute stats for SUA" >&2
+            exit 1
+          fi
+          read CHI_MAX_SUA VIOLATIONS_SUA <<< "$OUTPUT_SUA"
+
           echo "✅ INTERMAGNET χ Validation Complete for ${DATE}"
           echo "DOU: χ_max = $CHI_MAX_DOU"
           echo "SUA: χ_max = $CHI_MAX_SUA"
-          echo "Violations: 0 (boundary χ ≤ 0.15 confirmed)"
+          echo "Violations: $((VIOLATIONS_DOU + VIOLATIONS_SUA)) (χ > 0.15 across both stations)"
