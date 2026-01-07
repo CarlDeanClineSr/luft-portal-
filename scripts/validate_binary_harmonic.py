@@ -16,7 +16,8 @@ from pathlib import Path
 Q_PROTON = 1.602e-19  # Coulombs
 M_PROTON = 1.673e-27  # kg
 
-# Your 13 temporal modes (hours)
+# 13 temporal modes (hours) - includes baseline (0) and 12 active modes
+# Note: 0-hour mode is the baseline and is skipped during ratio calculations
 TEMPORAL_MODES = np.array([0, 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72])
 
 

@@ -18,7 +18,17 @@ CHI_BOUNDARY = 0.15  # Your empirical boundary
 
 
 def load_chi_data():
-    """Load all χ boundary tracking data"""
+    """
+    Load all χ boundary tracking data from available sources.
+    
+    Expected data files (loads whichever are available):
+    - data/cme_heartbeat_log_2025_12.csv (primary Earth solar wind data)
+    - data/chi_boundary_tracking.jsonl (boundary tracking summary)
+    - data/maven_chi_validation.csv (Mars data, optional)
+    - data/magnetosphere_chi_validation.csv (magnetosphere data, optional)
+    
+    Files that don't exist are skipped gracefully.
+    """
     files = [
         'data/cme_heartbeat_log_2025_12.csv',
         'data/chi_boundary_tracking.jsonl',

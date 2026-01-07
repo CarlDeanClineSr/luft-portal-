@@ -16,7 +16,16 @@ CHI_BOUNDARY = 0.15
 
 
 def load_all_environments():
-    """Load χ data from all validated environments"""
+    """
+    Load χ data from all validated environments.
+    
+    Configured data sources (loads whichever are available):
+    - Earth Solar Wind: data/cme_heartbeat_log_2025_12.csv (primary data)
+    - Mars: data/maven_chi_validation.csv (optional, for multi-planetary validation)
+    - Earth Magnetosphere: results/magnetometer_chi/magnetometer_chi_2025_12_26.csv
+    
+    Missing files are skipped gracefully with a warning message.
+    """
 
     datasets = {
         'Earth Solar Wind': {
@@ -25,7 +34,7 @@ def load_all_environments():
             'location': '1 AU'
         },
         'Mars': {
-            'file': 'data/maven_chi_validation.csv',
+            'file': 'data/maven_chi_validation.csv',  # Optional - for Mars validation
             'B_range': (1, 10),  # nT
             'location': '1.5 AU'
         },
