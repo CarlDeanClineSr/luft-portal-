@@ -1,0 +1,146 @@
+name: INTERMAGNET Daily χ Validation
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Daily at 06:00 UTC
+  workflow_dispatch:
+
+jobs:
+  fetch-and-analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required for pushing results
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install pandas numpy matplotlib requests
+
+      - name: Set date (yesterday)
+        id: date
+        run: |
+          DATE=$(date -u -d "yesterday" +%Y-%m-%d)
+          echo "date=$DATE" >> "$GITHUB_OUTPUT"
+          echo "date_compact=${DATE//-/}" >> "$GITHUB_OUTPUT"
+          echo "Processing date: $DATE"
+
+      - name: Fetch INTERMAGNET data
+        run: bash scripts/fetch_intermagnet_realtime.sh
+        env:
+          FETCH_DATE: ${{ steps.date.outputs.date }}
+
+      - name: Prepare directories
+        run: |
+          mkdir -p data/intermagnet_csv figures
+
+      - name: Convert IAGA2002 to CSV (DOU)
+        run: |
+          python scripts/convert_iaga2002_to_csv.py \
+            --input data/intermagnet_raw/dou_${{ steps.date.outputs.date_compact }}.min \
+            --output data/intermagnet_csv/dou_${{ steps.date.outputs.date_compact }}.csv
+
+      - name: Convert IAGA2002 to CSV (SUA)
+        run: |
+          python scripts/convert_iaga2002_to_csv.py \
+            --input data/intermagnet_raw/sua_${{ steps.date.outputs.date_compact }}.min \
+            --output data/intermagnet_csv/sua_${{ steps.date.outputs.date_compact }}.csv
+
+      - name: Compute χ (DOU)
+        id: chi_dou
+        run: |
+          python scripts/compute_chi_from_intermagnet.py \
+            --input data/intermagnet_csv/dou_${{ steps.date.outputs.date_compact }}.csv \
+            --output data/intermagnet_chi_calculations_${{ steps.date.outputs.date_compact }}_dou.csv
+
+      - name: Compute χ (SUA)
+        id: chi_sua
+        run: |
+          python scripts/compute_chi_from_intermagnet.py \
+            --input data/intermagnet_csv/sua_${{ steps.date.outputs.date_compact }}.csv \
+            --output data/intermagnet_chi_calculations_${{ steps.date.outputs.date_compact }}_sua.csv
+
+      - name: Plot χ time series (DOU)
+        run: |
+          python scripts/plot_intermagnet_chi_timeseries.py \
+            --input data/intermagnet_chi_calculations_${{ steps.date.outputs.date_compact }}_dou.csv \
+            --output figures/intermagnet_chi_timeseries_${{ steps.date.outputs.date_compact }}_dou.png
+
+      - name: Plot χ time series (SUA)
+        run: |
+          python scripts/plot_intermagnet_chi_timeseries.py \
+            --input data/intermagnet_chi_calculations_${{ steps.date.outputs.date_compact }}_sua.csv \
+            --output figures/intermagnet_chi_timeseries_${{ steps.date.outputs.date_compact }}_sua.png
+
+      - name: Commit results
+        run: |
+          git config user.name "LUFT Portal Bot"
+          git config user.email "luft-bot@users.noreply.github.com"
+          for file in \
+            data/intermagnet_csv/dou_${{ steps.date.outputs.date_compact }}.csv \
+            data/intermagnet_csv/sua_${{ steps.date.outputs.date_compact }}.csv \
+            data/intermagnet_chi_calculations_${{ steps.date.outputs.date_compact }}_dou.csv \
+            data/intermagnet_chi_calculations_${{ steps.date.outputs.date_compact }}_sua.csv \
+            figures/intermagnet_chi_timeseries_${{ steps.date.outputs.date_compact }}_dou.png \
+            figures/intermagnet_chi_timeseries_${{ steps.date.outputs.date_compact }}_sua.png; do
+            [ -f "$file" ] && git add "$file"
+          done
+          git commit -m "Auto: INTERMAGNET χ results for ${{ steps.date.outputs.date }}" || echo "No changes to commit"
+          git push
+
+      - name: Extract stats and post summary
+        env:
+          DATE: ${{ steps.date.outputs.date }}
+          DATE_COMPACT: ${{ steps.date.outputs.date_compact }}
+        run: |
+          stats_for_station() {
+            local station="$1"
+            python - <<'PY' "$station"
+import os
+import sys
+import pandas as pd
+
+station = sys.argv[1]
+date_compact = os.environ["DATE_COMPACT"]
+file_path = f"data/intermagnet_chi_calculations_{date_compact}_{station}.csv"
+
+if not os.path.exists(file_path):
+    print(f"Missing chi file: {file_path}", file=sys.stderr)
+    sys.exit(1)
+
+df = pd.read_csv(file_path)
+if df.empty:
+    print(f"No data in {file_path}", file=sys.stderr)
+    sys.exit(1)
+
+chi_max = df['chi'].max()
+violations = (df['chi'] > 0.15).sum()
+print(f"{chi_max:.6f} {violations}")
+PY
+          }
+
+          if ! OUTPUT_DOU=$(stats_for_station dou); then
+            echo "Failed to compute stats for DOU" >&2
+            exit 1
+          fi
+          read CHI_MAX_DOU VIOLATIONS_DOU <<< "$OUTPUT_DOU"
+
+          if ! OUTPUT_SUA=$(stats_for_station sua); then
+            echo "Failed to compute stats for SUA" >&2
+            exit 1
+          fi
+          read CHI_MAX_SUA VIOLATIONS_SUA <<< "$OUTPUT_SUA"
+
+          echo "✅ INTERMAGNET χ Validation Complete for ${DATE}"
+          echo "DOU: χ_max = $CHI_MAX_DOU"
+          echo "SUA: χ_max = $CHI_MAX_SUA"
+          echo "Violations: $((VIOLATIONS_DOU + VIOLATIONS_SUA)) (χ > 0.15 across both stations)"

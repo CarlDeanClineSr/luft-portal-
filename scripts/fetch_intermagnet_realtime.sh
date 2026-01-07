@@ -1,10 +1,10 @@
 #!/bin/bash
-# Fetch INTERMAGNET quasi-definitive data for Jan 6, 2026 (DOU, SUA)
+# Fetch INTERMAGNET quasi-definitive data for DOU and SUA
 # Uses INTERMAGNET web service API for near-real-time provisional data
 
-STATIONS="dou sua"
-DATE="2026-01-06"
-OUTDIR="data/intermagnet_raw"
+STATIONS="${STATIONS:-dou sua}"
+DATE="${FETCH_DATE:-${DATE:-$(date -u +%Y-%m-%d)}}"
+OUTDIR="${OUTDIR:-data/intermagnet_raw}"
 
 mkdir -p "$OUTDIR"
 
