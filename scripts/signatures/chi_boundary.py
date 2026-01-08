@@ -21,7 +21,9 @@ def score_chi_boundary(phi: pd.Series, boundary_band=(0.145, 0.155), cap=0.15, m
         dict with band_pct, over_cap_count, and pass status
     """
     phi = pd.to_numeric(phi, errors="coerce").dropna()
-    total = int(phi.size) or 1
+    total = int(phi.size)
+    if total == 0:
+        return {"band_pct": np.nan, "over_cap_count": 0, "pass": True, "reason": "no data"}
     band_pct = float(((phi >= boundary_band[0]) & (phi <= boundary_band[1])).sum()) / total * 100.0
     over_cap = int((phi > cap).sum())
     return {

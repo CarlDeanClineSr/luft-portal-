@@ -28,10 +28,14 @@ def rolling_median(series: pd.Series, window: int = 24) -> pd.Series:
     return pd.to_numeric(series, errors="coerce").rolling(window=window, min_periods=max(1, window // 2)).median()
 
 
+# Small epsilon to prevent division by zero
+EPSILON = 1e-12
+
+
 def compute_phi(x: pd.Series, base: pd.Series) -> pd.Series:
     """Compute normalized perturbation φ = |x−baseline|/baseline (Imperial Math)."""
     base = base.replace(0, np.nan)
-    return (pd.to_numeric(x, errors="coerce") - base).abs() / (base + 1e-12)
+    return (pd.to_numeric(x, errors="coerce") - base).abs() / (base + EPSILON)
 
 
 def load_csv_generic(p: Path):
@@ -106,7 +110,7 @@ def evaluate(path: str, curriculum: dict):
             ew_res = score_electroweak_bridge(
                 ts,
                 curriculum["signatures"]["electroweak_bridge"]["fundamental_hours"],
-                0.3,
+                curriculum["signatures"]["electroweak_bridge"]["tol_hours"],
                 curriculum["signatures"]["electroweak_bridge"]["min_presence_fraction"]
             )
             out.update({

@@ -1356,8 +1356,8 @@ Autonomic signature checks across vault datasets.
 ## data/noaa_solarwind/noaa_plasma_20251225_023814.csv
 
 - **status:** analyzed
-- **chi_boundary:** {"band_pct": 0.0, "over_cap_count": 0, "pass": true}
-- **fractal_regulator:** {"phi_p95": NaN, "phi_p99": NaN, "over_cap_count": 0, "pass": false}
+- **chi_boundary:** {"band_pct": NaN, "over_cap_count": 0, "pass": true, "reason": "no data"}
+- **fractal_regulator:** {"phi_p95": NaN, "phi_p99": NaN, "over_cap_count": 0, "pass": true, "reason": "no data"}
 - **binary_harmonics:** {"events": 0, "pass": false, "reason": "insufficient events"}
 - **electroweak_bridge:** {"pass": false, "reason": "insufficient bursts"}
 
@@ -2356,8 +2356,8 @@ Autonomic signature checks across vault datasets.
 ## data/noaa_solarwind/noaa_plasma_20251225_033142.csv
 
 - **status:** analyzed
-- **chi_boundary:** {"band_pct": 0.0, "over_cap_count": 0, "pass": true}
-- **fractal_regulator:** {"phi_p95": NaN, "phi_p99": NaN, "over_cap_count": 0, "pass": false}
+- **chi_boundary:** {"band_pct": NaN, "over_cap_count": 0, "pass": true, "reason": "no data"}
+- **fractal_regulator:** {"phi_p95": NaN, "phi_p99": NaN, "over_cap_count": 0, "pass": true, "reason": "no data"}
 - **binary_harmonics:** {"events": 0, "pass": false, "reason": "insufficient events"}
 - **electroweak_bridge:** {"pass": false, "reason": "insufficient bursts"}
 
@@ -7532,8 +7532,8 @@ Autonomic signature checks across vault datasets.
 ## data/noaa_solarwind/noaa_mag_20251225_033142.csv
 
 - **status:** analyzed
-- **chi_boundary:** {"band_pct": 0.0, "over_cap_count": 0, "pass": true}
-- **fractal_regulator:** {"phi_p95": NaN, "phi_p99": NaN, "over_cap_count": 0, "pass": false}
+- **chi_boundary:** {"band_pct": NaN, "over_cap_count": 0, "pass": true, "reason": "no data"}
+- **fractal_regulator:** {"phi_p95": NaN, "phi_p99": NaN, "over_cap_count": 0, "pass": true, "reason": "no data"}
 - **binary_harmonics:** {"events": 0, "pass": false, "reason": "insufficient events"}
 - **electroweak_bridge:** {"pass": false, "reason": "insufficient bursts"}
 

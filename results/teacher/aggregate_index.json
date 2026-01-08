@@ -4185,15 +4185,17 @@
       "file": "data/noaa_solarwind/noaa_plasma_20251225_023814.csv",
       "status": "analyzed",
       "chi_boundary": {
-        "band_pct": 0.0,
+        "band_pct": NaN,
         "over_cap_count": 0,
-        "pass": true
+        "pass": true,
+        "reason": "no data"
       },
       "fractal_regulator": {
         "phi_p95": NaN,
         "phi_p99": NaN,
         "over_cap_count": 0,
-        "pass": false
+        "pass": true,
+        "reason": "no data"
       },
       "binary_harmonics": {
         "events": 0,
@@ -7309,15 +7311,17 @@
       "file": "data/noaa_solarwind/noaa_plasma_20251225_033142.csv",
       "status": "analyzed",
       "chi_boundary": {
-        "band_pct": 0.0,
+        "band_pct": NaN,
         "over_cap_count": 0,
-        "pass": true
+        "pass": true,
+        "reason": "no data"
       },
       "fractal_regulator": {
         "phi_p95": NaN,
         "phi_p99": NaN,
         "over_cap_count": 0,
-        "pass": false
+        "pass": true,
+        "reason": "no data"
       },
       "binary_harmonics": {
         "events": 0,
@@ -23483,15 +23487,17 @@
       "file": "data/noaa_solarwind/noaa_mag_20251225_033142.csv",
       "status": "analyzed",
       "chi_boundary": {
-        "band_pct": 0.0,
+        "band_pct": NaN,
         "over_cap_count": 0,
-        "pass": true
+        "pass": true,
+        "reason": "no data"
       },
       "fractal_regulator": {
         "phi_p95": NaN,
         "phi_p99": NaN,
         "over_cap_count": 0,
-        "pass": false
+        "pass": true,
+        "reason": "no data"
       },
       "binary_harmonics": {
         "events": 0,

@@ -21,9 +21,10 @@ def score_fractal_regulator(phi: pd.Series, cap=0.15, p95_max=0.20, p99_max=0.25
         dict with percentile values, over_cap_count, and pass status
     """
     phi = pd.to_numeric(phi, errors="coerce").dropna()
-    total = int(phi.size) or 1
-    p95 = float(np.nanpercentile(phi, 95)) if total else np.nan
-    p99 = float(np.nanpercentile(phi, 99)) if total else np.nan
+    if phi.size == 0:
+        return {"phi_p95": np.nan, "phi_p99": np.nan, "over_cap_count": 0, "pass": True, "reason": "no data"}
+    p95 = float(np.nanpercentile(phi, 95))
+    p99 = float(np.nanpercentile(phi, 99))
     over = int((phi > cap).sum())
     return {
         "phi_p95": p95,
