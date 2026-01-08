@@ -1,5 +1,5 @@
 # LUFT Link Intelligence Report
-## Latest Harvest: 2026-01-07 03:31:33 UTC
+## Latest Harvest: 2026-01-08 03:31:45 UTC
 
 ### Repository Scan Results
 
@@ -11,9 +11,9 @@ This automated report shows the latest link harvesting results from the LUFT Por
 
 ### Data Files Generated
 
-- `links_20260107.json` - Complete link harvest data
-- `links_20260107.csv` - CSV export for spreadsheet analysis
-- `link_network_20260107.json` - Network graph data
+- `links_20260108.json` - Complete link harvest data
+- `links_20260108.csv` - CSV export for spreadsheet analysis
+- `link_network_20260108.json` - Network graph data
 - `links_current.json` - Symlink to latest harvest
 - `link_network.json` - Symlink to latest network graph
 
