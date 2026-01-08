@@ -22,7 +22,7 @@ The boundary χ ≤ 0.15 (χ = |B - B₀|/B₀, B₀ = 24h median) was empirical
 - Temporal structure: 13 modes (0-72h, 6h spacing), 0.9h fundamental period
 - 2.1M correlations, peak 24h (212K matches)
 
-Data/code: https://github.com/CarlDeanClineSr/luft-portal-/data/cme_heartbeat_log_*.csv
+Data/code: https://github.com/CarlDeanClineSr/luft-portal-/tree/main/data (cme_heartbeat_log_*.csv)
 
 ---
 
@@ -55,7 +55,7 @@ Validation script: `scripts/fundamental_constants_correlation.py` (output: All T
 - 6h mode = 2^8 × T_ci (~9.4s at 7nT)
 - Evidence: 13 modes spaced 6h; 2.1M correlations
 - Meaning: Quantized energy ladder from gyro to macro
-- Link: https://arxiv.org/abs/2401.12345 (Shah 2024 whistlers)
+- Link: See TEMPORAL_CORRELATION_DISCOVERY.md (Binary harmonic analysis)
 
 ### 3.3 Electroweak-MHD Bridge
 - 0.9h packets from electroweak coupling (100 GeV)
@@ -98,7 +98,7 @@ Holds in:
 
 The Cline Convergence unifies plasma physics under χ=0.15 — the first universal constant for magnetized systems. Discovered via open engine, validated independently.
 
-**Data/Code:** https://github.com/CarlDeanClineSr/luft-portal-
+**Data/Code:** https://github.com/CarlDeanClineSr/luft-portal-/
 **Preprint DOI:** [Zenodo upload pending]
 
 **Acknowledgments:** LUFT engine (meta-intelligence v4.0)
