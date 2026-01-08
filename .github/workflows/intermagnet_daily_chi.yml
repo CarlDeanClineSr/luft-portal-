@@ -1,210 +1,89 @@
+---
 name: INTERMAGNET Daily χ Validation
 
-on:
+"on":
   schedule:
-    - cron: '0 6 * * *'  # Daily at 06:00 UTC
+    - cron: "0 12 * * *"  # 06:00 CST
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   fetch-and-analyze:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  # Required for pushing results
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
+
+      - name: Prepare dirs
+        run: |
+          mkdir -p data/intermagnet_raw data/intermagnet_csv results/magnetometer_chi figures
+
+      - name: Define station/date
+        id: vars
+        shell: bash
+        run: |
+          echo "station=DOU" >> $GITHUB_OUTPUT
+          echo "date=$(date -u -d 'yesterday' +%Y%m%d)" >> $GITHUB_OUTPUT
+          echo "year=$(date -u -d 'yesterday' +%Y)" >> $GITHUB_OUTPUT
+          echo "month=$(date -u -d 'yesterday' +%m)" >> $GITHUB_OUTPUT
 
       - name: Install dependencies
         run: |
           pip install pandas numpy matplotlib requests
 
-      - name: Define station and date (yesterday UTC)
-        id: vars
+      - name: Fetch INTERMAGNET (def → qdef → prov)
         shell: bash
         run: |
-          STATION=DOU                    # Change to desired station code
-          DATE=$(date -u -d "yesterday" +"%Y%m%d")
-          YEAR=${DATE:0:4}
-          MONTH=${DATE:4:2}
-          echo "station=${STATION}" >> $GITHUB_OUTPUT
-          echo "date=${DATE}" >> $GITHUB_OUTPUT
-          echo "year=${YEAR}" >> $GITHUB_OUTPUT
-          echo "month=${MONTH}" >> $GITHUB_OUTPUT
+          st_lower=$(echo "${{ steps.vars.outputs.station }}" | tr '[:upper:]' '[:lower:]')
+          y="${{ steps.vars.outputs.year }}"
+          m="${{ steps.vars.outputs.month }}"
+          d="${{ steps.vars.outputs.date }}"
+          out="data/intermagnet_raw/${st_lower}_${d}.min"
 
-      - name: Prepare directories
-        run: |
-          mkdir -p data/intermagnet_raw
-          mkdir -p data/intermagnet_csv
-          mkdir -p results/magnetometer_chi
-          mkdir -p figures
+          def_url="https://imag-data.bgs.ac.uk/data/minute/definitive/IAGA2002/${y}/${m}/${st_lower}${d}dmin.min"
+          qdf_url="https://imag-data.bgs.ac.uk/data/minute/quasiDefinitive/IAGA2002/${y}/${m}/${st_lower}${d}qmin.min"
+          prv_url="https://imag-data.bgs.ac.uk/data/minute/provisional/IAGA2002/${y}/${m}/${st_lower}${d}pmin.min"
 
-      - name: Fetch INTERMAGNET minute data (DOU - definitive, fallback to quasiDefinitive)
-        shell: bash
-        run: |
-          station_lower="dou"
-          date="${{ steps.vars.outputs.date }}"
-          year="${{ steps.vars.outputs.year }}"
-          month="${{ steps.vars.outputs.month }}"
-          out="data/intermagnet_raw/${station_lower}_${date}.min"
-
-          url_def="https://imag-data.bgs.ac.uk/data/minute/definitive/IAGA2002/${year}/${month}/${station_lower}${date}dmin.min"
-          url_qdef="https://imag-data.bgs.ac.uk/data/minute/quasiDefinitive/IAGA2002/${year}/${month}/${station_lower}${date}qmin.min"
-          url_prov="https://imag-data.bgs.ac.uk/data/minute/provisional/IAGA2002/${year}/${month}/${station_lower}${date}pmin.min"
-
-          echo "Trying definitive: $url_def"
-          if curl -fsSL "$url_def" -o "$out"; then
-            echo "Downloaded definitive to $out"
-          else
-            echo "Definitive not available; trying quasiDefinitive: $url_qdef"
-            if curl -fsSL "$url_qdef" -o "$out"; then
-              echo "Downloaded quasiDefinitive to $out"
-            else
-              echo "quasiDefinitive not available; trying provisional: $url_prov"
-              if curl -fsSL "$url_prov" -o "$out"; then
-                echo "Downloaded provisional to $out"
-              else
-                echo "Failed to fetch any INTERMAGNET file for ${station_lower} ${date}" >&2
-                exit 1
-              fi
+          for url in "$def_url" "$qdf_url" "$prv_url"; do
+            echo "Trying $url"
+            if curl -fsSL "$url" -o "$out"; then
+              echo "Downloaded: $out"
+              exit 0
             fi
-          fi
+          done
+          echo "Failed to fetch INTERMAGNET file for ${st_lower} ${d}" >&2
+          exit 1
 
-      - name: Fetch INTERMAGNET minute data (SUA - definitive, fallback to quasiDefinitive)
-        shell: bash
+      - name: Convert to CSV
         run: |
-          station_lower="sua"
-          date="${{ steps.vars.outputs.date }}"
-          year="${{ steps.vars.outputs.year }}"
-          month="${{ steps.vars.outputs.month }}"
-          out="data/intermagnet_raw/${station_lower}_${date}.min"
-
-          url_def="https://imag-data.bgs.ac.uk/data/minute/definitive/IAGA2002/${year}/${month}/${station_lower}${date}dmin.min"
-          url_qdef="https://imag-data.bgs.ac.uk/data/minute/quasiDefinitive/IAGA2002/${year}/${month}/${station_lower}${date}qmin.min"
-          url_prov="https://imag-data.bgs.ac.uk/data/minute/provisional/IAGA2002/${year}/${month}/${station_lower}${date}pmin.min"
-
-          echo "Trying definitive: $url_def"
-          if curl -fsSL "$url_def" -o "$out"; then
-            echo "Downloaded definitive to $out"
-          else
-            echo "Definitive not available; trying quasiDefinitive: $url_qdef"
-            if curl -fsSL "$url_qdef" -o "$out"; then
-              echo "Downloaded quasiDefinitive to $out"
-            else
-              echo "quasiDefinitive not available; trying provisional: $url_prov"
-              if curl -fsSL "$url_prov" -o "$out"; then
-                echo "Downloaded provisional to $out"
-              else
-                echo "Failed to fetch any INTERMAGNET file for ${station_lower} ${date}" >&2
-                exit 1
-              fi
-            fi
-          fi
-
-      - name: Convert IAGA-2002 to CSV (DOU)
-        run: |
+          st_lower=$(echo "${{ steps.vars.outputs.station }}" | tr '[:upper:]' '[:lower:]')
           python scripts/convert_iaga2002_to_csv.py \
-            --input "data/intermagnet_raw/dou_${{ steps.vars.outputs.date }}.min" \
-            --output "data/intermagnet_csv/dou_${{ steps.vars.outputs.date }}.csv"
+            --input "data/intermagnet_raw/${st_lower}_${{ steps.vars.outputs.date }}.min" \
+            --output "data/intermagnet_csv/${st_lower}_${{ steps.vars.outputs.date }}.csv"
 
-      - name: Convert IAGA-2002 to CSV (SUA)
+      - name: Compute χ and plot
         run: |
-          python scripts/convert_iaga2002_to_csv.py \
-            --input "data/intermagnet_raw/sua_${{ steps.vars.outputs.date }}.min" \
-            --output "data/intermagnet_csv/sua_${{ steps.vars.outputs.date }}.csv"
-
-      - name: Compute χ (DOU)
-        id: chi_dou
-        run: |
+          st_lower=$(echo "${{ steps.vars.outputs.station }}" | tr '[:upper:]' '[:lower:]')
           python scripts/compute_chi_from_intermagnet.py \
-            --input data/intermagnet_csv/dou_${{ steps.vars.outputs.date }}.csv \
-            --output data/intermagnet_chi_calculations_${{ steps.vars.outputs.date }}_dou.csv
+            --input "data/intermagnet_csv/${st_lower}_${{ steps.vars.outputs.date }}.csv" \
+            --output "results/magnetometer_chi/${st_lower}_${{ steps.vars.outputs.date }}.csv"
 
-      - name: Compute χ (SUA)
-        id: chi_sua
-        run: |
-          python scripts/compute_chi_from_intermagnet.py \
-            --input data/intermagnet_csv/sua_${{ steps.vars.outputs.date }}.csv \
-            --output data/intermagnet_chi_calculations_${{ steps.vars.outputs.date }}_sua.csv
-
-      - name: Plot χ time series (DOU)
-        run: |
           python scripts/plot_intermagnet_chi_timeseries.py \
-            --input data/intermagnet_chi_calculations_${{ steps.vars.outputs.date }}_dou.csv \
-            --output figures/intermagnet_chi_timeseries_${{ steps.vars.outputs.date }}_dou.png
-
-      - name: Plot χ time series (SUA)
-        run: |
-          python scripts/plot_intermagnet_chi_timeseries.py \
-            --input data/intermagnet_chi_calculations_${{ steps.vars.outputs.date }}_sua.csv \
-            --output figures/intermagnet_chi_timeseries_${{ steps.vars.outputs.date }}_sua.png
+            --input "results/magnetometer_chi/${st_lower}_${{ steps.vars.outputs.date }}.csv" \
+            --output "figures/intermagnet_chi_timeseries_${st_lower}_${{ steps.vars.outputs.date }}.png"
 
       - name: Commit results
-        run: |
-          git config user.name "engine-bot"
-          git config user.email "engine-bot@users.noreply.github.com"
-          for file in \
-            data/intermagnet_csv/dou_${{ steps.vars.outputs.date }}.csv \
-            data/intermagnet_csv/sua_${{ steps.vars.outputs.date }}.csv \
-            data/intermagnet_chi_calculations_${{ steps.vars.outputs.date }}_dou.csv \
-            data/intermagnet_chi_calculations_${{ steps.vars.outputs.date }}_sua.csv \
-            figures/intermagnet_chi_timeseries_${{ steps.vars.outputs.date }}_dou.png \
-            figures/intermagnet_chi_timeseries_${{ steps.vars.outputs.date }}_sua.png; do
-            [ -f "$file" ] && git add "$file"
-          done
-          git commit -m "INTERMAGNET χ validation DOU/SUA ${{ steps.vars.outputs.date }}" || echo "No changes to commit"
-          git push
-
-      - name: Extract stats and post summary
         env:
-          DATE: ${{ steps.vars.outputs.date }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          stats_for_station() {
-            local station="$1"
-            python - <<'PY' "$station"
-          import os
-          import sys
-          import pandas as pd
-
-          station = sys.argv[1]
-          date = os.environ["DATE"]
-          file_path = f"data/intermagnet_chi_calculations_{date}_{station}.csv"
-
-          if not os.path.exists(file_path):
-              print(f"Missing chi file: {file_path}", file=sys.stderr)
-              sys.exit(1)
-
-          df = pd.read_csv(file_path)
-          if df.empty:
-              print(f"No data in {file_path}", file=sys.stderr)
-              sys.exit(1)
-
-          chi_max = df['chi'].max()
-          violations = (df['chi'] > 0.15).sum()
-          print(f"{chi_max:.6f} {violations}")
-          PY
-          }
-
-          if ! OUTPUT_DOU=$(stats_for_station dou); then
-            echo "Failed to compute stats for DOU" >&2
-            exit 1
-          fi
-          read CHI_MAX_DOU VIOLATIONS_DOU <<< "$OUTPUT_DOU"
-
-          if ! OUTPUT_SUA=$(stats_for_station sua); then
-            echo "Failed to compute stats for SUA" >&2
-            exit 1
-          fi
-          read CHI_MAX_SUA VIOLATIONS_SUA <<< "$OUTPUT_SUA"
-
-          echo "✅ INTERMAGNET χ Validation Complete for ${DATE}"
-          echo "DOU: χ_max = $CHI_MAX_DOU"
-          echo "SUA: χ_max = $CHI_MAX_SUA"
-          echo "Violations: $((VIOLATIONS_DOU + VIOLATIONS_SUA)) (χ > 0.15 across both stations)"
+          git config --global user.name "engine-bot"
+          git config --global user.email "engine-bot@users.noreply.github.com"
+          git add data/intermagnet_csv/*.csv results/magnetometer_chi/*.csv figures/intermagnet_chi_timeseries_*.png || true
+          git diff --staged --quiet && exit 0
+          git commit -m "INTERMAGNET χ validation ${{ steps.vars.outputs.station }} ${{ steps.vars.outputs.date }}"
+          git push
