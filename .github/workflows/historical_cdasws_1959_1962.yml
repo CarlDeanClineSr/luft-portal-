@@ -4,7 +4,7 @@ name: Historical CDAWeb Sweep (1959–1962)
 "on":
   workflow_dispatch:
   schedule:
-    - cron: "0 12 * * *"   # 06:00 CST daily
+    - cron: "0 12 * * *"   # 06:00 US Central Time daily
 
 permissions:
   contents: write

@@ -44,7 +44,16 @@ def summarize(series: pd.Series, phi: pd.Series) -> Dict[str, Any]:
 def spectral_density(series: pd.Series, fs_hz: float = 1.0/3600.0) -> Tuple[np.ndarray, np.ndarray]:
     """
     Welch PSD for evenly sampled series; default fs assumes hourly data.
-    Returns (freqs, psd). Caller handles plotting.
+    
+    Args:
+        series: Time series data
+        fs_hz: Sampling frequency in Hz (default: 1/3600 = hourly cadence).
+               This assumption may vary across datasets; caller should verify
+               data cadence and adjust accordingly.
+    
+    Returns:
+        (freqs, psd): Frequency array and power spectral density.
+                      Returns empty arrays if series has < 256 points.
     """
     x = series.dropna().values
     if len(x) < 256:

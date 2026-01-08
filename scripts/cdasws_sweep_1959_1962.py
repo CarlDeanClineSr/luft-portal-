@@ -49,6 +49,23 @@ MAG_TOTAL_CANDIDATES: List[str] = [
 FALLBACK_VARS: List[str] = ["F", "BX", "BY", "BZ"]
 
 
+def sanitize_filename(dataset_id: str) -> str:
+    """
+    Sanitize dataset ID for use as a filename by replacing problematic characters.
+    
+    Args:
+        dataset_id: Raw dataset ID from CDAWeb
+    
+    Returns:
+        Safe filename string
+    """
+    invalid_chars = ['/', '\\', ':', '*', '?', '"', '<', '>', '|']
+    safe_id = dataset_id
+    for char in invalid_chars:
+        safe_id = safe_id.replace(char, '_')
+    return safe_id
+
+
 def discover_datasets(cdas: CdasWs, start_iso: str, end_iso: str, limit: int) -> List[Dict[str, Any]]:
     datasets = cdas.get_datasets(start_iso, end_iso)
     # Minimal schema norm
@@ -212,7 +229,7 @@ def main():
 
         resp = fetched["resp"]
         # Sanitize dataset ID for filesystem: replace problematic characters
-        safe_dsid = dsid.replace('/', '_').replace('\\', '_').replace(':', '_').replace('*', '_').replace('?', '_').replace('"', '_').replace('<', '_').replace('>', '_').replace('|', '_')
+        safe_dsid = sanitize_filename(dsid)
         out_prefix = OUT_DIR / f"{safe_dsid}_1959_1962"
         try:
             analyze_dataset(ds, resp, out_prefix, args.max_vars)
