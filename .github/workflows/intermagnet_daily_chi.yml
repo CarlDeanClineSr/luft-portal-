@@ -105,27 +105,27 @@ jobs:
           stats_for_station() {
             local station="$1"
             python - <<'PY' "$station"
-import os
-import sys
-import pandas as pd
+          import os
+          import sys
+          import pandas as pd
 
-station = sys.argv[1]
-date_compact = os.environ["DATE_COMPACT"]
-file_path = f"data/intermagnet_chi_calculations_{date_compact}_{station}.csv"
+          station = sys.argv[1]
+          date_compact = os.environ["DATE_COMPACT"]
+          file_path = f"data/intermagnet_chi_calculations_{date_compact}_{station}.csv"
 
-if not os.path.exists(file_path):
-    print(f"Missing chi file: {file_path}", file=sys.stderr)
-    sys.exit(1)
+          if not os.path.exists(file_path):
+              print(f"Missing chi file: {file_path}", file=sys.stderr)
+              sys.exit(1)
 
-df = pd.read_csv(file_path)
-if df.empty:
-    print(f"No data in {file_path}", file=sys.stderr)
-    sys.exit(1)
+          df = pd.read_csv(file_path)
+          if df.empty:
+              print(f"No data in {file_path}", file=sys.stderr)
+              sys.exit(1)
 
-chi_max = df['chi'].max()
-violations = (df['chi'] > 0.15).sum()
-print(f"{chi_max:.6f} {violations}")
-PY
+          chi_max = df['chi'].max()
+          violations = (df['chi'] > 0.15).sum()
+          print(f"{chi_max:.6f} {violations}")
+          PY
           }
 
           if ! OUTPUT_DOU=$(stats_for_station dou); then
