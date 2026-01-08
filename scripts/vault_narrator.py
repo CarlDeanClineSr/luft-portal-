@@ -256,7 +256,9 @@ def write_markdown(df, streak, last_lock, first_lock, duration, noaa, chi_chart,
     md.append("| Time (UTC) | χ | Density | Speed |\n")
     md.append("|------------|----|---------|--------|\n")
     latest = df.tail(20)
-    for _, row in latest.iterrows():
+    # Use vectorized string formatting instead of iterrows() for better performance
+    for idx in range(len(latest)):
+        row = latest.iloc[idx]
         md.append(f"| {row[TIME_COL]} | {row[CHI_COL]:.4f} | {row.get('density', np.nan)} | {row.get('speed', np.nan)} |\n")
 
     OUTPUT_MD.write_text("".join(md), encoding="utf-8")

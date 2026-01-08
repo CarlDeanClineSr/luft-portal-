@@ -366,7 +366,8 @@ def generate_html_dashboard(index_data: Dict[str, Any]) -> str:
                     <tbody>
 """
     
-    # Add table rows
+    # Add table rows - use list for better performance than string concatenation
+    table_rows = []
     for capsule in sorted_capsules:
         status = capsule.get("status", "unknown")
         colors = get_status_color(status)
@@ -379,7 +380,19 @@ def generate_html_dashboard(index_data: Dict[str, Any]) -> str:
         tags = capsule.get("tags", [])
         filepath = escape_html(capsule.get("filepath", "N/A"))
         
-        html += f"""                        <tr>
+        # Build tag HTML efficiently
+        tag_html_parts = []
+        for tag in tags[:5]:  # Limit to 5 tags for display
+            tag_escaped = escape_html(str(tag))
+            tag_html_parts.append(f'                                    <span class="tag">{tag_escaped}</span>\n')
+        
+        if len(tags) > 5:
+            tag_html_parts.append(f'                                    <span class="tag">+{len(tags) - 5} more</span>\n')
+        
+        tag_html = ''.join(tag_html_parts)
+        
+        # Build complete row
+        row_html = f"""                        <tr>
                             <td>
                                 <span class="status-badge" style="background-color: {colors['bg']}; border-color: {colors['border']}; color: {colors['text']};">
                                     {colors['label']}
@@ -392,23 +405,15 @@ def generate_html_dashboard(index_data: Dict[str, Any]) -> str:
                             <td>{author}</td>
                             <td>
                                 <div class="tags">
-"""
-        
-        # Add tags
-        for tag in tags[:5]:  # Limit to 5 tags for display
-            tag_escaped = escape_html(str(tag))
-            html += f"""                                    <span class="tag">{tag_escaped}</span>
-"""
-        
-        if len(tags) > 5:
-            html += f"""                                    <span class="tag">+{len(tags) - 5} more</span>
-"""
-        
-        html += f"""                                </div>
+{tag_html}                                </div>
                             </td>
                             <td><span class="filepath">{filepath}</span></td>
                         </tr>
 """
+        table_rows.append(row_html)
+    
+    # Join all rows at once for better performance
+    html += ''.join(table_rows)
     
     # If no capsules
     if not sorted_capsules:

@@ -97,17 +97,27 @@ class CapsuleManifest:
         }
 
 
-def find_manifest_files(base_dir: str) -> List[str]:
-    """Recursively find all manifest files in the capsules directory"""
+def find_manifest_and_markdown_files(base_dir: str) -> tuple:
+    """
+    Recursively find all manifest and markdown files in a single pass.
+    Returns tuple: (manifest_files, markdown_files)
+    
+    This combines the functionality of find_manifest_files and scan_markdown_files
+    to avoid walking the directory tree twice, improving performance.
+    """
     manifest_files = []
+    markdown_files = []
     
     if not os.path.exists(base_dir):
         print(f"WARNING: Directory not found: {base_dir}")
-        return manifest_files
+        return manifest_files, markdown_files
     
+    # Single pass through directory tree
     for root, dirs, files in os.walk(base_dir):
         for file in files:
-            # Check for manifest files (either named manifest.* or *.manifest.*)
+            filepath = os.path.join(root, file)
+            
+            # Check for explicit manifest files
             file_lower = file.lower()
             is_manifest = (
                 file_lower.startswith("manifest.") or
@@ -120,10 +130,13 @@ def find_manifest_files(base_dir: str) -> List[str]:
             if is_manifest:
                 ext = os.path.splitext(file)[1]
                 if ext in SUPPORTED_EXTENSIONS:
-                    filepath = os.path.join(root, file)
                     manifest_files.append(filepath)
+            
+            # Also collect markdown files for frontmatter parsing
+            elif file.endswith('.md'):
+                markdown_files.append(filepath)
     
-    return manifest_files
+    return manifest_files, markdown_files
 
 
 def parse_manifest_file(filepath: str) -> Optional[CapsuleManifest]:
@@ -196,20 +209,17 @@ def parse_markdown_frontmatter(filepath: str) -> Optional[CapsuleManifest]:
         return None
 
 
-def scan_markdown_files(base_dir: str) -> List[CapsuleManifest]:
-    """Scan markdown files for YAML frontmatter manifests"""
+def scan_markdown_files_from_list(markdown_files: List[str]) -> List[CapsuleManifest]:
+    """
+    Scan markdown files for YAML frontmatter manifests.
+    Takes a pre-filtered list of markdown file paths.
+    """
     manifests = []
     
-    if not os.path.exists(base_dir):
-        return manifests
-    
-    for root, dirs, files in os.walk(base_dir):
-        for file in files:
-            if file.endswith('.md'):
-                filepath = os.path.join(root, file)
-                manifest = parse_markdown_frontmatter(filepath)
-                if manifest:
-                    manifests.append(manifest)
+    for filepath in markdown_files:
+        manifest = parse_markdown_frontmatter(filepath)
+        if manifest:
+            manifests.append(manifest)
     
     return manifests
 
@@ -310,10 +320,11 @@ def main():
     print("=" * 70)
     print()
     
-    # Find manifest files
-    print(f"Scanning {CAPSULES_DIR}/ for manifest files...")
-    manifest_files = find_manifest_files(CAPSULES_DIR)
+    # Find all manifest and markdown files in a single directory traversal (performance optimization)
+    print(f"Scanning {CAPSULES_DIR}/ for manifest and markdown files...")
+    manifest_files, markdown_files = find_manifest_and_markdown_files(CAPSULES_DIR)
     print(f"  Found {len(manifest_files)} explicit manifest files")
+    print(f"  Found {len(markdown_files)} markdown files to check for frontmatter")
     
     # Parse manifest files
     manifests = []
@@ -322,10 +333,9 @@ def main():
         if manifest:
             manifests.append(manifest)
     
-    # Also scan markdown files for frontmatter
-    print(f"Scanning {CAPSULES_DIR}/ for markdown files with frontmatter...")
-    md_manifests = scan_markdown_files(CAPSULES_DIR)
-    print(f"  Found {len(md_manifests)} markdown files with frontmatter")
+    # Parse markdown files for frontmatter
+    md_manifests = scan_markdown_files_from_list(markdown_files)
+    print(f"  Found {len(md_manifests)} markdown files with valid frontmatter")
     
     manifests.extend(md_manifests)
     
