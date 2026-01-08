@@ -10,11 +10,20 @@ Usage:
 """
 
 import argparse
+import os
 import pandas as pd
 import numpy as np
 
 
 def convert_iaga2002(input_file, output_file):
+    if not os.path.isfile(input_file):
+        raise FileNotFoundError(
+            f"Input file not found: {input_file}. "
+            "Ensure the fetch step downloaded the IAGA-2002 file. "
+            "Expected naming: data/intermagnet_raw/<station>_<YYYYMMDD>.min "
+            "(e.g., dou_20260107.min)."
+        )
+
     with open(input_file, 'r', encoding='utf-8', errors='ignore') as f:
         lines = f.readlines()
     
@@ -52,13 +61,15 @@ def convert_iaga2002(input_file, output_file):
                 except (ValueError, IndexError):
                     continue
     
-    if data:
-        df = pd.DataFrame(data)
-        df['timestamp'] = pd.to_datetime(df['timestamp'])
-        df.to_csv(output_file, index=False)
-        print(f"✅ Converted {input_file} → {output_file} ({len(df)} rows)")
-    else:
-        print(f"⚠️  No valid data parsed from {input_file}")
+    df = pd.DataFrame(data)
+    if df.empty:
+        raise ValueError(
+            f"No data rows parsed from {input_file}. "
+            "The file may be empty or not in IAGA-2002 minute format."
+        )
+    df['timestamp'] = pd.to_datetime(df['timestamp'], errors='coerce')
+    df.to_csv(output_file, index=False)
+    print(f"✅ Converted {input_file} → {output_file} ({len(df)} rows)")
 
 
 if __name__ == '__main__':
