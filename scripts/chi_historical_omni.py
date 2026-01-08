@@ -95,7 +95,7 @@ def run(start: str, end: str, out_csv: str, out_png: str, baseline_hours: int = 
     chi = compute_chi(b, b_baseline)
 
     df = pd.DataFrame({
-        "timestamp": b.index.tz_localize(None) if b.index.tz is not None else b.index,
+        "timestamp": b.index.tz_localize(None) if (hasattr(b.index, 'tz') and b.index.tz is not None) else b.index,
         "B_total_nT": b.values,
         "B_baseline_nT": b_baseline.values,
         "chi": chi.values
@@ -124,8 +124,8 @@ def run(start: str, end: str, out_csv: str, out_png: str, baseline_hours: int = 
     Path(out_png).parent.mkdir(parents=True, exist_ok=True)
     plt.figure(figsize=(12, 4))
     plt.plot(df["timestamp"], df["chi"], linewidth=0.8, color="#1565c0")
-    plt.axhline(CHI_VIOLATION_THRESHOLD, color="#c62828", linestyle="--", linewidth=1.0, 
-                label=f"χ = {CHI_VIOLATION_THRESHOLD}")
+    plt.axhline(CHI_VIOLATION_THRESHOLD, color="#c62828", linestyle="--", 
+                linewidth=1.0, label=f"χ = {CHI_VIOLATION_THRESHOLD}")
     plt.xlabel("Time (UTC)")
     plt.ylabel("χ")
     plt.title(f"Historical χ (OMNI hourly): {start} → {end} (baseline={baseline_hours}h)")
