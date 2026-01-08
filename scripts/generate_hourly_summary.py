@@ -14,6 +14,13 @@ from datetime import datetime, timezone
 import glob
 import re
 
+# Constants
+CHI_BOUNDARY = 0.15
+CHI_VIOLATION_THRESHOLD = 0.155  # Tolerance for violation detection
+DEFAULT_NETWORK_LINKS = 58263  # Documented network link count
+DEFAULT_TOTAL_MATCHES = 2100000  # Default correlation matches
+DEFAULT_TEMPORAL_MODES = 13  # Default temporal mode count
+
 
 def read_chi_data():
     """Read latest chi from heartbeat log files"""
@@ -53,8 +60,8 @@ def read_chi_data():
                             if chi_val > chi_max:
                                 chi_max = chi_val
                             
-                            # Count violations - χ boundary is 0.15, use 0.155 tolerance
-                            if chi_val > 0.155:
+                            # Count violations - χ boundary uses tolerance threshold
+                            if chi_val > CHI_VIOLATION_THRESHOLD:
                                 total_violations += 1
                         except ValueError:
                             continue
@@ -146,16 +153,16 @@ def get_link_intelligence():
             with open(stats_file, 'r') as f:
                 stats = json.load(f)
             return {
-                'total_links': 58263,  # Documented in system
-                'total_matches': stats.get('total_matches', 0),
-                'temporal_modes': stats.get('total_correlations', 13)
+                'total_links': DEFAULT_NETWORK_LINKS,
+                'total_matches': stats.get('total_matches', DEFAULT_TOTAL_MATCHES),
+                'temporal_modes': stats.get('total_correlations', DEFAULT_TEMPORAL_MODES)
             }
     except Exception:
         pass
     return {
-        'total_links': 58263,
-        'total_matches': 2100000,
-        'temporal_modes': 13
+        'total_links': DEFAULT_NETWORK_LINKS,
+        'total_matches': DEFAULT_TOTAL_MATCHES,
+        'temporal_modes': DEFAULT_TEMPORAL_MODES
     }
 
 
