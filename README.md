@@ -1,5 +1,10 @@
 # LUFT Portal — Carl Dean Cline Sr.'s Discovery
 
+![CME Heartbeat](https://github.com/CarlDeanClineSr/luft-portal-/workflows/CME%20Heartbeat%20Logger/badge.svg)
+![Dashboard Status](https://github.com/CarlDeanClineSr/luft-portal-/workflows/Dashboard%20Refresh/badge.svg)
+![Meta-Intelligence](https://github.com/CarlDeanClineSr/luft-portal-/workflows/Meta-Intelligence%20Daily/badge.svg)
+![Temporal Correlation](https://github.com/CarlDeanClineSr/luft-portal-/workflows/Fundamental%20Correlation/badge.svg)
+
 ## The χ ≤ 0.15 Universal Boundary
 
 **Carl Dean Cline Sr.** discovered through empirical data analysis that normalized magnetic field perturbations **never exceed χ = 0.15** across space weather observations.
@@ -19,8 +24,9 @@ This is **not an invention** — it's a **discovery** found in real data from ye
 
 📋 **[HOURLY SUMMARY](reports/HOURLY_SUMMARY.md)** - Complete system status (<5KB, updates hourly)  
 📚 **[DATA MASTER INDEX](DATA_MASTER_INDEX.md)** - Find any data file instantly  
-🔬 **[Paper Analysis Results](data/papers/extracted_parameters.json)** - χ-relevant parameters from 50+ papers
-🌐 **[Imperial Math Multilingual Guide](IMPERIAL_MATH_MULTILINGUAL.md)** - Language-agnostic grammar (swap nouns, keep `by`/`per`)
+🔬 **[Paper Analysis Results](data/papers/extracted_parameters.json)** - χ-relevant parameters from 50+ papers  
+🌐 **[Imperial Math Multilingual Guide](IMPERIAL_MATH_MULTILINGUAL.md)** - Language-agnostic grammar (swap nouns, keep `by`/`per`)  
+🚀 **[QUICK OUTPUTS](docs/QUICK_OUTPUTS.md)** - Direct links to latest data, results & live feeds
 
 ### New Features 🔥
 
@@ -71,6 +77,10 @@ The **LUFT Portal** (Live Universal Fluctuation Tracker) is an open-source, auto
 Anyone can verify Carl's discovery using public data:
 
 ```bash
+# Fast clone (recommended for quick access)
+git clone --depth 1 https://github.com/CarlDeanClineSr/luft-portal-.git
+cd luft-portal-
+
 # Install dependencies
 pip install pandas numpy matplotlib
 
