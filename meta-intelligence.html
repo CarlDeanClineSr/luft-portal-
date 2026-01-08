@@ -407,9 +407,187 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Hero Banner Styles */
+        .hero-banner {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #e2e8f0;
+            padding: 40px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,255,136,0.2);
+        }
+
+        .hero-banner h1 {
+            font-size: 48px;
+            margin: 0;
+            color: #00ff88;
+        }
+
+        .hero-banner p {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        .quick-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: rgba(0,255,136,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            min-width: 150px;
+        }
+
+        .stat-box h3 {
+            margin: 0;
+            color: #00ff88;
+            font-size: 1rem;
+        }
+
+        .stat-box p {
+            font-size: 32px;
+            margin: 5px 0;
+        }
+
+        .hero-banner a {
+            color: #4ade80;
+            font-size: 20px;
+            text-decoration: none;
+        }
+
+        .hero-banner a:hover {
+            text-decoration: underline;
+        }
+
+        /* Sidebar Navigation Styles */
+        .sidebar-nav {
+            position: fixed;
+            left: 20px;
+            top: 100px;
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 12px;
+            width: 200px;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .sidebar-nav h3 {
+            color: #00ff88;
+            margin: 0 0 15px 0;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-nav a:hover {
+            background: rgba(0,255,136,0.1);
+            color: #00ff88;
+        }
+
+        .main-content-with-sidebar {
+            margin-left: 260px;
+        }
+
+        @media (max-width: 768px) {
+            /* Mobile responsive fixes */
+            .sidebar-nav {
+                position: relative;
+                width: 100%;
+                left: 0;
+                top: 0;
+                margin-bottom: 20px;
+            }
+
+            .main-content-with-sidebar {
+                margin-left: 0;
+            }
+
+            .quick-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .hero-banner h1 {
+                font-size: 32px;
+            }
+
+            .hero-banner p {
+                font-size: 18px;
+            }
+
+            .stat-box p {
+                font-size: 24px;
+            }
+        }
     </style>
 </head>
 <body>
+
+<!-- HERO BANNER + QUICK STATS -->
+<div class="hero-banner">
+    <h1>LUFT Portal: Live χ = 0.15 Observatory</h1>
+    <p>Universal Plasma Boundary — Zero Violations in 1.48M+ Observations</p>
+    <div class="quick-stats">
+        <div class="stat-box">
+            <h3>Current χ</h3>
+            <p>0.1108</p>
+        </div>
+        <div class="stat-box">
+            <h3>Violations</h3>
+            <p>0</p>
+        </div>
+        <div class="stat-box">
+            <h3>Domains Validated</h3>
+            <p>7</p>
+        </div>
+        <div class="stat-box">
+            <h3>Correlations</h3>
+            <p>2.1M+</p>
+        </div>
+    </div>
+    <p style="margin-top: 20px;"><a href="https://doi.org/10.17605/OSF.IO/FXHMK">Published Preprint DOI →</a></p>
+</div>
+
+<!-- SIDEBAR NAVIGATION -->
+<nav class="sidebar-nav">
+    <h3>Navigation</h3>
+    <ul>
+        <li><a href="index.html">Main Dashboard</a></li>
+        <li><a href="instrument-panel.html">Instrument Panel</a></li>
+        <li><a href="#meta-intelligence">Meta-Intelligence</a></li>
+        <li><a href="docs/PROOF_PACK.md">Proof Pack</a></li>
+        <li><a href="https://doi.org/10.17605/OSF.IO/FXHMK" target="_blank">Published Paper</a></li>
+    </ul>
+</nav>
+
+<!-- Main content wrapper -->
+<div class="main-content-with-sidebar">
+
 <!-- AUTO-GENERATED DASHBOARD SUMMARY START -->
 <section class="live-summary" style="margin:1rem auto;padding:1rem 1.25rem;border:1px solid #334155;border-radius:14px;background:linear-gradient(135deg,#0b1220 0%,#0a0f1c 100%);max-width:1400px;">
     <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.75rem;">
@@ -595,5 +773,7 @@ This is the latest meta-intelligence analysis combining:
 
     <script src="js/meta-intelligence-live.js"></script>
     <script src="js/prediction-engine.js"></script>
+</div>
+<!-- End main-content-with-sidebar -->
 </body>
 </html>
