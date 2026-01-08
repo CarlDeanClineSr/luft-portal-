@@ -7,7 +7,7 @@ This is a reviewer's "one-click path" to verify each claim from raw data to plot
 ## 1) Zero Violations (1.48M observations)
 
 - Data: [data/cme_heartbeat_log_*.csv](https://github.com/CarlDeanClineSr/luft-portal-/tree/main/data)
-- Script: scripts/chi_calculator.py
+- Script: scripts/cme_heartbeat_logger.py; scripts/compute_chi_from_intermagnet.py
 - Figures: figures/chi_status_cards.png; figures/dscovr_chi_timeseries_*.png
 - Workflow: Actions → "CME Heartbeat Logger" → latest successful run
 
@@ -38,7 +38,7 @@ Checklist:
 
 - Data: results/temporal_modes/*.csv
 - Figure: figures/temporal_correlation_matrix.png
-- Script: scripts/temporal_correlation_engine.py
+- Script: scripts/temporal_miner.py; tools/temporal_correlation_dashboard.py
 - Workflow: "Temporal Correlation Dashboard"
 
 Checklist:

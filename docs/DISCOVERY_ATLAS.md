@@ -99,7 +99,7 @@ Each prediction includes a script and workflow plan (see Proof Pack §F).
 
 - Zero local setup: all workflows Auto-Run (Actions)
 - Data locations: data/, results/, figures/
-- Key scripts: chi_calculator.py; temporal_correlation_engine.py; fundamental_constants_correlation.py
+- Key scripts: scripts/compute_chi_from_intermagnet.py; scripts/temporal_miner.py; scripts/fundamental_constants_correlation.py; scripts/cme_heartbeat_logger.py
 - Workflow names: "CME Heartbeat Logger", "Update Dashboards", "Lightning Analyzer", "PSP Validation (planned)"
 
 ---
