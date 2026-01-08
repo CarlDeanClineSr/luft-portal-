@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LUFT Portal - Mission Control</title>
+    <link rel="stylesheet" href="./assets/css/teacher-widget.css" />
+    <script defer src="./assets/js/teacher-widget.js"></script>
     <style>
         * {
             margin: 0;
@@ -578,6 +580,68 @@ This is the latest meta-intelligence analysis combining:
         <a href="docs/PROOF_PACK.md" style="color: #4ade80; font-weight: bold;">✓ Proof Pack (One-Click Verification)</a>
     </div>
 </div>
+
+<!-- TEACH-THE-ENGINE WIDGET -->
+<section id="teacher-widget" class="card" style="margin: 1rem auto; max-width: 1400px; padding: 1.5rem; background: #1a1f3a; border: 1px solid #2a2f4a; border-radius: 8px;">
+  <h2 style="color: #00ff88; margin-bottom: 0.5rem;">Teach‑The‑Engine</h2>
+  <p id="teacher-report-headline" style="color: #cbd5e1; margin-bottom: 1rem;">Loading daily signature checks…</p>
+
+  <div class="metric-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+    <div class="metric-card" style="background: #0a0e1a; border: 1px solid #334155; border-radius: 8px; padding: 1rem; text-align: center;">
+      <h3 style="color: #94a3b8; font-size: 0.9rem; margin: 0 0 0.5rem;">Datasets Checked</h3>
+      <div class="metric-value" style="color: #00ff88; font-size: 2rem; font-weight: bold;"><span id="teacher-total">0</span></div>
+      <p style="color: #64748b; font-size: 0.85rem; margin: 0.5rem 0 0;">Analyzed today: <strong id="teacher-analyzed" style="color: #e2e8f0;">0</strong></p>
+    </div>
+
+    <div class="metric-card" style="background: #0a0e1a; border: 1px solid #334155; border-radius: 8px; padding: 1rem; text-align: center;">
+      <h3 style="color: #94a3b8; font-size: 0.9rem; margin: 0 0 0.5rem;">Causality Boundary</h3>
+      <div class="metric-value" id="teacher-pass-chi" style="color: #00ff88; font-size: 1.4rem; font-weight: bold;">—</div>
+      <p style="color: #64748b; font-size: 0.85rem; margin: 0.5rem 0 0;">Pass / Total</p>
+    </div>
+
+    <div class="metric-card" style="background: #0a0e1a; border: 1px solid #334155; border-radius: 8px; padding: 1rem; text-align: center;">
+      <h3 style="color: #94a3b8; font-size: 0.9rem; margin: 0 0 0.5rem;">Fractal Regulator</h3>
+      <div class="metric-value" id="teacher-pass-fractal" style="color: #00ff88; font-size: 1.4rem; font-weight: bold;">—</div>
+      <p style="color: #64748b; font-size: 0.85rem; margin: 0.5rem 0 0;">Pass / Total</p>
+    </div>
+
+    <div class="metric-card" style="background: #0a0e1a; border: 1px solid #334155; border-radius: 8px; padding: 1rem; text-align: center;">
+      <h3 style="color: #94a3b8; font-size: 0.9rem; margin: 0 0 0.5rem;">Binary Harmonics</h3>
+      <div class="metric-value" id="teacher-pass-binary" style="color: #00ff88; font-size: 1.4rem; font-weight: bold;">—</div>
+      <p style="color: #64748b; font-size: 0.85rem; margin: 0.5rem 0 0;">Pass / Total</p>
+    </div>
+
+    <div class="metric-card" style="background: #0a0e1a; border: 1px solid #334155; border-radius: 8px; padding: 1rem; text-align: center;">
+      <h3 style="color: #94a3b8; font-size: 0.9rem; margin: 0 0 0.5rem;">Electroweak Bridge</h3>
+      <div class="metric-value" id="teacher-pass-ew" style="color: #00ff88; font-size: 1.4rem; font-weight: bold;">—</div>
+      <p style="color: #64748b; font-size: 0.85rem; margin: 0.5rem 0 0;">Pass / Total</p>
+    </div>
+
+    <div class="metric-card" style="background: #0a0e1a; border: 1px solid #334155; border-radius: 8px; padding: 1rem; text-align: center;">
+      <h3 style="color: #94a3b8; font-size: 0.9rem; margin: 0 0 0.5rem;">Whistler Gaps</h3>
+      <div class="metric-value" id="teacher-pass-whistler" style="color: #00ff88; font-size: 1.4rem; font-weight: bold;">—</div>
+      <p style="color: #64748b; font-size: 0.85rem; margin: 0.5rem 0 0;">Pass / Total</p>
+    </div>
+  </div>
+
+  <h3 style="color: #00ff88; margin-bottom: 0.5rem;">Recent Analyses</h3>
+  <table class="table-compact" style="width: 100%; color: #cbd5e1; border-collapse: collapse; margin-bottom: 1rem; background: #0a0e1a; border-radius: 8px;">
+    <thead>
+      <tr style="border-bottom: 2px solid #334155;">
+        <th style="padding: 0.75rem; text-align: left; color: #00ff88;">Dataset</th>
+        <th style="padding: 0.75rem; text-align: left; color: #00ff88;">Status</th>
+        <th style="padding: 0.75rem; text-align: left; color: #00ff88;">Notes</th>
+      </tr>
+    </thead>
+    <tbody id="teacher-recent-tbody">
+      <tr><td colspan="3" style="padding: 0.75rem;">Loading…</td></tr>
+    </tbody>
+  </table>
+
+  <p style="margin: 0;">
+    <a href="./docs/Teacher_Report.md" target="_blank" rel="noopener" style="color: #4ade80; font-weight: bold;">Open full Teacher Report →</a>
+  </p>
+</section>
 
     <!-- HEADER -->
     <div class="header">
