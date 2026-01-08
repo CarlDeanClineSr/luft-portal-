@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LUFT Instrument Panel | Live χ Boundary Cockpit</title>
+    <link rel="stylesheet" href="./assets/css/teacher-widget.css" />
+    <script defer src="./assets/js/teacher-widget.js"></script>
     <style>
         :root {
             --bg: #040810;
@@ -642,6 +644,22 @@
                 <div class="time-row">Time since refresh: <span class="mono" id="density-time">--:--:--</span></div>
             </div>
         </div>
+
+        <!-- TEACH-THE-ENGINE COMPACT WIDGET -->
+        <section id="teacher-widget" class="panel card" style="margin-top: 1rem;">
+          <h3 style="margin: 0 0 0.5rem; color: var(--success);">Teach‑The‑Engine: Signature Status</h3>
+          <div class="badge-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; margin-bottom: 0.75rem;">
+            <div style="padding: 0.5rem; background: #0f172a; border-radius: 8px; border: 1px solid var(--card-border);">Causality Boundary: <span id="teacher-pass-chi" class="mono" style="color: var(--success);">—</span></div>
+            <div style="padding: 0.5rem; background: #0f172a; border-radius: 8px; border: 1px solid var(--card-border);">Fractal Regulator: <span id="teacher-pass-fractal" class="mono" style="color: var(--success);">—</span></div>
+            <div style="padding: 0.5rem; background: #0f172a; border-radius: 8px; border: 1px solid var(--card-border);">Binary Harmonics: <span id="teacher-pass-binary" class="mono" style="color: var(--success);">—</span></div>
+            <div style="padding: 0.5rem; background: #0f172a; border-radius: 8px; border: 1px solid var(--card-border);">Electroweak Bridge: <span id="teacher-pass-ew" class="mono" style="color: var(--success);">—</span></div>
+            <div style="padding: 0.5rem; background: #0f172a; border-radius: 8px; border: 1px solid var(--card-border);">Whistler Gaps: <span id="teacher-pass-whistler" class="mono" style="color: var(--success);">—</span></div>
+          </div>
+          <div class="small" style="color: var(--muted);">
+            Datasets checked today: <span id="teacher-total" style="color: var(--text);">0</span> (analyzed: <span id="teacher-analyzed" style="color: var(--text);">0</span>) ·
+            <a href="./docs/Teacher_Report.md" target="_blank" rel="noopener">Full report</a>
+          </div>
+        </section>
 
         <div class="grid two-grid" style="margin-top: 1rem;">
             <div class="card">
