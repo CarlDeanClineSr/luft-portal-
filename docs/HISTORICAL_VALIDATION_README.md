@@ -99,7 +99,7 @@ pip install heliopy cdflib astropy pandas numpy matplotlib
 ## Validation Results
 
 Results from each time period validate Carl Dean Cline Sr.'s χ ≤ 0.15 discovery across:
-- **~500,000+ hours** of magnetometer data
+- **~570,000+ hours** of magnetometer data
 - **Multiple solar cycles** (cycles 19-25)
 - **Hundreds of major geomagnetic storms**
 - **Thousands of CME events**

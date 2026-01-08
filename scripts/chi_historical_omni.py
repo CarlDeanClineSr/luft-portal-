@@ -31,20 +31,25 @@ def run(start: str, end: str, out_csv: str, out_png: str, baseline_hours: int = 
 
     # Ensure we have components; fall back to magnitude if present
     cols = {c.upper(): c for c in data.columns}
-    bx = data[cols.get("BX_GSE")] if "BX_GSE" in cols else None
-    by = data[cols.get("BY_GSE")] if "BY_GSE" in cols else None
-    bz = data[cols.get("BZ_GSE")] if "BZ_GSE" in cols else None
+    bx_col = cols.get("BX_GSE")
+    by_col = cols.get("BY_GSE")
+    bz_col = cols.get("BZ_GSE")
 
-    if bx is not None and by is not None and bz is not None:
+    if bx_col and by_col and bz_col:
+        bx = data[bx_col]
+        by = data[by_col]
+        bz = data[bz_col]
         b_mag = np.sqrt(bx.values**2 + by.values**2 + bz.values**2)
         b = pd.Series(b_mag, index=data.index, name="B_total_nT")
     else:
         # Try common total field names in OMNI HRO
+        b = None
         for candidate in ["F", "BT", "|B|", "B"]:
-            if candidate in cols:
-                b = pd.Series(data[cols[candidate]].values, index=data.index, name="B_total_nT")
+            col_name = cols.get(candidate)
+            if col_name:
+                b = pd.Series(data[col_name].values, index=data.index, name="B_total_nT")
                 break
-        else:
+        if b is None:
             raise RuntimeError("No magnetic field columns found (BX_GSE/BY_GSE/BZ_GSE or total field).")
 
     # Compute baseline and chi (χ)
@@ -52,7 +57,7 @@ def run(start: str, end: str, out_csv: str, out_png: str, baseline_hours: int = 
     chi = compute_chi(b, b_baseline)
 
     df = pd.DataFrame({
-        "timestamp": b.index.tz_localize(None),
+        "timestamp": b.index.tz_localize(None) if b.index.tz is not None else b.index,
         "B_total_nT": b.values,
         "B_baseline_nT": b_baseline.values,
         "chi": chi.values
