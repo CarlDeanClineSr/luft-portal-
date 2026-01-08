@@ -319,6 +319,82 @@ This is the latest meta-intelligence analysis combining:
     <a href="papers/CLINE_CONVERGENCE_2026.md" style="color: #4ade80; font-weight: bold;">📄 Full Paper: The Cline Convergence</a>
 </div>
 
+<!-- LIVE KPI METRICS SECTION -->
+<div class="kpi-section" style="margin: 1rem auto; max-width: 1400px; padding: 1.5rem; background: rgba(10,14,26,0.95); border: 2px solid #00ff88; border-radius: 12px;">
+    <h3 style="color: #00ff88; margin-bottom: 1rem; font-size: 1.5rem; text-align: center;">📊 Live Evidence Dashboard</h3>
+    <p style="color: #cbd5e1; text-align: center; margin-bottom: 1.5rem;">Real-time metrics from 1.48M+ observations • Updated from repository CSVs</p>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+        <!-- Observations -->
+        <div style="background: #0a0e1a; border: 1px solid #334155; border-radius: 8px; padding: 1rem; text-align: center;">
+            <div style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 0.5rem;">Total Observations</div>
+            <div id="kpi-observations" style="color: #00ff88; font-size: 2rem; font-weight: bold;">--</div>
+            <div style="color: #64748b; font-size: 0.85rem; margin-top: 0.5rem;">Across all domains</div>
+        </div>
+        
+        <!-- Violations -->
+        <div style="background: #0a0e1a; border: 1px solid #334155; border-radius: 8px; padding: 1rem; text-align: center;">
+            <div style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 0.5rem;">Boundary Violations</div>
+            <div id="kpi-violations" style="color: #00ff88; font-size: 2rem; font-weight: bold;">--</div>
+            <div style="color: #64748b; font-size: 0.85rem; margin-top: 0.5rem;">χ > 0.15 events</div>
+        </div>
+        
+        <!-- Domains -->
+        <div style="background: #0a0e1a; border: 1px solid #334155; border-radius: 8px; padding: 1rem; text-align: center;">
+            <div style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 0.5rem;">Validated Domains</div>
+            <div id="kpi-domains" style="color: #00ff88; font-size: 2rem; font-weight: bold;">--</div>
+            <div style="color: #64748b; font-size: 0.85rem; margin-top: 0.5rem;">Universal coverage</div>
+        </div>
+        
+        <!-- Current Chi -->
+        <div style="background: #0a0e1a; border: 1px solid #334155; border-radius: 8px; padding: 1rem; text-align: center;">
+            <div style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 0.5rem;">Current χ Value</div>
+            <div id="kpi-chi-current" style="color: #00ff88; font-size: 2rem; font-weight: bold;">--</div>
+            <div style="color: #64748b; font-size: 0.85rem; margin-top: 0.5rem;">Latest reading</div>
+        </div>
+        
+        <!-- Correlations -->
+        <div style="background: #0a0e1a; border: 1px solid #334155; border-radius: 8px; padding: 1rem; text-align: center;">
+            <div style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 0.5rem;">Correlations</div>
+            <div id="kpi-correlations" style="color: #00ff88; font-size: 2rem; font-weight: bold;">--</div>
+            <div style="color: #64748b; font-size: 0.85rem; margin-top: 0.5rem;">Temporal modes</div>
+        </div>
+        
+        <!-- Temporal Modes -->
+        <div style="background: #0a0e1a; border: 1px solid #334155; border-radius: 8px; padding: 1rem; text-align: center;">
+            <div style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 0.5rem;">Active Modes</div>
+            <div id="kpi-modes" style="color: #00ff88; font-size: 2rem; font-weight: bold;">--</div>
+            <div style="color: #64748b; font-size: 0.85rem; margin-top: 0.5rem;">6h spacing, 0-72h</div>
+        </div>
+    </div>
+    
+    <div style="margin-top: 1.5rem; padding: 1rem; background: #0b1220; border: 1px solid #334155; border-radius: 8px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; font-size: 0.9rem;">
+            <div>
+                <span style="color: #94a3b8;">Field Span:</span>
+                <span id="kpi-fieldspan" style="color: #e2e8f0; font-weight: bold;">--</span>
+            </div>
+            <div>
+                <span style="color: #94a3b8;">Timescales:</span>
+                <span id="kpi-timescales" style="color: #e2e8f0; font-weight: bold;">--</span>
+            </div>
+            <div>
+                <span style="color: #94a3b8;">Peak Mode:</span>
+                <span id="kpi-peak-mode" style="color: #e2e8f0; font-weight: bold;">--</span>
+            </div>
+            <div>
+                <span style="color: #94a3b8;">Attractor:</span>
+                <span id="kpi-attractor" style="color: #e2e8f0; font-weight: bold;">--</span>
+            </div>
+        </div>
+    </div>
+    
+    <div style="margin-top: 1rem; text-align: center; font-size: 0.95rem;">
+        <a href="docs/DISCOVERY_ATLAS.md" style="color: #4ade80; font-weight: bold; margin-right: 1.5rem;">📚 Full Discovery Atlas</a>
+        <a href="docs/PROOF_PACK.md" style="color: #4ade80; font-weight: bold;">✓ Proof Pack (One-Click Verification)</a>
+    </div>
+</div>
+
     <!-- HEADER -->
     <div class="header">
         <h1>LUFT PORTAL</h1>
@@ -703,5 +779,8 @@ This is the latest meta-intelligence analysis combining:
             loadCorrelations();
         }, 60000);
     </script>
+
+    <!-- Live KPI Metrics Script -->
+    <script src="./assets/js/live-metrics.js"></script>
 </body>
 </html>
