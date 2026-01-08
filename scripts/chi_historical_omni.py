@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """
-Historical χ from NASA OMNI hourly (1963–1974 by default) via CDAWeb using Heliopy.
+Historical χ from NASA OMNI hourly (1963–1974 by default) via SPDF CDAWeb (cdasws).
+
+Replaces HelioPy with cdasws (HelioPy is deprecated).
 
 Requires:
-  pip install heliopy cdflib astropy pandas numpy matplotlib
+  pip install cdasws pandas numpy matplotlib xarray cdflib
 
 Outputs:
   - results/historical_chi/historical_chi_<start>_<end>.csv
@@ -17,64 +19,80 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+# Local helper for rolling median + chi
 from imperial_math import rolling_median, compute_chi
 
-def run(start: str, end: str, out_csv: str, out_png: str, baseline_hours: int = 24):
-    # Lazy import heliopy to keep base env lean elsewhere
-    from heliopy.data import omni
 
+def fetch_omni_hourly_cdasws(start_dt: datetime, end_dt: datetime) -> pd.DataFrame:
+    """Fetch OMNI hourly data using CDAWeb web services (cdasws)."""
+    from cdasws import CdasWs
+
+    cdas = CdasWs()
+    # Dataset name for hourly OMNI in CDAWeb
+    dataset = "OMNI2_H0_MRG1HR"
+
+    # Request all variables to get both Epoch and Epoch_1800 data
+    status, data = cdas.get_data(dataset, ["ALL-VARIABLES"], start_dt, end_dt)
+
+    if status['http']['status_code'] != 200:
+        raise RuntimeError(f"CDAWeb request failed with status {status['http']['status_code']}")
+
+    if data is None:
+        raise RuntimeError("No OMNI hourly data returned for the requested range.")
+
+    # Convert xarray Dataset to pandas DataFrame
+    # Use only variables on the Epoch coordinate (hourly data)
+    hourly_vars = [v for v in data.data_vars if 'Epoch' in data[v].dims and 'Epoch_1800' not in data[v].dims]
+    df = data[hourly_vars].to_dataframe().reset_index()
+    
+    # Basic sanity check
+    if df.empty:
+        raise RuntimeError("No OMNI hourly data returned for the requested range.")
+    
+    return df.sort_values('Epoch').set_index('Epoch')
+
+
+def run(start: str, end: str, out_csv: str, out_png: str, baseline_hours: int = 24):
+    # Parse dates (ISO)
     start_dt = datetime.fromisoformat(start)
     end_dt = datetime.fromisoformat(end)
 
-    # Fetch hourly OMNI (HRO) from CDAWeb
-    data = omni.hro(start_dt, end_dt)  # returns pandas-like DataFrame with hourly cadence
+    # Fetch data
+    df_omni = fetch_omni_hourly_cdasws(start_dt, end_dt)
 
-    # Ensure we have components; fall back to magnitude if present
-    cols = {c.upper(): c for c in data.columns}
-    bx_col = cols.get("BX_GSE")
-    by_col = cols.get("BY_GSE")
-    bz_col = cols.get("BZ_GSE")
-
-    if bx_col and by_col and bz_col:
-        bx = data[bx_col]
-        by = data[by_col]
-        bz = data[bz_col]
-        b_mag = np.sqrt(bx.values**2 + by.values**2 + bz.values**2)
-        b = pd.Series(b_mag, index=data.index, name="B_total_nT")
+    # Prefer vector if available, else total field (ABS_B)
+    if {"BX_GSE", "BY_GSE", "BZ_GSE"}.issubset(df_omni.columns):
+        b_mag = np.sqrt(
+            df_omni["BX_GSE"].values**2
+            + df_omni["BY_GSE"].values**2
+            + df_omni["BZ_GSE"].values**2
+        )
+        b = pd.Series(b_mag, index=df_omni.index, name="B_total_nT")
+    elif "ABS_B" in df_omni.columns:
+        b = pd.Series(df_omni["ABS_B"].values, index=df_omni.index, name="B_total_nT")
     else:
-        # Try common total field names in OMNI HRO
-        b = None
-        for candidate in ["F", "BT", "|B|", "B"]:
-            col_name = cols.get(candidate)
-            if col_name:
-                b = pd.Series(data[col_name].values, index=data.index, name="B_total_nT")
-                break
-        if b is None:
-            raise RuntimeError("No magnetic field columns found (BX_GSE/BY_GSE/BZ_GSE or total field).")
+        raise RuntimeError("No magnetic field columns found (BX_GSE/BY_GSE/BZ_GSE or ABS_B).")
 
     # Compute baseline and chi (χ)
     b_baseline = rolling_median(b, baseline_hours)
     chi = compute_chi(b, b_baseline)
 
     df = pd.DataFrame({
-        "timestamp": b.index,
+        "timestamp": b.index.tz_localize(None),
         "B_total_nT": b.values,
         "B_baseline_nT": b_baseline.values,
         "chi": chi.values
     })
-    # Ensure timestamp is timezone-naive for CSV export
-    if hasattr(df['timestamp'].dtype, 'tz') and df['timestamp'].dtype.tz is not None:
-        df['timestamp'] = df['timestamp'].dt.tz_localize(None)
-    elif hasattr(b.index, 'tz') and b.index.tz is not None:
-        df['timestamp'] = b.index.tz_localize(None)
-    
     df.dropna(subset=["chi"], inplace=True)
 
     # Stats
     total = len(df)
     chi_max = float(np.nanmax(df["chi"].values)) if total else float("nan")
     violations = int((df["chi"] > 0.15).sum())
-    attractor = float(((df["chi"] >= 0.145) & (df["chi"] <= 0.155)).sum()) / total * 100.0 if total else float("nan")
+    attractor = (
+        float(((df["chi"] >= 0.145) & (df["chi"] <= 0.155)).sum()) / total * 100.0
+        if total else float("nan")
+    )
 
     print(f"Points: {total}")
     print(f"χ_max:  {chi_max:.6f}")
@@ -98,6 +116,7 @@ def run(start: str, end: str, out_csv: str, out_png: str, baseline_hours: int = 
     plt.tight_layout()
     plt.savefig(out_png, dpi=150)
     plt.close()
+
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
