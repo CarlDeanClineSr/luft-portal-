@@ -22,6 +22,11 @@ import matplotlib.pyplot as plt
 # Local helper for rolling median + chi
 from imperial_math import rolling_median, compute_chi
 
+# Constants for chi analysis
+CHI_VIOLATION_THRESHOLD = 0.15  # Upper limit for chi violations
+CHI_ATTRACTOR_LOWER = 0.145     # Lower bound of attractor region
+CHI_ATTRACTOR_UPPER = 0.155     # Upper bound of attractor region
+
 
 def fetch_omni_hourly_cdasws(start_dt: datetime, end_dt: datetime) -> pd.DataFrame:
     """Fetch OMNI hourly data using CDAWeb web services (cdasws)."""
@@ -42,7 +47,19 @@ def fetch_omni_hourly_cdasws(start_dt: datetime, end_dt: datetime) -> pd.DataFra
 
     # Convert xarray Dataset to pandas DataFrame
     # Use only variables on the Epoch coordinate (hourly data)
-    hourly_vars = [v for v in data.data_vars if 'Epoch' in data[v].dims and 'Epoch_1800' not in data[v].dims]
+    # The OMNI2_H0_MRG1HR dataset has two time coordinates:
+    # - Epoch: hourly data
+    # - Epoch_1800: 30-minute averaged data (1800 seconds)
+    hourly_vars = []
+    for v in data.data_vars:
+        dims = data[v].dims
+        # Check if the variable is on the Epoch coordinate but NOT on Epoch_1800
+        if 'Epoch' in dims and 'Epoch_1800' not in dims:
+            hourly_vars.append(v)
+    
+    if not hourly_vars:
+        raise RuntimeError("No hourly variables found on Epoch coordinate in OMNI data.")
+    
     df = data[hourly_vars].to_dataframe().reset_index()
     
     # Basic sanity check
@@ -78,7 +95,7 @@ def run(start: str, end: str, out_csv: str, out_png: str, baseline_hours: int = 
     chi = compute_chi(b, b_baseline)
 
     df = pd.DataFrame({
-        "timestamp": b.index.tz_localize(None),
+        "timestamp": b.index.tz_localize(None) if b.index.tz is not None else b.index,
         "B_total_nT": b.values,
         "B_baseline_nT": b_baseline.values,
         "chi": chi.values
@@ -88,16 +105,16 @@ def run(start: str, end: str, out_csv: str, out_png: str, baseline_hours: int = 
     # Stats
     total = len(df)
     chi_max = float(np.nanmax(df["chi"].values)) if total else float("nan")
-    violations = int((df["chi"] > 0.15).sum())
+    violations = int((df["chi"] > CHI_VIOLATION_THRESHOLD).sum())
     attractor = (
-        float(((df["chi"] >= 0.145) & (df["chi"] <= 0.155)).sum()) / total * 100.0
+        float(((df["chi"] >= CHI_ATTRACTOR_LOWER) & (df["chi"] <= CHI_ATTRACTOR_UPPER)).sum()) / total * 100.0
         if total else float("nan")
     )
 
     print(f"Points: {total}")
     print(f"χ_max:  {chi_max:.6f}")
-    print(f"Violations (χ>0.15): {violations}")
-    print(f"Attractor occupancy (0.145–0.155): {attractor:.2f}%")
+    print(f"Violations (χ>{CHI_VIOLATION_THRESHOLD}): {violations}")
+    print(f"Attractor occupancy ({CHI_ATTRACTOR_LOWER}–{CHI_ATTRACTOR_UPPER}): {attractor:.2f}%")
 
     # Save CSV
     Path(out_csv).parent.mkdir(parents=True, exist_ok=True)
@@ -107,7 +124,8 @@ def run(start: str, end: str, out_csv: str, out_png: str, baseline_hours: int = 
     Path(out_png).parent.mkdir(parents=True, exist_ok=True)
     plt.figure(figsize=(12, 4))
     plt.plot(df["timestamp"], df["chi"], linewidth=0.8, color="#1565c0")
-    plt.axhline(0.15, color="#c62828", linestyle="--", linewidth=1.0, label="χ = 0.15")
+    plt.axhline(CHI_VIOLATION_THRESHOLD, color="#c62828", linestyle="--", linewidth=1.0, 
+                label=f"χ = {CHI_VIOLATION_THRESHOLD}")
     plt.xlabel("Time (UTC)")
     plt.ylabel("χ")
     plt.title(f"Historical χ (OMNI hourly): {start} → {end} (baseline={baseline_hours}h)")
