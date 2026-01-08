@@ -1,12 +1,14 @@
+---
 name: Engine Status Report
 
-on:
+# Quote 'on' to satisfy YAML linters that treat 'on' as a truthy keyword
+"on":
   schedule:
-    - cron: '0 * * * *'  # hourly (UTC)
+    - cron: "0 * * * *"  # hourly (UTC)
   workflow_dispatch:
 
 permissions:
-  contents: write  # required if committing/pushing from the workflow
+  contents: write  # needed to push report files back to the repo
 
 jobs:
   engine-report:
@@ -20,7 +22,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies (optional)
         run: |
@@ -30,7 +32,7 @@ jobs:
 
       - name: Run LUFT Portal Engine Status Script
         run: |
-          # Adjust the path to the real script location in your repo
+          # Adjust these paths to the actual script location(s)
           if [ -f scripts/space_weather_rapid_report.py ]; then
             python scripts/space_weather_rapid_report.py
           elif [ -f space_weather_rapid_report.py ]; then
@@ -46,13 +48,24 @@ jobs:
         run: |
           git config --global user.name "vault-bot"
           git config --global user.email "vault-bot@users.noreply.github.com"
-          # Stage typical report paths; adjust as needed
-          git add '*.md' 'reports/**/*.md' || true
-          git diff --quiet && git diff --staged --quiet && exit 0
-          git commit -m "Automated space weather report $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+
+          # Stage markdown reports (adjust globs as needed)
+          git add "*.md" "reports/**/*.md" || true
+
+          # No changes? Exit cleanly
+          if git diff --quiet && git diff --staged --quiet; then
+            exit 0
+          fi
+
+          # Short commit message to satisfy line-length lint
+          git commit -m "Automated report $(date -u +'%F %T UTC')"
           git push
 
-  update-dashboards:
-    needs: engine-report
-    uses: ./.github/workflows/update_dashboards.yml
-    secrets: inherit
+  # If you want to call a reusable workflow, ensure the target has:
+  # on:
+  #   workflow_call:
+  # Then you can uncomment this job.
+  # update-dashboards:
+  #   needs: engine-report
+  #   uses: ./.github/workflows/update_dashboards.yml
+  #   secrets: inherit
