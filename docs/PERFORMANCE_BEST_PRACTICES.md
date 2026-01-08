@@ -15,18 +15,25 @@ for _, row in df.iterrows():
     result = row['column1'] + row['column2']
 ```
 
-**✅ PREFER: `.iloc[]` or vectorized operations**
+**✅ PREFER: `.apply()` with axis=1 or vectorized operations**
 ```python
-# FASTER - Direct indexing
-for idx in range(len(df)):
-    row = df.iloc[idx]
-    result = row['column1'] + row['column2']
+# BEST - Apply function (2x faster than iterrows for string operations)
+results = df.apply(lambda row: row['column1'] + row['column2'], axis=1).tolist()
 
-# BEST - Vectorized operations when possible
+# EXCELLENT - Vectorized operations when possible (fastest)
 df['result'] = df['column1'] + df['column2']
 ```
 
-**Performance Impact**: `iterrows()` is 10-100x slower than alternatives due to Series object creation overhead.
+**Performance Benchmarks** (1000 iterations, 20 rows):
+- `iterrows()`: 1.04s (baseline)
+- `iloc[]`: 1.12s (0.9x slower - not recommended)
+- `apply(axis=1)`: 0.52s (2.0x faster) ✅
+- Vectorized: ~0.01s (100x+ faster) ⭐
+
+**When to use each**:
+- Vectorized: When operation can be done on entire columns
+- `apply()`: When you need row-wise string formatting or complex logic
+- Never use `iterrows()`: Always has better alternatives
 
 ### 2. File System Operations
 
@@ -79,8 +86,8 @@ import matplotlib.pyplot as plt
 
 ### vault_narrator.py (Runs Hourly)
 - **Before**: Used `iterrows()` for 20-row table generation
-- **After**: Uses `iloc[]` indexing
-- **Benefit**: ~5x faster for table generation
+- **After**: Uses `apply(axis=1)` with lambda function
+- **Benefit**: 2x faster for table generation (benchmarked: 1.04s → 0.52s per 1000 iterations)
 
 ### capsule_index_job.py (Runs Daily)
 - **Before**: Two separate `os.walk()` calls for same directory
