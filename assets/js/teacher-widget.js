@@ -11,7 +11,7 @@
   function setHTML(sel, v) { const el = $(sel); if (el) el.innerHTML = v; }
 
   function ratioStr(pass, total) {
-    if (!total) return "0 / 0 (0%)";
+    if (total === 0 || !total) return "0 / 0 (0%)";
     const pct = Math.round((pass / total) * 100);
     return `${pass} / ${total} (${pct}%)`;
   }
@@ -56,7 +56,11 @@
     const slice = items.slice(0, maxRows);
     for (const it of slice) {
       const ok = it.status === "analyzed";
-      const fn = it.file ? it.file.split("/").slice(-2).join("/") : "(unknown)";
+      let fn = "(unknown)";
+      if (it.file) {
+        const parts = it.file.split("/");
+        fn = parts.length >= 2 ? parts.slice(-2).join("/") : parts[0] || "(unknown)";
+      }
       rows.push(`<tr>
         <td class="mono">${fn}</td>
         <td>${badge(it.status || "unknown", ok)}</td>
