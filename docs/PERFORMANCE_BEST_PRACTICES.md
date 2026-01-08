@@ -26,7 +26,7 @@ df['result'] = df['column1'] + df['column2']
 
 **Performance Benchmarks** (1000 iterations, 20 rows):
 - `iterrows()`: 1.04s (baseline)
-- `iloc[]`: 1.12s (0.9x slower - not recommended)
+- `iloc[]`: 1.12s (1.08x slower - not recommended)
 - `apply(axis=1)`: 0.52s (2.0x faster) ✅
 - Vectorized: ~0.01s (100x+ faster) ⭐
 

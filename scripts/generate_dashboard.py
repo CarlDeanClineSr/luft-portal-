@@ -381,8 +381,10 @@ def generate_html_dashboard(index_data: Dict[str, Any]) -> str:
         filepath = escape_html(capsule.get("filepath", "N/A"))
         
         # Build tag HTML efficiently using list comprehension
-        tag_html_parts = [f'                                    <span class="tag">{escape_html(str(tag))}</span>\n' 
-                          for tag in tags[:5]]
+        tag_html_parts = [
+            f'                                    <span class="tag">{escape_html(str(tag))}</span>\n' 
+            for tag in tags[:5]
+        ]
         if len(tags) > 5:
             tag_html_parts.append(f'                                    <span class="tag">+{len(tags) - 5} more</span>\n')
         
