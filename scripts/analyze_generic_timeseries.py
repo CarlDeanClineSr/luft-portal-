@@ -19,8 +19,10 @@ def rolling_median(series: pd.Series, window_hours: int) -> pd.Series:
 
 def compute_phi(series: pd.Series, baseline: pd.Series) -> pd.Series:
     eps = 1e-12
-    base = baseline.replace(0, np.nan)
-    return (series - base).abs() / (base + eps)
+    # For baseline values near zero, use epsilon to avoid division issues
+    # Don't replace legitimate zeros with NaN; instead use safe division
+    base_safe = baseline.where(baseline.abs() > eps, eps)
+    return (series - baseline).abs() / base_safe.abs()
 
 
 def summarize(series: pd.Series, phi: pd.Series) -> Dict[str, Any]:

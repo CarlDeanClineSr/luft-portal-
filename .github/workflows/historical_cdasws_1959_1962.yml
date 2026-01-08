@@ -26,7 +26,7 @@ jobs:
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
-          pip install cdasws pandas numpy matplotlib scipy
+          pip install cdasws>=1.7.0 pandas>=2.0.0 numpy>=1.24.0 matplotlib>=3.7.0 scipy>=1.10.0
 
       - name: Run CDAWeb sweep 1959–1962 (discover + analyze everything)
         env:

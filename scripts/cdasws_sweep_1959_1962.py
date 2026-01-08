@@ -19,7 +19,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from cdasws import CdasWs
-from analyze_generic_timeseries import rolling_median, compute_phi, summarize, spectral_density
+try:
+    from analyze_generic_timeseries import rolling_median, compute_phi, summarize, spectral_density
+except ImportError as e:
+    print(f"ERROR: Failed to import analyze_generic_timeseries module: {e}")
+    print("Ensure analyze_generic_timeseries.py is in the same directory or in PYTHONPATH")
+    raise
 
 
 OUT_DIR = Path("results/cdasws_sweep")
@@ -40,6 +45,8 @@ MAG_VAR_CANDIDATES: List[List[str]] = [
 MAG_TOTAL_CANDIDATES: List[str] = [
     "F", "BT", "|B|", "B_TOTAL", "B", "B_MAG", "BABS", "BTOTAL"
 ]
+# Fallback generic variable list for probing datasets
+FALLBACK_VARS: List[str] = ["F", "BX", "BY", "BZ"]
 
 
 def discover_datasets(cdas: CdasWs, start_iso: str, end_iso: str, limit: int) -> List[Dict[str, Any]]:
@@ -90,7 +97,11 @@ def analyze_dataset(dataset: Dict[str, Any], resp: Dict[str, Any], out_prefix: P
     mag_made = False
     for triple in MAG_VAR_CANDIDATES:
         if all(v in df.columns for v in triple):
-            bmag = np.sqrt(df[triple[0]].astype(float)**2 + df[triple[1]].astype(float)**2 + df[triple[2]].astype(float)**2)
+            # Use nan-safe operations for magnetic field magnitude calculation
+            b1 = pd.to_numeric(df[triple[0]], errors="coerce")
+            b2 = pd.to_numeric(df[triple[1]], errors="coerce")
+            b3 = pd.to_numeric(df[triple[2]], errors="coerce")
+            bmag = np.sqrt(b1**2 + b2**2 + b3**2)
             df["B_total_nT"] = bmag
             mag_made = True
             break
@@ -192,7 +203,7 @@ def main():
         # If still no luck, try without heuristics: pick any variables CDAWeb returns for dataset info
         if not fetched or not fetched["ok"]:
             # Attempt a small grab with a common generic list to probe response
-            fetched = try_fetch_dataset(cdas, dsid, args.start, args.end, ["F", "BX", "BY", "BZ"])
+            fetched = try_fetch_dataset(cdas, dsid, args.start, args.end, FALLBACK_VARS)
             if not fetched["ok"]:
                 # Final fallback: mark skipped
                 print(f"[SKIP] Could not fetch usable data for {dsid}: {fetched.get('reason')}")
@@ -200,7 +211,9 @@ def main():
                 continue
 
         resp = fetched["resp"]
-        out_prefix = OUT_DIR / f"{dsid.replace('/', '_')}_1959_1962"
+        # Sanitize dataset ID for filesystem: replace problematic characters
+        safe_dsid = dsid.replace('/', '_').replace('\\', '_').replace(':', '_').replace('*', '_').replace('?', '_').replace('"', '_').replace('<', '_').replace('>', '_').replace('|', '_')
+        out_prefix = OUT_DIR / f"{safe_dsid}_1959_1962"
         try:
             analyze_dataset(ds, resp, out_prefix, args.max_vars)
             index["items"].append({"id": dsid, "title": title, "status": "analyzed"})
