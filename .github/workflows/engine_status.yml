@@ -2,34 +2,55 @@ name: Engine Status Report
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '0 * * * *'  # hourly (UTC)
   workflow_dispatch:
+
+permissions:
+  contents: write  # required if committing/pushing from the workflow
 
 jobs:
   engine-report:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.11'
+
+      - name: Install dependencies (optional)
+        run: |
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
 
       - name: Run LUFT Portal Engine Status Script
-        run: python space_weather_rapid_report.py
+        run: |
+          # Adjust the path to the real script location in your repo
+          if [ -f scripts/space_weather_rapid_report.py ]; then
+            python scripts/space_weather_rapid_report.py
+          elif [ -f space_weather_rapid_report.py ]; then
+            python space_weather_rapid_report.py
+          else
+            echo "space_weather_rapid_report.py not found" >&2
+            exit 1
+          fi
 
-       - name: Commit and push markdown reports
-         run: |
-           git config --global user.name "vault-bot"
-           git config --global user.email "vault-bot@users.noreply.github.com"
-           git pull --rebase origin main --autostash || true
-           git add *.md
-           git diff --quiet && git diff --staged --quiet || git commit -m "Automated space weather report $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-           git push
-         env:
-           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit and push markdown reports
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name "vault-bot"
+          git config --global user.email "vault-bot@users.noreply.github.com"
+          # Stage typical report paths; adjust as needed
+          git add '*.md' 'reports/**/*.md' || true
+          git diff --quiet && git diff --staged --quiet && exit 0
+          git commit -m "Automated space weather report $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          git push
 
   update-dashboards:
     needs: engine-report
