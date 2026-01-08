@@ -57,11 +57,17 @@ def run(start: str, end: str, out_csv: str, out_png: str, baseline_hours: int = 
     chi = compute_chi(b, b_baseline)
 
     df = pd.DataFrame({
-        "timestamp": b.index.tz_localize(None) if b.index.tz is not None else b.index,
+        "timestamp": b.index,
         "B_total_nT": b.values,
         "B_baseline_nT": b_baseline.values,
         "chi": chi.values
     })
+    # Ensure timestamp is timezone-naive for CSV export
+    if hasattr(df['timestamp'].dtype, 'tz') and df['timestamp'].dtype.tz is not None:
+        df['timestamp'] = df['timestamp'].dt.tz_localize(None)
+    elif hasattr(b.index, 'tz') and b.index.tz is not None:
+        df['timestamp'] = b.index.tz_localize(None)
+    
     df.dropna(subset=["chi"], inplace=True)
 
     # Stats
