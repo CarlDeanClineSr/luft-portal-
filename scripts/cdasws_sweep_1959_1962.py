@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
 CDAWeb dataset sweep for 1959–1962:
-- List all datasets in range
-- Attempt to fetch variables using robust heuristics
-- Analyze all numeric series: baseline, normalized perturbations (phi), spectral density
-- Write artifacts per dataset (CSV + PNG + JSON summary) and a master index
+- List datasets (no time-range args for get_datasets; filter by data availability via get_data)
+- Iterate monthly chunks to avoid large responses/timeouts
+- For each dataset, attempt magnetic vectors/total fields; else analyze any numeric series
+- Write per-chunk artifacts (CSV/PNG/JSON) and a master index
 
 Usage:
   python scripts/cdasws_sweep_1959_1962.py --start 1959-01-01T00:00:00 --end 1962-12-31T23:59:59 --limit 100 --max-vars 24
@@ -12,19 +12,13 @@ Usage:
 import argparse
 import json
 from pathlib import Path
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Tuple
 
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
 from cdasws import CdasWs
-try:
-    from analyze_generic_timeseries import rolling_median, compute_phi, summarize, spectral_density
-except ImportError as e:
-    print(f"ERROR: Failed to import analyze_generic_timeseries module: {e}")
-    print("Ensure analyze_generic_timeseries.py is in the same directory or in PYTHONPATH")
-    raise
 
 
 OUT_DIR = Path("results/cdasws_sweep")
@@ -49,31 +43,44 @@ MAG_TOTAL_CANDIDATES: List[str] = [
 FALLBACK_VARS: List[str] = ["F", "BX", "BY", "BZ"]
 
 
-def sanitize_filename(dataset_id: str) -> str:
-    """
-    Sanitize dataset ID for use as a filename by replacing problematic characters.
-    
-    Args:
-        dataset_id: Raw dataset ID from CDAWeb
-    
-    Returns:
-        Safe filename string
-    """
-    invalid_chars = ['/', '\\', ':', '*', '?', '"', '<', '>', '|']
-    safe_id = dataset_id
-    for char in invalid_chars:
-        safe_id = safe_id.replace(char, '_')
-    return safe_id
+def rolling_median(series: pd.Series, window_hours: int) -> pd.Series:
+    """Rolling median baseline for time series."""
+    return series.rolling(window=window_hours, min_periods=max(1, window_hours // 2)).median()
 
 
-def discover_datasets(cdas: CdasWs, start_iso: str, end_iso: str, limit: int) -> List[Dict[str, Any]]:
-    datasets = cdas.get_datasets(start_iso, end_iso)
-    # Minimal schema norm
+def compute_phi(series: pd.Series, baseline: pd.Series) -> pd.Series:
+    """Compute normalized perturbation phi = |x - baseline| / baseline."""
+    eps = 1e-12
+    # For baseline values near zero, use epsilon to avoid division issues
+    # Don't replace legitimate zeros with NaN; instead use safe division
+    base_safe = baseline.where(baseline.abs() > eps, eps)
+    return (series - baseline).abs() / base_safe.abs()
+
+
+def spectral_density(series: pd.Series, fs_hz: float = 1.0/3600.0) -> Tuple[np.ndarray, np.ndarray]:
+    """Welch PSD for evenly sampled series; default fs assumes hourly data."""
+    from scipy.signal import welch
+    x = series.dropna().values
+    if len(x) < 256:
+        return np.array([]), np.array([])
+    freqs, psd = welch(x, fs=fs_hz, nperseg=min(1024, len(x)))
+    return freqs, psd
+
+
+def discover_datasets(cdas: CdasWs, limit: int) -> List[Dict[str, Any]]:
+    """
+    Get datasets from CDAWeb catalog.
+    
+    Note: get_datasets() takes no time-range positional args; we return
+    basic catalog info and limit results.
+    """
+    datasets = cdas.get_datasets() or []
     items = []
     for ds in datasets[:limit]:
         dsid = ds.get("Id") or ds.get("DatasetID") or ""
         title = ds.get("Label") or ds.get("Name") or ""
-        items.append({"id": dsid, "title": title})
+        if dsid:
+            items.append({"id": dsid, "title": title})
     return items
 
 
@@ -88,6 +95,7 @@ def try_fetch_dataset(cdas: CdasWs, dataset_id: str, start_iso: str, end_iso: st
 
 
 def detect_numeric_vars(resp: Dict[str, Any]) -> List[str]:
+    """Detect numeric variables in the response."""
     numeric = []
     for k, v in resp.items():
         if k == "Epoch":
@@ -101,7 +109,33 @@ def detect_numeric_vars(resp: Dict[str, Any]) -> List[str]:
     return numeric
 
 
-def analyze_dataset(dataset: Dict[str, Any], resp: Dict[str, Any], out_prefix: Path, max_vars: int):
+def month_chunks(start_iso: str, end_iso: str) -> List[Tuple[str, str]]:
+    """Build inclusive monthly chunks from start to end."""
+    start = pd.Timestamp(start_iso)
+    end = pd.Timestamp(end_iso)
+    # Include the month containing the end date by extending to the next month start
+    end_month_start = end.normalize().replace(day=1)
+    next_month = end_month_start + pd.offsets.MonthBegin(1)
+    months = pd.date_range(start=start.normalize().replace(day=1), end=next_month, freq="MS")
+    chunks = []
+    for i in range(len(months) - 1):
+        chunk_start = months[i]
+        chunk_end = months[i+1] - pd.Timedelta(seconds=1)
+        # Ensure we don't go beyond the original end date
+        if chunk_end > end:
+            chunk_end = end
+        # Skip chunks that are entirely before the start
+        if chunk_end < start:
+            continue
+        # Adjust chunk_start if it's before the original start
+        if chunk_start < start:
+            chunk_start = start
+        chunks.append((chunk_start.strftime("%Y-%m-%dT%H:%M:%S"), chunk_end.strftime("%Y-%m-%dT%H:%M:%S")))
+    return chunks
+
+
+def analyze_chunk(dataset: Dict[str, Any], resp: Dict[str, Any], out_prefix: Path, max_vars: int, chunk_tag: str):
+    """Analyze a single monthly chunk of data."""
     times = pd.to_datetime(resp["Epoch"])
     df = pd.DataFrame(index=times)
 
@@ -110,7 +144,7 @@ def analyze_dataset(dataset: Dict[str, Any], resp: Dict[str, Any], out_prefix: P
     for var in numeric_vars[:max_vars]:
         df[var] = pd.Series(resp[var], index=times)
 
-    # Compute derived magnetic magnitude if vector available
+    # Derived magnetic magnitude if vector available
     mag_made = False
     for triple in MAG_VAR_CANDIDATES:
         if all(v in df.columns for v in triple):
@@ -123,7 +157,7 @@ def analyze_dataset(dataset: Dict[str, Any], resp: Dict[str, Any], out_prefix: P
             mag_made = True
             break
 
-    # Add known total field if present
+    # Known total field
     if not mag_made:
         for t in MAG_TOTAL_CANDIDATES:
             if t in df.columns:
@@ -131,29 +165,27 @@ def analyze_dataset(dataset: Dict[str, Any], resp: Dict[str, Any], out_prefix: P
                 mag_made = True
                 break
 
-    # Analysis per column
+    # Analysis per variable
     summaries: Dict[str, Any] = {}
     baseline_hours = 24
     for col in df.columns:
         series = pd.to_numeric(df[col], errors="coerce")
         base = rolling_median(series, baseline_hours)
         phi = compute_phi(series, base)
-        summaries[col] = summarize(series, phi)
 
         # Save CSV per variable
-        var_csv = out_prefix.with_suffix(".csv").parent / f"{out_prefix.stem}_{col}.csv"
+        var_csv = out_prefix.with_suffix(".csv").parent / f"{out_prefix.stem}_{chunk_tag}_{col}.csv"
         var_csv.parent.mkdir(parents=True, exist_ok=True)
         pd.DataFrame({"timestamp": df.index, "value": series, "baseline": base, "phi": phi}).to_csv(var_csv, index=False)
 
-        # Plot time series + phi
-        var_png = out_prefix.with_suffix(".png").parent / f"{out_prefix.stem}_{col}.png"
+        # Plot phi
+        var_png = out_prefix.with_suffix(".png").parent / f"{out_prefix.stem}_{chunk_tag}_{col}.png"
         plt.figure(figsize=(12, 4))
         plt.plot(df.index, phi, linewidth=0.8, color="#1565c0")
-        # Annotate known boundary band for magnetics or generic visibility
         plt.axhline(0.15, color="#c62828", linestyle="--", linewidth=1.0, label="0.15 band")
         plt.xlabel("Time (UTC)")
         plt.ylabel("Normalized perturbation (phi)")
-        plt.title(f"{dataset['id']} • {col} • normalized |value - baseline| / baseline")
+        plt.title(f"{dataset['id']} • {col} • {chunk_tag}")
         plt.legend()
         plt.grid(alpha=0.3)
         plt.tight_layout()
@@ -161,25 +193,36 @@ def analyze_dataset(dataset: Dict[str, Any], resp: Dict[str, Any], out_prefix: P
         plt.savefig(var_png, dpi=150)
         plt.close()
 
-        # PSD (optional)
+        # PSD
         freqs, psd = spectral_density(series)
         if len(freqs) > 0:
-            psd_png = out_prefix.with_suffix(".png").parent / f"{out_prefix.stem}_{col}_psd.png"
+            psd_png = out_prefix.with_suffix(".png").parent / f"{out_prefix.stem}_{chunk_tag}_{col}_psd.png"
             plt.figure(figsize=(12, 4))
             plt.semilogy(freqs, psd, color="#2e7d32")
             plt.xlabel("Frequency (Hz)")
             plt.ylabel("PSD")
-            plt.title(f"{dataset['id']} • {col} • Welch PSD")
+            plt.title(f"{dataset['id']} • {col} • Welch PSD • {chunk_tag}")
             plt.grid(alpha=0.3)
             plt.tight_layout()
             plt.savefig(psd_png, dpi=150)
             plt.close()
 
-    # Write dataset summary JSON
-    summary_json = out_prefix.parent / f"{out_prefix.stem}_summary.json"
+        # Compute summary statistics safely (handle all-NaN cases)
+        phi_valid = phi.dropna()
+        has_valid = len(phi_valid) > 0
+        summaries[col] = {
+            "points": int(phi.count()),
+            "phi_max": float(np.nanmax(phi_valid)) if has_valid else np.nan,
+            "phi_p95": float(np.nanpercentile(phi_valid, 95)) if has_valid else np.nan,
+            "phi_p99": float(np.nanpercentile(phi_valid, 99)) if has_valid else np.nan,
+            "over_0p15": int((phi > 0.15).sum())
+        }
+
+    # Write chunk summary JSON
+    summary_json = out_prefix.parent / f"{out_prefix.stem}_{chunk_tag}_summary.json"
     summary_json.parent.mkdir(parents=True, exist_ok=True)
     with open(summary_json, "w") as f:
-        json.dump({"dataset": dataset, "summaries": summaries}, f, indent=2, default=str)
+        json.dump({"dataset": dataset, "chunk": chunk_tag, "summaries": summaries}, f, indent=2, default=str)
 
 
 def main():
@@ -194,53 +237,51 @@ def main():
     FIG_DIR.mkdir(parents=True, exist_ok=True)
 
     cdas = CdasWs()
-    datasets = discover_datasets(cdas, args.start, args.end, args.limit)
+    datasets = discover_datasets(cdas, args.limit)
 
     index = {"range": {"start": args.start, "end": args.end}, "count": len(datasets), "items": []}
+    chunks = month_chunks(args.start, args.end)
 
     for ds in datasets:
         dsid = ds["id"]
         title = ds["title"]
         print(f"== Dataset: {dsid} • {title}")
+        analyzed_any = False
 
-        # Try vectors first
-        fetched = None
-        for triple in MAG_VAR_CANDIDATES:
-            fetched = try_fetch_dataset(cdas, dsid, args.start, args.end, triple)
-            if fetched["ok"]:
-                break
-
-        # If no vector, try totals
-        if not fetched or not fetched["ok"]:
-            for tot in MAG_TOTAL_CANDIDATES:
-                fetched = try_fetch_dataset(cdas, dsid, args.start, args.end, [tot])
+        for chunk_start, chunk_end in chunks:
+            chunk_tag = f"{chunk_start[:7]}"  # YYYY-MM
+            # Try vector first
+            fetched = None
+            for triple in MAG_VAR_CANDIDATES:
+                fetched = try_fetch_dataset(cdas, dsid, chunk_start, chunk_end, triple)
                 if fetched["ok"]:
                     break
+            # Try totals
+            if not fetched or not fetched["ok"]:
+                for tot in MAG_TOTAL_CANDIDATES:
+                    fetched = try_fetch_dataset(cdas, dsid, chunk_start, chunk_end, [tot])
+                    if fetched["ok"]:
+                        break
+            # Generic probe
+            if not fetched or not fetched["ok"]:
+                fetched = try_fetch_dataset(cdas, dsid, chunk_start, chunk_end, FALLBACK_VARS)
+                if not fetched["ok"]:
+                    continue  # no data in this chunk; move on
 
-        # If still no luck, try without heuristics: pick any variables CDAWeb returns for dataset info
-        if not fetched or not fetched["ok"]:
-            # Attempt a small grab with a common generic list to probe response
-            fetched = try_fetch_dataset(cdas, dsid, args.start, args.end, FALLBACK_VARS)
-            if not fetched["ok"]:
-                # Final fallback: mark skipped
-                print(f"[SKIP] Could not fetch usable data for {dsid}: {fetched.get('reason')}")
-                index["items"].append({"id": dsid, "title": title, "status": "skipped", "reason": fetched.get("reason")})
-                continue
+            resp = fetched["resp"]
+            out_prefix = OUT_DIR / f"{dsid.replace('/', '_')}_1959_1962"
+            try:
+                analyze_chunk(ds, resp, out_prefix, args.max_vars, chunk_tag)
+                analyzed_any = True
+            except Exception as e:
+                print(f"[ERROR] Analysis failed for {dsid} chunk {chunk_tag}: {e}")
 
-        resp = fetched["resp"]
-        # Sanitize dataset ID for filesystem: replace problematic characters
-        safe_dsid = sanitize_filename(dsid)
-        out_prefix = OUT_DIR / f"{safe_dsid}_1959_1962"
-        try:
-            analyze_dataset(ds, resp, out_prefix, args.max_vars)
-            index["items"].append({"id": dsid, "title": title, "status": "analyzed"})
-        except Exception as e:
-            print(f"[ERROR] Analysis failed for {dsid}: {e}")
-            index["items"].append({"id": dsid, "title": title, "status": "error", "error": str(e)})
+        index["items"].append({"id": dsid, "title": title, "status": "analyzed" if analyzed_any else "skipped"})
 
-    # Write master index
     with open(INDEX_JSON, "w") as f:
         json.dump(index, f, indent=2)
+
+    print(f"[DONE] Sweep index written to {INDEX_JSON}")
 
 
 if __name__ == "__main__":

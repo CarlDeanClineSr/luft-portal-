@@ -1,0 +1,62 @@
+---
+name: Historical CDAWeb Sweeps (Param)
+
+"on":
+  workflow_dispatch:
+    inputs:
+      start_iso:
+        description: "ISO start (UTC)"
+        required: true
+        default: "1959-01-01T00:00:00"
+      end_iso:
+        description: "ISO end (UTC)"
+        required: true
+        default: "1962-12-31T23:59:59"
+      limit:
+        description: "Max datasets"
+        required: true
+        default: "50"
+      max_vars:
+        description: "Max variables per dataset"
+        required: true
+        default: "24"
+
+permissions:
+  contents: write
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install cdasws pandas numpy matplotlib scipy
+
+      - name: Run CDAWeb sweep
+        run: |
+          python scripts/cdasws_sweep_1959_1962.py \
+            --start "${{ inputs.start_iso }}" \
+            --end   "${{ inputs.end_iso }}" \
+            --limit "${{ inputs.limit }}" \
+            --max-vars "${{ inputs.max_vars }}"
+
+      - name: Commit sweep artifacts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name "engine-bot"
+          git config --global user.email "engine-bot@users.noreply.github.com"
+          git add results/cdasws_sweep/*.json results/cdasws_sweep/*.csv figures/cdasws_sweep/*.png || true
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "CDAWeb sweep artifacts (${{ inputs.start_iso }} → ${{ inputs.end_iso }})"
+          git push
