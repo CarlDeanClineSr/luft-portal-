@@ -107,7 +107,7 @@
         setText("#teacher-report-headline", "Teacher Report");
       }
     } catch (e) {
-      setText("#teacher-report-headline", "Teach‑The‑Engine has no data yet. The panel updates after the next daily run.");
+      setText("#teacher-report-headline", "Teach-The-Engine has no data yet. The panel updates after the next daily run.");
       console.warn("Teacher widget error:", e);
     }
   }
