@@ -6,11 +6,16 @@ on:
     - cron: '0 3 * * *'
   workflow_dispatch:  # Allow manual trigger
 
+permissions:
+  contents: write
+
+concurrency:
+  group: repo-push-main
+  cancel-in-progress: false
+
 jobs:
   harvest-links:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     
     steps:
       - name: Checkout repository
@@ -112,23 +117,12 @@ jobs:
           echo "✅ Report generated"
 
       - name: Commit and push changes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-          git pull --rebase origin main --autostash || true
-          
-          git add data/link_intelligence/
-          
-          if git diff --cached --quiet; then
-            echo "ℹ️ No changes to commit"
-          else
-            git commit -m "🔗 Daily link harvest $(date -u +%Y-%m-%d)"
-            git push
-            echo "✅ Link intelligence data updated and pushed"
-          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bash scripts/ci_commit_push.sh \
+            "data/link_intelligence/" \
+            "🔗 Daily link harvest $(date -u +%Y-%m-%d)"
 
       - name: Summary
         run: |

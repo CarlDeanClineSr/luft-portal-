@@ -5,50 +5,47 @@ on:
     - cron: '0 12 * * *'  # Daily at noon UTC
   workflow_dispatch:      # Manual trigger
 
+permissions:
+  contents: write
+
+concurrency:
+  group: repo-push-main
+  cancel-in-progress: false
+
 jobs:
   analyze:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  # Required to commit results
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+        with:
+          fetch-depth: 0
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      
+
       - name: Install dependencies
         run: pip install pandas numpy
-      
+
       - name: Create lightning data directory if needed
         run: mkdir -p data/lightning results
-      
+
       - name: Run lightning phase analyzer
         id: analyze
         continue-on-error: true
         run: python scripts/lightning_phase_analyzer.py
-      
-      - name: Configure git
-        run: |
-          git config --local user.name "LUFT Lightning Analyzer"
-          git config --local user.email "lightning@luft.local"
-      
+
       - name: Commit and push results
-        run: |
-          git pull --rebase origin main --autostash || true
-          git add results/lightning_* data/lightning/ 2>/dev/null || echo "No lightning results to add"
-          if git diff --staged --quiet; then
-            echo "No changes to lightning analysis results"
-          else
-            git commit -m "Lightning Analyzer: Update phase analysis - ${{ github.run_id }}"
-            git push
-          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+        run: |
+          bash scripts/ci_commit_push.sh \
+            "results/lightning/*.csv results/lightning/*.json figures/lightning/*.png data/lightning/" \
+            "Lightning Analyzer: Update phase analysis - ${{ github.run_id }}"
+
       - name: Report status
         if: always()
         run: |
