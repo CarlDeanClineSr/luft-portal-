@@ -3,11 +3,11 @@
 Autonomic signature checks across vault datasets.
 
 
-**Total files scanned:** 1031
+**Total files scanned:** 1034
 
-**Analyzed:** 1030
+**Analyzed:** 1034
 
-**Skipped:** 1
+**Skipped:** 0
 
 **Errors:** 0
 
@@ -36,6 +36,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 1.0054580491801386, "frac_near_spacing": 1.1539216025663216e-05, "near_fund_count": 86621, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.9995384313589735, "pass": true}
 
+## results/historical_chi/historical_chi_2006_2015.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 2.103257024170908, "over_cap_count": 50629, "pass": false}
+- **fractal_regulator:** {"phi_p95": 0.8032501826622549, "phi_p99": 1.6836368969291282, "over_cap_count": 50629, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 1.0, "frac_near_spacing": 0.0, "near_fund_count": 87636, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 1.0, "pass": true}
+
 ## results/historical_chi/historical_chi_1986_1995.csv
 
 - **status:** analyzed
@@ -54,8 +62,11 @@ Autonomic signature checks across vault datasets.
 
 ## data/lightning/may_storm1.csv
 
-- **status:** skipped
-  - reason: unrecognized schema
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.0, "over_cap_count": 0, "pass": true}
+- **fractal_regulator:** {"phi_p95": 0.08795238095238016, "phi_p99": 0.09301904761904678, "over_cap_count": 0, "pass": true}
+- **binary_harmonics:** {"events": 31, "pass": false, "reason": "insufficient events"}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0, "pass": false}
 
 ## results/magnetometer_chi/magnetometer_chi_2025_12_26.csv
 
@@ -1544,6 +1555,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 0.6760327916150974, "phi_p99": 1.6415473684208022, "over_cap_count": 3323, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.023162322438284373, "frac_near_spacing": 0.0, "near_fund_count": 9, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0006895600606812854, "pass": false}
+
+## data/noaa_solarwind/noaa_mag_20260109_131600.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.6392045454545455, "over_cap_count": 1774, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.800684410638709, "phi_p99": 9.563833333268075, "over_cap_count": 1774, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.023812562030341697, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0008507018290089324, "pass": false}
 
 ## data/noaa_solarwind/noaa_mag_20251224_070632.csv
 
@@ -3064,6 +3083,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 0.9040237332046749, "phi_p99": 3.1954223373344366, "over_cap_count": 4585, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.021035821643286573, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.00062625250501002, "pass": false}
+
+## data/noaa_solarwind/noaa_plasma_20260109_131600.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.7506059789927284, "over_cap_count": 4368, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.2649868006266458, "phi_p99": 5.655601851849067, "over_cap_count": 4368, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.02246745140003567, "frac_near_spacing": 0.00013376136971642589, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0008025682182985554, "pass": false}
 
 ## data/noaa_solarwind/noaa_plasma_20251225_220403.csv
 

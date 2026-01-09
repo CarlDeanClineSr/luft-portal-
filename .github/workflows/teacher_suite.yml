@@ -34,10 +34,14 @@ jobs:
         run: |
           python scripts/teacher/run_teacher_suite.py
 
+      - name: Generate discovery findings
+        run: |
+          python scripts/teacher/discovery_findings.py
+
       - name: Commit teacher outputs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           bash scripts/ci_commit_push.sh \
-            "results/teacher/*.json docs/Teacher_Report.md" \
-            "Teach-The-Engine daily signatures (radio, lightning, feeds, time-series)"
+            "results/teacher/*.json docs/Teacher_Report.md docs/Discovery_Findings.md" \
+            "Teach-The-Engine daily signatures + Discovery Findings"
