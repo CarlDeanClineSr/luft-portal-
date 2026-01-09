@@ -6,8 +6,10 @@
     <title>LUFT Portal - Mission Control</title>
     <link rel="stylesheet" href="./assets/css/teacher-widget.css" />
     <link rel="stylesheet" href="./assets/css/knowledge-widget.css" />
+    <link rel="stylesheet" href="./assets/css/discovery-widget.css" />
     <script defer src="./assets/js/teacher-widget.js"></script>
     <script defer src="./assets/js/knowledge-widget.js"></script>
+    <script defer src="./assets/js/discovery-widget.js"></script>
     <style>
         * {
             margin: 0;
@@ -418,6 +420,7 @@
         <li><a href="#">Main Dashboard</a></li>
         <li><a href="instrument-panel.html">Instrument Panel</a></li>
         <li><a href="meta-intelligence.html">Meta-Intelligence</a></li>
+        <li><a href="docs/Discovery_Findings.md">Discovery Findings</a></li>
         <li><a href="docs/PROOF_PACK.md">Proof Pack</a></li>
         <li><a href="https://doi.org/10.17605/OSF.IO/FXHMK" target="_blank">Published Paper</a></li>
     </ul>
@@ -642,6 +645,56 @@ This is the latest meta-intelligence analysis combining:
 
   <p style="margin: 0;">
     <a href="./docs/Teacher_Report.md" target="_blank" rel="noopener" style="color: #4ade80; font-weight: bold;">Open full Teacher Report →</a>
+  </p>
+</section>
+
+<!-- DISCOVERY FINDINGS WIDGET -->
+<section id="discovery-widget">
+  <div class="discovery-header">
+    <h2 class="discovery-title-main">🔬 Discovery Engine Findings</h2>
+    <div class="discovery-stats">
+      <div class="discovery-stat-item">
+        <span class="discovery-stat-label">Total Files</span>
+        <span class="discovery-stat-value" id="discovery-total-files">--</span>
+      </div>
+      <div class="discovery-stat-item">
+        <span class="discovery-stat-label">Analyzed</span>
+        <span class="discovery-stat-value" id="discovery-analyzed">--</span>
+      </div>
+      <div class="discovery-stat-item">
+        <span class="discovery-stat-label">Last Run</span>
+        <span class="discovery-stat-value" id="discovery-timestamp" style="font-size: 0.9rem;">--</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="discovery-sections">
+    <div class="discovery-section">
+      <h3 class="discovery-section-title">Key Discoveries</h3>
+      <div id="discovery-list">
+        <p style="color:#94a3b8;">Loading discovery findings...</p>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <div class="discovery-section">
+        <h3 class="discovery-section-title">Signature Scorecard</h3>
+        <div id="discovery-signatures">
+          <p style="color:#94a3b8;">Loading...</p>
+        </div>
+      </div>
+
+      <div class="discovery-section">
+        <h3 class="discovery-section-title">Run History (Last 7 Days)</h3>
+        <div id="discovery-history">
+          <p style="color:#94a3b8;">Loading...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p style="margin-top: 1rem; text-align: center;">
+    <a href="./docs/Discovery_Findings.md" target="_blank" rel="noopener" style="color: #4ade80; font-weight: bold;">View Full Discovery Report →</a>
   </p>
 </section>
 
