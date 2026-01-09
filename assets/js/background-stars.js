@@ -6,9 +6,11 @@
   const ctx = canvas.getContext("2d");
   let w, h, stars;
   const STAR_COUNT = 180;
-  const DPR = window.devicePixelRatio || 1;
+  const DRIFT_SPEED = 0.06;
+  let DPR = window.devicePixelRatio || 1;
 
   function resize() {
+    DPR = window.devicePixelRatio || 1;
     w = canvas.width = window.innerWidth * DPR;
     h = canvas.height = window.innerHeight * DPR;
     canvas.style.width = window.innerWidth + "px";
@@ -24,7 +26,7 @@
   function tick() {
     ctx.clearRect(0,0,w,h);
     for (const s of stars) {
-      s.y += 0.06 * s.z * DPR;
+      s.y += DRIFT_SPEED * s.z * DPR;
       if (s.y > h) s.y = 0;
       const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 4);
       grad.addColorStop(0, "rgba(33,212,253,0.95)");

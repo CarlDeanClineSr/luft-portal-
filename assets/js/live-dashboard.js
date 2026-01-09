@@ -12,9 +12,20 @@
   const $ = sel => document.querySelector(sel);
   const set = (sel, val) => { const el = $(sel); if (el) el.textContent = val; };
 
+  // HTML escape function to prevent XSS
+  function escapeHtml(str) {
+    if (typeof str !== 'string') return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
   async function fetchJSON(url) {
     try {
-      const res = await fetch(url + "?t=" + Date.now(), { cache: "no-store" });
+      const res = await fetch(url + "?t=" + Date.now());
       if (!res.ok) throw new Error(res.statusText);
       return await res.json();
     } catch (_) { return null; }
@@ -73,10 +84,14 @@
         for (const k of ["chi_boundary","fractal_regulator","binary_harmonics","electroweak_bridge","whistler_gaps"]) {
           if (it[k]) notes.push(`${k}:${it[k].pass ? "pass" : "fail"}`);
         }
+        // Escape user data to prevent XSS
+        const safeFile = escapeHtml(it.file || "(unknown)");
+        const safeStatus = escapeHtml(it.status || "unknown");
+        const safeNotes = escapeHtml(notes.join(", "));
         rows.push(`<tr>
-          <td class="mono" style="padding: 0.75rem;">${it.file || "(unknown)"}</td>
-          <td style="padding: 0.75rem;">${it.status || "unknown"}</td>
-          <td class="mono small" style="padding: 0.75rem;">${notes.join(", ")}</td>
+          <td class="mono" style="padding: 0.75rem;">${safeFile}</td>
+          <td style="padding: 0.75rem;">${safeStatus}</td>
+          <td class="mono small" style="padding: 0.75rem;">${safeNotes}</td>
         </tr>`);
       }
       tbody.innerHTML = rows.join("");
