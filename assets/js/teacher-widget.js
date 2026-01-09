@@ -1,10 +1,13 @@
 // Teach-The-Engine widget
 // Reads results/teacher/aggregate_index.json and docs/Teacher_Report.md
 // Renders signature pass rates and recent items into containers on the page.
+// Uses absolute URL with cache-busting to ensure live data from GitHub Pages.
 
 (function () {
-  const AGG_URL = "./results/teacher/aggregate_index.json";
-  const REPORT_URL = "./docs/Teacher_Report.md";
+  // Use absolute URL for GitHub Pages, with cache-bust query parameter
+  const BASE_URL = "https://carldeanclinesr.github.io/luft-portal-";
+  const AGG_URL = BASE_URL + "/results/teacher/aggregate_index.json";
+  const REPORT_URL = BASE_URL + "/docs/Teacher_Report.md";
 
   function $(sel) { return document.querySelector(sel); }
   function setText(sel, v) { const el = $(sel); if (el) el.textContent = v; }
@@ -22,13 +25,17 @@
   }
 
   async function fetchJSON(url) {
-    const res = await fetch(url, { cache: "no-store" });
+    // Add cache-bust timestamp to defeat CDN caching
+    const cacheBustUrl = url + "?t=" + Date.now();
+    const res = await fetch(cacheBustUrl, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
   }
 
   async function fetchText(url) {
-    const res = await fetch(url, { cache: "no-store" });
+    // Add cache-bust timestamp to defeat CDN caching
+    const cacheBustUrl = url + "?t=" + Date.now();
+    const res = await fetch(cacheBustUrl, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.text();
   }
@@ -100,8 +107,8 @@
         setText("#teacher-report-headline", "Teacher Report");
       }
     } catch (e) {
-      setText("#teacher-report-headline", "Teach-The-Engine (no data yet)");
-      // Optionally log: console.warn("Teacher widget error:", e);
+      setText("#teacher-report-headline", "Teach‑The‑Engine has no data yet. The panel updates after the next daily run.");
+      console.warn("Teacher widget error:", e);
     }
   }
 

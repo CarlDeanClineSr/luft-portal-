@@ -1,9 +1,12 @@
 // Discovery Findings Widget
 // Reads results/teacher/discovery_findings.json and displays findings on the dashboard
 // Supports memory/advancement by tracking historical discoveries
+// Uses absolute URL with cache-busting to ensure live data from GitHub Pages.
 
 (function () {
-  const FINDINGS_URL = "./results/teacher/discovery_findings.json";
+  // Use absolute URL for GitHub Pages, with cache-bust query parameter
+  const BASE_URL = "https://carldeanclinesr.github.io/luft-portal-";
+  const FINDINGS_URL = BASE_URL + "/results/teacher/discovery_findings.json";
 
   function $(sel) { return document.querySelector(sel); }
   function setText(sel, v) { const el = $(sel); if (el) el.textContent = v; }
@@ -91,8 +94,9 @@
     if (!root) return;
 
     try {
-      // Use no-cache to allow conditional requests while still checking for updates
-      const res = await fetch(FINDINGS_URL, { cache: "no-cache" });
+      // Add cache-bust timestamp to defeat CDN caching
+      const cacheBustUrl = FINDINGS_URL + "?t=" + Date.now();
+      const res = await fetch(cacheBustUrl, { cache: "no-store" });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const findings = await res.json();
 

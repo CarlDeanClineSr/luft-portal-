@@ -945,11 +945,15 @@ This is the latest meta-intelligence analysis combining:
         // Store chi history for chart
         let chiHistory = [];
 
+        // Use absolute URL for GitHub Pages, with cache-bust query parameter
+        const BASE_URL = "https://carldeanclinesr.github.io/luft-portal-";
+
         // LOAD LIVE DATA from CSV file
         async function loadData() {
             try {
-                // Load from the existing CSV heartbeat log
-                const response = await fetch('data/cme_heartbeat_log_2026_01.csv');
+                // Load from the existing CSV heartbeat log with cache-busting
+                const url = BASE_URL + '/data/cme_heartbeat_log_2026_01.csv?t=' + Date.now();
+                const response = await fetch(url, { cache: "no-store" });
                 const text = await response.text();
                 const lines = text.trim().split('\n');
                 
@@ -1028,7 +1032,8 @@ This is the latest meta-intelligence analysis combining:
         // Load paper intelligence
         async function loadPapers() {
             try {
-                const response = await fetch('data/papers/extracted_parameters.json');
+                const url = BASE_URL + '/data/papers/extracted_parameters.json?t=' + Date.now();
+                const response = await fetch(url, { cache: "no-store" });
                 const data = await response.json();
                 
                 // Count papers and parameters
@@ -1063,8 +1068,9 @@ This is the latest meta-intelligence analysis combining:
         // Load correlation stats
         async function loadCorrelations() {
             try {
-                // Try to load from meta-intelligence report
-                const response = await fetch('reports/meta_intelligence/latest.json');
+                // Try to load from meta-intelligence report with cache-busting
+                const url = BASE_URL + '/reports/meta_intelligence/latest.json?t=' + Date.now();
+                const response = await fetch(url, { cache: "no-store" });
                 const data = await response.json();
                 
                 document.getElementById('totalCorr').textContent = data.total_correlations?.toLocaleString() || '2,104,524';
