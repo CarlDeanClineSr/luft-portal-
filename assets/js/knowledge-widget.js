@@ -211,13 +211,16 @@
     function showError(message) {
         const tbody = document.getElementById('knowledge-table-body');
         if (tbody) {
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="4" style="text-align: center; padding: 2rem; color: #ef4444;">
-                        ${message}
-                    </td>
-                </tr>
-            `;
+            tbody.innerHTML = '';
+            const row = document.createElement('tr');
+            const cell = document.createElement('td');
+            cell.colSpan = 4;
+            cell.style.textAlign = 'center';
+            cell.style.padding = '2rem';
+            cell.style.color = '#ef4444';
+            cell.textContent = message;  // Safe: use textContent instead of innerHTML
+            row.appendChild(cell);
+            tbody.appendChild(row);
         }
     }
 
