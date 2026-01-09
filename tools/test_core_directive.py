@@ -18,26 +18,38 @@ import sys
 from pathlib import Path
 from datetime import datetime, timedelta
 
-def test_daily_rebound(tmp_path) -> bool:
+def test_daily_rebound(data_source) -> bool:
     """
     Test that χ returns to baseline within 24 hours. 
     
     Args:
-        tmp_path: Pytest-provided temporary path for generating sample data
+        data_source: Either a Path to existing CSV file, or a directory path for test data generation
         
     Returns:
         True if test passes, False otherwise
     """
-    data_path = tmp_path / "chi_test.csv"
-    sample = pd.DataFrame(
-        {
-            "timestamp": pd.date_range("2025-01-01", periods=12, freq="1h"),
-            "chi_amplitude": np.random.uniform(0.05, 0.14, 12),
-        }
-    )
-    sample.to_csv(data_path, index=False)
-    print(f"Loading data from: {data_path}")
-    df = sample
+    # Convert to Path object if string
+    if isinstance(data_source, str):
+        data_source = Path(data_source)
+    
+    # Determine if data_source is an existing file or a directory for test generation
+    if data_source.exists() and data_source.is_file():
+        # data_source is an existing CSV file
+        data_path = data_source
+        print(f"Loading data from: {data_path}")
+        df = pd.read_csv(data_path)
+    else:
+        # data_source is a directory for generating test data
+        data_path = data_source / "chi_test.csv"
+        sample = pd.DataFrame(
+            {
+                "timestamp": pd.date_range("2025-01-01", periods=12, freq="1h"),
+                "chi_amplitude": np.random.uniform(0.05, 0.14, 12),
+            }
+        )
+        sample.to_csv(data_path, index=False)
+        print(f"Loading data from: {data_path}")
+        df = sample
     
     if 'chi_amplitude' not in df.columns or 'timestamp' not in df.columns:
         print("Error:  Required columns 'chi_amplitude' and 'timestamp' not found")

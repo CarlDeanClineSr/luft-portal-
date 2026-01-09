@@ -5,11 +5,20 @@ on:
     - cron: "23 * * * *"   # hourly at :23 UTC
   workflow_dispatch:
 
+permissions:
+  contents: write
+
+concurrency:
+  group: repo-push-main
+  cancel-in-progress: false
+
 jobs:
   parse:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -19,17 +28,12 @@ jobs:
       - name: Ensure reports directory
         run: mkdir -p reports
       - name: Commit parsed NOAA products
-        run: |
-          git config user.name "LUFT Data Bot"
-          git config user.email "data@luft.local"
-          git pull --rebase origin main --autostash || true
-          git add -A data/noaa_parsed/ || true
-          [ -f reports/latest_srs.md ] && git add reports/latest_srs.md || true
-          [ -f reports/latest_f107.md ] && git add reports/latest_f107.md || true
-          git diff --quiet && git diff --staged --quiet || git commit -m "data: update NOAA parsed feeds $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-          git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bash scripts/ci_commit_push.sh \
+            "data/noaa_parsed/ reports/latest_srs.md reports/latest_f107.md" \
+            "data: update NOAA parsed feeds $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
 
   update-dashboards:
     needs: parse

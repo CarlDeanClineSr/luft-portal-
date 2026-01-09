@@ -67,7 +67,7 @@ for i in 1 2 3 4 5; do
     exit 0
   fi
   echo "Push failed (attempt $i). Re-syncing and retrying..."
-  if ! git pull --rebase origin main; then
+  if ! git pull --rebase --autostash origin main; then
     echo "Warning: Pull --rebase failed. Trying again on next iteration..."
   fi
   sleep $((5 * i))
