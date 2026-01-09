@@ -49,14 +49,16 @@ def rolling_median(series: pd.Series, window_hours: int) -> pd.Series:
 def compute_phi(series: pd.Series, baseline: pd.Series) -> pd.Series:
     """Compute normalized perturbation phi = |x - baseline| / baseline."""
     eps = 1e-12
-    base = baseline.replace(0, np.nan)
-    return (series - base).abs() / (base.abs() + eps)
+    # For baseline values near zero, use epsilon to avoid division issues
+    # Don't replace legitimate zeros with NaN; instead use safe division
+    base_safe = baseline.where(baseline.abs() > eps, eps)
+    return (series - baseline).abs() / base_safe.abs()
 
 
 def spectral_density(series: pd.Series, fs_hz: float = 1.0/3600.0) -> Tuple[np.ndarray, np.ndarray]:
     """Welch PSD for evenly sampled series; default fs assumes hourly data."""
     from scipy.signal import welch
-    x = pd.to_numeric(series, errors="coerce").dropna().values
+    x = series.dropna().values
     if len(x) < 256:
         return np.array([]), np.array([])
     freqs, psd = welch(x, fs=fs_hz, nperseg=min(1024, len(x)))
@@ -131,7 +133,11 @@ def analyze_chunk(dataset: Dict[str, Any], resp: Dict[str, Any], out_prefix: Pat
     mag_made = False
     for triple in MAG_VAR_CANDIDATES:
         if all(v in df.columns for v in triple):
-            bmag = np.sqrt(df[triple[0]].astype(float)**2 + df[triple[1]].astype(float)**2 + df[triple[2]].astype(float)**2)
+            # Use nan-safe operations for magnetic field magnitude calculation
+            b1 = pd.to_numeric(df[triple[0]], errors="coerce")
+            b2 = pd.to_numeric(df[triple[1]], errors="coerce")
+            b3 = pd.to_numeric(df[triple[2]], errors="coerce")
+            bmag = np.sqrt(b1**2 + b2**2 + b3**2)
             df["B_total_nT"] = bmag
             mag_made = True
             break
@@ -186,11 +192,14 @@ def analyze_chunk(dataset: Dict[str, Any], resp: Dict[str, Any], out_prefix: Pat
             plt.savefig(psd_png, dpi=150)
             plt.close()
 
+        # Compute summary statistics safely (handle all-NaN cases)
+        phi_valid = phi.dropna()
+        has_valid = len(phi_valid) > 0
         summaries[col] = {
             "points": int(phi.count()),
-            "phi_max": float(np.nanmax(phi)) if phi.count() else np.nan,
-            "phi_p95": float(np.nanpercentile(phi, 95)) if phi.count() else np.nan,
-            "phi_p99": float(np.nanpercentile(phi, 99)) if phi.count() else np.nan,
+            "phi_max": float(np.nanmax(phi_valid)) if has_valid else np.nan,
+            "phi_p95": float(np.nanpercentile(phi_valid, 95)) if has_valid else np.nan,
+            "phi_p99": float(np.nanpercentile(phi_valid, 99)) if has_valid else np.nan,
             "over_0p15": int((phi > 0.15).sum())
         }
 
