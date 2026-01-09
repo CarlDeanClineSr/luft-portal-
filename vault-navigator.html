@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUFT Vault Navigator - Cross-Repo Discovery</title>
+    <link rel="stylesheet" href="./assets/css/vault-navigator.css" />
+    <script defer src="./assets/js/vault-navigator.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Mono', 'Consolas', monospace;
+            background: #0a0e1a;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a1f3a 0%, #0a0e1a 100%);
+            padding: 1rem 2rem;
+            border-bottom: 2px solid #00ff88;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            color: #00ff88;
+            letter-spacing: 2px;
+        }
+
+        .back-link {
+            color: #4ade80;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid #4ade80;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        .footer a {
+            color: #00ff88;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <h1>🗂️ LUFT VAULT NAVIGATOR</h1>
+        <a href="index.html" class="back-link">← Back to Mission Control</a>
+    </div>
+
+    <!-- VAULT NAVIGATOR WIDGET -->
+    <section id="vault-navigator">
+        <h2>Cross-Repository Knowledge Discovery</h2>
+        <p class="subtitle">
+            Unified index of all LUFT Portal repositories with knowledge indices and Teach-The-Engine analysis
+        </p>
+
+        <!-- Summary Stats -->
+        <div id="vault-summary">
+            <div style="text-align: center; padding: 2rem; color: #94a3b8;">
+                Loading organization index...
+            </div>
+        </div>
+
+        <!-- Teacher Summaries Section -->
+        <div class="vault-section">
+            <h3 class="vault-section-title">🎓 Teach-The-Engine Analysis by Repository</h3>
+            <div id="vault-teacher-summary">
+                <p style="color: #94a3b8;">Loading...</p>
+            </div>
+        </div>
+
+        <!-- Files Table Section -->
+        <div class="vault-section">
+            <h3 class="vault-section-title">📚 Indexed Files Across All Repositories</h3>
+            
+            <!-- Search and Filter Controls -->
+            <div class="vault-controls">
+                <div class="vault-search-box">
+                    <input 
+                        type="text" 
+                        id="vault-search" 
+                        class="vault-search-input" 
+                        placeholder="Search by repo, path, title, or keywords..."
+                    />
+                </div>
+                <div class="vault-filter-box">
+                    <select id="vault-kind-filter" class="vault-select">
+                        <option value="all">All Types</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="vault-count" class="vault-count">-- files</div>
+
+            <!-- Table -->
+            <div class="vault-table-container">
+                <table class="vault-table">
+                    <thead>
+                        <tr>
+                            <th>Repository</th>
+                            <th>Path</th>
+                            <th>Title</th>
+                            <th>Type</th>
+                            <th>Keywords</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vault-table-body">
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 2rem; color: #94a3b8;">
+                                Loading files...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Timestamp -->
+        <div class="vault-timestamp">
+            Last updated: <span id="vault-timestamp">--</span>
+        </div>
+
+        <!-- Link to Markdown Report -->
+        <div style="margin-top: 2rem; text-align: center;">
+            <a href="./docs/VAULT_NAVIGATOR.md" style="color: #4ade80; font-weight: bold; font-size: 1rem;">
+                📄 View Full Vault Navigator Report (Markdown) →
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>LUFT Vault Navigator • Cross-Repository Knowledge Discovery</p>
+        <p><a href="https://github.com/CarlDeanClineSr">CarlDeanClineSr on GitHub</a></p>
+    </div>
+
+</body>
+</html>

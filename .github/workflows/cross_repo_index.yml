@@ -1,0 +1,34 @@
+name: Cross-Repo Index Build
+
+on:
+  schedule:
+    - cron: '30 12 * * *'  # Daily at 12:30 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run cross-repo index builder
+        run: |
+          python scripts/build_cross_repo_index.py
+
+      - name: Commit and push results
+        run: |
+          git config user.name "LUFT Index Bot"
+          git config user.email "index@luft.local"
+          git pull --rebase origin main --autostash || true
+          git add data/knowledge/org_index.json docs/VAULT_NAVIGATOR.md || true
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update cross-repo index $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

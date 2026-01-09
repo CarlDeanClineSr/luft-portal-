@@ -1,0 +1,340 @@
+/* Vault Navigator Styles */
+
+#vault-navigator {
+  margin: 2rem auto;
+  max-width: 1600px;
+  padding: 2rem;
+  background: rgba(26, 31, 58, 0.95);
+  border: 1px solid #2a2f4a;
+  border-radius: 12px;
+}
+
+#vault-navigator h2 {
+  color: #00ff88;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+#vault-navigator .subtitle {
+  color: #cbd5e1;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+/* Summary Grid */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.summary-card {
+  background: #0a0e1a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.summary-label {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.summary-value {
+  color: #00ff88;
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+/* Teacher Summaries */
+.teacher-repos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.teacher-repo-card {
+  background: #0a0e1a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.teacher-repo-card h4 {
+  color: #00ff88;
+  margin: 0 0 0.75rem 0;
+  font-size: 1.1rem;
+}
+
+.teacher-repo-card h4 a {
+  color: #00ff88;
+  text-decoration: none;
+}
+
+.teacher-repo-card h4 a:hover {
+  text-decoration: underline;
+}
+
+.teacher-stat {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #1f2937;
+}
+
+.stat-label {
+  color: #94a3b8;
+}
+
+.stat-value {
+  color: #e2e8f0;
+  font-weight: bold;
+}
+
+.signature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.signature-stat {
+  background: #1a1f3a;
+  border: 1px solid #2a2f4a;
+  border-radius: 6px;
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.signature-stat.pass {
+  border-color: #00ff88;
+}
+
+.signature-stat.fail {
+  border-color: #ff4444;
+}
+
+.sig-name {
+  color: #94a3b8;
+  font-size: 0.75rem;
+  text-transform: capitalize;
+  margin-bottom: 0.25rem;
+}
+
+.sig-ratio {
+  color: #e2e8f0;
+  font-weight: bold;
+}
+
+.sig-pct {
+  color: #cbd5e1;
+  font-size: 0.8rem;
+}
+
+/* Controls */
+.vault-controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.vault-search-box {
+  flex: 1;
+  min-width: 250px;
+}
+
+.vault-search-input {
+  width: 100%;
+  padding: 0.75rem;
+  background: #0a0e1a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  color: #e2e8f0;
+  font-family: 'SF Mono', 'Consolas', monospace;
+  font-size: 0.95rem;
+}
+
+.vault-search-input:focus {
+  outline: none;
+  border-color: #00ff88;
+}
+
+.vault-filter-box {
+  min-width: 180px;
+}
+
+.vault-select {
+  width: 100%;
+  padding: 0.75rem;
+  background: #0a0e1a;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  color: #e2e8f0;
+  font-family: 'SF Mono', 'Consolas', monospace;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.vault-select:focus {
+  outline: none;
+  border-color: #00ff88;
+}
+
+.vault-count {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Table */
+.vault-table-container {
+  overflow-x: auto;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  background: #0a0e1a;
+}
+
+.vault-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #cbd5e1;
+}
+
+.vault-table thead {
+  background: #1a1f3a;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.vault-table th {
+  padding: 1rem;
+  text-align: left;
+  color: #00ff88;
+  font-weight: bold;
+  border-bottom: 2px solid #334155;
+  font-size: 0.9rem;
+}
+
+.vault-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #1f2937;
+  font-size: 0.9rem;
+}
+
+.vault-table tbody tr:hover {
+  background: rgba(0, 255, 136, 0.05);
+}
+
+.vault-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.repo-link {
+  color: #4ade80;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.repo-link:hover {
+  text-decoration: underline;
+}
+
+.path-mono {
+  font-family: 'SF Mono', 'Consolas', monospace;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.kind-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background: #1a1f3a;
+  border: 1px solid #2a2f4a;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: #38bdf8;
+  text-transform: uppercase;
+}
+
+.keywords-cell {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.teacher-badge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.2rem 0.5rem;
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid #00ff88;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: #00ff88;
+  font-weight: bold;
+  cursor: help;
+}
+
+/* Section Headers */
+.vault-section {
+  margin: 2rem 0;
+}
+
+.vault-section-title {
+  color: #00ff88;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #334155;
+}
+
+/* Timestamp */
+.vault-timestamp {
+  text-align: center;
+  color: #64748b;
+  font-size: 0.85rem;
+  margin-top: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #vault-navigator {
+    padding: 1rem;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .teacher-repos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vault-controls {
+    flex-direction: column;
+  }
+
+  .vault-search-box,
+  .vault-filter-box {
+    width: 100%;
+  }
+
+  .vault-table {
+    font-size: 0.85rem;
+  }
+
+  .vault-table th,
+  .vault-table td {
+    padding: 0.5rem;
+  }
+}
