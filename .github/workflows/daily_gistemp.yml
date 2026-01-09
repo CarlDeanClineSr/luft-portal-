@@ -5,22 +5,29 @@ on:
     - cron: '0 5 * * *'  # 05:00 UTC daily
   workflow_dispatch:
 
+permissions:
+  contents: write
+
+concurrency:
+  group: repo-push-main
+  cancel-in-progress: false
+
 jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - run: pip install pandas requests
       - run: python tools/fetch_gistemp.py
-      - run: |
-          git config user.name "LUFT Bot"
-          git config user.email "bot@luft.local"
-          git pull --rebase origin main --autostash || true
-          git add data/gistemp/*.csv
-          git diff --quiet && git diff --staged --quiet || git commit -m "data: GISTEMP temperature anomaly update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-          git push
+      - name: Commit and push results
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bash scripts/ci_commit_push.sh \
+            "data/gistemp/*.csv" \
+            "data: GISTEMP temperature anomaly update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"

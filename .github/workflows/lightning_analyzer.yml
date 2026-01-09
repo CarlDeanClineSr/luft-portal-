@@ -15,29 +15,29 @@ concurrency:
 jobs:
   analyze:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      
+
       - name: Install dependencies
         run: pip install pandas numpy
-      
+
       - name: Create lightning data directory if needed
         run: mkdir -p data/lightning results
-      
+
       - name: Run lightning phase analyzer
         id: analyze
         continue-on-error: true
         run: python scripts/lightning_phase_analyzer.py
-      
+
       - name: Commit and push results
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -45,7 +45,7 @@ jobs:
           bash scripts/ci_commit_push.sh \
             "results/lightning/*.csv results/lightning/*.json figures/lightning/*.png data/lightning/" \
             "Lightning Analyzer: Update phase analysis - ${{ github.run_id }}"
-      
+
       - name: Report status
         if: always()
         run: |
