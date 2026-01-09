@@ -91,7 +91,8 @@
     if (!root) return;
 
     try {
-      const res = await fetch(FINDINGS_URL, { cache: "no-store" });
+      // Use no-cache to allow conditional requests while still checking for updates
+      const res = await fetch(FINDINGS_URL, { cache: "no-cache" });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const findings = await res.json();
 

@@ -4,14 +4,19 @@ Discovery Findings Generator: Generates daily discovery findings from teacher su
 Stores key discoveries and allows the system to build upon previous findings.
 """
 import json
+import math
 import sys
 from datetime import datetime, timezone
+from json import JSONDecodeError
 from pathlib import Path
 
 import yaml
 
-# Add scripts directory to path for imports
+# Add scripts directory to path for imports (consistent with other teacher scripts)
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+
+# Constants
+MAX_HISTORY_ENTRIES = 30  # Keep last 30 daily runs in history
 
 
 def load_previous_findings(findings_path: Path) -> dict:
@@ -19,7 +24,7 @@ def load_previous_findings(findings_path: Path) -> dict:
     if findings_path.exists():
         try:
             return json.loads(findings_path.read_text())
-        except Exception:
+        except (JSONDecodeError, OSError, ValueError):
             return {"discoveries": [], "history": []}
     return {"discoveries": [], "history": []}
 
@@ -138,8 +143,9 @@ def extract_discoveries(stats: dict, items: list) -> list:
     # Fractal regulator check
     fr_stats = stats["signatures"]["fractal_regulator"]
     if fr_stats["p95_values"] and fr_stats["p99_values"]:
-        p95_vals = [v for v in fr_stats["p95_values"] if v is not None and v == v]  # filter NaN
-        p99_vals = [v for v in fr_stats["p99_values"] if v is not None and v == v]
+        # Filter out None and NaN values using math.isnan
+        p95_vals = [v for v in fr_stats["p95_values"] if v is not None and not math.isnan(v)]
+        p99_vals = [v for v in fr_stats["p99_values"] if v is not None and not math.isnan(v)]
         if p95_vals and p99_vals:
             p95_median = sorted(p95_vals)[len(p95_vals)//2] if p95_vals else 0
             p99_median = sorted(p99_vals)[len(p99_vals)//2] if p99_vals else 0
@@ -277,7 +283,7 @@ def main():
             for k, v in stats["signatures"].items()
         },
         "discoveries": discoveries,
-        "history": previous.get("history", [])[-29:] + [{  # Keep last 30 entries
+        "history": previous.get("history", [])[-(MAX_HISTORY_ENTRIES - 1):] + [{
             "date": now.strftime("%Y-%m-%d"),
             "files_analyzed": stats["analyzed"],
             "discoveries_count": len(discoveries)
