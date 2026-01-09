@@ -17,11 +17,12 @@ from datetime import datetime
 from typing import Dict, List, Tuple
 
 # Try to import scikit-learn for TF-IDF keyword extraction (optional)
+SKLEARN_AVAILABLE = False
 try:
     from sklearn.feature_extraction.text import TfidfVectorizer
     SKLEARN_AVAILABLE = True
 except ImportError:
-    SKLEARN_AVAILABLE = False
+    pass
 
 # Paths to scan (relative to repo root)
 SCAN_PATHS = [
@@ -50,6 +51,9 @@ OUTPUT_MD = "docs/KNOWLEDGE_INDEX.md"
 
 # Maximum preview length
 MAX_PREVIEW_LEN = 200
+
+# Maximum file size for indexing (10MB)
+MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024
 
 
 def should_skip(path: Path) -> bool:
@@ -152,8 +156,8 @@ def extract_keywords_simple(content: str, n_keywords: int = 5) -> List[str]:
         "these", "those", "it", "its", "they", "them", "their"
     }
     
-    # Extract words (lowercase, alphanumeric only)
-    words = re.findall(r'\b[a-z]{3,}\b', content.lower())
+    # Extract words (lowercase, alphanumeric and underscores, min 3 chars)
+    words = re.findall(r'\b[a-z0-9_]{3,}\b', content.lower())
     
     # Count word frequency
     word_freq = {}
@@ -244,6 +248,8 @@ def index_text_file(filepath: Path, repo_root: Path) -> Dict:
 
 def index_csv_file(filepath: Path, repo_root: Path) -> Dict:
     """Index a CSV file."""
+    import csv
+    
     try:
         with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
             lines = f.readlines()
@@ -251,10 +257,15 @@ def index_csv_file(filepath: Path, repo_root: Path) -> Dict:
         line_count = len(lines)
         file_size = filepath.stat().st_size
         
-        # Extract headers from first line
+        # Extract headers from first line using CSV parser
         headers = []
         if lines:
-            headers = [h.strip() for h in lines[0].split(",")]
+            try:
+                reader = csv.reader([lines[0]])
+                headers = [h.strip() for h in next(reader)]
+            except Exception:
+                # Fallback to simple split if CSV parsing fails
+                headers = [h.strip() for h in lines[0].split(",")]
         
         sha256 = compute_sha256(filepath)
         rel_path = filepath.relative_to(repo_root)
@@ -294,8 +305,8 @@ def scan_repository(repo_root: Path) -> List[Dict]:
                 if should_skip(filepath):
                     continue
                 
-                # Skip very large files (>10MB)
-                if filepath.stat().st_size > 10 * 1024 * 1024:
+                # Skip very large files
+                if filepath.stat().st_size > MAX_FILE_SIZE_BYTES:
                     continue
                 
                 entry = index_text_file(filepath, repo_root)
