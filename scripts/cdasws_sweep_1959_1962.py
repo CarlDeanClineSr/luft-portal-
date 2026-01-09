@@ -39,6 +39,8 @@ MAG_VAR_CANDIDATES: List[List[str]] = [
 MAG_TOTAL_CANDIDATES: List[str] = [
     "F", "BT", "|B|", "B_TOTAL", "B", "B_MAG", "BABS", "BTOTAL"
 ]
+# Fallback generic variable list for probing datasets
+FALLBACK_VARS: List[str] = ["F", "BX", "BY", "BZ"]
 
 
 def rolling_median(series: pd.Series, window_hours: int) -> pd.Series:
@@ -111,11 +113,24 @@ def month_chunks(start_iso: str, end_iso: str) -> List[Tuple[str, str]]:
     """Build inclusive monthly chunks from start to end."""
     start = pd.Timestamp(start_iso)
     end = pd.Timestamp(end_iso)
-    months = pd.date_range(start=start.normalize(), end=end.normalize(), freq="MS")
+    # Include the month containing the end date by extending to the next month start
+    end_month_start = end.normalize().replace(day=1)
+    next_month = end_month_start + pd.offsets.MonthBegin(1)
+    months = pd.date_range(start=start.normalize().replace(day=1), end=next_month, freq="MS")
     chunks = []
-    for i, s in enumerate(months):
-        e = (months[i+1] - pd.Timedelta(seconds=1)) if i+1 < len(months) else end
-        chunks.append((s.strftime("%Y-%m-%dT%H:%M:%S"), e.strftime("%Y-%m-%dT%H:%M:%S")))
+    for i in range(len(months) - 1):
+        chunk_start = months[i]
+        chunk_end = months[i+1] - pd.Timedelta(seconds=1)
+        # Ensure we don't go beyond the original end date
+        if chunk_end > end:
+            chunk_end = end
+        # Skip chunks that are entirely before the start
+        if chunk_end < start:
+            continue
+        # Adjust chunk_start if it's before the original start
+        if chunk_start < start:
+            chunk_start = start
+        chunks.append((chunk_start.strftime("%Y-%m-%dT%H:%M:%S"), chunk_end.strftime("%Y-%m-%dT%H:%M:%S")))
     return chunks
 
 
@@ -249,7 +264,7 @@ def main():
                         break
             # Generic probe
             if not fetched or not fetched["ok"]:
-                fetched = try_fetch_dataset(cdas, dsid, chunk_start, chunk_end, ["F", "BX", "BY", "BZ"])
+                fetched = try_fetch_dataset(cdas, dsid, chunk_start, chunk_end, FALLBACK_VARS)
                 if not fetched["ok"]:
                     continue  # no data in this chunk; move on
 
