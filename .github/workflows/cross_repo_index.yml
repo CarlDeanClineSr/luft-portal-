@@ -27,8 +27,12 @@ jobs:
           git config user.name "LUFT Index Bot"
           git config user.email "index@luft.local"
           git pull --rebase origin main --autostash || true
-          git add data/knowledge/org_index.json docs/VAULT_NAVIGATOR.md || true
-          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update cross-repo index $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-          git push
+          git add data/knowledge/org_index.json docs/VAULT_NAVIGATOR.md
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update cross-repo index $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git push
+          else
+            echo "No changes to commit"
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

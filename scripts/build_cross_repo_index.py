@@ -14,6 +14,9 @@ from typing import Dict, List, Any, Optional
 import urllib.request
 import urllib.error
 
+# Configuration
+MAX_FILES_PER_REPO = int(os.getenv("MAX_FILES_PER_REPO", "100"))
+
 GITHUB_USER = "CarlDeanClineSr"
 GITHUB_API_BASE = "https://api.github.com"
 RAW_BASE = "https://raw.githubusercontent.com"
@@ -160,7 +163,7 @@ def build_org_index(username: str) -> Dict:
             repo_entry["knowledge_index"] = {
                 "total_files": file_count,
                 "generated_at": knowledge.get("generated_at", ""),
-                "files": files[:100] if isinstance(files, list) else []  # Limit to 100 files per repo
+                "files": files[:MAX_FILES_PER_REPO] if isinstance(files, list) else []
             }
             print(f"  ✓ Knowledge index: {file_count} files")
         
