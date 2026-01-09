@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LUFT Portal - Mission Control</title>
+    <!-- New UI/animations -->
+    <link rel="stylesheet" href="./assets/css/theme.css" />
+    <link rel="stylesheet" href="./assets/css/animations.css" />
     <link rel="stylesheet" href="./assets/css/teacher-widget.css" />
     <link rel="stylesheet" href="./assets/css/knowledge-widget.css" />
     <link rel="stylesheet" href="./assets/css/discovery-widget.css" />
+    <!-- Background animation -->
+    <script defer src="./assets/js/background-stars.js"></script>
+    <!-- Live refreshers -->
+    <script defer src="./assets/js/live-dashboard.js"></script>
     <script defer src="./assets/js/teacher-widget.js"></script>
     <script defer src="./assets/js/knowledge-widget.js"></script>
     <script defer src="./assets/js/discovery-widget.js"></script>
@@ -387,27 +394,29 @@
     </style>
 </head>
 <body>
+<!-- Background starfield canvas -->
+<canvas id="bg-stars" class="bg-canvas"></canvas>
 
 <!-- HERO BANNER + QUICK STATS -->
-<div class="hero-banner">
-    <h1>LUFT Portal: Live χ = 0.15 Observatory</h1>
+<div class="hero-banner pulse">
+    <h1 class="title">LUFT Portal: Live χ = 0.15 Observatory</h1>
     <p>Universal Plasma Boundary — Zero Violations in 1.48M+ Observations</p>
     <div class="quick-stats">
         <div class="stat-box">
             <h3>Current χ</h3>
-            <p>0.1108</p>
+            <p id="metric-current-chi">0.1108</p>
         </div>
         <div class="stat-box">
             <h3>Violations</h3>
-            <p>0</p>
+            <p id="metric-violations">0</p>
         </div>
         <div class="stat-box">
             <h3>Domains Validated</h3>
-            <p>7</p>
+            <p id="metric-domains">7</p>
         </div>
         <div class="stat-box">
             <h3>Correlations</h3>
-            <p>2.1M+</p>
+            <p id="metric-correlations">2.1M+</p>
         </div>
     </div>
     <p style="margin-top: 20px;"><a href="https://doi.org/10.17605/OSF.IO/FXHMK">Published Preprint DOI →</a></p>
