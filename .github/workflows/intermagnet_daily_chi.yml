@@ -62,20 +62,33 @@ jobs:
       - name: Convert to CSV
         run: |
           st_lower=$(echo "${{ steps.vars.outputs.station }}" | tr '[:upper:]' '[:lower:]')
+          d="${{ steps.vars.outputs.date }}"
           python scripts/convert_iaga2002_to_csv.py \
-            --input "data/intermagnet_raw/${st_lower}_${{ steps.vars.outputs.date }}.min" \
-            --output "data/intermagnet_csv/${st_lower}_${{ steps.vars.outputs.date }}.csv"
+            --input "data/intermagnet_raw/${st_lower}_${d}.min" \
+            --output "data/intermagnet_csv/${st_lower}_${d}.csv"
 
       - name: Compute χ and plot
+        shell: bash
         run: |
           st_lower=$(echo "${{ steps.vars.outputs.station }}" | tr '[:upper:]' '[:lower:]')
+          d="${{ steps.vars.outputs.date }}"
+          in="data/intermagnet_csv/${st_lower}_${d}.csv"
+          out="results/magnetometer_chi/${st_lower}_${d}.csv"
+          fig="figures/intermagnet_chi_timeseries_${st_lower}_${d}.png"
+
+          if [ ! -f "$in" ]; then
+            echo "Input CSV not found: $in" >&2
+            exit 1
+          fi
+
           python scripts/compute_chi_from_intermagnet.py \
-            --input "data/intermagnet_csv/${st_lower}_${{ steps.vars.outputs.date }}.csv" \
-            --output "results/magnetometer_chi/${st_lower}_${{ steps.vars.outputs.date }}.csv"
+            --input "$in" \
+            --output "$out" \
+            --baseline-hours 24
 
           python scripts/plot_intermagnet_chi_timeseries.py \
-            --input "results/magnetometer_chi/${st_lower}_${{ steps.vars.outputs.date }}.csv" \
-            --output "figures/intermagnet_chi_timeseries_${st_lower}_${{ steps.vars.outputs.date }}.png"
+            --input "$out" \
+            --output "$fig"
 
       - name: Commit results
         env:
