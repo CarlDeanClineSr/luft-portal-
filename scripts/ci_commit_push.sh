@@ -37,8 +37,10 @@ git fetch origin main
 echo "Rebasing onto origin/main..."
 if ! git rebase origin/main; then
   echo "Rebase failed, aborting and trying merge fallback..."
-  git rebase --abort || true
-  git pull --no-rebase origin main || true
+  git rebase --abort 2>/dev/null || echo "No rebase to abort"
+  if ! git pull --no-rebase origin main; then
+    echo "Warning: Merge fallback also failed. Proceeding anyway..."
+  fi
 fi
 
 # Stage files (using || true to handle cases where globs don't match)
@@ -65,7 +67,9 @@ for i in 1 2 3 4 5; do
     exit 0
   fi
   echo "Push failed (attempt $i). Re-syncing and retrying..."
-  git pull --rebase origin main --autostash || true
+  if ! git pull --rebase origin main; then
+    echo "Warning: Pull --rebase failed. Trying again on next iteration..."
+  fi
   sleep $((5 * i))
 done
 
