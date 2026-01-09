@@ -1,0 +1,89 @@
+name: Knowledge Index - Auto-Update Repository Index
+
+on:
+  schedule:
+    - cron: "15 12 * * *"   # Daily at 12:15 UTC (06:15 CST / 07:15 CDT)
+  workflow_dispatch:        # Manual trigger
+
+concurrency:
+  group: knowledge-index
+  cancel-in-progress: true
+
+jobs:
+  build-knowledge-index:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install scikit-learn
+
+      - name: Run knowledge index builder
+        run: |
+          echo "Building repository knowledge index..."
+          python scripts/build_repo_knowledge.py
+
+      - name: Verify generated files
+        run: |
+          echo "Verifying generated files..."
+          if [ -s "data/knowledge/index.json" ]; then
+            echo "✅ data/knowledge/index.json exists and is non-empty"
+            echo "Size: $(wc -c < data/knowledge/index.json) bytes"
+          else
+            echo "❌ data/knowledge/index.json missing or empty"; exit 1
+          fi
+          if [ -s "docs/KNOWLEDGE_INDEX.md" ]; then
+            echo "✅ docs/KNOWLEDGE_INDEX.md exists and is non-empty"
+            echo "Size: $(wc -c < docs/KNOWLEDGE_INDEX.md) bytes"
+          else
+            echo "❌ docs/KNOWLEDGE_INDEX.md missing or empty"; exit 1
+          fi
+
+      - name: Configure Git
+        run: |
+          git config --local user.name "LUFT-bot"
+          git config --local user.email "auto@luft-portal"
+
+      - name: Commit changes (if any)
+        run: |
+          git add data/knowledge/index.json docs/KNOWLEDGE_INDEX.md || true
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Knowledge Index: Auto-update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            echo "Committed changes."
+          fi
+
+      - name: Push to main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Ensure we are pushing to main even if runner ends up detached
+          git fetch origin main
+          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          echo "Current branch: $CURRENT_BRANCH"
+          if [ "$CURRENT_BRANCH" != "main" ]; then
+            git checkout main
+          fi
+          # Only push if there are commits ahead
+          if [ -n "$(git log origin/main..HEAD)" ]; then
+            git push origin HEAD:main
+            echo "✅ Pushed changes to main."
+          else
+            echo "No new commits to push."
+          fi

@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LUFT Portal - Mission Control</title>
     <link rel="stylesheet" href="./assets/css/teacher-widget.css" />
+    <link rel="stylesheet" href="./assets/css/knowledge-widget.css" />
     <script defer src="./assets/js/teacher-widget.js"></script>
+    <script defer src="./assets/js/knowledge-widget.js"></script>
     <style>
         * {
             margin: 0;
@@ -640,6 +642,65 @@ This is the latest meta-intelligence analysis combining:
 
   <p style="margin: 0;">
     <a href="./docs/Teacher_Report.md" target="_blank" rel="noopener" style="color: #4ade80; font-weight: bold;">Open full Teacher Report →</a>
+  </p>
+</section>
+
+<!-- KNOWLEDGE INDEX WIDGET -->
+<section id="knowledge-widget">
+  <div class="knowledge-header">
+    <h2 class="knowledge-title">📚 Repository Knowledge Index</h2>
+    <div class="knowledge-stats">
+      <div class="knowledge-stat-item">
+        <span class="knowledge-stat-label">Total Files</span>
+        <span class="knowledge-stat-value" id="knowledge-total-files">--</span>
+      </div>
+      <div class="knowledge-stat-item">
+        <span class="knowledge-stat-label">Last Updated</span>
+        <span class="knowledge-stat-value" id="knowledge-timestamp" style="font-size: 0.9rem;">--</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="knowledge-controls">
+    <div class="knowledge-filters">
+      <button class="knowledge-filter-btn active" data-filter="all">All Files</button>
+      <button class="knowledge-filter-btn" data-filter="text">Text</button>
+      <button class="knowledge-filter-btn" data-filter="csv">CSV</button>
+    </div>
+    <div class="knowledge-search-box">
+      <input 
+        type="text" 
+        id="knowledge-search" 
+        class="knowledge-search-input" 
+        placeholder="Search by path, title, or keywords..."
+      />
+    </div>
+  </div>
+
+  <div class="knowledge-result-count" id="knowledge-filtered-count">-- files</div>
+
+  <div class="knowledge-table-container">
+    <table class="knowledge-table">
+      <thead>
+        <tr>
+          <th>Path</th>
+          <th>Title</th>
+          <th>Type</th>
+          <th>Keywords / Headers</th>
+        </tr>
+      </thead>
+      <tbody id="knowledge-table-body">
+        <tr>
+          <td colspan="4" style="text-align: center; padding: 2rem; color: #94a3b8;">
+            Loading knowledge index...
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="margin-top: 1rem; text-align: center; font-size: 0.9rem;">
+    <a href="./docs/KNOWLEDGE_INDEX.md" style="color: #4ade80; font-weight: bold;">View Full Knowledge Index Report →</a>
   </p>
 </section>
 
