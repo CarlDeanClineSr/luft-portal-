@@ -9,6 +9,10 @@ name: Historical OMNI χ Validation (1986–1995)
 permissions:
   contents: write
 
+concurrency:
+  group: repo-push-main   # serialize pushes to main across jobs
+  cancel-in-progress: false
+
 jobs:
   chi-historical:
     runs-on: ubuntu-latest
@@ -36,17 +40,10 @@ jobs:
             --out-csv "results/historical_chi/historical_chi_1986_1995.csv" \
             --out-png "figures/historical_chi_timeseries_1986_1995.png"
 
-      - name: Commit results
+      - name: Commit results with rebase + retry
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config --global user.name "engine-bot"
-          git config --global user.email "engine-bot@users.noreply.github.com"
-          git add results/historical_chi/historical_chi_1986_1995.csv \
-                  figures/historical_chi_timeseries_1986_1995.png || true
-          if git diff --staged --quiet; then
-            echo "No changes to commit."
-            exit 0
-          fi
-          git commit -m "Historical OMNI χ validation (1986–1995)"
-          git push
+          bash scripts/ci_commit_push.sh \
+            "results/historical_chi/historical_chi_1986_1995.csv figures/historical_chi_timeseries_1986_1995.png" \
+            "Historical OMNI χ validation (1986–1995)"
