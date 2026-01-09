@@ -1,10 +1,15 @@
 /**
  * Knowledge Widget - Repository Knowledge Browser
  * Loads and displays data/knowledge/index.json
+ * Uses absolute URL with cache-busting to ensure live data from GitHub Pages.
  */
 
 (function() {
     'use strict';
+
+    // Use absolute URL for GitHub Pages, with cache-bust query parameter
+    const BASE_URL = "https://carldeanclinesr.github.io/luft-portal-";
+    const INDEX_URL = BASE_URL + "/data/knowledge/index.json";
 
     let knowledgeData = null;
     let filteredFiles = [];
@@ -16,7 +21,9 @@
      */
     async function loadKnowledgeIndex() {
         try {
-            const response = await fetch('data/knowledge/index.json');
+            // Add cache-bust timestamp to defeat CDN caching
+            const cacheBustUrl = INDEX_URL + "?t=" + Date.now();
+            const response = await fetch(cacheBustUrl, { cache: "no-store" });
             if (!response.ok) {
                 throw new Error(`HTTP ${response.status}`);
             }

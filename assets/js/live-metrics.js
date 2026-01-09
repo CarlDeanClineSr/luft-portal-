@@ -1,14 +1,20 @@
 // Lightweight homepage counters sourced from repo CSVs
 // Usage: include this script in index.html and add elements with IDs below.
+// Uses absolute URL with cache-busting to ensure live data from GitHub Pages.
 
-async function fetchCSV(url) {
+// Use absolute URL for GitHub Pages
+const BASE_URL = "https://carldeanclinesr.github.io/luft-portal-";
+
+async function fetchCSV(relativeUrl) {
   try {
+    // Add cache-bust timestamp to defeat CDN caching
+    const url = BASE_URL + "/" + relativeUrl + "?t=" + Date.now();
     const res = await fetch(url, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const text = await res.text();
     return text.trim().split("\n").map(line => line.split(","));
   } catch (e) {
-    console.warn(`Failed to fetch ${url}:`, e);
+    console.warn(`Failed to fetch ${relativeUrl}:`, e);
     return [];
   }
 }
@@ -21,9 +27,9 @@ function setText(id, value) {
 (async function updateKPIs() {
   try {
     // Fetch latest heartbeat data - try 2026_01 first, fall back to 2025_12
-    let rows = await fetchCSV("./data/cme_heartbeat_log_2026_01.csv");
+    let rows = await fetchCSV("data/cme_heartbeat_log_2026_01.csv");
     if (rows.length < 2) {
-      rows = await fetchCSV("./data/cme_heartbeat_log_2025_12.csv");
+      rows = await fetchCSV("data/cme_heartbeat_log_2025_12.csv");
     }
     
     if (rows.length < 2) {

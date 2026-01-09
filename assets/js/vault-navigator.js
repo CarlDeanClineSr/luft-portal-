@@ -1,8 +1,11 @@
 // Vault Navigator Widget
 // Reads data/knowledge/org_index.json and renders a searchable cross-repo table
+// Uses absolute URL with cache-busting to ensure live data from GitHub Pages.
 
 (function () {
-  const ORG_INDEX_URL = "./data/knowledge/org_index.json";
+  // Use absolute URL for GitHub Pages, with cache-bust query parameter
+  const BASE_URL = "https://carldeanclinesr.github.io/luft-portal-";
+  const ORG_INDEX_URL = BASE_URL + "/data/knowledge/org_index.json";
 
   function $(sel) { return document.querySelector(sel); }
   function $$(sel) { return document.querySelectorAll(sel); }
@@ -21,7 +24,9 @@
   }
 
   async function fetchJSON(url) {
-    const res = await fetch(url, { cache: "no-cache" });
+    // Add cache-bust timestamp to defeat CDN caching
+    const cacheBustUrl = url + "?t=" + Date.now();
+    const res = await fetch(cacheBustUrl, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
   }
