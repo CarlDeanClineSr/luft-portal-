@@ -158,6 +158,25 @@ nasa_space_agencies:
       api_available: true
       status: "active"
 
+    - name: "NASA Voyager 2"
+      description: "Voyager 2 Interstellar Mission - Heliosheath and interstellar medium data"
+      urls:
+        - "https://cdaweb.gsfc.nasa.gov/index.html/"
+        - "https://voyager.jpl.nasa.gov/"
+        - "https://spdf.gsfc.nasa.gov/pub/data/voyager/voyager2/"
+      data_types:
+        - "heliosheath_magnetic_field"
+        - "interstellar_plasma"
+        - "cosmic_rays"
+        - "termination_shock"
+      update_frequency: "archived"
+      api_available: true
+      status: "active"
+      notes: |
+        Critical for χ = 0.15 boundary validation. Heliosheath data (2007-2012)
+        provides a radically different plasma regime (B ~ 0.1 nT vs Earth's 5 nT)
+        to test universality of the boundary. Dataset ID: VOYAGER2_48SEC_MAG
+
 # ==============================================================================
 # TIER 2: NOAA & USGS (4 sources)
 # ==============================================================================
@@ -659,9 +678,9 @@ archives_databases:
 # ==============================================================================
 
 summary:
-  total_sources: 43
+  total_sources: 44
   by_tier:
-    tier_1_nasa: 10
+    tier_1_nasa: 11
     tier_2_noaa_usgs: 4
     tier_3_commercial: 1
     tier_4_cern: 4
@@ -672,16 +691,16 @@ summary:
     tier_9_archives: 5
   
   by_status:
-    active: 42
+    active: 43
     archived: 1
   
   with_api:
-    full_api: 35
+    full_api: 36
     limited_api: 7
     no_api: 1
   
   priority:
-    immediate: 10
+    immediate: 11
     high: 13
     medium: 17
     low: 3
