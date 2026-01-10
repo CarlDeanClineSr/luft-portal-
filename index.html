@@ -290,6 +290,37 @@
             text-decoration: underline;
         }
 
+        /* Paper Download Buttons */
+        .paper-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #0a0e1a;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.5);
+        }
+
+        .button.secondary {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+        }
+
         /* Sidebar Navigation Styles */
         .sidebar-nav {
             position: fixed;
@@ -419,6 +450,17 @@
             <p id="metric-correlations">2.1M+</p>
         </div>
     </div>
+    
+    <!-- Paper Download Buttons -->
+    <div class="paper-buttons">
+        <a class="button" href="papers/CLINE_CONVERGENCE_2026.pdf" target="_blank" rel="noopener">
+            📄 Download Preprint (PDF)
+        </a>
+        <a class="button secondary" href="papers/CLINE_CONVERGENCE_2026_math.pdf" target="_blank" rel="noopener">
+            ∑ Long-Form Math (PDF)
+        </a>
+    </div>
+    
     <p style="margin-top: 20px;"><a href="https://doi.org/10.17605/OSF.IO/FXHMK">Published Preprint DOI →</a></p>
 </div>
 
