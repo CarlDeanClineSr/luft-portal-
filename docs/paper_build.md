@@ -44,7 +44,11 @@ If you want to build PDFs locally:
 
 **Tectonic** (lightweight TeX engine):
 - All platforms: https://tectonic-typesetting.github.io/install.html
-- Quick install: `curl --proto '=https' --tlsv1.2 -fsSL https://drop-sh.fullyjustified.net | sh`
+- Ubuntu/Debian: Download from GitHub releases and extract to PATH
+- macOS: `brew install tectonic`
+- Windows: Download installer from https://github.com/tectonic-typesetting/tectonic/releases
+
+**Security note:** Avoid piping curl output directly to shell. Download and verify installers manually.
 
 ### 2. Run the Build Script
 

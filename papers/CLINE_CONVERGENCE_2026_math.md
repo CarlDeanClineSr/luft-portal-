@@ -16,7 +16,7 @@ We report the empirical discovery of a universal plasma boundary at χ = 0.15, w
 
 We define the normalized perturbation
 
-$$\chi(t) = \frac{|B(t) - B_0(t)|}{B_0(t)},\qquad B_0(t) = \mathrm{median}_{\Delta N}(B),$$
+$$\chi(t) = \frac{|B(t) - B_0(t)|}{B_0(t)},\qquad B_0(t) = \mathrm{median}_{\tau \in [t-\Delta N+1, t]}(B(\tau)),$$
 
 with $\Delta N = 24$ samples (hourly → 24 h; 1-min → 24 min). Baseline windows require ≥50% valid samples; zero/NaN baselines are excluded. 
 
