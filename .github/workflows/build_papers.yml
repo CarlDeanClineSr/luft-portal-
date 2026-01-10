@@ -20,14 +20,19 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y pandoc
-          curl -Ls https://github.com/tectonic-typesetting/tectonic/releases/latest/download/tectonic-x86_64-unknown-linux-gnu.tar.gz | \
-            tar xz --strip-components=1 -C /usr/local/bin
+          # Install tectonic from GitHub releases (pinned version for reproducibility)
+          # Note: This workflow runs on ubuntu-latest (x86_64)
+          TECTONIC_VERSION="0.15.0"
+          curl -fsSL "https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic%40${TECTONIC_VERSION}/tectonic-${TECTONIC_VERSION}-x86_64-unknown-linux-gnu.tar.gz" | \
+            sudo tar xz -C /usr/local/bin
           tectonic --version
           pandoc --version
       - name: Build PDFs
         run: |
           chmod +x tools/build_paper_pdf.sh
           tools/build_paper_pdf.sh
+        env:
+          PATH: /usr/local/bin:$PATH
       - name: Commit PDFs
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
