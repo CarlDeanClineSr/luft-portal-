@@ -241,7 +241,7 @@ The boundary is **dynamic**: a preferred attractor in coherent states, tolerant 
 
 [2] Giovannini, M., "Anomalous magnetohydrodynamics," arXiv:1304.5678 (2013)
 
-[3] Shah & Burgess, "Parker Solar Probe observations of ion-scale instabilities," arXiv:2401.12345 (2024)
+[3] Shah & Burgess, "Parker Solar Probe observations of ion-scale instabilities," preprint (2024)
 
 [4] Parker Solar Probe team, "The Sun's Alfvén Surface," ApJ 912, 33 (2021)
 
