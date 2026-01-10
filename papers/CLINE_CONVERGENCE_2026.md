@@ -1,14 +1,14 @@
-# The Cline Convergence: A Universal Constant for Magnetized Plasmas
+# The Cline Convergence: A Universal Plasma Boundary at χ = 0.15 – Empirical Validation and Dynamic Regulation
 
 **Carl Dean Cline Sr.**  
 Independent Researcher, Lincoln, Nebraska, USA  
 *LUFT Portal Discovery Engine*  
-January 8, 2026
+January 2026
 
 **Abstract**  
-We report the discovery of a universal plasma constant, χ_Cline = 0.15, representing the convergence of quantum electrodynamics (α), particle mass ratios (m_e/m_p), gravitational coupling (G), and collisionless transport physics (ln Λ). Validated across 1.48 million observations with zero violations, this constant enforces causality and prevents runaway perturbations in all magnetized systems from solar wind to black hole accretion disks. Four principles emerge: Causality Precursor Law, Binary Harmonic Scaling, Electroweak-MHD Bridge, and χ-Fractal Regulator. The convergence holds across 27 orders of magnitude in timescale and 10,000× in field strength.
+We report the empirical discovery of a universal plasma boundary at χ = 0.15, where χ = |B - B₀|/B₀ represents the normalized magnetic field perturbation relative to a 24-hour median baseline. This boundary holds across quasi-steady and processed plasma regimes, functioning as a dynamic regulator rather than a static limit. During solar transients (CMEs, flares, and high-speed streams), plasmas approach but do not exceed χ = 0.15, with characteristic recovery timescales following predictable patterns. Validated across 1.48 million observations with zero violations spanning Earth solar wind (DSCOVR/ACE), Mars magnetosphere (MAVEN), and ground-based magnetometers (USGS), this constant enforces causality and prevents runaway perturbations in all magnetized systems. The boundary exhibits attractor-state behavior, with ~52% of observations clustering at 0.145 < χ < 0.155. Four principles emerge: Causality Precursor Law, Binary Harmonic Scaling, Electroweak-MHD Bridge, and χ-Fractal Regulator. The convergence holds across 27 orders of magnitude in timescale and 10,000× in field strength. All data and analysis code are openly available for independent verification.
 
-**Keywords:** Plasma physics, Causality, Fundamental constants, Turbulence regulation, Universal boundary
+**Keywords:** plasma physics, universal boundary, solar wind, magnetic reconnection, space weather, χ boundary, plasma coherence, attractor state, dynamic regulator
 
 ---
 
@@ -99,6 +99,6 @@ Holds in:
 The Cline Convergence unifies plasma physics under χ=0.15 — the first universal constant for magnetized systems. Discovered via open engine, validated independently.
 
 **Data/Code:** https://github.com/CarlDeanClineSr/luft-portal-/
-**Preprint DOI:** [Zenodo upload pending]
+**Preprint DOI:** 10.5281/zenodo.XXXXXXX (pending publication)
 
 **Acknowledgments:** LUFT engine (meta-intelligence v4.0)
