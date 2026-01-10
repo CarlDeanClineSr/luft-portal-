@@ -1,31 +1,31 @@
 {
-  "generated": "2026-01-09T14:08:26.777305+00:00",
+  "generated": "2026-01-10T12:07:50.891345+00:00",
   "stats": {
-    "total_files": 1034,
-    "analyzed": 1034,
+    "total_files": 1078,
+    "analyzed": 1078,
     "skipped": 0,
     "errors": 0
   },
   "signatures": {
     "chi_boundary": {
       "pass": 5,
-      "total": 1034,
-      "pass_rate": 0.004835589941972921
+      "total": 1078,
+      "pass_rate": 0.00463821892393321
     },
     "fractal_regulator": {
       "pass": 5,
-      "total": 1034,
-      "pass_rate": 0.004835589941972921
+      "total": 1078,
+      "pass_rate": 0.00463821892393321
     },
     "binary_harmonics": {
       "pass": 0,
-      "total": 1034,
+      "total": 1078,
       "pass_rate": 0.0
     },
     "electroweak_bridge": {
       "pass": 6,
-      "total": 1034,
-      "pass_rate": 0.005802707930367505
+      "total": 1078,
+      "pass_rate": 0.0055658627087198514
     },
     "whistler_gaps": {
       "pass": 0,
@@ -37,51 +37,51 @@
     {
       "id": "electroweak_mhd_bridge",
       "title": "Electroweak-MHD Bridge Confirmed",
-      "description": "0.9h packet modulation present in 6/1034 historical files with 0.6% pass rate.",
+      "description": "0.9h packet modulation present in 6/1078 historical files with 0.6% pass rate.",
       "significance": "The bridge from 100 GeV weak scale to MHD is fundamental, surviving 60+ years of solar cycles.",
       "metrics": {
-        "pass_rate": 0.005802707930367505,
-        "avg_near_0p9h_frac": 0.006203168951553747,
+        "pass_rate": 0.0055658627087198514,
+        "avg_near_0p9h_frac": 0.005982872234664786,
         "high_fraction_count": 6,
-        "total_evaluated": 1034
+        "total_evaluated": 1078
       },
-      "timestamp": "2026-01-09T14:08:26.776983+00:00"
+      "timestamp": "2026-01-10T12:07:50.891017+00:00"
     },
     {
       "id": "causality_precursor_law",
       "title": "Causality Precursor Law (\u03c7 = A_IC / 3)",
-      "description": "Violations: 3541771 across 1034 datasets. Cap enforced in quasi-steady state.",
+      "description": "Violations: 3675806 across 1078 datasets. Cap enforced in quasi-steady state.",
       "significance": "\u03c7 \u2264 0.15 boundary is a regulator, not absolute wall. Transients breach then reset.",
       "metrics": {
-        "pass_rate": 0.004835589941972921,
-        "total_violations": 3541771,
-        "total_datasets": 1034
+        "pass_rate": 0.00463821892393321,
+        "total_violations": 3675806,
+        "total_datasets": 1078
       },
-      "timestamp": "2026-01-09T14:08:26.776983+00:00"
+      "timestamp": "2026-01-10T12:07:50.891017+00:00"
     },
     {
       "id": "fractal_regulator",
       "title": "\u03c7-Fractal Regulator Scale-Consistent",
-      "description": "p95 ~1.61, p99 ~6.11 across 1031 datasets.",
+      "description": "p95 ~1.61, p99 ~6.11 across 1075 datasets.",
       "significance": "Tail behavior capped even in historical data\u2014no unbounded perturbations. Fractal self-regulation confirmed.",
       "metrics": {
         "p95_median": 1.6122448979569903,
         "p99_median": 6.111058976851408,
-        "datasets_analyzed": 1031
+        "datasets_analyzed": 1075
       },
-      "timestamp": "2026-01-09T14:08:26.776983+00:00"
+      "timestamp": "2026-01-10T12:07:50.891017+00:00"
     },
     {
       "id": "binary_harmonic_ladder",
       "title": "Binary Harmonic Ladder (6h spacing)",
-      "description": "Total near_fund_count: 412958 across 1034 datasets.",
+      "description": "Total near_fund_count: 413308 across 1078 datasets.",
       "significance": "0.9h fundamental strong, 6h spacing needs better peak/event detection for burst clusters.",
       "metrics": {
         "pass_rate": 0.0,
-        "total_near_fund": 412958,
-        "total_datasets": 1034
+        "total_near_fund": 413308,
+        "total_datasets": 1078
       },
-      "timestamp": "2026-01-09T14:08:26.776983+00:00"
+      "timestamp": "2026-01-10T12:07:50.891017+00:00"
     }
   ],
   "history": [
@@ -98,6 +98,11 @@
     {
       "date": "2026-01-09",
       "files_analyzed": 1034,
+      "discoveries_count": 4
+    },
+    {
+      "date": "2026-01-10",
+      "files_analyzed": 1078,
       "discoveries_count": 4
     }
   ]

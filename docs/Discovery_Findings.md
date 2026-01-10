@@ -1,12 +1,12 @@
 # LUFT Discovery Engine: Autonomic Signature Report – Full Vault Sweep
 
-**Date:** January 09, 2026
-**Generated:** 2026-01-09 14:08:26 UTC
+**Date:** January 10, 2026
+**Generated:** 2026-01-10 12:07:50 UTC
 
 ## Summary
 
-The engine completed its run: **1034** files scanned.
-- **Analyzed:** 1034
+The engine completed its run: **1078** files scanned.
+- **Analyzed:** 1078
 - **Skipped:** 0
 - **Errors:** 0
 
@@ -14,57 +14,57 @@ The engine completed its run: **1034** files scanned.
 
 ### Electroweak-MHD Bridge Confirmed
 
-0.9h packet modulation present in 6/1034 historical files with 0.6% pass rate.
+0.9h packet modulation present in 6/1078 historical files with 0.6% pass rate.
 
 **Significance:** The bridge from 100 GeV weak scale to MHD is fundamental, surviving 60+ years of solar cycles.
 
 **Metrics:**
-- pass_rate: 0.0058
-- avg_near_0p9h_frac: 0.0062
+- pass_rate: 0.0056
+- avg_near_0p9h_frac: 0.0060
 - high_fraction_count: 6
-- total_evaluated: 1034
+- total_evaluated: 1078
 
 ### Causality Precursor Law (χ = A_IC / 3)
 
-Violations: 3541771 across 1034 datasets. Cap enforced in quasi-steady state.
+Violations: 3675806 across 1078 datasets. Cap enforced in quasi-steady state.
 
 **Significance:** χ ≤ 0.15 boundary is a regulator, not absolute wall. Transients breach then reset.
 
 **Metrics:**
-- pass_rate: 0.0048
-- total_violations: 3541771
-- total_datasets: 1034
+- pass_rate: 0.0046
+- total_violations: 3675806
+- total_datasets: 1078
 
 ### χ-Fractal Regulator Scale-Consistent
 
-p95 ~1.61, p99 ~6.11 across 1031 datasets.
+p95 ~1.61, p99 ~6.11 across 1075 datasets.
 
 **Significance:** Tail behavior capped even in historical data—no unbounded perturbations. Fractal self-regulation confirmed.
 
 **Metrics:**
 - p95_median: 1.6122
 - p99_median: 6.1111
-- datasets_analyzed: 1031
+- datasets_analyzed: 1075
 
 ### Binary Harmonic Ladder (6h spacing)
 
-Total near_fund_count: 412958 across 1034 datasets.
+Total near_fund_count: 413308 across 1078 datasets.
 
 **Significance:** 0.9h fundamental strong, 6h spacing needs better peak/event detection for burst clusters.
 
 **Metrics:**
 - pass_rate: 0.0000
-- total_near_fund: 412958
-- total_datasets: 1034
+- total_near_fund: 413308
+- total_datasets: 1078
 
 ## Signature Scorecard
 
 | Signature | Pass | Total | Pass Rate |
 |-----------|------|-------|-----------|
-| Chi Boundary | 5 | 1034 | 0.5% |
-| Fractal Regulator | 5 | 1034 | 0.5% |
-| Binary Harmonics | 0 | 1034 | 0.0% |
-| Electroweak Bridge | 6 | 1034 | 0.6% |
+| Chi Boundary | 5 | 1078 | 0.5% |
+| Fractal Regulator | 5 | 1078 | 0.5% |
+| Binary Harmonics | 0 | 1078 | 0.0% |
+| Electroweak Bridge | 6 | 1078 | 0.6% |
 
 ---
 
