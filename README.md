@@ -5,6 +5,11 @@
 ![Meta-Intelligence](https://github.com/CarlDeanClineSr/luft-portal-/workflows/Meta-Intelligence%20Daily/badge.svg)
 ![Temporal Correlation](https://github.com/CarlDeanClineSr/luft-portal-/workflows/Fundamental%20Correlation/badge.svg)
 
+## 📄 Preprint
+
+**Paper:** [The Cline Convergence: A Universal Plasma Boundary at χ = 0.15](papers/CLINE_CONVERGENCE_2026.md)  
+**Preprint DOI:** 10.5281/zenodo.XXXXXXX *(update after Zenodo publication)*
+
 ## The χ ≤ 0.15 Universal Boundary
 
 **Carl Dean Cline Sr.** discovered through empirical data analysis that normalized magnetic field perturbations **never exceed χ = 0.15** across space weather observations.
