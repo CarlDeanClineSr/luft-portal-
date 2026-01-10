@@ -11,10 +11,21 @@ echo "Building paper PDFs..."
 # Ensure papers directory exists
 mkdir -p papers
 
+# Check for source files
+if [[ ! -f "papers/CLINE_CONVERGENCE_2026.md" ]]; then
+    echo "Error: Source file papers/CLINE_CONVERGENCE_2026.md not found"
+    exit 1
+fi
+
+if [[ ! -f "papers/CLINE_CONVERGENCE_2026_math.md" ]]; then
+    echo "Error: Source file papers/CLINE_CONVERGENCE_2026_math.md not found"
+    exit 1
+fi
+
 # Build plain-text version
 echo "Building plain-text version: CLINE_CONVERGENCE_2026.pdf"
 pandoc \
-  --from=gfm \
+  --from=gfm+tex_math_dollars \
   --pdf-engine=tectonic \
   -V geometry:margin=1in \
   papers/CLINE_CONVERGENCE_2026.md \
@@ -25,7 +36,7 @@ echo "✓ Built papers/CLINE_CONVERGENCE_2026.pdf"
 # Build long-form math version
 echo "Building long-form math version: CLINE_CONVERGENCE_2026_math.pdf"
 pandoc \
-  --from=gfm \
+  --from=gfm+tex_math_dollars \
   --pdf-engine=tectonic \
   -V geometry:margin=1in \
   papers/CLINE_CONVERGENCE_2026_math.md \

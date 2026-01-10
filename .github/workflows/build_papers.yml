@@ -38,7 +38,7 @@ jobs:
       - name: Commit PDFs
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Build paper PDFs (plain + math)"
+          commit_message: "Build paper PDFs (plain + math) [skip ci]"
           file_pattern: |
             papers/CLINE_CONVERGENCE_2026.pdf
             papers/CLINE_CONVERGENCE_2026_math.pdf
