@@ -28,7 +28,10 @@ def load_data() -> pd.DataFrame:
             print("Computing chi from B_total_nT and B_baseline_nT...")
             baseline = df["B_baseline_nT"].replace(0, np.nan)
             baseline = baseline.mask(baseline.abs() < BASELINE_EPSILON)
-            df["chi"] = np.abs(df["B_total_nT"] - baseline) / baseline
+            valid = baseline.notna()
+            df = df.loc[valid].copy()
+            df["B_baseline_nT"] = baseline[valid]
+            df["chi"] = np.abs(df["B_total_nT"] - df["B_baseline_nT"]) / df["B_baseline_nT"]
         else:
             raise ValueError("Expected chi or B_total_nT/B_baseline_nT columns in dataset.")
 
@@ -69,7 +72,7 @@ def plot_recovery(df: pd.DataFrame, events: list[pd.Series]) -> None:
         plt.plot(storm_data["timestamp"], storm_data["chi"], color="#333333", linewidth=1.5, label=r"Historical $\chi$")
         plt.axhline(y=0.1528, color="#d9534f", linestyle="--", linewidth=2, label=r"Limit $(m_e/m_p)^{1/4}$")
 
-        plt.title(f"Historical Validation: Storm Recovery {event_time.date()} (Max χ={event['chi']:.2f})")
+        plt.title(f"Historical Validation: Storm Recovery {event_time.date()} (Max chi={event['chi']:.2f})")
         plt.ylabel(r"$\chi$")
         plt.xlabel("Time")
         plt.legend()
