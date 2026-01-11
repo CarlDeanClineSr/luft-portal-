@@ -399,8 +399,8 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
         print("   Use --start/--end flags with cdasws for real data")
         filepath = generate_demo_data(args.output_dir)
         if filepath:
-        print(f"\n💡 Ready for chi_calculator.py:")
-        print(f"   python chi_calculator.py --file {filepath}")
+            print(f"\n💡 Ready for chi_calculator.py:")
+            print(f"   python chi_calculator.py --file {filepath}")
         return 0
     
     # Check cdasws availability
