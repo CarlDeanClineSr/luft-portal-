@@ -43,7 +43,12 @@ jobs:
       - name: Commit results
         if: github.event_name != 'pull_request'
         run: |
-          git add figures/ data/ reports/ || true
+          # Only add directories that exist
+          for dir in figures data reports; do
+            if [ -d "$dir" ]; then
+              git add "$dir"
+            fi
+          done
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else

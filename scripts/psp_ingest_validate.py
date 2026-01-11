@@ -158,20 +158,24 @@ def fetch_psp_mag_data(start_date, end_date):
         b_data = df_raw[b_col]
         
         # Check if data is empty
-        if len(b_data) == 0:
+        if b_data is None or len(b_data) == 0:
             print("  ✗ Empty magnetic field data")
             return None
         
         # Handle vector data (may be array-like per row)
-        if len(b_data) > 0 and hasattr(b_data.iloc[0], '__len__') and len(b_data.iloc[0]) >= 3:
-            br = b_data.apply(lambda x: x[0] if hasattr(x, '__len__') else np.nan)
-            bt = b_data.apply(lambda x: x[1] if hasattr(x, '__len__') else np.nan)
-            bn = b_data.apply(lambda x: x[2] if hasattr(x, '__len__') else np.nan)
-        else:
-            # Try to find separate columns for Br, Bt, Bn
-            br = df_raw.get('Br', pd.Series([np.nan] * len(df_raw)))
-            bt = df_raw.get('Bt', pd.Series([np.nan] * len(df_raw)))
-            bn = df_raw.get('Bn', pd.Series([np.nan] * len(df_raw)))
+        try:
+            if hasattr(b_data.iloc[0], '__len__') and len(b_data.iloc[0]) >= 3:
+                br = b_data.apply(lambda x: x[0] if hasattr(x, '__len__') else np.nan)
+                bt = b_data.apply(lambda x: x[1] if hasattr(x, '__len__') else np.nan)
+                bn = b_data.apply(lambda x: x[2] if hasattr(x, '__len__') else np.nan)
+            else:
+                # Try to find separate columns for Br, Bt, Bn
+                br = df_raw.get('Br', pd.Series([np.nan] * len(df_raw)))
+                bt = df_raw.get('Bt', pd.Series([np.nan] * len(df_raw)))
+                bn = df_raw.get('Bn', pd.Series([np.nan] * len(df_raw)))
+        except (IndexError, AttributeError) as e:
+            print(f"  ✗ Error parsing magnetic field data: {e}")
+            return None
         
         df = pd.DataFrame({
             'Br': br.values,
