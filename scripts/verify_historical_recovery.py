@@ -26,8 +26,10 @@ def load_data() -> pd.DataFrame:
     if "chi" not in df.columns:
         if {"B_total_nT", "B_baseline_nT"}.issubset(df.columns):
             print("Computing chi from B_total_nT and B_baseline_nT...")
-            baseline = df["B_baseline_nT"].replace(0, np.nan)
-            baseline = baseline.mask(baseline.abs() < BASELINE_EPSILON)
+            baseline = df["B_baseline_nT"].mask(
+                (df["B_baseline_nT"] == 0) | (df["B_baseline_nT"].abs() < BASELINE_EPSILON),
+                np.nan,
+            )
             valid = baseline.notna()
             df = df.loc[valid].copy()
             df["B_baseline_nT"] = baseline[valid]
@@ -72,7 +74,8 @@ def plot_recovery(df: pd.DataFrame, events: list[pd.Series]) -> None:
         plt.plot(storm_data["timestamp"], storm_data["chi"], color="#333333", linewidth=1.5, label=r"Historical $\chi$")
         plt.axhline(y=0.1528, color="#d9534f", linestyle="--", linewidth=2, label=r"Limit $(m_e/m_p)^{1/4}$")
 
-        plt.title(f"Historical Validation: Storm Recovery {event_time.date()} (Max chi={event['chi']:.2f})")
+        date_str = event_time.strftime("%Y-%m-%d")
+        plt.title(f"Historical Validation: Storm Recovery {date_str} (Max chi={event['chi']:.2f})")
         plt.ylabel(r"$\chi$")
         plt.xlabel("Time")
         plt.legend()
