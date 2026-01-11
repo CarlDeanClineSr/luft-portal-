@@ -1,11 +1,9 @@
-name: Physics Repairs - ClineConstant Application
+name: Physics Repairs - PSP χ ≤ 0.15 near-Sun validation
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *"
 
 permissions:
   contents: write
@@ -13,32 +11,28 @@ permissions:
 jobs:
   run-repairs:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Set up Python 3.11 (pyspedas-compatible)
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.11"
+          cache: "pip"
 
-      - name: Cache pip
-        if: ${{ hashFiles('requirements.txt') != '' }}
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          python -m pip install -r requirements.txt
 
-      - name: Run gravity control fixes
-        run: python gravity_control_fixes.py
+      - name: Run PSP near-Sun ingest & χ validation
+        env:
+          PSP_START: "2018-11-01"
+          PSP_END: "latest"
+        run: |
+          python scripts/psp_ingest_validate.py --start "$PSP_START" --end "$PSP_END"
 
       - name: Configure git
         if: github.event_name != 'pull_request'
@@ -49,11 +43,11 @@ jobs:
       - name: Commit results
         if: github.event_name != 'pull_request'
         run: |
-          git add figures/ data/ reports/
+          git add figures/ data/ reports/ || true
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Physics repairs - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git commit -m "PSP χ≤0.15 validation - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
             git push
           fi
         env:
