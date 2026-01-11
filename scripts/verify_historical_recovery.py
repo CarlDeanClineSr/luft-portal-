@@ -14,6 +14,7 @@ DATA_FILE = BASE_DIR / "results" / "historical_chi" / "historical_chi_1975_1985.
 OUTPUT_DIR = BASE_DIR / "historical_validation"
 OUTPUT_DIR.mkdir(exist_ok=True)
 TOP_CANDIDATES = 100
+# Treat baselines below this nT threshold as invalid to avoid dividing by (near) zero.
 BASELINE_EPSILON = 1e-6
 
 
@@ -81,7 +82,7 @@ def plot_recovery(df: pd.DataFrame, events: list[pd.Series]) -> None:
         plt.legend()
         plt.tight_layout()
 
-        fname = OUTPUT_DIR / f"storm_recovery_{i + 1}_{event_time.date()}.png"
+        fname = OUTPUT_DIR / f"storm_recovery_{i + 1}_{date_str}.png"
         plt.savefig(fname)
         plt.close()
         print(f"Saved plot: {fname}")
@@ -92,7 +93,7 @@ def main() -> None:
     events = find_top_events(df)
     plot_recovery(df, events)
     print("\n--- VERIFICATION COMPLETE ---")
-    print("Check the 'historical_validation' folder. If the curve drops and flattens at the red line, it supports the theoretical prediction.")
+    print("Check 'historical_validation'. If the curve drops and stays near the red line (e.g., last 12h median <= 0.1528), it supports the theoretical prediction.")
 
 
 if __name__ == "__main__":
