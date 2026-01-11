@@ -1,0 +1,27 @@
+name: Auto-rerun Copilot coding agent when canceled
+
+on:
+  workflow_run:
+    workflows: ["Copilot coding agent"]
+    types: [completed]
+
+jobs:
+  rerun-if-cancelled:
+    if: ${{ github.event.workflow_run.conclusion == 'cancelled' && github.event.workflow_run.run_attempt == 1 }}
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - name: Re-run cancelled Copilot agent
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const runId = context.payload.workflow_run.id;
+            await github.rest.actions.rerunWorkflowRun({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: runId,
+            });
+            core.info(`Triggered rerun for Copilot coding agent run ${runId}.`);
