@@ -12,12 +12,13 @@ Outputs:
   - figures/historical_chi_timeseries_<start>_<end>.png
 """
 import argparse
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import logging
 
 # Local helper for rolling median + chi
 from imperial_math import rolling_median, compute_chi
@@ -26,24 +27,93 @@ from imperial_math import rolling_median, compute_chi
 CHI_VIOLATION_THRESHOLD = 0.15  # Upper limit for chi violations
 CHI_ATTRACTOR_LOWER = 0.145     # Lower bound of attractor region
 CHI_ATTRACTOR_UPPER = 0.155     # Upper bound of attractor region
+OMNI_DATASET_START = datetime(1963, 1, 1, tzinfo=timezone.utc)  # OMNI hourly coverage start (CDAWeb)
+# Minimal window (1 hour) to avoid zero-length CDAWeb queries while matching the hourly cadence.
+MINIMAL_QUERY_WINDOW_HOURS = 1
+logger = logging.getLogger(__name__)
+
+
+def _extract_request_url(status_dict) -> str | None:
+    """
+    Best-effort extraction of the request URL from cdasws status metadata.
+    Prefers status_dict['http']['url'], but falls back to legacy keys
+    ('requestUrl', 'request_url') seen in some cdasws responses.
+    """
+    return (
+        status_dict.get("http", {}).get("url")
+        or status_dict.get("requestUrl")
+        or status_dict.get("request_url")
+    )
+
+
+def _log_cdasws_status(status, request_url: str | None) -> None:
+    if request_url:
+        logger.warning("Failed request URL: %s", request_url)
+    logger.debug("CDAWeb status payload: %s", status)
 
 
 def fetch_omni_hourly_cdasws(start_dt: datetime, end_dt: datetime) -> pd.DataFrame:
     """Fetch OMNI hourly data using CDAWeb web services (cdasws)."""
     from cdasws import CdasWs
 
+    start_req = start_dt
+    end_req = end_dt
+
+    if end_req < OMNI_DATASET_START:
+        logger.warning(
+            "Requested range %s -> %s ends before OMNI hourly coverage starts (%s); "
+            "shifting both bounds to the dataset start.",
+            start_req.isoformat(),
+            end_req.isoformat(),
+            OMNI_DATASET_START.isoformat(),
+        )
+        # Use a minimal one-hour window to avoid zero-length queries while surfacing coverage limits.
+        start_req = OMNI_DATASET_START
+        end_req = OMNI_DATASET_START + timedelta(hours=MINIMAL_QUERY_WINDOW_HOURS)
+        logger.warning(
+            "Proceeding with adjusted range %s -> %s (dataset start clamp; returning first coverage hour).",
+            start_req.isoformat(),
+            end_req.isoformat(),
+        )
+    elif start_req < OMNI_DATASET_START:
+        logger.warning(
+            "Adjusting start from %s to OMNI dataset start %s to avoid 404.",
+            start_req.isoformat(),
+            OMNI_DATASET_START.isoformat(),
+        )
+        start_req = OMNI_DATASET_START
+        logger.warning(
+            "Proceeding with adjusted range %s -> %s.",
+            start_req.isoformat(),
+            end_req.isoformat(),
+        )
+
     cdas = CdasWs()
     # Dataset name for hourly OMNI in CDAWeb
     dataset = "OMNI2_H0_MRG1HR"
 
     # Request all variables to get both Epoch and Epoch_1800 data
-    status, data = cdas.get_data(dataset, ["ALL-VARIABLES"], start_dt, end_dt)
+    status, data = cdas.get_data(dataset, ["ALL-VARIABLES"], start_req, end_req)
+    status_code = status.get("http", {}).get("status_code")
+    request_url = _extract_request_url(status)
 
-    if status['http']['status_code'] != 200:
-        raise RuntimeError(f"CDAWeb request failed with status {status['http']['status_code']}")
+    if status_code != 200:
+        logger.warning("CDAWeb request failed; logging payload for debugging.")
+        _log_cdasws_status(status, request_url)
+        raise RuntimeError(
+            f"CDAWeb request failed with status {status_code} "
+            f"for range {start_req.isoformat()} → {end_req.isoformat()} "
+            f"(url={request_url or 'unknown'})"
+        )
 
     if data is None:
-        raise RuntimeError("No OMNI hourly data returned for the requested range.")
+        logger.warning("CDAWeb returned no data; logging payload for debugging.")
+        _log_cdasws_status(status, request_url)
+        raise RuntimeError(
+            "No OMNI hourly data returned for the requested range "
+            f"{start_req.isoformat()} → {end_req.isoformat()} "
+            f"(url={request_url or 'unknown'})"
+        )
 
     # Convert xarray Dataset to pandas DataFrame
     # Use only variables on the Epoch coordinate (hourly data)
@@ -62,10 +132,6 @@ def fetch_omni_hourly_cdasws(start_dt: datetime, end_dt: datetime) -> pd.DataFra
     
     df = data[hourly_vars].to_dataframe().reset_index()
     
-    # Basic sanity check
-    if df.empty:
-        raise RuntimeError("No OMNI hourly data returned for the requested range.")
-    
     return df.sort_values('Epoch').set_index('Epoch')
 
 
@@ -73,6 +139,10 @@ def run(start: str, end: str, out_csv: str, out_png: str, baseline_hours: int = 
     # Parse dates (ISO)
     start_dt = datetime.fromisoformat(start)
     end_dt = datetime.fromisoformat(end)
+    if start_dt.tzinfo is None:
+        start_dt = start_dt.replace(tzinfo=timezone.utc)
+    if end_dt.tzinfo is None:
+        end_dt = end_dt.replace(tzinfo=timezone.utc)
 
     # Fetch data
     df_omni = fetch_omni_hourly_cdasws(start_dt, end_dt)
