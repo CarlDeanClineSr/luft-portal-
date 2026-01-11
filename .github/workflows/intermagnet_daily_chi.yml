@@ -36,27 +36,25 @@ jobs:
         run: |
           pip install pandas numpy matplotlib requests
 
-      - name: Fetch INTERMAGNET (def → qdef → prov)
+      - name: Fetch INTERMAGNET via GIN web service
         shell: bash
         run: |
-          st_lower=$(echo "${{ steps.vars.outputs.station }}" | tr '[:upper:]' '[:lower:]')
-          y="${{ steps.vars.outputs.year }}"
-          m="${{ steps.vars.outputs.month }}"
+          station="${{ steps.vars.outputs.station }}"
+          st_lower=$(echo "$station" | tr '[:upper:]' '[:lower:]')
           d="${{ steps.vars.outputs.date }}"
+          # Convert YYYYMMDD to YYYY-MM-DD for GIN API
+          date_formatted="${d:0:4}-${d:4:2}-${d:6:2}"
           out="data/intermagnet_raw/${st_lower}_${d}.min"
 
-          def_url="https://imag-data.bgs.ac.uk/data/minute/definitive/IAGA2002/${y}/${m}/${st_lower}${d}dmin.min"
-          qdf_url="https://imag-data.bgs.ac.uk/data/minute/quasiDefinitive/IAGA2002/${y}/${m}/${st_lower}${d}qmin.min"
-          prv_url="https://imag-data.bgs.ac.uk/data/minute/provisional/IAGA2002/${y}/${m}/${st_lower}${d}pmin.min"
-
-          for url in "$def_url" "$qdf_url" "$prv_url"; do
-            echo "Trying $url"
-            if curl -fsSL "$url" -o "$out"; then
-              echo "Downloaded: $out"
-              exit 0
-            fi
-          done
-          echo "Failed to fetch INTERMAGNET file for ${st_lower} ${d}" >&2
+          # Use GIN web service API which provides IAGA-2002 format data
+          # Without publicationState parameter, API returns most recent available data
+          url="https://imag-data.bgs.ac.uk/GIN_V1/GINServices?Request=GetData&format=IAGA2002&samplesPerDay=minute&observatoryIagaCode=${station}&dataStartDate=${date_formatted}&dataDuration=1"
+          echo "Fetching INTERMAGNET data from GIN service for ${station} on ${date_formatted}..."
+          if curl -fsSL "$url" -o "$out" && head -1 "$out" | grep -q "Format"; then
+            echo "Downloaded: $out"
+            exit 0
+          fi
+          echo "Failed to fetch INTERMAGNET file for ${station} ${date_formatted}" >&2
           exit 1
 
       - name: Convert to CSV
