@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import seaborn as sns
 
@@ -21,7 +24,7 @@ def load_data() -> pd.DataFrame:
     if "chi" not in df.columns:
         if {"B_total_nT", "B_baseline_nT"}.issubset(df.columns):
             print("Computing chi from B_total_nT and B_baseline_nT...")
-            df["chi"] = (df["B_total_nT"] - df["B_baseline_nT"]).abs() / df["B_baseline_nT"]
+            df["chi"] = np.abs(df["B_total_nT"] - df["B_baseline_nT"]) / df["B_baseline_nT"]
         else:
             raise ValueError("Expected chi or B_total_nT/B_baseline_nT columns in dataset.")
 
@@ -33,10 +36,11 @@ def find_top_events(df: pd.DataFrame, limit: int = 3, min_separation_hours: int 
     """Return top chi events separated by at least min_separation_hours."""
     top_violations = df.nlargest(100, "chi")
     unique_events: list[pd.Series] = []
+    threshold = pd.Timedelta(hours=min_separation_hours)
 
     for _, row in top_violations.iterrows():
         t = row["timestamp"]
-        if any(abs((e["timestamp"] - t).total_seconds()) < min_separation_hours * 3600 for e in unique_events):
+        if any(abs(e["timestamp"] - t) < threshold for e in unique_events):
             continue
         unique_events.append(row)
         if len(unique_events) >= limit:
@@ -61,7 +65,7 @@ def plot_recovery(df: pd.DataFrame, events: list[pd.Series]) -> None:
         plt.plot(storm_data["timestamp"], storm_data["chi"], color="#333333", linewidth=1.5, label=r"Historical $\chi$")
         plt.axhline(y=0.1528, color="#d9534f", linestyle="--", linewidth=2, label=r"Limit $(m_e/m_p)^{1/4}$")
 
-        plt.title(f"Historical Validation: Storm Recovery {event_time.date()} (Max $\\chi$={event['chi']:.2f})")
+        plt.title(rf"Historical Validation: Storm Recovery {event_time.date()} (Max $\chi$={event['chi']:.2f})")
         plt.ylabel(r"$\chi$")
         plt.xlabel("Time")
         plt.legend()
@@ -78,7 +82,7 @@ def main() -> None:
     events = find_top_events(df)
     plot_recovery(df, events)
     print("\n--- VERIFICATION COMPLETE ---")
-    print("Check the 'historical_validation' folder. If you see the curve drop and flatten at the red line, we are proven right.")
+    print("Check the 'historical_validation' folder. If the curve drops and flattens at the red line, it supports the theoretical prediction.")
 
 
 if __name__ == "__main__":
