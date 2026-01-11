@@ -1,30 +1,35 @@
 # LUFT Portal - Python Dependencies
 # This file lists all Python packages required by the scripts and workflows
 # Install with: pip install -r requirements.txt
+# Python 3.11 compatible versions
 
-# Core scientific computing
-numpy>=1.24.0
-pandas>=2.0.0
-scipy>=1.10.0
+# Core scientific stack (Python 3.11)
+numpy==2.4.1
+pandas==2.2.3
+scipy==1.13.1
+matplotlib==3.8.4
+seaborn==0.13.2
 
-# Plotting and visualization
-matplotlib>=3.7.0
-seaborn>=0.12.0
+# Utilities
+requests==2.32.3
+beautifulsoup4==4.12.3
+feedparser==6.0.12
+PyYAML==6.0.1
+python-frontmatter==1.1.0
 
-# Web scraping and data fetching
-requests>=2.31.0
-beautifulsoup4>=4.12.0
-feedparser>=6.0.10
+# Space physics / CDAWeb / CDF
+cdasws==1.8.12
+cdflib==1.3.8
+xarray==2024.6.0
 
-# Configuration and data parsing
-pyyaml>=6.0
-python-frontmatter>=1.0.0
+# SPEDAS Python bridge (requires <3.12); pinned for future compatibility
+# Note: Current PSP validation uses cdasws instead for better Python 3.11 support
+pyspedas==2.0.5
 
-# NASA CDAWeb data access
-cdasws>=1.7.0
-cdflib>=0.4.0
-xarray>=2023.0.0
+# Plotting backend for pyspedas (latest on PyPI is 1.7.28; there is NO 1.8.x)
+# Note: Current PSP validation uses matplotlib/seaborn directly
+pytplot==1.7.28
 
 # Network analysis for link intelligence
-networkx>=3.0
-python-dateutil>=2.8
+networkx==3.3
+python-dateutil==2.9.0
