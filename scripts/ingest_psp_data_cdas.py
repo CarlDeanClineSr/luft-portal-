@@ -1,22 +1,23 @@
 #!/usr/bin/env python3
 """
-ingest_psp_data.py
-==================
-Parker Solar Probe (PSP) Data Ingestion Pipeline for χ ≤ 0.15 Boundary Validation.
+ingest_psp_data_cdas.py
+=======================
+Parker Solar Probe (PSP) Data Ingestion Pipeline using cdasws.
 
 Discovered by Carl Dean Cline Sr., Lincoln, Nebraska
 January 2026
 
-This script fetches and processes PSP data to validate the χ = 0.15 boundary
-near the Sun, where conditions differ dramatically from 1 AU norms:
+This script uses cdasws (NASA CDAWeb Services) to fetch and process PSP data
+for validating the χ = 0.15 boundary near the Sun, where conditions differ
+dramatically from 1 AU norms:
 - Electron temperature T_e often exceeds proton T_p by factors of 2–10+
 - Beta is low (magnetic pressure dominates)
 - Reconnection and switchbacks are frequent
 - Turbulence cascades are "pristine" (less evolved)
 
-Uses cdasws (NASA CDAWeb Services) to fetch:
-- FIELDS MAG L2 RTN (vector B, high-res survey ~0.87s)
-- SWEAP SPC L3 moments (proton density n_p, velocity V, thermal speed)
+Uses cdasws to fetch:
+- FIELDS MAG L2 RTN (vector B, high-res survey)
+- SWEAP SPC L3 moments (proton density n_p, velocity V)
 
 Outputs a 1-minute resampled CSV ready for chi_calculator.py.
 
@@ -24,8 +25,8 @@ Dependencies:
     pip install cdasws pandas numpy xarray
 
 Usage:
-    python scripts/ingest_psp_data.py --start 2025-09-10 --end 2025-09-20
-    python scripts/ingest_psp_data.py --demo
+    python scripts/ingest_psp_data_cdas.py --start 2025-09-10 --end 2025-09-20
+    python scripts/ingest_psp_data_cdas.py --demo
 
 Contact: CARLDCLINE@GMAIL.COM
 Repository: https://github.com/CarlDeanClineSr/luft-portal-
@@ -35,37 +36,29 @@ import argparse
 import os
 import sys
 from datetime import datetime
-from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
-
-# PSP Data Constants
-DEFAULT_OUTPUT_DIR = 'data/psp'
-RESAMPLE_CADENCE = '1min'  # 1-minute cadence for chi_calculator compatibility
-MERGE_TOLERANCE_SECONDS = 30
-
-# Check for cdasws availability
 try:
     from cdasws import CdasWs
     CDASWS_AVAILABLE = True
 except ImportError:
     CDASWS_AVAILABLE = False
 
+# PSP Data Constants
+DEFAULT_OUTPUT_DIR = 'data/psp'
+RESAMPLE_CADENCE = '1min'  # 1-minute cadence for chi_calculator compatibility
+MERGE_TOLERANCE_SECONDS = 30
 
-def check_cdasws_available():
-    """Check if cdasws is available."""
-    return CDASWS_AVAILABLE
 
-
-def ingest_psp_perihelion(start_date='2025-09-10', end_date='2025-09-20', output_dir=DEFAULT_OUTPUT_DIR):
+def ingest_psp_perihelion_cdas(start_date='2025-09-10', end_date='2025-09-20', output_dir=DEFAULT_OUTPUT_DIR):
     """
-    Download and process PSP MAG (RTN) and SPC (moments) data for a perihelion window.
+    Use cdasws to fetch PSP FIELDS MAG RTN L2 and SWEAP SPC L3 moments from CDAWeb.
     
-    Uses cdasws (NASA CDAWeb Services) for direct data access.
-    Computes |B|, proton density n_p, |V| magnitude.
-    Saves 1-minute resampled CSV for chi_calculator.py.
+    Datasets: PSP_FLD_L2_MAG_RTN (or survey), PSP_SWEAP_SPC_L3 (ion moments).
+    Computes |B|, n_p, |V|.
+    Resamples to 1-min median CSV for chi_calculator.py.
     
     Args:
         start_date: Start date string 'YYYY-MM-DD'
@@ -74,11 +67,6 @@ def ingest_psp_perihelion(start_date='2025-09-10', end_date='2025-09-20', output
     
     Returns:
         filepath: Path to the saved CSV file, or None if data unavailable
-    
-    Note:
-        Adjust dates for specific encounters:
-        - Encounter 26 (Dec 2025): ~Dec 13-18
-        - Encounter 25 (Sep 2025): ~Sep 10-20 (fully public)
     """
     if not CDASWS_AVAILABLE:
         print("❌ cdasws is not installed. Install with: pip install cdasws")
@@ -92,12 +80,11 @@ def ingest_psp_perihelion(start_date='2025-09-10', end_date='2025-09-20', output
     print(f"   Period: {start_date} to {end_date}")
     print(f"{'=' * 60}\n")
     
-    # MAG RTN L2 (high res or survey)
-    mag_dataset = 'PSP_FLD_L2_MAG_RTN'
-    mag_vars = ['psp_fld_l2_mag_RTN']
+    # MAG RTN L2 (high res or survey; adjust dataset if needed)
+    mag_dataset = 'PSP_FLD_L2_MAG_RTN'  # or 'PSP_FLD_L2_MAG_RTN_1S' for full
+    mag_vars = ['psp_fld_l2_mag_RTN']  # vector [R, T, N]
     
     print(f"Fetching MAG data from {mag_dataset}...")
-    mag_data = None
     try:
         status_mag, mag_data = cdas.get_data(mag_dataset, mag_vars, trange[0], trange[1])
         if status_mag != 0 or mag_data is None:
@@ -109,10 +96,10 @@ def ingest_psp_perihelion(start_date='2025-09-10', end_date='2025-09-20', output
         print(f"  ✗ Error fetching MAG data: {e}")
         mag_data = None
     
-    # SWEAP SPC L3 ion moments
-    spc_dataset = 'PSP_SWP_SPC_L3I'
-    spc_np_var = ['np_moment']
-    spc_vp_var = ['vp_moment_RTN']
+    # SWEAP SPC L3 ion moments (n_p, V_rtn vector)
+    spc_dataset = 'PSP_SWP_SPC_L3I'  # Ion moments dataset
+    spc_np_var = ['np_moment']  # density
+    spc_vp_var = ['vp_moment_RTN']  # velocity vector RTN
     
     print(f"\nFetching SPC data from {spc_dataset}...")
     spc_np_data = None
@@ -145,13 +132,14 @@ def ingest_psp_perihelion(start_date='2025-09-10', end_date='2025-09-20', output
         print("  - Data for this period hasn't been publicly released yet")
         print("  - CDAWeb downlink is still in progress")
         print("  - Dataset names may need adjustment")
-        print("  Try listing datasets with cdas.get_datasets('Parker')")
+        print("  Try listing datasets: cdas.get_datasets('Parker')")
         return None
     
     # Process MAG data to DataFrame
     mag_df = None
     if mag_data is not None:
         try:
+            # Get time and data arrays from xarray dataset
             if hasattr(mag_data, 'to_dataframe'):
                 mag_xr_df = mag_data.to_dataframe().reset_index()
                 # Find the epoch/time column
@@ -170,11 +158,12 @@ def ingest_psp_perihelion(start_date='2025-09-10', end_date='2025-09-20', output
                             break
                     
                     if b_col:
-                        mag_df = pd.DataFrame({'time': mag_xr_df[time_col]})
+                        mag_df = pd.DataFrame({'Epoch': mag_xr_df[time_col]})
                         b_data = mag_xr_df[b_col]
                         if hasattr(b_data.iloc[0], '__len__'):
                             mag_df['B_mag'] = b_data.apply(lambda x: np.sqrt(np.sum(np.array(x)**2)) if hasattr(x, '__len__') else np.nan)
                         else:
+                            # Already scalar or compute from separate columns
                             mag_df['B_mag'] = np.abs(b_data)
                         print(f"  ✓ Processed MAG data: {len(mag_df)} points")
         except Exception as e:
@@ -203,7 +192,7 @@ def ingest_psp_perihelion(start_date='2025-09-10', end_date='2025-09-20', output
                     
                     if np_col:
                         spc_df = pd.DataFrame({
-                            'time': spc_xr_df[time_col],
+                            'Epoch': spc_xr_df[time_col],
                             'n_p': spc_xr_df[np_col]
                         })
                         print(f"  ✓ Processed density data: {len(spc_df)} points")
@@ -237,9 +226,10 @@ def ingest_psp_perihelion(start_date='2025-09-10', end_date='2025-09-20', output
     print("\nMerging datasets...")
     if mag_df is not None and spc_df is not None:
         df = pd.merge_asof(
-            mag_df.sort_values('time'),
-            spc_df.sort_values('time'),
-            on='time',
+            mag_df.sort_values('Epoch'),
+            spc_df.sort_values('Epoch'),
+            left_on='Epoch',
+            right_on='Epoch',
             tolerance=pd.Timedelta(f'{MERGE_TOLERANCE_SECONDS}s')
         )
         print(f"  ✓ Merged MAG + SPC: {len(df)} points")
@@ -253,32 +243,28 @@ def ingest_psp_perihelion(start_date='2025-09-10', end_date='2025-09-20', output
         print("\n✗ No data available after processing.")
         return None
     
-    # Resample to 1-minute median (robust to gaps/bursts, matches DSCOVR style)
+    # Resample to 1-minute median
     print(f"\nResampling to {RESAMPLE_CADENCE} cadence...")
-    df.set_index('time', inplace=True)
+    df.set_index('Epoch', inplace=True)
     cols_to_resample = [c for c in ['B_mag', 'n_p', 'V_mag'] if c in df.columns]
-    df_resampled = df[cols_to_resample].resample(RESAMPLE_CADENCE).median()
+    df_resampled = df[cols_to_resample].resample(RESAMPLE_CADENCE).median().dropna()
     
-    # Drop NaNs and ensure positive values for B_mag and n_p
-    df_resampled = df_resampled.dropna()
-    positive_cols = [c for c in ['B_mag', 'n_p'] if c in df_resampled.columns]
-    if positive_cols:
-        df_resampled = df_resampled[(df_resampled[positive_cols] > 0).all(axis=1)]
-    
+    # Filter positive/reasonable values
+    df_resampled = df_resampled[(df_resampled > 0).all(axis=1)]
     print(f"  ✓ Resampled to {len(df_resampled)} points")
     
     if len(df_resampled) == 0:
         print("\n✗ No valid data after resampling.")
         return None
     
-    # Save to CSV
+    # Save
     os.makedirs(output_dir, exist_ok=True)
-    filename = f"psp_merged_{start_date}_{end_date}.csv"
+    filename = f"psp_cdas_merged_{start_date}_{end_date}.csv"
     filepath = os.path.join(output_dir, filename)
     df_resampled.to_csv(filepath)
     
     print(f"\n{'=' * 60}")
-    print("   PSP DATA INGESTION COMPLETE")
+    print("   PSP DATA INGESTION COMPLETE (cdasws)")
     print(f"{'=' * 60}")
     print(f"Saved {len(df_resampled)} points to {filepath}")
     print(f"\nColumns: {list(df_resampled.columns)}")
@@ -323,8 +309,8 @@ def generate_demo_data(output_dir=DEFAULT_OUTPUT_DIR):
     # Long-period variations
     long_var = 50.0 * np.sin(2 * np.pi * t_hours / 24)
     
-    # Small noise (use reproducible random numbers)
-    rng = np.random.default_rng(42)
+    # Small noise
+    rng = np.random.default_rng(42)  # Reproducible random numbers
     noise = rng.normal(0, 5.0, len(times))
     
     B_mag = B_baseline + long_var + switchback * 0.3 + noise
@@ -343,11 +329,11 @@ def generate_demo_data(output_dir=DEFAULT_OUTPUT_DIR):
         'n_p': n_p,
         'V_mag': V_mag
     }, index=times)
-    df.index.name = 'time'
+    df.index.name = 'Epoch'
     
     # Save
     os.makedirs(output_dir, exist_ok=True)
-    filename = "psp_demo_2025-09-15_2025-09-17.csv"
+    filename = "psp_cdas_demo_2025-09-15_2025-09-17.csv"
     filepath = os.path.join(output_dir, filename)
     df.to_csv(filepath)
     
@@ -362,15 +348,15 @@ def generate_demo_data(output_dir=DEFAULT_OUTPUT_DIR):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="PSP Data Ingestion Pipeline for χ ≤ 0.15 Boundary Validation",
+        description="PSP Data Ingestion Pipeline using cdasws for χ ≤ 0.15 Boundary Validation",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
   # Fetch Encounter 25 (Sep 2025) data - fully public
-  python scripts/ingest_psp_data.py --start 2025-09-10 --end 2025-09-20
+  python scripts/ingest_psp_data_cdas.py --start 2025-09-10 --end 2025-09-20
 
   # Generate demo data for testing
-  python scripts/ingest_psp_data.py --demo
+  python scripts/ingest_psp_data_cdas.py --demo
 
 Near-Sun Validation Context:
   PSP provides the ultimate falsification arena for the χ = 0.15 boundary.
@@ -413,19 +399,19 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
         print("   Use --start/--end flags with cdasws for real data")
         filepath = generate_demo_data(args.output_dir)
         if filepath:
-            print(f"\n💡 Ready for chi_calculator.py:")
-            print(f"   python chi_calculator.py --file {filepath}")
+        print(f"\n💡 Ready for chi_calculator.py:")
+        print(f"   python chi_calculator.py --file {filepath}")
         return 0
     
     # Check cdasws availability
-    if not check_cdasws_available():
+    if not CDASWS_AVAILABLE:
         print("\n❌ cdasws is not installed.")
         print("   Install with: pip install cdasws")
         print("   Or use --demo flag for testing without cdasws")
         return 1
     
     # Run ingestion
-    filepath = ingest_psp_perihelion(args.start, args.end, args.output_dir)
+    filepath = ingest_psp_perihelion_cdas(args.start, args.end, args.output_dir)
     
     if filepath:
         print(f"\n💡 Ready for chi_calculator.py:")
