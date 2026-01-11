@@ -14,6 +14,9 @@ Direct links to live data, latest results, and real-time monitoring outputs from
 - **DSCOVR Real-time Data:** [data/dscovr_realtime_7day.json](https://github.com/CarlDeanClineSr/luft-portal-/blob/main/data/dscovr_realtime_7day.json)
 - **OMNI Database Cache:** [data/omni/](https://github.com/CarlDeanClineSr/luft-portal-/tree/main/data/omni)
 - **ACE Solar Wind:** [data/ace/](https://github.com/CarlDeanClineSr/luft-portal-/tree/main/data/ace)
+- **Solar Wind (1 AU χ history):** [results/historical_chi/](https://github.com/CarlDeanClineSr/luft-portal-/tree/main/results/historical_chi)
+- **Mars Magnetosheath (MAVEN ingest):** [data/maven_mars/](https://github.com/CarlDeanClineSr/luft-portal-/tree/main/data/maven_mars)
+- **Solar Corona (PSP ingest/cache):** [data/psp/](https://github.com/CarlDeanClineSr/luft-portal-/tree/main/data/psp)
 
 ## 📊 Discovery Results
 
