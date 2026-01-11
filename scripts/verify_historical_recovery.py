@@ -61,7 +61,7 @@ def plot_recovery(df: pd.DataFrame, events: list[pd.Series]) -> None:
         plt.plot(storm_data["timestamp"], storm_data["chi"], color="#333333", linewidth=1.5, label=r"Historical $\chi$")
         plt.axhline(y=0.1528, color="#d9534f", linestyle="--", linewidth=2, label=r"Limit $(m_e/m_p)^{1/4}$")
 
-        plt.title(f"Historical Validation: Storm Recovery {event_time.date()} (Max $\chi$={event['chi']:.2f})")
+        plt.title(f"Historical Validation: Storm Recovery {event_time.date()} (Max $\\chi$={event['chi']:.2f})")
         plt.ylabel(r"$\chi$")
         plt.xlabel("Time")
         plt.legend()
