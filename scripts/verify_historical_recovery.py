@@ -14,6 +14,7 @@ DATA_FILE = BASE_DIR / "results" / "historical_chi" / "historical_chi_1975_1985.
 OUTPUT_DIR = BASE_DIR / "historical_validation"
 OUTPUT_DIR.mkdir(exist_ok=True)
 TOP_CANDIDATES = 100
+BASELINE_EPSILON = 1e-6
 
 
 def load_data() -> pd.DataFrame:
@@ -26,6 +27,7 @@ def load_data() -> pd.DataFrame:
         if {"B_total_nT", "B_baseline_nT"}.issubset(df.columns):
             print("Computing chi from B_total_nT and B_baseline_nT...")
             baseline = df["B_baseline_nT"].replace(0, np.nan)
+            baseline = baseline.mask(baseline.abs() < BASELINE_EPSILON)
             df["chi"] = np.abs(df["B_total_nT"] - baseline) / baseline
         else:
             raise ValueError("Expected chi or B_total_nT/B_baseline_nT columns in dataset.")
@@ -67,7 +69,7 @@ def plot_recovery(df: pd.DataFrame, events: list[pd.Series]) -> None:
         plt.plot(storm_data["timestamp"], storm_data["chi"], color="#333333", linewidth=1.5, label=r"Historical $\chi$")
         plt.axhline(y=0.1528, color="#d9534f", linestyle="--", linewidth=2, label=r"Limit $(m_e/m_p)^{1/4}$")
 
-        plt.title(f"Historical Validation: Storm Recovery {event_time.date()} (Max $\\chi$={event['chi']:.2f})")
+        plt.title(f"Historical Validation: Storm Recovery {event_time.date()} (Max χ={event['chi']:.2f})")
         plt.ylabel(r"$\chi$")
         plt.xlabel("Time")
         plt.legend()
