@@ -1,0 +1,85 @@
+from pathlib import Path
+
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+
+
+# --- CONFIGURATION ---
+BASE_DIR = Path(__file__).resolve().parents[1]
+DATA_FILE = BASE_DIR / "results" / "historical_chi" / "historical_chi_1975_1985.csv"
+OUTPUT_DIR = BASE_DIR / "historical_validation"
+OUTPUT_DIR.mkdir(exist_ok=True)
+
+
+def load_data() -> pd.DataFrame:
+    """Load historical chi data, computing chi if needed."""
+    print(f"--- HISTORICAL RECOVERY VERIFICATION (1975-1985) ---")
+    print(f"Loading {DATA_FILE}...")
+    df = pd.read_csv(DATA_FILE, parse_dates=["timestamp"])
+
+    if "chi" not in df.columns:
+        if {"B_total_nT", "B_baseline_nT"}.issubset(df.columns):
+            print("Computing chi from B_total_nT and B_baseline_nT...")
+            df["chi"] = (df["B_total_nT"] - df["B_baseline_nT"]).abs() / df["B_baseline_nT"]
+        else:
+            raise ValueError("Expected chi or B_total_nT/B_baseline_nT columns in dataset.")
+
+    df = df.dropna(subset=["timestamp", "chi"]).sort_values("timestamp")
+    return df
+
+
+def find_top_events(df: pd.DataFrame, limit: int = 3, min_separation_hours: int = 48) -> list[pd.Series]:
+    """Return top chi events separated by at least min_separation_hours."""
+    top_violations = df.nlargest(100, "chi")
+    unique_events: list[pd.Series] = []
+
+    for _, row in top_violations.iterrows():
+        t = row["timestamp"]
+        if any(abs((e["timestamp"] - t).total_seconds()) < min_separation_hours * 3600 for e in unique_events):
+            continue
+        unique_events.append(row)
+        if len(unique_events) >= limit:
+            break
+
+    print(f"Top Events Found: {[e['timestamp'] for e in unique_events]}")
+    return unique_events
+
+
+def plot_recovery(df: pd.DataFrame, events: list[pd.Series]) -> None:
+    sns.set_theme(style="whitegrid")
+
+    for i, event in enumerate(events):
+        event_time = event["timestamp"]
+        start_plot = event_time - pd.Timedelta(hours=12)
+        end_plot = event_time + pd.Timedelta(hours=48)
+
+        mask = (df["timestamp"] >= start_plot) & (df["timestamp"] <= end_plot)
+        storm_data = df.loc[mask]
+
+        plt.figure(figsize=(12, 6))
+        plt.plot(storm_data["timestamp"], storm_data["chi"], color="#333333", linewidth=1.5, label=r"Historical $\chi$")
+        plt.axhline(y=0.1528, color="#d9534f", linestyle="--", linewidth=2, label=r"Limit $(m_e/m_p)^{1/4}$")
+
+        plt.title(f"Historical Validation: Storm Recovery {event_time.date()} (Max $\chi$={event['chi']:.2f})")
+        plt.ylabel(r"$\chi$")
+        plt.xlabel("Time")
+        plt.legend()
+        plt.tight_layout()
+
+        fname = OUTPUT_DIR / f"storm_recovery_{i + 1}_{event_time.date()}.png"
+        plt.savefig(fname)
+        plt.close()
+        print(f"Saved plot: {fname}")
+
+
+def main() -> None:
+    df = load_data()
+    events = find_top_events(df)
+    plot_recovery(df, events)
+    print("\n--- VERIFICATION COMPLETE ---")
+    print("Check the 'historical_validation' folder. If you see the curve drop and flatten at the red line, we are proven right.")
+
+
+if __name__ == "__main__":
+    main()
