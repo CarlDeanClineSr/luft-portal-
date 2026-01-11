@@ -86,6 +86,19 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # -----------------------------
+# Helper functions
+# -----------------------------
+def safe_string(value: Any) -> str:
+    """Extract string from a value that may be a dict with 'value'/'summary' key or a string."""
+    if value is None:
+        return ""
+    if isinstance(value, dict):
+        # CERN APIs may return nested dicts like {"value": "text", "language": "en"}
+        return str(value.get("value", "") or value.get("summary", "") or "")
+    return str(value) if value else ""
+
+
+# -----------------------------
 # HTTP helpers
 # -----------------------------
 def polite_get(
@@ -174,7 +187,7 @@ def harvest_cds_json(query: str, max_results: int = 50) -> List[Dict[str, Any]]:
                 "id": str(recid) if recid else "",
                 "title": (title or "").replace("\n", " ").strip(),
                 "authors": [],
-                "summary": (r.get("abstract") or r.get("summary") or "").replace("\n", " ").strip(),
+                "summary": safe_string(r.get("abstract") or r.get("summary")).replace("\n", " ").strip(),
                 "published": r.get("publication_date") or r.get("date"),
                 "categories": [],
                 "link": f"https://cds.cern.ch/record/{recid}" if recid else None,
@@ -204,9 +217,9 @@ def harvest_cern_opendata(query: str, max_results: int = 50) -> List[Dict[str, A
             {
                 "source": "CERN_OPEN_DATA",
                 "id": str(rid or ""),
-                "title": (md.get("title") or "").replace("\n", " ").strip(),
+                "title": safe_string(md.get("title")).replace("\n", " ").strip(),
                 "authors": md.get("authors") or [],
-                "summary": (md.get("abstract") or md.get("description") or "").replace("\n", " ").strip(),
+                "summary": safe_string(md.get("abstract") or md.get("description")).replace("\n", " ").strip(),
                 "published": md.get("publication_date") or md.get("date"),
                 "categories": md.get("keywords") or [],
                 "link": md.get("url") or md.get("doi") or (f"https://opendata.cern.ch/record/{rid}" if rid else None),
