@@ -276,7 +276,7 @@ def ingest_psp_perihelion_cdas(start_date='2025-09-10', end_date='2025-09-20', o
         print(f"  V_mag range: {df_resampled['V_mag'].min():.1f} - {df_resampled['V_mag'].max():.1f} km/s")
     
     print(f"\n💡 Next step: Run chi_calculator.py on this data:")
-    print(f"   python chi_calculator.py --input {filepath}")
+    print(f"   python chi_calculator.py --file {filepath}")
     print(f"{'=' * 60}\n")
     
     return filepath
@@ -399,8 +399,8 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
         print("   Use --start/--end flags with cdasws for real data")
         filepath = generate_demo_data(args.output_dir)
         if filepath:
-            print(f"\n💡 Ready for chi_calculator.py:")
-            print(f"   python chi_calculator.py --input {filepath}")
+        print(f"\n💡 Ready for chi_calculator.py:")
+        print(f"   python chi_calculator.py --file {filepath}")
         return 0
     
     # Check cdasws availability
@@ -415,7 +415,7 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
     
     if filepath:
         print(f"\n💡 Ready for chi_calculator.py:")
-        print(f"   python chi_calculator.py --input {filepath}")
+        print(f"   python chi_calculator.py --file {filepath}")
         return 0
     else:
         print("\n⚠️  No data retrieved. Try:")
