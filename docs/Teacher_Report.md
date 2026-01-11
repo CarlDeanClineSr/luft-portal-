@@ -3,9 +3,9 @@
 Autonomic signature checks across vault datasets.
 
 
-**Total files scanned:** 1078
+**Total files scanned:** 1128
 
-**Analyzed:** 1078
+**Analyzed:** 1128
 
 **Skipped:** 0
 
@@ -108,6 +108,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.020873203264156415, "frac_near_spacing": 0.0, "near_fund_count": 7, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0004970796570150367, "pass": false}
 
+## data/noaa_solarwind/noaa_mag_20260110_210359.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.689556098261744, "over_cap_count": 1873, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.8852459016362537, "phi_p99": 9.09411764700572, "over_cap_count": 1873, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.024085759357521868, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.000860461781155887, "pass": false}
+
 ## data/noaa_solarwind/noaa_mag_20251219_170415.csv
 
 - **status:** analyzed
@@ -204,6 +212,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.023880278686193655, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.00028437366699843596, "pass": false}
 
+## data/noaa_solarwind/noaa_mag_20260110_120816.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.6926774102346622, "over_cap_count": 1909, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.9931148720264922, "phi_p99": 9.894561290270818, "over_cap_count": 1909, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.02369832086919712, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.000846620572879921, "pass": false}
+
 ## data/noaa_solarwind/noaa_mag_20260109_024017.csv
 
 - **status:** analyzed
@@ -227,6 +243,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 2.3574323607407943, "phi_p99": 12.764153846056931, "over_cap_count": 2253, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.022338255509733493, "frac_near_spacing": 0.0, "near_fund_count": 9, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0010642543567912731, "pass": false}
+
+## data/noaa_solarwind/noaa_plasma_20260111_060551.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.7306652244456464, "over_cap_count": 4154, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.1586854757038614, "phi_p99": 5.578203703702411, "over_cap_count": 4154, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.02251038734754054, "frac_near_spacing": 0.00013403029084573114, "near_fund_count": 11, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0010722423267658491, "pass": false}
 
 ## data/noaa_solarwind/noaa_plasma_20260102_070635.csv
 
@@ -275,6 +299,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 2.30343712303437, "phi_p99": 11.735999999655695, "over_cap_count": 1961, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.02437554458321231, "frac_near_spacing": 0.0, "near_fund_count": 10, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0010165553296543712, "pass": false}
+
+## data/noaa_solarwind/noaa_mag_20260110_180448.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.7001000142877554, "over_cap_count": 1902, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.984677419351794, "phi_p99": 9.667838827627854, "over_cap_count": 1902, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.023949420041833043, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0008556759840273817, "pass": false}
 
 ## data/noaa_solarwind/noaa_plasma_20260102_150431.csv
 
@@ -347,6 +379,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 2.9721283255003197, "phi_p99": 12.979272725157754, "over_cap_count": 1893, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.023880278686193655, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.00028437366699843596, "pass": false}
+
+## data/noaa_solarwind/noaa_plasma_20260111_070520.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.742772223723318, "over_cap_count": 4135, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.1578431372488853, "phi_p99": 5.575899999996313, "over_cap_count": 4135, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.02249229945091737, "frac_near_spacing": 0.00013392259274139549, "near_fund_count": 11, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0010713807419311639, "pass": false}
 
 ## data/noaa_solarwind/noaa_plasma_20260104_160418.csv
 
@@ -484,6 +524,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.01937170761717999, "frac_near_spacing": 0.0, "near_fund_count": 5, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0003460606759718537, "pass": false}
 
+## data/noaa_solarwind/noaa_plasma_20260110_200430.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.6969218626677192, "over_cap_count": 4235, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.1276794914683574, "phi_p99": 5.269030129123135, "over_cap_count": 4235, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.02190122168601365, "frac_near_spacing": 0.00013042911177774878, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0007825746706664928, "pass": false}
+
 ## data/noaa_solarwind/noaa_plasma_20251231_120603.csv
 
 - **status:** analyzed
@@ -499,6 +547,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 2.1054407735339993, "phi_p99": 11.004403669573092, "over_cap_count": 1874, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.023958630527817402, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0008559201141226819, "pass": false}
+
+## data/noaa_solarwind/noaa_mag_20260110_200430.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.7032146957520092, "over_cap_count": 1893, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.9612505010014047, "phi_p99": 9.656279069666477, "over_cap_count": 1893, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.02405577042448551, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0008594757198109154, "pass": false}
 
 ## data/noaa_solarwind/noaa_plasma_20260110_001428.csv
 
@@ -780,6 +836,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.021428875276501617, "frac_near_spacing": 0.0, "near_fund_count": 10, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.000638080653394589, "pass": false}
 
+## data/noaa_solarwind/noaa_plasma_20260111_024734.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.8450184501845017, "over_cap_count": 1016, "pass": false}
+- **fractal_regulator:** {"phi_p95": 0.5790638420544417, "phi_p99": 2.060965732086395, "over_cap_count": 1016, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.04528729125389187, "frac_near_spacing": 0.0, "near_fund_count": 3, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0002830455703368242, "pass": false}
+
 ## data/noaa_solarwind/noaa_mag_20260101_090613.csv
 
 - **status:** analyzed
@@ -811,6 +875,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 4.688390313374712, "phi_p99": 33.72914285591254, "over_cap_count": 2526, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.022259033483523274, "frac_near_spacing": 0.0, "near_fund_count": 9, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.00039756162205141797, "pass": false}
+
+## data/noaa_solarwind/noaa_mag_20260111_080508.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.5794947994056464, "over_cap_count": 1645, "pass": false}
+- **fractal_regulator:** {"phi_p95": 2.1197905454160604, "phi_p99": 9.662170542470122, "over_cap_count": 1645, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.02478860703159768, "frac_near_spacing": 0.0, "near_fund_count": 9, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0008900756564307966, "pass": false}
 
 ## data/noaa_solarwind/noaa_plasma_20251230_023830.csv
 
@@ -883,6 +955,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 0.8518121710461775, "phi_p99": 2.9349152542275108, "over_cap_count": 4313, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.021437991916613483, "frac_near_spacing": 0.0, "near_fund_count": 9, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0005105296745373325, "pass": false}
+
+## data/noaa_solarwind/noaa_mag_20260110_160417.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.697707532393564, "over_cap_count": 1909, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.9999999999988742, "phi_p99": 10.121922580615234, "over_cap_count": 1909, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.023867727875686945, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0008527572484366117, "pass": false}
 
 ## data/noaa_solarwind/noaa_plasma_20260105_210452.csv
 
@@ -1196,6 +1276,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.023607238933724625, "frac_near_spacing": 0.0, "near_fund_count": 9, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.00044020542920029346, "pass": false}
 
+## data/noaa_solarwind/noaa_plasma_20260110_150405.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.6710526315789473, "over_cap_count": 4259, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.1578947368360109, "phi_p99": 5.500766666394425, "over_cap_count": 4259, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.021898365501651883, "frac_near_spacing": 0.00013041210224308815, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.000782472613458529, "pass": false}
+
 ## data/noaa_solarwind/noaa_plasma_20260105_042643.csv
 
 - **status:** analyzed
@@ -1348,6 +1436,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.021800363447559708, "frac_near_spacing": 0.0, "near_fund_count": 10, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0009086188992731049, "pass": false}
 
+## data/noaa_solarwind/noaa_plasma_20260110_220402.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.7123287671232876, "over_cap_count": 4251, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.1543977591009953, "phi_p99": 5.499999999725, "over_cap_count": 4251, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.0219254712463541, "frac_near_spacing": 0.0001305994514823038, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0007835967088938227, "pass": false}
+
 ## data/noaa_solarwind/noaa_mag_20251224_160426.csv
 
 - **status:** analyzed
@@ -1452,6 +1548,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.022504354817097682, "frac_near_spacing": 0.00013399437223636607, "near_fund_count": 8, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0008039662334181965, "pass": false}
 
+## data/noaa_solarwind/noaa_mag_20260111_060551.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.5779490219324245, "over_cap_count": 1704, "pass": false}
+- **fractal_regulator:** {"phi_p95": 2.1504203323541384, "phi_p99": 9.915954301023389, "over_cap_count": 1704, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.024842209072978304, "frac_near_spacing": 0.0, "near_fund_count": 10, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0010355029585798817, "pass": false}
+
 ## data/noaa_solarwind/noaa_mag_20251227_041140.csv
 
 - **status:** analyzed
@@ -1475,6 +1579,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 4.545384615363977, "phi_p99": 25.833996101099014, "over_cap_count": 3365, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.021189755235932372, "frac_near_spacing": 0.0, "near_fund_count": 9, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0005046681806712087, "pass": false}
+
+## data/noaa_solarwind/noaa_plasma_20260111_042233.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.7056992012995802, "over_cap_count": 4199, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.2013301662701836, "phi_p99": 5.580970370368418, "over_cap_count": 4199, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.022535337269636788, "frac_near_spacing": 0.00013419216317767042, "near_fund_count": 11, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0010735373054213634, "pass": false}
 
 ## data/noaa_solarwind/noaa_plasma_20251223_041611.csv
 
@@ -1579,6 +1691,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 4.656618819771143, "phi_p99": 27.0385714275761, "over_cap_count": 2079, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.024148094895758445, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.00014378145219266715, "pass": false}
+
+## data/noaa_solarwind/noaa_plasma_20260111_090418.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.7823386443424252, "over_cap_count": 4097, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.1470796033182697, "phi_p99": 5.572833333318687, "over_cap_count": 4097, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.022480256993709008, "frac_near_spacing": 0.0001338508901084192, "near_fund_count": 11, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0010708071208673537, "pass": false}
 
 ## data/noaa_solarwind/noaa_mag_20251218_230425.csv
 
@@ -1852,6 +1972,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.022022403080423556, "frac_near_spacing": 0.0, "near_fund_count": 10, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0006563402467839327, "pass": false}
 
+## data/noaa_solarwind/noaa_plasma_20260111_050903.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.7183060478960899, "over_cap_count": 4167, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.1594762145717121, "phi_p99": 5.579740740739084, "over_cap_count": 4167, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.022521012160228893, "frac_near_spacing": 0.00013412017167381974, "near_fund_count": 11, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.001072961373390558, "pass": false}
+
 ## data/noaa_solarwind/noaa_mag_20251223_120617.csv
 
 - **status:** analyzed
@@ -1908,6 +2036,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.023272357723577237, "frac_near_spacing": 0.0, "near_fund_count": 9, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0006929046563192905, "pass": false}
 
+## data/noaa_solarwind/noaa_plasma_20260111_100414.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.8108108108108107, "over_cap_count": 4085, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.1429345023155715, "phi_p99": 5.576974074073077, "over_cap_count": 4085, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.02249162759544541, "frac_near_spacing": 0.00013395847287340923, "near_fund_count": 11, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0010716677829872739, "pass": false}
+
 ## data/noaa_solarwind/noaa_plasma_20260105_170553.csv
 
 - **status:** analyzed
@@ -1939,6 +2075,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 0.7258147596439215, "phi_p99": 2.2046616783693955, "over_cap_count": 3417, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.021474236031198055, "frac_near_spacing": 0.0, "near_fund_count": 7, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.000511443549418233, "pass": false}
+
+## data/noaa_solarwind/noaa_plasma_20260111_120603.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.8216165159897448, "over_cap_count": 4081, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.125975242555762, "phi_p99": 5.568999999971636, "over_cap_count": 4081, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.022460763331549848, "frac_near_spacing": 0.00013376136971642589, "near_fund_count": 11, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.001070090957731407, "pass": false}
 
 ## data/noaa_solarwind/noaa_plasma_20251222_041844.csv
 
@@ -2228,6 +2372,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.021721417485773407, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0005173305742369374, "pass": false}
 
+## data/noaa_solarwind/noaa_mag_20260110_131202.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.6941493129338433, "over_cap_count": 1909, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.9957746478860785, "phi_p99": 9.96143225801939, "over_cap_count": 1909, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.023748585972850678, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0008484162895927602, "pass": false}
+
 ## data/noaa_solarwind/noaa_mag_20260101_180543.csv
 
 - **status:** analyzed
@@ -2275,6 +2427,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 0.8706504494924154, "phi_p99": 2.997966101688984, "over_cap_count": 4418, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.021147066230168727, "frac_near_spacing": 0.0, "near_fund_count": 9, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.000503651473180559, "pass": false}
+
+## data/noaa_solarwind/noaa_plasma_20260110_120816.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.7114270668773037, "over_cap_count": 4279, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.191637630659146, "phi_p99": 5.610620370362443, "over_cap_count": 4279, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.021917003784418635, "frac_near_spacing": 0.00013049719431032232, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.000782983165861934, "pass": false}
 
 ## data/noaa_solarwind/noaa_plasma_20260107_210439.csv
 
@@ -2459,6 +2619,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 1.8643406990348992, "phi_p99": 9.479999999960079, "over_cap_count": 1730, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.02343486805165637, "frac_near_spacing": 0.0, "near_fund_count": 7, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0007018528916339135, "pass": false}
+
+## data/noaa_solarwind/noaa_mag_20260111_042233.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.6058814836707551, "over_cap_count": 1761, "pass": false}
+- **fractal_regulator:** {"phi_p95": 2.1398855689720273, "phi_p99": 9.741907125097391, "over_cap_count": 1761, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.024775040566455228, "frac_near_spacing": 0.0, "near_fund_count": 10, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0010326006785661601, "pass": false}
 
 ## data/noaa_solarwind/noaa_plasma_20251228_190318.csv
 
@@ -3268,6 +3436,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.021613443214009785, "frac_near_spacing": 0.0, "near_fund_count": 9, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.00038629925315477725, "pass": false}
 
+## data/noaa_solarwind/noaa_mag_20260111_070520.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.578806767586821, "over_cap_count": 1667, "pass": false}
+- **fractal_regulator:** {"phi_p95": 2.1319512195082932, "phi_p99": 9.660930232406198, "over_cap_count": 1667, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.024885168173062674, "frac_near_spacing": 0.0, "near_fund_count": 10, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0010371906949177656, "pass": false}
+
 ## data/noaa_solarwind/noaa_mag_20251222_200411.csv
 
 - **status:** analyzed
@@ -3308,6 +3484,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.02137524391278527, "frac_near_spacing": 0.0, "near_fund_count": 6, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0005090353779587681, "pass": false}
 
+## data/noaa_solarwind/noaa_mag_20260110_170349.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.6988020536223617, "over_cap_count": 1909, "pass": false}
+- **fractal_regulator:** {"phi_p95": 2.001836734692697, "phi_p99": 10.1709612902976, "over_cap_count": 1909, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.02390747330960854, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0008540925266903915, "pass": false}
+
 ## data/noaa_solarwind/noaa_mag_20251228_001606.csv
 
 - **status:** analyzed
@@ -3331,6 +3515,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 3.597639079099778, "phi_p99": 15.35222222216662, "over_cap_count": 4352, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.01931408634307185, "frac_near_spacing": 0.0, "near_fund_count": 5, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0003450655624568668, "pass": false}
+
+## data/noaa_solarwind/noaa_plasma_20260110_230414.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.7088356073652138, "over_cap_count": 4254, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.1578947368360109, "phi_p99": 5.499999999725, "over_cap_count": 4254, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.02205367305840119, "frac_near_spacing": 0.0001313370107696349, "near_fund_count": 9, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0009193590753874441, "pass": false}
 
 ## data/noaa_solarwind/noaa_plasma_20251228_100412.csv
 
@@ -3780,6 +3972,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.024308872485164276, "frac_near_spacing": 0.0, "near_fund_count": 7, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.00014473874656245476, "pass": false}
 
+## data/noaa_solarwind/noaa_mag_20260111_090418.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.6091219729609271, "over_cap_count": 1616, "pass": false}
+- **fractal_regulator:** {"phi_p95": 2.096337660747486, "phi_p99": 9.662015503712128, "over_cap_count": 1616, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.0249110056363097, "frac_near_spacing": 0.0, "near_fund_count": 10, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0010382675763868287, "pass": false}
+
 ## data/noaa_solarwind/noaa_mag_20251220_170318.csv
 
 - **status:** analyzed
@@ -3908,6 +4108,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.023501702345972666, "frac_near_spacing": 0.0, "near_fund_count": 10, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0002798376941374003, "pass": false}
 
+## data/noaa_solarwind/noaa_mag_20260110_220402.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.689556098261744, "over_cap_count": 1849, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.8852459016362537, "phi_p99": 9.09411764700572, "over_cap_count": 1849, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.0240785888426789, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.000860461781155887, "pass": false}
+
 ## data/noaa_solarwind/noaa_mag_20260102_001437.csv
 
 - **status:** analyzed
@@ -4003,6 +4211,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 1.908850095535239, "phi_p99": 9.769558573806624, "over_cap_count": 1753, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.023141767732451305, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0008269018743109151, "pass": false}
+
+## data/noaa_solarwind/noaa_mag_20260111_100414.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.5506771841047775, "over_cap_count": 1574, "pass": false}
+- **fractal_regulator:** {"phi_p95": 2.0995231933211294, "phi_p99": 9.663875968808014, "over_cap_count": 1574, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.024955423476968795, "frac_near_spacing": 0.0, "near_fund_count": 10, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0010401188707280832, "pass": false}
 
 ## data/noaa_solarwind/noaa_plasma_20251228_230406.csv
 
@@ -4100,6 +4316,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.02313679570188731, "frac_near_spacing": 0.0, "near_fund_count": 9, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.00027552004408320705, "pass": false}
 
+## data/noaa_solarwind/noaa_mag_20260111_001635.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.6636848939546963, "over_cap_count": 1829, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.9609619238470088, "phi_p99": 9.478921568538889, "over_cap_count": 1829, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.024189831484948868, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0008641797493878727, "pass": false}
+
 ## data/noaa_solarwind/noaa_mag_20260104_070521.csv
 
 - **status:** analyzed
@@ -4180,6 +4404,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.02354096520763187, "frac_near_spacing": 0.0, "near_fund_count": 7, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.00014029180695847364, "pass": false}
 
+## data/noaa_solarwind/noaa_plasma_20260110_140401.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.6971451124851993, "over_cap_count": 4263, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.1899999999988098, "phi_p99": 5.6074074073991005, "over_cap_count": 4263, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.021900539036689273, "frac_near_spacing": 0.00013041210224308815, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.000782472613458529, "pass": false}
+
 ## data/noaa_solarwind/noaa_mag_20251227_200411.csv
 
 - **status:** analyzed
@@ -4235,6 +4467,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 2.957142857134405, "phi_p99": 11.805275519371616, "over_cap_count": 2384, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.023099857804687856, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.00041282509976606576, "pass": false}
+
+## data/noaa_solarwind/noaa_mag_20260110_140401.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.6954300312233892, "over_cap_count": 1909, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.9988262910765782, "phi_p99": 10.019387096734658, "over_cap_count": 1909, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.0237923218586202, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0008499787505312367, "pass": false}
 
 ## data/noaa_solarwind/noaa_plasma_20251230_041659.csv
 
@@ -4684,6 +4924,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.024111031347212254, "frac_near_spacing": 0.0, "near_fund_count": 9, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0007178750897343862, "pass": false}
 
+## data/noaa_solarwind/noaa_plasma_20260111_110417.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.8230925050641458, "over_cap_count": 4078, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.12711140849749, "phi_p99": 5.573599999988111, "over_cap_count": 4078, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.022478804105310127, "frac_near_spacing": 0.00013386880856760375, "near_fund_count": 11, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.00107095046854083, "pass": false}
+
 ## data/noaa_solarwind/noaa_mag_20260108_013222.csv
 
 - **status:** analyzed
@@ -5092,6 +5340,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.023524979987757214, "frac_near_spacing": 0.0, "near_fund_count": 9, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0007063144511936714, "pass": false}
 
+## data/noaa_solarwind/noaa_plasma_20260111_001635.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.6861391396707381, "over_cap_count": 4255, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.1573271413776312, "phi_p99": 5.499999999725, "over_cap_count": 4255, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.0221052169716116, "frac_near_spacing": 0.00013163090693694878, "near_fund_count": 9, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0009214163485586416, "pass": false}
+
 ## data/noaa_solarwind/noaa_mag_20260105_060815.csv
 
 - **status:** analyzed
@@ -5364,6 +5620,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.021453220858895703, "frac_near_spacing": 0.0, "near_fund_count": 10, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0006390593047034765, "pass": false}
 
+## data/noaa_solarwind/noaa_mag_20260111_050903.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.5918910920390648, "over_cap_count": 1739, "pass": false}
+- **fractal_regulator:** {"phi_p95": 2.148856304982817, "phi_p99": 9.889206989193456, "over_cap_count": 1739, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.024805514524864593, "frac_near_spacing": 0.0, "near_fund_count": 10, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.00103397341211226, "pass": false}
+
 ## data/noaa_solarwind/noaa_mag_20260109_200440.csv
 
 - **status:** analyzed
@@ -5427,6 +5691,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 5.310079879780188, "phi_p99": 33.64685714176831, "over_cap_count": 2679, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.022148226295661346, "frac_near_spacing": 0.0, "near_fund_count": 9, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0005274957140973229, "pass": false}
+
+## data/noaa_solarwind/noaa_plasma_20260110_160417.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.680231031766868, "over_cap_count": 4252, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.129096687854921, "phi_p99": 5.257873744615592, "over_cap_count": 4252, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.021864826149238178, "frac_near_spacing": 0.0001302252897512697, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0007813517385076181, "pass": false}
 
 ## data/noaa_solarwind/noaa_plasma_20251223_220421.csv
 
@@ -5692,6 +5964,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.022501451994817494, "frac_near_spacing": 0.00013403029084573114, "near_fund_count": 8, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0008041817450743868, "pass": false}
 
+## data/noaa_solarwind/noaa_mag_20260111_120603.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.5458032158135419, "over_cap_count": 1546, "pass": false}
+- **fractal_regulator:** {"phi_p95": 2.078321678306817, "phi_p99": 9.654573643328584, "over_cap_count": 1546, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.024734904270986742, "frac_near_spacing": 0.0, "near_fund_count": 10, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0010309278350515464, "pass": false}
+
 ## data/noaa_solarwind/noaa_mag_20260105_180633.csv
 
 - **status:** analyzed
@@ -5868,6 +6148,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.01838130677465251, "frac_near_spacing": 0.0, "near_fund_count": 4, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0002188902265513845, "pass": false}
 
+## data/noaa_solarwind/noaa_plasma_20260111_013300.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.6904033009450288, "over_cap_count": 4268, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.181349537137986, "phi_p99": 5.499999999725, "over_cap_count": 4268, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.022151843054455878, "frac_near_spacing": 0.0001319609395618897, "near_fund_count": 9, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0009237265769332278, "pass": false}
+
 ## data/noaa_solarwind/noaa_plasma_20260104_042301.csv
 
 - **status:** analyzed
@@ -5987,6 +6275,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 0.6651986732774505, "phi_p99": 1.7373689936302938, "over_cap_count": 3104, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.023085028403884916, "frac_near_spacing": 0.0, "near_fund_count": 10, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0006871907641561297, "pass": false}
+
+## data/noaa_solarwind/noaa_plasma_20260111_080508.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.7434788484930397, "over_cap_count": 4113, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.156965944267753, "phi_p99": 5.57728148148039, "over_cap_count": 4113, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.022382993926402285, "frac_near_spacing": 0.0001339764201500536, "near_fund_count": 10, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0009378349410503751, "pass": false}
 
 ## data/noaa_solarwind/noaa_mag_20260102_170351.csv
 
@@ -6444,6 +6740,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.023288494429806315, "frac_near_spacing": 0.0, "near_fund_count": 7, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0002773540424351685, "pass": false}
 
+## data/noaa_solarwind/noaa_plasma_20260111_033413.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.8450184501845017, "over_cap_count": 1016, "pass": false}
+- **fractal_regulator:** {"phi_p95": 0.5790638420544417, "phi_p99": 2.060965732086395, "over_cap_count": 1016, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.04528729125389187, "frac_near_spacing": 0.0, "near_fund_count": 3, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0002830455703368242, "pass": false}
+
 ## data/noaa_solarwind/noaa_plasma_20251226_080520.csv
 
 - **status:** analyzed
@@ -6691,6 +6995,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 0.7324514494790254, "phi_p99": 2.4545612903160325, "over_cap_count": 3951, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.02184823340471092, "frac_near_spacing": 0.0, "near_fund_count": 9, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.00040149892933618843, "pass": false}
+
+## data/noaa_solarwind/noaa_plasma_20260110_170349.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.6940249507550889, "over_cap_count": 4247, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.1303245232511951, "phi_p99": 5.259965566710741, "over_cap_count": 4247, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.021879885356956747, "frac_near_spacing": 0.00013027618551328816, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.000781657113079729, "pass": false}
 
 ## data/noaa_solarwind/noaa_mag_20251231_140419.csv
 
@@ -6964,6 +7276,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.021455644989566033, "frac_near_spacing": 0.0, "near_fund_count": 9, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0005110514884374601, "pass": false}
 
+## data/noaa_solarwind/noaa_plasma_20260110_190340.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.695137976346912, "over_cap_count": 4227, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.126164603546048, "phi_p99": 5.263451936869364, "over_cap_count": 4227, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.021891293013555784, "frac_near_spacing": 0.00013034410844629823, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0007820646506777894, "pass": false}
+
 ## data/noaa_solarwind/noaa_plasma_20260101_210415.csv
 
 - **status:** analyzed
@@ -7059,6 +7379,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 1.5572957746403624, "phi_p99": 5.804087912081444, "over_cap_count": 4938, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.021721754158565563, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0009073233959818536, "pass": false}
+
+## data/noaa_solarwind/noaa_mag_20260110_190340.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.7017041386223686, "over_cap_count": 1888, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.9405501937554348, "phi_p99": 9.653953488296622, "over_cap_count": 1888, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.02400657518582047, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0008576329331046312, "pass": false}
 
 ## data/noaa_solarwind/noaa_mag_20251228_033347.csv
 
@@ -7276,6 +7604,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.022113949609340707, "frac_near_spacing": 0.0, "near_fund_count": 10, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0010534632604687912, "pass": false}
 
+## data/noaa_solarwind/noaa_mag_20260110_150405.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.6969136680415304, "over_cap_count": 1909, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.9999999999975968, "phi_p99": 10.086258064482823, "over_cap_count": 1909, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.02384062085936021, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0008517887563884157, "pass": false}
+
 ## data/noaa_solarwind/noaa_plasma_20260109_230417.csv
 
 - **status:** analyzed
@@ -7404,6 +7740,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.022050002189237708, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0005254170497832654, "pass": false}
 
+## data/noaa_solarwind/noaa_plasma_20260110_180448.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.681776376297464, "over_cap_count": 4242, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.1377946527413958, "phi_p99": 5.262754662837627, "over_cap_count": 4242, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.021883415863087483, "frac_near_spacing": 0.00013031013812874641, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0007818608287724785, "pass": false}
+
 ## data/noaa_solarwind/noaa_mag_20260108_060556.csv
 
 - **status:** analyzed
@@ -7508,6 +7852,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.022447206629243516, "frac_near_spacing": 0.0, "near_fund_count": 9, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0005346164127238706, "pass": false}
 
+## data/noaa_solarwind/noaa_plasma_20260110_210359.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.69826224328594, "over_cap_count": 4239, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.1403654484996475, "phi_p99": 5.499999999725, "over_cap_count": 4239, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.021920549971718228, "frac_near_spacing": 0.00013053126223730585, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.000783187573423835, "pass": false}
+
 ## data/noaa_solarwind/noaa_plasma_20251226_050509.csv
 
 - **status:** analyzed
@@ -7603,6 +7955,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 5.1240350877061855, "phi_p99": 36.49375438553869, "over_cap_count": 2083, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.02406611254418649, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.00028661507595299513, "pass": false}
+
+## data/noaa_solarwind/noaa_plasma_20260110_131202.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 1.6844321621265959, "over_cap_count": 4273, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.199999999998691, "phi_p99": 5.6086925925844024, "over_cap_count": 4273, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.02190625271762762, "frac_near_spacing": 0.00013044612575006522, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0007826767545003914, "pass": false}
 
 ## data/noaa_solarwind/noaa_mag_20260110_050521.csv
 
@@ -7956,6 +8316,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.01935031504533579, "frac_near_spacing": 0.0, "near_fund_count": 4, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0002305209774089442, "pass": false}
 
+## data/noaa_solarwind/noaa_mag_20260110_230414.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.6760644418872267, "over_cap_count": 1816, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.8900102458990489, "phi_p99": 9.115294117585645, "over_cap_count": 1816, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.02411688684663986, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0008615738081562321, "pass": false}
+
 ## data/noaa_solarwind/noaa_mag_20251229_131542.csv
 
 - **status:** analyzed
@@ -8107,6 +8475,14 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 0.7315218167531377, "phi_p99": 2.3214810910722616, "over_cap_count": 3834, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.023001415331233167, "frac_near_spacing": 0.0, "near_fund_count": 9, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.00041090261607998904, "pass": false}
+
+## data/noaa_solarwind/noaa_mag_20260111_013300.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.6520794087813361, "over_cap_count": 1826, "pass": false}
+- **fractal_regulator:** {"phi_p95": 1.991935483869361, "phi_p99": 9.58333333325347, "over_cap_count": 1826, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.024287574135686385, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0008679299869810502, "pass": false}
 
 ## data/noaa_solarwind/noaa_mag_20251227_170327.csv
 
@@ -8580,6 +8956,14 @@ Autonomic signature checks across vault datasets.
 - **binary_harmonics:** {"interval_mean_hours": 0.023847391839439548, "frac_near_spacing": 0.0, "near_fund_count": 8, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0008520306731042318, "pass": false}
 
+## data/noaa_solarwind/noaa_mag_20260111_024734.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.6741573033707865, "over_cap_count": 1131, "pass": false}
+- **fractal_regulator:** {"phi_p95": 2.329075342464233, "phi_p99": 17.96531249958818, "over_cap_count": 1131, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.044805376645197424, "frac_near_spacing": 0.0, "near_fund_count": 4, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0, "pass": false}
+
 ## data/noaa_solarwind/noaa_plasma_20251227_210357.csv
 
 - **status:** analyzed
@@ -8611,6 +8995,22 @@ Autonomic signature checks across vault datasets.
 - **fractal_regulator:** {"phi_p95": 1.390243902435634, "phi_p99": 5.612548148140426, "over_cap_count": 4545, "pass": false}
 - **binary_harmonics:** {"interval_mean_hours": 0.022252419461752618, "frac_near_spacing": 0.00013257324671881213, "near_fund_count": 7, "pass": false}
 - **electroweak_bridge:** {"near_0p9h_frac": 0.0007954394803128729, "pass": false}
+
+## data/noaa_solarwind/noaa_mag_20260111_110418.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.5630463772410728, "over_cap_count": 1557, "pass": false}
+- **fractal_regulator:** {"phi_p95": 2.092478744273596, "phi_p99": 9.659224806068293, "over_cap_count": 1557, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.024844674556213017, "frac_near_spacing": 0.0, "near_fund_count": 10, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0010355029585798817, "pass": false}
+
+## data/noaa_solarwind/noaa_mag_20260111_033413.csv
+
+- **status:** analyzed
+- **chi_boundary:** {"band_pct": 0.6741573033707865, "over_cap_count": 1131, "pass": false}
+- **fractal_regulator:** {"phi_p95": 2.329075342464233, "phi_p99": 17.96531249958818, "over_cap_count": 1131, "pass": false}
+- **binary_harmonics:** {"interval_mean_hours": 0.044805376645197424, "frac_near_spacing": 0.0, "near_fund_count": 4, "pass": false}
+- **electroweak_bridge:** {"near_0p9h_frac": 0.0, "pass": false}
 
 ## data/noaa_solarwind/noaa_mag_20251225_131322.csv
 
