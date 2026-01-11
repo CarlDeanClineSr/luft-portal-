@@ -13,6 +13,7 @@ BASE_DIR = Path(__file__).resolve().parents[1]
 DATA_FILE = BASE_DIR / "results" / "historical_chi" / "historical_chi_1975_1985.csv"
 OUTPUT_DIR = BASE_DIR / "historical_validation"
 OUTPUT_DIR.mkdir(exist_ok=True)
+TOP_CANDIDATES = 100
 
 
 def load_data() -> pd.DataFrame:
@@ -24,7 +25,8 @@ def load_data() -> pd.DataFrame:
     if "chi" not in df.columns:
         if {"B_total_nT", "B_baseline_nT"}.issubset(df.columns):
             print("Computing chi from B_total_nT and B_baseline_nT...")
-            df["chi"] = np.abs(df["B_total_nT"] - df["B_baseline_nT"]) / df["B_baseline_nT"]
+            baseline = df["B_baseline_nT"].replace(0, np.nan)
+            df["chi"] = np.abs(df["B_total_nT"] - baseline) / baseline
         else:
             raise ValueError("Expected chi or B_total_nT/B_baseline_nT columns in dataset.")
 
@@ -34,7 +36,7 @@ def load_data() -> pd.DataFrame:
 
 def find_top_events(df: pd.DataFrame, limit: int = 3, min_separation_hours: int = 48) -> list[pd.Series]:
     """Return top chi events separated by at least min_separation_hours."""
-    top_violations = df.nlargest(100, "chi")
+    top_violations = df.nlargest(TOP_CANDIDATES, "chi")
     unique_events: list[pd.Series] = []
     threshold = pd.Timedelta(hours=min_separation_hours)
 
@@ -65,7 +67,7 @@ def plot_recovery(df: pd.DataFrame, events: list[pd.Series]) -> None:
         plt.plot(storm_data["timestamp"], storm_data["chi"], color="#333333", linewidth=1.5, label=r"Historical $\chi$")
         plt.axhline(y=0.1528, color="#d9534f", linestyle="--", linewidth=2, label=r"Limit $(m_e/m_p)^{1/4}$")
 
-        plt.title(rf"Historical Validation: Storm Recovery {event_time.date()} (Max $\chi$={event['chi']:.2f})")
+        plt.title(f"Historical Validation: Storm Recovery {event_time.date()} (Max $\\chi$={event['chi']:.2f})")
         plt.ylabel(r"$\chi$")
         plt.xlabel("Time")
         plt.legend()
