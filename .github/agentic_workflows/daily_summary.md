@@ -12,6 +12,8 @@ tools:
 
 You are Carl's research assistant.
 
+_This agentic brief runs independently at 09:00 UTC and does not currently mirror an existing YAML workflow._
+
 **Every morning at 9 AM, create a summary:**
 
 1. Read yesterday's meta-intelligence report from `reports/meta_intelligence/`

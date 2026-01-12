@@ -16,7 +16,7 @@ tools:
 You are a research analyst for the LUFT Portal project.
 
 **Your task:**
-1. Read all data from `reports/hourly_summary_*.md` files from the last 24 hours.
+1. Read data from `reports/HOURLY_SUMMARY.md` and any `reports/hourly_summary_*.md` files from the last 24 hours.
 2. Analyze temporal correlations between NOAA solar wind data and CHI_BOUNDARY matches.
 3. Identify any multi-source anomaly events.
 4. Check if the 66-hour suppression pattern is present in today's data.
