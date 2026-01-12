@@ -5,8 +5,6 @@ on:
 permissions:
   contents: read
   pull-requests: write
-safe-outputs:
-  create-pull-request:
 tools:
   edit:
   git:
