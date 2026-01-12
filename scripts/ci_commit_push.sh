@@ -27,7 +27,7 @@ MSG="${2:-Automated update}"
 
 resolve_csv_conflicts() {
   local conflicts
-  conflicts=$(git diff --name-only --diff-filter=U | grep -E '^data/.+\.csv$' || true)
+  conflicts=$(git diff --name-only --diff-filter=U | grep -E '^data/.*\.csv$' || true)
   if [ -n "${conflicts}" ]; then
     echo "Auto-resolving CSV conflicts with 'ours' strategy..."
     while IFS= read -r path; do

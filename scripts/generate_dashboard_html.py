@@ -8,11 +8,16 @@ from pathlib import Path
 import re
 from typing import Dict, List, Optional
 
+import logging
 import pandas as pd
 
 
 ROOT = Path(__file__).resolve().parent.parent
 HEARTBEAT_PATTERN = re.compile(r"cme_heartbeat_log_\d{4}_\d{2}\.csv")
+CONFLICT_MARKER_PATTERN = re.compile(
+    r"^<<<<<<<[^\r\n]*$|^=======$|^>>>>>>>[^\r\n]*$",
+    re.MULTILINE,
+)
 
 # Pages that should receive the live summary block
 HTML_PAGES: Dict[str, Dict[str, bool]] = {
@@ -29,8 +34,7 @@ JS_ASSETS: List[str] = ["js/dashboard-live.js", "js/instrument-panel.js"]
 def validate_csv_no_conflicts(filepath: Path) -> None:
     """Ensure CSV file does not contain git merge conflict markers."""
     content = filepath.read_text(encoding="utf-8")
-    conflict_pattern = re.compile(r"^<<<<<<<[^\r\n]*$|^=======$|^>>>>>>>[^\r\n]*$", re.MULTILINE)
-    if conflict_pattern.search(content):
+    if CONFLICT_MARKER_PATTERN.search(content):
         raise ValueError(f"Git conflict markers found in {filepath}. Resolve before parsing.")
 
 
@@ -54,7 +58,7 @@ def compute_today_metrics(csv_path: Path) -> Dict[str, Optional[float]]:
     df = df.dropna(subset=["timestamp_utc"])
     dropped_rows = total_rows - len(df)
     if dropped_rows:
-        print(f"⚠️ Dropped {dropped_rows} malformed rows while parsing {csv_path.name}")
+        logging.warning("Dropped %s malformed rows while parsing %s", dropped_rows, csv_path.name)
     if df.empty:
         raise ValueError(f"No valid rows found in {csv_path}")
 
