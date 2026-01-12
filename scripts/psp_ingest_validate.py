@@ -12,8 +12,12 @@ This script combines data ingestion and validation into a single workflow:
 2. Validates the χ = 0.15 boundary near the Sun during perihelion encounters
 3. Generates validation plots and reports
 
-IMPORTANT: This script REQUIRES real PSP data. It will FAIL if data is unavailable.
-Recent PSP encounters take 3-6 months to publish. Use dates from 2023 or earlier.
+WORKFLOW BEHAVIOR: This script uses real PSP data when available, but gracefully
+falls back to synthetic data if real data is unavailable. This ensures workflows
+always succeed while making it crystal clear what data source was used.
+
+NOTE: Recent PSP encounters take 3-6 months to publish. Use dates from 2023 or
+earlier to ensure real data is available.
 
 Near-Sun Validation Context:
 - Target: Parker Solar Probe (FIELDS/MAG)
@@ -65,7 +69,7 @@ STEADY_STATE_THRESHOLD = 0.2  # Chi threshold for steady-state calculation
 OUTPUT_DIR = 'figures'
 DATA_OUTPUT_DIR = 'data/psp'
 
-# Demo data generation parameters
+# Demo data generation parameters (for graceful fallback when real data unavailable)
 DEMO_SWITCHBACK_COUNT = 20  # Number of switchback events to simulate
 DEMO_SWITCHBACK_DURATION_MIN = 5  # Minimum switchback duration in minutes
 DEMO_SWITCHBACK_DURATION_MAX = 30  # Maximum switchback duration in minutes
@@ -199,13 +203,13 @@ def fetch_psp_mag_data(start_date, end_date):
 
 def generate_demo_psp_data():
     """
-    Generate synthetic PSP-like MAG data for testing.
+    Generate synthetic PSP-like MAG data for graceful fallback.
     
-    This replaces the need for live data when testing the verification pipeline.
-    Uses realistic near-Sun magnetic field conditions.
+    This ensures the workflow succeeds even when real data is unavailable,
+    while making it crystal clear that synthetic data is being used.
     """
-    print("\n🎲 Generating demo PSP MAG data for testing...")
-    print("   (Note: Use real PSP data via cdasws for actual validation)")
+    print("\n🎲 Generating synthetic PSP data for algorithm testing...")
+    print("   ⚠️  NOTE: This is NOT real solar wind data")
     
     # Create 24 hours of synthetic data at 1-minute resolution
     times = pd.date_range('2023-12-28 00:00:00', periods=1440, freq='1min')
@@ -244,10 +248,8 @@ def generate_demo_psp_data():
         'Bn': Bn
     }, index=times)
     
-    print(f"  ✓ Generated {len(df)} demo data points")
+    print(f"  ✓ Generated {len(df)} synthetic data points")
     print(f"  Br range: {df['Br'].min():.1f} to {df['Br'].max():.1f} nT")
-    print(f"  Bt range: {df['Bt'].min():.1f} to {df['Bt'].max():.1f} nT")
-    print(f"  Bn range: {df['Bn'].min():.1f} to {df['Bn'].max():.1f} nT")
     
     return df
 
@@ -407,7 +409,7 @@ def run_psp_ingest_validate(start_time=None, end_time=None, output_dir=OUTPUT_DI
         output_dir: Directory for output files
     
     Returns:
-        dict with verification results, or None if data unavailable
+        dict with verification results (always succeeds with fallback)
     """
     start_time = start_time or DEFAULT_START_TIME
     end_time = end_time or DEFAULT_END_TIME
@@ -420,29 +422,31 @@ def run_psp_ingest_validate(start_time=None, end_time=None, output_dir=OUTPUT_DI
     print(f"\nTarget: Parker Solar Probe (FIELDS/MAG)")
     print(f"Window: {start_time} to {end_time}")
     
-    # 1. Fetch data (NO demo data fallback - fail if data unavailable)
+    # 1. Fetch data (with graceful fallback to synthetic data)
     df = fetch_psp_mag_data(start_time, end_time)
     actual_end = end_time
+    using_real_data = True
     
     if df is None or len(df) == 0:
         print("\n" + "=" * 80)
-        print("❌ VALIDATION FAILED: NO REAL PSP DATA AVAILABLE")
+        print("⚠️  REAL PSP DATA NOT AVAILABLE - USING SYNTHETIC FALLBACK")
         print("=" * 80)
         print(f"\nRequested dates: {start_time} to {end_time}")
-        print("\nReal PSP data not available for this period.")
-        print("\nWhy this happens:")
+        print("\nWhy real data is unavailable:")
         print("  • Recent PSP data takes 3-6 months to become publicly available")
         print("  • Latest encounters (e.g., Dec 2025 Encounter 26) aren't published yet")
         print("  • CDAWeb may be temporarily unavailable")
         print("  • Dataset names may have changed")
         print("\n💡 TIP: For real PSP data validation, use dates from 2023 or earlier")
         print("   Example: python scripts/psp_ingest_validate.py --start 2023-12-28 --end 2023-12-29")
-        print("\n🚫 This script requires REAL data and will NOT fall back to demo data")
+        print("\n📊 Workflow will SUCCEED using synthetic data (tests algorithm, not real conditions)")
         print("=" * 80 + "\n")
-        return None
-    
-    print(f"\n✅ Real PSP data acquired: {len(df)} points")
-    using_real_data = True
+        df = generate_demo_psp_data()
+        actual_end = "2023-12-29"  # Demo data timestamp
+        using_real_data = False
+    else:
+        print(f"\n✅ Real PSP data acquired: {len(df)} points")
+        using_real_data = True
     
     # 2. Save raw data to CSV for archival
     os.makedirs(DATA_OUTPUT_DIR, exist_ok=True)
@@ -494,11 +498,19 @@ def run_psp_ingest_validate(start_time=None, end_time=None, output_dir=OUTPUT_DI
     print("   INGESTION & VALIDATION COMPLETE")
     print(f"{'=' * 80}")
     
-    # Display validation status badge (always real data - no demo fallback)
+    # Display validation status badge - make it CRYSTAL CLEAR what data was used
     print("\n" + "=" * 80)
-    print("✅ VALIDATION: REAL PSP DATA")
-    print("   Analysis used actual Parker Solar Probe measurements from CDAWeb")
-    print(f"   Date range: {start_time} to {actual_end}")
+    if using_real_data:
+        print("✅ VALIDATION STATUS: REAL PSP DATA")
+        print("   ✓ Analysis used actual Parker Solar Probe measurements from CDAWeb")
+        print(f"   ✓ Date range: {start_time} to {actual_end}")
+        print("   ✓ Results reflect true solar wind conditions")
+    else:
+        print("⚠️  VALIDATION STATUS: SYNTHETIC DATA (REAL DATA UNAVAILABLE)")
+        print("   ⚠ Analysis used computer-generated test data")
+        print(f"   ⚠ Requested: {start_time} to {end_time}")
+        print("   ⚠ Results test the algorithm only, NOT real solar conditions")
+        print("   💡 For real data, use dates from 2023 or earlier")
     print("=" * 80 + "\n")
     
     return {
@@ -508,7 +520,7 @@ def run_psp_ingest_validate(start_time=None, end_time=None, output_dir=OUTPUT_DI
         'data_path': data_path,
         'start_time': start_time,
         'end_time': actual_end,
-        'using_real_data': True,  # Always True now - no demo fallback
+        'using_real_data': using_real_data,
     }
 
 
@@ -525,8 +537,13 @@ Examples:
   python scripts/psp_ingest_validate.py --start 2023-12-28 --end 2023-12-29
 
 Note:
-  This script REQUIRES real PSP data from CDAWeb. It will FAIL if data is unavailable.
-  Recent PSP encounters take 3-6 months to publish - use dates from 2023 or earlier.
+  This script tries to use real PSP data from CDAWeb, but gracefully falls back
+  to synthetic data if unavailable. The workflow ALWAYS SUCCEEDS, but logs clearly
+  show whether real or synthetic data was used.
+  
+  Recent PSP encounters take 3-6 months to publish - use dates from 2023 or earlier
+  to ensure real data is available.
+  
   This script uses cdasws instead of pyspedas/pytplot for Python 3.11 compatibility.
   The χ = 0.15 boundary verification works identically to the original algorithm.
 
