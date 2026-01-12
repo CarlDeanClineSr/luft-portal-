@@ -9,18 +9,14 @@ import pandas as pd
 from pathlib import Path
 from datetime import datetime, timezone
 import numpy as np
-import glob
-import re
 
 def load_all_heartbeat_data():
     """Load all CME heartbeat log data (the source of truth for χ values)"""
     data_dir = Path('data')
     all_data = []
     
-    # Find all heartbeat log files - match YYYY_MM pattern
-    all_files = sorted(glob.glob('data/cme_heartbeat_log_*.csv'))
-    # Filter to only include files that end with YYYY_MM.csv pattern
-    csv_files = [f for f in all_files if re.search(r'_\d{4}_\d{2}\.csv$', f)]
+    # Find all heartbeat log files with specific pattern YYYY_MM
+    csv_files = sorted(data_dir.glob('cme_heartbeat_log_[0-9][0-9][0-9][0-9]_[0-9][0-9].csv'))
     
     if not csv_files:
         print("⚠️  No heartbeat log files found")

@@ -20,6 +20,7 @@ CHI_VIOLATION_THRESHOLD = 0.155  # Tolerance for violation detection
 DEFAULT_NETWORK_LINKS = 58263  # Documented network link count
 DEFAULT_TOTAL_MATCHES = 2100000  # Default correlation matches
 DEFAULT_TEMPORAL_MODES = 13  # Default temporal mode count
+DATA_AGE_UNKNOWN = 999  # Indicates data age cannot be determined
 
 
 def check_data_freshness(timestamp_str):
@@ -42,7 +43,7 @@ def check_data_freshness(timestamp_str):
         print(f"ERROR checking data freshness: {e}")
         return {
             'is_fresh': False,
-            'age_minutes': 999,
+            'age_minutes': DATA_AGE_UNKNOWN,
             'data_time': None,
             'current_time': datetime.now(timezone.utc)
         }
@@ -192,11 +193,15 @@ def get_link_intelligence():
     }
 
 
-def generate_summary():
+def generate_summary(chi_data=None):
     """Generate complete hourly summary"""
     
     now = datetime.now(timezone.utc)
-    chi_data = read_chi_data()
+    
+    # Read chi data if not provided
+    if chi_data is None:
+        chi_data = read_chi_data()
+    
     meta_text = read_meta_intel()
     paper_count = count_papers()
     link_intel = get_link_intelligence()
@@ -314,8 +319,10 @@ def main():
     print("GENERATING HOURLY SUMMARY FROM LIVE DATA")
     print("=" * 70)
     
-    # Check data freshness before generating
+    # Read chi data once and reuse it
     chi_data = read_chi_data()
+    
+    # Check data freshness
     if chi_data and chi_data['timestamp']:
         freshness = check_data_freshness(chi_data['timestamp'])
         print(f"\n📊 Data Freshness Check:")
@@ -326,7 +333,8 @@ def main():
         else:
             print(f"   Status: ⚠️ STALE (expected < 15 minutes)")
     
-    summary = generate_summary()
+    # Generate summary (pass chi_data to avoid re-reading)
+    summary = generate_summary(chi_data)
     
     output_file = Path('reports/HOURLY_SUMMARY.md')
     output_file.parent.mkdir(parents=True, exist_ok=True)
