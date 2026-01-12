@@ -1,7 +1,7 @@
 ---
 on:
   schedule:
-    - cron: "0 9 * * *" # 9 AM daily
+    - cron: "0 9 * * *" # 09:00 UTC daily
 permissions:
   contents: write
 tools:
