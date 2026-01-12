@@ -1,7 +1,7 @@
 ---
 on:
   schedule:
-    - cron: "0 0 * * *" # Daily at midnight
+    - cron: "0 12 * * *" # Daily at noon (aligned with teacher_suite.yml)
 permissions:
   contents: write
   issues: write

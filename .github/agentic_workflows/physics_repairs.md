@@ -11,6 +11,8 @@ tools:
 
 # PSP χ ≤ 0.15 Near-Sun Validation
 
+_Schedule mirrors `physics_repairs.yml` (0 */6 * * *)._
+
 You are a plasma physicist analyzing Parker Solar Probe data.
 
 **Your task:**

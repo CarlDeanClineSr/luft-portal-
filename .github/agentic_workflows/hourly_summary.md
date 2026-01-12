@@ -2,6 +2,7 @@
 on:
   schedule:
     - cron: "0 * * * *"  # Every hour
+    - cron: "*/15 * * * *" # High-frequency updates every 15 minutes
 permissions:
   contents: write
 tools:
