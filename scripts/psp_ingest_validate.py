@@ -60,8 +60,8 @@ except ImportError:
     CDASWS_AVAILABLE = False
 
 # --- CONFIGURATION ---
-DEFAULT_START_TIME = '2023-12-28'  # Encounter 21 - known public data
-DEFAULT_END_TIME = '2023-12-29'  # 24-hour window for fast testing with real data
+DEFAULT_START_TIME = '2023-12-28'  # Encounter 21 - typically has public data available
+DEFAULT_END_TIME = '2023-12-29'  # 24-hour window (may fallback to synthetic if unavailable)
 BASELINE_WINDOW = '1h'  # Rolling window for B0 (1h adaptive for Perihelion dynamics)
 THEORETICAL_LIMIT = 0.1528  # The χ = 0.15 boundary
 BOUNDARY_TOLERANCE = 0.01  # Tolerance for boundary check (±0.01 around THEORETICAL_LIMIT)
@@ -250,6 +250,8 @@ def generate_demo_psp_data():
     
     print(f"  ✓ Generated {len(df)} synthetic data points")
     print(f"  Br range: {df['Br'].min():.1f} to {df['Br'].max():.1f} nT")
+    print(f"  Bt range: {df['Bt'].min():.1f} to {df['Bt'].max():.1f} nT")
+    print(f"  Bn range: {df['Bn'].min():.1f} to {df['Bn'].max():.1f} nT")
     
     return df
 
@@ -427,7 +429,7 @@ def run_psp_ingest_validate(start_time=None, end_time=None, output_dir=OUTPUT_DI
     actual_end = end_time
     using_real_data = True
     
-    if df is None or len(df) == 0:
+    if df is None:
         print("\n" + "=" * 80)
         print("⚠️  REAL PSP DATA NOT AVAILABLE - USING SYNTHETIC FALLBACK")
         print("=" * 80)
