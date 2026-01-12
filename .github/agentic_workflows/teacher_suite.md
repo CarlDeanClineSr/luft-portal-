@@ -1,7 +1,7 @@
 ---
 on:
   schedule:
-    - cron: "0 0 * * *"  # Daily at midnight
+    - cron: "0 0 * * *" # Daily at midnight
 permissions:
   contents: write
   issues: write
