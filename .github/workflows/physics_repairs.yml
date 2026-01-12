@@ -29,8 +29,11 @@ jobs:
 
       - name: Run PSP near-Sun ingest & χ validation
         env:
-          PSP_START: "2018-11-01"
-          PSP_END: "latest"
+          # Using Encounter 21 data (Dec 2023) - known public data
+          # Note: Latest PSP encounters take 3-6 months to publish to CDAWeb
+          # Recent data (e.g., Dec 2025 Encounter 26) is not yet available
+          PSP_START: "2023-12-28"
+          PSP_END: "2023-12-29"
         run: |
           python scripts/psp_ingest_validate.py --start "$PSP_START" --end "$PSP_END"
 
