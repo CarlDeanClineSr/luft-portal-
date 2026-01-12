@@ -34,15 +34,15 @@ def score_binary_harmonics(event_times: pd.Series, spacing_hours=6.0, tol_hours=
     near_fund = ((dt - fundamental_hours).abs() <= tol_hours).sum()
     
     # Pass if EITHER condition is met:
-    # 1. Strong fundamental presence (at least 1% of intervals near 0.9h)
+    # 1. Strong fundamental presence (at least 0.05% of intervals near 0.9h, OR 5+ events)
     # 2. Sufficient 6h spacing pattern (at least 5% of intervals near 6h)
-    # Lowered from 10% to 5% to account for burst-heavy datasets
-    has_fundamental = near_fund >= max(1, int(0.01 * dt.size))
+    # Threshold of 5 events allows detection in short-duration datasets with burst patterns
+    has_fundamental = near_fund >= max(5, int(0.0005 * dt.size))
     has_spacing = frac_close >= 0.05
     
     return {
         "interval_mean_hours": float(mu),
         "frac_near_spacing": frac_close,
         "near_fund_count": int(near_fund),
-        "pass": (has_fundamental or has_spacing)
+        "pass": bool(has_fundamental or has_spacing)
     }
