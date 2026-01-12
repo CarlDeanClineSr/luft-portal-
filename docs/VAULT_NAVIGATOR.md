@@ -1,6 +1,6 @@
 # LUFT Vault Navigator
 
-**Generated:** 2026-01-11T12:48:41.499556+00:00
+**Generated:** 2026-01-12T12:49:25.230542+00:00
 **GitHub User:** CarlDeanClineSr
 
 ## Summary
@@ -8,7 +8,7 @@
 - **Total Repositories:** 17
 - **Repositories with Knowledge Index:** 1
 - **Repositories with Teacher Analysis:** 1
-- **Total Files Indexed:** 4393
+- **Total Files Indexed:** 4526
 
 ## Repositories
 
@@ -53,7 +53,7 @@
 **Description:** Unifications, Physics-based Sciences L.U.F.T.
 
 **Branch:** main
-**Last Updated:** 2026-01-05T07:16:08Z
+**Last Updated:** 2026-01-12T07:15:07Z
 
 ---
 
@@ -69,9 +69,9 @@
 **Description:**  This repository (LUFT Portal) is the compact, curated entry point for the LUFT program. 
 
 **Branch:** main
-**Last Updated:** 2026-01-11T12:46:34Z
+**Last Updated:** 2026-01-12T12:48:08Z
 
-**📚 Knowledge Index:** 4393 files indexed
+**📚 Knowledge Index:** 4526 files indexed
 
 **Sample Files:**
 
@@ -86,14 +86,14 @@
 - `CAPSULE_AUDIT_BILL_OF_RIGHTS.md` — *text* — Capsule — Audit Bill of Rights (Explicit Rights of the Audit System)
 - `CAPSULE_AUDIT_CANON.md` — *text* — Capsule — Audit Canon (Permanent Reference of LUFT Audit System)
 
-**🎓 Teach-The-Engine:** 1128/1128 datasets analyzed
+**🎓 Teach-The-Engine:** 1182/1183 datasets analyzed
 
 **Signature Pass Rates:**
 
-- chi_boundary: 5/1128 (0%)
-- fractal_regulator: 5/1128 (0%)
-- binary_harmonics: 0/1128 (0%)
-- electroweak_bridge: 6/1128 (1%)
+- chi_boundary: 11/1182 (1%)
+- fractal_regulator: 11/1182 (1%)
+- binary_harmonics: 0/1182 (0%)
+- electroweak_bridge: 6/1182 (1%)
 - whistler_gaps: 0/0 (0%)
 
 ---
