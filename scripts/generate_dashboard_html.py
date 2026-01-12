@@ -29,7 +29,7 @@ JS_ASSETS: List[str] = ["js/dashboard-live.js", "js/instrument-panel.js"]
 def validate_csv_no_conflicts(filepath: Path) -> None:
     """Ensure CSV file does not contain git merge conflict markers."""
     content = filepath.read_text(encoding="utf-8")
-    conflict_pattern = re.compile(r"^(<<<<<<<|=======|>>>>>>>)", re.MULTILINE)
+    conflict_pattern = re.compile(r"^<<<<<<<[^\r\n]*$|^=======$|^>>>>>>>[^\r\n]*$", re.MULTILINE)
     if conflict_pattern.search(content):
         raise ValueError(f"Git conflict markers found in {filepath}. Resolve before parsing.")
 
@@ -45,7 +45,7 @@ def find_latest_heartbeat() -> Optional[Path]:
 def compute_today_metrics(csv_path: Path) -> Dict[str, Optional[float]]:
     validate_csv_no_conflicts(csv_path)
 
-    df = pd.read_csv(csv_path, on_bad_lines="skip")
+    df = pd.read_csv(csv_path, on_bad_lines="warn")
     if "timestamp_utc" not in df.columns:
         raise ValueError("Expected timestamp_utc column in heartbeat log")
 
