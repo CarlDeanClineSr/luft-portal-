@@ -19,7 +19,19 @@ jobs:
         run: |
           git config user.name "LUFT Data Bot"
           git config user.email "data@luft.local"
-          git pull --rebase origin main --autostash || true
+          if ! git pull --rebase origin main --autostash; then
+            echo "git pull --rebase failed. Checking for CSV conflicts..."
+            CSV_CONFLICTS=$(git diff --name-only --diff-filter=U | grep -E '^data/.*\.csv$' || true)
+            if [ -n "$CSV_CONFLICTS" ]; then
+              git checkout --ours $CSV_CONFLICTS
+              git add $CSV_CONFLICTS
+              git rebase --continue || { git rebase --abort; exit 1; }
+            else
+              git rebase --abort || true
+              echo "Non-CSV conflicts detected. Aborting."
+              exit 1
+            fi
+          fi
           if ls pages/plots/* 1> /dev/null 2>&1; then
             git add pages/plots/*
             git diff --quiet && git diff --staged --quiet || git commit -m "docs: refresh dashboard plots $(date -u +'%Y-%m-%d %H:%M:%S UTC')"

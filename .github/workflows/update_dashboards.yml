@@ -101,9 +101,21 @@ jobs:
         run: |
           git config user.name "LUFT Dashboard Bot"
           git config user.email "luft-bot@users.noreply.github.com"
-          git commit -m "dashboard: refresh with fresh data $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
           BRANCH="${TARGET_BRANCH:-main}"
-          git pull --rebase origin "$BRANCH" --autostash || true
+          if ! git pull --rebase origin "$BRANCH" --autostash; then
+            echo "git pull --rebase failed. Checking for CSV conflicts to auto-resolve..."
+            CSV_CONFLICTS=$(git diff --name-only --diff-filter=U | grep -E '^data/.*\.csv$' || true)
+            if [ -n "$CSV_CONFLICTS" ]; then
+              git checkout --ours $CSV_CONFLICTS
+              git add $CSV_CONFLICTS
+              git rebase --continue || { git rebase --abort; exit 1; }
+            else
+              git rebase --abort || true
+              echo "Non-CSV conflicts detected. Aborting."
+              exit 1
+            fi
+          fi
+          git commit -m "dashboard: refresh with fresh data $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
           git push origin HEAD:"$BRANCH"
 
       - name: Report no-change status

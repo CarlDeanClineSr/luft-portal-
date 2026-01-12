@@ -26,6 +26,13 @@ HTML_PAGES: Dict[str, Dict[str, bool]] = {
 JS_ASSETS: List[str] = ["js/dashboard-live.js", "js/instrument-panel.js"]
 
 
+def validate_csv_no_conflicts(filepath: Path) -> None:
+    """Ensure CSV file does not contain git merge conflict markers."""
+    content = filepath.read_text(encoding="utf-8")
+    if any(marker in content for marker in ("<<<<<<<", "=======", ">>>>>>>")):
+        raise ValueError(f"Git conflict markers found in {filepath}. Resolve before parsing.")
+
+
 def find_latest_heartbeat() -> Optional[Path]:
     candidates = sorted(ROOT.joinpath("data").glob("cme_heartbeat_log_*.csv"))
     if not candidates:
@@ -35,11 +42,21 @@ def find_latest_heartbeat() -> Optional[Path]:
 
 
 def compute_today_metrics(csv_path: Path) -> Dict[str, Optional[float]]:
-    df = pd.read_csv(csv_path)
+    validate_csv_no_conflicts(csv_path)
+
+    df = pd.read_csv(csv_path, on_bad_lines="skip")
     if "timestamp_utc" not in df.columns:
         raise ValueError("Expected timestamp_utc column in heartbeat log")
 
-    df["timestamp_utc"] = pd.to_datetime(df["timestamp_utc"], utc=True)
+    total_rows = len(df)
+    df["timestamp_utc"] = pd.to_datetime(df["timestamp_utc"], utc=True, errors="coerce")
+    df = df.dropna(subset=["timestamp_utc"])
+    dropped_rows = total_rows - len(df)
+    if dropped_rows:
+        print(f"⚠️ Dropped {dropped_rows} malformed rows while parsing {csv_path.name}")
+    if df.empty:
+        raise ValueError(f"No valid rows found in {csv_path}")
+
     df["date"] = df["timestamp_utc"].dt.date
 
     today = datetime.now(timezone.utc).date()
