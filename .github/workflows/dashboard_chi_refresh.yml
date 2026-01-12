@@ -58,8 +58,11 @@ jobs:
             echo "git pull --rebase failed. Checking for CSV conflicts..."
             CSV_CONFLICTS=$(git diff --name-only --diff-filter=U | grep -E '^data/.*\.csv$' || true)
             if [ -n "$CSV_CONFLICTS" ]; then
-              git checkout --ours $CSV_CONFLICTS
-              git add $CSV_CONFLICTS
+              while IFS= read -r path; do
+                [ -z "$path" ] && continue
+                git checkout --ours -- "$path"
+                git add "$path"
+              done <<< "$CSV_CONFLICTS"
               git rebase --continue || { git rebase --abort; exit 1; }
             else
               git rebase --abort || true

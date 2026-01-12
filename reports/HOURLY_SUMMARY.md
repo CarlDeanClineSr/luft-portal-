@@ -1,9 +1,5 @@
 # LUFT PORTAL - HOURLY SUMMARY
-<<<<<<< Updated upstream
-**Generated:** 2026-01-12 23:04:16 UTC  
-=======
 **Generated:** 2026-01-12 23:04:27 UTC  
->>>>>>> Stashed changes
 **Status:** 🟢 OPERATIONAL
 
 ---
@@ -16,11 +12,7 @@
 **Violations:** 0 (✅ ZERO)  
 **Boundary Test:** ✅ PASSED
 **Last Update:** 2026-01-12 23:01:00.000
-<<<<<<< Updated upstream
-✅ **Data Age:** 3.3 minutes (FRESH)
-=======
 ✅ **Data Age:** 3.5 minutes (FRESH)
->>>>>>> Stashed changes
 
 ---
 

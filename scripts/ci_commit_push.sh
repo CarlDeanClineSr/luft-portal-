@@ -30,10 +30,11 @@ resolve_csv_conflicts() {
   conflicts=$(git diff --name-only --diff-filter=U | grep -E '^data/.*\.csv$' || true)
   if [ -n "${conflicts}" ]; then
     echo "Auto-resolving CSV conflicts with 'ours' strategy..."
-    # shellcheck disable=SC2086
-    git checkout --ours ${conflicts}
-    # shellcheck disable=SC2086
-    git add ${conflicts}
+    while IFS= read -r path; do
+      [ -z "$path" ] && continue
+      git checkout --ours -- "$path"
+      git add "$path"
+    done <<< "${conflicts}"
     return 0
   fi
   return 1
