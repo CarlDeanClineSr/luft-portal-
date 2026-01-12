@@ -61,7 +61,24 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase origin main --autostash || true
+          git config merge.ours.driver "true"
+          
+          # Pull with conflict detection
+          if ! git pull --rebase origin main --autostash; then
+            echo "⚠️ Rebase conflict detected. Resolving CSV conflicts..."
+            # For CSV files, keep ours (the bot's fresh data)
+            git diff --name-only --diff-filter=U | grep '\.csv$' | while read file; do
+              git checkout --ours "$file"
+              git add "$file"
+            done
+            
+            if ! git rebase --continue; then
+              echo "❌ Fatal: Could not resolve conflicts"
+              git rebase --abort
+              exit 1
+            fi
+          fi
+          
           git add data/cme_heartbeat_log_*.csv
           if git diff --cached --quiet; then
             echo "No new heartbeat data to commit."

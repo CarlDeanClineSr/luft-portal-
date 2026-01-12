@@ -54,7 +54,24 @@ jobs:
         run: |
           git config user.name "LUFT Bot"
           git config user.email "luft-bot@users.noreply.github.com"
-          git pull --rebase origin main --autostash || true
+          git config merge.ours.driver "true"
+          
+          # Pull with conflict detection
+          if ! git pull --rebase origin main --autostash; then
+            echo "⚠️ Rebase conflict detected. Resolving CSV conflicts..."
+            # For CSV files, keep ours (the bot's fresh data)
+            git diff --name-only --diff-filter=U | grep '\.csv$' | while read file; do
+              git checkout --ours "$file"
+              git add "$file"
+            done
+            
+            if ! git rebase --continue; then
+              echo "❌ Fatal: Could not resolve conflicts"
+              git rebase --abort
+              exit 1
+            fi
+          fi
+          
           git add docs/chi_dashboard.html data/storm_phase_summary.json data/storm_phase_metrics.json data/cme_heartbeat_log_*.csv || true
           git diff --quiet && git diff --staged --quiet || git commit -m "dashboard: χ refresh with fresh data + storm phase $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
           git push

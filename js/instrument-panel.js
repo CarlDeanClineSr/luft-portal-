@@ -350,7 +350,7 @@ async function fetchLiveData() {
 
 async function fetchLatestData() {
     try {
-        const response = await fetch('data/cme_heartbeat_log_2026_01.csv?' + Date.now());
+        const response = await fetch('data/cme_heartbeat_log_2025_12_with_phases.csv?' + Date.now());
         const text = await response.text();
         const lines = text.trim().split('\n');
         

@@ -67,7 +67,7 @@ function parseCSVLine(line) {
 // ========================================
 async function updateLiveData() {
     try {
-        const response = await fetch('data/cme_heartbeat_log_2026_01.csv');
+        const response = await fetch('data/cme_heartbeat_log_2025_12_with_phases.csv');
         const text = await response.text();
         const lines = text.trim().split('\n');
         
@@ -349,7 +349,7 @@ function updateHistoryChart() {
 // ========================================
 async function updateStatistics() {
     try {
-        const response = await fetch('data/cme_heartbeat_log_2026_01.csv');
+        const response = await fetch('data/cme_heartbeat_log_2025_12_with_phases.csv');
         const text = await response.text();
         const lines = text.trim().split('\n');
         const dataLines = lines.slice(1); // Skip header
@@ -402,7 +402,7 @@ async function updateStatistics() {
 // ========================================
 async function updateSystemStatus() {
     try {
-        const response = await fetch('data/cme_heartbeat_log_2026_01.csv?v=' + Date.now(), { cache: 'no-store' });
+        const response = await fetch('data/cme_heartbeat_log_2025_12_with_phases.csv?v=' + Date.now(), { cache: 'no-store' });
         const text = await response.text();
         const lines = text.trim().split('\n');
         const dataLines = lines.slice(1);
