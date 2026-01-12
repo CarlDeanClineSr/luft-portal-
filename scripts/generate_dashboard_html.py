@@ -52,7 +52,11 @@ def compute_today_metrics(csv_path: Path) -> Dict[str, Optional[float]]:
 
     df["timestamp_utc"] = pd.to_datetime(df["timestamp_utc"], utc=True, errors='coerce')
     # Drop rows with invalid timestamps
+    initial_rows = len(df)
     df = df.dropna(subset=['timestamp_utc'])
+    dropped_rows = initial_rows - len(df)
+    if dropped_rows > 0:
+        print(f"Warning: Dropped {dropped_rows} rows with invalid timestamps from {csv_path.name}")
     if df.empty:
         raise ValueError("No valid timestamps found in heartbeat log")
     

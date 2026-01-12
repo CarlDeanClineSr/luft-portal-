@@ -33,6 +33,23 @@ git config --global user.email "engine-bot@users.noreply.github.com"
 git config merge.ours.driver "true"
 git config merge.ours.name "Always keep our version during merge"
 
+# Helper function to auto-resolve CSV conflicts
+resolve_csv_conflicts() {
+  local csv_conflicts
+  csv_conflicts=$(git diff --name-only --diff-filter=U | grep '\.csv$' || true)
+  
+  if [ -z "$csv_conflicts" ]; then
+    return 1  # No CSV conflicts found
+  fi
+  
+  echo "📊 CSV conflicts detected. Using our version (fresh data)..."
+  while IFS= read -r file; do
+    [ -n "$file" ] && git checkout --ours "$file" && git add "$file"
+  done <<< "$csv_conflicts"
+  
+  return 0  # CSV conflicts resolved
+}
+
 # Fetch the latest state of the remote main branch
 echo "Fetching latest remote main..."
 git fetch origin main
@@ -43,13 +60,7 @@ if ! git rebase origin/main; then
   echo "⚠️ Rebase conflict detected."
   
   # Try to auto-resolve CSV conflicts by keeping our version (fresh data)
-  if git diff --name-only --diff-filter=U | grep -q '\.csv$'; then
-    echo "📊 CSV conflicts detected. Using our version (fresh data)..."
-    git diff --name-only --diff-filter=U | grep '\.csv$' | while read file; do
-      git checkout --ours "$file"
-      git add "$file"
-    done
-    
+  if resolve_csv_conflicts; then
     # Try to continue rebase
     if git rebase --continue; then
       echo "✅ Rebase continued after auto-resolving CSV conflicts"
@@ -94,20 +105,12 @@ for i in 1 2 3 4 5; do
     echo "⚠️ Pull rebase failed. Attempting to resolve conflicts..."
     
     # Try to auto-resolve CSV conflicts
-    if git diff --name-only --diff-filter=U | grep -q '\.csv$'; then
-      echo "📊 CSV conflicts during retry. Using our version..."
-      git diff --name-only --diff-filter=U | grep '\.csv$' | while read file; do
-        git checkout --ours "$file"
-        git add "$file"
-      done
-      git rebase --continue || {
-        echo "❌ Could not continue rebase"
-        git rebase --abort
-        continue
-      }
+    if resolve_csv_conflicts && git rebase --continue; then
+      echo "✅ CSV conflicts resolved and rebase continued"
     else
-      echo "❌ Non-CSV conflicts. Aborting..."
-      git rebase --abort 2>/dev/null || true
+      echo "❌ Could not resolve conflicts. Aborting rebase."
+      git rebase --abort
+      continue
     fi
   fi
   
