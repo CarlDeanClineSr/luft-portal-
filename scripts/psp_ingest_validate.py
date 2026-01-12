@@ -12,6 +12,9 @@ This script combines data ingestion and validation into a single workflow:
 2. Validates the χ = 0.15 boundary near the Sun during perihelion encounters
 3. Generates validation plots and reports
 
+IMPORTANT: This script REQUIRES real PSP data. It will FAIL if data is unavailable.
+Recent PSP encounters take 3-6 months to publish. Use dates from 2023 or earlier.
+
 Near-Sun Validation Context:
 - Target: Parker Solar Probe (FIELDS/MAG)
 - PSP provides the ultimate falsification arena for the χ = 0.15 boundary
@@ -22,12 +25,11 @@ Near-Sun Validation Context:
   * Turbulence cascades are "pristine" (less evolved)
 
 Dependencies:
-    pip install cdasws pandas numpy matplotlib seaborn
+    pip install cdasws cdflib xarray pandas numpy matplotlib seaborn
 
 Usage:
     python scripts/psp_ingest_validate.py
     python scripts/psp_ingest_validate.py --start 2023-12-28 --end 2023-12-29
-    python scripts/psp_ingest_validate.py --demo
 
 Contact: CARLDCLINE@GMAIL.COM
 Repository: https://github.com/CarlDeanClineSr/luft-portal-
@@ -54,8 +56,8 @@ except ImportError:
     CDASWS_AVAILABLE = False
 
 # --- CONFIGURATION ---
-DEFAULT_START_TIME = '2018-11-01'  # First PSP perihelion
-DEFAULT_END_TIME = 'latest'  # Will use most recent available data
+DEFAULT_START_TIME = '2023-12-28'  # Encounter 21 - known public data
+DEFAULT_END_TIME = '2023-12-29'  # 24-hour window for fast testing with real data
 BASELINE_WINDOW = '1h'  # Rolling window for B0 (1h adaptive for Perihelion dynamics)
 THEORETICAL_LIMIT = 0.1528  # The χ = 0.15 boundary
 BOUNDARY_TOLERANCE = 0.01  # Tolerance for boundary check (±0.01 around THEORETICAL_LIMIT)
@@ -121,8 +123,8 @@ def fetch_psp_mag_data(start_date, end_date):
             continue
     
     if mag_data is None:
-        print("  ⚠ No CDAWeb data available, using demo data")
-        return generate_demo_psp_data()
+        print("  ⚠ No CDAWeb data available")
+        return None
     
     # Convert xarray/cdasws data to pandas DataFrame
     try:
@@ -400,13 +402,13 @@ def run_psp_ingest_validate(start_time=None, end_time=None, demo=False, output_d
     Run the complete PSP ingestion and validation pipeline.
     
     Args:
-        start_time: Start date 'YYYY-MM-DD' (default: 2018-11-01)
-        end_time: End date 'YYYY-MM-DD' or 'latest' (default: latest)
-        demo: If True, use synthetic demo data
+        start_time: Start date 'YYYY-MM-DD' (default: 2023-12-28)
+        end_time: End date 'YYYY-MM-DD' (default: 2023-12-29)
+        demo: Deprecated - no longer supported (script requires real data)
         output_dir: Directory for output files
     
     Returns:
-        dict with verification results
+        dict with verification results, or None if data unavailable
     """
     start_time = start_time or DEFAULT_START_TIME
     end_time = end_time or DEFAULT_END_TIME
@@ -419,33 +421,34 @@ def run_psp_ingest_validate(start_time=None, end_time=None, demo=False, output_d
     print(f"\nTarget: Parker Solar Probe (FIELDS/MAG)")
     print(f"Window: {start_time} to {end_time}")
     
-    # 1. Fetch or generate data
+    # 1. Fetch data (NO demo data fallback - fail if data unavailable)
     if demo:
-        df = generate_demo_psp_data()
-        actual_end = "2023-12-29"
-    else:
-        df = fetch_psp_mag_data(start_time, end_time)
-        actual_end = end_time
-        
-        if df is None:
-            print("\n⚠️  No data available. Falling back to demo data.")
-            print("   This may be because:")
-            print("   - Data for this period hasn't been publicly released yet")
-            print("   - CDAWeb is temporarily unavailable")
-            print("   - Dataset names may have changed")
-            df = generate_demo_psp_data()
-            actual_end = "2023-12-29"
+        print("\n❌ Error: --demo flag is no longer supported")
+        print("   This script only works with real PSP data from CDAWeb")
+        return None
+    
+    df = fetch_psp_mag_data(start_time, end_time)
+    actual_end = end_time
     
     if df is None or len(df) == 0:
-        print("\n⚠️  No data available. Using demo data instead.")
-        print("   (This ensures the workflow doesn't fail)")
-        df = generate_demo_psp_data()
-        actual_end = "2023-12-29"
-        if df is None or len(df) == 0:
-            print("\n❌ Error: Demo data generation failed.")
-            return None
+        print("\n" + "=" * 80)
+        print("❌ VALIDATION FAILED: NO REAL PSP DATA AVAILABLE")
+        print("=" * 80)
+        print(f"\nRequested dates: {start_time} to {end_time}")
+        print("\nReal PSP data not available for this period.")
+        print("\nWhy this happens:")
+        print("  • Recent PSP data takes 3-6 months to become publicly available")
+        print("  • Latest encounters (e.g., Dec 2025 Encounter 26) aren't published yet")
+        print("  • CDAWeb may be temporarily unavailable")
+        print("  • Dataset names may have changed")
+        print("\n💡 TIP: For real PSP data validation, use dates from 2023 or earlier")
+        print("   Example: python scripts/psp_ingest_validate.py --start 2023-12-28 --end 2023-12-29")
+        print("\n🚫 This script requires REAL data and will NOT fall back to demo data")
+        print("=" * 80 + "\n")
+        return None
     
-    print(f"\nData acquired: {len(df)} points")
+    print(f"\n✅ Real PSP data acquired: {len(df)} points")
+    using_real_data = True
     
     # 2. Save raw data to CSV for archival
     os.makedirs(DATA_OUTPUT_DIR, exist_ok=True)
@@ -495,7 +498,14 @@ def run_psp_ingest_validate(start_time=None, end_time=None, demo=False, output_d
     
     print(f"\n{'=' * 80}")
     print("   INGESTION & VALIDATION COMPLETE")
-    print(f"{'=' * 80}\n")
+    print(f"{'=' * 80}")
+    
+    # Display validation status badge (always real data - no demo fallback)
+    print("\n" + "=" * 80)
+    print("✅ VALIDATION: REAL PSP DATA")
+    print("   Analysis used actual Parker Solar Probe measurements from CDAWeb")
+    print(f"   Date range: {start_time} to {actual_end}")
+    print("=" * 80 + "\n")
     
     return {
         'results': results,
@@ -504,7 +514,7 @@ def run_psp_ingest_validate(start_time=None, end_time=None, demo=False, output_d
         'data_path': data_path,
         'start_time': start_time,
         'end_time': actual_end,
-        'demo_mode': demo,
+        'using_real_data': True,  # Always True now - no demo fallback
     }
 
 
@@ -514,16 +524,15 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  # Run with default dates (fetch latest available PSP data)
+  # Run with default dates (Dec 2023 - known public data)
   python scripts/psp_ingest_validate.py
 
-  # Specify custom date range
+  # Specify custom date range (use dates from 2023 or earlier for real data)
   python scripts/psp_ingest_validate.py --start 2023-12-28 --end 2023-12-29
 
-  # Use demo data for testing
-  python scripts/psp_ingest_validate.py --demo
-
 Note:
+  This script REQUIRES real PSP data from CDAWeb. It will FAIL if data is unavailable.
+  Recent PSP encounters take 3-6 months to publish - use dates from 2023 or earlier.
   This script uses cdasws instead of pyspedas/pytplot for Python 3.11 compatibility.
   The χ = 0.15 boundary verification works identically to the original algorithm.
 
@@ -535,11 +544,11 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
     parser.add_argument('--start', type=str, default=DEFAULT_START_TIME,
                         help=f'Start date YYYY-MM-DD (default: {DEFAULT_START_TIME})')
     parser.add_argument('--end', type=str, default=DEFAULT_END_TIME,
-                        help=f'End date YYYY-MM-DD or "latest" (default: {DEFAULT_END_TIME})')
+                        help=f'End date YYYY-MM-DD (default: {DEFAULT_END_TIME})')
     parser.add_argument('--output-dir', type=str, default=OUTPUT_DIR,
                         help=f'Output directory for plots (default: {OUTPUT_DIR})')
     parser.add_argument('--demo', action='store_true',
-                        help='Use synthetic demo data for testing')
+                        help='DEPRECATED: No longer supported - script requires real data')
     
     args = parser.parse_args()
     
