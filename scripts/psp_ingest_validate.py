@@ -397,14 +397,13 @@ def plot_verification_results(df, results, start_time, end_time, output_path):
     return output_path
 
 
-def run_psp_ingest_validate(start_time=None, end_time=None, demo=False, output_dir=OUTPUT_DIR):
+def run_psp_ingest_validate(start_time=None, end_time=None, output_dir=OUTPUT_DIR):
     """
     Run the complete PSP ingestion and validation pipeline.
     
     Args:
         start_time: Start date 'YYYY-MM-DD' (default: 2023-12-28)
         end_time: End date 'YYYY-MM-DD' (default: 2023-12-29)
-        demo: Deprecated - no longer supported (script requires real data)
         output_dir: Directory for output files
     
     Returns:
@@ -422,11 +421,6 @@ def run_psp_ingest_validate(start_time=None, end_time=None, demo=False, output_d
     print(f"Window: {start_time} to {end_time}")
     
     # 1. Fetch data (NO demo data fallback - fail if data unavailable)
-    if demo:
-        print("\n❌ Error: --demo flag is no longer supported")
-        print("   This script only works with real PSP data from CDAWeb")
-        return None
-    
     df = fetch_psp_mag_data(start_time, end_time)
     actual_end = end_time
     
@@ -547,15 +541,12 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
                         help=f'End date YYYY-MM-DD (default: {DEFAULT_END_TIME})')
     parser.add_argument('--output-dir', type=str, default=OUTPUT_DIR,
                         help=f'Output directory for plots (default: {OUTPUT_DIR})')
-    parser.add_argument('--demo', action='store_true',
-                        help='DEPRECATED: No longer supported - script requires real data')
     
     args = parser.parse_args()
     
     result = run_psp_ingest_validate(
         start_time=args.start,
         end_time=args.end,
-        demo=args.demo,
         output_dir=args.output_dir
     )
     
