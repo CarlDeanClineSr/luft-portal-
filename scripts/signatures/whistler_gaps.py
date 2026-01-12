@@ -35,4 +35,4 @@ def score_whistler_gaps(freqs: np.ndarray, amps: np.ndarray, target_fracs=(0.30,
     for tf in target_fracs:
         ok = np.any(np.abs(fracs - tf) <= tol)
         hits.append(bool(ok))
-    return {"centers_hz": centers.tolist(), "hits": hits, "pass": all(hits)}
+    return {"centers_hz": centers.tolist(), "hits": hits, "pass": bool(all(hits))}

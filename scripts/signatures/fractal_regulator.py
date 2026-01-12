@@ -30,5 +30,5 @@ def score_fractal_regulator(phi: pd.Series, cap=0.15, p95_max=0.20, p99_max=0.25
         "phi_p95": p95,
         "phi_p99": p99,
         "over_cap_count": over,
-        "pass": (p95 <= p95_max and p99 <= p99_max)
+        "pass": bool(p95 <= p95_max and p99 <= p99_max)
     }

@@ -29,5 +29,5 @@ def score_chi_boundary(phi: pd.Series, boundary_band=(0.145, 0.155), cap=0.15, m
     return {
         "band_pct": band_pct,
         "over_cap_count": over_cap,
-        "pass": (over_cap <= max_exceptions)
+        "pass": bool(over_cap <= max_exceptions)
     }

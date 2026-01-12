@@ -26,4 +26,4 @@ def score_electroweak_bridge(times: pd.Series, fundamental_hours=0.9, tol_hours=
     dt = (t.diff().dt.total_seconds() / 3600.0).dropna()
     near = ((dt - fundamental_hours).abs() <= tol_hours).sum()
     frac = float(near) / int(dt.size)
-    return {"near_0p9h_frac": frac, "pass": (frac >= min_presence_frac)}
+    return {"near_0p9h_frac": frac, "pass": bool(frac >= min_presence_frac)}
