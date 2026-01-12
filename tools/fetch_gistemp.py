@@ -27,9 +27,8 @@ try:
     response = session.get(URL, timeout=(30, 60), stream=True)
     response.raise_for_status()
     
-    # Read content from stream
-    content = response.content
-    lines = content.decode('utf-8').split('\n')
+    # Read text content from stream
+    lines = response.text.split('\n')
     
 except requests.exceptions.RequestException as e:
     print(f"❌ Failed to fetch GISTEMP data after retries: {e}")
