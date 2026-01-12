@@ -14,8 +14,9 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
 HEARTBEAT_PATTERN = re.compile(r"cme_heartbeat_log_\d{4}_\d{2}\.csv")
+CONFLICT_MARKER_LENGTH = 7
 CONFLICT_MARKER_PATTERN = re.compile(
-    r"^(<{7}[^\r\n]*|={7}|>{7}[^\r\n]*)$",
+    rf"^(<{{{CONFLICT_MARKER_LENGTH}}}[^\r\n]*|={{CONFLICT_MARKER_LENGTH}}|>{{{CONFLICT_MARKER_LENGTH}}}[^\r\n]*)$",
     re.MULTILINE,
 )
 
@@ -49,7 +50,7 @@ def find_latest_heartbeat() -> Optional[Path]:
 def compute_today_metrics(csv_path: Path) -> Dict[str, Optional[float]]:
     validate_csv_no_conflicts(csv_path)
 
-    df = pd.read_csv(csv_path, on_bad_lines="skip")
+    df = pd.read_csv(csv_path, on_bad_lines="warn")
     if "timestamp_utc" not in df.columns:
         raise ValueError("Expected timestamp_utc column in heartbeat log")
 
