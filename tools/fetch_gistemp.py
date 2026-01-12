@@ -48,7 +48,7 @@ for line in lines[7:]:  # data starts after header
                 data.append({'year': year, 'month': month, 'anomaly': float(parts[i+1])})
 
 df = pd.DataFrame(data)
-timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
+timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
 file = OUTPUT_DIR / f"gistemp_anomalies_{timestamp}.csv"
 df.to_csv(file, index=False)
 print(f"Fetched GISTEMP data: {file}")
