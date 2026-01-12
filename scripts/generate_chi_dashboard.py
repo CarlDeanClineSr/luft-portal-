@@ -15,8 +15,8 @@ def load_all_heartbeat_data():
     data_dir = Path('data')
     all_data = []
     
-    # Find all heartbeat log files with specific pattern YYYY_MM
-    csv_files = sorted(data_dir.glob('cme_heartbeat_log_[0-9][0-9][0-9][0-9]_[0-9][0-9].csv'))
+    # Find all heartbeat log files with pattern: cme_heartbeat_log_YYYY_MM.csv
+    csv_files = sorted(data_dir.glob('cme_heartbeat_log_????_??.csv'))
     
     if not csv_files:
         print("⚠️  No heartbeat log files found")

@@ -283,13 +283,27 @@ def generate_summary(chi_data=None):
 
 ## 🪐 MULTI-ENVIRONMENT VALIDATION
 
-### Earth Solar Wind (1 AU)
+"""
+    
+    # Only show Earth Solar Wind section if we have chi_data
+    if chi_data:
+        md += f"""### Earth Solar Wind (1 AU)
 - Status: ✅ PRIMARY
 - Observations: {chi_data['total_obs']:,}
 - χ Max: {chi_data['max_chi']:.4f}
 - Violations: {chi_data['violations']}
 
-### Mars Magnetotail (1.5 AU)
+"""
+    else:
+        md += """### Earth Solar Wind (1 AU)
+- Status: ⚠️ DATA UNAVAILABLE
+- Observations: N/A
+- χ Max: N/A
+- Violations: N/A
+
+"""
+    
+    md += """### Mars Magnetotail (1.5 AU)
 - Status: ✅ VALIDATED
 - Observations: 86,400+
 - χ Max: 0.143
