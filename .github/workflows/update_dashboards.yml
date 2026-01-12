@@ -35,6 +35,11 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event.workflow_run.head_branch || github.ref }}
 
+      - name: Configure git merge strategy
+        run: |
+          git config merge.ours.driver "true"
+          git config merge.ours.name "Always keep our version during merge"
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -103,7 +108,22 @@ jobs:
           git config user.email "luft-bot@users.noreply.github.com"
           git commit -m "dashboard: refresh with fresh data $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
           BRANCH="${TARGET_BRANCH:-main}"
-          git pull --rebase origin "$BRANCH" --autostash || true
+          
+          # Pull with conflict detection
+          if ! git pull --rebase origin "$BRANCH" --autostash; then
+            echo "❌ Merge conflict detected. Using bot's version for data files."
+            # For CSV files, keep ours (the bot's fresh data)
+            git checkout --ours data/*.csv 2>/dev/null || true
+            git add data/*.csv
+            # Continue the rebase
+            if ! git rebase --continue; then
+              echo "⚠️ Rebase continue failed, aborting rebase"
+              git rebase --abort
+              echo "❌ Fatal: Unable to resolve conflicts automatically"
+              exit 1
+            fi
+          fi
+          
           git push origin HEAD:"$BRANCH"
 
       - name: Report no-change status

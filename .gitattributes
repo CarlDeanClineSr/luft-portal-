@@ -1,0 +1,14 @@
+# Git attributes for luft-portal repository
+
+# CSV data files should use "ours" merge strategy to prefer fresh data
+# This prevents merge conflicts in automated data collection workflows
+data/*.csv merge=ours
+data/**/*.csv merge=ours
+
+# Ensure consistent line endings
+*.py text eol=lf
+*.sh text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.csv text eol=lf

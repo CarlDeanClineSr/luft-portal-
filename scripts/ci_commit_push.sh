@@ -29,6 +29,10 @@ MSG="${2:-Automated update}"
 git config --global user.name "engine-bot"
 git config --global user.email "engine-bot@users.noreply.github.com"
 
+# Configure merge strategy for CSV files
+git config merge.ours.driver "true"
+git config merge.ours.name "Always keep our version during merge"
+
 # Fetch the latest state of the remote main branch
 echo "Fetching latest remote main..."
 git fetch origin main
@@ -36,10 +40,28 @@ git fetch origin main
 # Re-sync local state with remote; prefer rebase, fall back to merge if conflicts
 echo "Rebasing onto origin/main..."
 if ! git rebase origin/main; then
-  echo "Rebase failed, aborting and trying merge fallback..."
-  git rebase --abort 2>/dev/null || echo "No rebase to abort"
-  if ! git pull --no-rebase origin main; then
-    echo "Warning: Merge fallback also failed. Proceeding anyway..."
+  echo "⚠️ Rebase conflict detected."
+  
+  # Try to auto-resolve CSV conflicts by keeping our version (fresh data)
+  if git diff --name-only --diff-filter=U | grep -q '\.csv$'; then
+    echo "📊 CSV conflicts detected. Using our version (fresh data)..."
+    git diff --name-only --diff-filter=U | grep '\.csv$' | while read file; do
+      git checkout --ours "$file"
+      git add "$file"
+    done
+    
+    # Try to continue rebase
+    if git rebase --continue; then
+      echo "✅ Rebase continued after auto-resolving CSV conflicts"
+    else
+      echo "❌ Rebase failed even after resolving CSV conflicts"
+      git rebase --abort
+      exit 1
+    fi
+  else
+    echo "❌ Non-CSV conflicts detected. Manual resolution required."
+    git rebase --abort
+    exit 1
   fi
 fi
 
@@ -67,9 +89,28 @@ for i in 1 2 3 4 5; do
     exit 0
   fi
   echo "Push failed (attempt $i). Re-syncing and retrying..."
+  
   if ! git pull --rebase --autostash origin main; then
-    echo "Warning: Pull --rebase failed. Trying again on next iteration..."
+    echo "⚠️ Pull rebase failed. Attempting to resolve conflicts..."
+    
+    # Try to auto-resolve CSV conflicts
+    if git diff --name-only --diff-filter=U | grep -q '\.csv$'; then
+      echo "📊 CSV conflicts during retry. Using our version..."
+      git diff --name-only --diff-filter=U | grep '\.csv$' | while read file; do
+        git checkout --ours "$file"
+        git add "$file"
+      done
+      git rebase --continue || {
+        echo "❌ Could not continue rebase"
+        git rebase --abort
+        continue
+      }
+    else
+      echo "❌ Non-CSV conflicts. Aborting..."
+      git rebase --abort 2>/dev/null || true
+    fi
   fi
+  
   sleep $((5 * i))
 done
 
