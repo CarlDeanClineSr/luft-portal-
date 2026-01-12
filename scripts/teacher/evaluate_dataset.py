@@ -85,6 +85,45 @@ def evaluate(path: str, curriculum: dict):
 
     if p.suffix.lower() == ".csv":
         ts, vals, df = load_csv_generic(p)
+        
+        # Check for spectrogram first (before timeseries) to prioritize whistler detection
+        # Check for exact column names first
+        if {"time_s", "freq_hz", "amplitude"}.issubset(df.columns):
+            spec = load_spectrogram(p)
+            agg = spec.groupby("freq_hz")["amplitude"].mean().reset_index()
+            wg_res = score_whistler_gaps(
+                agg["freq_hz"].to_numpy(),
+                agg["amplitude"].to_numpy(),
+                tuple(curriculum["signatures"]["whistler_gaps"]["fractions_of_top"]),
+                curriculum["signatures"]["whistler_gaps"]["tolerance"]
+            )
+            out.update({"status": "analyzed", "whistler_gaps": wg_res})
+            return out
+        
+        # Flexible spectrogram column detection (time/freq/amp variants)
+        lower_cols = {c.lower(): c for c in df.columns}
+        time_variants = ["time", "time_s", "t"]
+        freq_variants = ["freq", "freq_hz", "frequency", "f"]
+        amp_variants = ["amp", "amplitude", "a", "power", "magnitude"]
+        
+        time_col = next((lower_cols[v] for v in time_variants if v in lower_cols), None)
+        freq_col = next((lower_cols[v] for v in freq_variants if v in lower_cols), None)
+        amp_col = next((lower_cols[v] for v in amp_variants if v in lower_cols), None)
+        
+        if time_col and freq_col and amp_col:
+            # Rename to standard columns and process as spectrogram
+            spec = df.rename(columns={time_col: "time_s", freq_col: "freq_hz", amp_col: "amplitude"})
+            agg = spec.groupby("freq_hz")["amplitude"].mean().reset_index()
+            wg_res = score_whistler_gaps(
+                agg["freq_hz"].to_numpy(),
+                agg["amplitude"].to_numpy(),
+                tuple(curriculum["signatures"]["whistler_gaps"]["fractions_of_top"]),
+                curriculum["signatures"]["whistler_gaps"]["tolerance"]
+            )
+            out.update({"status": "analyzed", "whistler_gaps": wg_res})
+            return out
+        
+        # Timeseries processing (after spectrogram check)
         if ts is not None and vals is not None:
             # φ from 24-sample median baseline
             base = rolling_median(vals, 24)
@@ -122,43 +161,6 @@ def evaluate(path: str, curriculum: dict):
                 "binary_harmonics": bh_res,
                 "electroweak_bridge": ew_res
             })
-            return out
-
-        # Spectrogram variant (if columns present)
-        # Check for exact column names first
-        if {"time_s", "freq_hz", "amplitude"}.issubset(df.columns):
-            spec = load_spectrogram(p)
-            agg = spec.groupby("freq_hz")["amplitude"].mean().reset_index()
-            wg_res = score_whistler_gaps(
-                agg["freq_hz"].to_numpy(),
-                agg["amplitude"].to_numpy(),
-                tuple(curriculum["signatures"]["whistler_gaps"]["fractions_of_top"]),
-                curriculum["signatures"]["whistler_gaps"]["tolerance"]
-            )
-            out.update({"status": "analyzed", "whistler_gaps": wg_res})
-            return out
-        
-        # Flexible spectrogram column detection (time/freq/amp variants)
-        lower_cols = {c.lower(): c for c in df.columns}
-        time_variants = ["time", "time_s", "t"]
-        freq_variants = ["freq", "freq_hz", "frequency", "f"]
-        amp_variants = ["amp", "amplitude", "a", "power", "magnitude"]
-        
-        time_col = next((lower_cols[v] for v in time_variants if v in lower_cols), None)
-        freq_col = next((lower_cols[v] for v in freq_variants if v in lower_cols), None)
-        amp_col = next((lower_cols[v] for v in amp_variants if v in lower_cols), None)
-        
-        if time_col and freq_col and amp_col:
-            # Rename to standard columns and process as spectrogram
-            spec = df.rename(columns={time_col: "time_s", freq_col: "freq_hz", amp_col: "amplitude"})
-            agg = spec.groupby("freq_hz")["amplitude"].mean().reset_index()
-            wg_res = score_whistler_gaps(
-                agg["freq_hz"].to_numpy(),
-                agg["amplitude"].to_numpy(),
-                tuple(curriculum["signatures"]["whistler_gaps"]["fractions_of_top"]),
-                curriculum["signatures"]["whistler_gaps"]["tolerance"]
-            )
-            out.update({"status": "analyzed", "whistler_gaps": wg_res})
             return out
 
     if p.suffix.lower() == ".json":
