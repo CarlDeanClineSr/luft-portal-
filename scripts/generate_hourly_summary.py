@@ -22,6 +22,32 @@ DEFAULT_TOTAL_MATCHES = 2100000  # Default correlation matches
 DEFAULT_TEMPORAL_MODES = 13  # Default temporal mode count
 
 
+def check_data_freshness(timestamp_str):
+    """Check if data timestamp is fresh (< 15 minutes old)"""
+    try:
+        # Parse timestamp - handle format like "2026-01-12 20:16:00.000"
+        data_time = datetime.strptime(timestamp_str, '%Y-%m-%d %H:%M:%S.%f')
+        data_time = data_time.replace(tzinfo=timezone.utc)
+        
+        now = datetime.now(timezone.utc)
+        age_minutes = (now - data_time).total_seconds() / 60
+        
+        return {
+            'is_fresh': age_minutes < 15,
+            'age_minutes': age_minutes,
+            'data_time': data_time,
+            'current_time': now
+        }
+    except Exception as e:
+        print(f"ERROR checking data freshness: {e}")
+        return {
+            'is_fresh': False,
+            'age_minutes': 999,
+            'data_time': None,
+            'current_time': datetime.now(timezone.utc)
+        }
+
+
 def read_chi_data():
     """Read latest chi from heartbeat log files"""
     try:
@@ -175,6 +201,14 @@ def generate_summary():
     paper_count = count_papers()
     link_intel = get_link_intelligence()
     
+    # Check data freshness
+    freshness = None
+    freshness_warning = ""
+    if chi_data and chi_data['timestamp']:
+        freshness = check_data_freshness(chi_data['timestamp'])
+        if not freshness['is_fresh']:
+            freshness_warning = f"⚠️ **DATA STALE:** Last update {freshness['age_minutes']:.1f} minutes ago (expected < 15 min)\n\n"
+    
     # Generate markdown
     md = f"""# LUFT PORTAL - HOURLY SUMMARY
 **Generated:** {now.strftime('%Y-%m-%d %H:%M:%S UTC')}  
@@ -187,13 +221,21 @@ def generate_summary():
 """
     
     if chi_data:
-        md += f"""**Status:** ACTIVE  
+        # Add freshness indicator
+        data_age_str = ""
+        if freshness:
+            if freshness['is_fresh']:
+                data_age_str = f"✅ **Data Age:** {freshness['age_minutes']:.1f} minutes (FRESH)\n"
+            else:
+                data_age_str = f"⚠️ **Data Age:** {freshness['age_minutes']:.1f} minutes (STALE - expected < 15 min)\n"
+        
+        md += f"""{freshness_warning}**Status:** ACTIVE  
 **Total Observations:** {chi_data['total_obs']:,}  
 **Latest χ Value:** {chi_data['chi']:.4f}  
 **Violations:** {chi_data['violations']} ({'✅ ZERO' if chi_data['violations'] == 0 else '⚠️ ATTENTION'})  
 **Boundary Test:** {'✅ PASSED' if chi_data['violations'] == 0 else '❌ FAILED'}
 **Last Update:** {chi_data['timestamp']}
-
+{data_age_str}
 ---
 
 ## 📊 LIVE DATA (Last Observation)
@@ -271,6 +313,18 @@ def main():
     print("=" * 70)
     print("GENERATING HOURLY SUMMARY FROM LIVE DATA")
     print("=" * 70)
+    
+    # Check data freshness before generating
+    chi_data = read_chi_data()
+    if chi_data and chi_data['timestamp']:
+        freshness = check_data_freshness(chi_data['timestamp'])
+        print(f"\n📊 Data Freshness Check:")
+        print(f"   Latest data timestamp: {chi_data['timestamp']}")
+        print(f"   Data age: {freshness['age_minutes']:.1f} minutes")
+        if freshness['is_fresh']:
+            print(f"   Status: ✅ FRESH (< 15 minutes)")
+        else:
+            print(f"   Status: ⚠️ STALE (expected < 15 minutes)")
     
     summary = generate_summary()
     

@@ -24,17 +24,48 @@ jobs:
         with:
           python-version: '3.12'
       
+      - name: Install dependencies
+        run: pip install numpy
+      
+      - name: Fetch fresh space weather data
+        run: |
+          echo "📡 Fetching fresh ACE/DSCOVR data..."
+          
+          # Fetch plasma data
+          if curl --fail --silent --show-error -o data/ace_plasma_latest.json \
+            "https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json"; then
+            echo "✅ Plasma data downloaded successfully"
+          else
+            echo "⚠️ Plasma data fetch failed"
+          fi
+          
+          # Fetch magnetic field data
+          if curl --fail --silent --show-error -o data/ace_mag_latest.json \
+            "https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json"; then
+            echo "✅ Magnetic field data downloaded successfully"
+          else
+            echo "⚠️ Magnetic field data fetch failed"
+          fi
+          
+          # Update heartbeat log with fresh data
+          echo "📝 Updating CME heartbeat log..."
+          python scripts/cme_heartbeat_logger.py \
+            --plasma data/ace_plasma_latest.json \
+            --mag data/ace_mag_latest.json
+          
+          echo "✅ Fresh data fetch complete"
+      
       - name: Generate hourly summary
         run: python scripts/generate_hourly_summary.py
       
-      - name: Commit summary
+      - name: Commit summary and data
         run: |
           git config user.name "LUFT Data Bot"
           git config user.email "data@luft.local"
           git pull --rebase origin main --autostash || true
-          git add reports/HOURLY_SUMMARY.md
+          git add reports/HOURLY_SUMMARY.md data/cme_heartbeat_log_*.csv || true
           git diff --quiet && git diff --staged --quiet || \
-            git commit -m "🤖 Hourly summary update - $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git commit -m "🤖 Hourly summary update with fresh data - $(date -u +'%Y-%m-%d %H:%M UTC')"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
