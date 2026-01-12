@@ -34,12 +34,28 @@ def find_latest_heartbeat() -> Optional[Path]:
     return max(candidates, key=lambda p: (p.stat().st_mtime, p.name))
 
 
+def validate_csv_no_conflicts(filepath: Path) -> None:
+    """Check for git merge conflict markers in CSV"""
+    with open(filepath, 'r', encoding='utf-8') as f:
+        content = f.read()
+        conflict_markers = ['<<<<<<<', '=======', '>>>>>>>']
+        for marker in conflict_markers:
+            if marker in content:
+                raise ValueError(f"Git conflict markers found in {filepath}. Manual resolution required.")
+
+
 def compute_today_metrics(csv_path: Path) -> Dict[str, Optional[float]]:
-    df = pd.read_csv(csv_path)
+    validate_csv_no_conflicts(csv_path)
+    df = pd.read_csv(csv_path, on_bad_lines='skip')
     if "timestamp_utc" not in df.columns:
         raise ValueError("Expected timestamp_utc column in heartbeat log")
 
-    df["timestamp_utc"] = pd.to_datetime(df["timestamp_utc"], utc=True)
+    df["timestamp_utc"] = pd.to_datetime(df["timestamp_utc"], utc=True, errors='coerce')
+    # Drop rows with invalid timestamps
+    df = df.dropna(subset=['timestamp_utc'])
+    if df.empty:
+        raise ValueError("No valid timestamps found in heartbeat log")
+    
     df["date"] = df["timestamp_utc"].dt.date
 
     today = datetime.now(timezone.utc).date()
