@@ -87,6 +87,9 @@ def evaluate(path: str, curriculum: dict):
         ts, vals, df = load_csv_generic(p)
         
         # Check for spectrogram first (before timeseries) to prioritize whistler detection
+        # Files with (time_s, freq_hz, amplitude) were being misdetected as timeseries
+        # because load_csv_generic matches time_s as a timestamp column.
+        # Spectrogram detection must happen first to ensure proper analysis.
         # Check for exact column names first
         if {"time_s", "freq_hz", "amplitude"}.issubset(df.columns):
             spec = load_spectrogram(p)
