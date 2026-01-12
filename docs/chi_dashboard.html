@@ -3,303 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>χ = 0.15 Plasma Oscillation Boundary Dashboard</title>
+    <title>χ ≤ 0.15 Dashboard - LUFT Portal</title>
     <style>
         body {
-            font-family: 'Courier New', monospace;
-            background: #000;
-            color: #0f0;
-            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e27;
+            color: #fff;
             margin: 0;
+            padding: 20px;
         }
         .container {
             max-width: 1200px;
             margin: 0 auto;
         }
         h1 {
-            color: #0ff;
             text-align: center;
-            border-bottom: 2px solid #0ff;
-            padding-bottom: 10px;
+            color: #00d4ff;
+            font-size: 2.5em;
+            margin-bottom: 10px;
         }
         .subtitle {
             text-align: center;
-            color: #0f0;
-            margin-bottom: 20px;
+            color: #888;
+            margin-bottom: 30px;
         }
-        .monitor {
-            border: 2px solid #0f0;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: #1a1f3a;
+            border-radius: 10px;
             padding: 20px;
-            margin: 20px 0;
-            background: #001100;
+            border: 2px solid #2a3f5f;
         }
-        .monitor h2 {
-            color: #0ff;
-            margin-top: 0;
+        .stat-card h3 {
+            margin: 0 0 10px 0;
+            color: #00d4ff;
+            font-size: 1em;
         }
-        .nominal { color: #0f0; }
-        .alert { color: #ff0; }
-        .critical { color: #f00; }
-        .metric {
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
             margin: 10px 0;
-            padding: 5px;
         }
-        .station-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
-            border-bottom: 1px solid #003300;
+        .stat-percent {
+            color: #888;
+            font-size: 1.2em;
         }
+        .below { color: #00ff88; }
+        .boundary { color: #ffd700; }
+        .violation { color: #ff4444; }
         .footer {
             text-align: center;
-            color: #0f0;
-            margin-top: 20px;
-            padding-top: 10px;
-            border-top: 2px solid #0f0;
+            margin-top: 40px;
+            color: #666;
+            border-top: 1px solid #2a3f5f;
+            padding-top: 20px;
         }
-        .chi-bar {
+        .fresh-indicator {
             display: inline-block;
-            height: 10px;
-            background: #0f0;
-            margin-left: 10px;
+            padding: 5px 15px;
+            background: #00ff88;
+            color: #000;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🛰️ LIVE PLASMA OSCILLATION BOUNDARY MONITOR</h1>
-        <div class="subtitle">
-            <p>χ = |B - B_baseline| / B_baseline</p>
-            <p>Critical threshold: χ = 0.15</p>
-        </div>
+        <h1>χ ≤ 0.15 Universal Boundary Dashboard</h1>
+        <p class="subtitle">
+            <span class="fresh-indicator">🟢 LIVE DATA</span><br>
+            Last updated: 2026-01-12 21:02:45 UTC
+        </p>
         
-        <div class="monitor">
-            <h2>SOLAR WIND (DSCOVR Satellite)</h2>
-            <div class="metric">Current χ: <strong>0.0000</strong> (0% of threshold)</div>
-            <div class="metric">24h Max χ: <strong>0.0000</strong> (0% of threshold)</div>
-            <div class="metric">
-                <span class="nominal">
-                    Status: 🟢 NOMINAL
-                </span>
-            </div>
-            <div class="chi-bar" style="width: 0.0px;"></div>
-        </div>
-        
-        <div class="monitor" style="background: #001a1a; border: 2px solid #00ff88;">
-            <h2 style="color: #00ff88;">χ = 0.15 UNIVERSAL BOUNDARY STATUS</h2>
-            
-            <div style="background: #002200; padding: 1.5rem; margin: 1rem 0; border-radius: 8px; border: 2px solid #00ff88;">
-                <div style="color: #00ff88; font-size: 1.5em; font-weight: bold; margin-bottom: 1rem;">
-                    ✅ CONFIRMED ACROSS 2 ENVIRONMENTS
-                </div>
-                <div style="color: #fff; line-height: 1.8; margin-bottom: 1rem;">
-                    <strong>Universal χ = 0.15 boundary validated at:</strong><br>
-                    ✅ <strong>Earth Solar Wind (1 AU):</strong> 12,450+ observations, 53.6% at boundary, 0% violations<br>
-                    ✅ <strong>Mars Magnetotail (1.5 AU):</strong> χ ≈ 0.143 (945 seconds analyzed, May 12, 2025)
-                </div>
-                <div style="color: #00ff88; font-size: 1.1em; font-weight: bold;">
-                    Status: UNIVERSAL CONSTANT CONFIRMED
-                </div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>TOTAL OBSERVATIONS</h3>
+                <div class="stat-value">254</div>
             </div>
             
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin: 15px 0;">
-                <div style="padding: 15px; background: #002200; border-radius: 5px; border: 1px solid #00ff88;">
-                    <div style="color: #0f0; font-size: 0.9em;">Earth Solar Wind</div>
-                    <div style="color: #00ff88; font-size: 1.8em; font-weight: bold;">✅ CONFIRMED</div>
-                    <div style="color: #0f0; font-size: 0.9em;">12,450+ obs at boundary</div>
-                </div>
-                
-                <div style="padding: 15px; background: #002200; border-radius: 5px; border: 1px solid #00ff88;">
-                    <div style="color: #0f0; font-size: 0.9em;">Mars Magnetotail</div>
-                    <div style="color: #00ff88; font-size: 1.8em; font-weight: bold;">✅ CONFIRMED</div>
-                    <div style="color: #0f0; font-size: 0.9em;">χ = 0.143 (945s)</div>
-                </div>
-                
-                <div style="padding: 15px; background: #002200; border-radius: 5px; border: 1px solid #00ff88;">
-                    <div style="color: #0f0; font-size: 0.9em;">Violations (χ &gt; 0.155)</div>
-                    <div style="color: #00ff88; font-size: 1.8em; font-weight: bold;">0</div>
-                    <div style="color: #0f0; font-size: 0.9em;">0.00% across all data</div>
-                </div>
+            <div class="stat-card">
+                <h3>BELOW χ = 0.15</h3>
+                <div class="stat-value below">157</div>
+                <div class="stat-percent">61.8%</div>
             </div>
             
-            <div style="margin-top: 15px; padding: 15px; background: #001100; border-radius: 5px;">
-                <strong style="color: #00ff88;">Status:</strong> 
-                <span style="color: #fff;">
-                    ✅ UNIVERSAL BOUNDARY CONFIRMED - χ ≤ 0.15 validated across 1 AU and 1.5 AU
-                </span>
+            <div class="stat-card">
+                <h3>AT BOUNDARY (χ = 0.15)</h3>
+                <div class="stat-value boundary">97</div>
+                <div class="stat-percent">38.2%</div>
             </div>
             
-            <div style="margin-top: 15px; font-size: 0.9em; color: #0f0;">
-                <a href="../capsules/CAPSULE_CHI_015_ENGINE_INTEGRATION_v1.md" style="color: #0ff; text-decoration: none;">
-                    📖 View Theory Capsule
-                </a>
-            </div>
-        </div>
-        
-        <div class="monitor" style="background: #1a0033; border: 2px solid #cc00ff;">
-            <h2 style="color: #cc00ff;">χ_C ≈ 0.15: UNIVERSAL CONSTANT STATUS</h2>
-            <div style="padding: 15px; background: #0d001a; border-radius: 5px; margin: 10px 0;">
-                <div style="color: #cc99ff; font-size: 1.2em; font-weight: bold; margin-bottom: 10px;">
-                    Fundamental Confinement Boundary Across All Forces
-                </div>
-                <div style="color: #999; font-size: 0.9em; margin-bottom: 15px;">
-                    χ_C = δQ/Q₀ ≈ 0.15 ± 0.01 (dimensionless)
-                </div>
+            <div class="stat-card">
+                <h3>VIOLATIONS (χ &gt; 0.15)</h3>
+                <div class="stat-value violation">0</div>
+                <div class="stat-percent">0.0%</div>
             </div>
             
-            <h3 style="color: #00ff88; margin-top: 20px;">Electromagnetic Regime</h3>
-            <div style="padding: 10px; background: #001a1a; border-left: 3px solid #00ff88; margin: 10px 0;">
-                <div style="color: #0f0;"><strong>System:</strong> Solar Wind (MHD Plasma)</div>
-                <div style="color: #0f0;"><strong>Definition:</strong> χ = δB/B₀</div>
-                <div style="color: #00ff88; font-size: 1.1em; margin-top: 5px;">
-                    <strong>Status: ✅ CONFIRMED</strong>
-                </div>
-                <div style="color: #999; font-size: 0.9em;">
-                    53.6% at boundary (N=12,450), 0% violations
-                </div>
+            <div class="stat-card">
+                <h3>CURRENT χ</h3>
+                <div class="stat-value boundary">0.1500</div>
             </div>
             
-            <h3 style="color: #ffaa00; margin-top: 20px;">Electrostatic Regime</h3>
-            <div style="padding: 10px; background: #1a1100; border-left: 3px solid #ffaa00; margin: 10px 0;">
-                <div style="color: #ff9;"><strong>System:</strong> IEC Plasma Devices</div>
-                <div style="color: #ff9;"><strong>Definition:</strong> χ = δn/n₀</div>
-                <div style="color: #ffaa00; font-size: 1.1em; margin-top: 5px;">
-                    <strong>Status: 🔮 PREDICTED</strong>
-                </div>
-                <div style="color: #999; font-size: 0.9em;">
-                    Beam defocusing expected at χ &gt; 0.15 (awaiting data)
-                </div>
-            </div>
-            
-            <h3 style="color: #0099ff; margin-top: 20px;">Gravitational Regime</h3>
-            <div style="padding: 10px; background: #001a1a; border-left: 3px solid #0099ff; margin: 10px 0;">
-                <div style="color: #99ddff;"><strong>System:</strong> Cosmic Structure Formation</div>
-                <div style="color: #99ddff;"><strong>Definition:</strong> χ = v_pec/(H₀d)</div>
-                <div style="color: #0099ff; font-size: 1.1em; margin-top: 5px;">
-                    <strong>Status: 🔬 CANDIDATE</strong>
-                </div>
-                <div style="color: #999; font-size: 0.9em;">
-                    Local Group χ ≈ 0.12-0.17 (consistent with χ_C)
-                </div>
-            </div>
-            
-            <div style="margin-top: 20px; padding: 15px; background: #1a001a; border-radius: 5px; border: 1px solid #cc00ff;">
-                <div style="color: #cc99ff; font-weight: bold; margin-bottom: 10px;">🔬 FUNDAMENTAL PHYSICS STATUS</div>
-                <div style="color: #fff; line-height: 1.6;">
-                    If validated across all three force regimes, χ_C would join c, ℏ, G, and α as a 
-                    <strong>fundamental constant of nature</strong> — governing the universal boundary 
-                    between stable and unstable oscillations in confined systems.
-                </div>
-            </div>
-            
-            <div style="margin-top: 15px; font-size: 0.9em; color: #0f0;">
-                <a href="CLINE_CONSTANT_FRAMEWORK_v1.md" style="color: #cc00ff; text-decoration: none; margin-right: 15px;">
-                    📖 View Full Framework
-                </a>
-                <a href="CLINE_CONSTANT_SUMMARY.md" style="color: #cc00ff; text-decoration: none;">
-                    📄 Executive Summary
-                </a>
-            </div>
-        </div>
-        
-        <div class="monitor">
-            <h2>MAGNETOSPHERE (USGS Multi-Station)</h2>
-            
-            <div class="station-row"><span><strong>BOU</strong>: χ = 0.0004 (max 0.0005)</span><span class="nominal">🟢 NOMINAL</span></div><div class="station-row"><span><strong>CMO</strong>: χ = 0.0006 (max 0.0041)</span><span class="nominal">🟢 NOMINAL</span></div><div class="station-row"><span><strong>FRD</strong>: χ = 0.0002 (max 0.0004)</span><span class="nominal">🟢 NOMINAL</span></div><div class="station-row"><span><strong>HON</strong>: χ = 0.0006 (max 0.0009)</span><span class="nominal">🟢 NOMINAL</span></div><div class="station-row"><span><strong>SIT</strong>: χ = 0.0003 (max 0.0012)</span><span class="nominal">🟢 NOMINAL</span></div><div class="station-row"><span><strong>TUC</strong>: χ = 0.0003 (max 0.0008)</span><span class="nominal">🟢 NOMINAL</span></div>
-        </div>
-        
-        <div class="monitor">
-            <h2>GEOMAGNETIC STORM INDEX (Dst)</h2>
-            <div class="metric">Current Dst: <strong>N/A</strong> nT</div>
-            <div class="metric">Storm level: <strong>Unknown</strong></div>
-            <div class="metric">
-                <small>Reference: Dst &gt; -30 = Quiet, -30 to -50 = G1, -50 to -100 = G2-G3, -100 to -200 = G4, &lt; -200 = G5</small>
-            </div>
-        </div>
-        
-        <div class="monitor" style="background: #001a1a; border: 2px solid #00ff88;">
-            <h2 style="color: #00ff88;">MARS MAGNETOTAIL (MAVEN @ 1.5 AU) - ✅ CONFIRMED</h2>
-            
-            <div style="background: #002200; padding: 1rem; margin: 1rem 0; border-radius: 6px; border-left: 4px solid #00ff88;">
-                <div style="color: #00ff88; font-size: 1.2em; font-weight: bold; margin-bottom: 0.5rem;">
-                    ✅ χ ≤ 0.15 CONFIRMED AT MARS
-                </div>
-                <div style="color: #fff; line-height: 1.8;">
-                    <strong>Analysis: May 12, 2025, 00:00:00 - 00:15:45 UTC</strong><br>
-                    Duration: 945 seconds (~15 minutes)<br>
-                    Mean |B|: 11.2 nT | Std Dev: 4.8 nT<br>
-                    <strong style="color: #00ff88;">χ (normalized): 0.143 ✅</strong><br>
-                    Sustained oscillations: χ_coherent ≈ 0.12-0.15<br>
-                    <strong>Status: WITHIN BOUNDARY</strong>
-                </div>
-            </div>
-            
-            <div class="metric">
-                <span class="nominal" style="color: #00ff88; font-size: 1.1em;">
-                    🟢 VALIDATED - Universal χ = 0.15 boundary confirmed across 1 AU and 1.5 AU
-                </span>
-            </div>
-            
-            <div style="margin-top: 1rem; padding: 1rem; background: #001100; border-radius: 5px;">
-                <strong style="color: #00ff88;">SIGNIFICANCE:</strong>
-                <div style="color: #fff; margin-top: 0.5rem; line-height: 1.6;">
-                    This proves χ = 0.15 is a <strong>universal plasma constant</strong>, not limited to Earth's environment.
-                    Validated across two heliocentric distances (1 AU, 1.5 AU) and two plasma regimes 
-                    (pure solar wind, draped/compressed magnetotail).
-                </div>
-            </div>
-        </div>
-        
-        <div class="monitor">
-            <h2>HISTORICAL STORM ARCHIVE</h2>
-            <div class="metric">
-                <strong>1989 Quebec Blackout</strong> (Mar 13-14, 1989)<br>
-                Station: FRD (Fredericksburg, VA) | Dst: -589 nT
-            </div>
-            <div class="metric">
-                <strong>1972 Apollo-Era Storm</strong> (Aug 4, 1972)<br>
-                Station: HON (Honolulu, HI) | Solar maximum event
-            </div>
-            <div class="metric">
-                <strong>2024 May G5 Storm</strong> (May 10-11, 2024)<br>
-                Station: BOU (Boulder, CO) | Recent extreme event
-            </div>
-            <div class="metric">
-                <small>Run workflow: Historical Storm χ Analysis to compute χ values</small>
-            </div>
-        </div>
-        
-        <div class="monitor" style="background: #001a1a; border: 2px solid #00ff88;">
-            <h2 style="color: #00ff88;">🔬 DISCOVERY ENGINE STATUS</h2>
-            <div style="padding: 15px; background: #002200; border-radius: 5px; margin: 10px 0;">
-                <div style="color: #00ff88; font-size: 1.2em; font-weight: bold; margin-bottom: 10px;">
-                    Autonomic Signature Detection Active
-                </div>
-                <div style="color: #fff; line-height: 1.8; margin-bottom: 15px;">
-                    <strong>Key Findings:</strong><br>
-                    ✅ <strong>Electroweak-MHD Bridge:</strong> 0.9h packet modulation confirmed across 60+ years of data<br>
-                    ✅ <strong>Causality Precursor Law:</strong> χ ≤ 0.15 boundary enforced in quasi-steady state<br>
-                    ✅ <strong>χ-Fractal Regulator:</strong> Scale-consistent tail behavior, no unbounded perturbations<br>
-                    ⚠️ <strong>Binary Harmonic Ladder:</strong> 6h spacing needs refined burst detection
-                </div>
-                <div style="color: #999; font-size: 0.9em;">
-                    The engine scans all vault data daily. Discoveries accumulate automatically.
-                </div>
-            </div>
-            <div style="margin-top: 15px; font-size: 0.9em; color: #0f0;">
-                <a href="Discovery_Findings.md" style="color: #00ff88; text-decoration: none; margin-right: 15px;">
-                    📖 View Full Discovery Report
-                </a>
-                <a href="Teacher_Report.md" style="color: #00ff88; text-decoration: none;">
-                    📄 Teacher Suite Report
-                </a>
+            <div class="stat-card">
+                <h3>MAXIMUM χ</h3>
+                <div class="stat-value">0.1500</div>
             </div>
         </div>
         
         <div class="footer">
-            <p>Last updated: 2025-12-29 19:00:59 UTC</p>
-            <p>LUFT Observatory | Plasma Boundary Research</p>
-            <p><a href="https://github.com/CarlDeanClineSr/luft-portal-" style="color: #0ff;">GitHub Repository</a></p>
+            <p><strong>Validation:</strong> 0.0% violations confirms χ ≤ 0.15 universal boundary (254 observations)</p>
+            <p>Discovered by Carl Dean Cline Sr., Lincoln, Nebraska</p>
+            <p><a href="https://github.com/CarlDeanClineSr/luft-portal-" style="color: #00d4ff;">GitHub Repository</a></p>
         </div>
     </div>
 </body>
