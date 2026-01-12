@@ -1,31 +1,35 @@
 #!/usr/bin/env python3
 """
 Generate χ Dashboard with live statistics
-Reads ALL DSCOVR data and calculates current χ distribution
+Reads from CME heartbeat log files for up-to-date χ values
 """
 
 import json
 import pandas as pd
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 import numpy as np
 
-def load_all_dscovr_data():
-    """Load all DSCOVR solar wind data"""
-    data_dir = Path('data/dscovr')
+def load_all_heartbeat_data():
+    """Load all CME heartbeat log data (the source of truth for χ values)"""
+    data_dir = Path('data')
     all_data = []
     
-    if not data_dir.exists():
-        print("⚠️  No DSCOVR data directory found")
+    # Find all heartbeat log files with pattern: cme_heartbeat_log_YYYY_MM.csv
+    csv_files = sorted(data_dir.glob('cme_heartbeat_log_????_??.csv'))
+    
+    if not csv_files:
+        print("⚠️  No heartbeat log files found")
         return pd.DataFrame()
     
-    # Read all CSV files
-    csv_files = list(data_dir.glob('*.csv'))
-    print(f"📂 Found {len(csv_files)} DSCOVR data files")
+    print(f"📂 Found {len(csv_files)} heartbeat log files")
     
-    for csv_file in csv_files: 
+    for csv_file in csv_files:
         try:
             df = pd.read_csv(csv_file)
+            # Rename column if needed for consistency
+            if 'chi_amplitude' in df.columns:
+                df = df.rename(columns={'chi_amplitude': 'chi'})
             all_data.append(df)
         except Exception as e:
             print(f"⚠️  Failed to read {csv_file}: {e}")
@@ -36,7 +40,7 @@ def load_all_dscovr_data():
     
     # Combine all data
     combined = pd.concat(all_data, ignore_index=True)
-    print(f"✅ Loaded {len(combined)} total observations")
+    print(f"✅ Loaded {len(combined)} total observations from heartbeat logs")
     
     return combined
 
@@ -78,7 +82,7 @@ def calculate_chi_statistics(df):
         'current_chi': float(chi_values.iloc[-1]) if len(chi_values) > 0 else None,
         'max_chi': float(chi_values.max()),
         'mean_chi': float(chi_values.mean()),
-        'last_updated': datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')
+        'last_updated': datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')
     }
     
     print(f"\n📊 χ Statistics:")
@@ -86,57 +90,16 @@ def calculate_chi_statistics(df):
     print(f"   Below:  {stats['below_boundary']} ({stats['below_percentage']}%)")
     print(f"   At Boundary: {stats['at_boundary']} ({stats['at_boundary_percentage']}%)")
     print(f"   Violations:  {stats['violations']} ({stats['violations_percentage']}%)")
-    print(f"   Max χ: {stats['max_chi']:. 4f}")
+    print(f"   Max χ: {stats['max_chi']:.4f}")
     
     return stats
 
-def update_dashboard_html(stats):
-    """Update the main dashboard HTML with new statistics"""
-    html_file = Path('docs/index.html')
-    
-    if not html_file.exists():
-        print(f"⚠️  Dashboard file not found: {html_file}")
-        return False
-    
-    # Read current HTML
-    html = html_file.read_text(encoding='utf-8')
-    
-    # Update the statistics section
-    # Find and replace the BELOW section
-    html = html.replace(
-        'BELOW χ = 0.15\n274\n47.7%',
-        f'BELOW χ = 0.15\n{stats["below_boundary"]}\n{stats["below_percentage"]}%'
-    )
-    
-    # Update AT BOUNDARY section
-    html = html.replace(
-        'AT BOUNDARY (χ = 0.15)\n300\n52.3%',
-        f'AT BOUNDARY (χ = 0.15)\n{stats["at_boundary"]}\n{stats["at_boundary_percentage"]}%'
-    )
-    
-    # Update VIOLATION section
-    html = html.replace(
-        'VIOLATION (χ > 0.15)\n0\n0.0%',
-        f'VIOLATION (χ > 0.15)\n{stats["violations"]}\n{stats["violations_percentage"]}%'
-    )
-    
-    # Update validation text
-    html = html.replace(
-        'Validation:  0% violations confirms χ ≤ 0.15 universal boundary (574 observations)',
-        f'Validation: {stats["violations_percentage"]}% violations confirms χ ≤ 0.15 universal boundary ({stats["total_observations"]} observations)'
-    )
-    
-    # Write updated HTML
-    html_file.write_text(html, encoding='utf-8')
-    print(f"✅ Updated {html_file}")
-    
-    return True
 
 def main():
     print("🔄 Generating χ Dashboard...")
     
-    # Load all data
-    df = load_all_dscovr_data()
+    # Load all data from heartbeat logs (the source of truth)
+    df = load_all_heartbeat_data()
     
     if df.empty:
         print("❌ No data available")
@@ -149,13 +112,150 @@ def main():
         print("❌ Failed to calculate statistics")
         return
     
-    # Update dashboard
-    success = update_dashboard_html(stats)
+    # Generate standalone dashboard HTML
+    html = generate_dashboard_html(stats)
     
-    if success: 
-        print("✅ χ Dashboard generation complete")
-    else:
-        print("❌ Failed to update dashboard")
+    # Write to chi_dashboard.html
+    output_file = Path('docs/chi_dashboard.html')
+    output_file.parent.mkdir(parents=True, exist_ok=True)
+    output_file.write_text(html, encoding='utf-8')
+    
+    print(f"✅ χ Dashboard generated: {output_file}")
+    print(f"   Total observations: {stats['total_observations']}")
+    print(f"   Last updated: {stats['last_updated']}")
+
+
+def generate_dashboard_html(stats):
+    """Generate a complete standalone dashboard HTML"""
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>χ ≤ 0.15 Dashboard - LUFT Portal</title>
+    <style>
+        body {{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e27;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }}
+        .container {{
+            max-width: 1200px;
+            margin: 0 auto;
+        }}
+        h1 {{
+            text-align: center;
+            color: #00d4ff;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }}
+        .subtitle {{
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+        }}
+        .stats-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }}
+        .stat-card {{
+            background: #1a1f3a;
+            border-radius: 10px;
+            padding: 20px;
+            border: 2px solid #2a3f5f;
+        }}
+        .stat-card h3 {{
+            margin: 0 0 10px 0;
+            color: #00d4ff;
+            font-size: 1em;
+        }}
+        .stat-value {{
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }}
+        .stat-percent {{
+            color: #888;
+            font-size: 1.2em;
+        }}
+        .below {{ color: #00ff88; }}
+        .boundary {{ color: #ffd700; }}
+        .violation {{ color: #ff4444; }}
+        .footer {{
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+            border-top: 1px solid #2a3f5f;
+            padding-top: 20px;
+        }}
+        .fresh-indicator {{
+            display: inline-block;
+            padding: 5px 15px;
+            background: #00ff88;
+            color: #000;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+        }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>χ ≤ 0.15 Universal Boundary Dashboard</h1>
+        <p class="subtitle">
+            <span class="fresh-indicator">🟢 LIVE DATA</span><br>
+            Last updated: {stats['last_updated']}
+        </p>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>TOTAL OBSERVATIONS</h3>
+                <div class="stat-value">{stats['total_observations']:,}</div>
+            </div>
+            
+            <div class="stat-card">
+                <h3>BELOW χ = 0.15</h3>
+                <div class="stat-value below">{stats['below_boundary']:,}</div>
+                <div class="stat-percent">{stats['below_percentage']}%</div>
+            </div>
+            
+            <div class="stat-card">
+                <h3>AT BOUNDARY (χ = 0.15)</h3>
+                <div class="stat-value boundary">{stats['at_boundary']:,}</div>
+                <div class="stat-percent">{stats['at_boundary_percentage']}%</div>
+            </div>
+            
+            <div class="stat-card">
+                <h3>VIOLATIONS (χ &gt; 0.15)</h3>
+                <div class="stat-value violation">{stats['violations']:,}</div>
+                <div class="stat-percent">{stats['violations_percentage']}%</div>
+            </div>
+            
+            <div class="stat-card">
+                <h3>CURRENT χ</h3>
+                <div class="stat-value boundary">{stats['current_chi']:.4f}</div>
+            </div>
+            
+            <div class="stat-card">
+                <h3>MAXIMUM χ</h3>
+                <div class="stat-value">{stats['max_chi']:.4f}</div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Validation:</strong> {stats['violations_percentage']}% violations confirms χ ≤ 0.15 universal boundary ({stats['total_observations']:,} observations)</p>
+            <p>Discovered by Carl Dean Cline Sr., Lincoln, Nebraska</p>
+            <p><a href="https://github.com/CarlDeanClineSr/luft-portal-" style="color: #00d4ff;">GitHub Repository</a></p>
+        </div>
+    </div>
+</body>
+</html>"""
+    return html
+
 
 if __name__ == '__main__':
     main()

@@ -24,11 +24,30 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install dependencies (optional)
+      - name: Install dependencies
         run: |
+          pip install numpy
           if [ -f requirements.txt ]; then
             pip install -r requirements.txt
           fi
+
+      - name: Fetch fresh space weather data
+        run: |
+          echo "📡 Fetching fresh data for engine status report..."
+          
+          # Fetch plasma data
+          curl --fail --silent --show-error -o data/ace_plasma_latest.json \
+            "https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json" || true
+          
+          # Fetch magnetic field data
+          curl --fail --silent --show-error -o data/ace_mag_latest.json \
+            "https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json" || true
+          
+          # Update heartbeat log with fresh data
+          python scripts/cme_heartbeat_logger.py \
+            --plasma data/ace_plasma_latest.json \
+            --mag data/ace_mag_latest.json || echo "⚠️ Heartbeat update skipped"
+        continue-on-error: true
 
       - name: Run LUFT Portal Engine Status Script
         run: |
@@ -49,8 +68,8 @@ jobs:
           git config --global user.name "vault-bot"
           git config --global user.email "vault-bot@users.noreply.github.com"
 
-          # Stage markdown reports (adjust globs as needed)
-          git add "*.md" "reports/**/*.md" || true
+          # Stage markdown reports and updated data files
+          git add "*.md" "reports/**/*.md" "data/cme_heartbeat_log_*.csv" || true
 
           # No changes? Exit cleanly
           if git diff --quiet && git diff --staged --quiet; then
@@ -58,7 +77,7 @@ jobs:
           fi
 
           # Short commit message to satisfy line-length lint
-          git commit -m "Automated report $(date -u +'%F %T UTC')"
+          git commit -m "Engine report with fresh data $(date -u +'%F %T UTC')"
           git push
 
   # If you want to call a reusable workflow, ensure the target has:
