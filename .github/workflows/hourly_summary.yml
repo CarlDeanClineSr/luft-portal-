@@ -2,8 +2,7 @@ name: Hourly Summary Update
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Every hour on the hour
-    - cron: '*/15 * * * *'  # Every 15 minutes for more frequent updates (as requested)
+    - cron: '10 * * * *'  # Every hour at :10 past (after data collection settles)
   workflow_dispatch:  # Allow manual triggering
   push:
     branches: [main]
