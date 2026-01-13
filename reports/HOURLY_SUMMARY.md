@@ -1,10 +1,12 @@
 # LUFT PORTAL - HOURLY SUMMARY
-**Generated:** 2026-01-13 14:41:41 UTC  
+**Generated:** 2026-01-13 14:54:56 UTC  
 **Status:** 🟢 OPERATIONAL
 
 ---
 
 ## 🎯 CORE DISCOVERY: χ ≤ 0.15 BOUNDARY
+
+⚠️ **DATA STALE:** Last update 17.9 minutes ago (expected < 15 min)
 
 **Status:** ACTIVE  
 **Total Observations:** 1,642  
@@ -12,7 +14,7 @@
 **Violations:** 0 (✅ ZERO)  
 **Boundary Test:** ✅ PASSED
 **Last Update:** 2026-01-13 14:37:00.000
-✅ **Data Age:** 4.7 minutes (FRESH)
+⚠️ **Data Age:** 17.9 minutes (STALE - expected < 15 min)
 
 ---
 
