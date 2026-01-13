@@ -1,6 +1,8 @@
 name: Update Dashboards
 
 on:
+  schedule:
+    - cron: '8,23,38,53 * * * *'  # Every 15 minutes, 8 minute offset (after data collection)
   workflow_dispatch:
   workflow_call:
   workflow_run:
