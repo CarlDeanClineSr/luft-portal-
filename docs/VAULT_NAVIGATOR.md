@@ -1,6 +1,6 @@
 # LUFT Vault Navigator
 
-**Generated:** 2026-01-12T12:49:25.230542+00:00
+**Generated:** 2026-01-13T12:49:16.456857+00:00
 **GitHub User:** CarlDeanClineSr
 
 ## Summary
@@ -8,7 +8,7 @@
 - **Total Repositories:** 17
 - **Repositories with Knowledge Index:** 1
 - **Repositories with Teacher Analysis:** 1
-- **Total Files Indexed:** 4526
+- **Total Files Indexed:** 4666
 
 ## Repositories
 
@@ -69,9 +69,9 @@
 **Description:**  This repository (LUFT Portal) is the compact, curated entry point for the LUFT program. 
 
 **Branch:** main
-**Last Updated:** 2026-01-12T12:48:08Z
+**Last Updated:** 2026-01-13T12:48:01Z
 
-**📚 Knowledge Index:** 4526 files indexed
+**📚 Knowledge Index:** 4666 files indexed
 
 **Sample Files:**
 
@@ -86,15 +86,15 @@
 - `CAPSULE_AUDIT_BILL_OF_RIGHTS.md` — *text* — Capsule — Audit Bill of Rights (Explicit Rights of the Audit System)
 - `CAPSULE_AUDIT_CANON.md` — *text* — Capsule — Audit Canon (Permanent Reference of LUFT Audit System)
 
-**🎓 Teach-The-Engine:** 1182/1183 datasets analyzed
+**🎓 Teach-The-Engine:** 1190/1191 datasets analyzed
 
 **Signature Pass Rates:**
 
-- chi_boundary: 11/1182 (1%)
-- fractal_regulator: 11/1182 (1%)
-- binary_harmonics: 0/1182 (0%)
-- electroweak_bridge: 6/1182 (1%)
-- whistler_gaps: 0/0 (0%)
+- chi_boundary: 11/1188 (1%)
+- fractal_regulator: 11/1188 (1%)
+- binary_harmonics: 1129/1188 (95%)
+- electroweak_bridge: 6/1188 (1%)
+- whistler_gaps: 1/2 (50%)
 
 ---
 
