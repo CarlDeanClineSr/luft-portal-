@@ -57,16 +57,6 @@ BASELINE_DENSITY = 5.0    # p/cm³ - typical quiet solar wind density
 BASELINE_SPEED = 400.0    # km/s - typical quiet solar wind speed
 BASELINE_BT = 5.0         # nT - typical quiet interplanetary magnetic field
 
-# Demo data generation parameters
-DEMO_DENSITY_MEAN = 5.0
-DEMO_DENSITY_STD = 2.0
-DEMO_SPEED_MEAN = 400.0
-DEMO_SPEED_STD = 50.0
-DEMO_BZ_MEAN = -2.0
-DEMO_BZ_STD = 3.0
-DEMO_BT_MEAN = 5.0
-DEMO_BT_STD = 2.0
-
 # Chi amplitude scaling factor (empirically derived from LUFT model)
 # Maps relative modulation (0-1) to χ range centered on 0.055
 CHI_SCALING_CENTER = 0.1  # Center point for modulation-to-chi mapping
@@ -485,41 +475,6 @@ def append_log_entry(filepath, entry, existing_timestamps=None):
     return True
 
 
-def generate_demo_entry():
-    """Generate a demo log entry for testing."""
-    now = datetime.now(timezone.utc)
-    
-    # Simulate solar wind data with some variation using defined constants
-    density = DEMO_DENSITY_MEAN + np.random.normal(0, DEMO_DENSITY_STD)
-    speed = DEMO_SPEED_MEAN + np.random.normal(0, DEMO_SPEED_STD)
-    bz = DEMO_BZ_MEAN + np.random.normal(0, DEMO_BZ_STD)
-    bt = DEMO_BT_MEAN + np.random.normal(0, DEMO_BT_STD)
-    
-    chi = estimate_chi_amplitude(density, speed, bt)
-    phase = estimate_phase(now.isoformat())
-    storm_phase = classify_storm_phase(density, speed, bz, bt)
-    
-    # Add χ boundary classification
-    chi_at_boundary = 1 if (CHI_BOUNDARY_MIN <= chi <= CHI_BOUNDARY_MAX) else 0
-    chi_violation = 1 if chi > CHI_BOUNDARY_MAX else 0
-    chi_status = classify_chi_status(chi)
-    
-    return {
-        'timestamp_utc': now.isoformat(),
-        'chi_amplitude': chi,
-        'phase_radians': phase,
-        'storm_phase': storm_phase,
-        'density': round(max(0, density), 2),
-        'speed': round(max(0, speed), 1),
-        'bz': round(bz, 2),
-        'bt': round(max(0, bt), 2),
-        'source': 'DEMO',
-        'chi_at_boundary': chi_at_boundary,
-        'chi_violation': chi_violation,
-        'chi_status': chi_status
-    }
-
-
 def main():
     parser = argparse.ArgumentParser(
         description="LUFT CME Heartbeat Logger — Log χ amplitude and 2.4h phase for CME monitoring",
@@ -527,17 +482,15 @@ def main():
         epilog="""
 Examples:
   python scripts/cme_heartbeat_logger.py --plasma data/ace_plasma_latest.json --mag data/ace_mag_latest.json
-  python scripts/cme_heartbeat_logger.py --demo
 
 Contact: CARLDCLINE@GMAIL.COM
 Repository: https://github.com/CarlDeanClineSr/luft-portal-
         """
     )
     
-    parser.add_argument('--plasma', type=str, help='Path to plasma data JSON')
-    parser.add_argument('--mag', type=str, help='Path to magnetic field data JSON')
+    parser.add_argument('--plasma', type=str, required=True, help='Path to plasma data JSON')
+    parser.add_argument('--mag', type=str, required=True, help='Path to magnetic field data JSON')
     parser.add_argument('--output', type=str, help='Override output CSV path')
-    parser.add_argument('--demo', action='store_true', help='Generate demo entry for testing')
     
     args = parser.parse_args()
     
@@ -550,80 +503,72 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
     # Determine output file
     log_filepath = Path(args.output) if args.output else get_log_filepath()
     
-    if args.demo:
-        print("Running in DEMO mode...")
-        entry = generate_demo_entry()
-    else:
-        if not args.plasma or not args.mag:
-            print("Error: Please provide --plasma and --mag data files, or use --demo")
-            sys.exit(1)
-        
-        # Ensure data directory exists
-        ensure_data_directory()
-        
-        # Load or fetch data with fallback to API
-        plasma_data = load_or_fetch_data(args.plasma, NOAA_PLASMA_URL, "plasma")
-        mag_data = load_or_fetch_data(args.mag, NOAA_MAG_URL, "magnetic field")
-        
-        # Extract latest values
-        plasma = extract_latest_plasma(plasma_data) if plasma_data else None
-        mag = extract_latest_mag(mag_data) if mag_data else None
-        
-        # Check if we have any valid data
-        if not plasma and not mag:
-            print()
-            print("=" * 60)
-            print("WARNING: No valid data available")
-            print("=" * 60)
-            print("Could not obtain valid solar wind data from:")
-            print("  - Local files (missing or invalid)")
-            print("  - NOAA API (failed after retries)")
-            print()
-            print("This is not an error - data may be temporarily unavailable.")
-            print("The workflow will continue without logging this entry.")
-            print("Next scheduled run will attempt to fetch data again.")
-            print("=" * 60)
-            sys.exit(0)  # Exit gracefully without error
-        
-        # Get timestamp
-        timestamp = (plasma or mag).get('timestamp', datetime.now(timezone.utc).isoformat())
-        
-        # Extract values (handle partial data gracefully)
-        density = plasma.get('density') if plasma else None
-        speed = plasma.get('speed') if plasma else None
-        bz = mag.get('bz') if mag else None
-        bt = mag.get('bt') if mag else None
-        
-        # Log what data we have
+    # Ensure data directory exists
+    ensure_data_directory()
+    
+    # Load or fetch data with fallback to API
+    plasma_data = load_or_fetch_data(args.plasma, NOAA_PLASMA_URL, "plasma")
+    mag_data = load_or_fetch_data(args.mag, NOAA_MAG_URL, "magnetic field")
+    
+    # Extract latest values
+    plasma = extract_latest_plasma(plasma_data) if plasma_data else None
+    mag = extract_latest_mag(mag_data) if mag_data else None
+    
+    # Check if we have any valid data
+    if not plasma and not mag:
         print()
-        print("Data availability:")
-        print(f"  Plasma: {'✓' if plasma else '✗'} (density={density}, speed={speed})")
-        print(f"  Magnetic: {'✓' if mag else '✗'} (bz={bz}, bt={bt})")
-        
-        # Compute LUFT parameters
-        chi = estimate_chi_amplitude(density, speed, bt)
-        phase = estimate_phase(timestamp)
-        storm_phase = classify_storm_phase(density, speed, bz, bt)
-        
-        # Add χ boundary classification
-        chi_at_boundary = 1 if (CHI_BOUNDARY_MIN <= chi <= CHI_BOUNDARY_MAX) else 0
-        chi_violation = 1 if chi > CHI_BOUNDARY_MAX else 0
-        chi_status = classify_chi_status(chi)
-        
-        entry = {
-            'timestamp_utc': timestamp,
-            'chi_amplitude': chi,
-            'phase_radians': phase,
-            'storm_phase': storm_phase,
-            'density': round(density, 2) if density else '',
-            'speed': round(speed, 1) if speed else '',
-            'bz': round(bz, 2) if bz else '',
-            'bt': round(bt, 2) if bt else '',
-            'source': 'ACE/DSCOVR',
-            'chi_at_boundary': chi_at_boundary,
-            'chi_violation': chi_violation,
-            'chi_status': chi_status
-        }
+        print("=" * 60)
+        print("WARNING: No valid data available")
+        print("=" * 60)
+        print("Could not obtain valid solar wind data from:")
+        print("  - Local files (missing or invalid)")
+        print("  - NOAA API (failed after retries)")
+        print()
+        print("This is not an error - data may be temporarily unavailable.")
+        print("The workflow will continue without logging this entry.")
+        print("Next scheduled run will attempt to fetch data again.")
+        print("=" * 60)
+        sys.exit(0)  # Exit gracefully without error
+    
+    # Get timestamp
+    timestamp = (plasma or mag).get('timestamp', datetime.now(timezone.utc).isoformat())
+    
+    # Extract values (handle partial data gracefully)
+    density = plasma.get('density') if plasma else None
+    speed = plasma.get('speed') if plasma else None
+    bz = mag.get('bz') if mag else None
+    bt = mag.get('bt') if mag else None
+    
+    # Log what data we have
+    print()
+    print("Data availability:")
+    print(f"  Plasma: {'✓' if plasma else '✗'} (density={density}, speed={speed})")
+    print(f"  Magnetic: {'✓' if mag else '✗'} (bz={bz}, bt={bt})")
+    
+    # Compute LUFT parameters
+    chi = estimate_chi_amplitude(density, speed, bt)
+    phase = estimate_phase(timestamp)
+    storm_phase = classify_storm_phase(density, speed, bz, bt)
+    
+    # Add χ boundary classification
+    chi_at_boundary = 1 if (CHI_BOUNDARY_MIN <= chi <= CHI_BOUNDARY_MAX) else 0
+    chi_violation = 1 if chi > CHI_BOUNDARY_MAX else 0
+    chi_status = classify_chi_status(chi)
+    
+    entry = {
+        'timestamp_utc': timestamp,
+        'chi_amplitude': chi,
+        'phase_radians': phase,
+        'storm_phase': storm_phase,
+        'density': round(density, 2) if density else '',
+        'speed': round(speed, 1) if speed else '',
+        'bz': round(bz, 2) if bz else '',
+        'bt': round(bt, 2) if bt else '',
+        'source': 'ACE/DSCOVR',
+        'chi_at_boundary': chi_at_boundary,
+        'chi_violation': chi_violation,
+        'chi_status': chi_status
+    }
     
     # Initialize log file if needed
     initialize_log_file(log_filepath)
