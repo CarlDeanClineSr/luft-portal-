@@ -24,6 +24,22 @@ set -euo pipefail
 
 FILES="${1:-.}"
 MSG="${2:-Automated update}"
+CSV_CONFLICT_GREP='^data/.*\.csv$'
+
+resolve_csv_conflicts() {
+  local conflicts
+  conflicts=$(git diff --name-only --diff-filter=U | grep -E "${CSV_CONFLICT_GREP}" || true)
+  if [ -n "${conflicts}" ]; then
+    echo "Auto-resolving CSV conflicts with 'ours' strategy..."
+    while IFS= read -r path; do
+      [ -z "$path" ] && continue
+      git checkout --ours -- "$path"
+      git add "$path"
+    done <<< "${conflicts}"
+    return 0
+  fi
+  return 1
+}
 
 # Configure git identity for the commit
 git config --global user.name "engine-bot"
@@ -36,10 +52,13 @@ git fetch origin main
 # Re-sync local state with remote; prefer rebase, fall back to merge if conflicts
 echo "Rebasing onto origin/main..."
 if ! git rebase origin/main; then
-  echo "Rebase failed, aborting and trying merge fallback..."
-  git rebase --abort 2>/dev/null || echo "No rebase to abort"
-  if ! git pull --no-rebase origin main; then
-    echo "Warning: Merge fallback also failed. Proceeding anyway..."
+  echo "Rebase failed. Checking for CSV conflicts..."
+  if resolve_csv_conflicts && git rebase --continue; then
+    echo "Rebase completed after auto-resolving CSV conflicts."
+  else
+    echo "Non-CSV conflict or unresolved rebase. Aborting."
+    git rebase --abort 2>/dev/null || true
+    exit 1
   fi
 fi
 
@@ -68,7 +87,14 @@ for i in 1 2 3 4 5; do
   fi
   echo "Push failed (attempt $i). Re-syncing and retrying..."
   if ! git pull --rebase --autostash origin main; then
-    echo "Warning: Pull --rebase failed. Trying again on next iteration..."
+    echo "Pull --rebase failed. Attempting to resolve CSV conflicts..."
+    if resolve_csv_conflicts && git rebase --continue; then
+      echo "Rebase continued after resolving CSV conflicts."
+    else
+      echo "Unable to resolve conflicts during pull. Aborting."
+      git rebase --abort 2>/dev/null || true
+      exit 1
+    fi
   fi
   sleep $((5 * i))
 done

@@ -40,7 +40,22 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase origin main --autostash || true
+          if ! git pull --rebase origin main --autostash; then
+            echo "git pull --rebase failed. Checking for CSV conflicts..."
+            CSV_CONFLICTS=$(git diff --name-only --diff-filter=U | grep -E '^data/.*\.csv$' || true)
+            if [ -n "$CSV_CONFLICTS" ]; then
+              while IFS= read -r path; do
+                [ -z "$path" ] && continue
+                git checkout --ours -- "$path"
+                git add "$path"
+              done <<< "$CSV_CONFLICTS"
+              git rebase --continue || { git rebase --abort; exit 1; }
+            else
+              git rebase --abort || true
+              echo "Non-CSV conflicts detected. Aborting."
+              exit 1
+            fi
+          fi
 
           if git status --porcelain | grep "results/cme_heartbeat_2025_12_chi_pdyn.png"; then
             git add results/cme_heartbeat_2025_12_chi_pdyn.png
