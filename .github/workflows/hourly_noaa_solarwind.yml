@@ -2,7 +2,7 @@ name: Hourly NOAA Solar Wind Fetch
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Every hour at :00 UTC
+    - cron: '*/5 * * * *'  # Runs every 5 minutes to match 5-minute data cadence
   workflow_dispatch:
 
 jobs:

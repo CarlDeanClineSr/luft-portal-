@@ -57,16 +57,6 @@ BASELINE_DENSITY = 5.0    # p/cm³ - typical quiet solar wind density
 BASELINE_SPEED = 400.0    # km/s - typical quiet solar wind speed
 BASELINE_BT = 5.0         # nT - typical quiet interplanetary magnetic field
 
-# Demo data generation parameters
-DEMO_DENSITY_MEAN = 5.0
-DEMO_DENSITY_STD = 2.0
-DEMO_SPEED_MEAN = 400.0
-DEMO_SPEED_STD = 50.0
-DEMO_BZ_MEAN = -2.0
-DEMO_BZ_STD = 3.0
-DEMO_BT_MEAN = 5.0
-DEMO_BT_STD = 2.0
-
 # Chi amplitude scaling factor (empirically derived from LUFT model)
 # Maps relative modulation (0-1) to χ range centered on 0.055
 CHI_SCALING_CENTER = 0.1  # Center point for modulation-to-chi mapping
@@ -369,6 +359,29 @@ def classify_chi_status(chi_val):
         return 'BELOW'
 
 
+def get_existing_timestamps(filepath):
+    """
+    Read existing timestamps from the CSV log to prevent duplicates.
+    
+    Args:
+        filepath (Path): Path to the CSV log file
+    
+    Returns:
+        set: Set of existing timestamp strings
+    """
+    timestamps = set()
+    if filepath.exists():
+        try:
+            with open(filepath, 'r', newline='') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    if 'timestamp_utc' in row:
+                        timestamps.add(row['timestamp_utc'])
+        except Exception as e:
+            print(f"Warning: Could not read existing timestamps: {e}")
+    return timestamps
+
+
 def initialize_log_file(filepath):
     """Initialize CSV log file with headers if it doesn't exist."""
     if not filepath.exists():
@@ -392,8 +405,67 @@ def initialize_log_file(filepath):
         print(f"Created new log file: {filepath}")
 
 
-def append_log_entry(filepath, entry):
-    """Append a single entry to the CSV log."""
+def validate_entry_data(entry):
+    """
+    Validate that entry data has reasonable values.
+    
+    Args:
+        entry (dict): Dictionary containing entry data to validate
+    
+    Returns:
+        tuple[bool, list[str]]: Tuple of (is_valid, warnings_list)
+    """
+    warnings = []
+    
+    # Check if speed is zero or None when provided
+    speed = entry.get('speed')
+    if speed is not None and speed != '':
+        try:
+            if float(speed) == 0:
+                warnings.append("Speed is 0 km/s - may indicate data gap")
+        except (ValueError, TypeError):
+            pass  # Ignore conversion errors
+    
+    # Check if density is zero or None when provided
+    density = entry.get('density')
+    if density is not None and density != '':
+        try:
+            if float(density) == 0:
+                warnings.append("Density is 0.00 p/cm³ - may indicate data gap")
+        except (ValueError, TypeError):
+            pass  # Ignore conversion errors
+    
+    # Entry is still valid even with warnings - we log all data for completeness
+    return True, warnings
+
+
+def append_log_entry(filepath, entry, existing_timestamps=None):
+    """
+    Append a single entry to the CSV log.
+    
+    Args:
+        filepath (Path): Path to CSV log file
+        entry (dict): Dictionary containing entry data
+        existing_timestamps (set, optional): Set of existing timestamps to check for duplicates
+    
+    Returns:
+        bool: True if entry was appended, False if duplicate was skipped
+    """
+    timestamp = entry['timestamp_utc']
+    
+    # Check for duplicate timestamp
+    if existing_timestamps is not None and timestamp in existing_timestamps:
+        print(f"⚠️  Duplicate timestamp detected: {timestamp}")
+        print("   Skipping entry to prevent duplicate log entries")
+        return False
+    
+    # Validate data quality
+    is_valid, warnings = validate_entry_data(entry)
+    if warnings:
+        print(f"⚠️  Data quality warnings for {timestamp}:")
+        for warning in warnings:
+            print(f"   - {warning}")
+    
     with open(filepath, 'a', newline='') as f:
         writer = csv.writer(f)
         writer.writerow([
@@ -410,41 +482,8 @@ def append_log_entry(filepath, entry):
             entry.get('chi_violation', 0),
             entry.get('chi_status', 'UNKNOWN')
         ])
-
-
-def generate_demo_entry():
-    """Generate a demo log entry for testing."""
-    now = datetime.now(timezone.utc)
     
-    # Simulate solar wind data with some variation using defined constants
-    density = DEMO_DENSITY_MEAN + np.random.normal(0, DEMO_DENSITY_STD)
-    speed = DEMO_SPEED_MEAN + np.random.normal(0, DEMO_SPEED_STD)
-    bz = DEMO_BZ_MEAN + np.random.normal(0, DEMO_BZ_STD)
-    bt = DEMO_BT_MEAN + np.random.normal(0, DEMO_BT_STD)
-    
-    chi = estimate_chi_amplitude(density, speed, bt)
-    phase = estimate_phase(now.isoformat())
-    storm_phase = classify_storm_phase(density, speed, bz, bt)
-    
-    # Add χ boundary classification
-    chi_at_boundary = 1 if (CHI_BOUNDARY_MIN <= chi <= CHI_BOUNDARY_MAX) else 0
-    chi_violation = 1 if chi > CHI_BOUNDARY_MAX else 0
-    chi_status = classify_chi_status(chi)
-    
-    return {
-        'timestamp_utc': now.isoformat(),
-        'chi_amplitude': chi,
-        'phase_radians': phase,
-        'storm_phase': storm_phase,
-        'density': round(max(0, density), 2),
-        'speed': round(max(0, speed), 1),
-        'bz': round(bz, 2),
-        'bt': round(max(0, bt), 2),
-        'source': 'DEMO',
-        'chi_at_boundary': chi_at_boundary,
-        'chi_violation': chi_violation,
-        'chi_status': chi_status
-    }
+    return True
 
 
 def main():
@@ -454,17 +493,15 @@ def main():
         epilog="""
 Examples:
   python scripts/cme_heartbeat_logger.py --plasma data/ace_plasma_latest.json --mag data/ace_mag_latest.json
-  python scripts/cme_heartbeat_logger.py --demo
 
 Contact: CARLDCLINE@GMAIL.COM
 Repository: https://github.com/CarlDeanClineSr/luft-portal-
         """
     )
     
-    parser.add_argument('--plasma', type=str, help='Path to plasma data JSON')
-    parser.add_argument('--mag', type=str, help='Path to magnetic field data JSON')
+    parser.add_argument('--plasma', type=str, required=True, help='Path to plasma data JSON')
+    parser.add_argument('--mag', type=str, required=True, help='Path to magnetic field data JSON')
     parser.add_argument('--output', type=str, help='Override output CSV path')
-    parser.add_argument('--demo', action='store_true', help='Generate demo entry for testing')
     
     args = parser.parse_args()
     
@@ -477,86 +514,90 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
     # Determine output file
     log_filepath = Path(args.output) if args.output else get_log_filepath()
     
-    if args.demo:
-        print("Running in DEMO mode...")
-        entry = generate_demo_entry()
-    else:
-        if not args.plasma or not args.mag:
-            print("Error: Please provide --plasma and --mag data files, or use --demo")
-            sys.exit(1)
-        
-        # Ensure data directory exists
-        ensure_data_directory()
-        
-        # Load or fetch data with fallback to API
-        plasma_data = load_or_fetch_data(args.plasma, NOAA_PLASMA_URL, "plasma")
-        mag_data = load_or_fetch_data(args.mag, NOAA_MAG_URL, "magnetic field")
-        
-        # Extract latest values
-        plasma = extract_latest_plasma(plasma_data) if plasma_data else None
-        mag = extract_latest_mag(mag_data) if mag_data else None
-        
-        # Check if we have any valid data
-        if not plasma and not mag:
-            print()
-            print("=" * 60)
-            print("WARNING: No valid data available")
-            print("=" * 60)
-            print("Could not obtain valid solar wind data from:")
-            print("  - Local files (missing or invalid)")
-            print("  - NOAA API (failed after retries)")
-            print()
-            print("This is not an error - data may be temporarily unavailable.")
-            print("The workflow will continue without logging this entry.")
-            print("Next scheduled run will attempt to fetch data again.")
-            print("=" * 60)
-            sys.exit(0)  # Exit gracefully without error
-        
-        # Get timestamp
-        timestamp = (plasma or mag).get('timestamp', datetime.now(timezone.utc).isoformat())
-        
-        # Extract values (handle partial data gracefully)
-        density = plasma.get('density') if plasma else None
-        speed = plasma.get('speed') if plasma else None
-        bz = mag.get('bz') if mag else None
-        bt = mag.get('bt') if mag else None
-        
-        # Log what data we have
+    # Ensure data directory exists
+    ensure_data_directory()
+    
+    # Load or fetch data with fallback to API
+    plasma_data = load_or_fetch_data(args.plasma, NOAA_PLASMA_URL, "plasma")
+    mag_data = load_or_fetch_data(args.mag, NOAA_MAG_URL, "magnetic field")
+    
+    # Extract latest values
+    plasma = extract_latest_plasma(plasma_data) if plasma_data else None
+    mag = extract_latest_mag(mag_data) if mag_data else None
+    
+    # Check if we have any valid data
+    if not plasma and not mag:
         print()
-        print("Data availability:")
-        print(f"  Plasma: {'✓' if plasma else '✗'} (density={density}, speed={speed})")
-        print(f"  Magnetic: {'✓' if mag else '✗'} (bz={bz}, bt={bt})")
-        
-        # Compute LUFT parameters
-        chi = estimate_chi_amplitude(density, speed, bt)
-        phase = estimate_phase(timestamp)
-        storm_phase = classify_storm_phase(density, speed, bz, bt)
-        
-        # Add χ boundary classification
-        chi_at_boundary = 1 if (CHI_BOUNDARY_MIN <= chi <= CHI_BOUNDARY_MAX) else 0
-        chi_violation = 1 if chi > CHI_BOUNDARY_MAX else 0
-        chi_status = classify_chi_status(chi)
-        
-        entry = {
-            'timestamp_utc': timestamp,
-            'chi_amplitude': chi,
-            'phase_radians': phase,
-            'storm_phase': storm_phase,
-            'density': round(density, 2) if density else '',
-            'speed': round(speed, 1) if speed else '',
-            'bz': round(bz, 2) if bz else '',
-            'bt': round(bt, 2) if bt else '',
-            'source': 'ACE/DSCOVR',
-            'chi_at_boundary': chi_at_boundary,
-            'chi_violation': chi_violation,
-            'chi_status': chi_status
-        }
+        print("=" * 60)
+        print("WARNING: No valid data available")
+        print("=" * 60)
+        print("Could not obtain valid solar wind data from:")
+        print("  - Local files (missing or invalid)")
+        print("  - NOAA API (failed after retries)")
+        print()
+        print("This is not an error - data may be temporarily unavailable.")
+        print("The workflow will continue without logging this entry.")
+        print("Next scheduled run will attempt to fetch data again.")
+        print("=" * 60)
+        sys.exit(0)  # Exit gracefully without error
+    
+    # Get timestamp
+    timestamp = (plasma or mag).get('timestamp', datetime.now(timezone.utc).isoformat())
+    
+    # Extract values (handle partial data gracefully)
+    density = plasma.get('density') if plasma else None
+    speed = plasma.get('speed') if plasma else None
+    bz = mag.get('bz') if mag else None
+    bt = mag.get('bt') if mag else None
+    
+    # Log what data we have
+    print()
+    print("Data availability:")
+    print(f"  Plasma: {'✓' if plasma else '✗'} (density={density}, speed={speed})")
+    print(f"  Magnetic: {'✓' if mag else '✗'} (bz={bz}, bt={bt})")
+    
+    # Compute LUFT parameters
+    chi = estimate_chi_amplitude(density, speed, bt)
+    phase = estimate_phase(timestamp)
+    storm_phase = classify_storm_phase(density, speed, bz, bt)
+    
+    # Add χ boundary classification
+    chi_at_boundary = 1 if (CHI_BOUNDARY_MIN <= chi <= CHI_BOUNDARY_MAX) else 0
+    chi_violation = 1 if chi > CHI_BOUNDARY_MAX else 0
+    chi_status = classify_chi_status(chi)
+    
+    entry = {
+        'timestamp_utc': timestamp,
+        'chi_amplitude': chi,
+        'phase_radians': phase,
+        'storm_phase': storm_phase,
+        'density': round(density, 2) if density else '',
+        'speed': round(speed, 1) if speed else '',
+        'bz': round(bz, 2) if bz else '',
+        'bt': round(bt, 2) if bt else '',
+        'source': 'ACE/DSCOVR',
+        'chi_at_boundary': chi_at_boundary,
+        'chi_violation': chi_violation,
+        'chi_status': chi_status
+    }
     
     # Initialize log file if needed
     initialize_log_file(log_filepath)
     
+    # Read existing timestamps to prevent duplicates
+    existing_timestamps = get_existing_timestamps(log_filepath)
+    if existing_timestamps:
+        print(f"  Found {len(existing_timestamps)} existing entries in log")
+    
     # Append entry
-    append_log_entry(log_filepath, entry)
+    entry_added = append_log_entry(log_filepath, entry, existing_timestamps)
+    
+    if not entry_added:
+        print()
+        print("=" * 60)
+        print("Entry was not logged (duplicate timestamp)")
+        print("=" * 60)
+        return 0
     
     # Report
     print()
