@@ -416,13 +416,21 @@ def validate_entry_data(entry):
     
     # Check if speed is zero or None when provided
     speed = entry.get('speed')
-    if speed is not None and speed != '' and float(speed) == 0:
-        warnings.append("Speed is 0 km/s - may indicate data gap")
+    if speed is not None and speed != '':
+        try:
+            if float(speed) == 0:
+                warnings.append("Speed is 0 km/s - may indicate data gap")
+        except (ValueError, TypeError):
+            pass  # Ignore conversion errors
     
     # Check if density is zero or None when provided
     density = entry.get('density')
-    if density is not None and density != '' and float(density) == 0:
-        warnings.append("Density is 0.00 p/cm³ - may indicate data gap")
+    if density is not None and density != '':
+        try:
+            if float(density) == 0:
+                warnings.append("Density is 0.00 p/cm³ - may indicate data gap")
+        except (ValueError, TypeError):
+            pass  # Ignore conversion errors
     
     # Entry is still valid even with warnings - we log all data for completeness
     return True, warnings

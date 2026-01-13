@@ -200,5 +200,17 @@ def test_validate_entry_data_with_empty_values():
     assert len(warnings) == 0
 
 
+def test_validate_entry_data_with_invalid_types():
+    """Test that validate_entry_data handles invalid types gracefully."""
+    entry = {
+        'speed': 'invalid',
+        'density': 'not_a_number'
+    }
+    
+    is_valid, warnings = validate_entry_data(entry)
+    assert is_valid is True
+    assert len(warnings) == 0  # Should not crash, just skip validation
+
+
 if __name__ == '__main__':
     pytest.main([__file__, '-v'])
