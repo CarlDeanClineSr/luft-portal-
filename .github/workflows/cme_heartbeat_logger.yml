@@ -2,7 +2,7 @@ name: LUFT CME Heartbeat Logger
 
 on:
   schedule:
-    - cron: '15 * * * *'  # Runs every hour at HH:15 (after data ingests complete)
+    - cron: '*/5 * * * *'  # Runs every 5 minutes to match 5-minute data cadence
   workflow_dispatch:       # Manual trigger support
 
 env:

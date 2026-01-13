@@ -369,6 +369,29 @@ def classify_chi_status(chi_val):
         return 'BELOW'
 
 
+def get_existing_timestamps(filepath):
+    """
+    Read existing timestamps from the CSV log to prevent duplicates.
+    
+    Args:
+        filepath: Path to the CSV log file
+    
+    Returns:
+        Set of existing timestamp strings
+    """
+    timestamps = set()
+    if filepath.exists():
+        try:
+            with open(filepath, 'r', newline='') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    if 'timestamp_utc' in row:
+                        timestamps.add(row['timestamp_utc'])
+        except Exception as e:
+            print(f"Warning: Could not read existing timestamps: {e}")
+    return timestamps
+
+
 def initialize_log_file(filepath):
     """Initialize CSV log file with headers if it doesn't exist."""
     if not filepath.exists():
@@ -392,8 +415,56 @@ def initialize_log_file(filepath):
         print(f"Created new log file: {filepath}")
 
 
-def append_log_entry(filepath, entry):
-    """Append a single entry to the CSV log."""
+def validate_entry_data(entry):
+    """
+    Validate that entry data has reasonable values.
+    
+    Returns:
+        Tuple (is_valid, warnings_list)
+    """
+    warnings = []
+    
+    # Check if speed is zero or None when provided
+    speed = entry.get('speed')
+    if speed is not None and speed != '' and float(speed) == 0:
+        warnings.append("Speed is 0 km/s - may indicate data gap")
+    
+    # Check if density is zero or None when provided
+    density = entry.get('density')
+    if density is not None and density != '' and float(density) == 0:
+        warnings.append("Density is 0.00 p/cm³ - may indicate data gap")
+    
+    # Entry is still valid even with warnings - we log all data for completeness
+    return True, warnings
+
+
+def append_log_entry(filepath, entry, existing_timestamps=None):
+    """
+    Append a single entry to the CSV log.
+    
+    Args:
+        filepath: Path to CSV log file
+        entry: Dictionary containing entry data
+        existing_timestamps: Optional set of existing timestamps to check for duplicates
+    
+    Returns:
+        True if entry was appended, False if duplicate was skipped
+    """
+    timestamp = entry['timestamp_utc']
+    
+    # Check for duplicate timestamp
+    if existing_timestamps is not None and timestamp in existing_timestamps:
+        print(f"⚠️  Duplicate timestamp detected: {timestamp}")
+        print("   Skipping entry to prevent duplicate log entries")
+        return False
+    
+    # Validate data quality
+    is_valid, warnings = validate_entry_data(entry)
+    if warnings:
+        print(f"⚠️  Data quality warnings for {timestamp}:")
+        for warning in warnings:
+            print(f"   - {warning}")
+    
     with open(filepath, 'a', newline='') as f:
         writer = csv.writer(f)
         writer.writerow([
@@ -410,6 +481,8 @@ def append_log_entry(filepath, entry):
             entry.get('chi_violation', 0),
             entry.get('chi_status', 'UNKNOWN')
         ])
+    
+    return True
 
 
 def generate_demo_entry():
@@ -555,8 +628,20 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
     # Initialize log file if needed
     initialize_log_file(log_filepath)
     
+    # Read existing timestamps to prevent duplicates
+    existing_timestamps = get_existing_timestamps(log_filepath)
+    if existing_timestamps:
+        print(f"  Found {len(existing_timestamps)} existing entries in log")
+    
     # Append entry
-    append_log_entry(log_filepath, entry)
+    entry_added = append_log_entry(log_filepath, entry, existing_timestamps)
+    
+    if not entry_added:
+        print()
+        print("=" * 60)
+        print("Entry was not logged (duplicate timestamp)")
+        print("=" * 60)
+        return 0
     
     # Report
     print()

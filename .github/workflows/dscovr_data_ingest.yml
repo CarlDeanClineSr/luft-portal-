@@ -2,7 +2,7 @@ name: DSCOVR Solar Wind Data Ingest
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs every hour at HH:00
+    - cron: '*/5 * * * *'  # Runs every 5 minutes to match 5-minute data cadence
   workflow_dispatch:     # Manual trigger support
 
 jobs:
