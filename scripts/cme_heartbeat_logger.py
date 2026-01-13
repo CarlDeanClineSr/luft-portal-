@@ -364,10 +364,10 @@ def get_existing_timestamps(filepath):
     Read existing timestamps from the CSV log to prevent duplicates.
     
     Args:
-        filepath: Path to the CSV log file
+        filepath (Path): Path to the CSV log file
     
     Returns:
-        Set of existing timestamp strings
+        set: Set of existing timestamp strings
     """
     timestamps = set()
     if filepath.exists():
@@ -409,8 +409,11 @@ def validate_entry_data(entry):
     """
     Validate that entry data has reasonable values.
     
+    Args:
+        entry (dict): Dictionary containing entry data to validate
+    
     Returns:
-        Tuple (is_valid, warnings_list)
+        tuple[bool, list[str]]: Tuple of (is_valid, warnings_list)
     """
     warnings = []
     
@@ -441,12 +444,12 @@ def append_log_entry(filepath, entry, existing_timestamps=None):
     Append a single entry to the CSV log.
     
     Args:
-        filepath: Path to CSV log file
-        entry: Dictionary containing entry data
-        existing_timestamps: Optional set of existing timestamps to check for duplicates
+        filepath (Path): Path to CSV log file
+        entry (dict): Dictionary containing entry data
+        existing_timestamps (set, optional): Set of existing timestamps to check for duplicates
     
     Returns:
-        True if entry was appended, False if duplicate was skipped
+        bool: True if entry was appended, False if duplicate was skipped
     """
     timestamp = entry['timestamp_utc']
     
