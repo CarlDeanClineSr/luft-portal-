@@ -51,7 +51,7 @@ git fetch origin main
 
 # Re-sync local state with remote; prefer rebase, fall back to merge if conflicts
 echo "Rebasing onto origin/main..."
-if ! git rebase origin/main; then
+if ! git rebase --autostash origin/main; then
   echo "Rebase failed. Checking for CSV conflicts..."
   if resolve_csv_conflicts && git rebase --continue; then
     echo "Rebase completed after auto-resolving CSV conflicts."
