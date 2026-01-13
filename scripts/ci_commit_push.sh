@@ -45,6 +45,12 @@ resolve_csv_conflicts() {
 git config --global user.name "engine-bot"
 git config --global user.email "engine-bot@users.noreply.github.com"
 
+# Stage files first (using || true to handle cases where globs don't match)
+# Note: We intentionally use unquoted ${FILES} to allow word splitting for multiple file patterns
+echo "Staging files: ${FILES}"
+# shellcheck disable=SC2086
+git add ${FILES} || true
+
 # Fetch the latest state of the remote main branch
 echo "Fetching latest remote main..."
 git fetch origin main
@@ -61,12 +67,6 @@ if ! git rebase --autostash origin/main; then
     exit 1
   fi
 fi
-
-# Stage files (using || true to handle cases where globs don't match)
-# Note: We intentionally use unquoted ${FILES} to allow word splitting for multiple file patterns
-echo "Staging files: ${FILES}"
-# shellcheck disable=SC2086
-git add ${FILES} || true
 
 # Check if there are any staged changes to commit
 if git diff --staged --quiet; then
