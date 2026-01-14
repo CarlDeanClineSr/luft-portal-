@@ -1,6 +1,6 @@
 import requests
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 import json
 
 OUTPUT_DIR = Path("data/cern_lhc")
@@ -128,7 +128,7 @@ def fetch_cern_luminosity():
         # Check if we got valid results
         if 'hits' in data and 'hits' in data['hits'] and len(data['hits']['hits']) > 0:
             # Save search results for inspection
-            timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
+            timestamp = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')
             json_file = OUTPUT_DIR / f"cern_lumi_search_{timestamp}.json"
             
             with open(json_file, 'w') as f:
@@ -220,7 +220,7 @@ def fetch_cern_archived():
                 
                 print(f"Found archived dataset: {url}")
                 
-                timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
+                timestamp = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')
                 csv_file = OUTPUT_DIR / f"cern_lumi_archived_{timestamp}.csv"
                 
                 with open(csv_file, 'w') as f:
@@ -297,7 +297,7 @@ def fetch_cern_atlas():
         data = response.json()
         
         if 'hits' in data and 'hits' in data['hits'] and len(data['hits']['hits']) > 0:
-            timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
+            timestamp = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')
             json_file = OUTPUT_DIR / f"cern_atlas_search_{timestamp}.json"
             
             with open(json_file, 'w') as f:
