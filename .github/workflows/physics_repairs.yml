@@ -8,11 +8,17 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: repo-push-main
+  cancel-in-progress: false
+
 jobs:
   run-repairs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python 3.11 (pyspedas-compatible)
         uses: actions/setup-python@v5
@@ -37,26 +43,11 @@ jobs:
         run: |
           python scripts/psp_ingest_validate.py --start "$PSP_START" --end "$PSP_END"
 
-      - name: Configure git
+      - name: Commit and push results
         if: github.event_name != 'pull_request'
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-
-      - name: Commit results
-        if: github.event_name != 'pull_request'
-        run: |
-          # Only add directories that exist
-          for dir in figures data reports; do
-            if [ -d "$dir" ]; then
-              git add "$dir"
-            fi
-          done
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "PSP χ≤0.15 validation - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-            git push
-          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bash scripts/ci_commit_push.sh \
+            "figures data reports" \
+            "PSP χ≤0.15 validation - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
