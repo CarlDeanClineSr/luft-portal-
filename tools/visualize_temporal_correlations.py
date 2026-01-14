@@ -15,9 +15,9 @@ import os
 # Ensure output directory exists
 os.makedirs('/home/runner/work/luft-portal-/luft-portal-/charts/temporal_correlations', exist_ok=True)
 
-# 13 Temporal Correlation Modes
+# 13 Temporal Correlation Modes (Updated January 14, 2026)
 delays = [0, 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72]
-matches = [98058, 94405, 102916, 123791, 144356, 136072, 78581, 78838, 122699, 121792, 88875, 71615, 110928]
+matches = [139914, 134692, 146860, 176651, 212466, 194165, 112127, 112528, 175131, 173835, 126828, 102214, 158313]
 descriptions = [
     "IMMEDIATE",
     "First delay",
@@ -58,7 +58,7 @@ bars[4].set_linewidth(3)
 
 plt.xlabel('Time Delay (hours)', fontsize=14, fontweight='bold')
 plt.ylabel('Number of Matches', fontsize=14, fontweight='bold')
-plt.title('13 Temporal Correlation Modes: NOAA Events → χ Boundary Response\n1,474,926 Total Matches • 95% Confidence', 
+plt.title('13 Temporal Correlation Modes: NOAA Events → χ Boundary Response\n2,104,524 Total Matches • 95%+ Confidence', 
           fontsize=16, fontweight='bold', pad=20)
 
 # Add value labels on bars
@@ -103,7 +103,7 @@ for delay, match, desc in zip(delays, matches, descriptions):
     ax.text(delay, 0.88, desc, ha='center', fontsize=7, style='italic')
 
 # Highlight peak
-ax.scatter([24], [1], s=144356/1000*20, c='red', alpha=0.3, edgecolors='red', linewidths=3, marker='o', zorder=1)
+ax.scatter([24], [1], s=212466/1000*20, c='red', alpha=0.3, edgecolors='red', linewidths=3, marker='o', zorder=1)
 ax.text(24, 1.15, '🔥 PEAK 🔥', ha='center', fontsize=14, fontweight='bold', color='red')
 
 ax.set_ylim(0.8, 1.3)
@@ -142,7 +142,7 @@ for autotext in autotexts:
     autotext.set_fontsize(11)
     autotext.set_fontweight('bold')
 
-ax.set_title('Distribution of 1.47M Correlation Matches Across 5 Response Phases\nχ Boundary Temporal Response to NOAA Events', 
+ax.set_title('Distribution of 2.1M Correlation Matches Across 5 Response Phases\nχ Boundary Temporal Response to NOAA Events', 
              fontsize=14, fontweight='bold', pad=20)
 
 # Add match counts
@@ -168,7 +168,7 @@ ax.axvline(response_time, color='green', linewidth=3, linestyle='--', label='χ 
 for delay in predicted_times:
     if delay == 6:
         ax.axvline(delay, color='green', linewidth=5, alpha=0.3)
-        ax.text(delay, 0.9, '✅ MATCH!\n6h delay\n94,405 matches', ha='center', fontsize=10, 
+        ax.text(delay, 0.9, '✅ MATCH!\n6h delay\n134,692 matches', ha='center', fontsize=10, 
                 fontweight='bold', color='green', bbox=dict(boxstyle='round', facecolor='lightgreen', alpha=0.8))
     else:
         ax.axvline(delay, color='gray', linewidth=0.5, alpha=0.3)
