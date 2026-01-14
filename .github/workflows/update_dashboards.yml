@@ -1,4 +1,58 @@
-# This workflow updates the dashboards
+name: Update Dashboards
+
+on:
+  workflow_call:
+
+permissions:
+  contents: write
 
 jobs:
-  # Define your jobs here
+  update-dashboards:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml jinja2
+          
+      - name: Run capsule index job
+        run: |
+          echo "Running capsule index job..."
+          python scripts/capsule_index_job.py
+          
+      - name: Run dashboard generator
+        run: |
+          echo "Running dashboard generator..."
+          python scripts/generate_dashboard.py
+          
+      - name: Verify generated files
+        run: |
+          echo "Verifying generated files..."
+          if [ -s "docs/manifest_master_index.yaml" ]; then
+            echo "✅ docs/manifest_master_index.yaml exists and is non-empty"
+          else
+            echo "⚠️  docs/manifest_master_index.yaml missing or empty (non-fatal)"
+          fi
+          if [ -s "docs/manifest_dashboard.html" ]; then
+            echo "✅ docs/manifest_dashboard.html exists and is non-empty"
+          else
+            echo "⚠️  docs/manifest_dashboard.html missing or empty (non-fatal)"
+          fi
+          
+      - name: Commit and push dashboard updates
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bash scripts/ci_commit_push.sh \
+            "docs/manifest_master_index.yaml docs/manifest_dashboard.html" \
+            "dashboards: auto-update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
