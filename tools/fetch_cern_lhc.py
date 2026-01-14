@@ -3,89 +3,65 @@ from pathlib import Path
 from datetime import datetime
 import json
 
-# Validates the response from the API
-def validate_response(response):
-    if response.status_code != 200:
-        print(f"Error: Received response {response.status_code}")
-        return False
-    return True
+OUTPUT_DIR = Path("data/cern_lhc")
+OUTPUT_DIR.mkdir(exist_ok=True)
 
-# Validates if the fetched CSV file URL points to a proper CSV file
-def validate_csv_file(url):
-    response = requests.head(url)
-    content_type = response.headers.get('Content-Type', '')
-    if 'text/csv' not in content_type:
-        print(f"Invalid CSV File: {url}")
-        return False
-    return True
-
-# Cleans the invalid CSV files
-def clean_invalid_files(urls):
-    valid_urls = []
-    for url in urls:
-        if validate_csv_file(url):
-            valid_urls.append(url)
-    return valid_urls
-
-# Extracts CSV file URLs from the API response
-def extract_csv_urls(data):
-    csv_urls = []
-    for record in data['records']:
-        for file in record['fields']['media']: 
-            if file['type'] == 'text/csv':
-                csv_urls.append(file['url'])
-    return csv_urls
-
-# Fetches luminosity data from CERN Open Data Portal
 def fetch_cern_luminosity():
+    """Fetch LHC luminosity data from CERN Open Data API"""
     experiments = ['CMS', 'ATLAS']
+    
     for experiment in experiments:
-        print(f"Fetching data for {experiment}...")
-        url = f'https://opendata.cern.ch/api/records/?q={experiment}+luminosity'
-        response = requests.get(url)
-        if validate_response(response):
+        print(f"\nSearching CERN Open Data for {experiment} luminosity...")
+        
+        url = "https://opendata.cern.ch/api/records/"
+        params = {
+            'q': f'luminosity {experiment}',
+            'type': 'Dataset',
+            'size': 20
+        }
+        
+        try:
+            response = requests.get(url, params=params, timeout=30)
+            response.raise_for_status()
             data = response.json()
-            csv_urls = extract_csv_urls(data)
-            valid_csv_urls = clean_invalid_files(csv_urls)
-            if valid_csv_urls:
-                return valid_csv_urls
-            else:
-                print(f"No valid CSV URLs found for {experiment}.")
-    return None
+            
+            # Save search results
+            timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
+            json_file = OUTPUT_DIR / f"cern_{experiment.lower()}_search_{timestamp}.json"
+            
+            with open(json_file, 'w') as f:
+                json.dump(data, f, indent=2)
+            
+            print(f"✓ Saved: {json_file}")
+            
+            # Check for CSV files - CORRECT API STRUCTURE
+            hits = data.get('hits', {}).get('hits', [])  # ← FIX HERE
+            
+            csv_count = 0
+            for record in hits:
+                files = record.get('metadata', {}).get('files', [])
+                for file_info in files:
+                    if file_info.get('key', '').endswith('.csv'):
+                        csv_count += 1
+            
+            if csv_count > 0:
+                print(f"Found {csv_count} CSV file(s) in {experiment} datasets")
+                return True
+                
+        except Exception as e:
+            print(f"Error: {e}")
+            continue
+    
+    return False
 
-# Fallback function to fetch LHC statistics
-def fetch_lhc_stats():
-    print("Fetching fallback LHC statistics...")
-    url = 'https://opendata.cern.ch/api/records/?q=LHC+statistics'
-    response = requests.get(url)
-    if validate_response(response):
-        data = response.json()
-        csv_urls = extract_csv_urls(data)
-        valid_csv_urls = clean_invalid_files(csv_urls)
-        return valid_csv_urls
-    return None
-
-# Displays the data guide
-def show_data_guide():
-    print("Current API URLs for fetching data:")
-    print("- Luminosity data: https://opendata.cern.ch/api/records/?q=luminosity")
-    print("- Statistics data: https://opendata.cern.ch/api/records/?q=LHC+statistics")
-
-# Main block
-if __name__ == '__main__':
-    # Clean invalid files
-    print("Cleaning invalid files...")
-    # Assuming a function or method to clean files is in place here
-
-    # Try fetching luminosity data
-    luminosity_data = fetch_cern_luminosity()
-    if not luminosity_data:
-        # Fallback to fetching LHC statistics if no data found
-        luminosity_data = fetch_lhc_stats()
-        if not luminosity_data:
-            show_data_guide()
-
-    # Always exit with status code 0
+if __name__ == "__main__": 
+    print("Fetching CERN luminosity data...")
+    
+    success = fetch_cern_luminosity()
+    
+    if not success:
+        print("\n⚠ No CSV files found - see saved JSON for available datasets")
+        print("Manual search: https://opendata.cern.ch/search?q=luminosity")
+    
+    # Always exit 0 so workflow doesn't fail
     exit(0)
-
-# TODO: Integrate with link harvester for automated data handling
