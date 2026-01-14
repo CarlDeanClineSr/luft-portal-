@@ -1,0 +1,37 @@
+name: Update Dashboards
+
+on:
+  workflow_call:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: repo-push-main
+  cancel-in-progress: false
+
+jobs:
+  update-dashboards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      
+      - name: Install Python dependencies
+        run: python -m pip install --upgrade pip pyyaml
+      
+      - name: Generate dashboard HTML
+        run: python scripts/generate_dashboard.py
+      
+      - name: Commit dashboard updates
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bash scripts/ci_commit_push.sh \
+            "docs/manifest_dashboard.html" \
+            "docs: update manifest dashboard $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
