@@ -66,3 +66,6 @@ data/link_intelligence/*.csv
 # "New Text Document*.txt" - historical chat transcripts (~50MB total)
 # *.wav in root - SDR recordings (~80MB)
 # data/*_2024_*.csv - historical data older than 1 year
+
+# CERN LHC search results (keep CSV data only)
+data/cern_lhc/cern_lumi_search_*.json
