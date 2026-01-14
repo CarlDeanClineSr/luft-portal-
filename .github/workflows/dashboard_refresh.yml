@@ -1,8 +1,8 @@
-name: Dashboard Refresh
+# DISABLED: Dashboard updates have been terminated per user request
+# This workflow is no longer active
+name: Dashboard Refresh (DISABLED)
 on:
-  schedule:
-    - cron: "15 * * * *"  # Every hour at :15 UTC
-  workflow_dispatch:
+  workflow_dispatch:  # Manual trigger only for emergency use
 
 jobs:
   refresh:

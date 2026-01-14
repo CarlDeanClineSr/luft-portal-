@@ -1,27 +1,9 @@
-name: Update Dashboards
+# DISABLED: Dashboard updates have been terminated per user request
+# This workflow is no longer active
+name: Update Dashboards (DISABLED)
 
 on:
-  schedule:
-    - cron: '8,23,38,53 * * * *'  # Every 15 minutes, 8 minute offset (after data collection)
-  workflow_dispatch:
-  workflow_call:
-  workflow_run:
-    workflows:
-      - Engine Status Report
-      - NOAA Parse Feeds
-      - GOES Data Audit — Robust
-      - INTERMAGNET χ Analysis (Plasma Boundary Test)
-      - Run FFT Sideband Detector
-      - Daily OMNIWeb Data Ingest & Merge
-      - INSPIRE Paper Harvest
-      - Physics Paper Harvester
-      - Weekly Reconnection Simulation
-      - Deploy static content to Pages
-      - LUFT CME Heartbeat Logger
-    branches:
-      - main
-    types:
-      - completed
+  workflow_dispatch:  # Manual trigger only for emergency use
 
 jobs:
   regenerate:

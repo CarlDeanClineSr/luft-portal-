@@ -1,9 +1,9 @@
-name: χ Dashboard Refresh
+# DISABLED: Dashboard updates have been terminated per user request
+# This workflow is no longer active
+name: χ Dashboard Refresh (DISABLED)
 
 on: 
-  schedule: 
-    - cron: '*/5 * * * *'  # Every 5 minutes
-  workflow_dispatch: 
+  workflow_dispatch:  # Manual trigger only for emergency use
 
 jobs: 
   refresh:
