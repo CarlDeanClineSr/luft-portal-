@@ -77,6 +77,27 @@ jobs:
           fi
         continue-on-error: true
 
+      - name: Auto-resolve CSV conflict markers
+        run: |
+          echo "🔍 Checking for git conflict markers in CSV files..."
+          
+          # Find all CSV files in data directory
+          CSV_FILES=$(find data -name "*.csv" -type f 2>/dev/null || true)
+          
+          if [ -z "$CSV_FILES" ]; then
+            echo "ℹ️ No CSV files found"
+            exit 0
+          fi
+          
+          # Run conflict resolution on all CSV files
+          if python3 scripts/clean_csv_conflicts.py $CSV_FILES; then
+            echo "✅ CSV conflict check complete"
+          else
+            echo "❌ Failed to resolve CSV conflicts"
+            exit 1
+          fi
+        continue-on-error: false
+
       - name: Regenerate dashboards
         run: python scripts/generate_dashboard_html.py
 
