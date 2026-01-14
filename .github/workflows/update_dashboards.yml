@@ -77,6 +77,65 @@ jobs:
           fi
         continue-on-error: true
 
+      - name: Check and clean CSV conflict markers
+        run: |
+          echo "🔍 Checking for git conflict markers in CSV files..."
+          
+          # Check all CSV files in data directory
+          FOUND_CONFLICTS=false
+          for csvfile in data/*.csv; do
+            [ -f "$csvfile" ] || continue
+            
+            if grep -q "^<<<<<<<\|^=======\|^>>>>>>>" "$csvfile"; then
+              echo "⚠️  Found conflict markers in $csvfile - auto-cleaning..."
+              FOUND_CONFLICTS=true
+              
+              # Clean by keeping "Updated upstream" version
+              python3 << PYTHON_SCRIPT
+          import sys
+          
+          filepath = "$csvfile"
+          with open(filepath, 'r', encoding='utf-8') as f:
+              lines = f.readlines()
+          
+          cleaned = []
+          i = 0
+          while i < len(lines):
+              line = lines[i]
+              if line.startswith('<<<<<<< Updated upstream'):
+                  i += 1
+                  # Keep upstream lines
+                  while i < len(lines) and not lines[i].startswith('======='):
+                      cleaned.append(lines[i])
+                      i += 1
+                  # Skip separator
+                  if i < len(lines) and lines[i].startswith('======='):
+                      i += 1
+                  # Skip stashed changes
+                  while i < len(lines) and not lines[i].startswith('>>>>>>> Stashed changes'):
+                      i += 1
+                  # Skip end marker
+                  if i < len(lines) and lines[i].startswith('>>>>>>> Stashed changes'):
+                      i += 1
+              else:
+                  cleaned.append(line)
+                  i += 1
+          
+          with open(filepath, 'w', encoding='utf-8') as f:
+              f.writelines(cleaned)
+          PYTHON_SCRIPT
+              
+              git add "$csvfile"
+              echo "✅ Auto-resolved and staged $csvfile"
+            fi
+          done
+          
+          if [ "$FOUND_CONFLICTS" = "true" ]; then
+            echo "✅ CSV conflict markers auto-resolved"
+          else
+            echo "✅ No conflict markers found in CSV files"
+          fi
+
       - name: Regenerate dashboards
         run: python scripts/generate_dashboard_html.py
 
