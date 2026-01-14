@@ -87,8 +87,8 @@ jobs:
             [ -f "$csvfile" ] || continue
             
             # Use extended regex to match conflict markers more robustly
-            # Matches: <<<<<<< (7 chars) or ======= (7 chars) or >>>>>>> (7 chars) followed by space
-            if grep -qE '^(<{7} |={7}$|>{7} )' "$csvfile"; then
+            # Matches: <<<<<<< (7 chars) or ======= (7 chars) or >>>>>>> (7 chars) followed by space or EOL
+            if grep -qE '^(<{7}|={7}|>{7})( |$)' "$csvfile"; then
               echo "⚠️  Found conflict markers in $csvfile - auto-cleaning..."
               FOUND_CONFLICTS=true
               
@@ -111,22 +111,28 @@ jobs:
                   
                   while i < len(lines):
                       line = lines[i]
-                      # Detect any conflict marker start (<<<<<<< followed by space and text)
-                      if line.startswith('<<<<<<<'):
+                      # Detect conflict marker start: exactly 7 '<' chars
+                      if len(line) > 7 and line[:7] == '<<<<<<<' and (line[7] == ' ' or line[7] == '\n'):
                           conflicts_found += 1
                           i += 1
                           # Keep "ours" version (lines until separator)
-                          while i < len(lines) and not lines[i].startswith('======='):
+                          while i < len(lines):
+                              curr = lines[i]
+                              if len(curr) >= 7 and curr[:7] == '=======' and (len(curr) == 7 or curr[7] in (' ', '\n')):
+                                  break
                               cleaned.append(lines[i])
                               i += 1
                           # Skip separator
-                          if i < len(lines) and lines[i].startswith('======='):
+                          if i < len(lines) and len(lines[i]) >= 7 and lines[i][:7] == '=======':
                               i += 1
                           # Skip "theirs" version (lines until end marker)
-                          while i < len(lines) and not lines[i].startswith('>>>>>>>'):
+                          while i < len(lines):
+                              curr = lines[i]
+                              if len(curr) > 7 and curr[:7] == '>>>>>>>' and (curr[7] == ' ' or curr[7] == '\n'):
+                                  break
                               i += 1
                           # Skip end marker
-                          if i < len(lines) and lines[i].startswith('>>>>>>>'):
+                          if i < len(lines) and len(lines[i]) > 7 and lines[i][:7] == '>>>>>>>':
                               i += 1
                       else:
                           cleaned.append(line)
