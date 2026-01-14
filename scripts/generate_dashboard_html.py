@@ -33,8 +33,10 @@ JS_ASSETS: List[str] = ["js/dashboard-live.js", "js/instrument-panel.js"]
 
 
 def validate_csv_no_conflicts(filepath: Path) -> None:
-    """Ensure CSV file does not contain git merge conflict markers.
-    If found, automatically clean them by removing conflict marker lines."""
+    """Validates CSV file and automatically removes any git merge conflict markers if found.
+    
+    If conflict markers are detected, they are removed along with duplicate entries.
+    The cleaned content is written back to the file."""
     content = filepath.read_text(encoding="utf-8")
     if CONFLICT_MARKER_PATTERN.search(content):
         logging.warning(f"Git conflict markers found in {filepath}. Auto-cleaning...")

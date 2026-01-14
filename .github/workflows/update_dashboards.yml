@@ -84,14 +84,15 @@ jobs:
         id: check_changes
         run: |
           # Check if there are any changes without staging them yet
-          if git diff --quiet *.html js/*.js data/cme_heartbeat_log_*.csv 2>/dev/null; then
+          if git diff --quiet HEAD -- *.html js/*.js data/cme_heartbeat_log_*.csv 2>/dev/null || \
+             ! git ls-files --error-unmatch *.html js/*.js data/cme_heartbeat_log_*.csv >/dev/null 2>&1; then
             echo "status=no_changes" >> $GITHUB_OUTPUT
             echo "ℹ️ No changes detected - dashboards are current"
             echo "Last data fetch was successful but produced no new data"
           else
             echo "status=has_changes" >> $GITHUB_OUTPUT
             echo "✅ Changes detected in:"
-            git diff --name-only *.html js/*.js data/cme_heartbeat_log_*.csv 2>/dev/null || true
+            git diff --name-only HEAD -- *.html js/*.js data/cme_heartbeat_log_*.csv 2>/dev/null | grep -v '^$' || echo "  (staged changes)"
           fi
 
       - name: Commit and push if changed
@@ -142,7 +143,10 @@ jobs:
                 exit 1
               fi
               
-              echo "⚠️  Conflicts detected in: $CONFLICTS"
+              echo "⚠️  Conflicts detected:"
+              printf '%s\n' "$CONFLICTS" | while read -r file; do
+                [ -n "$file" ] && echo "  - $file"
+              done
               
               # Auto-resolve CSV conflicts by keeping our version (newer data)
               CSV_CONFLICTS=$(echo "$CONFLICTS" | grep -E '^data/.*\.csv$' || true)
