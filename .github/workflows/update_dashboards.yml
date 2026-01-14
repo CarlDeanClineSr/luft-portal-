@@ -111,14 +111,15 @@ jobs:
                   
                   while i < len(lines):
                       line = lines[i]
-                      # Detect conflict marker start: exactly 7 '<' chars
-                      if len(line) > 7 and line[:7] == '<<<<<<<' and (line[7] == ' ' or line[7] == '\n'):
+                      # Detect conflict marker start: exactly 7 '<' chars followed by space or newline
+                      if len(line) > 7 and line[:7] == '<<<<<<<' and line[7] in (' ', '\n'):
                           conflicts_found += 1
                           i += 1
                           # Keep "ours" version (lines until separator)
                           while i < len(lines):
                               curr = lines[i]
-                              if len(curr) >= 7 and curr[:7] == '=======' and (len(curr) == 7 or curr[7] in (' ', '\n')):
+                              # Match exactly 7 '=' chars followed by space, newline, or nothing (just newline)
+                              if len(curr) >= 7 and curr[:7] == '=======' and (len(curr) == 8 and curr[7] == '\n' or len(curr) > 7 and curr[7] in (' ', '\n')):
                                   break
                               cleaned.append(lines[i])
                               i += 1
@@ -128,11 +129,12 @@ jobs:
                           # Skip "theirs" version (lines until end marker)
                           while i < len(lines):
                               curr = lines[i]
-                              if len(curr) > 7 and curr[:7] == '>>>>>>>' and (curr[7] == ' ' or curr[7] == '\n'):
+                              # Match exactly 7 '>' chars followed by space or newline
+                              if len(curr) > 7 and curr[:7] == '>>>>>>>' and curr[7] in (' ', '\n'):
                                   break
                               i += 1
                           # Skip end marker
-                          if i < len(lines) and len(lines[i]) > 7 and lines[i][:7] == '>>>>>>>':
+                          if i < len(lines) and len(lines[i]) > 7 and lines[i][:7] == '>>>>>>>' and lines[i][7] in (' ', '\n'):
                               i += 1
                       else:
                           cleaned.append(line)
