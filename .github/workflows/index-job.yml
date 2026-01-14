@@ -1,14 +1,9 @@
-name: Capsule Index Job - Master Manifest & Dashboard
+# DISABLED: Dashboard updates have been terminated per user request
+# This workflow is no longer active
+name: Capsule Index Job - Master Manifest & Dashboard (DISABLED)
 
 on:
-  schedule:
-    - cron: "0 6 * * *"   # Daily at 06:00 UTC
-  workflow_dispatch:       # Manual trigger
-  push:
-    paths:
-      - "capsules/**"
-      - "scripts/capsule_index_job.py"
-      - "scripts/generate_dashboard.py"
+  workflow_dispatch:  # Manual trigger only for emergency use
 
 concurrency:
   group: capsule-index

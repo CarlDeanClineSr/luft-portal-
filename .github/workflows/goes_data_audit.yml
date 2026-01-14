@@ -63,7 +63,8 @@ jobs:
             echo "✅ GOES capsule is recent"
           fi
 
-  update-dashboards:
-    needs: audit-goes-data
-    uses: ./.github/workflows/update_dashboards.yml
-    secrets: inherit
+  # DISABLED: Dashboard updates have been terminated per user request
+  # update-dashboards:
+  #   needs: audit-goes-data
+  #   uses: ./.github/workflows/update_dashboards.yml
+  #   secrets: inherit

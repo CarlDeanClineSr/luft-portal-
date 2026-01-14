@@ -98,7 +98,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  update-dashboards:
-    needs: compute-chi
-    uses: ./.github/workflows/update_dashboards.yml
-    secrets: inherit
+  # DISABLED: Dashboard updates have been terminated per user request
+  # update-dashboards:
+  #   needs: compute-chi
+  #   uses: ./.github/workflows/update_dashboards.yml
+  #   secrets: inherit

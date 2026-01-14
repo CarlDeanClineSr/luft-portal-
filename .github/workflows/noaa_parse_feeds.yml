@@ -35,7 +35,8 @@ jobs:
             "data/noaa_parsed/ reports/latest_srs.md reports/latest_f107.md" \
             "data: update NOAA parsed feeds $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
 
-  update-dashboards:
-    needs: parse
-    uses: ./.github/workflows/update_dashboards.yml
-    secrets: inherit
+  # DISABLED: Dashboard updates have been terminated per user request
+  # update-dashboards:
+  #   needs: parse
+  #   uses: ./.github/workflows/update_dashboards.yml
+  #   secrets: inherit
