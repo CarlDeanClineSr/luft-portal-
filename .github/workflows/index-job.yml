@@ -2,7 +2,7 @@ name: Capsule Index Job - Master Manifest & Dashboard
 
 on:
   schedule:
-    - cron: "0 6 * * *"   # Daily at 06:00 UTC
+    - cron: "15 6 * * *"   # Daily at 06:15 UTC (avoids conflicts)
   workflow_dispatch:       # Manual trigger
   push:
     paths:
@@ -82,13 +82,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Ensure we are pushing to main even if runner ends up detached
+          # Ensure we are on main branch
           git fetch origin main
           CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
           echo "Current branch: $CURRENT_BRANCH"
           if [ "$CURRENT_BRANCH" != "main" ]; then
             git checkout main
           fi
+          
+          # Pull latest changes to avoid conflicts (rebase strategy with autostash)
+          git pull --rebase origin main --autostash || true
+          
           # Only push if there are commits ahead
           if [ -n "$(git log origin/main..HEAD)" ]; then
             git push origin HEAD:main
