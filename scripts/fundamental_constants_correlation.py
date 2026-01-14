@@ -4,6 +4,7 @@ Fundamental Constants Correlation with χ = 0.15
 Tests if χ = 0.15 is connected to fundamental physics ratios
 Author: LUFT Portal Engine + Carl Dean Cline Sr.
 Date: 2026-01-07
+Updated: 2026-01-14 - Integrated with chi_gravity_constants module
 """
 
 import numpy as np
@@ -13,7 +14,14 @@ from scipy.constants import (
     mu_0, epsilon_0
 )
 
-chi_max = 0.15
+# Import the canonical chi-gravity unification module
+from chi_gravity_constants import (
+    CHI_MAX,
+    print_unification_summary,
+    validate_all_connections
+)
+
+chi_max = CHI_MAX  # Use canonical value from unification module
 T_packet = 0.9 * 3600
 attractor_fraction = 0.561
 
@@ -106,3 +114,22 @@ print()
 print("="*70)
 print("CONCLUSION: χ = 0.15 CONNECTED TO FUNDAMENTAL CONSTANTS")
 print("="*70)
+print()
+
+# ============================================================================
+# UNIFIED CHI-GRAVITY MODULE VALIDATION
+# ============================================================================
+print()
+print("=" * 70)
+print("CHI-GRAVITY UNIFICATION MODULE VERIFICATION")
+print("=" * 70)
+print()
+print_unification_summary()
+
+# Final validation check
+if all(validate_all_connections().values()):
+    print("\n✓✓✓ ALL CHI UNIFICATION TESTS PASSED ✓✓✓")
+    print("Gravity, Matter, and Electromagnetism unified through χ = 0.15")
+else:
+    print("\n⚠ WARNING: Some χ relationships outside tolerance")
+    print("Review validation results above")
