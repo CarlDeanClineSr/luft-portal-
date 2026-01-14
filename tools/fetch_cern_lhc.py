@@ -1,7 +1,29 @@
 import requests
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 import json
+
+# CERN LHC Luminosity Data Fetcher
+# 
+# This script fetches LHC luminosity data from CERN Open Data Portal.
+# Updated 2024-2025 to use current CERN portal structure.
+#
+# Strategies (in order):
+#   1. CMS luminosity data - Direct file downloads from known records
+#   2. CERN API search - Query for experiment-specific datasets
+#   3. ATLAS luminosity - Fallback to ATLAS Open Data
+#   4. Guidance - Show available resources and integration notes
+#
+# Link Harvester Integration:
+#   This script can be extended with the link_harvester_core.py module
+#   to automatically discover and extract CSV URLs from CERN portal pages.
+#   See scripts/harvest_cern.py for paper harvesting examples.
+#
+# Key URLs:
+#   - API: https://opendata.cern.ch/api/records/
+#   - CMS Guide: https://cms-opendata-guide.web.cern.ch/analysis/lumi/
+#   - ATLAS: https://opendata.atlas.cern/
+#   - Real-time stats: https://cern.ch/bpt/lhc/statistics/2024/
 
 OUTPUT_DIR = Path("data/cern_lhc")
 OUTPUT_DIR.mkdir(exist_ok=True)
@@ -61,80 +83,25 @@ def clean_invalid_files():
     else:
         print("No invalid files found")
 
-def fetch_cern_luminosity():
-    """Fetch LHC luminosity data from CERN Open Data API"""
+def fetch_cms_luminosity():
+    """Fetch CMS luminosity data from CERN Open Data Portal"""
     
-    # Use CERN Open Data portal search for latest LHC luminosity records
-    search_url = "https://opendata.cern.ch/api/records/"
-    
-    params = {
-        'q': 'luminosity LHC',
-        'type': 'Dataset',
-        'sort': '-mostrecent',
-        'size': 10
-    }
-    
-    try:
-        print(f"Searching CERN Open Data API for luminosity datasets...")
-        response = requests.get(search_url, params=params, timeout=30)
-        response.raise_for_status()
-        
-        # Validate response
-        if not validate_response(response):
-            return None
-        
-        data = response.json()
-        
-        # Check if we got valid results
-        if 'hits' in data and 'hits' in data['hits'] and len(data['hits']['hits']) > 0:
-            # Save search results for inspection
-            timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
-            json_file = OUTPUT_DIR / f"cern_lumi_search_{timestamp}.json"
-            
-            with open(json_file, 'w') as f:
-                json.dump(data, f, indent=2)
-            
-            print(f"SUCCESS: Fetched CERN search results: {json_file}")
-            print(f"Found {len(data['hits']['hits'])} luminosity datasets")
-            
-            # TODO: Parse results to find actual luminosity CSV files
-            # Download and process luminosity values
-            
-            return json_file
-        else:
-            print("INFO: No luminosity datasets found in search")
-            return None
-        
-    except requests.exceptions.HTTPError as e:
-        print(f"ERROR: HTTP error fetching CERN data: {e}")
-        print(f"Status code: {e.response.status_code if e.response else 'unknown'}")
-        return None
-    except requests.exceptions.RequestException as e:
-        print(f"ERROR: Network error fetching CERN data: {e}")
-        return None
-    except json.JSONDecodeError as e:
-        print(f"ERROR: Invalid JSON response: {e}")
-        return None
-    except Exception as e:
-        print(f"ERROR: Unexpected error processing CERN data: {e}")
-        return None
-
-def fetch_cern_archived():
-    """Backup: Use known archived LHC luminosity datasets"""
-    
-    print("Attempting to fetch archived CERN luminosity datasets...")
-    
-    # CERN Open Data has archived fills from 2010-2018
-    # Try known working datasets (these may or may not exist)
-    known_datasets = [
-        "https://opendata.cern.ch/record/15006/files/lumi_13TeV_2018.csv",
-        "https://opendata.cern.ch/record/15005/files/lumi_13TeV_2017.csv",
-        "https://opendata.cern.ch/record/15004/files/lumi_13TeV_2016.csv",
+    # CMS luminosity records with known CSV files
+    cms_records = [
+        (1059, '2016', 'pp_2016lumibyls.csv'),
+        (1055, '2015', '2015lumibyls.csv'),
+        (1052, '2012', '2012lumibyls.csv'),
+        (1051, '2011', '2011lumibyls.csv'),
+        (1050, '2010', '2010lumibyls.csv'),
     ]
     
-    for url in known_datasets:
+    print("Attempting to fetch CMS luminosity data...")
+    
+    for record_id, year, csv_file in cms_records:
         try:
-            print(f"Trying archived dataset: {url}")
+            url = f"https://opendata.cern.ch/record/{record_id}/files/{csv_file}"
+            print(f"Trying CMS {year}: {url}")
+            
             response = requests.get(url, timeout=30)
             
             if response.status_code == 200:
@@ -142,26 +109,119 @@ def fetch_cern_archived():
                 if not validate_response(response):
                     continue
                 
-                print(f"Found archived dataset: {url}")
+                print(f"Found CMS luminosity data for {year}")
                 
-                timestamp = datetime.utcnow().strftime('%Y%m%d_%H%M%S')
-                csv_file = OUTPUT_DIR / f"cern_lumi_archived_{timestamp}.csv"
+                timestamp = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')
+                output_file = OUTPUT_DIR / f"cms_lumi_{year}_{timestamp}.csv"
                 
-                with open(csv_file, 'w') as f:
+                with open(output_file, 'w') as f:
                     f.write(response.text)
                 
                 # Validate saved file
-                if not validate_csv_file(csv_file):
-                    csv_file.unlink()
+                if not validate_csv_file(output_file):
+                    output_file.unlink()
                     continue
                 
-                print(f"SUCCESS: Using archived CERN luminosity: {csv_file}")
-                return csv_file
+                print(f"SUCCESS: Downloaded CMS {year} luminosity data: {output_file}")
+                return output_file
+                
         except requests.exceptions.RequestException as e:
-            print(f"Failed to fetch {url}: {e}")
+            print(f"Failed to fetch {year} data: {e}")
             continue
         except Exception as e:
-            print(f"Error processing {url}: {e}")
+            print(f"Error processing {year} data: {e}")
+            continue
+    
+    return None
+
+def search_cern_api():
+    """Search CERN Open Data API for luminosity datasets"""
+    
+    search_url = "https://opendata.cern.ch/api/records/"
+    
+    # Use experiment-specific queries that actually work
+    queries = ['CMS luminosity', 'ATLAS luminosity']
+    
+    for query in queries:
+        params = {
+            'q': query,
+            'size': 5
+        }
+        
+        try:
+            print(f"Searching CERN Open Data API: '{query}'...")
+            response = requests.get(search_url, params=params, timeout=30)
+            response.raise_for_status()
+            
+            data = response.json()
+            
+            # Check if we got valid results
+            if 'hits' in data and 'hits' in data['hits'] and len(data['hits']['hits']) > 0:
+                hits = data['hits']['hits']
+                print(f"Found {len(hits)} results for '{query}'")
+                
+                # Save search results for inspection
+                timestamp = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')
+                json_file = OUTPUT_DIR / f"cern_search_{query.replace(' ', '_')}_{timestamp}.json"
+                
+                with open(json_file, 'w') as f:
+                    json.dump(data, f, indent=2)
+                
+                print(f"Saved search results: {json_file}")
+                return json_file
+            else:
+                print(f"No results found for '{query}'")
+                
+        except requests.exceptions.HTTPError as e:
+            print(f"HTTP error searching '{query}': {e}")
+            continue
+        except requests.exceptions.RequestException as e:
+            print(f"Network error searching '{query}': {e}")
+            continue
+        except json.JSONDecodeError as e:
+            print(f"Invalid JSON response for '{query}': {e}")
+            continue
+        except Exception as e:
+            print(f"Unexpected error searching '{query}': {e}")
+            continue
+    
+    return None
+
+def fetch_atlas_luminosity():
+    """Fallback: Try ATLAS luminosity data from ATLAS Open Data"""
+    
+    print("Attempting to fetch ATLAS luminosity data...")
+    
+    # ATLAS Open Data portal has different structure
+    # Try known ATLAS luminosity resources
+    atlas_sources = [
+        "https://opendata.atlas.cern/release/2020/luminosity/Data15.txt",
+        "https://opendata.atlas.cern/release/2020/luminosity/Data16.txt",
+    ]
+    
+    for url in atlas_sources:
+        try:
+            print(f"Trying ATLAS source: {url}")
+            response = requests.get(url, timeout=30)
+            
+            if response.status_code == 200:
+                # ATLAS data might be in different format
+                print(f"Found ATLAS luminosity data: {url}")
+                
+                timestamp = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')
+                output_file = OUTPUT_DIR / f"atlas_lumi_{timestamp}.txt"
+                
+                with open(output_file, 'w') as f:
+                    f.write(response.text)
+                
+                print(f"SUCCESS: Downloaded ATLAS luminosity: {output_file}")
+                return output_file
+                
+        except requests.exceptions.RequestException as e:
+            print(f"Failed to fetch ATLAS data: {e}")
+            continue
+        except Exception as e:
+            print(f"Error processing ATLAS data: {e}")
             continue
     
     return None
@@ -169,22 +229,32 @@ def fetch_cern_archived():
 def fetch_cern_placeholder():
     """
     Placeholder when real data sources are not accessible.
+    Provides guidance on available CERN luminosity resources.
     """
     print("=" * 60)
     print("CERN LHC Luminosity Data Ingestion")
     print("=" * 60)
-    print("INFO: CERN Open Data sources not responding with valid data")
-    print("Previous placeholder URL returned 404 errors")
+    print("INFO: All data source attempts have been exhausted")
     print("")
-    print("CERN Open Data typically provides archived LHC run data")
-    print("from 2010-2018, not real-time luminosity data.")
+    print("CERN Open Data provides archived LHC luminosity data:")
     print("")
-    print("To fix this, one of these approaches needed:")
-    print("  1. Use CERN Accelerator Logging Service (requires access)")
-    print("  2. Use archived datasets from successful runs")
-    print("  3. Wait for new Open Data releases")
+    print("Available Resources:")
+    print("  • CMS Luminosity Data (2010-2016):")
+    print("    https://opendata.cern.ch/search?q=CMS+luminosity")
     print("")
-    print("For now, skipping data collection to avoid saving HTML error pages")
+    print("  • ATLAS Open Data:")
+    print("    https://opendata.atlas.cern/")
+    print("")
+    print("  • CMS Luminosity Calculation Guide:")
+    print("    https://cms-opendata-guide.web.cern.ch/analysis/lumi/")
+    print("")
+    print("  • Real-time LHC Statistics (when available):")
+    print("    https://cern.ch/bpt/lhc/statistics/2024/")
+    print("")
+    print("Integration Notes:")
+    print("  - This script can be extended with link harvester integration")
+    print("  - Consider implementing automatic URL discovery from portal pages")
+    print("  - API endpoints: https://opendata.cern.ch/api/records/")
     print("=" * 60)
     
     return None
@@ -193,25 +263,39 @@ if __name__ == "__main__":
     # Clean up any existing invalid files first
     clean_invalid_files()
     
-    # Try API search first
-    result = fetch_cern_luminosity()
+    result = None
     
-    # Fall back to archived datasets if API search fails
+    # Strategy 1: Try CMS luminosity data (most reliable)
+    print("\n" + "="*60)
+    print("Strategy 1: CMS Luminosity Data")
+    print("="*60)
+    result = fetch_cms_luminosity()
+    
+    # Strategy 2: Search API for luminosity datasets
     if not result:
-        print("")
-        print("Trying archived datasets as fallback...")
-        result = fetch_cern_archived()
+        print("\n" + "="*60)
+        print("Strategy 2: CERN Open Data API Search")
+        print("="*60)
+        result = search_cern_api()
     
-    # If still no result, show placeholder message
+    # Strategy 3: Try ATLAS luminosity data
+    if not result:
+        print("\n" + "="*60)
+        print("Strategy 3: ATLAS Luminosity Data")
+        print("="*60)
+        result = fetch_atlas_luminosity()
+    
+    # Strategy 4: Show guidance and available resources
     if not result:
         print("")
         result = fetch_cern_placeholder()
     
     if result:
-        print(f"✓ SUCCESS: CERN data saved to {result}")
+        print(f"\n✓ SUCCESS: CERN data saved to {result}")
     else:
-        print(f"⚠ INFO: No CERN data collected")
-        print("This is expected - data sources need configuration")
+        print(f"\n⚠ INFO: No CERN data collected")
+        print("This is expected when data sources are temporarily unavailable")
+        print("The script attempted multiple fallback strategies")
     
     # Always exit 0 (success) to not fail workflow
     # Data ingestion failures should be handled gracefully
