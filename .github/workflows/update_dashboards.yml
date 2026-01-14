@@ -116,12 +116,9 @@ jobs:
                           conflicts_found += 1
                           i += 1
                           # Keep "ours" version (lines until separator)
-                          while i < len(lines) and not line.startswith('======='):
-                              if not line.startswith('======='):
-                                  cleaned.append(lines[i])
+                          while i < len(lines) and not lines[i].startswith('======='):
+                              cleaned.append(lines[i])
                               i += 1
-                              if i < len(lines):
-                                  line = lines[i]
                           # Skip separator
                           if i < len(lines) and lines[i].startswith('======='):
                               i += 1
