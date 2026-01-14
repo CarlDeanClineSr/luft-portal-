@@ -28,6 +28,9 @@ import json
 OUTPUT_DIR = Path("data/cern_lhc")
 OUTPUT_DIR.mkdir(exist_ok=True)
 
+# Constants
+REQUEST_TIMEOUT = 30  # seconds
+
 def validate_response(response):
     """Check if response is valid data (not HTML error page)"""
     content_type = response.headers.get('Content-Type', '')
@@ -102,7 +105,7 @@ def fetch_cms_luminosity():
             url = f"https://opendata.cern.ch/record/{record_id}/files/{csv_file}"
             print(f"Trying CMS {year}: {url}")
             
-            response = requests.get(url, timeout=30)
+            response = requests.get(url, timeout=REQUEST_TIMEOUT)
             
             if response.status_code == 200:
                 # Validate response
@@ -114,7 +117,7 @@ def fetch_cms_luminosity():
                 timestamp = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')
                 output_file = OUTPUT_DIR / f"cms_lumi_{year}_{timestamp}.csv"
                 
-                with open(output_file, 'w') as f:
+                with open(output_file, 'w', encoding='utf-8') as f:
                     f.write(response.text)
                 
                 # Validate saved file
@@ -150,7 +153,7 @@ def search_cern_api():
         
         try:
             print(f"Searching CERN Open Data API: '{query}'...")
-            response = requests.get(search_url, params=params, timeout=30)
+            response = requests.get(search_url, params=params, timeout=REQUEST_TIMEOUT)
             response.raise_for_status()
             
             data = response.json()
@@ -202,7 +205,7 @@ def fetch_atlas_luminosity():
     for url in atlas_sources:
         try:
             print(f"Trying ATLAS source: {url}")
-            response = requests.get(url, timeout=30)
+            response = requests.get(url, timeout=REQUEST_TIMEOUT)
             
             if response.status_code == 200:
                 # ATLAS data might be in different format
@@ -211,7 +214,7 @@ def fetch_atlas_luminosity():
                 timestamp = datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')
                 output_file = OUTPUT_DIR / f"atlas_lumi_{timestamp}.txt"
                 
-                with open(output_file, 'w') as f:
+                with open(output_file, 'w', encoding='utf-8') as f:
                     f.write(response.text)
                 
                 print(f"SUCCESS: Downloaded ATLAS luminosity: {output_file}")
