@@ -208,6 +208,9 @@ def fetch_cern_archived():
     # Source: https://opendata.cern.ch/record/1053 (2011)
     # Source: https://opendata.cern.ch/record/1054 (2012)
     # Source: https://opendata.cern.ch/record/1055 (2015)
+    # NOTE: These record IDs are manually maintained and may become outdated
+    # if CERN reorganizes their portal. Future enhancement: integrate with
+    # link_harvester_core.py to discover these URLs dynamically.
     cms_lumi_records = [
         {'record_id': '1055', 'year': '2015', 'files': ['2015lumibyls.csv']},
         {'record_id': '1054', 'year': '2012', 'files': ['2012lumibyls_pxl.csv', '2012lumibyls_hfoc.csv']},
