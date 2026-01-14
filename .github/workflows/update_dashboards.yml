@@ -83,16 +83,15 @@ jobs:
       - name: Check for dashboard changes
         id: check_changes
         run: |
-          git add *.html js/*.js data/cme_heartbeat_log_*.csv || true
-          
-          if git diff --staged --quiet; then
+          # Check if there are any changes without staging them yet
+          if git diff --quiet *.html js/*.js data/cme_heartbeat_log_*.csv 2>/dev/null; then
             echo "status=no_changes" >> $GITHUB_OUTPUT
             echo "ℹ️ No changes detected - dashboards are current"
             echo "Last data fetch was successful but produced no new data"
           else
             echo "status=has_changes" >> $GITHUB_OUTPUT
             echo "✅ Changes detected in:"
-            git diff --staged --name-only
+            git diff --name-only *.html js/*.js data/cme_heartbeat_log_*.csv 2>/dev/null || true
           fi
 
       - name: Commit and push if changed
@@ -101,27 +100,84 @@ jobs:
           TARGET_BRANCH: ${{ github.event.workflow_run.head_branch || github.ref_name || 'main' }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -e
           git config user.name "LUFT Dashboard Bot"
           git config user.email "luft-bot@users.noreply.github.com"
+          
           BRANCH="${TARGET_BRANCH:-main}"
-          if ! git pull --rebase origin "$BRANCH" --autostash; then
-            echo "git pull --rebase failed. Checking for CSV conflicts to auto-resolve..."
-            CSV_CONFLICTS=$(git diff --name-only --diff-filter=U | grep -E '^data/.*\.csv$' || true)
-            if [ -n "$CSV_CONFLICTS" ]; then
-              while IFS= read -r path; do
-                [ -z "$path" ] && continue
-                git checkout --ours -- "$path"
-                git add "$path"
-              done <<< "$CSV_CONFLICTS"
-              git rebase --continue || { git rebase --abort; exit 1; }
-            else
-              git rebase --abort || true
-              echo "Non-CSV conflicts detected. Aborting."
-              exit 1
+          echo "Target branch: $BRANCH"
+          
+          # Stage the dashboard and CSV changes
+          git add *.html js/*.js data/cme_heartbeat_log_*.csv || true
+          
+          # Commit the changes
+          git commit -m "dashboard: refresh with fresh data $(date -u +'%Y-%m-%d %H:%M:%S UTC')" || {
+            echo "❌ Failed to commit changes"
+            exit 1
+          }
+          
+          # Try to push, with retry logic for race conditions
+          MAX_RETRIES=3
+          for attempt in $(seq 1 $MAX_RETRIES); do
+            echo "📤 Push attempt $attempt/$MAX_RETRIES..."
+            
+            if git push origin HEAD:"$BRANCH" 2>&1; then
+              echo "✅ Successfully pushed changes"
+              exit 0
             fi
-          fi
-          git commit -m "dashboard: refresh with fresh data $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-          git push origin HEAD:"$BRANCH"
+            
+            # Push failed due to remote changes, fetch and rebase
+            echo "⚠️  Push rejected (remote has new commits), fetching updates..."
+            git fetch origin "$BRANCH"
+            
+            # Rebase our commit on top of remote changes
+            echo "🔄 Rebasing local changes on top of remote..."
+            if ! git rebase "origin/$BRANCH"; then
+              # Rebase failed - check for conflicts
+              CONFLICTS=$(git diff --name-only --diff-filter=U 2>/dev/null || true)
+              
+              if [ -z "$CONFLICTS" ]; then
+                echo "❌ Rebase failed with no conflicts - unexpected error"
+                git rebase --abort
+                exit 1
+              fi
+              
+              echo "⚠️  Conflicts detected in: $CONFLICTS"
+              
+              # Auto-resolve CSV conflicts by keeping our version (newer data)
+              CSV_CONFLICTS=$(echo "$CONFLICTS" | grep -E '^data/.*\.csv$' || true)
+              if [ -n "$CSV_CONFLICTS" ]; then
+                echo "🔧 Auto-resolving CSV conflicts (keeping our newer data)..."
+                for file in $CSV_CONFLICTS; do
+                  if [ -f "$file" ]; then
+                    echo "  - Resolving $file"
+                    git checkout --ours -- "$file"
+                    git add "$file"
+                  fi
+                done
+                
+                # Continue the rebase
+                if git rebase --continue; then
+                  echo "✅ Conflicts resolved, retrying push..."
+                  continue
+                else
+                  echo "❌ Failed to continue rebase after resolving conflicts"
+                  git rebase --abort
+                  exit 1
+                fi
+              else
+                echo "❌ Non-CSV conflicts detected - cannot auto-resolve"
+                git rebase --abort
+                exit 1
+              fi
+            fi
+            
+            # Rebase succeeded, retry push
+            echo "✅ Rebase successful"
+          done
+          
+          echo "❌ Failed to push after $MAX_RETRIES attempts"
+          exit 1
 
       - name: Report no-change status
         if: steps.check_changes.outputs.status == 'no_changes'

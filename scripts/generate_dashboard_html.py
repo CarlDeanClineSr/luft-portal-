@@ -33,10 +33,38 @@ JS_ASSETS: List[str] = ["js/dashboard-live.js", "js/instrument-panel.js"]
 
 
 def validate_csv_no_conflicts(filepath: Path) -> None:
-    """Ensure CSV file does not contain git merge conflict markers."""
+    """Ensure CSV file does not contain git merge conflict markers.
+    If found, automatically clean them by removing conflict marker lines."""
     content = filepath.read_text(encoding="utf-8")
     if CONFLICT_MARKER_PATTERN.search(content):
-        raise ValueError(f"Git conflict markers found in {filepath}. Resolve before parsing.")
+        logging.warning(f"Git conflict markers found in {filepath}. Auto-cleaning...")
+        
+        # Split into lines and filter out conflict markers
+        lines = content.splitlines(keepends=True)
+        cleaned_lines = [line for line in lines if not CONFLICT_MARKER_PATTERN.match(line.rstrip('\r\n'))]
+        
+        # Remove duplicate entries (keep first occurrence based on timestamp)
+        header = cleaned_lines[0] if cleaned_lines else ""
+        data_lines = cleaned_lines[1:] if len(cleaned_lines) > 1 else []
+        
+        seen_timestamps = set()
+        unique_lines = [header]
+        
+        for line in data_lines:
+            # Skip empty lines
+            if not line.strip():
+                continue
+            # Extract timestamp (first column)
+            parts = line.split(',')
+            if parts and parts[0]:
+                timestamp = parts[0]
+                if timestamp not in seen_timestamps:
+                    seen_timestamps.add(timestamp)
+                    unique_lines.append(line)
+        
+        # Write cleaned content back
+        filepath.write_text(''.join(unique_lines), encoding="utf-8")
+        logging.warning(f"Cleaned {filepath}: {len(lines)} -> {len(unique_lines)} lines")
 
 
 def find_latest_heartbeat() -> Optional[Path]:
