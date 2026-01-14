@@ -49,5 +49,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           bash scripts/ci_commit_push.sh \
-            "figures/* data/* reports/*" \
+            "figures data reports" \
             "PSP χ≤0.15 validation - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
