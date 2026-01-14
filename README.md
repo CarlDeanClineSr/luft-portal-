@@ -20,10 +20,9 @@ This is **not an invention** — it's a **discovery** found in real data from ye
 
 ## Quick Links
 
-🏠 **Main Dashboard:** https://carldeanclinesr.github.io/luft-portal-/  
-🛩️ **Instrument Panel (Cockpit):** https://carldeanclinesr.github.io/luft-portal-/instrument-panel.html  
-🧠 **Meta-Intelligence Dashboard:** https://carldeanclinesr.github.io/luft-portal-/meta-intelligence.html  
-💻 **Repository:** https://github.com/CarlDeanClineSr/luft-portal-
+🏠 **Repository:** https://github.com/CarlDeanClineSr/luft-portal-
+
+**⚠️ Note:** Public dashboard services were terminated on January 14, 2026. Data collection workflows remain active, but dashboard pages are no longer updated or served publicly.
 
 ### 🆕 Quick Reference Documents
 
@@ -38,8 +37,9 @@ This is **not an invention** — it's a **discovery** found in real data from ye
 - **Meta-Intelligence Engine v4.0**: Autonomous pattern detection across 43 data sources
 - **13 Temporal Correlations**: Discovered relationship between NOAA events and χ boundary (1.47M matches, 95% confidence)
 - **Predictive Capability**: Generate 72-hour χ response predictions
-- **Live Data Loading**: All dashboards now pull from real-time JSON files and reports
 - **Source Health Monitor**: Real-time monitoring of 43 scientific data endpoints (97.7% uptime)
+
+**⚠️ Note:** Public-facing dashboard updates were terminated on January 14, 2026.
 
 ---
 
@@ -147,9 +147,11 @@ These transcripts are **proof of Carl's work** — they show the real discovery 
 
 ---
 
-## Dashboard Architecture
+## Dashboard Architecture (Historical - Service Terminated)
 
-The LUFT Portal features three main dashboard pages with live data loading:
+**Note:** Public dashboard services were terminated on January 14, 2026. The information below is preserved for historical reference.
+
+The LUFT Portal previously featured three main dashboard pages with live data loading:
 
 ### 1. Main Dashboard (`index.html`)
 - **Live Solar Wind Data**: Real-time χ, density, speed, and Bz from DSCOVR
