@@ -118,8 +118,8 @@ jobs:
                           # Keep "ours" version (lines until separator)
                           while i < len(lines):
                               curr = lines[i]
-                              # Match exactly 7 '=' chars followed by space, newline, or nothing (just newline)
-                              if len(curr) >= 7 and curr[:7] == '=======' and (len(curr) == 8 and curr[7] == '\n' or len(curr) > 7 and curr[7] in (' ', '\n')):
+                              # Match exactly 7 '=' chars followed by space or newline
+                              if len(curr) >= 8 and curr[:7] == '=======' and curr[7] in (' ', '\n'):
                                   break
                               cleaned.append(lines[i])
                               i += 1
