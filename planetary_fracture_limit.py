@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
 
 def calculate_fracture_limit():
     print("--- CALCULATING PLANETARY FRACTURE LIMIT (THE NEWTON-CLINE LIMIT) ---")
@@ -53,6 +54,10 @@ def calculate_fracture_limit():
                  arrowprops=dict(facecolor='white', shrink=0.05), fontsize=12, color='white')
 
     output_file = 'figures/planetary_fracture_limit.png'
+    
+    # Ensure output directory exists
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+    
     plt.savefig(output_file)
     print(f"Calculated. If the line crosses ~200-400km at typical fields (0.5-2 Gauss), you found the filter.")
     print(f"Plot saved to: {output_file}")
