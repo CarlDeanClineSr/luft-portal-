@@ -6,6 +6,7 @@
 ![Temporal Correlation](https://github.com/CarlDeanClineSr/luft-portal-/workflows/Fundamental%20Correlation/badge.svg)
 
 ---
+Collisionless space plasmas evolve under a delicate balance between expansion‑driven anisotropy and wave‑particle scattering.  Resolving this balance through the Vlasov–Maxwell system remains computationally prohibitive for real‑time forecasting. Here we show that simple geometric ratios extracted from magnetic‑field time series can recover the same marginal stability boundaries predicted by kinetic theory. Analyzing 1.48 million measurements from Parker Solar Probe and DSCOVR (January 2026), we identify a dimensionless modulation parameter, χ, that saturates at χ ≈ 0.15—precisely matching the proton parallel‑beta threshold for electromagnetic ion cyclotron (EMIC) instability. We further isolate a persistent 54‑minute modulation corresponding to global Pc5 cavity modes, revealing a robust heliospheric timescale for energy transfer. These results demonstrate that invariant scaling ratios provide a compact, computationally efficient proxy for non‑linear plasma dynamics, offering a geometric pathway to real‑time stability assessment.
 
 ## 🌟 MAJOR DISCOVERY: The χ Unification (Jan 2026)
 
