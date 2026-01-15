@@ -8,19 +8,21 @@ on:
 jobs:
   fetch:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - run: pip install requests pandas
       - run: python tools/fetch_cern_lhc.py
-      - run: |
-          git config user.name "LUFT Bot"
-          git config user.email "bot@luft.local"
-          git pull --rebase origin main --autostash || true
-          git add data/cern_lhc/*.csv data/cern_lhc/*.json 2>/dev/null || true
-          git diff --quiet && git diff --staged --quiet || git commit -m "data: CERN LHC luminosity update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-          git push
+      - name: Commit and push changes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bash scripts/ci_commit_push.sh \
+            "data/cern_lhc/*.csv data/cern_lhc/*.json" \
+            "data: CERN LHC luminosity update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"

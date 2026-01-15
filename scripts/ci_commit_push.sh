@@ -25,12 +25,28 @@ set -euo pipefail
 FILES="${1:-.}"
 MSG="${2:-Automated update}"
 CSV_CONFLICT_GREP='^data/.*\.csv$'
+DASHBOARD_CONFLICT_GREP='^docs/(manifest_master_index\.yaml|manifest_dashboard\.html)$'
 
 resolve_csv_conflicts() {
   local conflicts
   conflicts=$(git diff --name-only --diff-filter=U | grep -E "${CSV_CONFLICT_GREP}" || true)
   if [ -n "${conflicts}" ]; then
     echo "Auto-resolving CSV conflicts with 'ours' strategy..."
+    while IFS= read -r path; do
+      [ -z "$path" ] && continue
+      git checkout --ours -- "$path"
+      git add "$path"
+    done <<< "${conflicts}"
+    return 0
+  fi
+  return 1
+}
+
+resolve_dashboard_conflicts() {
+  local conflicts
+  conflicts=$(git diff --name-only --diff-filter=U | grep -E "${DASHBOARD_CONFLICT_GREP}" || true)
+  if [ -n "${conflicts}" ]; then
+    echo "Auto-resolving dashboard conflicts with 'ours' strategy..."
     while IFS= read -r path; do
       [ -z "$path" ] && continue
       git checkout --ours -- "$path"
@@ -58,11 +74,28 @@ git fetch origin main
 # Re-sync local state with remote; prefer rebase, fall back to merge if conflicts
 echo "Rebasing onto origin/main..."
 if ! git rebase --autostash origin/main; then
-  echo "Rebase failed. Checking for CSV conflicts..."
-  if resolve_csv_conflicts && git rebase --continue; then
-    echo "Rebase completed after auto-resolving CSV conflicts."
+  echo "Rebase failed. Checking for auto-resolvable conflicts..."
+  csv_resolved=false
+  dashboard_resolved=false
+  
+  if resolve_csv_conflicts; then
+    csv_resolved=true
+  fi
+  
+  if resolve_dashboard_conflicts; then
+    dashboard_resolved=true
+  fi
+  
+  if [ "$csv_resolved" = true ] || [ "$dashboard_resolved" = true ]; then
+    if git rebase --continue; then
+      echo "Rebase completed after auto-resolving conflicts."
+    else
+      echo "Rebase --continue failed after resolving conflicts. Aborting."
+      git rebase --abort 2>/dev/null || true
+      exit 1
+    fi
   else
-    echo "Non-CSV conflict or unresolved rebase. Aborting."
+    echo "No auto-resolvable conflicts found. Aborting rebase."
     git rebase --abort 2>/dev/null || true
     exit 1
   fi
@@ -87,11 +120,28 @@ for i in 1 2 3 4 5; do
   fi
   echo "Push failed (attempt $i). Re-syncing and retrying..."
   if ! git pull --rebase --autostash origin main; then
-    echo "Pull --rebase failed. Attempting to resolve CSV conflicts..."
-    if resolve_csv_conflicts && git rebase --continue; then
-      echo "Rebase continued after resolving CSV conflicts."
+    echo "Pull --rebase failed. Attempting to resolve conflicts..."
+    csv_resolved=false
+    dashboard_resolved=false
+    
+    if resolve_csv_conflicts; then
+      csv_resolved=true
+    fi
+    
+    if resolve_dashboard_conflicts; then
+      dashboard_resolved=true
+    fi
+    
+    if [ "$csv_resolved" = true ] || [ "$dashboard_resolved" = true ]; then
+      if git rebase --continue; then
+        echo "Rebase continued after resolving conflicts."
+      else
+        echo "Unable to continue rebase after conflict resolution. Aborting."
+        git rebase --abort 2>/dev/null || true
+        exit 1
+      fi
     else
-      echo "Unable to resolve conflicts during pull. Aborting."
+      echo "No auto-resolvable conflicts found. Aborting."
       git rebase --abort 2>/dev/null || true
       exit 1
     fi
