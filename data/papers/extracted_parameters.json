@@ -1,7 +1,7 @@
 {
-  "extraction_date": "2026-01-14T02:46:23.051618Z",
-  "total_analyzed": 50,
-  "papers_with_parameters": 0,
+  "extraction_date": "2026-01-15T02:42:13.854972Z",
+  "total_analyzed": 57,
+  "papers_with_parameters": 1,
   "results": [
     {
       "paper_id": "2512.11631v1",
@@ -53,6 +53,71 @@
         "storm"
       ],
       "relevance_score": 10
+    },
+    {
+      "paper_id": "2601.08329v1",
+      "title": "Velocity-Space Signatures of Energy Transfer for Ion-Acoustic Instabilities",
+      "authors": [
+        "Mahmoud Saad Afify",
+        "Kristopher G. Klein",
+        "Mihailo M. Martinovi\u0107",
+        "Maria Elena Innocenti"
+      ],
+      "link": "https://arxiv.org/abs/2601.08329v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.08329v1",
+      "published": "2026-01-13T08:32:19Z",
+      "parameters_found": {},
+      "keywords": [
+        "plasma",
+        "particle",
+        "acceleration",
+        "solar wind",
+        "heliosphere",
+        "correlation"
+      ],
+      "relevance_score": 6
+    },
+    {
+      "paper_id": "2601.08054v1",
+      "title": "The Topological Origin of Bohm Resistivity in Magnetic Reconnection",
+      "authors": [
+        "Magnus F Ivarsen"
+      ],
+      "link": "https://arxiv.org/abs/2601.08054v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.08054v1",
+      "published": "2026-01-12T22:48:40Z",
+      "parameters_found": {
+        "reconnection_rates": [
+          "0.75"
+        ]
+      },
+      "keywords": [
+        "reconnection",
+        "magnetic",
+        "plasma",
+        "solar flare"
+      ],
+      "relevance_score": 6
+    },
+    {
+      "paper_id": "2601.08400v1",
+      "title": "Near-axis quasi-isodynamic database",
+      "authors": [
+        "Eduardo Rodriguez",
+        "Gabriel G. Plunk"
+      ],
+      "link": "https://arxiv.org/abs/2601.08400v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.08400v1",
+      "published": "2026-01-13T10:15:40Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "plasma",
+        "particle",
+        "chi",
+        "correlation"
+      ],
+      "relevance_score": 5
     },
     {
       "paper_id": "2601.03344v1",
@@ -269,6 +334,95 @@
       "relevance_score": 5
     },
     {
+      "paper_id": "2601.08154v1",
+      "title": "Observation of the Forbush decrease on 2024 May 10, using the ALPAQUITA air-shower array at the 70-1000 GV rigidity range",
+      "authors": [
+        "M. Anzorena",
+        "E. de la Fuente",
+        "K. Fujita",
+        "R. Garcia",
+        "Y. Hayashi",
+        "K. Hibino",
+        "N. Hotta",
+        "G. Imaizumi",
+        "Y. Katayose",
+        "C. Kato",
+        "S. Kato",
+        "T. Kawashima",
+        "K. Kawata",
+        "M. Kobayashi",
+        "S. Kobayashi",
+        "T. Koi",
+        "H. Kojima",
+        "P. Miranda",
+        "S. Mitsuishi",
+        "A. Mizuno",
+        "K. Munakata",
+        "Y. Nakamura",
+        "M. Nishizawa",
+        "Y. Noguchi",
+        "S. Ogio",
+        "M. Ohishi",
+        "M. Ohnishi",
+        "A. Oshima",
+        "M. Raljevic",
+        "H. Rivera",
+        "T. Saito",
+        "T. Sako",
+        "T. K. Sako",
+        "S. Shibata",
+        "A. Shiomi",
+        "M. Subieta",
+        "F. Sugimoto",
+        "N. Tajima",
+        "W. Takano",
+        "Y. Takeyama",
+        "M. Takita",
+        "N. Tamaki",
+        "Y. Tameda",
+        "K. Tanaka",
+        "R. Ticona",
+        "H. Tsuchiya",
+        "Y. Tsunesada",
+        "S. Udo",
+        "G. Yamagishi",
+        "Y. Yamanaka",
+        "K. Yamazaki",
+        "Y. Yokoe"
+      ],
+      "link": "https://arxiv.org/abs/2601.08154v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.08154v1",
+      "published": "2026-01-13T02:37:02Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "particle",
+        "shock",
+        "storm"
+      ],
+      "relevance_score": 4
+    },
+    {
+      "paper_id": "2601.08093v1",
+      "title": "Cascade Processes of Strong and Weak MHD Turbulence",
+      "authors": [
+        "Na-Na Gao",
+        "Jian-Fu Zhang",
+        "Jungyeon Cho"
+      ],
+      "link": "https://arxiv.org/abs/2601.08093v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.08093v1",
+      "published": "2026-01-13T00:27:00Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "particle",
+        "acceleration",
+        "magnetosphere"
+      ],
+      "relevance_score": 4
+    },
+    {
       "paper_id": "2601.07589v1",
       "title": "Cosmic rays, gamma rays and neutrinos from discrete black hole X-ray binary ejecta",
       "authors": [
@@ -331,7 +485,7 @@
       "relevance_score": 4
     },
     {
-      "paper_id": "2601.07652v1",
+      "paper_id": "2601.07652v2",
       "title": "Role of Shafranov shift, zonal structures on the behavior of TAEs, AAEs and microinstabilities in the presence of energetic particles",
       "authors": [
         "B. Rofman",
@@ -346,8 +500,8 @@
         "S. Brunner",
         "L. Villard"
       ],
-      "link": "https://arxiv.org/abs/2601.07652v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.07652v1",
+      "link": "https://arxiv.org/abs/2601.07652v2",
+      "pdf_link": "https://arxiv.org/pdf/2601.07652v2",
       "published": "2026-01-12T15:33:13Z",
       "parameters_found": {},
       "keywords": [
@@ -610,6 +764,55 @@
       "relevance_score": 4
     },
     {
+      "paper_id": "2601.08791v1",
+      "title": "A precessing jet from an active galactic nucleus drives gas outflow from a disk galaxy",
+      "authors": [
+        "Justin A. Kader",
+        "Vivian U",
+        "Loreto Barcos-Mu\u00f1oz",
+        "Marina Bianchin",
+        "Sean T. Linden",
+        "Yiqing Song",
+        "Gabriela Canalizo",
+        "Archana Aravindan",
+        "George C. Privon Tanio D\u00edaz-Santos",
+        "Christopher Hayward",
+        "Matthew A. Malkan",
+        "Lee Armus",
+        "Rosalie C. McGurk",
+        "Jeffrey A. Rich",
+        "Anne M. Medling",
+        "Sabrina Stierwalt",
+        "Claire E. Max",
+        "Aaron S. Evans",
+        "Christopher J. Agostino",
+        "Vassilis Charmandaris",
+        "Tianmu Gao",
+        "Justin H. Howell",
+        "Hanae Inami",
+        "Thomas S. -Y. Lai",
+        "Kirsten L. Larson",
+        "Christopher D. Martin",
+        "Mateusz Matuszewski",
+        "Joseph M. Mazzarella",
+        "James D. Neill",
+        "Nikolaus Z. Prusinski",
+        "Raymond Remigio",
+        "David B. Sanders",
+        "Jason Surace"
+      ],
+      "link": "https://arxiv.org/abs/2601.08791v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.08791v1",
+      "published": "2026-01-13T18:24:10Z",
+      "parameters_found": {},
+      "keywords": [
+        "plasma",
+        "feedback",
+        "shock"
+      ],
+      "relevance_score": 3
+    },
+    {
       "paper_id": "2601.07491v1",
       "title": "The combined X-ray and $\u03b3$-ray modeling of millisecond pulsars PSR J0030+0451 in the dissipative magnetospheres",
       "authors": [
@@ -660,6 +863,44 @@
       "keywords": [
         "magnetic",
         "plasma",
+        "chi"
+      ],
+      "relevance_score": 3
+    },
+    {
+      "paper_id": "2601.08384v1",
+      "title": "Electric field-driven Rayleigh-Taylor-like instability in binary complex plasma",
+      "authors": [
+        "Priya Deshwal",
+        "Hitendra K. Malik"
+      ],
+      "link": "https://arxiv.org/abs/2601.08384v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.08384v1",
+      "published": "2026-01-13T09:48:42Z",
+      "parameters_found": {},
+      "keywords": [
+        "plasma",
+        "particle",
+        "perturbation"
+      ],
+      "relevance_score": 3
+    },
+    {
+      "paper_id": "2601.08138v1",
+      "title": "The effect of surface quenching coefficients of $O_2(a^{1}\u0394g)$ and $O_2(b^{1}\u03a3g^{+})$ on capacitively coupled $Ar$/$O_2$ discharge: A global/equivalent circuit model study",
+      "authors": [
+        "Wan Dong",
+        "Yi Wang",
+        "Yi-Fan Zhang",
+        "Yuan-Hong Song"
+      ],
+      "link": "https://arxiv.org/abs/2601.08138v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.08138v1",
+      "published": "2026-01-13T01:59:59Z",
+      "parameters_found": {},
+      "keywords": [
+        "plasma",
+        "particle",
         "chi"
       ],
       "relevance_score": 3
@@ -1025,28 +1266,6 @@
       "relevance_score": 3
     },
     {
-      "paper_id": "2601.01367v2",
-      "title": "Overcoming the space-charge dilemma in low-energy heavy ion beams via a multistage acceleration lens system",
-      "authors": [
-        "M. Nishiura",
-        "T. Ido",
-        "M. Okamura",
-        "K. Ueda",
-        "A. Shimizu",
-        "H. Takubo"
-      ],
-      "link": "https://arxiv.org/abs/2601.01367v2",
-      "pdf_link": "https://arxiv.org/pdf/2601.01367v2",
-      "published": "2026-01-04T04:39:52Z",
-      "parameters_found": {},
-      "keywords": [
-        "plasma",
-        "acceleration",
-        "chi"
-      ],
-      "relevance_score": 3
-    },
-    {
       "paper_id": "2601.05209v1",
       "title": "Addressing Known Challenges in Solar Flare Forecasting I: Limb-Flare Prediction with a 4-pi Full-Heliosphere Framework",
       "authors": [
@@ -1255,20 +1474,22 @@
       "relevance_score": 3
     },
     {
-      "paper_id": "2512.09168v1",
-      "title": "The skin effect in anomalous transport of charged particles in plasma with a microturbulent magnetic field. I. Isotropic plasma",
+      "paper_id": "2601.08628v1",
+      "title": "Magnetized dynamical black holes",
       "authors": [
-        "N. A. Emelyanov",
-        "Vl. V. Kocharovsky"
+        "Jibril Ben Achour",
+        "Adolfo Cisterna",
+        "Amaro D\u00edaz",
+        "Keanu M\u00fcller"
       ],
-      "link": "https://arxiv.org/abs/2512.09168v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.09168v1",
-      "published": "2025-12-09T22:28:58Z",
+      "link": "https://arxiv.org/abs/2601.08628v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.08628v1",
+      "published": "2026-01-13T15:04:22Z",
       "parameters_found": {},
       "keywords": [
         "magnetic",
-        "plasma",
-        "particle"
+        "chi",
+        "temporal"
       ],
       "relevance_score": 3
     }
