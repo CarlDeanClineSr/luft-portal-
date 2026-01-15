@@ -73,8 +73,12 @@ git fetch origin main
 
 # Re-sync local state with remote; prefer rebase, fall back to merge if conflicts
 echo "Rebasing onto origin/main..."
-if ! git rebase --autostash origin/main; then
-  echo "Rebase failed. Checking for auto-resolvable conflicts..."
+rebase_result=0
+git rebase --autostash origin/main || rebase_result=$?
+
+# Check for unmerged files (can happen from either rebase conflicts or autostash conflicts)
+if [ $rebase_result -ne 0 ] || git diff --name-only --diff-filter=U | grep -q .; then
+  echo "Conflicts detected. Checking for auto-resolvable conflicts..."
   csv_resolved=false
   dashboard_resolved=false
   
@@ -119,8 +123,12 @@ for i in 1 2 3 4 5; do
     exit 0
   fi
   echo "Push failed (attempt $i). Re-syncing and retrying..."
-  if ! git pull --rebase --autostash origin main; then
-    echo "Pull --rebase failed. Attempting to resolve conflicts..."
+  pull_result=0
+  git pull --rebase --autostash origin main || pull_result=$?
+  
+  # Check for unmerged files (can happen from either rebase conflicts or autostash conflicts)
+  if [ $pull_result -ne 0 ] || git diff --name-only --diff-filter=U | grep -q .; then
+    echo "Conflicts detected. Attempting to resolve conflicts..."
     csv_resolved=false
     dashboard_resolved=false
     
