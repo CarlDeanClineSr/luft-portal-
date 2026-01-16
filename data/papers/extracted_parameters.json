@@ -1,7 +1,7 @@
 {
-  "extraction_date": "2026-01-15T02:42:13.854972Z",
-  "total_analyzed": 57,
-  "papers_with_parameters": 1,
+  "extraction_date": "2026-01-16T02:43:08.773575Z",
+  "total_analyzed": 50,
+  "papers_with_parameters": 2,
   "results": [
     {
       "paper_id": "2512.11631v1",
@@ -78,13 +78,13 @@
       "relevance_score": 6
     },
     {
-      "paper_id": "2601.08054v1",
+      "paper_id": "2601.08054v2",
       "title": "The Topological Origin of Bohm Resistivity in Magnetic Reconnection",
       "authors": [
         "Magnus F Ivarsen"
       ],
-      "link": "https://arxiv.org/abs/2601.08054v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.08054v1",
+      "link": "https://arxiv.org/abs/2601.08054v2",
+      "pdf_link": "https://arxiv.org/pdf/2601.08054v2",
       "published": "2026-01-12T22:48:40Z",
       "parameters_found": {
         "reconnection_rates": [
@@ -98,6 +98,51 @@
         "solar flare"
       ],
       "relevance_score": 6
+    },
+    {
+      "paper_id": "2601.09617v1",
+      "title": "Comparison of plasma response models for RMP effects on the divertor and scrape-off layer in KSTAR",
+      "authors": [
+        "H. Frerichs",
+        "J. Van Blarcum",
+        "T. Cote",
+        "S. K. Kim",
+        "Y. Q. Liu",
+        "S. M. Yang"
+      ],
+      "link": "https://arxiv.org/abs/2601.09617v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.09617v1",
+      "published": "2026-01-14T16:41:37Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "plasma",
+        "particle",
+        "perturbation",
+        "chi"
+      ],
+      "relevance_score": 5
+    },
+    {
+      "paper_id": "2601.09368v1",
+      "title": "Analysis of wave processes using beam-driven Langmuir/$\\mathcal{Z}$-mode waveforms generated in Particle-In-Cell simulations",
+      "authors": [
+        "Francisco Javier Polanco-Rodr\u00edguez",
+        "Catherine Krafft",
+        "Philippe Savoini"
+      ],
+      "link": "https://arxiv.org/abs/2601.09368v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.09368v1",
+      "published": "2026-01-14T10:50:35Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "plasma",
+        "particle",
+        "solar wind",
+        "temporal"
+      ],
+      "relevance_score": 5
     },
     {
       "paper_id": "2601.08400v1",
@@ -136,60 +181,6 @@
         "particle",
         "acceleration",
         "solar wind"
-      ],
-      "relevance_score": 5
-    },
-    {
-      "paper_id": "2601.02614v1",
-      "title": "GKFieldFlow: A Spatio-Temporal Neural Surrogate for Nonlinear Gyrokinetic Turbulence",
-      "authors": [
-        "Arash Ashourvan"
-      ],
-      "link": "https://arxiv.org/abs/2601.02614v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.02614v1",
-      "published": "2026-01-06T00:25:28Z",
-      "parameters_found": {},
-      "keywords": [
-        "plasma",
-        "particle",
-        "chi",
-        "temporal",
-        "correlation"
-      ],
-      "relevance_score": 5
-    },
-    {
-      "paper_id": "2601.02262v1",
-      "title": "Variability of MHD Instabilities in Benign Termination of High-Current Runaway Electron Beams in the JET and DIII-D Tokamaks",
-      "authors": [
-        "C. F. B. Zimmermann",
-        "C. Paz-Soldan",
-        "G. Su",
-        "C. Reux",
-        "A. F. Battey",
-        "O. Ficker",
-        "S. N. Gerasimov",
-        "C. J. Hansen",
-        "S. Jachmich",
-        "A. Lvovskiy",
-        "J. Puchmayr",
-        "N. Schoonheere",
-        "U. Sheikh",
-        "I. G. Stewart",
-        "G. Szepesi",
-        "JET Contributors",
-        "the EUROfusion Tokamak Exploitation Team"
-      ],
-      "link": "https://arxiv.org/abs/2601.02262v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.02262v1",
-      "published": "2026-01-05T16:44:23Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "plasma",
-        "boundary",
-        "perturbation",
-        "chi"
       ],
       "relevance_score": 5
     },
@@ -334,6 +325,26 @@
       "relevance_score": 5
     },
     {
+      "paper_id": "2601.09596v1",
+      "title": "Plasma wakes driven by Compton scattering: Non-linear regime and particle acceleration",
+      "authors": [
+        "Thomas Grismayer",
+        "Fabrizio Del Gaudio",
+        "Lu\u00eds O. Silva"
+      ],
+      "link": "https://arxiv.org/abs/2601.09596v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.09596v1",
+      "published": "2026-01-14T16:14:00Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "plasma",
+        "particle",
+        "acceleration"
+      ],
+      "relevance_score": 4
+    },
+    {
       "paper_id": "2601.08154v1",
       "title": "Observation of the Forbush decrease on 2024 May 10, using the ALPAQUITA air-shower array at the 70-1000 GV rigidity range",
       "authors": [
@@ -445,46 +456,6 @@
       "relevance_score": 4
     },
     {
-      "paper_id": "2601.07387v1",
-      "title": "Temporal variability of polarization in blazars",
-      "authors": [
-        "Filippo Bolis",
-        "Emanuele Sobacchi",
-        "Fabrizio Tavecchio"
-      ],
-      "link": "https://arxiv.org/abs/2601.07387v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.07387v1",
-      "published": "2026-01-12T10:08:40Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "particle",
-        "acceleration",
-        "temporal"
-      ],
-      "relevance_score": 4
-    },
-    {
-      "paper_id": "2601.07031v1",
-      "title": "The Structure of Poloidal Fields Embedded in Thin Disks",
-      "authors": [
-        "Yossef Zenati",
-        "Ethan T. Vishniac",
-        "Amir Jafari"
-      ],
-      "link": "https://arxiv.org/abs/2601.07031v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.07031v1",
-      "published": "2026-01-11T19:00:04Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "magnetosphere",
-        "boundary",
-        "chi"
-      ],
-      "relevance_score": 4
-    },
-    {
       "paper_id": "2601.07652v2",
       "title": "Role of Shafranov shift, zonal structures on the behavior of TAEs, AAEs and microinstabilities in the presence of energetic particles",
       "authors": [
@@ -572,27 +543,6 @@
         "plasma",
         "particle",
         "solar wind"
-      ],
-      "relevance_score": 4
-    },
-    {
-      "paper_id": "2601.01999v1",
-      "title": "Proton Acceleration by Collisionless Shocks in Supermassive Black Hole Coronae: Implications for High-Energy Neutrinos",
-      "authors": [
-        "Minh Nhat Ly",
-        "Yoshiyuki Inoue",
-        "Yasuhiko Sentoku",
-        "Takayoshi Sano"
-      ],
-      "link": "https://arxiv.org/abs/2601.01999v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.01999v1",
-      "published": "2026-01-05T10:59:24Z",
-      "parameters_found": {},
-      "keywords": [
-        "plasma",
-        "particle",
-        "acceleration",
-        "shock"
       ],
       "relevance_score": 4
     },
@@ -809,61 +759,6 @@
         "plasma",
         "feedback",
         "shock"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2601.07491v1",
-      "title": "The combined X-ray and $\u03b3$-ray modeling of millisecond pulsars PSR J0030+0451 in the dissipative magnetospheres",
-      "authors": [
-        "Gang Cao",
-        "Xiongbang Yang"
-      ],
-      "link": "https://arxiv.org/abs/2601.07491v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.07491v1",
-      "published": "2026-01-12T12:45:48Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "particle",
-        "magnetosphere"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2601.07179v1",
-      "title": "Chiroptical effect induced by gravitational waves",
-      "authors": [
-        "Haorong Wu",
-        "Xilong Fan"
-      ],
-      "link": "https://arxiv.org/abs/2601.07179v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.07179v1",
-      "published": "2026-01-12T04:03:57Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "perturbation",
-        "chi"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2601.06994v1",
-      "title": "Magnetic winds in resistive compact binary discs",
-      "authors": [
-        "Marc Van den Bossche",
-        "Geoffroy Lesur",
-        "Guillaume Dubus"
-      ],
-      "link": "https://arxiv.org/abs/2601.06994v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.06994v1",
-      "published": "2026-01-11T17:09:22Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "plasma",
-        "chi"
       ],
       "relevance_score": 3
     },
@@ -1197,75 +1092,6 @@
       "relevance_score": 3
     },
     {
-      "paper_id": "2601.02588v1",
-      "title": "Integrated Radiation-Magneto-Hydrodynamic Simulations of Magnetized Burning Plasmas. I. Magnetizing Ignition-Class Designs",
-      "authors": [
-        "B. Z. Djordjevi\u0107",
-        "D. J. Strozzi",
-        "G. B. Zimmerman",
-        "S. A. MacLaren",
-        "C. R. Weber",
-        "D. D. -M. Ho",
-        "L. S. Leal",
-        "C. A. Walsh",
-        "J. D. Moody"
-      ],
-      "link": "https://arxiv.org/abs/2601.02588v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.02588v1",
-      "published": "2026-01-05T22:38:23Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "plasma",
-        "chi"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2601.02460v1",
-      "title": "Magnetic reconnection with a 0.1 rate: Effective resistivity in general relativistic magnetohydrodynamics",
-      "authors": [
-        "B. Ripperda",
-        "M. P. Grehan",
-        "A. Moran",
-        "S. Selvi",
-        "L. Sironi",
-        "A. Philippov",
-        "A. Bransgrove",
-        "O. Porth"
-      ],
-      "link": "https://arxiv.org/abs/2601.02460v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.02460v1",
-      "published": "2026-01-05T19:00:00Z",
-      "parameters_found": {},
-      "keywords": [
-        "reconnection",
-        "magnetic",
-        "magnetosphere"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2601.02130v1",
-      "title": "Towards solving the ICRH wave and Fokker-Planck equations self-consistently",
-      "authors": [
-        "Dirk Van Eester",
-        "Vincent Maquet",
-        "Fabrice Louche",
-        "Bernard Reman"
-      ],
-      "link": "https://arxiv.org/abs/2601.02130v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.02130v1",
-      "published": "2026-01-05T14:02:04Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "plasma",
-        "particle"
-      ],
-      "relevance_score": 3
-    },
-    {
       "paper_id": "2601.05209v1",
       "title": "Addressing Known Challenges in Solar Flare Forecasting I: Limb-Flare Prediction with a 4-pi Full-Heliosphere Framework",
       "authors": [
@@ -1470,6 +1296,28 @@
         "magnetic",
         "plasma",
         "particle"
+      ],
+      "relevance_score": 3
+    },
+    {
+      "paper_id": "2601.09593v1",
+      "title": "The pseudo-complex Friedmann Lemaitre Robertson Walker model and the time dependence of the Hubble constant",
+      "authors": [
+        "L. Maghlaoui",
+        "P. O. Hess",
+        "F. Weber",
+        "C. A. Zen vasconcellos"
+      ],
+      "link": "https://arxiv.org/abs/2601.09593v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.09593v1",
+      "published": "2026-01-14T16:10:18Z",
+      "parameters_found": {
+        "beta_values": [
+          "1.0426"
+        ]
+      },
+      "keywords": [
+        "acceleration"
       ],
       "relevance_score": 3
     },
