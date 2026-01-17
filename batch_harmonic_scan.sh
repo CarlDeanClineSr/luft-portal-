@@ -72,6 +72,12 @@ for chi_file in $chi_files; do
     # Extract encounter number from filename
     encounter=$(basename "$chi_file" | sed -n 's/.*encounter\([0-9]\+\).*/\1/p')
     
+    # Check if encounter extraction failed
+    if [ -z "$encounter" ]; then
+        echo -e "${RED}⚠️  Warning: Could not extract encounter number from: $chi_file${NC}"
+        encounter="unknown"
+    fi
+    
     echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${CYAN}  ENCOUNTER $encounter${NC}"
     echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
@@ -194,6 +200,39 @@ echo ""
 echo "📄 Master Report: $MASTER_SUMMARY"
 echo "📁 Harmonic Data: $HARMONICS_DIR/"
 echo ""
-echo "Next: Visualize harmonics with:"
-echo "  python scripts/visualize_harmonics.py --dir $HARMONICS_DIR"
+
+# Generate comprehensive human-readable report
+echo -e "${CYAN}Generating comprehensive master report...${NC}"
+echo ""
+
+COMPREHENSIVE_REPORT="$HARMONICS_DIR/HARMONIC_ANALYSIS_MASTER_REPORT.txt"
+
+if python3 scripts/generate_master_harmonic_report.py \
+    --dir "$HARMONICS_DIR" \
+    --output "$COMPREHENSIVE_REPORT"; then
+    
+    echo ""
+    echo -e "${GREEN}╔════════════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${GREEN}║  ALL RESULTS CONSOLIDATED INTO ONE FILE                            ║${NC}"
+    echo -e "${GREEN}╚════════════════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    echo -e "${GREEN}📖 READ ALL RESULTS HERE:${NC}"
+    echo -e "${GREEN}   $COMPREHENSIVE_REPORT${NC}"
+    echo ""
+    echo "This file contains:"
+    echo "  • Executive summary of all encounters"
+    echo "  • Detailed report for each encounter"
+    echo "  • All mode transitions with timestamps"
+    echo "  • Scientific interpretation"
+    echo "  • Complete statistics"
+    echo ""
+else
+    echo -e "${YELLOW}⚠️  Could not generate comprehensive report${NC}"
+fi
+
+echo ""
+echo "Next steps:"
+echo "  1. Read the comprehensive report: $COMPREHENSIVE_REPORT"
+echo "  2. Visualize harmonics with:"
+echo "     python scripts/visualize_harmonics.py --dir $HARMONICS_DIR"
 echo ""

@@ -174,6 +174,14 @@ def analyze_harmonic_structure(file_path, chi_col='chi', output_json=None):
     # Detect transitions
     transitions = detect_mode_transitions(df, chi_col)
     
+    # Determine dominant mode
+    mode_counts = [
+        (1, stats['mode_1_fundamental']),
+        (2, stats['mode_2_harmonic']),
+        (3, stats['mode_3_harmonic'])
+    ]
+    dominant_mode_num = max(mode_counts, key=lambda x: x[1])[0]
+    
     # Build report
     report = {
         'file': str(file_path),
@@ -184,7 +192,7 @@ def analyze_harmonic_structure(file_path, chi_col='chi', output_json=None):
         'interpretation': {
             'harmonic_modes': "χ resonates at 0.15, 0.30, 0.45 (fundamental and harmonics)",
             'stability': "No violations" if stats['violations'] == 0 else f"{stats['violations']} violations detected",
-            'dominant_mode': f"Mode {max([(1, stats['mode_1_fundamental']), (2, stats['mode_2_harmonic']), (3, stats['mode_3_harmonic'])], key=lambda x: x[1])[0]}"
+            'dominant_mode': f"Mode {dominant_mode_num}"
         }
     }
     

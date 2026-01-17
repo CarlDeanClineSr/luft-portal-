@@ -16,7 +16,7 @@ import argparse
 from pathlib import Path
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-from datetime import datetime
+from datetime import datetime, timedelta
 import numpy as np
 
 # Color scheme for modes
@@ -98,11 +98,11 @@ def plot_encounter_harmonics(json_path, output_path):
             final_end = timestamps[-1] + avg_delta
         else:
             # Single timestamp - extend by 1 hour
-            from datetime import timedelta
             final_end = timestamps[-1] + timedelta(hours=1)
         
         final_mode = modes[-1]
-        should_label = len(timestamps) == 1 or modes[-1] != modes[-2]
+        # Check if we should label (avoid IndexError for single mode)
+        should_label = len(modes) == 1 or modes[-1] != modes[-2]
         label = MODE_LABELS.get(final_mode, f'Mode {final_mode}') if should_label else ''
         
         ax.axvspan(final_start, final_end, 
