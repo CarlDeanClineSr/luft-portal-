@@ -65,6 +65,9 @@ def detect_mode_transitions(df, chi_col='chi'):
     if chi_col not in df.columns:
         raise ValueError(f"Column '{chi_col}' not found in dataframe")
     
+    if len(df) == 0:
+        return []
+    
     df = df.copy()
     df['mode'] = df[chi_col].apply(classify_mode)
     
@@ -84,7 +87,7 @@ def detect_mode_transitions(df, chi_col='chi'):
             timestamp = row[time_col] if time_col else str(idx)
             
             transitions.append({
-                'index': int(idx) if isinstance(idx, (int, np.integer)) else idx,
+                'index': int(idx) if isinstance(idx, (int, np.integer)) else str(idx),
                 'timestamp': str(timestamp),
                 'from_mode': int(prev_mode),
                 'to_mode': int(current_mode),
@@ -108,6 +111,9 @@ def compute_mode_statistics(df, chi_col='chi'):
     """
     if chi_col not in df.columns:
         raise ValueError(f"Column '{chi_col}' not found in dataframe")
+    
+    if len(df) == 0:
+        raise ValueError("DataFrame is empty - no data to analyze")
     
     df = df.copy()
     df['mode'] = df[chi_col].apply(classify_mode)

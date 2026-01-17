@@ -70,7 +70,7 @@ for chi_file in $chi_files; do
     total_files=$((total_files + 1))
     
     # Extract encounter number from filename
-    encounter=$(basename "$chi_file" | grep -oP 'encounter\K\d+')
+    encounter=$(basename "$chi_file" | sed -n 's/.*encounter\([0-9]\+\).*/\1/p')
     
     echo -e "${CYAN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${CYAN}  ENCOUNTER $encounter${NC}"
@@ -89,13 +89,26 @@ for chi_file in $chi_files; do
         
         echo -e "${GREEN}✅ Harmonic analysis complete${NC}"
         
-        # Extract statistics from JSON
+        # Extract statistics from JSON in a single Python call
         if [ -f "$json_output" ]; then
-            mode1_pct=$(python3 -c "import json; print(json.load(open('$json_output'))['resonance_profile']['mode_1_fundamental_pct'])")
-            mode2_pct=$(python3 -c "import json; print(json.load(open('$json_output'))['resonance_profile']['mode_2_harmonic_pct'])")
-            mode3_pct=$(python3 -c "import json; print(json.load(open('$json_output'))['resonance_profile']['mode_3_harmonic_pct'])")
-            viol_pct=$(python3 -c "import json; print(json.load(open('$json_output'))['resonance_profile']['violations_pct'])")
-            num_trans=$(python3 -c "import json; print(len(json.load(open('$json_output'))['mode_transitions']))")
+            stats=$(python3 << EOF
+import json
+with open('$json_output') as f:
+    data = json.load(f)
+    profile = data['resonance_profile']
+    print(f"{profile['mode_1_fundamental_pct']}")
+    print(f"{profile['mode_2_harmonic_pct']}")
+    print(f"{profile['mode_3_harmonic_pct']}")
+    print(f"{profile['violations_pct']}")
+    print(f"{len(data['mode_transitions'])}")
+EOF
+)
+            # Read the values into variables
+            mode1_pct=$(echo "$stats" | sed -n '1p')
+            mode2_pct=$(echo "$stats" | sed -n '2p')
+            mode3_pct=$(echo "$stats" | sed -n '3p')
+            viol_pct=$(echo "$stats" | sed -n '4p')
+            num_trans=$(echo "$stats" | sed -n '5p')
             
             # Add to master summary
             cat >> "$MASTER_SUMMARY" << EOF

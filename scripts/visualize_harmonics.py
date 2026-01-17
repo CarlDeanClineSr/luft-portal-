@@ -80,10 +80,35 @@ def plot_encounter_harmonics(json_path, output_path):
         end_time = timestamps[i + 1]
         mode = modes[i]
         
+        # Determine if we should add a label (first occurrence of each mode)
+        should_label = (i == 0 or modes[i] != modes[i-1])
+        label = MODE_LABELS.get(mode, f'Mode {mode}') if should_label else ''
+        
         ax.axvspan(start_time, end_time, 
                    alpha=0.5, 
                    color=MODE_COLORS.get(mode, '#888888'),
-                   label=MODE_LABELS.get(mode, f'Mode {mode}') if i == 0 or modes[i] != modes[i-1] else '')
+                   label=label)
+    
+    # Handle the final mode (extend to a reasonable end time)
+    if len(timestamps) > 0:
+        final_start = timestamps[-1]
+        # Extend final mode by the average time delta
+        if len(timestamps) > 1:
+            avg_delta = (timestamps[-1] - timestamps[0]) / (len(timestamps) - 1)
+            final_end = timestamps[-1] + avg_delta
+        else:
+            # Single timestamp - extend by 1 hour
+            from datetime import timedelta
+            final_end = timestamps[-1] + timedelta(hours=1)
+        
+        final_mode = modes[-1]
+        should_label = len(timestamps) == 1 or modes[-1] != modes[-2]
+        label = MODE_LABELS.get(final_mode, f'Mode {final_mode}') if should_label else ''
+        
+        ax.axvspan(final_start, final_end, 
+                   alpha=0.5, 
+                   color=MODE_COLORS.get(final_mode, '#888888'),
+                   label=label)
     
     # Plot transition points
     ax.scatter(timestamps, modes, c=[MODE_COLORS.get(m, '#888888') for m in modes], 
