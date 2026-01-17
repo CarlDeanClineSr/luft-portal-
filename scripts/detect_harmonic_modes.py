@@ -22,6 +22,7 @@ import pandas as pd
 import numpy as np
 import json
 import argparse
+import sys
 from pathlib import Path
 from datetime import datetime
 
@@ -296,5 +297,4 @@ Examples:
 
 
 if __name__ == '__main__':
-    import sys
     sys.exit(main())

@@ -14,6 +14,7 @@ Date: January 17, 2026
 
 import json
 import argparse
+import sys
 from pathlib import Path
 from datetime import datetime
 
@@ -264,5 +265,4 @@ def main():
 
 
 if __name__ == '__main__':
-    import sys
     sys.exit(main())
