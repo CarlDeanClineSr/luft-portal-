@@ -30,7 +30,7 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
 import argparse
 import os
 import sys
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import numpy as np
 import pandas as pd
@@ -140,9 +140,8 @@ def fetch_psp_mag_pyspedas(start_date, end_date, encounter_num):
         # data is typically (times, values) where values has shape (n, 3) for RTN
         times, mag_rtn = data
         
-        # Convert times to datetime
-        from datetime import datetime as dt
-        times_dt = [dt.utcfromtimestamp(t) for t in times]
+        # Convert times to datetime (using timezone-aware fromtimestamp for Python 3.12+)
+        times_dt = [datetime.fromtimestamp(t, tz=timezone.utc) for t in times]
         
         # Create DataFrame
         df = pd.DataFrame({

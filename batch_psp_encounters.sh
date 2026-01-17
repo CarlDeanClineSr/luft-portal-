@@ -233,7 +233,7 @@ EOF
                 continue
             fi
             
-            local row_count=$(wc -l < "$data_file" | tr -d ' ')
+            local row_count=$(wc -l < "$data_file")
             if [ "$row_count" -lt 2 ]; then
                 print_error "Data file is empty: $data_file"
                 echo "ENCOUNTER $encounter: DOWNLOAD FAILED (empty file)" >> "$SUMMARY_FILE"
