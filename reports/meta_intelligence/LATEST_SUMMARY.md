@@ -23,8 +23,8 @@ This is the latest meta-intelligence analysis combining:
 
 ## 📁 Full Reports
 
-- **Meta-Pattern Analysis:** See `reports/meta_intelligence/report_20260116_001742.md`
-- **Missing Links Report:** See `reports/meta_intelligence/missing_links_20260116_002838.md`
+- **Meta-Pattern Analysis:** See `reports/meta_intelligence/report_20260117_001652.md`
+- **Missing Links Report:** See `reports/meta_intelligence/missing_links_20260117_003004.md`
 
 ---
 
