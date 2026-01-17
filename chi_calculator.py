@@ -74,11 +74,28 @@ def compute_chi(file_path, time_col='TT2000', bx='BX-OUTB', by='BY-OUTB', bz='BZ
     """
     print(f"Reading data from: {file_path}")
     
+    # Try to read the file - first check if it's CSV or whitespace-delimited
+    df = None
+    
+    # Try CSV format first (most common for PSP data)
     try:
-        # Try reading with whitespace delimiter (common for space data)
-        # First, try with datetime parsing
+        df = pd.read_csv(file_path, comment='#')
+        # Verify it's actually comma-separated by checking if we have multiple columns
+        if len(df.columns) > 1:
+            # Successfully read as CSV
+            if time_col in df.columns:
+                df[time_col] = pd.to_datetime(df[time_col], format='mixed')
+                df = df.set_index(time_col)
+        else:
+            # Only one column - probably not CSV, try whitespace
+            df = None
+    except:
+        df = None
+    
+    # Fall back to whitespace-delimited if CSV didn't work
+    if df is None:
         try:
-            df = pd.read_csv(file_path, delim_whitespace=True, comment='#')
+            df = pd.read_csv(file_path, sep=r'\s+', comment='#')
             # Find datetime column - could be named or first column
             if time_col in df.columns:
                 df[time_col] = pd.to_datetime(df[time_col], format='mixed')
@@ -87,20 +104,8 @@ def compute_chi(file_path, time_col='TT2000', bx='BX-OUTB', by='BY-OUTB', bz='BZ
                 # Assume first column is time if time_col not found
                 df.iloc[:, 0] = pd.to_datetime(df.iloc[:, 0], format='mixed')
                 df = df.set_index(df.columns[0])
-        except:
-            # Fall back to reading without datetime parsing
-            df = pd.read_csv(file_path, delim_whitespace=True, comment='#')
-            if time_col in df.columns:
-                df = df.set_index(time_col)
-    except Exception as e:
-        # Fall back to comma-separated
-        try:
-            df = pd.read_csv(file_path, comment='#')
-            if time_col in df.columns:
-                df[time_col] = pd.to_datetime(df[time_col], format='mixed')
-                df = df.set_index(time_col)
-        except Exception as e2:
-            print(f"Error reading file: {e2}")
+        except Exception as e:
+            print(f"Error reading file: {e}")
             sys.exit(1)
     
     print(f"Loaded {len(df):,} data points")
