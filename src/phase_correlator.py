@@ -54,7 +54,7 @@ def analyze_phase_data(file_path):
             print(f"   -> PHYSICS: {target['desc']}")
             
             if count > 0:
-                print(f"   -> LATEST: {hits['timestamp_utc'].iloc[-1] if 'timestamp_utc' in df else 'N/A'}")
+                print(f"   -> LATEST: {hits['timestamp_utc'].iloc[-1] if 'timestamp_utc' in hits.columns else 'N/A'}")
             print("------------------------------------------------")
 
         # 2. CHI LIMIT CORRELATION

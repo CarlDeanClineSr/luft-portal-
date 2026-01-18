@@ -20,6 +20,9 @@ TARGETS = {
 # --- PHYSICS CONSTANTS ---
 CHI_LIMIT = 0.15
 RESONANCE_PHASES = [1.3526, 4.0143] # The Solar Wind Keys
+PHASE_TOLERANCE = 0.1  # Strict tolerance for phase matching
+MAG_VOID_THRESHOLD = 15.0  # Magnitude threshold for void state
+FLUX_PULSE_THRESHOLD = 10.0  # Flux ratio threshold for pulse state
 
 def calculate_star_phase(hjd):
     """
@@ -57,7 +60,8 @@ def scan_sector():
             if not df.empty:
                 # Get Latest Event
                 latest = df.iloc[0]
-                mag = float(str(latest.get('mag', '99')).replace('>','99'))
+                mag_str = str(latest.get('mag', '99')).replace('>','')
+                mag = float(mag_str) if mag_str else 99.0
                 hjd = float(latest['HJD'])
                 
                 # PHYSICS CALCS
@@ -71,13 +75,13 @@ def scan_sector():
                 # 3. Check for Lock
                 lock_status = ""
                 for target in RESONANCE_PHASES:
-                    if abs(star_phase - target) < 0.1: # Strict tolerance
+                    if abs(star_phase - target) < PHASE_TOLERANCE:
                         lock_status = f" [PHASE MATCH: {target}]"
 
                 # REPORT
                 state = "NOMINAL"
-                if mag > 15: state = "VOID"
-                if flux_ratio > 10: state = "PULSE"
+                if mag > MAG_VOID_THRESHOLD: state = "VOID"
+                if flux_ratio > FLUX_PULSE_THRESHOLD: state = "PULSE"
                 
                 print(f"NODE {info['name']}: {state}")
                 print(f"   -> Chi: {chi:.3f} | Phase: {star_phase:.4f} rad {lock_status}")
