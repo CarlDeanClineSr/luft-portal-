@@ -1,0 +1,66 @@
+{
+  "scan_time": "2026-01-18T05:10:30.891320",
+  "pyasassn_available": false,
+  "targets_scanned": 8,
+  "beacons_detected": 1,
+  "results": [
+    {
+      "nsvs_id": "2354429",
+      "name": "NSVS 2354429",
+      "status": "BEACON_DETECTED",
+      "analysis": {
+        "is_beacon": true,
+        "min_magnitude": 10.317,
+        "max_magnitude": 12.564,
+        "median_magnitude": 12.542,
+        "flux_ratio": 7.7624711662869155,
+        "has_pulse_state": true,
+        "has_quiet_state": false,
+        "num_observations": 11,
+        "reason": "BEACON CONFIRMED - Flux ratio 7.8\u00d7"
+      }
+    },
+    {
+      "nsvs_id": "2913753",
+      "name": "NSVS 2913753",
+      "status": "FAILED",
+      "reason": "Coordinates not available"
+    },
+    {
+      "nsvs_id": "3037513",
+      "name": "NSVS 3037513",
+      "status": "FAILED",
+      "reason": "Coordinates not available"
+    },
+    {
+      "nsvs_id": "6804071",
+      "name": "NSVS 6804071",
+      "status": "FAILED",
+      "reason": "Coordinates not available"
+    },
+    {
+      "nsvs_id": "6814519",
+      "name": "NSVS 6814519",
+      "status": "FAILED",
+      "reason": "Coordinates not available"
+    },
+    {
+      "nsvs_id": "7255468",
+      "name": "NSVS 7255468",
+      "status": "FAILED",
+      "reason": "Coordinates not available"
+    },
+    {
+      "nsvs_id": "7575062",
+      "name": "NSVS 7575062",
+      "status": "FAILED",
+      "reason": "Coordinates not available"
+    },
+    {
+      "nsvs_id": "7642696",
+      "name": "NSVS 7642696",
+      "status": "FAILED",
+      "reason": "Coordinates not available"
+    }
+  ]
+}
