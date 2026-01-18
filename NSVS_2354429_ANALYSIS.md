@@ -15,7 +15,7 @@ Raw light curve data from ASAS-SN shows this star normally resting at **Magnitud
 | Property | Value |
 |----------|-------|
 | **Star ID** | NSVS 2354429 |
-| **Baseline Magnitude** | 12.54 mag |
+| **Baseline Magnitude** | 12.539 mag (calculated average) |
 | **Pulse Magnitude** | 10.317 mag |
 | **Magnitude Change (Δmag)** | 2.22 mag |
 | **Brightness Increase** | **7.7×** |

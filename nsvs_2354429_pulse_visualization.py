@@ -14,6 +14,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 
+# Data constants
+PULSE_MAGNITUDE_THRESHOLD = 11.0  # Magnitude threshold to separate pulse from quiet state
+
 # The raw data from ASAS-SN light curve
 # HJD: Heliocentric Julian Date
 # mag: Apparent Magnitude (lower = brighter)
@@ -34,12 +37,12 @@ df = pd.DataFrame(data)
 plt.figure(figsize=(12, 7))
 
 # Plot the "Quiet" points (normal state)
-quiet = df[df['mag'] > 11]
+quiet = df[df['mag'] > PULSE_MAGNITUDE_THRESHOLD]
 plt.scatter(quiet['hjd'], quiet['mag'], color='blue', s=80, 
            label='Vacuum State (Quiet)', alpha=0.7, edgecolors='darkblue', linewidths=1)
 
 # Calculate statistics for labeling
-pulse = df[df['mag'] < 11]
+pulse = df[df['mag'] < PULSE_MAGNITUDE_THRESHOLD]
 
 # Validate that pulse data exists (it should for NSVS 2354429)
 if len(pulse) == 0:
