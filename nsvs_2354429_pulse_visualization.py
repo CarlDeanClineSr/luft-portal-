@@ -40,7 +40,12 @@ plt.scatter(quiet['hjd'], quiet['mag'], color='blue', s=80,
 
 # Calculate statistics for labeling
 pulse = df[df['mag'] < 11]
-pulse_mag = pulse['mag'].values[0] if len(pulse) > 0 else 0
+
+# Validate that pulse data exists (it should for NSVS 2354429)
+if len(pulse) == 0:
+    raise ValueError("No pulse event found in data. Check magnitude threshold.")
+
+pulse_mag = pulse['mag'].values[0]
 
 # Plot the "Pulse" point (anomaly)
 plt.scatter(pulse['hjd'], pulse['mag'], color='red', s=300, 
@@ -49,7 +54,9 @@ plt.scatter(pulse['hjd'], pulse['mag'], color='red', s=300,
 
 # Calculate additional statistics for annotations
 baseline_mag = quiet['mag'].mean()
-pulse_hjd = pulse['hjd'].values[0] if len(pulse) > 0 else 0
+pulse_hjd = pulse['hjd'].values[0]
+# Convert magnitude difference to brightness ratio using Pogson's equation
+# Brightness ratio = 10^(Δmag/2.5), where Δmag is the magnitude difference
 delta_mag = baseline_mag - pulse_mag
 brightness_increase = 10**(delta_mag / 2.5)
 
@@ -66,14 +73,13 @@ plt.ylabel("Magnitude (Brightness →)", fontsize=13)
 plt.grid(True, which='both', linestyle='--', alpha=0.3)
 plt.legend(fontsize=11, loc='best')
 
-# Add annotation for the pulse
-if len(pulse) > 0:
-    plt.annotate(f'Δmag = {delta_mag:.2f}\n~{brightness_increase:.1f}× brighter',
-                xy=(pulse_hjd, pulse_mag), xytext=(pulse_hjd + 30, pulse_mag + 0.8),
-                fontsize=10, ha='left',
-                bbox=dict(boxstyle='round,pad=0.5', facecolor='yellow', alpha=0.7),
-                arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0.3',
-                              color='red', linewidth=2))
+# Add annotation for the pulse (data is guaranteed to exist at this point)
+plt.annotate(f'Δmag = {delta_mag:.2f}\n~{brightness_increase:.1f}× brighter',
+            xy=(pulse_hjd, pulse_mag), xytext=(pulse_hjd + 30, pulse_mag + 0.8),
+            fontsize=10, ha='left',
+            bbox=dict(boxstyle='round,pad=0.5', facecolor='yellow', alpha=0.7),
+            arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0.3',
+                          color='red', linewidth=2))
 
 # Add text box with interpretation
 textstr = 'INTERPRETATION:\n'
