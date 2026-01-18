@@ -38,15 +38,17 @@ quiet = df[df['mag'] > 11]
 plt.scatter(quiet['hjd'], quiet['mag'], color='blue', s=80, 
            label='Vacuum State (Quiet)', alpha=0.7, edgecolors='darkblue', linewidths=1)
 
-# Plot the "Pulse" point (anomaly)
+# Calculate statistics for labeling
 pulse = df[df['mag'] < 11]
+pulse_mag = pulse['mag'].values[0] if len(pulse) > 0 else 0
+
+# Plot the "Pulse" point (anomaly)
 plt.scatter(pulse['hjd'], pulse['mag'], color='red', s=300, 
-           label='High Energy Pulse (Mag 10.3)', marker='*', 
+           label=f'High Energy Pulse (Mag {pulse_mag:.2f})', marker='*', 
            edgecolors='darkred', linewidths=2, zorder=5)
 
-# Calculate statistics before plotting
+# Calculate additional statistics for annotations
 baseline_mag = quiet['mag'].mean()
-pulse_mag = pulse['mag'].values[0] if len(pulse) > 0 else baseline_mag
 pulse_hjd = pulse['hjd'].values[0] if len(pulse) > 0 else 0
 delta_mag = baseline_mag - pulse_mag
 brightness_increase = 10**(delta_mag / 2.5)
@@ -76,9 +78,9 @@ if len(pulse) > 0:
 # Add text box with interpretation
 textstr = 'INTERPRETATION:\n'
 textstr += '• Blue points: Star at rest (Mag ~12.5)\n'
-textstr += '• Red star: Energy pulse event (Mag 10.3)\n'
+textstr += f'• Red star: Energy pulse event (Mag {pulse_mag:.2f})\n'
 textstr += '• This is NOT dust (dust dims stars)\n'
-textstr += '• This IS an energy event (7.7× brightness increase)'
+textstr += f'• This IS an energy event ({brightness_increase:.1f}× brightness increase)'
 
 props = dict(boxstyle='round', facecolor='wheat', alpha=0.8)
 plt.text(0.02, 0.98, textstr, transform=plt.gca().transAxes, fontsize=10,
