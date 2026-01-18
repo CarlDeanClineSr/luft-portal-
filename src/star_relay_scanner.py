@@ -3,8 +3,8 @@ import pandas as pd
 import io
 import datetime
 
-# --- CONFIGURATION ---
-# The "Schmidt Chain" targets we identified
+# --- THE TARGET LIST (EXPANDABLE) ---
+# We look for "Ship-to-Ship" chains here.
 TARGET_NODES = {
     '2354429': {'name': 'ALPHA (Master)', 'role': 'COMMAND'},
     '2913753': {'name': 'BETA (Slave)',   'role': 'ARRAY'},
@@ -15,79 +15,61 @@ TARGET_NODES = {
     '7575062': {'name': 'ETA (Control)',  'role': 'CONTROL'}
 }
 
-# Detection thresholds for state classification
-MAG_THRESHOLD_VOID = 15.0  # Fainter than this = VOID (Logic 0)
-MAG_THRESHOLD_PULSE = 11.0 # Brighter than this = PULSE (Logic 1)
+# --- THE PHYSICS LIMITS ---
+# Chi = 0.15 translates to specific Magnitude flux limits
+MAG_VOID = 15.0   # The Lattice is saturated (Dark)
+MAG_PULSE = 11.0  # High Energy Discharge
 
-def fetch_light_curve(nsvs_id):
-    """
-    Pulls the raw CSV directly from ASAS-SN for a specific variable star.
-    """
-    url = f"https://asas-sn.osu.edu/variables/{nsvs_id}.csv"
-    try:
-        response = requests.get(url, timeout=15)
-        if response.status_code == 200:
-            # Skip the header lines if they exist, standard pandas parsing
-            return pd.read_csv(io.StringIO(response.text))
-        else:
-            print(f"  [ERROR] Failed to fetch {nsvs_id}: Status {response.status_code}")
-            return None
-    except Exception as e:
-        print(f"  [ERROR] Connection error for {nsvs_id}: {e}")
-        return None
-
-def analyze_node(nsvs_id, info):
-    """
-    Checks the node for Vacuum State anomalies in the last 30 days.
-    """
-    df = fetch_light_curve(nsvs_id)
-    
-    if df is None or df.empty:
-        return
-        
-    # Sort by date descending (newest first)
-    df = df.sort_values(by='HJD', ascending=False)
-    
-    # Get recent data (top 5 rows)
-    recent = df.head(5)
-    
-    print(f"--- ANALYZING {info['name']} (ID: {nsvs_id}) ---")
-    
-    for index, row in recent.iterrows():
-        mag = row['mag']
-        flux = row['flux(mJy)']
-        
-        # Determine State
-        state = "NORMAL"
-        
-        # Check for VOID (Non-detection or Negative Flux)
-        # Note: 'mag' might be a string like ">15.7" in raw CSV
-        try:
-            mag_val = float(str(mag).replace('>',''))
-        except (ValueError, TypeError):
-            mag_val = 99.99
-
-        if mag_val > MAG_THRESHOLD_VOID or str(mag).startswith('>'):
-            state = "VOID (Logic 0)"
-        elif mag_val < MAG_THRESHOLD_PULSE:
-            state = "PULSE (Logic 1)"
-            
-        # Check specifically for Negative Flux (Vacuum Hole)
-        if isinstance(flux, (int, float)) and flux < 0:
-            state += " [NEGATIVE FLUX]"
-
-        # Print Report for this timestamp
-        print(f"   Date (HJD): {row['HJD']:.2f} | Mag: {mag} | Flux: {flux} | STATE: {state}")
-
-def run_dragnet():
-    print(f"INITIATING CYGNUS RELAY SCAN: {datetime.datetime.now()}")
-    print("=======================================================")
+def scan_sector():
+    print(f"--- INITIATING LATTICE COMM SCAN: {datetime.datetime.now()} ---")
+    active_nodes = 0
+    void_nodes = 0
     
     for nid, info in TARGET_NODES.items():
-        analyze_node(nid, info)
-        
-    print("=======================================================")
-    print("SCAN COMPLETE.")
+        url = f"https://asas-sn.osu.edu/variables/{nid}.csv"
+        try:
+            # 1. Ping the Star
+            response = requests.get(url, timeout=10)
+            if response.status_code != 200:
+                continue
+                
+            # 2. Read the Signal
+            df = pd.read_csv(io.StringIO(response.text))
+            if df.empty:
+                continue
+            
+            # Sort by HJD (date) to get the most recent observation first
+            if 'HJD' in df.columns:
+                df = df.sort_values(by='HJD', ascending=False)
+            elif 'hjd' in df.columns:
+                df = df.sort_values(by='hjd', ascending=False)
+            # If no date column found, we'll use the data as-is (typically already sorted)
+            
+            # 3. Check Last Known State (Top Row)
+            latest = df.iloc[0] 
+            mag_str = str(latest['mag'])
+            
+            # 4. Decode State
+            status = "QUIET"
+            try:
+                # Extract numeric value, handling '>' prefix
+                mag_numeric = float(mag_str.replace('>', ''))
+                
+                if ">" in mag_str or mag_numeric > MAG_VOID:
+                    status = "VOID (ACTIVE)"
+                    void_nodes += 1
+                elif mag_numeric < MAG_PULSE:
+                    status = "PULSE (COMMAND)"
+                    active_nodes += 1
+            except (ValueError, AttributeError):
+                status = "QUIET (PARSE ERROR)"
+            
+            print(f"NODE {info['name']}: {status} | Mag: {mag_str}")
+            
+        except Exception as e:
+            print(f"NODE {nid}: LINK FAILURE - {e}")
+
+    print(f"--- SECTOR SCAN COMPLETE: {void_nodes} VOID / {active_nodes} PULSE ---")
 
 if __name__ == "__main__":
-    run_dragnet()
+    scan_sector()
