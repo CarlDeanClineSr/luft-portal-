@@ -33,3 +33,10 @@ pytplot==1.7.28
 # Network analysis for link intelligence
 networkx==3.3
 python-dateutil==2.9.0
+
+# ASAS-SN Sky Patrol client for stellar photometry
+pyasassn>=0.5.1
+
+# Astronomy tools for coordinate lookups
+astroquery>=0.4.6
+astropy>=5.3.0
