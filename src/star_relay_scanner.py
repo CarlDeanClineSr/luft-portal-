@@ -2,7 +2,6 @@ import requests
 import pandas as pd
 import io
 import datetime
-import sys
 
 # --- THE TARGET LIST (EXPANDABLE) ---
 # We look for "Ship-to-Ship" chains here.
@@ -37,6 +36,10 @@ def scan_sector():
             # 2. Read the Signal
             df = pd.read_csv(io.StringIO(response.text))
             if df.empty: continue
+            
+            # Sort by HJD (date) to get the most recent observation first
+            if 'HJD' in df.columns:
+                df = df.sort_values(by='HJD', ascending=False)
             
             # 3. Check Last Known State (Top Row)
             latest = df.iloc[0] 
