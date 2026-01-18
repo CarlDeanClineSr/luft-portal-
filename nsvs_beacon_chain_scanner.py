@@ -109,6 +109,13 @@ NSVS_TARGETS = {
 class BeaconScanner:
     """Scanner for detecting stellar communication beacons"""
     
+    # Detection thresholds
+    PULSE_MAGNITUDE_THRESHOLD = 11.0  # Stars brighter than this are in "pulse" state
+    QUIET_MAGNITUDE_THRESHOLD = 13.0  # Stars dimmer than this are in "quiet" state
+    BEACON_FLUX_RATIO_THRESHOLD = 5.0  # Minimum flux increase to classify as beacon
+    DEFAULT_CATALOG = 'stellar_main'  # ASAS-SN catalog to query
+    CONE_SEARCH_RADIUS = 5  # arcseconds
+    
     def __init__(self):
         self.client = None
         if PYASASSN_AVAILABLE:
@@ -168,13 +175,15 @@ class BeaconScanner:
         median_mag = sorted(magnitudes)[len(magnitudes) // 2]
         
         # Convert magnitude to flux (relative)
-        # Flux ratio = 10^((mag2 - mag1) / 2.5)
+        # In astronomy, brighter objects have LOWER magnitudes
+        # Flux ratio = 10^((mag_dim - mag_bright) / 2.5)
+        # This tells us how much brighter the star got during the pulse
         flux_ratio = 10**((median_mag - min_mag) / 2.5)
         
-        # Detection logic
-        has_pulse = min_mag < 11.0
-        has_quiet = max_mag > 13.0
-        is_beacon = flux_ratio > 5.0
+        # Detection logic using class constants
+        has_pulse = min_mag < self.PULSE_MAGNITUDE_THRESHOLD
+        has_quiet = max_mag > self.QUIET_MAGNITUDE_THRESHOLD
+        is_beacon = flux_ratio > self.BEACON_FLUX_RATIO_THRESHOLD
         
         result = {
             "is_beacon": is_beacon and has_pulse,
@@ -258,12 +267,11 @@ class BeaconScanner:
         # Query the light curve
         try:
             print("  [DATA QUERY] Querying ASAS-SN Sky Patrol...")
-            search_radius = 5  # arcseconds
             results = self.client.cone_search(
                 ra=ra, 
                 dec=dec, 
-                radius=search_radius,
-                catalog='stellar_main'
+                radius=self.CONE_SEARCH_RADIUS,
+                catalog=self.DEFAULT_CATALOG
             )
             
             if len(results) == 0:
@@ -285,14 +293,15 @@ class BeaconScanner:
             print("  [DOWNLOADING] Retrieving light curve data...")
             lc = self.client.lightcurve_lookup(asassn_id)
             
-            # Convert to our format
-            data = []
-            for i in range(len(lc.hjd)):
-                data.append({
+            # Convert to our format using list comprehension for efficiency
+            data = [
+                {
                     'hjd': lc.hjd[i],
                     'mag': lc.mag[i],
                     'mag_err': lc.mag_err[i] if hasattr(lc, 'mag_err') else None
-                })
+                }
+                for i in range(len(lc.hjd))
+            ]
             
             print(f"  [DATA] Retrieved {len(data)} observations")
             
