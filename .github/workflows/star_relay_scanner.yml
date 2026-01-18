@@ -16,10 +16,10 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install dependencies
-        run: pip install requests pandas
-      - name: Run Star Relay Scanner
+        run: pip install requests pandas numpy
+      - name: Run Star Relay Scanner V2
         run: |
-          python src/star_relay_scanner.py > reports/latest_star_scan.txt
+          python src/star_relay_scanner_v2.py > reports/latest_star_scan.txt
         continue-on-error: true
       - name: Commit results
         run: |
