@@ -15,10 +15,9 @@ TARGET_NODES = {
     '7575062': {'name': 'ETA (Control)',  'role': 'CONTROL'}
 }
 
-# The Universal Limit (Chi = 0.15)
-# In Magnitude, a deviation of > 2.0 mag is a massive Vacuum Event (Logic 0/1)
-MAG_THRESHOLD_VOID = 15.0  # Fainter than this = VOID
-MAG_THRESHOLD_PULSE = 11.0 # Brighter than this = PULSE
+# Detection thresholds for state classification
+MAG_THRESHOLD_VOID = 15.0  # Fainter than this = VOID (Logic 0)
+MAG_THRESHOLD_PULSE = 11.0 # Brighter than this = PULSE (Logic 1)
 
 def fetch_light_curve(nsvs_id):
     """
@@ -46,10 +45,6 @@ def analyze_node(nsvs_id, info):
     if df is None or df.empty:
         return
         
-    # Convert HJD to Date for human readability
-    # Approximate conversion: HJD - 2400000.5 -> MJD
-    # We will just grab the 'HJD' column
-    
     # Sort by date descending (newest first)
     df = df.sort_values(by='HJD', ascending=False)
     
@@ -69,7 +64,7 @@ def analyze_node(nsvs_id, info):
         # Note: 'mag' might be a string like ">15.7" in raw CSV
         try:
             mag_val = float(str(mag).replace('>',''))
-        except:
+        except (ValueError, TypeError):
             mag_val = 99.99
 
         if mag_val > MAG_THRESHOLD_VOID or str(mag).startswith('>'):
