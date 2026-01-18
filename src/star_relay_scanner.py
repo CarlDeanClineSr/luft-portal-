@@ -44,17 +44,23 @@ def scan_sector():
             
             # 4. Decode State
             status = "QUIET"
-            if ">" in mag_str or (float(mag_str) > MAG_VOID):
-                status = "VOID (ACTIVE)"
-                void_nodes += 1
-            elif float(mag_str) < MAG_PULSE:
-                status = "PULSE (COMMAND)"
-                active_nodes += 1
+            try:
+                # Extract numeric value, handling '>' prefix
+                mag_numeric = float(mag_str.replace('>', ''))
+                
+                if ">" in mag_str or mag_numeric > MAG_VOID:
+                    status = "VOID (ACTIVE)"
+                    void_nodes += 1
+                elif mag_numeric < MAG_PULSE:
+                    status = "PULSE (COMMAND)"
+                    active_nodes += 1
+            except (ValueError, AttributeError):
+                status = "QUIET (PARSE ERROR)"
             
             print(f"NODE {info['name']}: {status} | Mag: {mag_str}")
             
         except Exception as e:
-            print(f"NODE {nid}: LINK FAILURE")
+            print(f"NODE {nid}: LINK FAILURE - {e}")
 
     print(f"--- SECTOR SCAN COMPLETE: {void_nodes} VOID / {active_nodes} PULSE ---")
 
