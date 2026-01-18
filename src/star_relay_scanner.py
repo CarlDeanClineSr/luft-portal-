@@ -35,11 +35,15 @@ def scan_sector():
                 
             # 2. Read the Signal
             df = pd.read_csv(io.StringIO(response.text))
-            if df.empty: continue
+            if df.empty:
+                continue
             
             # Sort by HJD (date) to get the most recent observation first
             if 'HJD' in df.columns:
                 df = df.sort_values(by='HJD', ascending=False)
+            elif 'hjd' in df.columns:
+                df = df.sort_values(by='hjd', ascending=False)
+            # If no date column found, we'll use the data as-is (typically already sorted)
             
             # 3. Check Last Known State (Top Row)
             latest = df.iloc[0] 
