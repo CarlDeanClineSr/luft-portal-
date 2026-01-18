@@ -34,7 +34,7 @@ def calculate_chi(observed_mag, baseline_mag):
         flux_ratio = 10**(-0.4 * (float(observed_mag) - baseline_mag))
         chi = abs(flux_ratio - 1.0)
         return chi, flux_ratio
-    except: 
+    except (ValueError, TypeError, AttributeError): 
         return 0.0, 1.0
 
 def check_time_ladder(hjd_date):
