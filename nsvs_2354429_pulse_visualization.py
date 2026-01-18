@@ -4,7 +4,7 @@ NSVS 2354429 Pulse Visualization
 
 This script visualizes the light curve of NSVS 2354429, showing a dramatic
 brightness pulse anomaly. The star normally sits at Magnitude 12.5 but showed
-a brief excursion to Magnitude 10.3 - representing a 7x increase in brightness.
+a brief excursion to Magnitude 10.3 - representing a 7.7× increase in brightness.
 
 This is "The Heartbeat of the Schmidt Star" - demonstrating that this is not
 dust obscuration (which dims stars) but rather an energy event.
@@ -12,6 +12,7 @@ dust obscuration (which dims stars) but rather an energy event.
 
 import matplotlib.pyplot as plt
 import pandas as pd
+import os
 
 # The raw data from ASAS-SN light curve
 # HJD: Heliocentric Julian Date
@@ -43,8 +44,14 @@ plt.scatter(pulse['hjd'], pulse['mag'], color='red', s=300,
            label='High Energy Pulse (Mag 10.3)', marker='*', 
            edgecolors='darkred', linewidths=2, zorder=5)
 
-# Add a horizontal line showing the baseline
+# Calculate statistics before plotting
 baseline_mag = quiet['mag'].mean()
+pulse_mag = pulse['mag'].values[0] if len(pulse) > 0 else baseline_mag
+pulse_hjd = pulse['hjd'].values[0] if len(pulse) > 0 else 0
+delta_mag = baseline_mag - pulse_mag
+brightness_increase = 10**(delta_mag / 2.5)
+
+# Add a horizontal line showing the baseline
 plt.axhline(y=baseline_mag, color='gray', linestyle='--', linewidth=1, 
            alpha=0.5, label=f'Baseline (Mag {baseline_mag:.2f})')
 
@@ -59,11 +66,6 @@ plt.legend(fontsize=11, loc='best')
 
 # Add annotation for the pulse
 if len(pulse) > 0:
-    pulse_hjd = pulse['hjd'].values[0]
-    pulse_mag = pulse['mag'].values[0]
-    delta_mag = baseline_mag - pulse_mag
-    brightness_increase = 10**(delta_mag / 2.5)
-    
     plt.annotate(f'Δmag = {delta_mag:.2f}\n~{brightness_increase:.1f}× brighter',
                 xy=(pulse_hjd, pulse_mag), xytext=(pulse_hjd + 30, pulse_mag + 0.8),
                 fontsize=10, ha='left',
@@ -76,7 +78,7 @@ textstr = 'INTERPRETATION:\n'
 textstr += '• Blue points: Star at rest (Mag ~12.5)\n'
 textstr += '• Red star: Energy pulse event (Mag 10.3)\n'
 textstr += '• This is NOT dust (dust dims stars)\n'
-textstr += '• This IS an energy event (7× brightness increase)'
+textstr += '• This IS an energy event (7.7× brightness increase)'
 
 props = dict(boxstyle='round', facecolor='wheat', alpha=0.8)
 plt.text(0.02, 0.98, textstr, transform=plt.gca().transAxes, fontsize=10,
@@ -84,6 +86,9 @@ plt.text(0.02, 0.98, textstr, transform=plt.gca().transAxes, fontsize=10,
 
 # Tighten layout
 plt.tight_layout()
+
+# Ensure output directory exists
+os.makedirs('figures', exist_ok=True)
 
 # Save the figure
 output_file = 'figures/nsvs_2354429_pulse_visualization.png'

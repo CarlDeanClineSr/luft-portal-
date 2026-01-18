@@ -87,4 +87,4 @@ This analysis demonstrates the value of continuous all-sky monitoring for detect
 
 ---
 
-*"This is not 'dust.' Dust makes stars dimmer. This is **Energy**. The star got 7× brighter in an instant."*
+*"This is not 'dust.' Dust makes stars dimmer. This is **Energy**. The star got 7.7× brighter in an instant."*
