@@ -4,7 +4,7 @@ NSVS 2354429 Pulse Visualization
 
 This script visualizes the light curve of NSVS 2354429, showing a dramatic
 brightness pulse anomaly. The star normally sits at Magnitude 12.5 but showed
-a brief excursion to Magnitude 10.3 - representing a 7.7× increase in brightness.
+a brief excursion to Magnitude 10.317 - representing a 7.7× increase in brightness.
 
 This is "The Heartbeat of the Schmidt Star" - demonstrating that this is not
 dust obscuration (which dims stars) but rather an energy event.

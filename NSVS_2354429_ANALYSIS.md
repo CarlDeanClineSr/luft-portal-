@@ -8,7 +8,7 @@ This document describes the analysis of **NSVS 2354429**, a star that exhibited 
 
 ### The Data
 
-Raw light curve data from ASAS-SN shows this star normally resting at **Magnitude 12.5** (the "Vacuum State"), with a single observation showing a dramatic excursion to **Magnitude 10.3** (the "High Energy Pulse").
+Raw light curve data from ASAS-SN shows this star normally resting at **Magnitude 12.5** (the "Vacuum State"), with a single observation showing a dramatic excursion to **Magnitude 10.317** (the "High Energy Pulse").
 
 ### The Numbers
 
@@ -49,7 +49,7 @@ This pulse represents a transient energy release event. The sharp, singular natu
 The visualization script (`nsvs_2354429_pulse_visualization.py`) creates a publication-quality plot showing:
 
 1. **Blue points**: The star at rest (Magnitude ~12.5)
-2. **Red star**: The energy pulse event (Magnitude 10.3)
+2. **Red star**: The energy pulse event (Magnitude 10.317)
 3. **Inverted Y-axis**: Following astronomy convention (brighter = up)
 4. **Annotations**: Quantifying the magnitude change and brightness increase
 
