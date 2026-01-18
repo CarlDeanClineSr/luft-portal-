@@ -110,10 +110,10 @@ def run_census():
                     # This endpoint usually gives the latest HJD in the 'epoch' or similar column if flattened.
                     # If HJD is missing, we skip (to avoid breaking).
                     if 'HJD' not in star and 'hjd' not in star:
-                         # Attempt to fetch individual light curve if needed (slower, but accurate)
-                         # For this batch, we assume the bulk CSV provides the necessary data column 
-                         # or we skip to keep it fast.
-                         continue
+                        # Attempt to fetch individual light curve if needed (slower, but accurate)
+                        # For this batch, we assume the bulk CSV provides the necessary data column 
+                        # or we skip to keep it fast.
+                        continue
                          
                     hjd = float(star.get('HJD', star.get('hjd', 0)))
                     if hjd == 0: continue
@@ -126,6 +126,7 @@ def run_census():
                         if abs(phase - t) < TOLERANCE:
                             status = f"LOCKED [{t}]"
                             locked_count += 1
+                            break  # Only count once per star
                     
                     # Write to file
                     line = f"{star['id']:<30} | {star.get('mag_v', 'N/A'):<6} | {phase:.4f}       | {status}\n"
@@ -139,11 +140,18 @@ def run_census():
             f.write("-" * 60 + "\n")
             f.write(f"TOTAL SCANNED: {len(df)}\n")
             f.write(f"LOCKED NODES:  {locked_count}\n")
-            percentage = (locked_count / len(df)) * 100
-            f.write(f"LOCK RATE:     {percentage:.2f}%\n")
+            if len(df) > 0:
+                percentage = (locked_count / len(df)) * 100
+                f.write(f"LOCK RATE:     {percentage:.2f}%\n")
+            else:
+                f.write(f"LOCK RATE:     N/A\n")
             
         print(f"\n>> SUCCESS. REPORT SAVED TO: {OUTPUT_FILE}")
-        print(f">> LOCK RATE: {percentage:.2f}%")
+        if len(df) > 0:
+            percentage = (locked_count / len(df)) * 100
+            print(f">> LOCK RATE: {percentage:.2f}%")
+        else:
+            print(f">> LOCK RATE: N/A")
 
     except Exception as e:
         print(f"CRITICAL FAILURE: {e}")
