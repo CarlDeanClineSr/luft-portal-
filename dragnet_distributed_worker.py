@@ -38,9 +38,9 @@ def main():
     # Initialize Client (outside the loop for speed)
     client = None
     try:
-        from pyasassn.client import SkyPatrolClient
-        client = SkyPatrolClient()
-        print("  [INFO] SkyPatrol Client Initialized")
+        if SkyPatrolClient:
+            client = SkyPatrolClient()
+            print("  [INFO] SkyPatrol Client Initialized")
     except Exception as e:
         print(f"  [WARN] Client init failed: {e}")
 
@@ -48,14 +48,12 @@ def main():
     
     # BATCH SCAN LOOP
     for i, (ra, dec) in enumerate(targets):
-        target_id = f"J{ra:.4f}{dec:+.4f}"
-        
         try:
             if not client:
                 break # Fail safe
                 
             # 1. Cone Search (Find star at these coords)
-            # Using 5 arcsec radius (0.0014 deg) to pin specific targets
+            # Using 7.2 arcsec radius (0.002 deg) to pin specific targets
             search_results = client.cone_search(
                 ra_deg=ra, 
                 dec_deg=dec, 
@@ -110,12 +108,11 @@ def main():
 
         except Exception as e:
             # Log error but keep scanning
-            # print(f"  [ERR] Target {i}: {e}")
             pass
             
         # Reporting heartbeat
         if (i + 1) % 100 == 0:
-             print(f"  Status: {i+1}/{len(targets)} scanned. Found {len(results)} stars.")
+            print(f"  Status: {i+1}/{len(targets)} scanned. Found {len(results)} stars.")
 
     # ==============================================================================
 
