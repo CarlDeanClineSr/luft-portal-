@@ -69,6 +69,11 @@ class TestBeaconScanner:
         assert analysis['has_pulse_state'] is True
         assert analysis['min_magnitude'] == pytest.approx(10.317, abs=0.001)
         assert analysis['flux_ratio'] > scanner.BEACON_FLUX_RATIO_THRESHOLD
+        
+        # Should have event_time field with HJD of pulse
+        assert 'event_time' in analysis
+        assert 'HJD' in analysis['event_time']
+        assert '2456999.929' in analysis['event_time']  # Known pulse time
     
     def test_analyze_empty_data(self):
         """Test analysis with no data"""
