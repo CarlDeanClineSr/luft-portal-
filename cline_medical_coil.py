@@ -61,8 +61,9 @@ from datetime import datetime
 
 # Physical Constants
 CHI = 0.15  # Vacuum stability limit (Carl's discovery)
-ALPHA = 1.0 / 137.036  # Fine structure constant
-CHI_ALPHA_RATIO = CHI / ALPHA  # ≈ 20.556 Hz (vacuum-matter coupling)
+ALPHA = 1.0 / 137.036  # Fine structure constant (α ≈ 0.00729735)
+# Chi/Alpha coupling ratio - computed from above constants for consistency
+CHI_ALPHA_RATIO = CHI / ALPHA  # = 20.5554 Hz (vacuum-matter coupling frequency)
 
 # Medical Coil Parameters
 CLINE_FREQUENCY = 20.5556  # Hz (precise chi/alpha ratio)
@@ -144,9 +145,12 @@ class ClineMedicalCoil:
         num_samples = int(duration * self.sample_rate)
         time_array = np.linspace(0, duration, num_samples)
         
-        # Square wave: Compare sine wave to duty cycle threshold
+        # Square wave: Compare sine wave to threshold based on duty cycle
+        # For 50% duty cycle, threshold is 0. For other duty cycles, map to sine value
         sine_wave = np.sin(2 * np.pi * self.frequency * time_array)
-        threshold = np.sin(2 * np.pi * duty_cycle)
+        # Convert duty cycle (0-1) to phase threshold (-1 to 1)
+        # duty_cycle 0.5 -> threshold 0.0, duty_cycle 0.25 -> threshold -0.5, etc.
+        threshold = 2 * duty_cycle - 1
         signal = amplitude * np.where(sine_wave > threshold, 1.0, -1.0)
         
         return time_array, signal
@@ -337,8 +341,13 @@ class ClineMedicalCoil:
         rows = 20
         cols = min(80, len(signal_display))
         
-        # Normalize signal to row range
-        signal_normalized = (signal_display - np.min(signal_display)) / (np.max(signal_display) - np.min(signal_display))
+        # Normalize signal to row range (handle constant signal edge case)
+        signal_min = np.min(signal_display)
+        signal_max = np.max(signal_display)
+        if signal_max - signal_min < 1e-10:  # Essentially constant signal
+            signal_normalized = np.ones_like(signal_display) * 0.5  # Center position
+        else:
+            signal_normalized = (signal_display - signal_min) / (signal_max - signal_min)
         
         # Sample signal for display columns
         sample_indices = np.linspace(0, len(signal_display)-1, cols, dtype=int)

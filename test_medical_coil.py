@@ -162,8 +162,9 @@ def test_frequency_precision():
             analysis = coil.analyze_signal(time_array, signal)
             
             error = analysis['frequency_error']
-            # More lenient tolerance for FFT-based measurement
-            tolerance = 0.1  # Hz
+            # More lenient tolerance for FFT-based measurement on short signals
+            # Note: With longer signals or hardware counters, can achieve ±0.001 Hz
+            tolerance = 0.1  # Hz (for 5-second test signals)
             
             status = "✅ PASS" if error < tolerance else "⚠️  WARNING"
             print(f"{freq:.4f} Hz: Error {error:.6f} Hz {status}")
@@ -258,16 +259,20 @@ def test_save_load():
     print("="*80)
     
     try:
+        import tempfile
+        import json
+        
         coil = ClineMedicalCoil()
         time_array, signal = coil.generate_square_wave(duration=1.0)
         
-        output_file = "/tmp/test_signal.json"
+        # Use temporary directory for cross-platform compatibility
+        temp_dir = tempfile.gettempdir()
+        output_file = str(Path(temp_dir) / "test_signal.json")
         metadata = {'test': True}
         coil.save_signal(time_array, signal, output_file, metadata)
         
         # Check file exists
         import json
-        from pathlib import Path
         
         output_path = Path(output_file)
         assert output_path.exists(), "Output file not created"

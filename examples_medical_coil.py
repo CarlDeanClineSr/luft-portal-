@@ -194,8 +194,11 @@ def example_5_save_and_load():
     analysis = coil.analyze_signal(time_array, signal)
     coil.print_analysis(analysis)
     
-    # Save to file
-    output_file = "/tmp/cline_medical_coil_signal.json"
+    # Save to file (cross-platform compatible path)
+    from pathlib import Path
+    import tempfile
+    temp_dir = tempfile.gettempdir()
+    output_file = str(Path(temp_dir) / "cline_medical_coil_signal.json")
     metadata = {
         'mode': 'square',
         'purpose': 'Medical coil hardware driver',
