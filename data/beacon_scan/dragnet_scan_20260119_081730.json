@@ -1,0 +1,95 @@
+{
+  "scan_time": "2026-01-19T08:17:30.116341+00:00",
+  "pyasassn_available": false,
+  "targets_scanned": 8,
+  "beacons_detected": 1,
+  "results": [
+    {
+      "nsvs_id": "2354429",
+      "name": "NSVS 2354429",
+      "status": "PULSE_DETECTED",
+      "analysis": {
+        "is_beacon": true,
+        "min_magnitude": 10.317,
+        "max_magnitude": 12.564,
+        "median_magnitude": 12.542,
+        "flux_ratio": 7.7624711662869155,
+        "has_pulse_state": true,
+        "has_quiet_state": false,
+        "num_observations": 11,
+        "event_time": "HJD 2456999.929",
+        "reason": "BEACON CONFIRMED - Flux ratio 7.8\u00d7"
+      }
+    },
+    {
+      "nsvs_id": "2913753",
+      "name": "NSVS 2913753",
+      "status": "READY_FOR_SCAN",
+      "coordinates": {
+        "ra": 307.87533,
+        "dec": 41.21147
+      },
+      "reason": "Install pyasassn to complete scan"
+    },
+    {
+      "nsvs_id": "3037513",
+      "name": "NSVS 3037513",
+      "status": "READY_FOR_SCAN",
+      "coordinates": {
+        "ra": 308.37521,
+        "dec": 41.32047
+      },
+      "reason": "Install pyasassn to complete scan"
+    },
+    {
+      "nsvs_id": "6804071",
+      "name": "NSVS 6804071",
+      "status": "READY_FOR_SCAN",
+      "coordinates": {
+        "ra": 304.87933,
+        "dec": 41.54903
+      },
+      "reason": "Install pyasassn to complete scan"
+    },
+    {
+      "nsvs_id": "6814519",
+      "name": "NSVS 6814519",
+      "status": "READY_FOR_SCAN",
+      "coordinates": {
+        "ra": 305.00079,
+        "dec": 41.71017
+      },
+      "reason": "Install pyasassn to complete scan"
+    },
+    {
+      "nsvs_id": "7255468",
+      "name": "NSVS 7255468",
+      "status": "READY_FOR_SCAN",
+      "coordinates": {
+        "ra": 306.44008,
+        "dec": 41.66428
+      },
+      "reason": "Install pyasassn to complete scan"
+    },
+    {
+      "nsvs_id": "7575062",
+      "name": "NSVS 7575062",
+      "status": "READY_FOR_SCAN",
+      "coordinates": {
+        "ra": 307.88392,
+        "dec": 41.80644
+      },
+      "reason": "Install pyasassn to complete scan"
+    },
+    {
+      "nsvs_id": "7642696",
+      "name": "NSVS 7642696",
+      "status": "READY_FOR_SCAN",
+      "coordinates": {
+        "ra": 308.23404,
+        "dec": 41.65069
+      },
+      "reason": "Install pyasassn to complete scan"
+    }
+  ]
+}

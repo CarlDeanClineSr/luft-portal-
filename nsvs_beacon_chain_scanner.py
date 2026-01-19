@@ -174,6 +174,14 @@ class BeaconScanner:
         max_mag = max(magnitudes)
         median_mag = sorted(magnitudes)[len(magnitudes) // 2]
         
+        # Find the event time (HJD) when the minimum magnitude (brightest pulse) occurred
+        # Use tolerance for floating-point comparison
+        event_time = None
+        for point in data:
+            if 'mag' in point and abs(point['mag'] - min_mag) < 1e-9:
+                event_time = point.get('hjd')
+                break
+        
         # Convert magnitude to flux (relative)
         # In astronomy, brighter objects have LOWER magnitudes
         # Flux ratio = 10^((mag_dim - mag_bright) / 2.5)
@@ -195,6 +203,10 @@ class BeaconScanner:
             "has_quiet_state": has_quiet,
             "num_observations": len(magnitudes)
         }
+        
+        # Add event_time if we found it (HJD of the pulse event)
+        if event_time is not None:
+            result["event_time"] = f"HJD {event_time}"
         
         if is_beacon and has_pulse:
             result["reason"] = f"BEACON CONFIRMED - Flux ratio {flux_ratio:.1f}×"
@@ -251,7 +263,7 @@ class BeaconScanner:
                 return {
                     "nsvs_id": nsvs_id,
                     "name": target_info['name'],
-                    "status": "BEACON_DETECTED",
+                    "status": "PULSE_DETECTED",
                     "analysis": analysis
                 }
             else:
@@ -314,7 +326,7 @@ class BeaconScanner:
                 print(f"           Min Mag: {analysis['min_magnitude']:.2f}")
                 print(f"           Max Mag: {analysis['max_magnitude']:.2f}")
                 print(f"           Flux Ratio: {analysis['flux_ratio']:.1f}×")
-                status = "BEACON_DETECTED"
+                status = "PULSE_DETECTED"
             else:
                 print(f"  [RESULT] Normal variability - not a beacon")
                 status = "NO_BEACON"
@@ -380,7 +392,7 @@ class BeaconScanner:
         print(" ★ DRAGNET MISSION COMPLETE ★")
         print("="*70)
         
-        beacon_count = sum(1 for r in results if r['status'] == 'BEACON_DETECTED')
+        beacon_count = sum(1 for r in results if r['status'] == 'PULSE_DETECTED')
         ready_count = sum(1 for r in results if r['status'] == 'READY_FOR_SCAN')
         error_count = sum(1 for r in results if r['status'] in ['ERROR', 'FAILED', 'NO_DATA'])
         
@@ -428,7 +440,7 @@ def main():
     results = scanner.run_dragnet()
     
     # Exit code based on findings
-    beacon_count = sum(1 for r in results if r['status'] == 'BEACON_DETECTED')
+    beacon_count = sum(1 for r in results if r['status'] == 'PULSE_DETECTED')
     if beacon_count > 1:
         sys.exit(0)  # Success - network detected
     elif beacon_count == 1:
