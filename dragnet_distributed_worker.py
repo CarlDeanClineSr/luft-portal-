@@ -5,9 +5,12 @@ import os
 from pathlib import Path
 
 try:
-    from pyasassn.client import SkyPatrolClient
+    from skypatrol import SkyPatrolClient
 except ImportError:
-    SkyPatrolClient = None
+    try:
+        from pyasassn.client import SkyPatrolClient
+    except ImportError:
+        SkyPatrolClient = None
 
 def main():
     parser = argparse.ArgumentParser()
@@ -37,11 +40,11 @@ def main():
         try:
             if client:
                 # Actual Query Logic would go here - simplified for stability
+                # In production, this would query ASAS-SN for light curve data
+                # and analyze for stress node signatures
                 pass 
-            # Simulating a check for now to test pipeline
-            # In production, this uses the query_asassn logic
         except Exception as e:
-            pass
+            print(f"Warning: Error processing target {i} (RA={ra:.3f}, Dec={dec:.3f}): {e}")
         
         # Progress reporting
         if (i + 1) % 100 == 0:
