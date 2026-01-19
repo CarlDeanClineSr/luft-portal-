@@ -175,9 +175,10 @@ class BeaconScanner:
         median_mag = sorted(magnitudes)[len(magnitudes) // 2]
         
         # Find the event time (HJD) when the minimum magnitude (brightest pulse) occurred
+        # Use tolerance for floating-point comparison
         event_time = None
         for point in data:
-            if 'mag' in point and point['mag'] == min_mag:
+            if 'mag' in point and abs(point['mag'] - min_mag) < 1e-9:
                 event_time = point.get('hjd')
                 break
         
