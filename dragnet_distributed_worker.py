@@ -33,14 +33,18 @@ def main():
     client = SkyPatrolClient() if SkyPatrolClient else None
 
     print(f"Scanning {len(targets)} targets...")
+    
+    # NOTE: This is a deployment framework with placeholder logic.
+    # The actual ASAS-SN query implementation should be added here in production.
+    # For now, this validates the distributed execution infrastructure.
 
     # Simple scan loop
     for i, (ra, dec) in enumerate(targets):
         try:
             if client:
-                # Actual Query Logic would go here - simplified for stability
-                # In production, this would query ASAS-SN for light curve data
-                # and analyze for stress node signatures
+                # TODO: Implement actual ASAS-SN query logic
+                # Example: query light curve data, analyze for stress nodes,
+                # detect flux variations, and append results to results list
                 pass 
         except Exception as e:
             print(f"Warning: Error processing target {i} (RA={ra:.3f}, Dec={dec:.3f}): {e}")
@@ -54,7 +58,7 @@ def main():
     # Save results
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
     with open(args.output, 'w', encoding='utf-8') as f:
-        json.dump({'job_id': args.job_id, 'results': results}, f)
+        json.dump({'job_id': args.job_id, 'results': results}, f, indent=2)
 
 if __name__ == '__main__':
     main()

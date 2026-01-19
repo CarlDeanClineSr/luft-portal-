@@ -21,7 +21,7 @@ def main():
 
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
     with open(args.output, 'w', encoding='utf-8') as f:
-        json.dump({'total_scanned': len(all_results), 'results': all_results}, f)
+        json.dump({'total_scanned': len(all_results), 'results': all_results}, f, indent=2)
     
     print(f"Aggregated {len(all_results)} results into {args.output}")
 
