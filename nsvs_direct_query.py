@@ -38,7 +38,8 @@ def query_asassn_vizier(ra, dec, radius=2.5):
         radius: Search radius (arcminutes, default 2.5)
     
     Returns:
-        dict: Light curve data or None if query fails
+        dict: Dictionary with keys 'source', 'num_sources', 'data' containing catalog
+              metadata, or None if query fails or no sources found
     """
     try:
         print(f"    Querying VizieR for ASAS-SN data: RA={ra:.5f}, Dec={dec:.5f}, radius={radius}'")
@@ -47,7 +48,8 @@ def query_asassn_vizier(ra, dec, radius=2.5):
         coord = SkyCoord(ra=ra*u.deg, dec=dec*u.deg, frame='icrs')
         
         # Query VizieR for ASAS-SN catalog (II/366 is ASAS-SN Variable Stars Database)
-        v = Vizier(columns=['all'], row_limit=-1)
+        # Use reasonable limit since cone searches should return few results
+        v = Vizier(columns=['all'], row_limit=100)
         result = v.query_region(coord, radius=radius*u.arcmin, catalog='II/366')
         
         if result and len(result) > 0:
@@ -82,6 +84,31 @@ def query_asassn_vizier(ra, dec, radius=2.5):
     except Exception as e:
         print(f"    ✗ VizieR Query Error: {e}")
         return None
+
+
+def convert_deg_to_hms_dms(ra_deg, dec_deg):
+    """
+    Convert decimal degree coordinates to HMS/DMS format.
+    
+    Args:
+        ra_deg: Right Ascension in decimal degrees
+        dec_deg: Declination in decimal degrees
+    
+    Returns:
+        tuple: (ra_h, ra_m, ra_s, dec_sign, dec_d, dec_m, dec_s)
+    """
+    # Convert RA to HMS
+    ra_h = int(ra_deg / 15)
+    ra_m = int((ra_deg / 15 - ra_h) * 60)
+    ra_s = ((ra_deg / 15 - ra_h) * 60 - ra_m) * 60
+    
+    # Convert Dec to DMS
+    dec_sign = '+' if dec_deg >= 0 else '-'
+    dec_d = int(abs(dec_deg))
+    dec_m = int((abs(dec_deg) - dec_d) * 60)
+    dec_s = ((abs(dec_deg) - dec_d) * 60 - dec_m) * 60
+    
+    return ra_h, ra_m, ra_s, dec_sign, dec_d, dec_m, dec_s
 
 # Target coordinates (from nsvs_beacon_chain_scanner.py)
 targets = {
@@ -174,15 +201,7 @@ def main():
     print()
     
     for name, coords in targets.items():
-        # Convert decimal degrees to HMS/DMS format
-        ra_h = int(coords['ra'] / 15)
-        ra_m = int((coords['ra'] / 15 - ra_h) * 60)
-        ra_s = ((coords['ra'] / 15 - ra_h) * 60 - ra_m) * 60
-        
-        dec_sign = '+' if coords['dec'] >= 0 else '-'
-        dec_d = int(abs(coords['dec']))
-        dec_m = int((abs(coords['dec']) - dec_d) * 60)
-        dec_s = ((abs(coords['dec']) - dec_d) * 60 - dec_m) * 60
+        ra_h, ra_m, ra_s, dec_sign, dec_d, dec_m, dec_s = convert_deg_to_hms_dms(coords['ra'], coords['dec'])
         
         print(f"   {name}:")
         print(f"     RA:  {ra_h:02d} {ra_m:02d} {ra_s:05.2f}  ({coords['ra']:.5f}°)")
@@ -239,14 +258,7 @@ def main():
         f.write("3. TARGET COORDINATES:\n\n")
         
         for name, coords in targets.items():
-            ra_h = int(coords['ra'] / 15)
-            ra_m = int((coords['ra'] / 15 - ra_h) * 60)
-            ra_s = ((coords['ra'] / 15 - ra_h) * 60 - ra_m) * 60
-            
-            dec_sign = '+' if coords['dec'] >= 0 else '-'
-            dec_d = int(abs(coords['dec']))
-            dec_m = int((abs(coords['dec']) - dec_d) * 60)
-            dec_s = ((abs(coords['dec']) - dec_d) * 60 - dec_m) * 60
+            ra_h, ra_m, ra_s, dec_sign, dec_d, dec_m, dec_s = convert_deg_to_hms_dms(coords['ra'], coords['dec'])
             
             f.write(f"   {name}:\n")
             f.write(f"     RA:  {ra_h:02d} {ra_m:02d} {ra_s:05.2f}\n")
