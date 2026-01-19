@@ -24,7 +24,6 @@ def main():
     # Deterministic target generation (Fibonacci Sphere)
     start_idx = args.job_id * args.batch_size
     end_idx = min(start_idx + args.batch_size, args.total_targets)
-    np.random.seed(42)
     indices = np.arange(start_idx, end_idx) + 0.5
     phi = np.arccos(1 - 2*indices/args.total_targets)
     theta = np.pi * (1 + 5**0.5) * indices
@@ -54,7 +53,7 @@ def main():
 
     # Save results
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
-    with open(args.output, 'w') as f:
+    with open(args.output, 'w', encoding='utf-8') as f:
         json.dump({'job_id': args.job_id, 'results': results}, f)
 
 if __name__ == '__main__':
