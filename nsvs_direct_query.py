@@ -32,8 +32,10 @@ try:
     SKYPATROL_AVAILABLE = True
 except ImportError:
     SKYPATROL_AVAILABLE = False
-    print("ERROR: skypatrol not available. Install with: pip install skypatrol")
-    print("This is required for automated ASAS-SN data retrieval.")
+    print("ERROR: skypatrol not available.")
+    print("Install with: pip install skypatrol")
+    print("Note: The package is called 'skypatrol' but the module is 'pyasassn'")
+    print("This is the newest maintained version of the ASAS-SN API client.")
     if __name__ == "__main__":
         exit(1)
 
@@ -162,7 +164,8 @@ def query_asassn_lightcurve(client, ra, dec, radius=10):
         
         # Get the closest match
         source = results.iloc[0]
-        asassn_id = int(source['asas_sn_id'])  # Convert numpy int64 to Python int
+        # Convert to Python int (handles numpy int64, int32, or regular int)
+        asassn_id = int(source['asas_sn_id']) if hasattr(source['asas_sn_id'], 'item') else source['asas_sn_id']
         print(f"    ✓ Found source: ASAS-SN ID {asassn_id}")
         
         # Download full light curve
