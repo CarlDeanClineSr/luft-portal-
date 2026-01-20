@@ -36,7 +36,9 @@ def compute_luft_metrics(df):
     df['delta_B'] = np.abs(df['B'] - df['B_baseline'])
     
     # 3. Calculate Chi (The Universal Ratio)
-    df['chi'] = df['delta_B'] / df['B_baseline']
+    # Add small epsilon to prevent division by zero
+    eps = 1e-12
+    df['chi'] = df['delta_B'] / (df['B_baseline'] + eps)
     
     # 4. Status Classifier (The Regulator)
     # We define a tight tolerance for "Locking" based on your 90.48% finding

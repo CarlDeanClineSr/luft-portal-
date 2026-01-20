@@ -212,10 +212,11 @@ if __name__ == '__main__':
     test_compute_luft_metrics_basic()
     test_compute_luft_metrics_boundary_detection()
     test_compute_luft_metrics_precursor_mode()
-    test_generate_storm_report_locked(None)  # Manually test without capsys
-    test_generate_storm_report_unstable(None)
+    # Skip capsys-dependent tests when running standalone
+    # test_generate_storm_report_locked(None)
+    # test_generate_storm_report_unstable(None)
     test_compute_chi_existing_function()
     test_rolling_median_existing_function()
     test_compute_luft_metrics_with_nans()
     
-    print("\n✅ All tests passed!")
+    print("\n✅ Non-capsys tests passed! Run with pytest for full test suite.")
