@@ -13,7 +13,6 @@ Usage:
 
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 import argparse
 
 
@@ -66,7 +65,7 @@ def scan_for_lattice_lock(df, tolerance=0.01):
     # Filter for significant dips (ignore noise < 0.05)
     dips = df[df['chi'] > 0.05]
     
-    # check for the 0.15 Lock
+    # Check for the 0.15 Lock
     # We look for dips that 'bottom out' at 0.14 - 0.16
     locked_dips = dips[(dips['chi'] >= (0.15 - tolerance)) & (dips['chi'] <= (0.15 + tolerance))]
     
@@ -74,7 +73,7 @@ def scan_for_lattice_lock(df, tolerance=0.01):
         print(f"--- DETECTED LATTICE LOCK ---")
         print(f"Count: {len(locked_dips)} data points locked at 0.15")
         print(f"Max Chi: {locked_dips['chi'].max():.4f}")
-        print(f"timestamps: {locked_dips['time'].values[:5]} ...")
+        print(f"Timestamps: {locked_dips['time'].values[:5]} ...")
         return True
     else:
         print("No Lattice Lock detected in this sector.")
