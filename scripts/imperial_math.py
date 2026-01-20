@@ -2,13 +2,15 @@
 import numpy as np
 import pandas as pd
 
+# Small epsilon to prevent division by zero in chi calculations
+EPSILON = 1e-12
+
 def rolling_median(series: pd.Series, window_hours: int) -> pd.Series:
     return series.rolling(window=window_hours, min_periods=max(1, window_hours//2), center=False).median()
 
 def compute_chi(b_series: pd.Series, baseline: pd.Series) -> pd.Series:
-    eps = 1e-12
     base = baseline.replace(0, np.nan)
-    chi = (b_series - base).abs() / (base + eps)
+    chi = (b_series - base).abs() / (base + EPSILON)
     return chi
 
 
@@ -37,8 +39,7 @@ def compute_luft_metrics(df):
     
     # 3. Calculate Chi (The Universal Ratio)
     # Add small epsilon to prevent division by zero
-    eps = 1e-12
-    df['chi'] = df['delta_B'] / (df['B_baseline'] + eps)
+    df['chi'] = df['delta_B'] / (df['B_baseline'] + EPSILON)
     
     # 4. Status Classifier (The Regulator)
     # We define a tight tolerance for "Locking" based on your 90.48% finding
