@@ -1,26 +1,28 @@
 # LUFT PORTAL - HOURLY SUMMARY
-**Generated:** 2026-01-20 21:16:04 UTC  
+**Generated:** 2026-01-20 22:16:25 UTC  
 **Status:** 🟢 OPERATIONAL
 
 ---
 
 ## 🎯 CORE DISCOVERY: χ ≤ 0.15 BOUNDARY
 
+⚠️ **DATA STALE:** Last update 28.4 minutes ago (expected < 15 min)
+
 **Status:** ACTIVE  
-**Total Observations:** 2,736  
+**Total Observations:** 2,739  
 **Latest χ Value:** 0.1500  
 **Violations:** 0 (✅ ZERO)  
 **Boundary Test:** ✅ PASSED
-**Last Update:** 2026-01-20 21:13:00.000
-✅ **Data Age:** 3.1 minutes (FRESH)
+**Last Update:** 2026-01-20 21:48:00.000
+⚠️ **Data Age:** 28.4 minutes (STALE - expected < 15 min)
 
 ---
 
 ## 📊 LIVE DATA (Last Observation)
 
-- **Solar Wind Speed:** 826 km/s
-- **Bz (Magnetic Field):** -11.23 nT
-- **Density:** 0.17 p/cm³
+- **Solar Wind Speed:** 820 km/s
+- **Bz (Magnetic Field):** -10.46 nT
+- **Density:** 0.20 p/cm³
 - **Maximum χ (Today):** 0.1500
 
 ---
@@ -50,7 +52,7 @@ This is the latest meta-intelligence analysis combining:
 
 ### Earth Solar Wind (1 AU)
 - Status: ✅ PRIMARY
-- Observations: 2,736
+- Observations: 2,739
 - χ Max: 0.1500
 - Violations: 0
 
