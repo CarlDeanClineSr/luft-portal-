@@ -59,6 +59,10 @@ EPSILON_0 = 8.8541878128e-12  # F/m
 MU_0 = 1.25663706212e-6  # H/m
 C_LIGHT = 299792458  # m/s
 
+# Numerical constants
+EPSILON = 1e-10  # Small value for division by zero protection
+DEFAULT_BASELINE_WINDOW = 24  # Default window size for baseline calculation
+
 # ============================================================================
 # DERIVED CONSTANTS (From χ = 0.15)
 # ============================================================================
@@ -124,23 +128,25 @@ def calculate_chi(B: np.ndarray, B_baseline: Optional[np.ndarray] = None,
     if B is not None:
         if B_baseline is None:
             # Use simple rolling mean if no baseline provided
-            # For DataFrames, this would be better with proper time indexing
-            window = min(len(B) // 24, 100)  # Approximate 24-hour window
+            # Calculate window size: if we have hourly data for 24 hours, window = 24
+            # For higher frequency data, adjust proportionally (e.g., 1-min data -> 1440 points/day)
+            # Here we use a minimum window or 1/24th of data, whichever is larger
+            window = max(DEFAULT_BASELINE_WINDOW, min(len(B) // DEFAULT_BASELINE_WINDOW, 100))
             if window < 2:
                 window = 2
             B_baseline = pd.Series(B).rolling(window=window, min_periods=1, center=True).mean().values
         
-        chi_B = np.abs(B - B_baseline) / (B_baseline + 1e-10)  # Avoid division by zero
+        chi_B = np.abs(B - B_baseline) / (B_baseline + EPSILON)  # Avoid division by zero
         chi_components.append(chi_B)
     
     # Density perturbation
     if n is not None and n_baseline is not None:
-        chi_n = np.abs(n - n_baseline) / (n_baseline + 1e-10)
+        chi_n = np.abs(n - n_baseline) / (n_baseline + EPSILON)
         chi_components.append(chi_n)
     
     # Velocity perturbation
     if V is not None and V_baseline is not None:
-        chi_V = np.abs(V - V_baseline) / (V_baseline + 1e-10)
+        chi_V = np.abs(V - V_baseline) / (V_baseline + EPSILON)
         chi_components.append(chi_V)
     
     # Take maximum across all components
