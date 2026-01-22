@@ -1,9 +1,9 @@
-name: Weekly Reconnection Simulation
+name: Daily Reconnection Simulation
 
 on:
   schedule:
-    # Run every Sunday at 03:00 UTC
-    - cron: '0 3 * * 0'
+    # Run daily at 03:00 UTC (changed from weekly)
+    - cron: '0 3 * * *'
   workflow_dispatch:  # Allow manual triggering
 
 jobs:
@@ -120,7 +120,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "🔬 Weekly reconnection simulation - $(date -u '+%Y-%m-%d %H:%M UTC')"
+            git commit -m "🔬 Daily reconnection simulation - $(date -u '+%Y-%m-%d %H:%M UTC')"
             git pull --rebase origin main --autostash
             git push
             echo "✅ Simulation results pushed to repository"
