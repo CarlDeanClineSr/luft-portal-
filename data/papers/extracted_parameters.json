@@ -1,6 +1,6 @@
 {
-  "extraction_date": "2026-01-21T02:43:10.600291Z",
-  "total_analyzed": 54,
+  "extraction_date": "2026-01-22T02:46:42.770530Z",
+  "total_analyzed": 50,
   "papers_with_parameters": 2,
   "results": [
     {
@@ -55,6 +55,82 @@
       "relevance_score": 10
     },
     {
+      "paper_id": "2601.11917v1",
+      "title": "Evidence for 1.01 s Pulsations of the Central Compact Object in the Supernova Remnant RCW 103 with ASCA, XMM-Newton, and NuSTAR",
+      "authors": [
+        "Kazuo Makishima",
+        "Nagomi Uchida",
+        "Teruaki Enoto"
+      ],
+      "link": "https://arxiv.org/abs/2601.11917v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.11917v1",
+      "published": "2026-01-17T05:34:05Z",
+      "parameters_found": {
+        "periodicities": [
+          "6.67 hr"
+        ]
+      },
+      "keywords": [
+        "magnetic",
+        "perturbation",
+        "chi",
+        "periodicity"
+      ],
+      "relevance_score": 6
+    },
+    {
+      "paper_id": "2601.12614v1",
+      "title": "Deterministic and probabilistic neural surrogates of global hybrid-Vlasov simulations",
+      "authors": [
+        "Daniel Holmberg",
+        "Ivan Zaitsev",
+        "Markku Alho",
+        "Ioanna Bouri",
+        "Fanni Franssila",
+        "Haewon Jeong",
+        "Minna Palmroth",
+        "Teemu Roos"
+      ],
+      "link": "https://arxiv.org/abs/2601.12614v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.12614v1",
+      "published": "2026-01-18T23:13:23Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "plasma",
+        "solar wind",
+        "magnetosphere",
+        "chi",
+        "temporal"
+      ],
+      "relevance_score": 6
+    },
+    {
+      "paper_id": "2601.12466v1",
+      "title": "Plasmoid formation via competing lower-hybrid drift and Kelvin-Helmholtz instabilities: A hybrid kinetic-gyrokinetic simulation study",
+      "authors": [
+        "S. Thatikonda",
+        "F. N. De Oliveira-Lopes",
+        "A. Mustonen",
+        "K. Pommois",
+        "D. Told",
+        "F. Jenko"
+      ],
+      "link": "https://arxiv.org/abs/2601.12466v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.12466v1",
+      "published": "2026-01-18T16:15:58Z",
+      "parameters_found": {},
+      "keywords": [
+        "reconnection",
+        "magnetic",
+        "plasma",
+        "solar wind",
+        "magnetosphere",
+        "boundary"
+      ],
+      "relevance_score": 6
+    },
+    {
       "paper_id": "2601.08329v1",
       "title": "Velocity-Space Signatures of Energy Transfer for Ion-Acoustic Instabilities",
       "authors": [
@@ -98,47 +174,6 @@
         "solar flare"
       ],
       "relevance_score": 6
-    },
-    {
-      "paper_id": "2601.11521v1",
-      "title": "X-ray Polarization of the Intrabinary Shock in Redback Pulsar J1723$-$2837",
-      "authors": [
-        "Andrew G. Sullivan",
-        "Jack T. Dinsmore",
-        "Roger W. Romani"
-      ],
-      "link": "https://arxiv.org/abs/2601.11521v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.11521v1",
-      "published": "2026-01-16T18:59:50Z",
-      "parameters_found": {},
-      "keywords": [
-        "reconnection",
-        "magnetic",
-        "particle",
-        "shock",
-        "temporal"
-      ],
-      "relevance_score": 5
-    },
-    {
-      "paper_id": "2601.09807v1",
-      "title": "Magnetic Pumping: Plasma Heating to Particle Acceleration",
-      "authors": [
-        "Mikhail Malkov",
-        "Immanuel Jebaraj"
-      ],
-      "link": "https://arxiv.org/abs/2601.09807v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.09807v1",
-      "published": "2026-01-14T19:14:35Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "plasma",
-        "particle",
-        "acceleration",
-        "perturbation"
-      ],
-      "relevance_score": 5
     },
     {
       "paper_id": "2601.09617v1",
@@ -343,45 +378,113 @@
       "relevance_score": 5
     },
     {
-      "paper_id": "2512.10406v1",
-      "title": "Generation of proton beams at switchback boundary-like rotational discontinuities in the solar wind",
+      "paper_id": "2601.13888v1",
+      "title": "Quasi-linear approach of bi-Kappa distributed electrons with dynamic $\u03ba$ parameter. EMEC instability",
       "authors": [
-        "Rong Lin",
-        "Fabio Bacchini",
-        "Jiansen He",
-        "Luca Pezzini",
-        "Jingyu Peng"
+        "Pablo S Moya",
+        "Roberto E Navarro",
+        "Marian Lazar",
+        "Peter H Yoon",
+        "Rodrigo A L\u00f3pez",
+        "Stefaan Poedts"
       ],
-      "link": "https://arxiv.org/abs/2512.10406v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.10406v1",
-      "published": "2025-12-11T08:16:22Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "particle",
-        "solar wind",
-        "boundary",
-        "heliosphere"
-      ],
-      "relevance_score": 5
-    },
-    {
-      "paper_id": "2601.09596v1",
-      "title": "Plasma wakes driven by Compton scattering: Non-linear regime and particle acceleration",
-      "authors": [
-        "Thomas Grismayer",
-        "Fabrizio Del Gaudio",
-        "Lu\u00eds O. Silva"
-      ],
-      "link": "https://arxiv.org/abs/2601.09596v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.09596v1",
-      "published": "2026-01-14T16:14:00Z",
+      "link": "https://arxiv.org/abs/2601.13888v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.13888v1",
+      "published": "2026-01-20T12:00:37Z",
       "parameters_found": {},
       "keywords": [
         "magnetic",
         "plasma",
         "particle",
-        "acceleration"
+        "temporal"
+      ],
+      "relevance_score": 4
+    },
+    {
+      "paper_id": "2601.13377v1",
+      "title": "Learning time-dependent and integro-differential collision operators from plasma phase space data using differentiable simulators",
+      "authors": [
+        "Diogo D. Carvalho",
+        "Luis O. Silva",
+        "E. P. Alves"
+      ],
+      "link": "https://arxiv.org/abs/2601.13377v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.13377v1",
+      "published": "2026-01-19T20:25:01Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "plasma",
+        "particle",
+        "temporal"
+      ],
+      "relevance_score": 4
+    },
+    {
+      "paper_id": "2601.12476v1",
+      "title": "Evidence of energy conversion in weakly collisional plasma during an interplanetary coronal mass ejection",
+      "authors": [
+        "Omkar Dhamane",
+        "Anil Raghav",
+        "Simone Benella",
+        "Kishor Kumbhar",
+        "Raffaella D'Amicis",
+        "Oreste Pezzi",
+        "Utkarsh Sharma",
+        "Ashok Silwal",
+        "Panini Maurya",
+        "Mirko Stumpo",
+        "Kalpesh Ghag",
+        "Ajay Kumar",
+        "Mohit Shah",
+        "Mariyam Karari",
+        "Lynn B. Wilson",
+        "Jia Huang",
+        "Daniele Telloni"
+      ],
+      "link": "https://arxiv.org/abs/2601.12476v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.12476v1",
+      "published": "2026-01-18T16:40:10Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "plasma",
+        "cme",
+        "correlation"
+      ],
+      "relevance_score": 4
+    },
+    {
+      "paper_id": "2601.12378v1",
+      "title": "A Novel Numerical Algorithms Optimization Method with Machine Learning Frameworks: Application on Real-time Plasmas Equilibrium Reconstruction in EXL-50U Spherical Torus",
+      "authors": [
+        "G. H. Zheng",
+        "S. F. Liu",
+        "X. Gu",
+        "Y. P. Zhang",
+        "J. Li",
+        "Y. Liu",
+        "X. C. Lun",
+        "L. Xing",
+        "J. G. Chen",
+        "Z. Y. Chen",
+        "Y. Yu",
+        "D. Guo",
+        "Z. Y. Yang",
+        "H. S. Xie",
+        "X. M. Song",
+        "Y. J. Shi",
+        "EXL-50U Team"
+      ],
+      "link": "https://arxiv.org/abs/2601.12378v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.12378v1",
+      "published": "2026-01-18T12:11:36Z",
+      "parameters_found": {},
+      "keywords": [
+        "plasma",
+        "feedback",
+        "threshold",
+        "chi"
       ],
       "relevance_score": 4
     },
@@ -412,6 +515,26 @@
       "relevance_score": 4
     },
     {
+      "paper_id": "2601.09596v1",
+      "title": "Plasma wakes driven by Compton scattering: Non-linear regime and particle acceleration",
+      "authors": [
+        "Thomas Grismayer",
+        "Fabrizio Del Gaudio",
+        "Lu\u00eds O. Silva"
+      ],
+      "link": "https://arxiv.org/abs/2601.09596v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.09596v1",
+      "published": "2026-01-14T16:14:00Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "plasma",
+        "particle",
+        "acceleration"
+      ],
+      "relevance_score": 4
+    },
+    {
       "paper_id": "2601.07652v2",
       "title": "Role of Shafranov shift, zonal structures on the behavior of TAEs, AAEs and microinstabilities in the presence of energetic particles",
       "authors": [
@@ -436,48 +559,6 @@
         "plasma",
         "particle",
         "perturbation"
-      ],
-      "relevance_score": 4
-    },
-    {
-      "paper_id": "2601.05331v1",
-      "title": "Directed Nano-antennas for Laser Fusion",
-      "authors": [
-        "FUSENOW",
-        "NAPLIFE Collaborations",
-        ":",
-        "Zsuzsanna M\u00e1rton",
-        "Imene Benabdelghani",
-        "M\u00e1rk Aladi",
-        "Judit Budai",
-        "Aldo Bonasera",
-        "Attila Bony\u00e1r",
-        "M\u00e1ria Csete",
-        "Martin Greve",
-        "Jan-Petter Hansen",
-        "Gergely Heged\u0171s",
-        "\u00c1d\u00e1m Inger",
-        "Miklos Kedves",
-        "Istv\u00e1n Papp",
-        "P\u00e9ter R\u00e1cz",
-        "Andr\u00e1s Szenes",
-        "\u00c1gnes Szokol",
-        "D\u00e1vid Vass",
-        "Mikl\u00f3s Veres",
-        "Konstantin Zsukovszki",
-        "Tam\u00e1s S. B\u00edr\u00f3",
-        "Norbert Kro\u00f3",
-        "Laszlo P. Csernai"
-      ],
-      "link": "https://arxiv.org/abs/2601.05331v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.05331v1",
-      "published": "2026-01-08T19:20:01Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "plasma",
-        "shock",
-        "chi"
       ],
       "relevance_score": 4
     },
@@ -670,21 +751,99 @@
       "relevance_score": 4
     },
     {
-      "paper_id": "2601.11272v1",
-      "title": "Suppression of Fast Flavor Conversion by Red Turbulence in Supernovae",
+      "paper_id": "2601.13181v1",
+      "title": "Broadband Variability Analysis of FSRQ PKS\\,0402-362 with Indications of Quasi-Periodic Modulation",
       "authors": [
-        "Yiwei Bao",
-        "Andrea Addazi",
-        "Shuai Zha"
+        "Zeeshan Nazir",
+        "Sikandar Akbar",
+        "Zahir Shah",
+        "Athar A. Dar",
+        "Zahoor Malik"
       ],
-      "link": "https://arxiv.org/abs/2601.11272v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.11272v1",
-      "published": "2026-01-16T13:18:43Z",
+      "link": "https://arxiv.org/abs/2601.13181v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.13181v1",
+      "published": "2026-01-19T16:07:36Z",
       "parameters_found": {},
       "keywords": [
-        "acceleration",
-        "threshold",
-        "correlation"
+        "magnetic",
+        "particle",
+        "temporal"
+      ],
+      "relevance_score": 3
+    },
+    {
+      "paper_id": "2601.12508v1",
+      "title": "Nuclear astrophysics",
+      "authors": [
+        "Roland Diehl",
+        "Michael Wiescher"
+      ],
+      "link": "https://arxiv.org/abs/2601.12508v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.12508v1",
+      "published": "2026-01-18T17:39:54Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "plasma",
+        "particle"
+      ],
+      "relevance_score": 3
+    },
+    {
+      "paper_id": "2601.12438v1",
+      "title": "Revisiting $^7$Be Weak and Radiative Transition Rates in Big Bang Nucleosynthesis: Implications for the Primordial Lithium Problem",
+      "authors": [
+        "Simone Taioli",
+        "Francesca Triggiani",
+        "Stefano Simonucci"
+      ],
+      "link": "https://arxiv.org/abs/2601.12438v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.12438v1",
+      "published": "2026-01-18T14:51:51Z",
+      "parameters_found": {},
+      "keywords": [
+        "plasma",
+        "particle",
+        "perturbation"
+      ],
+      "relevance_score": 3
+    },
+    {
+      "paper_id": "2601.13316v1",
+      "title": "Combined LOFAR-uGMRT analysis of the diffuse radio emission in the massive clusters Abell 773 and Abell 1351",
+      "authors": [
+        "K. S. L. Srikanth",
+        "A. Botteon",
+        "R. Cassano",
+        "G. Brunetti",
+        "A. Bonafede",
+        "L. Bruno",
+        "M. Balboni",
+        "H. Bashir",
+        "M. Br\u00fcggen",
+        "S. Chatterjee",
+        "V. Cuciti",
+        "D. Dallacasa",
+        "A. Datta",
+        "F. de Gasperin",
+        "G. Di Gennaro",
+        "C. Groeneveld",
+        "R. Kale",
+        "M. A. Malik",
+        "S. Paul",
+        "S. Salunkhe",
+        "R. J. van Weeren",
+        "T. Venturi",
+        "X. Zhang"
+      ],
+      "link": "https://arxiv.org/abs/2601.13316v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.13316v1",
+      "published": "2026-01-19T19:00:09Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "particle",
+        "chi"
       ],
       "relevance_score": 3
     },
@@ -728,24 +887,6 @@
         "magnetic",
         "plasma",
         "temporal"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2601.09803v1",
-      "title": "Dark energy driven by an oscillating generalised axion-like quintessence field",
-      "authors": [
-        "Mariam Bouhmadi-L\u00f3pez",
-        "Carlos G. Boiza"
-      ],
-      "link": "https://arxiv.org/abs/2601.09803v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.09803v1",
-      "published": "2026-01-14T19:08:47Z",
-      "parameters_found": {},
-      "keywords": [
-        "acceleration",
-        "perturbation",
-        "chi"
       ],
       "relevance_score": 3
     },
@@ -914,123 +1055,24 @@
       "relevance_score": 3
     },
     {
-      "paper_id": "2601.05886v1",
-      "title": "Dynamics of ion temperature gradient modes in burning plasma conditions in the presence of energetic particles",
+      "paper_id": "2601.05209v1",
+      "title": "Addressing Known Challenges in Solar Flare Forecasting I: Limb-Flare Prediction with a 4-pi Full-Heliosphere Framework",
       "authors": [
-        "Roman Ivanov",
-        "Alessandro Biancalani",
-        "Alberto Bottino",
-        "Didier Gossard",
-        "Thomas Hayward-Schneider",
-        "Alexey Mishchenko",
-        "Ruoyuan Wu"
+        "K. D. Leka",
+        "Eric L. Wagner",
+        "Lisa Upton",
+        "Bibhuti Kumar Jha",
+        "Kiran Jain",
+        "Sara Petty"
       ],
-      "link": "https://arxiv.org/abs/2601.05886v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.05886v1",
-      "published": "2026-01-09T16:05:19Z",
+      "link": "https://arxiv.org/abs/2601.05209v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.05209v1",
+      "published": "2026-01-08T18:34:43Z",
       "parameters_found": {},
       "keywords": [
         "magnetic",
-        "plasma",
-        "particle"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2601.05718v1",
-      "title": "Kineclinic magnetogenesis in relativistic collisionless plasmas",
-      "authors": [
-        "Modhuchandra Laishram",
-        "Suresh Basnet",
-        "Young Dae Yoon"
-      ],
-      "link": "https://arxiv.org/abs/2601.05718v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.05718v1",
-      "published": "2026-01-09T11:01:59Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "plasma",
-        "particle"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2601.05492v1",
-      "title": "Similarity Theory and Scaling Networks for Electromagnetic Wave-Driven Plasmas",
-      "authors": [
-        "Hanyang Li",
-        "Yulia Sharova",
-        "Denis Eremin",
-        "Yangyang Fu"
-      ],
-      "link": "https://arxiv.org/abs/2601.05492v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.05492v1",
-      "published": "2026-01-09T02:47:38Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "plasma",
-        "particle"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2601.05357v1",
-      "title": "Dispersive Properties of MHD Waves in the Expanding Solar Wind for a Parker Spiral Geometry",
-      "authors": [
-        "Sebasti\u00e1n Saldivia",
-        "Felipe Asenjo",
-        "Pablo S. Moya"
-      ],
-      "link": "https://arxiv.org/abs/2601.05357v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.05357v1",
-      "published": "2026-01-08T20:18:47Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "solar wind",
-        "heliosphere"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2601.05155v2",
-      "title": "Machine learning for radiative hydrodynamics in astrophysics",
-      "authors": [
-        "Gonzague Radureau"
-      ],
-      "link": "https://arxiv.org/abs/2601.05155v2",
-      "pdf_link": "https://arxiv.org/pdf/2601.05155v2",
-      "published": "2026-01-08T17:44:53Z",
-      "parameters_found": {},
-      "keywords": [
-        "plasma",
-        "shock",
-        "chi"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2601.04967v1",
-      "title": "A Comprehensive multi-species comparison of rotational temperature probes in a DC Ar/N$_2$ micro-hollow cathode discharge",
-      "authors": [
-        "Dimitrios Stefas",
-        "Belkacem Menacer",
-        "Alice Remigy",
-        "Nikolaos Chazapis",
-        "Guillaume Lombardi",
-        "Claudia Lazzaroni",
-        "Kristaq Gazeli"
-      ],
-      "link": "https://arxiv.org/abs/2601.04967v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.04967v1",
-      "published": "2026-01-08T14:15:13Z",
-      "parameters_found": {},
-      "keywords": [
-        "plasma",
-        "perturbation",
-        "chi"
+        "heliosphere",
+        "solar flare"
       ],
       "relevance_score": 3
     },
@@ -1074,28 +1116,6 @@
         "magnetic",
         "solar wind",
         "heliosphere"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2601.05209v1",
-      "title": "Addressing Known Challenges in Solar Flare Forecasting I: Limb-Flare Prediction with a 4-pi Full-Heliosphere Framework",
-      "authors": [
-        "K. D. Leka",
-        "Eric L. Wagner",
-        "Lisa Upton",
-        "Bibhuti Kumar Jha",
-        "Kiran Jain",
-        "Sara Petty"
-      ],
-      "link": "https://arxiv.org/abs/2601.05209v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.05209v1",
-      "published": "2026-01-08T18:34:43Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "heliosphere",
-        "solar flare"
       ],
       "relevance_score": 3
     },
@@ -1286,70 +1306,6 @@
         "plasma",
         "particle",
         "temporal"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2512.09828v1",
-      "title": "Damped Kinetic Alfv\u00e9n Waves in Earth's Magnetosheath: Numerical Simulations and MMS Observations",
-      "authors": [
-        "Mani K. Chettri",
-        "Hemam D. Singh",
-        "Vivek Shrivastav",
-        "Britan Singh",
-        "Rupak Mukherjee"
-      ],
-      "link": "https://arxiv.org/abs/2512.09828v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.09828v1",
-      "published": "2025-12-10T17:06:13Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "plasma",
-        "particle"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2601.09919v1",
-      "title": "Non-Monotonic Enhancement of the Magnetic Penrose Process in Kerr-Bertotti-Robinson Spacetime and its Implication for Electron Acceleration",
-      "authors": [
-        "Mirjavoxir Mirkhaydarov",
-        "Tursunali Xamidov",
-        "Pankaj Sheoran",
-        "Sanjar Shaymatov",
-        "Hemwati Nandan"
-      ],
-      "link": "https://arxiv.org/abs/2601.09919v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.09919v1",
-      "published": "2026-01-14T23:01:31Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "particle",
-        "acceleration"
-      ],
-      "relevance_score": 3
-    },
-    {
-      "paper_id": "2601.09593v1",
-      "title": "The pseudo-complex Friedmann Lemaitre Robertson Walker model and the time dependence of the Hubble constant",
-      "authors": [
-        "L. Maghlaoui",
-        "P. O. Hess",
-        "F. Weber",
-        "C. A. Zen vasconcellos"
-      ],
-      "link": "https://arxiv.org/abs/2601.09593v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.09593v1",
-      "published": "2026-01-14T16:10:18Z",
-      "parameters_found": {
-        "beta_values": [
-          "1.0426"
-        ]
-      },
-      "keywords": [
-        "acceleration"
       ],
       "relevance_score": 3
     }
