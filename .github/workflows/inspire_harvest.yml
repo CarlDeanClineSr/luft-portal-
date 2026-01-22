@@ -2,7 +2,7 @@ name: INSPIRE Paper Harvest
 
 on: 
   schedule:
-    - cron: '0 0 * * 0'  # Weekly, Sunday midnight
+    - cron: '0 0 * * *'  # Daily at midnight UTC (changed from weekly)
   workflow_dispatch:
 
 jobs:
