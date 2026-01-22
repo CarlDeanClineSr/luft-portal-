@@ -33,17 +33,17 @@ jobs:
           echo "📡 Fetching DSCOVR L1 solar wind data..."
           mkdir -p data/chi_monitor
           
-          # Fetch plasma data (density, velocity, temperature)
+          # Fetch plasma data (density, velocity, temperature) - using 1-day endpoint for more data points
           if curl --fail --silent --show-error -o data/chi_monitor/dscovr_plasma_latest.json \
-            "https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json"; then
+            "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-day.json"; then
             echo "✅ DSCOVR plasma data downloaded"
           else
             echo "⚠️ DSCOVR plasma fetch failed"
           fi
           
-          # Fetch magnetic field data (Bx, By, Bz)
+          # Fetch magnetic field data (Bx, By, Bz) - using 1-day endpoint for more data points
           if curl --fail --silent --show-error -o data/chi_monitor/dscovr_mag_latest.json \
-            "https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json"; then
+            "https://services.swpc.noaa.gov/products/solar-wind/mag-1-day.json"; then
             echo "✅ DSCOVR magnetic field data downloaded"
           else
             echo "⚠️ DSCOVR mag fetch failed"
