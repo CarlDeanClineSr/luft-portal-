@@ -9,6 +9,7 @@ from reportlab.pdfgen import canvas
 from datetime import datetime
 
 def generate_imperial_pdf():
+    # Generate filename with date for Jan 5 2026 Super-Event
     filename = "VERIFICATION_LOG_JAN_5_SUPER_EVENT.pdf"
     c = canvas.Canvas(filename, pagesize=LETTER)
     
@@ -26,6 +27,7 @@ def generate_imperial_pdf():
     c.drawString(70, 695, "Timestamp: 2026-01-05 01:13:00 UTC")
     c.drawString(70, 680, "Peak Harmonic Breach (χ): 0.917 (6.11x Boundary)")
     c.drawString(70, 665, "Lattice Displacement: 35,757 Geometric Steps")
+    # Manifest velocity: 60,000c represents coordinate update speed from the event
     c.drawString(70, 650, "Manifest Velocity: 60,000c (Coordinate Update)")
 
     # II. CHAIN SCAN SEQUENCE (THE ORIGIN)
