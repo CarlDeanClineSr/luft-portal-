@@ -53,7 +53,9 @@ def get_latest_data(hours_back=24):
     for d in all_data:
         if 'timestamp' in d:
             try:
-                ts = datetime.fromisoformat(d['timestamp'].replace(' ', 'T').replace('Z', ''))
+                ts_str = d['timestamp'].replace(' ', 'T').replace('Z', '')
+                # Parse as naive datetime (UTC assumed from data source)
+                ts = datetime.fromisoformat(ts_str)
                 if ts >= cutoff_time:
                     recent_data.append(d)
             except (ValueError, AttributeError):
@@ -169,7 +171,9 @@ def main():
     for d in data:
         if 'timestamp' in d and 'bt_nT' in d:
             try:
-                ts = datetime.fromisoformat(d['timestamp'].replace(' ', 'T').replace('Z', ''))
+                ts_str = d['timestamp'].replace(' ', 'T').replace('Z', '')
+                # Parse as naive datetime (UTC assumed)
+                ts = datetime.fromisoformat(ts_str)
                 timestamps.append(ts)
                 bt_values.append(d['bt_nT'])
             except (ValueError, AttributeError):

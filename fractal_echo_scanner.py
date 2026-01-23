@@ -100,10 +100,19 @@ def scan_fractal_echo(telemetry_data, target_frequency=20.55, amplitude_threshol
     if 'timestamp' in telemetry_data[0] and len(telemetry_data) > 1:
         # Try to calculate actual sampling rate
         try:
-            timestamps = [datetime.fromisoformat(d['timestamp'].replace('Z', '+00:00')) 
-                         if isinstance(d['timestamp'], str) 
-                         else d['timestamp'] 
-                         for d in telemetry_data if 'timestamp' in d]
+            timestamps = []
+            for d in telemetry_data:
+                if 'timestamp' in d:
+                    ts_str = d['timestamp']
+                    # Handle various timestamp formats
+                    if isinstance(ts_str, str):
+                        # Remove/replace timezone indicators
+                        ts_str = ts_str.replace('Z', '').replace(' ', 'T')
+                        # Parse as naive datetime (UTC assumed)
+                        ts = datetime.fromisoformat(ts_str)
+                    else:
+                        ts = ts_str
+                    timestamps.append(ts)
             
             if len(timestamps) > 1:
                 total_duration = (timestamps[-1] - timestamps[0]).total_seconds()

@@ -80,11 +80,10 @@ jobs:
             echo "No changes to commit - scan results unchanged"
           else
             TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
-            git commit -m "🔍 Fractal Echo Scanner automated run - ${TIMESTAMP}
-
-Target: 20.55 Hz lattice resonance
-Status: Scan completed successfully
-Framework: Imperial Geometric Re-Initialization"
+            git commit -m "🔍 Fractal Echo Scanner automated run - ${TIMESTAMP}" \
+                       -m "Target: 20.55 Hz lattice resonance" \
+                       -m "Status: Scan completed successfully" \
+                       -m "Framework: Imperial Geometric Re-Initialization"
             git push origin main || git push origin HEAD:main
             echo "✅ Scan results committed and pushed"
           fi
