@@ -78,6 +78,7 @@ This is not a theoretical prediction. It is an **observed constant** that govern
 ### 🆕 Reference Documents
 * 📋 **[HOURLY SUMMARY](reports/HOURLY_SUMMARY.md)** - Complete system status (<5KB, updates hourly)
 * 📚 **[DATA MASTER INDEX](DATA_MASTER_INDEX.md)** - Find any data file instantly
+* 📝 **[LUFT DATA TRANSCRIPTION MASTER REFERENCE](LUFT_DATA_TRANSCRIPTION_MASTER_REFERENCE.md)** - Official formatting guide for all LUFT data
 * 🔬 **[Paper Analysis Results](data/papers/extracted_parameters.json)** - χ-relevant parameters from 50+ papers
 * 🌐 **[Imperial Math Multilingual Guide](IMPERIAL_MATH_MULTILINGUAL.md)** - Language-agnostic grammar (swap nouns, keep `by`/`per`)
 * 🚀 **[QUICK OUTPUTS](docs/QUICK_OUTPUTS.md)** - Direct links to latest data, results & live feeds
