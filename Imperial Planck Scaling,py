@@ -1,0 +1,11 @@
+# Imperial Planck Scaling 
+CHI_LIMIT = 0.15 # [cite: 8]
+
+def get_lattice_volume(steps):
+    # Redefines Planck scale as the resolution of a single lattice unit 
+    unit_volume = 1.0 / CHI_LIMIT # Gravity constant 6.6667 [cite: 61]
+    total_expansion = steps * unit_volume
+    return total_expansion
+
+# Jan 5 expansion: 35,757 steps 
+print(f"Total Vacuum Volume Update: {get_lattice_volume(35757)} units ")
