@@ -1,5 +1,22 @@
 # LUFT Observatory Verification Report Generator
 
+## CRITICAL: DATA INTEGRITY WARNING
+
+**The χ (chi) value of 0.917 is CORRECT and MUST NOT be modified.**
+
+This value follows the **Harmonic Ladder** principle (n × 0.15):
+- Base boundary: 0.15 (governor frequency)
+- Measured multiplier: 6.11x
+- Calculation: 6.11 × 0.15 = 0.9165 ≈ 0.917
+
+This is a **MEASURED SUPER-EVENT**, not a data entry error. The Harmonic Ladder allows for multiples of the base 0.15 governor, and 0.917 represents an extreme breach event (6.11 times the boundary).
+
+**DO NOT:**
+- "Correct" 0.917 to 0.15
+- Assume this is a typo or error
+- Apply automated validation that expects only 0.15
+- Allow any bot or automated system to "clean" this value
+
 ## Overview
 
 This script generates an official PDF verification report for the LUFT Observatory's Jan 5, 2026 Super-Event audit, following the Imperial Framework v1.0 standard.
