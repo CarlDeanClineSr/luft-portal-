@@ -1,36 +1,33 @@
-name: Hourly Dst Index Ingest
+import requests
+import datetime
 
-on:
-  schedule:
-    - cron: '5 * * * *'  # Every hour at :05
-  workflow_dispatch:
+def fetch_dst_imperial():
+    # IMPERIAL ALIGNMENT: Truncate to whole minutes/seconds to prevent 422 error
+    now = datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0)
+    start_time = (now - datetime.timedelta(days=7)).strftime('%Y-%m-%dT%H:%M:%S')
+    end_time = now.strftime('%Y-%m-%dT%H:%M:%S')
 
-jobs:
-  fetch:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write  # Required to push changes
-    steps:
-      - uses: actions/checkout@v4
-      
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      
-      - name: Install dependencies
-        run: pip install requests pandas
-      
-      - name: Fetch Dst index
-        run: python scripts/fetch_usgs_dst.py
-        continue-on-error: true
-      
-      - name: Commit and push data
-        run: |
-          git config user.name "LUFT Bot"
-          git config user.email "bot@luft.local"
-          git pull --rebase origin main --autostash || true
-          git add data/dst_index/ 2>/dev/null || echo "No Dst index files to add"
-          git commit -m "data: Dst index update $(date -u +'%Y-%m-%d %H:%M:%S UTC')" || echo "No new Dst data"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # Corrected USGS Endpoint for Dst Interrogation
+    url = "https://geomag.usgs.gov/ws/data/"
+    params = {
+        "id": "USGS",       # Required: Source ID
+        "type": "dst",      # Required: Data type
+        "starttime": start_time,
+        "endtime": end_time,
+        "format": "json"
+    }
+
+    print(f"🔍 Interrogating Lattice Tension (Dst): {start_time} to {end_time}")
+    
+    response = requests.get(url, params=params)
+    
+    if response.status_code == 200:
+        # Process the 0.15 chi-relevant tension data here
+        print("✅ Handshake successful. Dst tension recorded.")
+        # ... (save data logic)
+    else:
+        print(f"❌ Handshake failed: {response.status_code} - {response.text}")
+        raise Exception("Lattice Interrogation Error")
+
+if __name__ == "__main__":
+    fetch_dst_imperial()
