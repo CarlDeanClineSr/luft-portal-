@@ -380,6 +380,10 @@ def sanitize_csv_file(filepath):
     
     print(f"\n🧹 Sanitizing CSV file: {filepath}")
     
+    # Expected CSV structure
+    EXPECTED_COLUMNS = 12
+    EXPECTED_HEADER = 'timestamp_utc,chi_amplitude,phase_radians,storm_phase,density_p_cm3,speed_km_s,bz_nT,bt_nT,source,chi_at_boundary,chi_violation,chi_status'
+    
     # Read all lines
     try:
         with open(filepath, 'r', newline='') as f:
@@ -395,11 +399,13 @@ def sanitize_csv_file(filepath):
     had_conflicts = False
     removed_count = 0
     
-    # Extract header (first line)
+    # Validate and extract header (first line)
     header = lines[0].strip()
-    expected_columns = len(header.split(','))
+    if header != EXPECTED_HEADER:
+        print(f"  ⚠️  Header mismatch detected - using expected header")
+        header = EXPECTED_HEADER
     
-    cleaned_lines = [header + '\n']
+    cleaned_lines = [header]
     seen_timestamps = set()
     conflict_markers = ['<<<<<<<', '=======', '>>>>>>>']
     
@@ -420,44 +426,52 @@ def sanitize_csv_file(filepath):
         
         # Count columns (commas + 1)
         column_count = line_stripped.count(',') + 1
-        if column_count != expected_columns:
-            print(f"  🔧 Removing malformed row at line {i}: {column_count} columns (expected {expected_columns})")
+        if column_count != EXPECTED_COLUMNS:
+            print(f"  🔧 Removing malformed row at line {i}: {column_count} columns (expected {EXPECTED_COLUMNS})")
             print(f"     Content: {line_stripped[:80]}...")
             removed_count += 1
             continue
         
-        # Extract timestamp for duplicate checking
+        # Extract timestamp for duplicate checking and sorting
         try:
-            timestamp = line_stripped.split(',')[0]
+            parts = line_stripped.split(',')
+            timestamp = parts[0]
+            
+            # Validate timestamp format (basic check)
+            if not timestamp or len(timestamp) < 19:  # Minimum: "YYYY-MM-DD HH:MM:SS"
+                print(f"  🔧 Removing row with invalid timestamp at line {i}")
+                removed_count += 1
+                continue
+            
             if timestamp in seen_timestamps:
                 print(f"  🔧 Removing duplicate timestamp: {timestamp}")
                 removed_count += 1
                 continue
             seen_timestamps.add(timestamp)
-        except IndexError:
+        except (IndexError, ValueError):
             print(f"  🔧 Removing unparseable row at line {i}")
             removed_count += 1
             continue
         
-        # Keep this line
-        cleaned_lines.append(line)
+        # Keep this line (store stripped version with newline for consistency)
+        cleaned_lines.append(line_stripped)
     
     # Sort by timestamp (skip header)
-    header_line = cleaned_lines[0]
     data_lines = cleaned_lines[1:]
     
     # Sort data lines by timestamp
     try:
         data_lines_sorted = sorted(data_lines, key=lambda x: x.split(',')[0])
-        cleaned_lines = [header_line] + data_lines_sorted
+        cleaned_lines = [cleaned_lines[0]] + data_lines_sorted
     except Exception as e:
         print(f"  ⚠️  Could not sort by timestamp: {e}")
         # Continue with unsorted data
     
-    # Write cleaned data back
+    # Write cleaned data back with consistent newlines
     try:
         with open(filepath, 'w', newline='') as f:
-            f.writelines(cleaned_lines)
+            for line in cleaned_lines:
+                f.write(line + '\n')
         
         clean_count = len(cleaned_lines) - 1  # Exclude header
         print(f"  ✅ Sanitization complete:")
