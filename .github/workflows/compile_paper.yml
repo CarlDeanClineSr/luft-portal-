@@ -1,0 +1,26 @@
+name: Compile Discovery Paper
+
+on:
+  push:
+    paths:
+      - 'papers/**.tex'   # Triggers when you edit the LaTeX
+      - '.github/workflows/compile_paper.yml' # Triggers when you save this file
+  workflow_dispatch:       # Allows manual button click
+
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Compile LaTeX to PDF
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: papers/chi_015_discovery.tex
+
+      - name: Upload PDF Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Universal_Boundary_Discovery_Paper
+          path: papers/chi_015_discovery.pdf   # <--- THE FIX: Points to the correct folder
