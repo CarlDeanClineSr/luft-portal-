@@ -1,33 +1,24 @@
-import requests
-import datetime
+name: Hourly DST Lattice Index
 
-def fetch_dst_imperial():
-    # IMPERIAL ALIGNMENT: Truncate to whole minutes/seconds to prevent 422 error
-    now = datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0)
-    start_time = (now - datetime.timedelta(days=7)).strftime('%Y-%m-%dT%H:%M:%S')
-    end_time = now.strftime('%Y-%m-%dT%H:%M:%S')
+on:
+  schedule:
+    - cron: '0 * * * *'  # Runs every hour
+  workflow_dispatch:      # Allows you to click "Run" manually
 
-    # Corrected USGS Endpoint for Dst Interrogation
-    url = "https://geomag.usgs.gov/ws/data/"
-    params = {
-        "id": "USGS",       # Required: Source ID
-        "type": "dst",      # Required: Data type
-        "starttime": start_time,
-        "endtime": end_time,
-        "format": "json"
-    }
+jobs:
+  dst-monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
 
-    print(f"🔍 Interrogating Lattice Tension (Dst): {start_time} to {end_time}")
-    
-    response = requests.get(url, params=params)
-    
-    if response.status_code == 200:
-        # Process the 0.15 chi-relevant tension data here
-        print("✅ Handshake successful. Dst tension recorded.")
-        # ... (save data logic)
-    else:
-        print(f"❌ Handshake failed: {response.status_code} - {response.text}")
-        raise Exception("Lattice Interrogation Error")
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
 
-if __name__ == "__main__":
-    fetch_dst_imperial()
+      - name: Install Dependencies
+        run: pip install requests
+
+      - name: Run Imperial DST Monitor
+        run: python scripts/dst_monitor.py
