@@ -78,6 +78,7 @@ jobs:
 
           # Short commit message to satisfy line-length lint
           git commit -m "Engine report with fresh data $(date -u +'%F %T UTC')"
+          git pull --rebase origin main --autostash || true
           git push
 
   # If you want to call a reusable workflow, ensure the target has:
