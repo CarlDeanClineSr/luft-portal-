@@ -64,7 +64,7 @@ jobs:
           git pull --rebase origin main --autostash || true
           git add reports/HOURLY_SUMMARY.md data/cme_heartbeat_log_*.csv || true
           git diff --quiet && git diff --staged --quiet || \
-            git commit -m "🤖 Hourly summary update with fresh data - $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git commit -m "🤖 AUTO-FIX: Hourly summary + data normalized - $(date -u +'%Y-%m-%d %H:%M UTC')"
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

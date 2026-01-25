@@ -359,6 +359,118 @@ def classify_chi_status(chi_val):
         return 'BELOW'
 
 
+def sanitize_csv_file(filepath):
+    """
+    Sanitize CSV file by removing conflict markers, malformed rows, and duplicates.
+    
+    This function performs aggressive data cleaning:
+    1. Removes Git conflict markers (<<<<<<<, =======, >>>>>>>)
+    2. Removes rows that don't have exactly 12 columns (11 commas)
+    3. Sorts by timestamp_utc
+    4. Removes duplicate timestamps (keeps first occurrence)
+    
+    Args:
+        filepath (Path): Path to the CSV log file
+    
+    Returns:
+        tuple: (cleaned_count, removed_count, had_conflicts)
+    """
+    if not filepath.exists():
+        return 0, 0, False
+    
+    print(f"\n🧹 Sanitizing CSV file: {filepath}")
+    
+    # Read all lines
+    try:
+        with open(filepath, 'r', newline='') as f:
+            lines = f.readlines()
+    except Exception as e:
+        print(f"  ✗ Error reading file: {e}")
+        return 0, 0, False
+    
+    if not lines:
+        return 0, 0, False
+    
+    # Track statistics
+    had_conflicts = False
+    removed_count = 0
+    
+    # Extract header (first line)
+    header = lines[0].strip()
+    expected_columns = len(header.split(','))
+    
+    cleaned_lines = [header + '\n']
+    seen_timestamps = set()
+    conflict_markers = ['<<<<<<<', '=======', '>>>>>>>']
+    
+    # Process data rows
+    for i, line in enumerate(lines[1:], start=2):
+        line_stripped = line.strip()
+        
+        # Skip empty lines
+        if not line_stripped:
+            continue
+        
+        # Check for conflict markers
+        if any(marker in line_stripped for marker in conflict_markers):
+            print(f"  🔧 Removing conflict marker at line {i}: {line_stripped[:60]}...")
+            had_conflicts = True
+            removed_count += 1
+            continue
+        
+        # Count columns (commas + 1)
+        column_count = line_stripped.count(',') + 1
+        if column_count != expected_columns:
+            print(f"  🔧 Removing malformed row at line {i}: {column_count} columns (expected {expected_columns})")
+            print(f"     Content: {line_stripped[:80]}...")
+            removed_count += 1
+            continue
+        
+        # Extract timestamp for duplicate checking
+        try:
+            timestamp = line_stripped.split(',')[0]
+            if timestamp in seen_timestamps:
+                print(f"  🔧 Removing duplicate timestamp: {timestamp}")
+                removed_count += 1
+                continue
+            seen_timestamps.add(timestamp)
+        except IndexError:
+            print(f"  🔧 Removing unparseable row at line {i}")
+            removed_count += 1
+            continue
+        
+        # Keep this line
+        cleaned_lines.append(line)
+    
+    # Sort by timestamp (skip header)
+    header_line = cleaned_lines[0]
+    data_lines = cleaned_lines[1:]
+    
+    # Sort data lines by timestamp
+    try:
+        data_lines_sorted = sorted(data_lines, key=lambda x: x.split(',')[0])
+        cleaned_lines = [header_line] + data_lines_sorted
+    except Exception as e:
+        print(f"  ⚠️  Could not sort by timestamp: {e}")
+        # Continue with unsorted data
+    
+    # Write cleaned data back
+    try:
+        with open(filepath, 'w', newline='') as f:
+            f.writelines(cleaned_lines)
+        
+        clean_count = len(cleaned_lines) - 1  # Exclude header
+        print(f"  ✅ Sanitization complete:")
+        print(f"     - Cleaned rows: {clean_count}")
+        print(f"     - Removed rows: {removed_count}")
+        print(f"     - Had conflicts: {'Yes' if had_conflicts else 'No'}")
+        
+        return clean_count, removed_count, had_conflicts
+    except Exception as e:
+        print(f"  ✗ Error writing cleaned file: {e}")
+        return 0, 0, had_conflicts
+
+
 def get_existing_timestamps(filepath):
     """
     Read existing timestamps from the CSV log to prevent duplicates.
@@ -583,6 +695,14 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
     
     # Initialize log file if needed
     initialize_log_file(log_filepath)
+    
+    # Sanitize CSV file before appending (removes conflict markers, malformed rows, duplicates)
+    clean_count, removed_count, had_conflicts = sanitize_csv_file(log_filepath)
+    
+    if removed_count > 0 or had_conflicts:
+        print(f"\n🤖 AUTO-FIX: CSV sanitization removed {removed_count} problematic rows")
+        if had_conflicts:
+            print("   Resolved Git conflict markers automatically")
     
     # Read existing timestamps to prevent duplicates
     existing_timestamps = get_existing_timestamps(log_filepath)
