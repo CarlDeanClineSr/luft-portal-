@@ -21,10 +21,13 @@ def append_baseline_entry():
     date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     
     # Load latest data
+    # Note: This assumes NOAA SWPC JSON format with header row at index 0
+    # and data rows following. If the API format changes, this will need updating.
     try:
         with open(ace_mag_file, 'r') as f:
             mag_data = json.load(f)
         # Data is in array format: [["header", ...], ["data", ...], ...]
+        # Expected header: ["time_tag","bx_gsm","by_gsm","bz_gsm","lon_gsm","lat_gsm","bt"]
         # Get the last data row and extract bt (index 6)
         if len(mag_data) > 1:
             last_row = mag_data[-1]
@@ -39,6 +42,7 @@ def append_baseline_entry():
         with open(ace_plasma_file, 'r') as f:
             plasma_data = json.load(f)
         # Data is in array format: [["header", ...], ["data", ...], ...]
+        # Expected header: ["time_tag","density","speed","temperature"]
         # Get the last data row and extract density (index 1) and speed (index 2)
         if len(plasma_data) > 1:
             last_row = plasma_data[-1]

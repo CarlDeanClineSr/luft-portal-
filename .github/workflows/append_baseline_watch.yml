@@ -56,7 +56,6 @@ jobs:
           python scripts/append_baseline_watch.py || {
             echo "Script failed, checking if capsules need initialization..."
             mkdir -p capsules
-            touch capsules/DAILY_BASELINE_WATCH.md
             echo "# Daily Baseline Watch" > capsules/DAILY_BASELINE_WATCH.md
             echo "" >> capsules/DAILY_BASELINE_WATCH.md
             echo "Law #46: The vacuum baseline must be monitored continuously." >> capsules/DAILY_BASELINE_WATCH.md
