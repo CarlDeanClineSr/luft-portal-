@@ -1,0 +1,122 @@
+name: Auto-Append Daily Baseline Watch — Law #46
+
+on:
+  schedule:
+    - cron: '0 12 * * *'  # Daily at 12:00 UTC
+  workflow_dispatch:
+
+jobs:
+  append-baseline-watch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required for git operations (checkout, commit, push)
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install pandas numpy matplotlib requests
+      
+      - name: Pull latest changes with merge strategy
+        run: |
+          # Fetch latest changes
+          git fetch origin main
+          
+          # Merge with strategy favoring remote for JSON data files
+          git merge origin/main -X theirs --no-edit || {
+            echo "Merge conflict detected, resolving..."
+            
+            # For JSON data files, accept remote version (theirs)
+            for file in data/ace_mag_latest.json data/ace_plasma_latest.json; do
+              if [ -f "$file" ]; then
+                git checkout --theirs "$file"
+                git add "$file"
+              fi
+            done
+            
+            # Complete the merge
+            git commit --no-edit || true
+          }
+      
+      - name: Run baseline watch updater
+        run: |
+          python scripts/append_baseline_watch.py || {
+            echo "Script failed, checking if capsules need initialization..."
+            mkdir -p capsules
+            echo "# Daily Baseline Watch" > capsules/DAILY_BASELINE_WATCH.md
+            echo "" >> capsules/DAILY_BASELINE_WATCH.md
+            echo "Law #46: The vacuum baseline must be monitored continuously." >> capsules/DAILY_BASELINE_WATCH.md
+            echo "" >> capsules/DAILY_BASELINE_WATCH.md
+            echo "## Auto-generated entries:" >> capsules/DAILY_BASELINE_WATCH.md
+            python scripts/append_baseline_watch.py
+          }
+      
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Commit and push
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          git add capsules/DAILY_BASELINE_WATCH.md || true
+          git add data/*.json || true
+          git add results/*.csv || true
+          
+          git commit -m "Auto-append daily baseline watch — Law #46 ledger eternal. $(date -u +"%Y-%m-%d %H:%M:%S UTC")" || {
+            echo "Nothing to commit"
+            exit 0
+          }
+          
+          # Push with retry logic
+          max_retries=3
+          retry_count=0
+          
+          while [ $retry_count -lt $max_retries ]; do
+            if git push origin main; then
+              echo "Push successful"
+              exit 0
+            else
+              retry_count=$((retry_count + 1))
+              echo "Push failed, attempt $retry_count of $max_retries"
+              
+              if [ $retry_count -lt $max_retries ]; then
+                echo "Pulling latest changes and retrying..."
+                # Use same conflict-resistant strategy as initial pull
+                git fetch origin main
+                git merge origin/main -X theirs --no-edit || {
+                  echo "Merge conflict detected during retry, resolving..."
+                  for file in data/ace_mag_latest.json data/ace_plasma_latest.json; do
+                    if [ -f "$file" ]; then
+                      git checkout --theirs "$file"
+                      git add "$file"
+                    fi
+                  done
+                  git commit --no-edit || true
+                }
+                sleep 5
+              fi
+            fi
+          done
+          
+          echo "Failed to push after $max_retries attempts"
+          exit 1
