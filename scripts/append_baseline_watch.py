@@ -24,15 +24,28 @@ def append_baseline_entry():
     try:
         with open(ace_mag_file, 'r') as f:
             mag_data = json.load(f)
-        mag_bt = mag_data.get('bt', 'N/A')
+        # Data is in array format: [["header", ...], ["data", ...], ...]
+        # Get the last data row and extract bt (index 6)
+        if len(mag_data) > 1:
+            last_row = mag_data[-1]
+            mag_bt = last_row[6] if len(last_row) > 6 else 'N/A'
+        else:
+            mag_bt = 'N/A'
     except:
         mag_bt = 'N/A'
     
     try:
         with open(ace_plasma_file, 'r') as f:
             plasma_data = json.load(f)
-        density = plasma_data.get('density', 'N/A')
-        speed = plasma_data.get('speed', 'N/A')
+        # Data is in array format: [["header", ...], ["data", ...], ...]
+        # Get the last data row and extract density (index 1) and speed (index 2)
+        if len(plasma_data) > 1:
+            last_row = plasma_data[-1]
+            density = last_row[1] if len(last_row) > 1 else 'N/A'
+            speed = last_row[2] if len(last_row) > 2 else 'N/A'
+        else:
+            density = 'N/A'
+            speed = 'N/A'
     except:
         density = 'N/A'
         speed = 'N/A'
