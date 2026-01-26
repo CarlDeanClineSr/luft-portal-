@@ -38,8 +38,19 @@ def main():
         return 1
     
     print(f"\n📂 Loading: {mag_file}")
-    with open(mag_file, 'r') as f:
-        mag_data = json.load(f)
+    try:
+        with open(mag_file, 'r') as f:
+            mag_data = json.load(f)
+    except json.JSONDecodeError as e:
+        print(f"❌ ERROR: Failed to parse JSON from {mag_file}")
+        print(f"   JSON error: {e}")
+        print(f"   The file may be corrupted or contain invalid data.")
+        print(f"   This usually happens when the NOAA API returns an error page instead of JSON.")
+        print(f"   Please try running the workflow again, or check the NOAA API status.")
+        return 1
+    except Exception as e:
+        print(f"❌ ERROR: Unexpected error reading {mag_file}: {e}")
+        return 1
     
     # Skip header row and convert to DataFrame
     if len(mag_data) <= 1:

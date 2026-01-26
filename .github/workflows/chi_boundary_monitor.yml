@@ -36,7 +36,13 @@ jobs:
           # Fetch plasma data (density, velocity, temperature) - using 1-day endpoint for more data points
           if curl --fail --silent --show-error -o data/chi_monitor/dscovr_plasma_latest.json \
             "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-day.json"; then
-            echo "✅ DSCOVR plasma data downloaded"
+            # Validate JSON
+            if python3 -m json.tool data/chi_monitor/dscovr_plasma_latest.json > /dev/null 2>&1; then
+              echo "✅ DSCOVR plasma data downloaded and validated"
+            else
+              echo "⚠️ DSCOVR plasma data is invalid JSON, removing..."
+              rm -f data/chi_monitor/dscovr_plasma_latest.json
+            fi
           else
             echo "⚠️ DSCOVR plasma fetch failed"
           fi
@@ -44,7 +50,13 @@ jobs:
           # Fetch magnetic field data (Bx, By, Bz) - using 1-day endpoint for more data points
           if curl --fail --silent --show-error -o data/chi_monitor/dscovr_mag_latest.json \
             "https://services.swpc.noaa.gov/products/solar-wind/mag-1-day.json"; then
-            echo "✅ DSCOVR magnetic field data downloaded"
+            # Validate JSON
+            if python3 -m json.tool data/chi_monitor/dscovr_mag_latest.json > /dev/null 2>&1; then
+              echo "✅ DSCOVR magnetic field data downloaded and validated"
+            else
+              echo "⚠️ DSCOVR mag data is invalid JSON, removing..."
+              rm -f data/chi_monitor/dscovr_mag_latest.json
+            fi
           else
             echo "⚠️ DSCOVR mag fetch failed"
           fi
@@ -58,7 +70,13 @@ jobs:
           # ACE MAG data
           if curl --fail --silent --show-error -o data/chi_monitor/ace_mag_latest.json \
             "https://services.swpc.noaa.gov/products/solar-wind/mag-1-day.json"; then
-            echo "✅ ACE magnetic field data downloaded"
+            # Validate JSON
+            if python3 -m json.tool data/chi_monitor/ace_mag_latest.json > /dev/null 2>&1; then
+              echo "✅ ACE magnetic field data downloaded and validated"
+            else
+              echo "⚠️ ACE mag data is invalid JSON, removing..."
+              rm -f data/chi_monitor/ace_mag_latest.json
+            fi
           else
             echo "⚠️ ACE mag fetch failed"
           fi
@@ -66,7 +84,13 @@ jobs:
           # ACE SWEPAM data
           if curl --fail --silent --show-error -o data/chi_monitor/ace_plasma_latest.json \
             "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-day.json"; then
-            echo "✅ ACE plasma data downloaded"
+            # Validate JSON
+            if python3 -m json.tool data/chi_monitor/ace_plasma_latest.json > /dev/null 2>&1; then
+              echo "✅ ACE plasma data downloaded and validated"
+            else
+              echo "⚠️ ACE plasma data is invalid JSON, removing..."
+              rm -f data/chi_monitor/ace_plasma_latest.json
+            fi
           else
             echo "⚠️ ACE plasma fetch failed"
           fi
