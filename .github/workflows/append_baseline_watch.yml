@@ -8,6 +8,8 @@ on:
 jobs:
   append-baseline-watch:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required for git operations (checkout, commit, push)
     
     steps:
       - name: Checkout repository
