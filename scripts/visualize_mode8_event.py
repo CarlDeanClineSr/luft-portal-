@@ -10,14 +10,11 @@ import io
 CHI_LIMIT = 0.1500
 HARMONIC_1 = 0.3000  # Mode 2
 HARMONIC_2 = 0.4500  # Mode 3
-CRITICAL_CHI = 0.822 # The Mode 8 Peak you recorded
+CRITICAL_CHI = 0.822 # The Mode 8 Peak
 
 # ------------------------------------------------------------------
-# 1. LOAD THE "BROKEN" DATA (Parsing the logs you provided)
+# 1. LOAD THE FLIGHT RECORDER DATA
 # ------------------------------------------------------------------
-# I have embedded the critical segment of your logs here for immediate rendering.
-# In the future, you can point this to your live 'engine_status.log'.
-
 data_stream = """
 timestamp,chi,mode
 2026-01-22 23:03,0.138,1
@@ -85,8 +82,11 @@ for spine in ax.spines.values():
 plt.tight_layout()
 
 # ------------------------------------------------------------------
-# 5. EXECUTE VISUAL PROTOCOL
+# 5. EXECUTE VISUAL PROTOCOL (THE FIX)
 # ------------------------------------------------------------------
 print("Generatng Visual Affidavit...")
-plt.show()
-print("Process Complete. The lattice steps are visible.")
+
+# CHANGED FROM plt.show() TO plt.savefig()
+plt.savefig('mode8_event.png')
+
+print("Process Complete. Visual Affidavit saved as 'mode8_event.png'.")
