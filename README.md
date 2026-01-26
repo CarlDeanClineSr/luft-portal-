@@ -1,3 +1,8 @@
+# 🚨 OFFICIAL DOCTRINE MOVED: Unified Physics Research
+> **The theoretical framework and laws governing this data have been formalized.**
+> All constants, geometric proofs, and biological unifications are now maintained at:
+> 🏛️ **[THE CLINE CONVERGENCE (Official Repository)](https://github.com/Unified-Physics-Research/THE-CLINE-CONVERGENCE)**
+
 <img width="1200" height="700" alt="mode8_event" src="https://github.com/user-attachments/assets/c15f1edf-9e9d-445c-8c17-ad49b1b99820" />
 
 # LUFT Portal — Carl Dean Cline Sr.'s Discovery
