@@ -81,7 +81,7 @@ jobs:
           git add data/*.json || true
           git add results/*.csv || true
           
-          git commit -m "Auto-append daily baseline watch — Law #15 ledger eternal. $(date -u +"%Y-%m-%d %H:%M:%S UTC")" || {
+          git commit -m "Auto-append daily baseline watch — Law #46 ledger eternal. $(date -u +"%Y-%m-%d %H:%M:%S UTC")" || {
             echo "Nothing to commit"
             exit 0
           }
@@ -100,7 +100,18 @@ jobs:
               
               if [ $retry_count -lt $max_retries ]; then
                 echo "Pulling latest changes and retrying..."
-                git pull --rebase origin main
+                # Use same conflict-resistant strategy as initial pull
+                git fetch origin main
+                git merge origin/main -X theirs --no-edit || {
+                  echo "Merge conflict detected during retry, resolving..."
+                  for file in data/ace_mag_latest.json data/ace_plasma_latest.json; do
+                    if [ -f "$file" ]; then
+                      git checkout --theirs "$file"
+                      git add "$file"
+                    fi
+                  done
+                  git commit --no-edit || true
+                }
                 sleep 5
               fi
             fi

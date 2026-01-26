@@ -31,7 +31,8 @@ def append_baseline_entry():
             mag_bt = last_row[6] if len(last_row) > 6 else 'N/A'
         else:
             mag_bt = 'N/A'
-    except:
+    except (FileNotFoundError, json.JSONDecodeError, IndexError, KeyError) as e:
+        print(f"Warning: Could not read magnetic field data: {e}")
         mag_bt = 'N/A'
     
     try:
@@ -46,7 +47,8 @@ def append_baseline_entry():
         else:
             density = 'N/A'
             speed = 'N/A'
-    except:
+    except (FileNotFoundError, json.JSONDecodeError, IndexError, KeyError) as e:
+        print(f"Warning: Could not read plasma data: {e}")
         density = 'N/A'
         speed = 'N/A'
     
