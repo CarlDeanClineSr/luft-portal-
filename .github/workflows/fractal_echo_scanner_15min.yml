@@ -1,8 +1,8 @@
-name: Fractal Echo Scanner - 15min
+name: Fractal Echo Scanner - 12 hours
 
 on:
   schedule:
-    - cron: '*/15 * * * *'  # Runs every 15 minutes
+    - cron: '0 */12 * * *'  # Runs every 12 hours
   workflow_dispatch:  # Allows manual triggering
 
 permissions:
@@ -57,12 +57,12 @@ jobs:
         run: |
           TIMESTAMP=$(date -u +"%Y%m%d_%H%M%S")
           echo "Scan completed at: $(date -u +"%Y-%m-%d %H:%M:%S UTC")" > data/fractal_echo_scans/last_scan_${TIMESTAMP}.txt
-          echo "Next scheduled scan: ~15 minutes" >> data/fractal_echo_scans/last_scan_${TIMESTAMP}.txt
+          echo "Next scheduled scan: ~12 hours" >> data/fractal_echo_scans/last_scan_${TIMESTAMP}.txt
           
           # Also update a latest scan marker
           echo "Last Fractal Echo Scanner run: $(date -u +"%Y-%m-%d %H:%M:%S UTC")" > data/fractal_echo_scans/LATEST_SCAN.txt
           echo "Status: Completed" >> data/fractal_echo_scans/LATEST_SCAN.txt
-          echo "Frequency: Every 15 minutes" >> data/fractal_echo_scans/LATEST_SCAN.txt
+          echo "Frequency: Every 12 hours" >> data/fractal_echo_scans/LATEST_SCAN.txt
       
       - name: Commit scan results
         env:
@@ -84,6 +84,11 @@ jobs:
                        -m "Target: 20.55 Hz lattice resonance" \
                        -m "Status: Scan completed successfully" \
                        -m "Framework: Imperial Geometric Re-Initialization"
+            
+            # Pull with rebase to handle concurrent workflow runs
+            git pull --rebase origin main --autostash || true
+            
+            # Push with retry logic
             git push origin main || git push origin HEAD:main
             echo "✅ Scan results committed and pushed"
           fi
@@ -98,7 +103,7 @@ jobs:
           echo "✓ Scanner executed successfully"
           echo "✓ Coordinate delta analysis complete"
           echo "✓ Results saved to data/fractal_echo_scans/"
-          echo "✓ Next run scheduled in ~15 minutes"
+          echo "✓ Next run scheduled in ~12 hours"
           echo ""
           echo "Target: 20.55 Hz lattice resonance"
           echo "Mission: Detect vacuum coordinate shifts"
