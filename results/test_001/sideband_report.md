@@ -1,5 +1,5 @@
 # FFT Sideband Analysis Report
-Generated: 2026-01-26 06:11:55.335134
+Generated: 2026-01-27 06:10:34.221353
 Input: data/cme_heartbeat_log_2025_12.csv
 N: 573 points
 Sampling Rate: 0.000277778 Hz
