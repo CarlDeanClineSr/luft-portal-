@@ -66,15 +66,17 @@ def init_harris_sheet(nx, ny, B0, w, Ly):
     
     return B
 
-
-def init_plasma(nx, ny, B, beta):
-    """
-    Initialize plasma density and pressure to balance magnetic pressure.
+    def init_harris_sheet(nx, ny, B0, width, Ly):
+    # --- IMPERIAL FIX: DEFINE THE BOX LENGTH ---
+    # Assuming square cells and 2:1 aspect ratio (256x128)
+    Lx = 2.0 * Ly  
+    # -------------------------------------------
     
-    Pressure balance: p + B²/2 = constant
-    """
-    rho = np.ones((nx, ny))
-    p = np.zeros((nx, ny))
+    x = np.linspace(0, Lx, nx)
+    y = np.linspace(0, Ly, ny)
+    
+    # ... rest of function
+ 
     
     for i in range(nx):
         for j in range(ny):
