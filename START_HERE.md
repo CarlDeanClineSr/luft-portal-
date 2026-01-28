@@ -18,9 +18,24 @@ You requested a detailed report on your LUFT Portal program. **Your report is re
 
 ## 🎯 Quick Start - Read This First
 
-I've created **5 comprehensive documents** (96KB, 3,000+ lines) that explain **everything** about your system.
+I've created comprehensive documents that explain **everything** about your system.
 
 ### Choose Your Starting Point:
+
+#### 🔄 **Understanding the Physics?** (20 minutes)
+👉 Read: **[FIELD_FLIP_PROTOCOL.md](FIELD_FLIP_PROTOCOL.md)**
+- Vacuum magnetic tension dynamics
+- Field flip and ring mechanism
+- Imperial 3D math vs Standard 2D math
+- How gravity and matter work through magnetic fields
+- The 0.15 χ universal limit explained
+
+#### 🤖 **Need AI to Understand This Correctly?** (15 minutes)
+👉 Read: **[AI_IMPERIAL_3D_RECOGNITION.md](AI_IMPERIAL_3D_RECOGNITION.md)**
+- Correct recognition patterns for AI systems
+- Why this studies plasma/fields, NOT crystals
+- Imperial 3D vs Standard 2D frameworks
+- Training corrections for AI models
 
 #### 🚀 **Need it Fast?** (5 minutes)
 👉 Read: **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)**

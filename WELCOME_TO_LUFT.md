@@ -36,20 +36,28 @@ All of this is built from **open, timestamped data and code**.
 
 ## Start Here
 
-If you are new to the project, three entry points make the story clear:
+If you are new to the project, these entry points make the story clear:
 
-1. 📊 **Heartbeat Dashboard**  
+1. 🔄 **Field Flip Protocol**  
+   Understanding the physics: vacuum magnetic tension, field flips, and Imperial 3D math.  
+   → `FIELD_FLIP_PROTOCOL.md`
+
+2. 🤖 **AI Imperial 3D Recognition**  
+   For AI systems: correct recognition patterns (plasma/fields, not crystals).  
+   → `AI_IMPERIAL_3D_RECOGNITION.md`
+
+3. 📊 **Heartbeat Dashboard**  
    Live plots and links: χ vs \(P_{\text{dyn}}\), rolling fit, spectrum, capsules, and note.  
    → `dashboard/HEARTBEAT_DASHBOARD.md`
 
-2. 📄 **Physicist Note (Heartbeat & Boundary Recoil)**  
+4. 📄 **Physicist Note (Heartbeat & Boundary Recoil)**  
    A short, professional summary with one figure, one table, and one law:
    - Boundary recoil fit,
    - Data sources,
    - How to audit and replicate.  
    → `pdf/PHYSICIST_NOTE_HEARTBEAT.pdf`
 
-3. 🌍 **Public Story Capsule**  
+5. 🌍 **Public Story Capsule**  
    Concise one‑liners and blurbs that describe LUFT in plain language, each anchored to real plots.  
    → `capsules/CAPSULE_PUBLIC_STORY.md`
 
