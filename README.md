@@ -91,6 +91,7 @@ This is not a theoretical prediction. It is an **observed constant** that govern
 ### ⚡ Physics Framework Documents
 * 🔄 **[FIELD FLIP PROTOCOL](FIELD_FLIP_PROTOCOL.md)** - Vacuum magnetic tension dynamics, flip and ring mechanism
 * 🤖 **[AI IMPERIAL 3D RECOGNITION](AI_IMPERIAL_3D_RECOGNITION.md)** - Correct recognition patterns for AI systems analyzing LUFT data
+* ⚡ **[FIELD FLIP PROTOCOL QUICK REF](FIELD_FLIP_PROTOCOL_QUICK_REF.md)** - Quick reference for field flip physics
 
 ---
 
