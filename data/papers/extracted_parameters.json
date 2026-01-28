@@ -1,87 +1,8 @@
 {
-  "extraction_date": "2026-01-27T02:47:30.192205Z",
-  "total_analyzed": 48,
-  "papers_with_parameters": 2,
+  "extraction_date": "2026-01-28T02:45:16.130093Z",
+  "total_analyzed": 52,
+  "papers_with_parameters": 0,
   "results": [
-    {
-      "paper_id": "2512.11631v1",
-      "title": "UK White Paper on Magnetic Reconnection",
-      "authors": [
-        "Alexander J. B. Russell",
-        "James A. McLaughlin",
-        "Philippa Browning",
-        "Jennifer Carter",
-        "Luca Franci",
-        "Heli Hietala",
-        "Andrew Hillier",
-        "Gunnar Hornig",
-        "David MacTaggart",
-        "Sarah Matthews",
-        "James McKevitt",
-        "Eric Priest",
-        "Jack Reid",
-        "Ben Snow",
-        "Julia Stawarz",
-        "Anthony Yeates",
-        "Jeffersson Andres Agudelo Rueda",
-        "William Bate",
-        "Giulio Del Zanna",
-        "Jonathan Eastwood",
-        "Lucie Green",
-        "Anshu Kumari",
-        "Mike Lockwood",
-        "Thomas Neukirch",
-        "David Pontin",
-        "Andy Smith",
-        "Maria-Theresia Walach",
-        "Peter Wyper"
-      ],
-      "link": "https://arxiv.org/abs/2512.11631v1",
-      "pdf_link": "https://arxiv.org/pdf/2512.11631v1",
-      "published": "2025-12-12T15:09:58Z",
-      "parameters_found": {},
-      "keywords": [
-        "reconnection",
-        "magnetic",
-        "plasma",
-        "particle",
-        "acceleration",
-        "solar wind",
-        "magnetosphere",
-        "heliosphere",
-        "solar flare",
-        "storm"
-      ],
-      "relevance_score": 10
-    },
-    {
-      "paper_id": "2601.14929v1",
-      "title": "Modelling the Time-variable Broadband Emission and Correlation Study of FSRQ S5 1044+71",
-      "authors": [
-        "Sajad Ahanger",
-        "Shah Zahir",
-        "Sunder Sahayanathan",
-        "Naseer Iqbal",
-        "Zahoor Malik",
-        "Aaqib Manzoor"
-      ],
-      "link": "https://arxiv.org/abs/2601.14929v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.14929v1",
-      "published": "2026-01-21T12:21:48Z",
-      "parameters_found": {
-        "periodicities": [
-          "4.5 hour"
-        ]
-      },
-      "keywords": [
-        "magnetic",
-        "particle",
-        "acceleration",
-        "temporal",
-        "correlation"
-      ],
-      "relevance_score": 7
-    },
     {
       "paper_id": "2601.12614v2",
       "title": "Deterministic and probabilistic neural surrogates of global hybrid-Vlasov simulations",
@@ -135,26 +56,45 @@
       "relevance_score": 6
     },
     {
-      "paper_id": "2601.08054v2",
-      "title": "The Topological Origin of Bohm Resistivity in Magnetic Reconnection",
+      "paper_id": "2601.17955v1",
+      "title": "Spectral Evolution and Current Sheet Analysis as Probes of Reconnection-Mediated Decay in Magnetically Dominated Turbulence",
       "authors": [
-        "Magnus F Ivarsen"
+        "Chandranathan Anandavijayan",
+        "Pallavi Bhat"
       ],
-      "link": "https://arxiv.org/abs/2601.08054v2",
-      "pdf_link": "https://arxiv.org/pdf/2601.08054v2",
-      "published": "2026-01-12T22:48:40Z",
-      "parameters_found": {
-        "reconnection_rates": [
-          "0.75"
-        ]
-      },
+      "link": "https://arxiv.org/abs/2601.17955v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.17955v1",
+      "published": "2026-01-25T19:09:28Z",
+      "parameters_found": {},
       "keywords": [
         "reconnection",
         "magnetic",
         "plasma",
-        "solar flare"
+        "temporal",
+        "correlation"
       ],
-      "relevance_score": 6
+      "relevance_score": 5
+    },
+    {
+      "paper_id": "2601.18495v1",
+      "title": "Evidence of Langmuir/$\\mathcal{Z}$-mode Wave Decay into $\\mathcal{Z}$-mode Electromagnetic Radiation in the Solar Wind",
+      "authors": [
+        "F. J. Polanco-Rodr\u00edguez",
+        "C. Krafft",
+        "P. Savoini"
+      ],
+      "link": "https://arxiv.org/abs/2601.18495v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.18495v1",
+      "published": "2026-01-26T13:55:16Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "plasma",
+        "particle",
+        "solar wind",
+        "temporal"
+      ],
+      "relevance_score": 5
     },
     {
       "paper_id": "2601.15391v1",
@@ -205,26 +145,24 @@
       "relevance_score": 5
     },
     {
-      "paper_id": "2601.09617v1",
-      "title": "Comparison of plasma response models for RMP effects on the divertor and scrape-off layer in KSTAR",
+      "paper_id": "2601.18553v1",
+      "title": "Different Transient Phenomena at the Edges of Traveling Foreshocks",
       "authors": [
-        "H. Frerichs",
-        "J. Van Blarcum",
-        "T. Cote",
-        "S. K. Kim",
-        "Y. Q. Liu",
-        "S. M. Yang"
+        "Primoz Kajdic",
+        "X\u00f3chitl Blanco-Cano",
+        "Diana Rojas-Castllo",
+        "Nojan Omidi"
       ],
-      "link": "https://arxiv.org/abs/2601.09617v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.09617v1",
-      "published": "2026-01-14T16:41:37Z",
+      "link": "https://arxiv.org/abs/2601.18553v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.18553v1",
+      "published": "2026-01-26T14:59:34Z",
       "parameters_found": {},
       "keywords": [
         "magnetic",
         "plasma",
         "particle",
-        "perturbation",
-        "chi"
+        "shock",
+        "solar wind"
       ],
       "relevance_score": 5
     },
@@ -339,33 +277,65 @@
       "relevance_score": 5
     },
     {
-      "paper_id": "2601.15400v1",
-      "title": "Dynamic shocks powered by a wide, relativistic, super-Eddington outflow launched by an accreting neutron star in the mid-20th century",
+      "paper_id": "2601.18649v1",
+      "title": "Closure models for the feedback of energetic particles on plasma turbulence",
       "authors": [
-        "F. J. Cowie",
-        "R. P. Fender",
-        "I. Heywood",
-        "F. Carotenuto",
-        "J. H. Matthews",
-        "B. Reville",
-        "L. Olivera-Nieto",
-        "A. J. Cooper",
-        "A. K. Hughes",
-        "K. Savard",
-        "P. A. Woudt",
-        "J. van den Eijnden",
-        "N. Grollimund",
-        "P. Saikia"
+        "J. Pratt"
       ],
-      "link": "https://arxiv.org/abs/2601.15400v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.15400v1",
-      "published": "2026-01-21T19:11:35Z",
+      "link": "https://arxiv.org/abs/2601.18649v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.18649v1",
+      "published": "2026-01-26T16:20:21Z",
+      "parameters_found": {},
+      "keywords": [
+        "plasma",
+        "particle",
+        "feedback",
+        "acceleration"
+      ],
+      "relevance_score": 4
+    },
+    {
+      "paper_id": "2601.18551v1",
+      "title": "Multi-epoch VLBI observations of the blazar 3C 66A: Spatial twisting and temporal oscillation of the parsec-scale jet",
+      "authors": [
+        "Paloma Thevenet",
+        "Jeonguk Kim",
+        "Guang-Yao Zhao",
+        "Bong Won Sohn",
+        "Suk-Jin Yoon"
+      ],
+      "link": "https://arxiv.org/abs/2601.18551v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.18551v1",
+      "published": "2026-01-26T14:59:13Z",
+      "parameters_found": {},
+      "keywords": [
+        "chi",
+        "temporal",
+        "correlation",
+        "periodicity"
+      ],
+      "relevance_score": 4
+    },
+    {
+      "paper_id": "2601.17299v1",
+      "title": "Single-Pulse Correlations in PSR B0329+54: Implications for Radio Emission Zones",
+      "authors": [
+        "Shyam S. Sharma",
+        "Tetsuya Hashimoto",
+        "Tomotsugu Goto",
+        "Sanjay Kudale",
+        "Sujin Eie",
+        "Simon C. -C. Ho"
+      ],
+      "link": "https://arxiv.org/abs/2601.17299v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.17299v1",
+      "published": "2026-01-24T04:17:32Z",
       "parameters_found": {},
       "keywords": [
         "magnetic",
-        "acceleration",
-        "shock",
-        "chi"
+        "plasma",
+        "magnetosphere",
+        "correlation"
       ],
       "relevance_score": 4
     },
@@ -539,26 +509,6 @@
         "plasma",
         "boundary",
         "chi"
-      ],
-      "relevance_score": 4
-    },
-    {
-      "paper_id": "2601.09596v1",
-      "title": "Plasma wakes driven by Compton scattering: Non-linear regime and particle acceleration",
-      "authors": [
-        "Thomas Grismayer",
-        "Fabrizio Del Gaudio",
-        "Lu\u00eds O. Silva"
-      ],
-      "link": "https://arxiv.org/abs/2601.09596v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.09596v1",
-      "published": "2026-01-14T16:14:00Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "plasma",
-        "particle",
-        "acceleration"
       ],
       "relevance_score": 4
     },
@@ -751,6 +701,67 @@
       "relevance_score": 4
     },
     {
+      "paper_id": "2601.17953v1",
+      "title": "QPO-Based Bayesian Constraints on Charged Particle Dynamics Around Magnetized Schwarzschild Black Holes",
+      "authors": [
+        "Z. Ahal",
+        "H. El Moumni",
+        "K. Masmar"
+      ],
+      "link": "https://arxiv.org/abs/2601.17953v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.17953v1",
+      "published": "2026-01-25T19:03:17Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "particle",
+        "magnetosphere",
+        "chi"
+      ],
+      "relevance_score": 4
+    },
+    {
+      "paper_id": "2601.18596v1",
+      "title": "Radio streaks in the Lighthouse Nebula discovered with MeerKAT -- Particles escaping from the tail and illuminating the ambient magnetic field",
+      "authors": [
+        "Pierrick Martin",
+        "Mickael Coriat",
+        "Barbara Olmi",
+        "Elena Amato",
+        "Niccol\u00f2 Bucciantini",
+        "Alexandre Marcowith",
+        "Sarah Recchia"
+      ],
+      "link": "https://arxiv.org/abs/2601.18596v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.18596v1",
+      "published": "2026-01-26T15:40:56Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "particle",
+        "shock"
+      ],
+      "relevance_score": 3
+    },
+    {
+      "paper_id": "2601.18411v1",
+      "title": "Exploring the role of accretion shocks in galaxy clusters as sources of ultrahigh-energy cosmic rays",
+      "authors": [
+        "A. D. Supanitsky",
+        "S. E. Nuza"
+      ],
+      "link": "https://arxiv.org/abs/2601.18411v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.18411v1",
+      "published": "2026-01-26T12:08:55Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "acceleration",
+        "shock"
+      ],
+      "relevance_score": 3
+    },
+    {
       "paper_id": "2601.16267v1",
       "title": "Measuring the Black Hole and Accretion Parameters of Sagittarius A* from EHT Observations using a Semi-Analytic Model",
       "authors": [
@@ -772,21 +783,21 @@
       "relevance_score": 3
     },
     {
-      "paper_id": "2601.15383v1",
-      "title": "An Investigation of 5-year Simultaneous X-ray and Radio Light Curves of the Dwarf Seyfert Galaxy UGC 6728",
+      "paper_id": "2601.18708v1",
+      "title": "Ultra-fast growth of primordial black holes through radiative absorption",
       "authors": [
-        "Krista Lynne Smith",
-        "Macon Magno",
-        "Michael Koss"
+        "Dimitris S. Kallifatides",
+        "Theodoros Papanikolaou",
+        "Emmanuel N. Saridakis"
       ],
-      "link": "https://arxiv.org/abs/2601.15383v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.15383v1",
-      "published": "2026-01-21T19:01:51Z",
+      "link": "https://arxiv.org/abs/2601.18708v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.18708v1",
+      "published": "2026-01-26T17:34:46Z",
       "parameters_found": {},
       "keywords": [
-        "reconnection",
-        "magnetic",
-        "plasma"
+        "plasma",
+        "particle",
+        "chi"
       ],
       "relevance_score": 3
     },
@@ -985,29 +996,6 @@
       "relevance_score": 3
     },
     {
-      "paper_id": "2601.10293v1",
-      "title": "Updated electrical design of the Diagnostic Neutral Beam Injector in RFX-mod2",
-      "authors": [
-        "Marco Barbisan",
-        "Bruno Laterza",
-        "Luca Cinnirella",
-        "Lionello Marrelli",
-        "Federico Molon",
-        "Simone Peruzzo",
-        "Enrico Zampiva"
-      ],
-      "link": "https://arxiv.org/abs/2601.10293v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.10293v1",
-      "published": "2026-01-15T11:11:05Z",
-      "parameters_found": {},
-      "keywords": [
-        "magnetic",
-        "plasma",
-        "acceleration"
-      ],
-      "relevance_score": 3
-    },
-    {
       "paper_id": "2601.15762v2",
       "title": "Multi-Scale Irregularities Product: a data product utilizing the high-resolution Swarm plasma density data for space weather applications",
       "authors": [
@@ -1028,6 +1016,23 @@
         "magnetic",
         "plasma",
         "magnetosphere"
+      ],
+      "relevance_score": 3
+    },
+    {
+      "paper_id": "2601.08054v3",
+      "title": "Magnetic reconnection as an Adler-Ohmic bifurcation: The topological origin of Bohm resistivity",
+      "authors": [
+        "Magnus F Ivarsen"
+      ],
+      "link": "https://arxiv.org/abs/2601.08054v3",
+      "pdf_link": "https://arxiv.org/pdf/2601.08054v3",
+      "published": "2026-01-12T22:48:40Z",
+      "parameters_found": {},
+      "keywords": [
+        "reconnection",
+        "magnetic",
+        "plasma"
       ],
       "relevance_score": 3
     },
@@ -1283,6 +1288,25 @@
         "plasma",
         "particle",
         "temporal"
+      ],
+      "relevance_score": 3
+    },
+    {
+      "paper_id": "2601.18666v1",
+      "title": "The phase structure of QCD: Fluctuations and Correlations",
+      "authors": [
+        "Peter Braun-Munzinger",
+        "Anar Rustamov",
+        "Nu Xu"
+      ],
+      "link": "https://arxiv.org/abs/2601.18666v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.18666v1",
+      "published": "2026-01-26T16:40:54Z",
+      "parameters_found": {},
+      "keywords": [
+        "plasma",
+        "particle",
+        "correlation"
       ],
       "relevance_score": 3
     }
