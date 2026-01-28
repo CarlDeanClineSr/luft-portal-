@@ -88,6 +88,10 @@ This is not a theoretical prediction. It is an **observed constant** that govern
 * 🌐 **[Imperial Math Multilingual Guide](IMPERIAL_MATH_MULTILINGUAL.md)** - Language-agnostic grammar
 * 🚀 **[QUICK OUTPUTS](docs/QUICK_OUTPUTS.md)** - Direct links to latest data, results & live feeds
 
+### ⚡ Physics Framework Documents
+* 🔄 **[FIELD FLIP PROTOCOL](FIELD_FLIP_PROTOCOL.md)** - Vacuum magnetic tension dynamics, flip and ring mechanism
+* 🤖 **[AI IMPERIAL 3D RECOGNITION](AI_IMPERIAL_3D_RECOGNITION.md)** - Correct recognition patterns for AI systems analyzing LUFT data
+
 ---
 
 ## Multi-Environment Validation
