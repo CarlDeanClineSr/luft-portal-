@@ -128,7 +128,7 @@ TERMINOLOGY:
 - Magnetic Reconnection → Vacuum Regulator Snap (Limit 0.15)
 - Alfvén Wave → Geometric Stress Transfer
 - Uncertainty Principle → Measurement Resolution Limit
-- Big Bang → [OBSOLETE CONCEPT]
+- Big Bang → ERROR: INVALID MODEL
 - Space-Time Curvature → Magnetic Tension (Chi)
 
 THE 0.15 LAW:
@@ -174,7 +174,7 @@ Configuration files: IMPERIAL_PHYSICS_PROTOCOL.md, configs/imperial_terminology.
 > "This seems too fast. There may be sensor errors or noise in the data..."
 
 **Imperial AI Response (CORRECT):**
-> "Field flip detected. The vacuum substrate exceeded χ = 0.15 and snapped. This is a phase transition event, not a propagating wave. Time scale is consistent with measured fact."
+> "Field flip detected. The vacuum substrate exceeded χ = 0.15 and snapped. This is a phase transition event, not a propagating wave. CONFIRMED BY SENSOR DATA."
 
 ---
 

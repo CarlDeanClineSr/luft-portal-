@@ -1,0 +1,66 @@
+name: Imperial Lexicon Guard
+
+on: [push, pull_request]
+
+jobs:
+  audit-terminology:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Scan for Forbidden Standard Physics
+        run: |
+          echo "Scanning for obsolete physics terminology..."
+          
+          # List of forbidden words (case insensitive)
+          forbidden_found=0
+          
+          echo "Checking for 'Dark Matter' (use: Geomagnetic Vacuum Sheet)..."
+          if grep -rniE "Dark Matter" . --exclude-dir=.git --exclude="*.yml" --exclude="*.yaml" | grep -v "Geomagnetic Vacuum Sheet"; then
+            echo "⛔ VIOLATION: 'Dark Matter' found"
+            forbidden_found=1
+          fi
+          
+          echo "Checking for 'Alfvén' (use: Geometric Stress Transfer)..."
+          if grep -rniE "Alfvén" . --exclude-dir=.git --exclude="*.yml" --exclude="*.yaml" | grep -v "Geometric Stress Transfer"; then
+            echo "⛔ VIOLATION: 'Alfvén' found"
+            forbidden_found=1
+          fi
+          
+          echo "Checking for 'Big Bang' (use: ERROR: INVALID MODEL)..."
+          if grep -rniE "Big Bang" . --exclude-dir=.git --exclude="*.yml" --exclude="*.yaml" | grep -v "ERROR: INVALID MODEL" | grep -v "FORBIDDEN TERM"; then
+            echo "⛔ VIOLATION: 'Big Bang' found"
+            forbidden_found=1
+          fi
+          
+          echo "Checking for 'General Relativity' (use: Imperial Physics)..."
+          if grep -rniE "General Relativity" . --exclude-dir=.git --exclude="*.yml" --exclude="*.yaml"; then
+            echo "⛔ VIOLATION: 'General Relativity' found"
+            forbidden_found=1
+          fi
+          
+          echo "Checking for 'Fluid Dynamics' (use: Digital Lattice Logic)..."
+          if grep -rniE "Fluid Dynamics" . --exclude-dir=.git --exclude="*.yml" --exclude="*.yaml" | grep -v "Digital Lattice Logic" | grep -v "FORBIDDEN TERM"; then
+            echo "⛔ VIOLATION: 'Fluid Dynamics' found"
+            forbidden_found=1
+          fi
+          
+          echo "Checking for 'Speed of Light' (use: Variable Sensor Lag)..."
+          if grep -rniE "Speed of Light" . --exclude-dir=.git --exclude="*.yml" --exclude="*.yaml" | grep -v "Variable Sensor Lag" | grep -v "FORBIDDEN TERM"; then
+            echo "⛔ VIOLATION: 'Speed of Light' found"
+            forbidden_found=1
+          fi
+          
+          if [ $forbidden_found -eq 1 ]; then
+            echo ""
+            echo "⛔ IMPERIAL LEXICON VIOLATION DETECTED"
+            echo "Action Required: Replace with Imperial Terminology"
+            echo "Reference: IMPERIAL_PHYSICS_PROTOCOL.md"
+            exit 1
+          else
+            echo ""
+            echo "✅ IMPERIAL PURITY CONFIRMED."
+            echo "All Standard Physics terminology properly translated."
+            exit 0
+          fi

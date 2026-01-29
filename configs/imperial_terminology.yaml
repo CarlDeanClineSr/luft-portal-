@@ -11,16 +11,16 @@ status: "active"
 # Format: standard_term -> imperial_term
 terminology_map:
   # Fundamental Constants
-  "speed of light": "Lattice Update Rate"
-  "c": "Integrity Frequency"
-  "light speed": "Lattice Update Rate"
+  "speed of light": "Variable Sensor Lag"
+  "c": "Variable Sensor Lag"
+  "light speed": "Variable Sensor Lag"
   
   # Cosmology
   "dark matter": "Geomagnetic Vacuum Sheet"
   "dark matter halo": "G.M.V.S. density distribution"
   "dark energy": "Vacuum substrate tension"
-  "Big Bang": "[OBSOLETE CONCEPT]"
-  "cosmic inflation": "[OBSOLETE CONCEPT]"
+  "Big Bang": "ERROR: INVALID MODEL"
+  "cosmic inflation": "ERROR: INVALID MODEL"
   "expanding universe": "lattice expansion"
   
   # Gravity and Spacetime
@@ -38,6 +38,8 @@ terminology_map:
   "reconnection event": "Vacuum Snap (χ > 0.15)"
   "Alfvén wave": "Geometric Stress Transfer"
   "Alfvén velocity": "Geometric Stress Transfer rate"
+  "alfven wave": "Geometric Stress Transfer"
+  "alfven": "Geometric Stress Transfer"
   "plasma waves": "Lattice stress propagation"
   
   # Quantum Mechanics
