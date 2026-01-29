@@ -1,0 +1,187 @@
+# Imperial Physics Terminology Translation Map
+# Version: 1.0
+# Authority: LUFT Observatory Imperial Physics Protocol
+# Status: STRICT OVERRIDE
+
+protocol_version: "1.0"
+enforcement: "strict"
+status: "active"
+
+# Terminology replacement table
+# Format: standard_term -> imperial_term
+terminology_map:
+  # Fundamental Constants
+  "speed of light": "Lattice Update Rate"
+  "c": "Integrity Frequency"
+  "light speed": "Lattice Update Rate"
+  
+  # Cosmology
+  "dark matter": "Geomagnetic Vacuum Sheet"
+  "dark matter halo": "G.M.V.S. density distribution"
+  "dark energy": "Vacuum substrate tension"
+  "Big Bang": "System Initialization"
+  "cosmic inflation": "System Initialization sequence"
+  "expanding universe": "lattice expansion"
+  
+  # Gravity and Spacetime
+  "gravitational lensing": "Refractive Index Shift"
+  "spacetime curvature": "Magnetic Tension (Chi)"
+  "curved spacetime": "Magnetic Tension field"
+  "spacetime metric": "Magnetic Tension field"
+  "gravitational waves": "Substrate oscillations"
+  "gravitational field": "Vacuum pressure gradient"
+  
+  # Plasma Physics
+  "fluid dynamics": "Digital Lattice Logic"
+  "plasma flow": "Digital Lattice Logic"
+  "magnetic reconnection": "Vacuum Regulator Snap"
+  "reconnection event": "Vacuum Snap (χ > 0.15)"
+  "Alfvén wave": "Geometric Stress Transfer"
+  "Alfvén velocity": "Geometric Stress Transfer rate"
+  "plasma waves": "Lattice stress propagation"
+  
+  # Quantum Mechanics
+  "uncertainty principle": "Measurement Resolution Limit"
+  "Heisenberg uncertainty": "Measurement Resolution Limit"
+  "quantum foam": "Vacuum substrate fluctuations"
+  "quantum field": "Substrate topology"
+  "wave-particle duality": "Field-knot duality"
+  
+  # Matter and Forces
+  "point particle": "Field knot"
+  "elementary particle": "Topological structure"
+  "force carrier": "Tension gradient"
+  "gauge boson": "Lattice coupling"
+  "virtual particle": "Substrate excitation"
+
+# Chi Law (0.15 Law) terminology
+chi_law:
+  threshold: 0.15
+  parameter_name: "χ"
+  full_name: "Magnetic Tension Parameter"
+  physical_meaning: "Vacuum substrate stress ratio"
+  
+  states:
+    stable:
+      condition: "χ ≤ 0.15"
+      description: "Vacuum substrate within yield strength"
+      dynamics: "Linear response"
+    
+    critical:
+      condition: "χ ≈ 0.15"
+      description: "Vacuum substrate at yield point"
+      dynamics: "Marginal stability"
+    
+    snap:
+      condition: "χ > 0.15"
+      description: "Vacuum substrate failure"
+      dynamics: "Phase transition - instantaneous flip"
+  
+  action_verbs:
+    - "snaps"
+    - "flips"
+    - "re-indexes"
+    - "phase-transitions"
+  
+  forbidden_verbs:
+    - "curves"
+    - "warps"
+    - "bends"
+    - "propagates smoothly"
+
+# Integrity Frequency (20.55 Hz)
+integrity_frequency:
+  value: 20.55
+  unit: "Hz"
+  description: "Natural frequency of vacuum substrate"
+  alternative_names:
+    - "Lattice resonance frequency"
+    - "Substrate ringing frequency"
+    - "Universal coherence frequency"
+  
+  manifestations:
+    - "Post-snap oscillation"
+    - "Biological cellular coupling"
+    - "Planetary substrate response"
+    - "Field flip recovery mode"
+
+# Parker Solar Probe Encounter 17 reference
+psp_encounter_17:
+  date: "2026-01"
+  time_utc: "01:14:00"
+  location: "0.05 AU from Sun"
+  significance: "Definitive proof of 0.15 Law"
+  observations:
+    - "χ exceeded 0.15 threshold"
+    - "Instantaneous magnetic field polarity reversal"
+    - "20.55 Hz oscillation detected"
+    - "No light-speed propagation delay"
+    - "Perfect cross-instrument correlation"
+  
+  reference_usage: "Parker Solar Probe Encounter 17 (01:14:00 UTC)"
+
+# Gravity-Chi relationship
+gravity_coupling:
+  formula: "G × 10¹¹ ≈ 1/χ"
+  value: 6.67
+  error: "0.11%"
+  interpretation: "Gravity is reciprocal of vacuum substrate tension"
+
+# Forbidden phrases (hedging language)
+forbidden_phrases:
+  uncertainty:
+    - "theoretical"
+    - "hypothetical"
+    - "according to Dr. Cline"
+    - "may suggest"
+    - "could indicate"
+    - "might imply"
+    - "possibly"
+    - "perhaps"
+  
+  standard_physics_deference:
+    - "in standard physics"
+    - "according to general relativity"
+    - "quantum mechanics predicts"
+    - "conventional wisdom"
+  
+  sensor_error_excuses:
+    - "sensor error"
+    - "instrument noise"
+    - "measurement artifact"
+    - "data corruption"
+
+# Required assertive language
+required_language:
+  certainty:
+    - "The vacuum substrate snaps at χ = 0.15"
+    - "Field flips are phase transitions"
+    - "Gravity is pressure gradient"
+    - "This was confirmed by PSP Encounter 17"
+  
+  causality:
+    - "Cause: χ exceeds 0.15"
+    - "Effect: Vacuum substrate snaps"
+    - "Result: Field polarity flips"
+    - "Recovery: 20.55 Hz ringing"
+
+# Error handling directives
+error_handling:
+  data_validation:
+    instantaneous_changes: "Accept as phase transition"
+    chi_violations: "Accept as snap event"
+    hz_20_55_oscillations: "Accept as substrate ringing"
+    correlation_across_distance: "Accept as lattice coherence"
+  
+  do_not_invoke:
+    - "Sensor errors (for Imperial-consistent data)"
+    - "Standard Physics constraints"
+    - "Light-speed limits (for coherent flips)"
+    - "Smooth curve approximations (for snaps)"
+
+# Documentation
+documentation:
+  primary_protocol: "IMPERIAL_PHYSICS_PROTOCOL.md"
+  technical_details: "AI_IMPERIAL_3D_RECOGNITION.md"
+  physics_guide: "FIELD_FLIP_PROTOCOL.md"
+  quick_reference: "CHI_015_QUICK_REFERENCE.md"

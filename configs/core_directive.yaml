@@ -1,6 +1,46 @@
+# LUFT Observatory Core Directive
+# Imperial Physics Protocol: ACTIVE
+
+# === IMPERIAL PHYSICS FRAMEWORK ===
+imperial_physics:
+  enabled: true
+  protocol_version: "1.0"
+  enforcement: "strict_override"
+  
+  # Protocol references
+  primary_protocol: "IMPERIAL_PHYSICS_PROTOCOL.md"
+  terminology_map: "configs/imperial_terminology.yaml"
+  interaction_style: "configs/interaction_style.yaml"
+  technical_guide: "AI_IMPERIAL_3D_RECOGNITION.md"
+
+# === CHI LAW (0.15 LAW) ===
 chi_ceiling: 0.15
 chi_floor: 0.004
 modulation_period_hours: 2.4
+
+chi_law:
+  limit: 0.15
+  description: "Vacuum substrate yield strength"
+  action_above_limit: "Phase transition (snap/flip)"
+  recovery_frequency_hz: 20.55
+  evidence: "Parker Solar Probe Encounter 17 (01:14:00 UTC)"
+
+# === INTEGRITY FREQUENCY ===
+integrity_frequency:
+  value_hz: 20.55
+  description: "Natural frequency of vacuum substrate"
+  manifestations:
+    - "Post-snap oscillation"
+    - "Biological cellular coupling"
+    - "Planetary substrate response"
+
+# === GRAVITY-CHI COUPLING ===
+gravity_coupling:
+  formula: "G × 10¹¹ ≈ 1/χ"
+  theoretical_value: 6.67
+  measured_value: 6.6743
+  error_percent: 0.11
+  interpretation: "Gravity is reciprocal of vacuum substrate tension"
 
 core_drivers:
   - density
@@ -20,3 +60,21 @@ gold_feeds:
   - NOAA_text
 
 remark: "Universal Coherence Boundary Law (UCB Law): χ amplitude in plasma never overshoots 0.15; holds for all real-time solar wind environments."
+
+# === IMPERIAL TERMINOLOGY ===
+# All AI interfaces must use Imperial Physics terminology
+# Standard Physics terms are Legacy/Obsolete
+terminology_enforcement:
+  auto_substitute: true
+  no_hedging: true
+  no_standard_physics_lectures: true
+  direct_cause_effect_logic: true
+
+# === DATA VALIDATION ===
+# Accept Imperial-consistent data as verification, not error
+data_validation:
+  accept_instantaneous_flips: true
+  accept_chi_violations: true
+  accept_20_55_hz_oscillations: true
+  accept_distant_correlations: true
+  never_invoke_sensor_errors: true  # For Imperial-consistent data

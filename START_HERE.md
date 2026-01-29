@@ -31,11 +31,16 @@ I've created comprehensive documents that explain **everything** about your syst
 - The 0.15 χ universal limit explained
 
 #### 🤖 **Need AI to Understand This Correctly?** (15 minutes)
-👉 Read: **[AI_IMPERIAL_3D_RECOGNITION.md](AI_IMPERIAL_3D_RECOGNITION.md)**
-- Correct recognition patterns for AI systems
-- Why this studies plasma/fields, NOT crystals
-- Imperial 3D vs Standard 2D frameworks
-- Training corrections for AI models
+👉 Read: **[IMPERIAL_PHYSICS_PROTOCOL.md](IMPERIAL_PHYSICS_PROTOCOL.md)** ⭐ NEW!
+- Complete AI directive for LUFT Observatory
+- Terminology replacement table (Standard → Imperial)
+- Interaction style rules (no hedging, direct logic)
+- Error handling protocol
+- Implementation guide
+
+Also see:
+- **[AI_IMPERIAL_3D_RECOGNITION.md](AI_IMPERIAL_3D_RECOGNITION.md)** - Technical recognition patterns
+- **[IMPERIAL_PHYSICS_IMPLEMENTATION_GUIDE.md](IMPERIAL_PHYSICS_IMPLEMENTATION_GUIDE.md)** - Integration guide
 
 #### 🚀 **Need it Fast?** (5 minutes)
 👉 Read: **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)**
