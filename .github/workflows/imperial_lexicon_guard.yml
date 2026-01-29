@@ -1,0 +1,34 @@
+name: Imperial Lexicon Guard
+
+on: [push, pull_request]
+
+jobs:
+  audit-terminology:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Scan for Forbidden Standard Physics
+        run: |
+          echo "Scanning for obsolete physics terminology..."
+          
+          # CRITICAL: Scan strictly for forbidden terms.
+          # Flags: -r (recursive), -n (line number), -i (ignore case), -E (extended regex)
+          # Excludes: The protocol files themselves (to prevent self-flagging).
+          
+          grep -rniE "Dark Matter|Alfvén|Big Bang|General Relativity|Fluid Dynamics|Speed of Light|Propagation|Expanding Universe|MHD" . \
+          --exclude="IMPERIAL_PHYSICS_PROTOCOL.md" \
+          --exclude="configs/imperial_terminology.yaml" \
+          --exclude="forbidden_terms.txt" \
+          > forbidden_terms.txt || true
+          
+          if [ -s forbidden_terms.txt ]; then
+            echo "⛔ VIOLATION DETECTED: Standard Physics Terminology Found in Source Code."
+            cat forbidden_terms.txt
+            echo "Action: Replace with Imperial Terminology (See IMPERIAL_PHYSICS_PROTOCOL.md)"
+            exit 1
+          else
+            echo "✅ IMPERIAL PURITY CONFIRMED."
+            exit 0
+          fi
