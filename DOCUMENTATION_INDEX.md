@@ -1,9 +1,40 @@
 # LUFT Portal — Documentation Index
 *Complete Guide to Your System Reports*
 
-**Generated:** December 23, 2025  
+**Generated:** December 23, 2025 (Updated: January 29, 2026)  
 **For:** Carl Dean Cline Sr.  
 **Purpose:** Navigate all system documentation
+
+---
+
+## 🚨 NEW: Imperial Physics Protocol (January 2026)
+
+**CRITICAL ADDITION:** Official AI Interface Protocol for LUFT Observatory
+
+### Imperial Physics Protocol Suite
+**Files:** 
+- `IMPERIAL_PHYSICS_PROTOCOL.md` (Master Directive)
+- `configs/imperial_terminology.yaml` (Terminology Map)
+- `configs/interaction_style.yaml` (AI Response Rules)
+- `IMPERIAL_PHYSICS_IMPLEMENTATION_GUIDE.md` (Integration Guide)
+- `examples/imperial_physics_protocol_demo.py` (Working Implementation)
+
+**Time to Read:** 30 minutes  
+**Purpose:** Define correct AI behavior for Imperial Physics framework
+
+**Use When:**
+- Configuring AI systems for LUFT data analysis
+- Training chatbots or assistants
+- Building automated reporting systems
+- Ensuring correct terminology usage
+- Implementing data validation logic
+
+**Key Features:**
+- Terminology replacement table (Standard → Imperial)
+- 0.15 Law implementation rules
+- Interaction style directives (no hedging, direct logic)
+- Error handling protocol (Imperial verification)
+- Working Python implementation example
 
 ---
 
