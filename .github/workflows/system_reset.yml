@@ -1,0 +1,42 @@
+name: IMPERIAL ARK LOAD & PURGE
+
+on: workflow_dispatch  # Runs only when you click the button
+
+permissions:
+  contents: write
+
+jobs:
+  the-great-filter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: 1. LOAD THE ARK (Save Evidence)
+        run: python scripts/load_the_ark.py
+
+      - name: 2. EXECUTE DEMOLITION (Burn the Rest)
+        run: |
+          echo ">>> INITIATING CONTROLLED DEMOLITION <<<"
+          shopt -s extglob
+          
+          # DELETE everything that is NOT the Ark or the Git folder
+          rm -rf !("IMPERIAL_ARK"|".github"|".git"|".gitignore")
+          
+          echo ">>> JUNK INCINERATED. ONLY THE ARK REMAINS. <<<"
+
+      - name: 3. LOCK THE DOOR (.gitignore)
+        run: |
+          echo "# IMPERIAL ARK ARCHIVE" > .gitignore
+          echo "*" >> .gitignore
+          echo "!IMPERIAL_ARK/" >> .gitignore
+          echo "!.github/" >> .gitignore
+          echo "!.gitignore" >> .gitignore
+
+      - name: 4. COMMIT THE NEW ERA
+        run: |
+          git config --global user.name "Imperial-Ark-Commander"
+          git config --global user.email "ark@imperial.physics"
+          git add .
+          git commit -m "THE FLOOD: History Purged. Ark Secured."
+          git push
