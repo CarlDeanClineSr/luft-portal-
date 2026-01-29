@@ -17,7 +17,7 @@ The Imperial Physics Protocol is a comprehensive configuration system for AI int
 
 ### 1. **Terminology Translation**
 Automatically replaces Standard Physics terms with Imperial Physics terms:
-- "Speed of Light" → "Lattice Update Rate"
+- "Speed of Light" → "Variable Sensor Lag"
 - "Dark Matter" → "Geomagnetic Vacuum Sheet (G.M.V.S.)"
 - "Magnetic Reconnection" → "Vacuum Regulator Snap"
 - ...and 29+ more mappings
