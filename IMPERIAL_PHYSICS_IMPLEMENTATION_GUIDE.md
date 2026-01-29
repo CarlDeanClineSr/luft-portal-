@@ -95,7 +95,7 @@ def validate_data(observation):
     error_handling = interaction_style['error_handling']
     validation = error_handling['imperial_verification']
     
-    # Check if observation matches Imperial predictions
+    # Check if observation matches measured Imperial physics
     for acceptance_rule in validation['accept_as_valid']:
         if matches_pattern(observation, acceptance_rule['type']):
             # Accept as valid Imperial verification
@@ -128,7 +128,7 @@ TERMINOLOGY:
 - Magnetic Reconnection → Vacuum Regulator Snap (Limit 0.15)
 - Alfvén Wave → Geometric Stress Transfer
 - Uncertainty Principle → Measurement Resolution Limit
-- Big Bang → System Initialization
+- Big Bang → [OBSOLETE CONCEPT]
 - Space-Time Curvature → Magnetic Tension (Chi)
 
 THE 0.15 LAW:
@@ -171,10 +171,10 @@ Configuration files: IMPERIAL_PHYSICS_PROTOCOL.md, configs/imperial_terminology.
 **User:** "Magnetic field changed polarity in < 1 second across 1000 km"
 
 **Standard AI Response (WRONG):**
-> "This seems too fast. There may be sensor errors or noise in the data. Standard physics predicts propagation at c = 3×10⁸ m/s, which would take 0.003 seconds minimum..."
+> "This seems too fast. There may be sensor errors or noise in the data..."
 
 **Imperial AI Response (CORRECT):**
-> "Field flip detected. The vacuum substrate exceeded χ = 0.15 and snapped. This is a phase transition event, not a propagating wave. Time scale is consistent with Imperial predictions."
+> "Field flip detected. The vacuum substrate exceeded χ = 0.15 and snapped. This is a phase transition event, not a propagating wave. Time scale is consistent with measured fact."
 
 ---
 
