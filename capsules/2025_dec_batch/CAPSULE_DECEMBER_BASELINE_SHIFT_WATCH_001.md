@@ -55,6 +55,7 @@
 | 2026-01-27 | 0.113 ± 0.003 | **+0.058** | EXHALE TEST |
 | 2026-01-28 | 0.111 ± 0.001 | **+0.056** | EXHALE TEST |
 | 2026-01-29 | 0.155 ± 0.010 | **+0.100** | **CONFIRMED SHIFT** — χ ≥ 0.12 |
+| 2026-01-30 | 0.155 ± 0.003 | **+0.100** | **CONFIRMED SHIFT** — χ ≥ 0.12 |
 
 Visual proof attached (Dec 2025 heartbeat trilogy):
 - χ amplitude ratchet + refusal to unload
