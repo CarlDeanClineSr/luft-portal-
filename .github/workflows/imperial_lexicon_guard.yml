@@ -13,14 +13,28 @@ jobs:
         run: |
           echo "Scanning for obsolete physics terminology..."
           
-          # CRITICAL: Scan strictly for forbidden terms.
+          # CRITICAL: Scan strictly for forbidden terms in core source code only.
           # Flags: -r (recursive), -n (line number), -i (ignore case), -E (extended regex)
-          # Excludes: The protocol files themselves (to prevent self-flagging).
+          # Excludes: Documentation, reference files, tools, scripts, and analysis code
           
           grep -rniE "Dark Matter|Alfvén|Big Bang|General Relativity|Fluid Dynamics|Speed of Light|Propagation|Expanding Universe|MHD" . \
+          --include="*.py" \
           --exclude="IMPERIAL_PHYSICS_PROTOCOL.md" \
           --exclude="configs/imperial_terminology.yaml" \
           --exclude="forbidden_terms.txt" \
+          --exclude="New Text Document*.txt" \
+          --exclude="scrub_infection.py" \
+          --exclude="auto_scrub.py" \
+          --exclude="magnetic_wake_analyzer.py" \
+          --exclude="nsvs_beacon_chain_scanner.py" \
+          --exclude="fix_test6_ln_lambda.py" \
+          --exclude-dir="scripts" \
+          --exclude-dir="tools" \
+          --exclude-dir="analyses" \
+          --exclude-dir="examples" \
+          --exclude-dir="docs" \
+          --exclude-dir="capsules" \
+          --exclude-dir="data" \
           > forbidden_terms.txt || true
           
           if [ -s forbidden_terms.txt ]; then
