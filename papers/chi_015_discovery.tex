@@ -77,7 +77,7 @@ To validate this hypothesis, we established the \textbf{LUFT Observatory}, an au
 The system ingests real-time Solar Wind plasma data from the NOAA DSCOVR spacecraft (L1 Lagrangian Point). The pipeline operates on an hourly cadence, processing high-resolution density, speed, and temperature telemetry.
 
 \subsection{The Imperial Logger Engine}
-A custom Python engine (`imperial_logger.py`) processes the raw telemetry stream. For every data point, it calculates the instantaneous $\chi$ value against a 24-hour rolling baseline.
+A custom Python engine (\texttt{imperial\_logger.py}) processes the raw telemetry stream. For every data point, it calculates the instantaneous $\chi$ value against a 24-hour rolling baseline.
 
 The engine classifies the system state into **Harmonic Modes** based on the fundamental boundary $\chi_{lim} = 0.15$:
 

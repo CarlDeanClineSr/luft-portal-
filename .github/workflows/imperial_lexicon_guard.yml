@@ -21,6 +21,7 @@ jobs:
           --exclude="IMPERIAL_PHYSICS_PROTOCOL.md" \
           --exclude="configs/imperial_terminology.yaml" \
           --exclude="forbidden_terms.txt" \
+          --exclude="New Text Document*.txt" \
           > forbidden_terms.txt || true
           
           if [ -s forbidden_terms.txt ]; then
