@@ -36,7 +36,7 @@ def create_weaponized_pdf():
     pdf.multi_cell(0, 6, 
         "This document establishes Prior Art for the 'Geometric Plasma Boundary' (Chi = 0.15). "
         "Recent literature in High Energy Physics (e.g., Cordeiro et al., 2026; Hoult & Kovtun, 2026) describes "
-        "'Causality Violations' in Magnetohydrodynamics (MHD). We report that these violations are artifacts "
+        "so-called 'Causality Violations' in Magnetohydrodynamics. We report that these violations are artifacts "
         "caused by the failure to incorporate the Universal Vacuum Limit."
     )
     pdf.ln(2)
