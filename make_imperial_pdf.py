@@ -18,7 +18,7 @@ def create_weaponized_pdf():
     
     # --- TITLE ---
     pdf.set_font("Arial", "B", 18)
-    pdf.multi_cell(0, 10, "The Universal Causality Bound (Chi = 0.15):\nResolution of Chiral Anomalies in Relativistic MHD", 0, 'C')
+    pdf.multi_cell(0, 10, "The Universal Causality Bound (Chi = 0.15):\nResolution of 'Anomalies' in High-Energy Plasma", 0, 'C')
     pdf.ln(10)
     
     # --- METADATA ---
