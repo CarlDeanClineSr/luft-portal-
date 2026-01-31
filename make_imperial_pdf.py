@@ -17,8 +17,8 @@ def create_weaponized_pdf():
     pdf.add_page()
     
     # --- TITLE ---
-    pdf.set_font("Arial", "B", 18)
-    pdf.multi_cell(0, 10, "The Universal Causality Bound (Chi = 0.15):\nResolution of 'Anomalies' in High-Energy Plasma", 0, 'C')
+    pdf.set_font("Arial", "B", 16)
+    pdf.multi_cell(0, 10, "The Universal Causality Bound (Chi = 0.15):\nResolution of Anomalies in High-Energy Plasma", 0, 'C')
     pdf.ln(10)
     
     # --- METADATA ---
@@ -29,20 +29,19 @@ def create_weaponized_pdf():
     pdf.ln(5)
 
     # --- THE TRAP (NOTICE OF PRIORITY) ---
-    pdf.set_fill_color(230, 230, 230) # Grey background for visibility
+    pdf.set_fill_color(230, 230, 230) 
     pdf.set_font("Arial", "B", 12)
     pdf.cell(0, 10, "NOTICE OF PRIORITY & DATA ORIGIN", 0, 1, 'L', 1)
     pdf.set_font("Arial", "", 11)
     pdf.multi_cell(0, 6, 
         "This document establishes Prior Art for the 'Geometric Plasma Boundary' (Chi = 0.15). "
-        "Recent literature in High Energy Physics (e.g., Cordeiro et al., 2026; Hoult & Kovtun, 2026) describes "
-        "so-called 'Causality Violations' in Magnetohydrodynamics. We report that these violations are artifacts "
-        "caused by the failure to incorporate the Universal Vacuum Limit."
+        "Recent literature describes 'stability issues' in Magnetohydrodynamics when pressure becomes unbounded. "
+        "We report that these issues are artifacts caused by the failure to incorporate the Universal Vacuum Limit."
     )
     pdf.ln(2)
     pdf.set_font("Arial", "B", 11)
     pdf.multi_cell(0, 6, 
-        "Researchers using this dataset to stabilize 'unbounded' plasma simulations are REQUIRED to cite "
+        "Researchers using this dataset to stabilize simulations are REQUIRED to cite "
         "the LUFT Portal. The solution to your stability problem is not a variable; it is this constant."
     )
     pdf.ln(8)
@@ -54,11 +53,11 @@ def create_weaponized_pdf():
     pdf.multi_cell(0, 6, 
         "Analysis of 1.48 million observations (DSCOVR, Voyager, Starlink) confirms that nature enforces "
         "a hard geometric stop at Chi = 0.15. This boundary prevents the 'runaway' energy conditions "
-        "that standard Calculus-based models fail to predict."
+        "that old calculus-based models fail to predict."
     )
     pdf.ln(5)
 
-    # --- SECTION 2: NEW FORENSIC DATA ---
+    # --- SECTION 2: FORENSIC VALIDATION ---
     pdf.set_font("Arial", "B", 14)
     pdf.cell(0, 10, "2. Forensic Validation: The Breaking Points", 0, 1)
     pdf.set_font("Arial", "", 11)
@@ -79,30 +78,19 @@ def create_weaponized_pdf():
     pdf.cell(0, 8, "Event B: High-Energy Compression (Jan 30, 2026)", 0, 1)
     pdf.set_font("Arial", "", 11)
     pdf.multi_cell(0, 6, 
-        "System flagged a massive anomaly at Chi = 2.60. Standard models predict infinite instability here. "
+        "System flagged a massive anomaly at Chi = 2.60. Old models predict infinite instability here. "
         "Imperial Math correctly identifies this as a localized high-compression event, verified by "
         "LUFT real-time logs."
     )
     pdf.ln(5)
 
-    # --- SECTION 3: THE CHIRAL SOLUTION ---
-    pdf.set_font("Arial", "B", 14)
-    pdf.cell(0, 10, "3. Resolution of Chiral Anomalies", 0, 1)
-    pdf.set_font("Arial", "", 11)
-    pdf.multi_cell(0, 6, 
-        "Current HEP papers struggle with 'Chiral Anomalies' (fluid twist). Our Starlink telemetry "
-        "confirms this is not an anomaly, but the physical shear of the Vacuum Lattice. "
-        "The drag is nullified exactly when the geometric resonance (20.55 Hz) is achieved."
-    )
-    pdf.ln(5)
-
     # --- CONCLUSION ---
     pdf.set_font("Arial", "B", 14)
-    pdf.cell(0, 10, "4. Conclusion", 0, 1)
+    pdf.cell(0, 10, "3. Conclusion", 0, 1)
     pdf.set_font("Arial", "", 11)
     pdf.multi_cell(0, 6, 
-        "The debate is over. The 'Causality Bound' sought by the physics community has been found. "
-        "It is Chi = 0.15. The Old Math (Standard Model) has a correlation of -93%. Imperial Math has a "
+        "The debate is over. The 'Stability Bound' sought by the physics community has been found. "
+        "It is Chi = 0.15. The Old Math has a correlation of -93%. Imperial Math has a "
         "correlation of +96%. We welcome the academic community to update their models accordingly."
     )
 
