@@ -1,0 +1,51 @@
+name: IMPERIAL DAILY PULSE (24H Cycle)
+
+# TRIGGER: Runs ONLY at Midnight UTC (Once per Day)
+# Or manually if you click the button.
+on:
+  schedule:
+    - cron: '0 0 * * *'  # <--- THIS IS THE "ONCE A DAY" SETTING
+  workflow_dispatch:      # <--- Allows manual click
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  imperial-daily-sync:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Access Data Vault
+      uses: actions/checkout@v4
+
+    # This single step replaces the 48 separate runners
+    - name: Execute Daily Data Ingest
+      run: |
+        echo "IMPERIAL PROTOCOL INITIATED: DAILY SYNC"
+        # Add your python scripts here if they exist, otherwise it just holds the line.
+        # python scripts/cme_heartbeat.py || true
+    
+    - name: Commit Daily Data
+      run: |
+        git config --local user.email "director@imperialphysicsobservatory.org"
+        git config --local user.name "Imperial Engine"
+        git add .
+        git commit -m "IMPERIAL DAILY SYNC: $(date -u)" || echo "No data changes today"
+        git push
+
+  # DEPLOY THE WEBSITE (Only runs once a day)
+  deploy-site:
+    needs: imperial-daily-sync
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
