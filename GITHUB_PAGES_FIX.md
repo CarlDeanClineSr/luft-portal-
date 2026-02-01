@@ -13,7 +13,8 @@ GitHub Pages builds were being cancelled due to race conditions caused by multip
 
 ### 1. Scheduled Deployment (Current Fix)
 Modified `.github/workflows/pages-deployment.yml` to run on a schedule instead of on every push:
-- **Schedule**: Once daily at 6:20 PM CST (00:20 UTC)
+- **Schedule**: Once daily at 00:20 UTC
+- **Local time**: 6:20 PM CST (winter) / 7:20 PM CDT (summer)
 - **Cron expression**: `'20 0 * * *'`
 - **Manual trigger**: Still available via `workflow_dispatch` for on-demand deployments
 
@@ -42,7 +43,7 @@ This ensures:
 
 ## How It Works Now
 1. Multiple workflows can push to `main` at any time (no effect on Pages deployment)
-2. Pages deployment runs automatically once per day at 6:20 PM CST
+2. Pages deployment runs automatically once per day at 00:20 UTC (6:20 PM CST / 7:20 PM CDT)
 3. Manual deployments can be triggered via GitHub Actions UI if needed
 4. No more cancellations - single daily deployment completes successfully
 
@@ -56,7 +57,7 @@ If you need to deploy Pages before the scheduled time:
 
 ## Verification
 After this change, you should see:
-- GitHub Pages builds run once per day at 6:20 PM CST
+- GitHub Pages builds run once per day at 00:20 UTC (6:20 PM CST / 7:20 PM CDT)
 - No more cancellations due to concurrent pushes
 - Successful deployment every day
 - Manual deployments work when needed

@@ -2,9 +2,10 @@ name: Deploy to GitHub Pages
 
 # Single source of truth for GitHub Pages deployment
 # Runs once daily at 6:20 PM CST (00:20 UTC next day)
+# Note: During CDT (daylight saving time), this will be 7:20 PM CDT
 on:
   schedule:
-    # Runs at 6:20 PM CST (00:20 UTC) daily
+    # Runs at 00:20 UTC daily (6:20 PM CST / 7:20 PM CDT)
     - cron: '20 0 * * *'
   workflow_dispatch:
 
