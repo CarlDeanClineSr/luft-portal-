@@ -1,44 +1,45 @@
-name: Deploy to GitHub Pages
+name: Deploy GitHub Pages
 
-# Single source of truth for GitHub Pages deployment
-# Runs once daily at 6:20 PM CST (00:20 UTC next day)
-# Note: During CDT (daylight saving time), this will be 7:20 PM CDT
 on:
-  schedule:
-    # Runs at 00:20 UTC daily (6:20 PM CST / 7:20 PM CDT)
-    - cron: '20 0 * * *'
+  # Only run on manual trigger or daily schedule
   workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'  # 6 AM UTC daily
 
-# Only allow one deployment at a time
-# Wait for in-progress deployment to complete rather than canceling it
+# Prevent multiple simultaneous deployments
 concurrency:
-  group: pages-deployment
-  cancel-in-progress: false
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v4
+      
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
-        with:
-          # Upload entire repository
-          path: '.'
-      
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
