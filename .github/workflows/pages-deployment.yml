@@ -1,11 +1,11 @@
 name: Deploy to GitHub Pages
 
 # Single source of truth for GitHub Pages deployment
-# Runs on push to main, but with concurrency controls to prevent conflicts
+# Runs once daily at 6:20 PM CST (00:20 UTC next day)
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    # Runs at 6:20 PM CST (00:20 UTC) daily
+    - cron: '20 0 * * *'
   workflow_dispatch:
 
 # Only allow one deployment at a time
