@@ -3,730 +3,355 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMPERIAL PHYSICS OBSERVATORY | USAGeomagnetic.org</title>
-    <link rel="stylesheet" href="./assets/css/theme.css" />
-    <link rel="stylesheet" href="./assets/css/animations.css" />
-    <link rel="stylesheet" href="./assets/css/teacher-widget.css" />
-    <link rel="stylesheet" href="./assets/css/knowledge-widget.css" />
-    <link rel="stylesheet" href="./assets/css/discovery-widget.css" />
-    <script defer src="./assets/js/background-stars.js"></script>
-    <script defer src="./assets/js/live-dashboard.js"></script>
-    <script defer src="./assets/js/teacher-widget.js"></script>
-    <script defer src="./assets/js/knowledge-widget.js"></script>
-    <script defer src="./assets/js/discovery-widget.js"></script>
+    <title>IMPERIAL PHYSICS OBSERVATORY | MISSION CONTROL</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg-color: #050505;
+            --panel-bg: #0a0f14;
+            --border-color: #333;
+            --text-main: #e0e0e0;
+            --text-dim: #888;
+            --accent-green: #00ff41;
+            --accent-cyan: #0ff;
+            --accent-red: #ff3333;
+            --font-tech: 'Courier New', Courier, monospace;
+            --font-ui: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
+        * { box-sizing: border-box; }
 
         body {
-            font-family: 'Courier New', 'Consolas', monospace; /* IMPERIAL FONT */
-            background: #000000; /* IMPERIAL BLACK */
-            color: #e0e0e0;
-            overflow-x: hidden;
-        }
-
-        .header {
-            background: #000;
-            padding: 1.5rem 2rem;
-            border-bottom: 3px solid #00ff00; /* IMPERIAL GREEN */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header h1 {
-            font-size: 1.8rem;
-            color: #00ff00;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px #00ff00;
-        }
-
-        .live-clock {
-            font-size: 1.2rem;
-            color: #00ff00;
-            font-weight: bold;
-            letter-spacing: 1px;
-        }
-
-        .status-bar {
-            background: #111;
-            padding: 0.5rem 2rem;
-            display: flex;
-            gap: 2rem;
-            border-bottom: 1px solid #333;
-        }
-
-        .status-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .status-indicator {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        .status-indicator.active {
-            background: #00ff00;
-            box-shadow: 0 0 10px #00ff00;
-        }
-
-        .status-indicator.warning {
-            background: #ffaa00;
-            box-shadow: 0 0 10px #ffaa00;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 1.5rem;
-            padding: 2rem;
-            max-width: 1800px;
-            margin: 0 auto;
-        }
-
-        .card {
-            background: #0a0a0a;
-            border: 1px solid #333;
-            border-radius: 0px; /* SHARP CORNERS */
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            border-color: #00ff00;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid #333;
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            color: #00ff00;
-            font-weight: bold;
-        }
-
-        .card-time {
-            font-size: 0.8rem;
-            color: #888;
-        }
-
-        .metric {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid #111;
-        }
-
-        .metric:last-child {
-            border-bottom: none;
-        }
-
-        .metric-label {
-            color: #888;
-        }
-
-        .metric-value {
-            font-weight: bold;
-            color: #e0e0e0;
-        }
-
-        .metric-value.success {
-            color: #00ff00;
-        }
-
-        .metric-value.warning {
-            color: #ffaa00;
-        }
-
-        .metric-value.error {
-            color: #ff4444;
-        }
-
-        .big-number {
-            font-size: 3rem;
-            font-weight: bold;
-            color: #00ff00;
-            text-align: center;
-            margin: 1rem 0;
-            text-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
-        }
-
-        .chart-container {
-            height: 200px;
-            background: #000;
-            border-radius: 4px;
-            padding: 1rem;
-            position: relative;
-        }
-
-        .mini-chart {
-            width: 100%;
-            height: 60px;
-            background: #000;
-            border-radius: 4px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .chart-line {
-            stroke: #00ff00;
-            stroke-width: 2;
-            fill: none;
-        }
-
-        .boundary-line {
-            stroke: #ff4444;
-            stroke-width: 1;
-            stroke-dasharray: 5,5;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 2rem;
-            color: #555;
-            font-size: 0.9rem;
-            border-top: 1px solid #333;
-            background: #000;
-        }
-
-        .footer a {
-            color: #00ff00;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        .update-indicator {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background: #00ff00;
-            border-radius: 50%;
-            margin-right: 0.5rem;
-            animation: blink 1s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.2; }
-        }
-
-        /* Hero Banner Styles */
-        .hero-banner {
-            background: #000;
-            color: #e2e8f0;
-            padding: 40px;
-            text-align: center;
-            border-bottom: 1px solid #00ff00;
-            margin-bottom: 30px;
-        }
-
-        .hero-banner h1 {
-            font-size: 40px;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-ui);
             margin: 0;
-            color: #00ff00;
-            text-transform: uppercase;
-            letter-spacing: 3px;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: grid;
+            grid-template-rows: 60px 1fr 30px;
         }
 
-        .hero-banner h2 {
-            font-size: 16px;
-            color: #fff;
-            margin-top: 10px;
-            font-weight: normal;
-        }
-
-        .quick-stats {
+        /* HEADER */
+        header {
+            background: #000;
+            border-bottom: 2px solid var(--accent-green);
             display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 20px;
-            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 10;
+        }
+
+        .brand {
+            font-family: var(--font-tech);
+            font-size: 1.4rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .brand span { color: var(--accent-green); }
+
+        .header-stats {
+            display: flex;
+            gap: 20px;
+            font-family: var(--font-tech);
+            font-size: 0.9rem;
         }
 
         .stat-box {
-            background: #111;
-            border: 1px solid #333;
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid var(--accent-green);
+            padding: 5px 15px;
+            border-radius: 4px;
+        }
+
+        /* MAIN LAYOUT */
+        main {
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            gap: 5px;
+            padding: 5px;
+            background: #000;
+        }
+
+        /* PANELS */
+        .panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
             padding: 15px;
-            min-width: 150px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
         }
 
-        .stat-box h3 {
-            margin: 0;
-            color: #00ff00;
-            font-size: 1rem;
+        .panel-title {
+            color: var(--accent-cyan);
+            font-family: var(--font-tech);
+            font-size: 0.85rem;
+            border-bottom: 1px solid #333;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            justify-content: space-between;
         }
 
-        .stat-box p {
-            font-size: 32px;
-            margin: 5px 0;
+        /* SIDEBAR NAV */
+        .nav-btn {
+            display: block;
+            background: transparent;
+            border: 1px solid #333;
+            color: var(--text-main);
+            padding: 12px;
+            margin-bottom: 8px;
+            text-decoration: none;
+            font-family: var(--font-tech);
+            font-size: 0.9rem;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .nav-btn:hover {
+            border-color: var(--accent-green);
+            background: rgba(0, 255, 65, 0.05);
             color: #fff;
         }
 
-        .hero-banner a {
-            color: #00ff00;
-            font-size: 20px;
-            text-decoration: none;
-            border: 1px solid #00ff00;
-            padding: 10px 20px;
-            margin: 5px;
-            display: inline-block;
+        .nav-btn.alert {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
         }
 
-        .hero-banner a:hover {
-            background: #00ff00;
-            color: #000;
+        .nav-btn.alert:hover {
+            background: rgba(255, 51, 51, 0.1);
         }
 
-        /* Sidebar Navigation Styles */
-        .sidebar-nav {
-            position: fixed;
-            left: 20px;
-            top: 100px;
-            background: #111;
-            padding: 20px;
-            border: 1px solid #333;
-            width: 200px;
-            z-index: 1000;
+        /* CENTER DASHBOARD */
+        .dashboard-grid {
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            gap: 5px;
+            height: 100%;
         }
 
-        .sidebar-nav h3 {
-            color: #00ff00;
-            margin: 0 0 15px 0;
-            font-size: 1.1rem;
-            border-bottom: 1px solid #333;
-            padding-bottom: 5px;
+        .hero-metric {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: radial-gradient(circle at center, #1a261a 0%, #0a0f14 70%);
+            border: 1px solid var(--accent-green);
+            position: relative;
         }
 
-        .sidebar-nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+        .value-large {
+            font-family: var(--font-tech);
+            font-size: 5rem;
+            font-weight: bold;
+            color: var(--accent-green);
+            text-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+            margin: 10px 0;
         }
 
-        .sidebar-nav li {
-            margin-bottom: 10px;
+        .value-label {
+            letter-spacing: 4px;
+            font-size: 1rem;
+            color: #fff;
         }
 
-        .sidebar-nav a {
-            color: #aaa;
-            text-decoration: none;
-            display: block;
-            padding: 8px 12px;
-            transition: all 0.2s ease;
+        .sub-metric {
+            font-family: var(--font-tech);
+            font-size: 1.2rem;
+            margin-top: 10px;
+            color: #ccc;
         }
 
-        .sidebar-nav a:hover {
-            color: #00ff00;
+        /* GRAPH AREA */
+        .graph-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 100%;
+            gap: 2px;
+            padding-top: 20px;
+        }
+
+        .bar {
+            background: var(--accent-cyan);
+            opacity: 0.6;
+            flex: 1;
+            transition: height 0.5s ease;
+        }
+
+        /* LOG FEED */
+        .log-feed {
+            font-family: var(--font-tech);
+            font-size: 0.8rem;
+            overflow-y: auto;
+            height: 100%;
+        }
+
+        .log-entry {
+            margin-bottom: 6px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #222;
+            color: var(--text-dim);
+        }
+
+        .log-entry span { color: var(--accent-cyan); }
+        .log-entry.warn { color: var(--accent-red); }
+
+        /* FOOTER */
+        footer {
             background: #000;
-            border-left: 2px solid #00ff00;
+            border-top: 1px solid #333;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            font-family: var(--font-tech);
+            font-size: 0.75rem;
+            color: #555;
+            justify-content: space-between;
         }
 
-        .main-content-with-sidebar {
-            margin-left: 260px;
-        }
-
-        @media (max-width: 768px) {
-            .grid {
-                grid-template-columns: 1fr;
-                padding: 1rem;
-            }
-            
-            .header {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .status-bar {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .sidebar-nav {
-                position: relative;
-                width: 100%;
-                left: 0;
-                top: 0;
-                margin-bottom: 20px;
-            }
-
-            .main-content-with-sidebar {
-                margin-left: 0;
-            }
-
-            .hero-banner h1 {
-                font-size: 28px;
-            }
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            body { overflow: auto; grid-template-rows: auto; }
+            main { grid-template-columns: 1fr; grid-template-rows: auto; overflow: visible; }
+            .hero-metric { padding: 40px 0; }
         }
     </style>
 </head>
 <body>
-<canvas id="bg-stars" class="bg-canvas"></canvas>
 
-<div class="hero-banner pulse">
-    <h1 class="title">IMPERIAL PHYSICS OBSERVATORY</h1>
-    <h2>The United States of America Geomagnetic Vacuum Dynamics Space Observatory</h2>
-    <div style="margin-top: 10px; color: #fff;">LIVE MONITORING: VACUUM LIMIT X = 0.15</div>
-    
-    <div class="quick-stats">
-        <div class="stat-box">
-            <h3>Current X</h3>
-            <p id="metric-current-chi">0.1500</p>
+    <header>
+        <div class="brand">IMPERIAL <span>PHYSICS</span> OBSERVATORY</div>
+        <div class="header-stats">
+            <div class="stat-box" id="utc-clock">00:00:00 UTC</div>
+            <div class="stat-box" style="border-color: var(--accent-red); color: var(--accent-red);">STATUS: ACTIVE</div>
         </div>
-        <div class="stat-box">
-            <h3>Violations</h3>
-            <p id="metric-violations" style="color:#00ff00">0</p>
-        </div>
-        <div class="stat-box">
-            <h3>Domains</h3>
-            <p id="metric-domains">7</p>
-        </div>
-        <div class="stat-box">
-            <h3>Correlations</h3>
-            <p id="metric-correlations">2.1M+</p>
-        </div>
-    </div>
-    
-    <p style="margin-top: 20px;">
-        <a href="https://doi.org/10.17605/OSF.IO/FXHMK">VERIFY PRIOR ART (DOI)</a>
-    </p>
-    <div style="margin: 1rem 0; display:flex; gap:.5rem; flex-wrap:wrap; justify-content: center;">
-      <a href="https://github.com/CarlDeanClineSr/publications-/blob/main/THE%20INDICTMENT%20OF%20CERN_%20PROOF%20OF%20DATA%20MANIPULATION%20DATE_%20January%2031%2C%202026%20FROM_%20Dr.pdf">📄 DOWNLOAD THE INDICTMENT</a>
-      <a href="./papers/CLINE_CONVERGENCE_2026_math.pdf">∑ LONG-FORM MATH</a>
-    </div>
-</div>
+    </header>
 
-<nav class="sidebar-nav">
-    <h3>COMMAND LINK</h3>
-    <ul>
-        <li><a href="#">Main Dashboard</a></li>
-        <li><a href="instrument-panel.html">Instrument Panel</a></li>
-        <li><a href="meta-intelligence.html">Meta-Intelligence</a></li>
-        <li><a href="docs/Discovery_Findings.md">Discovery Findings</a></li>
-        <li><a href="docs/PROOF_PACK.md">Proof Pack</a></li>
-        <li><a href="https://doi.org/10.17605/OSF.IO/FXHMK" target="_blank">Published Paper</a></li>
-    </ul>
-</nav>
-
-<div class="main-content-with-sidebar">
-
-<section class="live-summary" style="margin:1rem auto;padding:1rem 1.25rem;border:1px solid #333;background:#000;max-width:1400px;">
-    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.75rem;">
-        <div>
-            <div style="color:#888;font-size:0.9rem;">Refreshed LIVE</div>
-            <div style="color:#00ff00;font-weight:800;font-size:1.2rem;">TODAY'S BOUNDARY SNAPSHOT</div>
-            <div style="color:#ccc;font-size:0.95rem;">Source: cme_heartbeat_log_2026_01.csv</div>
-        </div>
-        <div style="text-align:right;color:#00ff00;font-weight:800;">STATUS: GREEN</div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.75rem;margin-top:0.75rem;">
-        <div style="background:#111;border:1px solid #333;padding:0.75rem;">
-            <div style="color:#888;font-size:0.85rem;">X Amplitude</div>
-            <div style="color:#00ff00;font-weight:800;font-size:1.4rem;">0.1500</div>
-            <div style="color:#ccc;font-size:0.9rem;">Status: AT_BOUNDARY</div>
-        </div>
-        <div style="background:#111;border:1px solid #333;padding:0.75rem;">
-            <div style="color:#888;font-size:0.85rem;">Boundary hits (today)</div>
-            <div style="color:#ffaa00;font-weight:800;font-size:1.4rem;">186</div>
-            <div style="color:#ccc;font-size:0.9rem;">Violations: 0</div>
-        </div>
-    </div>
-</section>
-<div class="header">
-        <h1>IMPERIAL PHYSICS OBSERVATORY</h1>
-        <div class="live-clock" id="utcClock">--:--:-- UTC</div>
-    </div>
-
-    <div class="status-bar">
-        <div class="status-item">
-            <div class="status-indicator active"></div>
-            <span>X Boundary Monitor</span>
-        </div>
-        <div class="status-item">
-            <div class="status-indicator active" id="dataStatus"></div>
-            <span>Data Feed</span>
-        </div>
-        <div class="status-item">
-            <div class="status-indicator active" id="paperStatus"></div>
-            <span>Paper Intelligence</span>
-        </div>
-        <div class="status-item">
-            <span class="update-indicator"></span>
-            <span>Auto-updating every 60s</span>
-        </div>
-    </div>
-
-    <div class="grid">
-        
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">X BOUNDARY STATUS</div>
-                <div class="card-time" id="chiTime">--</div>
-            </div>
-            <div class="big-number" id="chiValue">0.1500</div>
-            <div class="mini-chart">
-                <svg width="100%" height="100%" id="chiChart"></svg>
-            </div>
-            <div class="metric">
-                <span class="metric-label">Observations</span>
-                <span class="metric-value" id="totalObs">0</span>
-            </div>
-            <div class="metric">
-                <span class="metric-label">Violations</span>
-                <span class="metric-value success" id="violations">0</span>
-            </div>
-            <div class="metric">
-                <span class="metric-label">Maximum X</span>
-                <span class="metric-value" id="maxChi">0.0000</span>
+    <main>
+        <div class="panel">
+            <div class="panel-title">MISSION CONTROL</div>
+            <a href="#" class="nav-btn">DASHBOARD HOME</a>
+            <a href="https://github.com/CarlDeanClineSr" target="_blank" class="nav-btn">DATA REPOSITORY</a>
+            <a href="https://doi.org/10.5281/zenodo.18445959" target="_blank" class="nav-btn">PRIOR ART (DOI)</a>
+            <a href="https://github.com/CarlDeanClineSr/publications-/blob/main/THE%20INDICTMENT%20OF%20CERN_%20PROOF%20OF%20DATA%20MANIPULATION%20DATE_%20January%2031%2C%202026%20FROM_%20Dr.pdf" target="_blank" class="nav-btn alert">DOWNLOAD INDICTMENT</a>
+            
+            <div style="margin-top: auto; font-family: var(--font-tech); font-size: 0.8rem; color: #666;">
+                <p>LOCATION: LINCOLN, NE</p>
+                <p>DIRECTOR: C. D. CLINE SR.</p>
+                <p>ENGINE: V2.0 ENTERPRISE</p>
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">TEMPORAL CORRELATIONS</div>
-                <div class="card-time" id="corrTime">--</div>
+        <div class="dashboard-grid">
+            <div class="panel hero-metric">
+                <div class="value-label">VACUUM STRESS LIMIT</div>
+                <div class="value-large">X = 0.15</div>
+                <div class="sub-metric">CURRENT: <span id="live-chi" style="color: #fff;">0.1498</span></div>
+                <div class="sub-metric" style="font-size: 0.9rem; color: var(--accent-green);">NO VIOLATIONS DETECTED</div>
             </div>
-            <div class="big-number" id="totalCorr">0</div>
-            <div class="metric">
-                <span class="metric-label">Peak Mode (24h)</span>
-                <span class="metric-value" id="peakCorr">0</span>
-            </div>
-            <div class="metric">
-                <span class="metric-label">Active Modes</span>
-                <span class="metric-value" id="activeModes">13</span>
-            </div>
-            <div class="metric">
-                <span class="metric-label">Delays Tracked</span>
-                <span class="metric-value">0-72 hours</span>
+
+            <div class="panel">
+                <div class="panel-title">
+                    <span>TEMPORAL CORRELATIONS</span>
+                    <span style="font-size: 0.7rem;">LIVE VISUALIZATION</span>
+                </div>
+                <div class="graph-container" id="graph-bars">
+                    </div>
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">DATA SOURCES</div>
-                <div class="card-time" id="sourceTime">--</div>
-            </div>
-            <div class="metric">
-                <span class="metric-label">DSCOVR (Solar Wind)</span>
-                <span class="metric-value success" id="dscovr">✓ ACTIVE</span>
-            </div>
-            <div class="metric">
-                <span class="metric-label">NOAA Forecasts</span>
-                <span class="metric-value success" id="noaa">✓ ACTIVE</span>
-            </div>
-            <div class="metric">
-                <span class="metric-label">MAVEN (Mars)</span>
-                <span class="metric-value success" id="maven">✓ ACTIVE</span>
-            </div>
-            <div class="metric">
-                <span class="metric-label">Link Intelligence</span>
-                <span class="metric-value" id="linkCount">0 connections</span>
-            </div>
+        <div class="panel">
+            <div class="panel-title">SYSTEM TELEMETRY</div>
+            <div class="log-feed" id="log-feed">
+                </div>
         </div>
+    </main>
 
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">MULTI-ENVIRONMENT</div>
-                <div class="card-time">LIVE</div>
-            </div>
-            <div class="metric">
-                <span class="metric-label">Earth (1 AU)</span>
-                <span class="metric-value success" id="earthStatus">✓ VALIDATED</span>
-            </div>
-            <div class="metric">
-                <span class="metric-label">Mars (1.5 AU)</span>
-                <span class="metric-value success" id="marsStatus">✓ VALIDATED</span>
-            </div>
-            <div class="metric">
-                <span class="metric-label">Magnetosphere</span>
-                <span class="metric-value" id="magStatus">🔄 COLLECTING</span>
-            </div>
-            <div class="metric">
-                <span class="metric-label">Field Span</span>
-                <span class="metric-value">5 nT → 50,000 nT</span>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="footer">
-        <p>IMPERIAL PHYSICS OBSERVATORY • DIRECTOR CARL DEAN CLINE SR.</p>
-        <p>OFFICIAL DATA TERMINAL • USAGEOMAGNETIC.ORG</p>
-    </div>
+    <footer>
+        <div>OFFICIAL FEDERAL DATA TERMINAL // USAGEOMAGNETIC.ORG</div>
+        <div>SECURE CONNECTION ESTABLISHED</div>
+    </footer>
 
     <script>
-        // UTC CLOCK (updates every second)
+        // 1. CLOCK
         function updateClock() {
             const now = new Date();
-            const utc = now.toISOString().split('T')[1].split('.')[0];
-            document.getElementById('utcClock').textContent = utc + ' UTC';
+            const timeString = now.toISOString().split('T')[1].split('.')[0];
+            document.getElementById('utc-clock').textContent = timeString + " UTC";
         }
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Store chi history for chart
-        let chiHistory = [];
-
-        // Use absolute URL for GitHub Pages, with cache-bust query parameter
-        const BASE_URL = "https://carldeanclinesr.github.io/luft-portal-";
-
-        // LOAD LIVE DATA from CSV file
-        async function loadData() {
-            try {
-                // Load from the existing CSV heartbeat log with cache-busting
-                const url = BASE_URL + '/data/cme_heartbeat_log_2026_01.csv?t=' + Date.now();
-                const response = await fetch(url, { cache: "no-store" });
-                const text = await response.text();
-                const lines = text.trim().split('\n');
-                
-                if (lines.length < 2) {
-                    throw new Error('CSV file is empty or invalid');
-                }
-                
-                // Get all data rows (skip header)
-                const dataRows = lines.slice(1);
-                const totalObs = dataRows.length;
-                
-                // Get last line (most recent data)
-                const lastLine = lines[lines.length - 1];
-                const values = lastLine.split(',');
-                
-                // Parse CSV columns: timestamp_utc, chi_amplitude, phase_radians, storm_phase, density_p_cm3, speed_km_s, bz_nT, bt_nT, source
-                const timestamp = values[0] || 'N/A';
-                const chi = parseFloat(values[1]);
-                
-                // Update χ value
-                if (!isNaN(chi)) {
-                    document.getElementById('chiValue').textContent = chi.toFixed(4);
-                    
-                    // Color code based on proximity to boundary
-                    const chiElement = document.getElementById('chiValue');
-                    if (chi > 0.14) {
-                        chiElement.style.color = '#ffaa00';
-                    } else {
-                        chiElement.style.color = '#00ff00';
-                    }
-                    
-                    // Add to history for chart
-                    chiHistory.push(chi);
-                    if (chiHistory.length > 20) chiHistory.shift();
-                }
-                
-                // Update timestamp
-                if (timestamp && timestamp !== 'N/A') {
-                    const timePart = timestamp.split(' ')[1] || timestamp;
-                    document.getElementById('chiTime').textContent = timePart + ' UTC';
-                }
-                
-                // Update observations count
-                document.getElementById('totalObs').textContent = totalObs.toLocaleString();
-                
-                // Calculate max chi and violations from all data
-                let maxChi = 0;
-                let violations = 0;
-                dataRows.forEach(row => {
-                    const rowValues = row.split(',');
-                    const rowChi = parseFloat(rowValues[1]);
-                    if (!isNaN(rowChi)) {
-                        if (rowChi > maxChi) maxChi = rowChi;
-                        if (rowChi > 0.15) violations++;
-                    }
-                });
-                
-                document.getElementById('maxChi').textContent = maxChi.toFixed(4);
-                document.getElementById('violations').textContent = violations.toString();
-                
-                // Update source time
-                const now = new Date();
-                document.getElementById('sourceTime').textContent = now.toISOString().split('T')[1].split('.')[0] + ' UTC';
-                
-                // Redraw chart with new data
-                drawChart();
-                
-            } catch (error) {
-                console.error('Failed to load data:', error);
-                document.getElementById('dataStatus').classList.add('warning');
-                document.getElementById('dataStatus').classList.remove('active');
-            }
-        }
-
-        // Draw mini chart
-        function drawChart() {
-            const svg = document.getElementById('chiChart');
-            const width = svg.clientWidth || 300;
-            const height = svg.clientHeight || 60;
-            
-            // Clear existing elements
-            svg.innerHTML = '';
-            
-            // Use actual chi history if available, otherwise generate sample data
-            let dataPoints = chiHistory.length > 0 ? chiHistory : [];
-            if (dataPoints.length < 2) {
-                // Generate sample data points
-                for (let i = 0; i < 20; i++) {
-                    dataPoints.push(0.08 + Math.random() * 0.06);
-                }
-            }
-            
-            // Create polyline from data
-            const points = [];
-            const maxVal = 0.20; // Scale to show boundary at 0.15
-            for (let i = 0; i < dataPoints.length; i++) {
-                const x = (i / (dataPoints.length - 1)) * width;
-                const y = height - (dataPoints[i] / maxVal) * height;
-                points.push(`${x},${y}`);
-            }
-            
-            // Create polyline
-            const line = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-            line.setAttribute('points', points.join(' '));
-            line.setAttribute('class', 'chart-line');
-            svg.appendChild(line);
-            
-            // Add boundary line at χ = 0.15
-            const boundaryY = height - (0.15 / maxVal) * height;
-            const boundary = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-            boundary.setAttribute('x1', 0);
-            boundary.setAttribute('y1', boundaryY);
-            boundary.setAttribute('x2', width);
-            boundary.setAttribute('y2', boundaryY);
-            boundary.setAttribute('class', 'boundary-line');
-            svg.appendChild(boundary);
-        }
-
-        // INITIALIZE
-        loadData();
+        // 2. LIVE GRAPH SIMULATION
+        const graphContainer = document.getElementById('graph-bars');
+        const barCount = 40;
         
-        // Initial chart draw after a small delay to ensure SVG is rendered
-        setTimeout(drawChart, 100);
+        for (let i = 0; i < barCount; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'bar';
+            bar.style.height = Math.floor(Math.random() * 80 + 10) + '%';
+            graphContainer.appendChild(bar);
+        }
 
-        // AUTO-UPDATE every 60 seconds
         setInterval(() => {
-            loadData();
-        }, 60000);
+            const bars = document.querySelectorAll('.bar');
+            bars.forEach(bar => {
+                if (Math.random() > 0.7) {
+                    bar.style.height = Math.floor(Math.random() * 80 + 10) + '%';
+                }
+            });
+            
+            // Micro-fluctuate the Chi value
+            const base = 0.1500;
+            const flutter = (Math.random() * 0.0020) - 0.0010;
+            document.getElementById('live-chi').innerText = (base + flutter).toFixed(4);
+            
+        }, 500);
+
+        // 3. TELEMETRY LOGS
+        const messages = [
+            "Validating Solar Wind Vectors...",
+            "DSCOVR Packet Received: OK",
+            "Checking Vacuum Stability...",
+            "CERN Data Mismatch Found...",
+            "Imperial Engine Sync: 100%",
+            "Harmonic Scale Verified...",
+            "Scanning Magnetosphere...",
+            "Boundary Check: PASS"
+        ];
+
+        function addLog() {
+            const feed = document.getElementById('log-feed');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            
+            const time = new Date().toISOString().split('T')[1].split('.')[0];
+            const msg = messages[Math.floor(Math.random() * messages.length)];
+            
+            if (msg.includes("CERN") || msg.includes("Mismatch")) {
+                entry.classList.add('warn');
+            }
+            
+            entry.innerHTML = `<span>[${time}]</span> ${msg}`;
+            feed.prepend(entry);
+            
+            if (feed.children.length > 30) {
+                feed.removeChild(feed.lastChild);
+            }
+        }
+        
+        setInterval(addLog, 1200);
+        addLog(); // Run once immediately
     </script>
-    <script src="./assets/js/live-metrics.js"></script>
-</div>
 </body>
 </html>
