@@ -1,11 +1,12 @@
-name: IMPERIAL DAILY PULSE (24H Cycle)
+name: IMPERIAL DAILY PULSE (Strict 24h)
 
-# TRIGGER: Runs ONLY at Midnight UTC (Once per Day)
-# Or manually if you click the button.
+# 1. TRIGGER SETTINGS
+# We REMOVED "on: push".
+# This prevents the "Cancel" loop when you save files.
 on:
   schedule:
-    - cron: '0 0 * * *'  # <--- THIS IS THE "ONCE A DAY" SETTING
-  workflow_dispatch:      # <--- Allows manual click
+    - cron: '0 0 * * *'  # Runs at Midnight UTC
+  workflow_dispatch:      # Allows Manual Button Click
 
 permissions:
   contents: write
@@ -20,22 +21,23 @@ jobs:
     - name: Access Data Vault
       uses: actions/checkout@v4
 
-    # This single step replaces the 48 separate runners
+    # 2. RUN THE SCRIPTS (Once a day)
     - name: Execute Daily Data Ingest
       run: |
-        echo "IMPERIAL PROTOCOL INITIATED: DAILY SYNC"
-        # Add your python scripts here if they exist, otherwise it just holds the line.
-        # python scripts/cme_heartbeat.py || true
+        echo "IMPERIAL PROTOCOL: DAILY SYNC INITIATED"
+        # Add scripts here if needed.
     
+    # 3. COMMIT DATA (Once a day)
     - name: Commit Daily Data
       run: |
         git config --local user.email "director@imperialphysicsobservatory.org"
         git config --local user.name "Imperial Engine"
         git add .
-        git commit -m "IMPERIAL DAILY SYNC: $(date -u)" || echo "No data changes today"
+        # If no changes, this exits quietly without error
+        git commit -m "IMPERIAL DAILY SYNC: $(date -u)" || echo "No new data today"
         git push
 
-  # DEPLOY THE WEBSITE (Only runs once a day)
+  # 4. DEPLOY SITE (Once a day)
   deploy-site:
     needs: imperial-daily-sync
     permissions:
