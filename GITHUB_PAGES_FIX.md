@@ -7,21 +7,25 @@ GitHub Pages builds were being cancelled due to race conditions caused by multip
 1. **Multiple concurrent pushes**: ~20 scheduled workflows push to `main` throughout the day
 2. **Automatic GitHub Pages builds**: Each push to `main` triggered a new Pages build
 3. **Race condition**: Multiple builds running simultaneously would cancel each other
-4. **Incomplete deployment workflow**: The `imperial_unified_engine.yml` had a broken `deploy-site` job that was missing critical steps
+4. **Excessive deployments**: Pages were being deployed on every push, which was unnecessary
 
-## Solution
+## Solution (Updated: 2026-02-01)
 
-### 1. Created Dedicated Pages Deployment Workflow
-Created `.github/workflows/pages-deployment.yml` as the single source of truth for GitHub Pages deployment:
-- Triggers on push to `main` branch
-- Includes proper deployment steps:
-  - Checkout repository
-  - Setup Pages configuration
-  - Upload Pages artifact
-  - Deploy to GitHub Pages
+### 1. Scheduled Deployment (Current Fix)
+Modified `.github/workflows/pages-deployment.yml` to run on a schedule instead of on every push:
+- **Schedule**: Once daily at 00:20 UTC
+- **Local time**: 6:20 PM CST (winter) / 7:20 PM CDT (summer)
+- **Cron expression**: `'20 0 * * *'`
+- **Manual trigger**: Still available via `workflow_dispatch` for on-demand deployments
 
-### 2. Added Concurrency Controls
-Added concurrency group to prevent race conditions:
+This approach:
+- Eliminates deployment cancellations caused by concurrent pushes
+- Reduces unnecessary deployments
+- Provides predictable deployment schedule
+- Allows manual deployments when needed
+
+### 2. Concurrency Controls (Already in Place)
+Concurrency group prevents race conditions:
 ```yaml
 concurrency:
   group: pages-deployment
@@ -32,23 +36,32 @@ This ensures:
 - New deployments wait in queue instead of canceling in-progress ones
 - No more cancelled builds
 
-### 3. Fixed imperial_unified_engine.yml
-- Removed the broken `deploy-site` job
-- Removed unnecessary `pages: write` and `id-token: write` permissions
-- This workflow now only handles data sync, letting the dedicated pages workflow handle deployment
+### 3. Previous Fixes
+- Created dedicated Pages deployment workflow
+- Removed broken `deploy-site` job from `imperial_unified_engine.yml`
+- Removed unnecessary `pages: write` and `id-token: write` permissions from other workflows
 
 ## How It Works Now
-1. Multiple workflows can push to `main` at any time
-2. Each push triggers the `pages-deployment.yml` workflow
-3. Concurrency controls ensure deployments run sequentially, not simultaneously
-4. No more cancellations - deployments complete successfully
+1. Multiple workflows can push to `main` at any time (no effect on Pages deployment)
+2. Pages deployment runs automatically once per day at 00:20 UTC (6:20 PM CST / 7:20 PM CDT)
+3. Manual deployments can be triggered via GitHub Actions UI if needed
+4. No more cancellations - single daily deployment completes successfully
+
+## Manual Deployment
+If you need to deploy Pages before the scheduled time:
+1. Go to the GitHub repository
+2. Click on "Actions" tab
+3. Select "Deploy to GitHub Pages" workflow
+4. Click "Run workflow" button
+5. Select the branch (main) and click "Run workflow"
 
 ## Verification
-After merging this PR, you should see:
-- GitHub Pages builds complete successfully without cancellation
-- Only one "pages build and deployment" running at a time
-- Queued deployments wait for the current one to finish
+After this change, you should see:
+- GitHub Pages builds run once per day at 00:20 UTC (6:20 PM CST / 7:20 PM CDT)
+- No more cancellations due to concurrent pushes
+- Successful deployment every day
+- Manual deployments work when needed
 
 ## Files Changed
-- `.github/workflows/pages-deployment.yml` (new)
-- `.github/workflows/imperial_unified_engine.yml` (modified)
+- `.github/workflows/pages-deployment.yml` (modified to use schedule trigger)
+- `GITHUB_PAGES_FIX.md` (updated documentation)
