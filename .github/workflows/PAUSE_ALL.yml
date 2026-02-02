@@ -1,0 +1,12 @@
+name: PAUSE ALL WORKFLOWS
+on:
+  workflow_dispatch:
+  
+jobs:
+  pause-notice:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Workflows Paused
+        run: |
+          echo "All workflows paused by Director"
+          echo "Imperial Physics Observatory in maintenance mode"
