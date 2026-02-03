@@ -1,0 +1,36 @@
+name: PSP Data Ingest (Daily)
+
+on:
+  schedule:
+    - cron: '0 12 * * *'  # Once daily at noon UTC
+  workflow_dispatch:
+
+jobs:
+  ingest-psp:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create directory
+        run: mkdir -p data/psp
+
+      - name: Fetch PSP data
+        run: |
+          curl --fail --silent --show-error --retry 3 \
+            -o data/psp/psp_daily.json \
+            https://sscweb.gsfc.nasa.gov/WS/sscr/2/locations/psp/$(date -u +%Y%m%d),$(date -u +%Y%m%d)/json || \
+          echo '{"status":"unavailable"}' > data/psp/psp_daily.json
+
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main --autostash
+          git add data/psp/psp_daily.json
+          git diff --cached --quiet || git commit -m "PSP daily $(date -u +'%Y-%m-%d')"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
