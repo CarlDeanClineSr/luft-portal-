@@ -1,0 +1,80 @@
+name: Space Weather Alerts (Every 2 Minutes)
+
+on:
+  schedule:
+    - cron: '0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58 * * * *'  # Every 2 minutes
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: space-weather-alerts
+  cancel-in-progress: false
+
+jobs:
+  fetch-alerts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests pandas
+
+      - name: Create data directory
+        run: mkdir -p data/space_weather
+
+      - name: Fetch Space Weather Alerts
+        run: |
+          echo "📡 Fetching space weather alerts and warnings..."
+          
+          # NOAA Space Weather alerts
+          curl --fail --silent --show-error \
+            "https://services.swpc.noaa.gov/products/alerts.json" \
+            -o data/space_weather/alerts.json || echo "⚠️ Alerts unavailable"
+          
+          # Solar wind speed alerts
+          curl --fail --silent --show-error \
+            "https://services.swpc.noaa.gov/products/summary/solar-wind-speed.json" \
+            -o data/space_weather/wind_speed_summary.json || echo "⚠️ Wind speed unavailable"
+          
+          # Solar wind magnetic field
+          curl --fail --silent --show-error \
+            "https://services.swpc.noaa.gov/products/summary/solar-wind-mag-field.json" \
+            -o data/space_weather/mag_field_summary.json || echo "⚠️ Mag field summary unavailable"
+
+      - name: Validate data
+        run: |
+          echo "Validating space weather data..."
+          for file in data/space_weather/*.json; do
+            if [ -f "$file" ]; then
+              if jq empty "$file" 2>/dev/null; then
+                echo "✅ Valid: $(basename $file)"
+              else
+                echo "⚠️ Invalid: $(basename $file)"
+                rm -f "$file"
+              fi
+            fi
+          done
+
+      - name: Commit and push
+        run: |
+          git config user.name "LUFT Space Weather Bot"
+          git config user.email "spacewx-bot@luft.local"
+          git pull --rebase origin main --autostash || true
+          git add data/space_weather/*.json || true
+          if git diff --cached --quiet; then
+            echo "No new space weather alerts"
+          else
+            git commit -m "data: Space weather alerts update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git push
+            echo "✅ Space weather alerts committed"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

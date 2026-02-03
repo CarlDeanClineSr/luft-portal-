@@ -25,9 +25,8 @@ name: LUFT Voyager Audit Superaction
 # ==============================================================================
 
 on:
-  # Runs automatically every hour at minute 15
   schedule:
-    - cron: '15 * * * *'
+    - cron: '*/15 * * * *'  # Every 15 minutes - continuous Voyager audit
 
   # Allows manual triggering from GitHub Actions UI for testing/debugging
   workflow_dispatch:

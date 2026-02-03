@@ -2,7 +2,7 @@ name: NOAA Parse Feeds
 
 on:
   schedule:
-    - cron: "23 * * * *"   # hourly at :23 UTC
+    - cron: '*/20 * * * *'  # Every 20 minutes - NOAA text feed parsing
   workflow_dispatch:
 
 permissions:

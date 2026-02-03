@@ -4,7 +4,7 @@ name: Engine Status Report
 # Quote 'on' to satisfy YAML linters that treat 'on' as a truthy keyword
 "on":
   schedule:
-    - cron: "0 * * * *"  # hourly (UTC)
+    - cron: "*/10 * * * *"  # Every 10 minutes - continuous engine status monitoring
   workflow_dispatch:
 
 permissions:

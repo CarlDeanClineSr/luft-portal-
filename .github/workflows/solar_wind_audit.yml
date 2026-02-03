@@ -2,7 +2,7 @@ name: LUFT Solar Wind Audit
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs hourly
+    - cron: '7,37 * * * *'  # Every 30 minutes at :07 and :37 - solar wind comprehensive audit
   workflow_dispatch:
 
 jobs:

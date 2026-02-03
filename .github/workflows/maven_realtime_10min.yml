@@ -1,0 +1,60 @@
+name: MAVEN Mars Data (Every 10 Minutes)
+
+on:
+  schedule:
+    - cron: '5,15,25,35,45,55 * * * *'  # Every 10 minutes offset - MAVEN Mars realtime
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: maven-realtime
+  cancel-in-progress: false
+
+jobs:
+  ingest-maven:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests pandas cdasws cdflib xarray numpy
+
+      - name: Create data directory
+        run: mkdir -p data/maven_mars
+
+      - name: Fetch MAVEN Mars Data
+        run: |
+          echo "📡 Fetching MAVEN Mars plasma and magnetic field data..."
+          python tools/fetch_maven_mars.py || echo "⚠️ MAVEN fetch completed with warnings"
+
+      - name: Validate MAVEN data
+        run: |
+          echo "Validating MAVEN data..."
+          if [ -d "data/maven_mars" ]; then
+            ls -lh data/maven_mars/ | tail -10
+            echo "✅ MAVEN data directory validated"
+          fi
+
+      - name: Commit and push
+        run: |
+          git config user.name "LUFT MAVEN Bot"
+          git config user.email "maven-bot@luft.local"
+          git pull --rebase origin main --autostash || true
+          git add data/maven_mars/*.csv data/maven_mars/*.json || true
+          if git diff --cached --quiet; then
+            echo "No new MAVEN data"
+          else
+            git commit -m "data: MAVEN Mars realtime update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git push
+            echo "✅ MAVEN data committed"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

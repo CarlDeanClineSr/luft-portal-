@@ -3,7 +3,7 @@ name: Update Dashboard Graph
 on:
   workflow_dispatch:       # Allows manual button click
   schedule:
-    - cron: '15 * * * *'   # Runs at 15 mins past the hour (after data ingest)
+    - cron: '*/15 * * * *'  # Every 15 minutes - continuous dashboard updates
 
 jobs:
   draw-graph:

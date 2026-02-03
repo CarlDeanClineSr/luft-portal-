@@ -1,0 +1,57 @@
+name: Realtime Magnetometer Network (Every 3 Minutes)
+
+on:
+  schedule:
+    - cron: '0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57 * * * *'  # Every 3 minutes
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: magnetometer-network
+  cancel-in-progress: false
+
+jobs:
+  fetch-magnetometers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests pandas numpy
+
+      - name: Create data directory
+        run: mkdir -p data/magnetometers
+
+      - name: Fetch USGS Magnetometer Data
+        run: |
+          echo "📡 Fetching realtime magnetometer data..."
+          python scripts/fetch_usgs_magnetometer.py || echo "⚠️ USGS fetch completed with warnings"
+
+      - name: Fetch INTERMAGNET Realtime
+        run: |
+          echo "📡 Fetching INTERMAGNET realtime data..."
+          bash scripts/fetch_intermagnet_realtime.sh || echo "⚠️ INTERMAGNET fetch completed with warnings"
+
+      - name: Commit and push
+        run: |
+          git config user.name "LUFT Magnetometer Bot"
+          git config user.email "mag-bot@luft.local"
+          git pull --rebase origin main --autostash || true
+          git add data/magnetometers/*.csv data/intermagnet/*.dat || true
+          if git diff --cached --quiet; then
+            echo "No new magnetometer data"
+          else
+            git commit -m "data: Magnetometer network update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git push
+            echo "✅ Magnetometer data committed"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -2,7 +2,7 @@ name: Hourly DST Lattice Index
 
 on:
   schedule:
-    - cron: '30 * * * *'  # Runs every hour at minute 30 Offsets the traffic  
+    - cron: '5,35 * * * *'  # Every 30 minutes at :05 and :35 - DST index updates
   workflow_dispatch:      # Allows you to click "Run" manually
 
 jobs:

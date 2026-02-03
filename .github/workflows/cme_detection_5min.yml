@@ -1,0 +1,80 @@
+name: CME Detection Monitor (Every 5 Minutes)
+
+on:
+  schedule:
+    - cron: '1,6,11,16,21,26,31,36,41,46,51,56 * * * *'  # Every 5 minutes - CME detection
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cme-detection
+  cancel-in-progress: false
+
+jobs:
+  monitor-cme:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests pandas numpy
+
+      - name: Create data directory
+        run: mkdir -p data/cme_detection
+
+      - name: Fetch CME Detection Data
+        run: |
+          echo "📡 Fetching CME (Coronal Mass Ejection) detection data..."
+          
+          # Solar wind speed (CME signature)
+          curl --fail --silent --show-error \
+            "https://services.swpc.noaa.gov/products/solar-wind/speed.json" \
+            -o data/cme_detection/wind_speed.json || echo "⚠️ Wind speed unavailable"
+          
+          # Density anomalies (CME signature)
+          curl --fail --silent --show-error \
+            "https://services.swpc.noaa.gov/products/solar-wind/density.json" \
+            -o data/cme_detection/density.json || echo "⚠️ Density unavailable"
+          
+          # Magnetic field (CME signature)
+          curl --fail --silent --show-error \
+            "https://services.swpc.noaa.gov/products/solar-wind/bt.json" \
+            -o data/cme_detection/bt_total.json || echo "⚠️ Bt unavailable"
+
+      - name: Validate data
+        run: |
+          echo "Validating CME detection data..."
+          for file in data/cme_detection/*.json; do
+            if [ -f "$file" ]; then
+              if jq empty "$file" 2>/dev/null; then
+                echo "✅ Valid: $(basename $file)"
+              else
+                echo "⚠️ Invalid: $(basename $file)"
+                rm -f "$file"
+              fi
+            fi
+          done
+
+      - name: Commit and push
+        run: |
+          git config user.name "LUFT CME Bot"
+          git config user.email "cme-bot@luft.local"
+          git pull --rebase origin main --autostash || true
+          git add data/cme_detection/*.json || true
+          if git diff --cached --quiet; then
+            echo "No new CME detection data"
+          else
+            git commit -m "data: CME detection update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git push
+            echo "✅ CME detection data committed"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

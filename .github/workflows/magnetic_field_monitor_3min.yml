@@ -1,0 +1,80 @@
+name: Magnetic Field Monitor (Every 3 Minutes)
+
+on:
+  schedule:
+    - cron: '2,5,8,11,14,17,20,23,26,29,32,35,38,41,44,47,50,53,56,59 * * * *'  # Every 3 minutes (offset from plasma)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: magnetic-field-monitor
+  cancel-in-progress: false
+
+jobs:
+  fetch-magnetic-field:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests pandas numpy
+
+      - name: Create data directory
+        run: mkdir -p data/magnetic_field
+
+      - name: Fetch Multi-Source Magnetic Field Data
+        run: |
+          echo "📡 Fetching magnetic field data from multiple sources..."
+          
+          # ACE/DSCOVR combined magnetic field
+          curl --fail --silent --show-error \
+            "https://services.swpc.noaa.gov/products/solar-wind/mag-1-minute.json" \
+            -o data/magnetic_field/l1_mag_1min.json || echo "⚠️ 1-min unavailable"
+          
+          # 5-minute cadence as backup
+          curl --fail --silent --show-error \
+            "https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json" \
+            -o data/magnetic_field/l1_mag_5min.json || echo "⚠️ 5-min unavailable"
+          
+          # 6-hour history for trend analysis
+          curl --fail --silent --show-error \
+            "https://services.swpc.noaa.gov/products/solar-wind/mag-6-hour.json" \
+            -o data/magnetic_field/l1_mag_6hr.json || echo "⚠️ 6-hr unavailable"
+
+      - name: Validate magnetic field data
+        run: |
+          echo "Validating magnetic field data files..."
+          for file in data/magnetic_field/*.json; do
+            if [ -f "$file" ]; then
+              if jq empty "$file" 2>/dev/null; then
+                echo "✅ Valid: $(basename $file)"
+              else
+                echo "⚠️ Invalid: $(basename $file) (removing)"
+                rm -f "$file"
+              fi
+            fi
+          done
+
+      - name: Commit and push
+        run: |
+          git config user.name "LUFT Magnetic Field Bot"
+          git config user.email "mag-field-bot@luft.local"
+          git pull --rebase origin main --autostash || true
+          git add data/magnetic_field/*.json || true
+          if git diff --cached --quiet; then
+            echo "No new magnetic field data"
+          else
+            git commit -m "data: Magnetic field update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git push
+            echo "✅ Magnetic field data committed"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

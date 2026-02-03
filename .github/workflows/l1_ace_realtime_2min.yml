@@ -1,0 +1,85 @@
+name: L1 ACE Realtime Data (Every 2 Minutes)
+
+on:
+  schedule:
+    - cron: '*/2 * * * *'  # Every 2 minutes - ACE L1 realtime solar wind
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: l1-ace-realtime
+  cancel-in-progress: false
+
+jobs:
+  ingest-ace-l1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests pandas numpy
+
+      - name: Create data directory
+        run: mkdir -p data/ace_l1
+
+      - name: Fetch ACE L1 Solar Wind Data
+        run: |
+          echo "📡 Fetching ACE L1 solar wind realtime data..."
+          
+          # Fetch ACE MAG (magnetic field) data
+          if curl --fail --silent --show-error -o data/ace_l1/ace_mag_realtime.json \
+            "https://services.swpc.noaa.gov/products/solar-wind/mag-1-minute.json"; then
+            echo "✅ ACE MAG data downloaded"
+          else
+            echo "⚠️ ACE MAG fetch failed - using fallback"
+            curl --fail --silent --show-error -o data/ace_l1/ace_mag_realtime.json \
+              "https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json" || true
+          fi
+          
+          # Fetch ACE SWEPAM (plasma) data  
+          if curl --fail --silent --show-error -o data/ace_l1/ace_plasma_realtime.json \
+            "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-minute.json"; then
+            echo "✅ ACE plasma data downloaded"
+          else
+            echo "⚠️ ACE plasma fetch failed - using fallback"
+            curl --fail --silent --show-error -o data/ace_l1/ace_plasma_realtime.json \
+              "https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json" || true
+          fi
+
+      - name: Validate data
+        run: |
+          echo "Validating ACE L1 data..."
+          for file in data/ace_l1/*.json; do
+            if [ -f "$file" ]; then
+              if jq empty "$file" 2>/dev/null; then
+                echo "✅ Valid: $file"
+              else
+                echo "⚠️ Invalid JSON: $file (removing)"
+                rm -f "$file"
+              fi
+            fi
+          done
+
+      - name: Commit and push
+        run: |
+          git config user.name "LUFT L1 Bot"
+          git config user.email "l1-bot@luft.local"
+          git pull --rebase origin main --autostash || true
+          git add data/ace_l1/*.json || true
+          if git diff --cached --quiet; then
+            echo "No new ACE L1 data to commit"
+          else
+            git commit -m "data: ACE L1 realtime update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git push
+            echo "✅ ACE L1 data committed successfully"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -2,7 +2,7 @@ name: Vault Narrator - Auto Update Latest Status
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Every hour at :00
+    - cron: '8,23,38,53 * * * *'  # Every 15 minutes offset - vault narration updates
   workflow_dispatch:     # Manual trigger support
 
 jobs:

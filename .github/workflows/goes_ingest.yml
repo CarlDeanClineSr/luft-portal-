@@ -2,7 +2,7 @@ name: GOES Ingest and Capsule Audit
 
 on:
   schedule:
-    - cron: '9 * * * *'  # Every hour at :09
+    - cron: '4,9,14,19,24,29,34,39,44,49,54,59 * * * *'  # Every 5 minutes starting at :04 - GOES realtime X-ray and particle data
   workflow_dispatch:
 
 jobs:
