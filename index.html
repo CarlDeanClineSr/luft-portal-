@@ -3,355 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMPERIAL PHYSICS OBSERVATORY | MISSION CONTROL</title>
+    <title>Imperial Physics Observatory | Official Data Portal</title>
     <style>
-        :root {
-            --bg-color: #050505;
-            --panel-bg: #0a0f14;
-            --border-color: #333;
-            --text-main: #e0e0e0;
-            --text-dim: #888;
-            --accent-green: #00ff41;
-            --accent-cyan: #0ff;
-            --accent-red: #ff3333;
-            --font-tech: 'Courier New', Courier, monospace;
-            --font-ui: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        * { box-sizing: border-box; }
-
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: var(--font-ui);
+            background-color: #ffffff;
+            color: #1a1a1a;
+            font-family: "Times New Roman", Times, serif; /* Academic Standard */
+            line-height: 1.6;
             margin: 0;
-            padding: 0;
-            height: 100vh;
-            overflow: hidden;
-            display: grid;
-            grid-template-rows: 60px 1fr 30px;
+            padding: 40px;
         }
 
-        /* HEADER */
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            border: 1px solid #000;
+            padding: 40px;
+            box-shadow: 10px 10px 0px #eeeeee;
+        }
+
         header {
-            background: #000;
-            border-bottom: 2px solid var(--accent-green);
+            border-bottom: 3px solid #000;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 0 20px;
-            z-index: 10;
+            align-items: flex-end;
         }
 
-        .brand {
-            font-family: var(--font-tech);
-            font-size: 1.4rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            color: #fff;
-            text-transform: uppercase;
-        }
-
-        .brand span { color: var(--accent-green); }
-
-        .header-stats {
-            display: flex;
-            gap: 20px;
-            font-family: var(--font-tech);
-            font-size: 0.9rem;
-        }
-
-        .stat-box {
-            background: rgba(0, 255, 65, 0.1);
-            border: 1px solid var(--accent-green);
-            padding: 5px 15px;
-            border-radius: 4px;
-        }
-
-        /* MAIN LAYOUT */
-        main {
-            display: grid;
-            grid-template-columns: 250px 1fr 300px;
-            gap: 5px;
-            padding: 5px;
-            background: #000;
-        }
-
-        /* PANELS */
-        .panel {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .panel-title {
-            color: var(--accent-cyan);
-            font-family: var(--font-tech);
-            font-size: 0.85rem;
-            border-bottom: 1px solid #333;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
+        .title-block h1 {
+            margin: 0;
+            font-size: 2.4rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            display: flex;
-            justify-content: space-between;
         }
 
-        /* SIDEBAR NAV */
-        .nav-btn {
-            display: block;
-            background: transparent;
-            border: 1px solid #333;
-            color: var(--text-main);
-            padding: 12px;
-            margin-bottom: 8px;
-            text-decoration: none;
-            font-family: var(--font-tech);
-            font-size: 0.9rem;
-            transition: 0.2s;
-            cursor: pointer;
-        }
-
-        .nav-btn:hover {
-            border-color: var(--accent-green);
-            background: rgba(0, 255, 65, 0.05);
-            color: #fff;
-        }
-
-        .nav-btn.alert {
-            border-color: var(--accent-red);
-            color: var(--accent-red);
-        }
-
-        .nav-btn.alert:hover {
-            background: rgba(255, 51, 51, 0.1);
-        }
-
-        /* CENTER DASHBOARD */
-        .dashboard-grid {
-            display: grid;
-            grid-template-rows: 1fr 1fr;
-            gap: 5px;
-            height: 100%;
-        }
-
-        .hero-metric {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            background: radial-gradient(circle at center, #1a261a 0%, #0a0f14 70%);
-            border: 1px solid var(--accent-green);
-            position: relative;
-        }
-
-        .value-large {
-            font-family: var(--font-tech);
-            font-size: 5rem;
+        .title-block p {
+            margin: 5px 0 0 0;
+            font-style: italic;
             font-weight: bold;
-            color: var(--accent-green);
-            text-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
-            margin: 10px 0;
+            color: #444;
         }
 
-        .value-label {
-            letter-spacing: 4px;
-            font-size: 1rem;
-            color: #fff;
+        .status-stamp {
+            border: 2px solid #cc0000;
+            color: #cc0000;
+            padding: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transform: rotate(-2deg);
         }
 
-        .sub-metric {
-            font-family: var(--font-tech);
-            font-size: 1.2rem;
-            margin-top: 10px;
-            color: #ccc;
+        /* DATA GRID */
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
         }
 
-        /* GRAPH AREA */
-        .graph-container {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            height: 100%;
-            gap: 2px;
+        .data-panel {
+            border-top: 1px solid #ccc;
             padding-top: 20px;
         }
 
-        .bar {
-            background: var(--accent-cyan);
-            opacity: 0.6;
-            flex: 1;
-            transition: height 0.5s ease;
+        h2 {
+            font-size: 1.4rem;
+            border-bottom: 1px solid #000;
+            display: inline-block;
+            margin-bottom: 15px;
         }
 
-        /* LOG FEED */
-        .log-feed {
-            font-family: var(--font-tech);
-            font-size: 0.8rem;
-            overflow-y: auto;
-            height: 100%;
+        /* THE ATOMIC TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+            font-size: 0.9rem;
         }
 
-        .log-entry {
-            margin-bottom: 6px;
-            padding-bottom: 6px;
-            border-bottom: 1px solid #222;
-            color: var(--text-dim);
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
         }
 
-        .log-entry span { color: var(--accent-cyan); }
-        .log-entry.warn { color: var(--accent-red); }
+        th {
+            background-color: #f5f5f5;
+        }
 
-        /* FOOTER */
-        footer {
-            background: #000;
-            border-top: 1px solid #333;
+        .highlight {
+            background-color: #fff9c4;
+            font-weight: bold;
+        }
+
+        /* NAVIGATION / BUTTONS */
+        .nav-links {
+            margin-top: 50px;
             display: flex;
-            align-items: center;
-            padding: 0 20px;
-            font-family: var(--font-tech);
-            font-size: 0.75rem;
-            color: #555;
-            justify-content: space-between;
+            gap: 20px;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 900px) {
-            body { overflow: auto; grid-template-rows: auto; }
-            main { grid-template-columns: 1fr; grid-template-rows: auto; overflow: visible; }
-            .hero-metric { padding: 40px 0; }
+        .action-btn {
+            background: #000;
+            color: #fff;
+            padding: 12px 24px;
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid #000;
+        }
+
+        .action-btn:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .indictment-btn {
+            background: #cc0000;
+            border-color: #cc0000;
+        }
+
+        footer {
+            margin-top: 60px;
+            font-size: 0.8rem;
+            color: #666;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
         }
     </style>
 </head>
 <body>
 
+<div class="container">
     <header>
-        <div class="brand">IMPERIAL <span>PHYSICS</span> OBSERVATORY</div>
-        <div class="header-stats">
-            <div class="stat-box" id="utc-clock">00:00:00 UTC</div>
-            <div class="stat-box" style="border-color: var(--accent-red); color: var(--accent-red);">STATUS: ACTIVE</div>
+        <div class="title-block">
+            <h1>Imperial Physics Observatory</h1>
+            <p>Director: Carl Dean Cline Sr. | Global Data Terminal</p>
         </div>
+        <div class="status-stamp">Lattice Locked: χ=0.15</div>
     </header>
 
-    <main>
-        <div class="panel">
-            <div class="panel-title">MISSION CONTROL</div>
-            <a href="#" class="nav-btn">DASHBOARD HOME</a>
-            <a href="https://github.com/CarlDeanClineSr" target="_blank" class="nav-btn">DATA REPOSITORY</a>
-            <a href="https://doi.org/10.5281/zenodo.18445959" target="_blank" class="nav-btn">PRIOR ART (DOI)</a>
-            <a href="https://github.com/CarlDeanClineSr/publications-/blob/main/THE%20INDICTMENT%20OF%20CERN_%20PROOF%20OF%20DATA%20MANIPULATION%20DATE_%20January%2031%2C%202026%20FROM_%20Dr.pdf" target="_blank" class="nav-btn alert">DOWNLOAD INDICTMENT</a>
-            
-            <div style="margin-top: auto; font-family: var(--font-tech); font-size: 0.8rem; color: #666;">
-                <p>LOCATION: LINCOLN, NE</p>
-                <p>DIRECTOR: C. D. CLINE SR.</p>
-                <p>ENGINE: V2.0 ENTERPRISE</p>
-            </div>
+    <section>
+        <h2>Executive Summary: Geometric Confinement</h2>
+        <p>This observatory monitors the mechanical yield point of the vacuum metric. Evidence confirms a <strong>χ = 0.15</strong> universal boundary, which provides a <strong>+15% stability bonus</strong> to atomic structures across the periodic table. Standard Model physics lacks the geometric terms to account for this compression cage[cite: 308, 312, 331, 334].</p>
+    </section>
+
+    <div class="data-grid">
+        <div class="data-panel">
+            <h2>Atomic Binding Correction Audit</h2>
+            <table>
+                <tr>
+                    <th>Element</th>
+                    <th>Standard (eV)</th>
+                    <th>Imperial (eV)</th>
+                    <th>Enhancement</th>
+                </tr>
+                <tr>
+                    <td>Hydrogen (H)</td>
+                    <td>13.60</td>
+                    <td class="highlight">15.64</td>
+                    <td>+15% [cite: 271, 272]</td>
+                </tr>
+                <tr>
+                    <td>Gold (Au)</td>
+                    <td>7.9M</td>
+                    <td class="highlight">9.085M</td>
+                    <td>+15% [cite: 271, 273]</td>
+                </tr>
+                <tr>
+                    <td>Plutonium (Pu)</td>
+                    <td>8.0M</td>
+                    <td class="highlight">9.2M</td>
+                    <td>+15% [cite: 271, 273]</td>
+                </tr>
+            </table>
         </div>
 
-        <div class="dashboard-grid">
-            <div class="panel hero-metric">
-                <div class="value-label">VACUUM STRESS LIMIT</div>
-                <div class="value-large">X = 0.15</div>
-                <div class="sub-metric">CURRENT: <span id="live-chi" style="color: #fff;">0.1498</span></div>
-                <div class="sub-metric" style="font-size: 0.9rem; color: var(--accent-green);">NO VIOLATIONS DETECTED</div>
-            </div>
-
-            <div class="panel">
-                <div class="panel-title">
-                    <span>TEMPORAL CORRELATIONS</span>
-                    <span style="font-size: 0.7rem;">LIVE VISUALIZATION</span>
-                </div>
-                <div class="graph-container" id="graph-bars">
-                    </div>
-            </div>
+        <div class="data-panel">
+            <h2>Live Boundary Metrics</h2>
+            <p><strong>Universal Constraint (χ):</strong> 0.1500 [cite: 148, 149]</p>
+            <p><strong>Observational Integrity:</strong> 2,011 Points [cite: 288]</p>
+            <p><strong>Global Violation Rate:</strong> 0.00% [cite: 289]</p>
+            <p><strong>Mechanical Coupling:</strong> Instantaneous [cite: 363, 375, 382]</p>
         </div>
+    </div>
 
-        <div class="panel">
-            <div class="panel-title">SYSTEM TELEMETRY</div>
-            <div class="log-feed" id="log-feed">
-                </div>
-        </div>
-    </main>
+    <div class="nav-links">
+        <a href="https://doi.org/10.5281/zenodo.18445959" class="action-btn">View Zenodo Archive (DOI)</a>
+        <a href="https://github.com/CarlDeanClineSr" class="action-btn">Data Repository</a>
+        <a href="https://github.com/CarlDeanClineSr/publications-/blob/main/THE%20INDICTMENT%20OF%20CERN_%20PROOF%20OF%20DATA%20MANIPULATION%20DATE_%20January%2031%2C%202026%20FROM_%20Dr.pdf" class="action-btn indictment-btn">Download CERN Indictment</a>
+    </div>
 
     <footer>
-        <div>OFFICIAL FEDERAL DATA TERMINAL // USAGEOMAGNETIC.ORG</div>
-        <div>SECURE CONNECTION ESTABLISHED</div>
+        <p>Official Terminal // Lincoln, Nebraska // Secure Connection: Imperial Engine V2.0</p>
+        <p>&copy; 2026 Carl Dean Cline Sr. All Rights Reserved. DOI: 10.5281/zenodo.18445959</p>
     </footer>
+</div>
 
-    <script>
-        // 1. CLOCK
-        function updateClock() {
-            const now = new Date();
-            const timeString = now.toISOString().split('T')[1].split('.')[0];
-            document.getElementById('utc-clock').textContent = timeString + " UTC";
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        // 2. LIVE GRAPH SIMULATION
-        const graphContainer = document.getElementById('graph-bars');
-        const barCount = 40;
-        
-        for (let i = 0; i < barCount; i++) {
-            const bar = document.createElement('div');
-            bar.className = 'bar';
-            bar.style.height = Math.floor(Math.random() * 80 + 10) + '%';
-            graphContainer.appendChild(bar);
-        }
-
-        setInterval(() => {
-            const bars = document.querySelectorAll('.bar');
-            bars.forEach(bar => {
-                if (Math.random() > 0.7) {
-                    bar.style.height = Math.floor(Math.random() * 80 + 10) + '%';
-                }
-            });
-            
-            // Micro-fluctuate the Chi value
-            const base = 0.1500;
-            const flutter = (Math.random() * 0.0020) - 0.0010;
-            document.getElementById('live-chi').innerText = (base + flutter).toFixed(4);
-            
-        }, 500);
-
-        // 3. TELEMETRY LOGS
-        const messages = [
-            "Validating Solar Wind Vectors...",
-            "DSCOVR Packet Received: OK",
-            "Checking Vacuum Stability...",
-            "CERN Data Mismatch Found...",
-            "Imperial Engine Sync: 100%",
-            "Harmonic Scale Verified...",
-            "Scanning Magnetosphere...",
-            "Boundary Check: PASS"
-        ];
-
-        function addLog() {
-            const feed = document.getElementById('log-feed');
-            const entry = document.createElement('div');
-            entry.className = 'log-entry';
-            
-            const time = new Date().toISOString().split('T')[1].split('.')[0];
-            const msg = messages[Math.floor(Math.random() * messages.length)];
-            
-            if (msg.includes("CERN") || msg.includes("Mismatch")) {
-                entry.classList.add('warn');
-            }
-            
-            entry.innerHTML = `<span>[${time}]</span> ${msg}`;
-            feed.prepend(entry);
-            
-            if (feed.children.length > 30) {
-                feed.removeChild(feed.lastChild);
-            }
-        }
-        
-        setInterval(addLog, 1200);
-        addLog(); // Run once immediately
-    </script>
 </body>
 </html>
