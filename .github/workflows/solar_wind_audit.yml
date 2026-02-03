@@ -13,9 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Fetch Plasma Data
-        run: curl -o data/ace_plasma_latest.json https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json
+        run: curl --retry 3 --retry-delay 5 -o data/ace_plasma_latest.json https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json
       - name: Fetch Mag Data
-        run: curl -o data/ace_mag_latest.json https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json
+        run: curl --retry 3 --retry-delay 5 -o data/ace_mag_latest.json https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json
       - name: Extract Latest Entry
         run: |
           jq '.[-1]' data/ace_plasma_latest.json > data/ace_plasma_audit.json
@@ -26,7 +26,6 @@ jobs:
           git config user.email "bot@luft.local"
           git add data/ace_*_audit.json 2>/dev/null || echo "No files to add"
           git diff --quiet && git diff --staged --quiet || git commit -m "data: Solar wind audit update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-          git pull --rebase origin main --autostash || true
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

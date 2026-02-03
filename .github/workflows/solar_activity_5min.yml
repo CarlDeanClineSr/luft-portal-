@@ -35,22 +35,22 @@ jobs:
           echo "📡 Fetching solar activity data..."
           
           # Solar X-ray flux (GOES)
-          curl --fail --silent --show-error \
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 \
             "https://services.swpc.noaa.gov/json/goes/primary/xrays-6-hour.json" \
             -o data/solar_activity/xray_6hr.json || echo "⚠️ X-ray unavailable"
           
           # Solar proton flux
-          curl --fail --silent --show-error \
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 \
             "https://services.swpc.noaa.gov/json/goes/primary/integral-protons-plot-6-hour.json" \
             -o data/solar_activity/protons_6hr.json || echo "⚠️ Protons unavailable"
           
           # Solar wind conditions
-          curl --fail --silent --show-error \
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 \
             "https://services.swpc.noaa.gov/products/summary/solar-wind-speed.json" \
             -o data/solar_activity/solar_wind_conditions.json || echo "⚠️ Conditions unavailable"
           
           # Kp index (geomagnetic activity)
-          curl --fail --silent --show-error \
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 \
             "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json" \
             -o data/solar_activity/kp_index.json || echo "⚠️ Kp index unavailable"
 
@@ -72,7 +72,6 @@ jobs:
         run: |
           git config user.name "LUFT Solar Bot"
           git config user.email "solar-bot@luft.local"
-          git pull --rebase origin main --autostash || true
           git add data/solar_activity/*.json || true
           if git diff --cached --quiet; then
             echo "No new solar activity data"

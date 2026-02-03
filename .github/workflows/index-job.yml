@@ -91,7 +91,6 @@ jobs:
           fi
           
           # Pull latest changes to avoid conflicts (rebase strategy with autostash)
-          git pull --rebase origin main --autostash || true
           
           # Only push if there are commits ahead
           if [ -n "$(git log origin/main..HEAD)" ]; then

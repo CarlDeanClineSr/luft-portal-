@@ -34,7 +34,7 @@ jobs:
         id: fetch_plasma
         run: |
           echo "🌞 Downloading solar wind plasma data from NOAA SWPC..."
-          if curl --fail --silent --show-error -o data/ace_plasma_latest.json "$NOAA_PLASMA_URL"; then
+          if curl --fail --silent --show-error --retry 3 --retry-delay 5 -o data/ace_plasma_latest.json "$NOAA_PLASMA_URL"; then
             echo "✅ ACE/DSCOVR plasma data: SUCCESS"
             echo "plasma_success=true" >> $GITHUB_OUTPUT
           else
@@ -46,7 +46,7 @@ jobs:
         id: fetch_mag
         run: |
           echo "🧲 Downloading magnetic field data from NOAA SWPC..."
-          if curl --fail --silent --show-error -o data/ace_mag_latest.json "$NOAA_MAG_URL"; then
+          if curl --fail --silent --show-error --retry 3 --retry-delay 5 -o data/ace_mag_latest.json "$NOAA_MAG_URL"; then
             echo "✅ ACE/DSCOVR magnetic field data: SUCCESS"
             echo "mag_success=true" >> $GITHUB_OUTPUT
           else
@@ -58,7 +58,7 @@ jobs:
         if: steps.fetch_plasma.outputs.plasma_success != 'true' || steps.fetch_mag.outputs.mag_success != 'true'
         run: |
           echo "🛰️  ACE/DSCOVR data incomplete. Attempting GOES fallback..."
-          if curl --fail --silent --show-error -o data/goes_primary_latest.json "$GOES_PRIMARY_URL"; then
+          if curl --fail --silent --show-error --retry 3 --retry-delay 5 -o data/goes_primary_latest.json "$GOES_PRIMARY_URL"; then
             echo "✅ GOES primary data: SUCCESS (fallback mode)"
             echo "Note: GOES data is limited. Baseline watch will use available parameters."
           else
@@ -97,7 +97,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase origin main --autostash || true
           git add capsules/2025_dec_batch/CAPSULE_DECEMBER_BASELINE_SHIFT_WATCH_001.md
           git commit -m "Auto-append daily baseline watch — Law #15 ledger eternal. $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
           git push

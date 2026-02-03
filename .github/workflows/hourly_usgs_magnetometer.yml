@@ -30,7 +30,6 @@ jobs:
           git config user.email "bot@luft.local"
           git add data/usgs_magnetometer/**/*.json 2>/dev/null || echo "No files to add"
           git diff --quiet && git diff --staged --quiet || git commit -m "data: USGS magnetometer ingest $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-          git pull --rebase origin main --autostash || true
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 

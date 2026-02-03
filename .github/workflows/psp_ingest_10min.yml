@@ -48,7 +48,6 @@ jobs:
         run: |
           git config user.name "LUFT PSP Bot"
           git config user.email "psp-bot@luft.local"
-          git pull --rebase origin main --autostash || true
           git add data/psp/*.csv data/psp/*.json data/psp/*.h5 || true
           if git diff --cached --quiet; then
             echo "No new PSP data"

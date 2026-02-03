@@ -68,7 +68,6 @@ jobs:
         run: |
           git config user.name "LUFT L1 Bot"
           git config user.email "l1-bot@luft.local"
-          git pull --rebase origin main --autostash || true
           git add data/stereo_l1/*.json || true
           if git diff --cached --quiet; then
             echo "No new STEREO-A data to commit"

@@ -52,7 +52,6 @@ jobs:
           # Check if there are changes before attempting to pull
           if ! git diff --quiet || ! git diff --staged --quiet; then
             # There are local changes, try to pull with rebase
-            if ! git pull --rebase origin main --autostash; then
               echo "Warning: Failed to pull changes, attempting direct push"
             fi
           fi

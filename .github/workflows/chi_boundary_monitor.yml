@@ -34,7 +34,7 @@ jobs:
           mkdir -p data/chi_monitor
           
           # Fetch plasma data (density, velocity, temperature) - using 1-day endpoint for more data points
-          if curl --fail --silent --show-error -o data/chi_monitor/dscovr_plasma_latest.json \
+          if curl --fail --silent --show-error --retry 3 --retry-delay 5 -o data/chi_monitor/dscovr_plasma_latest.json \
             "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-day.json"; then
             # Validate JSON
             if python3 -m json.tool data/chi_monitor/dscovr_plasma_latest.json > /dev/null 2>&1; then
@@ -48,7 +48,7 @@ jobs:
           fi
           
           # Fetch magnetic field data (Bx, By, Bz) - using 1-day endpoint for more data points
-          if curl --fail --silent --show-error -o data/chi_monitor/dscovr_mag_latest.json \
+          if curl --fail --silent --show-error --retry 3 --retry-delay 5 -o data/chi_monitor/dscovr_mag_latest.json \
             "https://services.swpc.noaa.gov/products/solar-wind/mag-1-day.json"; then
             # Validate JSON
             if python3 -m json.tool data/chi_monitor/dscovr_mag_latest.json > /dev/null 2>&1; then
@@ -68,7 +68,7 @@ jobs:
           echo "📡 Fetching ACE backup data..."
           
           # ACE MAG data
-          if curl --fail --silent --show-error -o data/chi_monitor/ace_mag_latest.json \
+          if curl --fail --silent --show-error --retry 3 --retry-delay 5 -o data/chi_monitor/ace_mag_latest.json \
             "https://services.swpc.noaa.gov/products/solar-wind/mag-1-day.json"; then
             # Validate JSON
             if python3 -m json.tool data/chi_monitor/ace_mag_latest.json > /dev/null 2>&1; then
@@ -82,7 +82,7 @@ jobs:
           fi
           
           # ACE SWEPAM data
-          if curl --fail --silent --show-error -o data/chi_monitor/ace_plasma_latest.json \
+          if curl --fail --silent --show-error --retry 3 --retry-delay 5 -o data/chi_monitor/ace_plasma_latest.json \
             "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-day.json"; then
             # Validate JSON
             if python3 -m json.tool data/chi_monitor/ace_plasma_latest.json > /dev/null 2>&1; then
@@ -301,7 +301,6 @@ jobs:
         run: |
           git config user.name "Chi Boundary Monitor"
           git config user.email "chi@luft.local"
-          git pull --rebase origin main --autostash || true
           git add data/chi_monitor/*.json data/chi_monitor/*.jsonl reports/CHI_BOUNDARY_HOURLY.md || true
           git diff --quiet && git diff --staged --quiet || \
             git commit -m "🔬 Chi boundary validation - $(date -u +'%Y-%m-%d %H:00 UTC')"

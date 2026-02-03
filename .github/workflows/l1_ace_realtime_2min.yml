@@ -72,7 +72,6 @@ jobs:
         run: |
           git config user.name "LUFT L1 Bot"
           git config user.email "l1-bot@luft.local"
-          git pull --rebase origin main --autostash || true
           git add data/ace_l1/*.json || true
           if git diff --cached --quiet; then
             echo "No new ACE L1 data to commit"

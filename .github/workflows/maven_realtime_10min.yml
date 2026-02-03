@@ -47,7 +47,6 @@ jobs:
         run: |
           git config user.name "LUFT MAVEN Bot"
           git config user.email "maven-bot@luft.local"
-          git pull --rebase origin main --autostash || true
           git add data/maven_mars/*.csv data/maven_mars/*.json || true
           if git diff --cached --quiet; then
             echo "No new MAVEN data"
