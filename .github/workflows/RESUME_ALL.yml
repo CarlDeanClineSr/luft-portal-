@@ -22,6 +22,8 @@ on:
 jobs:
   resume-notice:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Workflows Resuming
         run: |
@@ -41,6 +43,9 @@ jobs:
     needs: resume-notice
     if: ${{ inputs.kickstart_critical }}
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
     steps:
       - name: Trigger Critical Workflows
         env:
@@ -63,6 +68,9 @@ jobs:
     needs: resume-notice
     if: ${{ inputs.kickstart_hourly }}
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
     steps:
       - name: Trigger Hourly Workflows
         env:
@@ -88,6 +96,9 @@ jobs:
     needs: resume-notice
     if: ${{ inputs.kickstart_daily }}
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
     steps:
       - name: Trigger Daily Workflows
         env:
@@ -107,6 +118,8 @@ jobs:
     needs: [resume-notice, kickstart-critical, kickstart-hourly, kickstart-daily]
     if: always()
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Resumption Complete
         run: |
