@@ -31,4 +31,5 @@ jobs:
           git config --global user.email "bot@luft-portal.org"
           git add reports/dashboard_chart.png
           git commit -m "📉 Auto-generated Vacuum Stress Chart" || exit 0
+          git pull --rebase origin main --autostash
           git push

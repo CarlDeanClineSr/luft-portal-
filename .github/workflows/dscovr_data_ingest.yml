@@ -40,6 +40,7 @@ jobs:
             echo "No new data to commit."
           else
             git commit -m "Update DSCOVR solar wind data $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git pull --rebase origin main --autostash
             git push
             echo "New DSCOVR data committed."
           fi

@@ -65,13 +65,14 @@ jobs:
 
       - name: Commit and push
         run: |
-          git config user.name "LUFT Space Weather Bot"
-          git config user.email "spacewx-bot@luft.local"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/space_weather/*.json || true
           if git diff --cached --quiet; then
             echo "No new space weather alerts"
           else
             git commit -m "data: Space weather alerts update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git pull --rebase origin main --autostash
             git push
             echo "✅ Space weather alerts committed"
           fi

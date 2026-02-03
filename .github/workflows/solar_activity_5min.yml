@@ -70,13 +70,14 @@ jobs:
 
       - name: Commit and push
         run: |
-          git config user.name "LUFT Solar Bot"
-          git config user.email "solar-bot@luft.local"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/solar_activity/*.json || true
           if git diff --cached --quiet; then
             echo "No new solar activity data"
           else
             git commit -m "data: Solar activity update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git pull --rebase origin main --autostash
             git push
             echo "✅ Solar activity data committed"
           fi

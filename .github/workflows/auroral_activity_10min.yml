@@ -65,13 +65,14 @@ jobs:
 
       - name: Commit and push
         run: |
-          git config user.name "LUFT Aurora Bot"
-          git config user.email "aurora-bot@luft.local"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/auroral_activity/*.json || true
           if git diff --cached --quiet; then
             echo "No new auroral data"
           else
             git commit -m "data: Auroral activity update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git pull --rebase origin main --autostash
             git push
             echo "✅ Auroral data committed"
           fi

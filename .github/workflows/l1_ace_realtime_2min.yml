@@ -70,13 +70,14 @@ jobs:
 
       - name: Commit and push
         run: |
-          git config user.name "LUFT L1 Bot"
-          git config user.email "l1-bot@luft.local"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/ace_l1/*.json || true
           if git diff --cached --quiet; then
             echo "No new ACE L1 data to commit"
           else
             git commit -m "data: ACE L1 realtime update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git pull --rebase origin main --autostash
             git push
             echo "✅ ACE L1 data committed successfully"
           fi

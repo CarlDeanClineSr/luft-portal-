@@ -65,13 +65,14 @@ jobs:
 
       - name: Commit and push
         run: |
-          git config user.name "LUFT Magnetic Field Bot"
-          git config user.email "mag-field-bot@luft.local"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/magnetic_field/*.json || true
           if git diff --cached --quiet; then
             echo "No new magnetic field data"
           else
             git commit -m "data: Magnetic field update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git pull --rebase origin main --autostash
             git push
             echo "✅ Magnetic field data committed"
           fi

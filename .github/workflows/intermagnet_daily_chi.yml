@@ -97,4 +97,5 @@ jobs:
           git add data/intermagnet_csv/*.csv results/magnetometer_chi/*.csv figures/intermagnet_chi_timeseries_*.png || true
           git diff --staged --quiet && exit 0
           git commit -m "INTERMAGNET χ validation ${{ steps.vars.outputs.station }} ${{ steps.vars.outputs.date }}"
+          git pull --rebase origin main --autostash
           git push

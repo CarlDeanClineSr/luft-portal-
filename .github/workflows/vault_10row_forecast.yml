@@ -47,6 +47,7 @@ jobs:
             echo "No changes to vault_10row_forecast_indicator_dec15.md"
           else
             git commit -m "Vault Forecast: Auto-update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git pull --rebase origin main --autostash
             git push
             echo "✅ Successfully committed and pushed vault forecast update"
           fi
