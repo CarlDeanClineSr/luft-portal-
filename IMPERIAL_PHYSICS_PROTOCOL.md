@@ -56,10 +56,14 @@ Every workflow that commits data MUST include:
   run: |
     git config user.name "github-actions[bot]"
     git config user.email "github-actions[bot]@users.noreply.github.com"
-    git pull --rebase origin main --autostash  # CRITICAL: prevents conflicts
     git add data/
-    git diff --cached --quiet || git commit -m "Data update $(date -u +'%Y-%m-%d %H:%M UTC')"
-    git push
+    if git diff --cached --quiet; then
+      echo "No changes to commit"
+    else
+      git commit -m "Data update $(date -u +'%Y-%m-%d %H:%M UTC')"
+      git pull --rebase origin main --autostash  # CRITICAL: After commit, before push
+      git push
+    fi
 ```
 
 ### DATA INGESTION RULES:
