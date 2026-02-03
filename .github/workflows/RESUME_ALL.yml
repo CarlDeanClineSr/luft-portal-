@@ -1,0 +1,124 @@
+name: RESUME ALL WORKFLOWS - Kickstart After Outage
+
+on:
+  workflow_dispatch:
+    inputs:
+      kickstart_critical:
+        description: 'Trigger critical data collection workflows'
+        required: false
+        type: boolean
+        default: true
+      kickstart_hourly:
+        description: 'Trigger hourly monitoring workflows'
+        required: false
+        type: boolean
+        default: true
+      kickstart_daily:
+        description: 'Trigger daily data ingestion workflows'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  resume-notice:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Workflows Resuming
+        run: |
+          echo "🚀 LUFT Portal workflows resuming after maintenance"
+          echo "✅ All scheduled workflows will resume automatically on their next scheduled run"
+          echo "📊 Imperial Physics Observatory returning to operational status"
+          echo ""
+          echo "Note: Scheduled workflows (cron-based) do NOT retroactively execute missed runs."
+          echo "If you need to backfill data, manually trigger specific workflows via workflow_dispatch."
+          echo ""
+          echo "Kickstart options selected:"
+          echo "  - Critical workflows: ${{ inputs.kickstart_critical }}"
+          echo "  - Hourly workflows: ${{ inputs.kickstart_hourly }}"
+          echo "  - Daily workflows: ${{ inputs.kickstart_daily }}"
+
+  kickstart-critical:
+    needs: resume-notice
+    if: ${{ inputs.kickstart_critical }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Critical Workflows
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "🔥 Triggering critical data collection workflows..."
+          
+          # Trigger DSCOVR solar wind (every 5 min)
+          gh workflow run dscovr_data_ingest.yml -R ${{ github.repository }} || echo "⚠️ dscovr_data_ingest.yml not found or failed"
+          
+          # Trigger CME heartbeat logger (every 5 min)
+          gh workflow run cme_heartbeat_logger.yml -R ${{ github.repository }} || echo "⚠️ cme_heartbeat_logger.yml not found or failed"
+          
+          # Trigger NOAA solar wind (every 5 min)
+          gh workflow run hourly_noaa_solarwind.yml -R ${{ github.repository }} || echo "⚠️ hourly_noaa_solarwind.yml not found or failed"
+          
+          echo "✅ Critical workflows triggered"
+
+  kickstart-hourly:
+    needs: resume-notice
+    if: ${{ inputs.kickstart_hourly }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Hourly Workflows
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "⏰ Triggering hourly monitoring workflows..."
+          
+          # Trigger hourly summary
+          gh workflow run hourly_summary.yml -R ${{ github.repository }} || echo "⚠️ hourly_summary.yml not found or failed"
+          
+          # Trigger hourly DST index
+          gh workflow run hourly_dst_index.yml -R ${{ github.repository }} || echo "⚠️ hourly_dst_index.yml not found or failed"
+          
+          # Trigger USGS magnetometer
+          gh workflow run hourly_usgs_magnetometer.yml -R ${{ github.repository }} || echo "⚠️ hourly_usgs_magnetometer.yml not found or failed"
+          
+          # Trigger GOES ingest
+          gh workflow run goes_ingest.yml -R ${{ github.repository }} || echo "⚠️ goes_ingest.yml not found or failed"
+          
+          echo "✅ Hourly workflows triggered"
+
+  kickstart-daily:
+    needs: resume-notice
+    if: ${{ inputs.kickstart_daily }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Daily Workflows
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "📅 Triggering daily data ingestion workflows..."
+          
+          # Trigger daily workflows
+          gh workflow run daily_maven_mars.yml -R ${{ github.repository }} || echo "⚠️ daily_maven_mars.yml not found or failed"
+          gh workflow run daily_cern_lhc.yml -R ${{ github.repository }} || echo "⚠️ daily_cern_lhc.yml not found or failed"
+          gh workflow run daily_ligo_gw.yml -R ${{ github.repository }} || echo "⚠️ daily_ligo_gw.yml not found or failed"
+          gh workflow run daily_noaa_forecast.yml -R ${{ github.repository }} || echo "⚠️ daily_noaa_forecast.yml not found or failed"
+          
+          echo "✅ Daily workflows triggered"
+
+  completion-summary:
+    needs: [resume-notice, kickstart-critical, kickstart-hourly, kickstart-daily]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resumption Complete
+        run: |
+          echo "✅ Workflow resumption process complete"
+          echo ""
+          echo "📋 Next Steps:"
+          echo "1. Check Actions tab to verify workflows are running"
+          echo "2. Monitor for any failures in the next hour"
+          echo "3. Review data files to ensure collection resumes"
+          echo ""
+          echo "🔍 To check workflow status:"
+          echo "   - Go to Actions tab in GitHub"
+          echo "   - Or run: gh run list --limit 20"
+          echo ""
+          echo "🚀 Imperial Physics Observatory is back online!"
