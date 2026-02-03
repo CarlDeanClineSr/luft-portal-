@@ -2,7 +2,7 @@ name: Hourly Summary Update
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Every hour at top of the hour
+    - cron: '6,21,36,51 * * * *'  # Every 15 minutes offset - continuous hourly summaries
   workflow_dispatch:  # Allow manual triggering
 
 permissions:

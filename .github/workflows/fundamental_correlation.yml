@@ -2,7 +2,7 @@ name: Run Fundamental Constants Correlation
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Hourly
+    - cron: '0 * * * *'  # Every hour - fundamental correlation analysis
   push:
     branches: [main]
   workflow_dispatch:

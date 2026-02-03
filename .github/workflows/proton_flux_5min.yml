@@ -1,0 +1,75 @@
+name: Proton Flux Monitor (Every 5 Minutes)
+
+on:
+  schedule:
+    - cron: '3,8,13,18,23,28,33,38,43,48,53,58 * * * *'  # Every 5 minutes offset
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: proton-flux-monitor
+  cancel-in-progress: false
+
+jobs:
+  fetch-protons:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests pandas
+
+      - name: Create data directory
+        run: mkdir -p data/proton_flux
+
+      - name: Fetch Proton Flux Data
+        run: |
+          echo "📡 Fetching proton flux data from GOES satellites..."
+          
+          # GOES primary satellite proton flux
+          curl --fail --silent --show-error \
+            "https://services.swpc.noaa.gov/json/goes/primary/integral-protons-plot-6-hour.json" \
+            -o data/proton_flux/goes_primary_6hr.json || echo "⚠️ Primary unavailable"
+          
+          # GOES secondary satellite proton flux
+          curl --fail --silent --show-error \
+            "https://services.swpc.noaa.gov/json/goes/secondary/integral-protons-plot-6-hour.json" \
+            -o data/proton_flux/goes_secondary_6hr.json || echo "⚠️ Secondary unavailable"
+
+      - name: Validate data
+        run: |
+          echo "Validating proton flux data..."
+          for file in data/proton_flux/*.json; do
+            if [ -f "$file" ]; then
+              if jq empty "$file" 2>/dev/null; then
+                echo "✅ Valid: $(basename $file)"
+              else
+                echo "⚠️ Invalid: $(basename $file)"
+                rm -f "$file"
+              fi
+            fi
+          done
+
+      - name: Commit and push
+        run: |
+          git config user.name "LUFT Proton Bot"
+          git config user.email "proton-bot@luft.local"
+          git pull --rebase origin main --autostash || true
+          git add data/proton_flux/*.json || true
+          if git diff --cached --quiet; then
+            echo "No new proton flux data"
+          else
+            git commit -m "data: Proton flux update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git push
+            echo "✅ Proton flux data committed"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

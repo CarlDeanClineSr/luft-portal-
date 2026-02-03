@@ -1,0 +1,81 @@
+name: L1 STEREO-A Realtime Data (Every 4 Minutes)
+
+on:
+  schedule:
+    - cron: '*/4 * * * *'  # Every 4 minutes - STEREO-A realtime data
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: l1-stereo-realtime
+  cancel-in-progress: false
+
+jobs:
+  ingest-stereo-l1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests pandas numpy
+
+      - name: Create data directory
+        run: mkdir -p data/stereo_l1
+
+      - name: Fetch STEREO-A L1 Data
+        run: |
+          echo "📡 Fetching STEREO-A realtime data..."
+          
+          # STEREO-A is at a different location than L1, but provides valuable coronal observations
+          # Using available beacon mode data when possible
+          # Note: STEREO-A transmits data periodically; may not always be real-time
+          
+          # Try CDAWeb JSON API for STEREO-A beacon data
+          YESTERDAY=$(date -u -d "yesterday" +%Y%m%d)
+          TODAY=$(date -u +%Y%m%d)
+          
+          echo "Attempting STEREO-A beacon data fetch..."
+          if curl --fail --silent --show-error --max-time 30 \
+            "https://cdaweb.gsfc.nasa.gov/WS/cdasr/1/dataviews/sp_phys/datasets/STA_L1_MAG_RTN/data/${YESTERDAY}000000,${TODAY}235959/MAG" \
+            -o data/stereo_l1/stereo_a_beacon.json 2>/dev/null; then
+            echo "✅ STEREO-A data retrieved"
+          else
+            echo "⚠️ STEREO-A direct fetch unavailable, creating placeholder"
+            echo "{\"status\":\"beacon_unavailable\",\"timestamp\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}" > data/stereo_l1/stereo_a_beacon.json
+          fi
+
+      - name: Validate data
+        run: |
+          echo "Validating STEREO-A data..."
+          if [ -f "data/stereo_l1/stereo_a_beacon.json" ]; then
+            if jq empty "data/stereo_l1/stereo_a_beacon.json" 2>/dev/null; then
+              echo "✅ Valid STEREO-A data"
+            else
+              echo "⚠️ Invalid JSON (removing)"
+              rm -f "data/stereo_l1/stereo_a_beacon.json"
+            fi
+          fi
+
+      - name: Commit and push
+        run: |
+          git config user.name "LUFT L1 Bot"
+          git config user.email "l1-bot@luft.local"
+          git pull --rebase origin main --autostash || true
+          git add data/stereo_l1/*.json || true
+          if git diff --cached --quiet; then
+            echo "No new STEREO-A data to commit"
+          else
+            git commit -m "data: STEREO-A beacon update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git push
+            echo "✅ STEREO-A data committed successfully"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

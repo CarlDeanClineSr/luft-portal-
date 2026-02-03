@@ -2,7 +2,7 @@ name: Hourly USGS Magnetometer Ingest (Multi-Station)
 
 on:
   schedule:
-    - cron: '3 * * * *'  # Every hour at :03
+    - cron: '*/10 * * * *'  # Every 10 minutes - continuous USGS magnetometer monitoring
   workflow_dispatch:
 
 jobs:

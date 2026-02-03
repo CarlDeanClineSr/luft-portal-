@@ -1,0 +1,80 @@
+name: Plasma Monitor Network (Every 3 Minutes)
+
+on:
+  schedule:
+    - cron: '1,4,7,10,13,16,19,22,25,28,31,34,37,40,43,46,49,52,55,58 * * * *'  # Every 3 minutes (offset)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: plasma-monitor
+  cancel-in-progress: false
+
+jobs:
+  fetch-plasma:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests pandas numpy
+
+      - name: Create data directory
+        run: mkdir -p data/plasma_monitor
+
+      - name: Fetch Multi-Source Plasma Data
+        run: |
+          echo "📡 Fetching plasma data from multiple sources..."
+          
+          # ACE/DSCOVR combined plasma
+          curl --fail --silent --show-error \
+            "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-minute.json" \
+            -o data/plasma_monitor/l1_plasma_1min.json || echo "⚠️ 1-min unavailable"
+          
+          # 5-minute cadence as backup
+          curl --fail --silent --show-error \
+            "https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json" \
+            -o data/plasma_monitor/l1_plasma_5min.json || echo "⚠️ 5-min unavailable"
+          
+          # 6-hour history for trend analysis
+          curl --fail --silent --show-error \
+            "https://services.swpc.noaa.gov/products/solar-wind/plasma-6-hour.json" \
+            -o data/plasma_monitor/l1_plasma_6hr.json || echo "⚠️ 6-hr unavailable"
+
+      - name: Validate plasma data
+        run: |
+          echo "Validating plasma data files..."
+          for file in data/plasma_monitor/*.json; do
+            if [ -f "$file" ]; then
+              if jq empty "$file" 2>/dev/null; then
+                echo "✅ Valid: $(basename $file)"
+              else
+                echo "⚠️ Invalid: $(basename $file) (removing)"
+                rm -f "$file"
+              fi
+            fi
+          done
+
+      - name: Commit and push
+        run: |
+          git config user.name "LUFT Plasma Bot"
+          git config user.email "plasma-bot@luft.local"
+          git pull --rebase origin main --autostash || true
+          git add data/plasma_monitor/*.json || true
+          if git diff --cached --quiet; then
+            echo "No new plasma data"
+          else
+            git commit -m "data: Plasma monitor update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git push
+            echo "✅ Plasma data committed"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
