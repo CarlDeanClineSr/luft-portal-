@@ -299,12 +299,16 @@ jobs:
       
       - name: Commit results
         run: |
-          git config user.name "Chi Boundary Monitor"
-          git config user.email "chi@luft.local"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/chi_monitor/*.json data/chi_monitor/*.jsonl reports/CHI_BOUNDARY_HOURLY.md || true
-          git diff --quiet && git diff --staged --quiet || \
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
             git commit -m "🔬 Chi boundary validation - $(date -u +'%Y-%m-%d %H:00 UTC')"
-          git push
+            git pull --rebase origin main --autostash
+            git push
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
