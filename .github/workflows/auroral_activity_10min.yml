@@ -2,7 +2,7 @@ name: Auroral Activity Monitor (Every 10 Minutes)
 
 on:
   schedule:
-    - cron: '3,13,23,33,43,53 * * * *'  # Every 10 minutes - auroral monitoring
+    - cron: '*/10 * * * *'  # Every 10 minutes - auroral monitoring
   workflow_dispatch:
 
 permissions:
@@ -35,17 +35,17 @@ jobs:
           echo "📡 Fetching auroral activity indicators..."
           
           # Aurora forecast (OVATION model)
-          curl --fail --silent --show-error \
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 \
             "https://services.swpc.noaa.gov/json/ovation_aurora_latest.json" \
             -o data/auroral_activity/ovation_latest.json || echo "⚠️ OVATION unavailable"
           
           # Planetary K-index (auroral driver)
-          curl --fail --silent --show-error \
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 \
             "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json" \
             -o data/auroral_activity/kp_current.json || echo "⚠️ Kp unavailable"
           
           # Hemispheric power (auroral intensity)
-          curl --fail --silent --show-error \
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 \
             "https://services.swpc.noaa.gov/json/hemispheric_power.json" \
             -o data/auroral_activity/hemispheric_power.json || echo "⚠️ HP unavailable"
 
@@ -67,7 +67,6 @@ jobs:
         run: |
           git config user.name "LUFT Aurora Bot"
           git config user.email "aurora-bot@luft.local"
-          git pull --rebase origin main --autostash || true
           git add data/auroral_activity/*.json || true
           if git diff --cached --quiet; then
             echo "No new auroral data"

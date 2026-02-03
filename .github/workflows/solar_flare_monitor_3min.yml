@@ -35,17 +35,17 @@ jobs:
           echo "📡 Fetching GOES X-ray flux for flare detection..."
           
           # Real-time X-ray flux
-          curl --fail --silent --show-error \
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 \
             "https://services.swpc.noaa.gov/json/goes/primary/xrays-6-hour.json" \
             -o data/solar_flares/xray_flux_6hr.json || echo "⚠️ Primary unavailable"
           
           # Secondary satellite
-          curl --fail --silent --show-error \
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 \
             "https://services.swpc.noaa.gov/json/goes/secondary/xrays-6-hour.json" \
             -o data/solar_flares/xray_flux_secondary_6hr.json || echo "⚠️ Secondary unavailable"
           
           # 7-day X-ray for context
-          curl --fail --silent --show-error \
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 \
             "https://services.swpc.noaa.gov/json/goes/primary/xrays-7-day.json" \
             -o data/solar_flares/xray_flux_7day.json || echo "⚠️ 7-day unavailable"
 
@@ -67,7 +67,6 @@ jobs:
         run: |
           git config user.name "LUFT Flare Bot"
           git config user.email "flare-bot@luft.local"
-          git pull --rebase origin main --autostash || true
           git add data/solar_flares/*.json || true
           if git diff --cached --quiet; then
             echo "No new flare data"

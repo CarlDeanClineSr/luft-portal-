@@ -35,17 +35,17 @@ jobs:
           echo "📡 Fetching plasma data from multiple sources..."
           
           # ACE/DSCOVR combined plasma
-          curl --fail --silent --show-error \
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 \
             "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-minute.json" \
             -o data/plasma_monitor/l1_plasma_1min.json || echo "⚠️ 1-min unavailable"
           
           # 5-minute cadence as backup
-          curl --fail --silent --show-error \
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 \
             "https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json" \
             -o data/plasma_monitor/l1_plasma_5min.json || echo "⚠️ 5-min unavailable"
           
           # 6-hour history for trend analysis
-          curl --fail --silent --show-error \
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 \
             "https://services.swpc.noaa.gov/products/solar-wind/plasma-6-hour.json" \
             -o data/plasma_monitor/l1_plasma_6hr.json || echo "⚠️ 6-hr unavailable"
 
@@ -67,7 +67,6 @@ jobs:
         run: |
           git config user.name "LUFT Plasma Bot"
           git config user.email "plasma-bot@luft.local"
-          git pull --rebase origin main --autostash || true
           git add data/plasma_monitor/*.json || true
           if git diff --cached --quiet; then
             echo "No new plasma data"

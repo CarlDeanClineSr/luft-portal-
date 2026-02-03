@@ -35,12 +35,12 @@ jobs:
           echo "📡 Fetching proton flux data from GOES satellites..."
           
           # GOES primary satellite proton flux
-          curl --fail --silent --show-error \
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 \
             "https://services.swpc.noaa.gov/json/goes/primary/integral-protons-plot-6-hour.json" \
             -o data/proton_flux/goes_primary_6hr.json || echo "⚠️ Primary unavailable"
           
           # GOES secondary satellite proton flux
-          curl --fail --silent --show-error \
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 \
             "https://services.swpc.noaa.gov/json/goes/secondary/integral-protons-plot-6-hour.json" \
             -o data/proton_flux/goes_secondary_6hr.json || echo "⚠️ Secondary unavailable"
 
@@ -62,7 +62,6 @@ jobs:
         run: |
           git config user.name "LUFT Proton Bot"
           git config user.email "proton-bot@luft.local"
-          git pull --rebase origin main --autostash || true
           git add data/proton_flux/*.json || true
           if git diff --cached --quiet; then
             echo "No new proton flux data"
