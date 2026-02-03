@@ -2,8 +2,8 @@ name: DSCOVR Solar Wind Data Ingest
 
 on:
   schedule:
-    - cron: '1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59 * * * *'  # Every 2 minutes (odd minutes) - DSCOVR L1 primary source
-  workflow_dispatch:     # Manual trigger support
+    - cron: '*/2 * * * *'  # Every 2 minutes - DSCOVR L1 primary source
+  workflow_dispatch:  # Manual trigger support
 
 jobs:
   ingest-dscovr-data:
@@ -20,35 +20,28 @@ jobs:
       - name: Download DSCOVR solar wind data
         run: |
           echo "Downloading DSCOVR solar wind data from NOAA..."
-          if ! curl --fail --silent --show-error -o data/dscovr/dscovr_realtime.json https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json; then
-            echo "Error: Failed to download DSCOVR data from NOAA."
-            exit 1
-          fi
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 \
+            -o data/dscovr/dscovr_realtime.json \
+            https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json
           echo "Download complete."
 
       - name: Validate JSON
         run: |
           echo "Validating JSON file..."
-          if jq empty data/dscovr/dscovr_realtime.json; then
-            echo "JSON validation successful."
-          else
-            echo "Error: JSON validation failed. File contents:"
-            cat data/dscovr/dscovr_realtime.json
-            exit 1
-          fi
+          jq empty data/dscovr/dscovr_realtime.json
+          echo "JSON validation successful."
 
-      - name: Check for new data and commit
+      - name: Commit and push new data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase origin main --autostash || true
           git add data/dscovr/dscovr_realtime.json
           if git diff --cached --quiet; then
             echo "No new data to commit."
           else
-            git commit -m "Update DSCOVR solar wind realtime data $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git commit -m "Update DSCOVR solar wind data $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
             git push
-            echo "New DSCOVR data committed and pushed successfully."
+            echo "New DSCOVR data committed."
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
