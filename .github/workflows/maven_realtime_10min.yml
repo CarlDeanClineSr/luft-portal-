@@ -1,8 +1,12 @@
 name: MAVEN Mars Data (Every 10 Minutes)
 
+# DISABLED: fetch_maven_mars.py was removed (used standard plasma calculations without χ framework)
+# MAVEN data already in repository at data/maven_mars/
+# Use tools/analyze_mars_chi.py for χ-corrected analysis or manually add new data
+
 on:
-  schedule:
-    - cron: '5,15,25,35,45,55 * * * *'  # Every 10 minutes offset - MAVEN Mars realtime
+  # schedule:
+  #   - cron: '5,15,25,35,45,55 * * * *'  # Every 10 minutes offset - MAVEN Mars realtime
   workflow_dispatch:
 
 permissions:
@@ -13,48 +17,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  ingest-maven:
+  validate-data:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Install dependencies
-        run: pip install requests pandas cdasws cdflib xarray numpy
-
-      - name: Create data directory
-        run: mkdir -p data/maven_mars
-
-      - name: Fetch MAVEN Mars Data
-        run: |
-          echo "📡 Fetching MAVEN Mars plasma and magnetic field data..."
-          python tools/fetch_maven_mars.py || echo "⚠️ MAVEN fetch completed with warnings"
-
       - name: Validate MAVEN data
         run: |
-          echo "Validating MAVEN data..."
+          echo "Validating existing MAVEN Mars data..."
           if [ -d "data/maven_mars" ]; then
             ls -lh data/maven_mars/ | tail -10
-            echo "✅ MAVEN data directory validated"
-          fi
-
-      - name: Commit and push
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/maven_mars/*.csv data/maven_mars/*.json || true
-          if git diff --cached --quiet; then
-            echo "No new MAVEN data"
+            echo "✅ MAVEN data directory exists"
+            echo "ℹ️  For new data: Add manually or create χ-framework compliant fetcher"
           else
-            git commit -m "data: MAVEN Mars realtime update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-            git pull --rebase origin main --autostash
-            git push
-            echo "✅ MAVEN data committed"
+            echo "⚠️ MAVEN data directory not found"
           fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
