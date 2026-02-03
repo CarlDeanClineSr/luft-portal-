@@ -275,6 +275,39 @@ This ensures that:
 
 **Status:** ✅ Fixed in all 39 workflows with git push operations (as of 2026-01-02)
 
+### GitHub Actions Outage / Service Disruption
+**Problem:** During a GitHub Actions outage, workflows are disabled and miss their scheduled runs.
+
+**Automatic Behavior After Outage:**
+- ✅ Scheduled workflows (cron-based) automatically resume on their next scheduled time
+- ❌ Missed runs are NOT executed retroactively
+- ⚠️ There may be data gaps during the outage period
+
+**Solutions:**
+
+1. **Wait for automatic resumption** (Recommended)
+   - Workflows will run at their next scheduled time
+   - No action required
+   - System returns to normal gradually
+
+2. **Use RESUME_ALL workflow to kickstart**
+   - Go to Actions → "RESUME ALL WORKFLOWS - Kickstart After Outage"
+   - Select which workflow groups to trigger (critical, hourly, daily)
+   - Run the workflow to immediately restart data collection
+   - This is useful if you need immediate data collection after an outage
+
+3. **Manually trigger specific workflows**
+   - Use workflow_dispatch on individual workflows
+   - Via GitHub UI: Actions → [Workflow Name] → Run workflow
+   - Via CLI: `gh workflow run [workflow-name].yml`
+
+**Verification After Outage:**
+- Check Actions tab for recent successful runs
+- Verify data files have recent timestamps
+- Monitor for 1-2 hours to ensure normal operation
+
+**See:** [WORKFLOW_OUTAGE_RECOVERY.md](WORKFLOW_OUTAGE_RECOVERY.md) for complete guide
+
 ---
 
 ## 📊 Expected Outputs
@@ -322,5 +355,5 @@ All three new workflows integrate with existing LUFT Portal infrastructure:
 
 ---
 
-*Last updated: 2026-01-02*  
+*Last updated: 2026-02-03*  
 *Repository: https://github.com/CarlDeanClineSr/luft-portal-*
