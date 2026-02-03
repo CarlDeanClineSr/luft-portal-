@@ -86,6 +86,7 @@ jobs:
                        -m "Framework: Imperial Geometric Re-Initialization"
             
             # Pull with rebase to handle concurrent workflow runs
+            git pull --rebase origin main --autostash
             
             # Push with retry logic
             git push origin main || git push origin HEAD:main

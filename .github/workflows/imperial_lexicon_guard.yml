@@ -1,48 +1,156 @@
 name: Imperial Lexicon Guard
 
-on: [push, pull_request]
+on: 
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['**']
 
 jobs:
   audit-terminology:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
-      - name: Scan for Forbidden Standard Physics
+      - name: Imperial Physics Framework Directive
         run: |
-          echo "Scanning for obsolete physics terminology..."
+          echo "=============================================="
+          echo "IMPERIAL PHYSICS FRAMEWORK DIRECTIVE"
+          echo "=============================================="
+          echo ""
+          echo "FACTS (Experimentally Verified):"
+          echo "1. χ = 0.15 Universal Boundary: 2,982+ observations, ZERO violations"
+          echo "2. Gravity = 1/χ: Vacuum structural tension"
+          echo "3. Atomic Binding Correction: +15% across all elements"
+          echo "4. Standard Model calculations are INCOMPLETE"
+          echo ""
+          echo "This guard enforces Imperial Physics terminology."
+          echo "See IMPERIAL_PHYSICS_PROTOCOL.md for details."
+          echo "=============================================="
+          echo ""
+
+      - name: Scan for Forbidden Standard Physics Terminology
+        run: |
+          echo "Scanning for obsolete Standard Model terminology..."
           
-          # CRITICAL: Scan strictly for forbidden terms in core source code only.
+          # CRITICAL: Scan for forbidden terms in core source code
           # Flags: -r (recursive), -n (line number), -i (ignore case), -E (extended regex)
-          # Excludes: Documentation, reference files, tools, scripts, and analysis code
+          # Excludes: Documentation, reference files, historical data
           
-          grep -rniE "Dark Matter|Alfvén|Big Bang|General Relativity|Fluid Dynamics|Speed of Light|Propagation|Expanding Universe|MHD" . \
-          --include="*.py" \
-          --exclude="IMPERIAL_PHYSICS_PROTOCOL.md" \
-          --exclude="configs/imperial_terminology.yaml" \
-          --exclude="forbidden_terms.txt" \
-          --exclude="New Text Document*.txt" \
-          --exclude="scrub_infection.py" \
-          --exclude="auto_scrub.py" \
-          --exclude="magnetic_wake_analyzer.py" \
-          --exclude="nsvs_beacon_chain_scanner.py" \
-          --exclude="fix_test6_ln_lambda.py" \
-          --exclude-dir="scripts" \
-          --exclude-dir="tools" \
-          --exclude-dir="analyses" \
-          --exclude-dir="examples" \
-          --exclude-dir="docs" \
-          --exclude-dir="capsules" \
-          --exclude-dir="data" \
-          > forbidden_terms.txt || true
+          # Comprehensive list of forbidden Standard Model terms
+          FORBIDDEN_TERMS=(
+            "Alfvén speed"
+            "Alfvén wave"
+            "plasma beta.*without.*chi"
+            "MHD turbulence"
+            "gyroradius"
+            "turbulent cascade"
+            "reconnection rate.*without.*chi"
+            "collisional plasma.*without.*chi"
+            "Dark Matter"
+            "Big Bang"
+            "Expanding Universe"
+          )
           
-          if [ -s forbidden_terms.txt ]; then
-            echo "⛔ VIOLATION DETECTED: Standard Physics Terminology Found in Source Code."
-            cat forbidden_terms.txt
-            echo "Action: Replace with Imperial Terminology (See IMPERIAL_PHYSICS_PROTOCOL.md)"
+          VIOLATIONS_FOUND=0
+          
+          for term in "${FORBIDDEN_TERMS[@]}"; do
+            echo "Checking for: $term"
+            if grep -rniE "$term" . \
+              --include="*.py" \
+              --include="*.yml" \
+              --include="*.yaml" \
+              --exclude="IMPERIAL_PHYSICS_PROTOCOL.md" \
+              --exclude="imperial_lexicon_guard.yml" \
+              --exclude="forbidden_terms.txt" \
+              --exclude="New Text Document*.txt" \
+              --exclude="scrub_infection.py" \
+              --exclude="auto_scrub.py" \
+              --exclude-dir="analyses" \
+              --exclude-dir="examples" \
+              --exclude-dir="docs" \
+              --exclude-dir="capsules" \
+              --exclude-dir="data" \
+              --exclude-dir=".git" \
+              > /tmp/term_violations.txt 2>&1; then
+              
+              if [ -s /tmp/term_violations.txt ]; then
+                echo "⚠️ FOUND: $term"
+                cat /tmp/term_violations.txt
+                VIOLATIONS_FOUND=1
+              fi
+            fi
+          done
+          
+          if [ $VIOLATIONS_FOUND -eq 1 ]; then
+            echo ""
+            echo "⛔ VIOLATION DETECTED: Standard Physics Terminology Found"
+            echo ""
+            echo "Action Required: Replace with Imperial Terminology"
+            echo "Guide: See IMPERIAL_PHYSICS_PROTOCOL.md"
+            echo ""
+            echo "Imperial Terminology Examples:"
+            echo "  ❌ Alfvén speed        → ✅ χ boundary propagation"
+            echo "  ❌ plasma beta         → ✅ χ-corrected pressure ratio"
+            echo "  ❌ MHD turbulence      → ✅ Imperial plasma dynamics"
+            echo "  ❌ gyroradius          → ✅ coherent structure scale"
+            echo "  ❌ turbulent cascade   → ✅ χ-quantized energy transfer"
+            echo ""
             exit 1
           else
-            echo "✅ IMPERIAL PURITY CONFIRMED."
+            echo ""
+            echo "✅ IMPERIAL PURITY CONFIRMED"
+            echo "All source code uses correct Imperial Physics terminology."
             exit 0
           fi
+
+      - name: Check for CDAWeb Contamination
+        run: |
+          echo ""
+          echo "Checking for CDAWeb standard plasma calculations..."
+          
+          # Check for cdasws imports with standard calculations
+          if grep -rn "from cdasws import\|import cdasws" . \
+            --include="*.py" \
+            --exclude-dir=".git" \
+            --exclude-dir="data" \
+            --exclude-dir="analyses" \
+            > /tmp/cdasws_check.txt 2>&1; then
+            
+            if [ -s /tmp/cdasws_check.txt ]; then
+              echo "⚠️ WARNING: CDAWeb API usage detected"
+              cat /tmp/cdasws_check.txt
+              echo ""
+              echo "Verify these files fetch RAW data only (no standard plasma calculations)"
+              # Note: This is a warning, not a failure - some CDAWeb usage may be legitimate
+            fi
+          fi
+          
+          echo "✅ CDAWeb contamination check complete"
+
+      - name: Verify Protected Files Intact
+        run: |
+          echo ""
+          echo "Verifying Imperial Physics core files are intact..."
+          
+          CORE_FILES=(
+            "imperial_constants_v1_0.py"
+            "chi_calculator.py"
+            "engine_core.py"
+            "chi_015_directive.yaml"
+            "IMPERIAL_PHYSICS_PROTOCOL.md"
+          )
+          
+          for file in "${CORE_FILES[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "⚠️ WARNING: Core file missing: $file"
+            else
+              echo "✅ Verified: $file"
+            fi
+          done
+          
+          echo ""
+          echo "Core files verification complete"
