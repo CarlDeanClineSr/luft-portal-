@@ -1,7 +1,7 @@
 {
-  "extraction_date": "2026-02-02T03:10:18.546985Z",
+  "extraction_date": "2026-02-03T03:05:21.525206Z",
   "total_analyzed": 49,
-  "papers_with_parameters": 0,
+  "papers_with_parameters": 1,
   "results": [
     {
       "paper_id": "2601.12614v2",
@@ -31,24 +31,27 @@
       "relevance_score": 6
     },
     {
-      "paper_id": "2601.20472v1",
-      "title": "Interaction of Black Hole Magnetospheres with Inclined Ambient Fields",
+      "paper_id": "2601.22894v1",
+      "title": "Equatorially Asymmetric Magnetic Fields and Their Impact on Black Hole Accretion Dynamics",
       "authors": [
-        "Madina Zhakipova",
-        "Arman Tursunov",
-        "Saken Toktarbay",
-        "Martin Kolo\u0161"
+        "Ishika Palit",
+        "Indu Kalpa Dihingia",
+        "Yosuke Mizuno",
+        "Hsiang-Yi Karen Yang"
       ],
-      "link": "https://arxiv.org/abs/2601.20472v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.20472v1",
-      "published": "2026-01-28T10:44:18Z",
-      "parameters_found": {},
+      "link": "https://arxiv.org/abs/2601.22894v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.22894v1",
+      "published": "2026-01-30T12:13:31Z",
+      "parameters_found": {
+        "beta_values": [
+          "0.001",
+          "0.007"
+        ]
+      },
       "keywords": [
         "magnetic",
-        "particle",
-        "acceleration",
-        "magnetosphere",
-        "chi"
+        "plasma",
+        "magnetosphere"
       ],
       "relevance_score": 5
     },
@@ -270,6 +273,25 @@
       "relevance_score": 5
     },
     {
+      "paper_id": "2601.22747v1",
+      "title": "Ultra-High Energy Cosmic Rays from the Galactic Center",
+      "authors": [
+        "V. N. Zirakashvili",
+        "S. I. Rogovaya"
+      ],
+      "link": "https://arxiv.org/abs/2601.22747v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.22747v1",
+      "published": "2026-01-30T09:26:12Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "particle",
+        "acceleration",
+        "shock"
+      ],
+      "relevance_score": 4
+    },
+    {
       "paper_id": "2601.21827v1",
       "title": "Late-time X-ray afterglows of GRBs: Implications for particle acceleration at relativistic shocks",
       "authors": [
@@ -292,27 +314,6 @@
       "relevance_score": 4
     },
     {
-      "paper_id": "2601.20210v1",
-      "title": "Gamma-ray Emission from the S147 Region: Indication of Escaping Cosmic Rays Interacting with Molecular Clouds",
-      "authors": [
-        "Huan Yang",
-        "Bing Liu",
-        "Houdun Zeng",
-        "Xiaoyuan Huang"
-      ],
-      "link": "https://arxiv.org/abs/2601.20210v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.20210v1",
-      "published": "2026-01-28T03:17:33Z",
-      "parameters_found": {},
-      "keywords": [
-        "particle",
-        "acceleration",
-        "shock",
-        "correlation"
-      ],
-      "relevance_score": 4
-    },
-    {
       "paper_id": "2601.21274v1",
       "title": "Realizing the phantom-divide crossing with vector and scalar fields",
       "authors": [
@@ -327,24 +328,6 @@
         "perturbation",
         "chi",
         "correlation"
-      ],
-      "relevance_score": 4
-    },
-    {
-      "paper_id": "2601.19812v1",
-      "title": "An essential building block for cosmological zoom-in perturbation theory",
-      "authors": [
-        "Obinna Umeh"
-      ],
-      "link": "https://arxiv.org/abs/2601.19812v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.19812v1",
-      "published": "2026-01-27T17:14:15Z",
-      "parameters_found": {},
-      "keywords": [
-        "particle",
-        "boundary",
-        "perturbation",
-        "chi"
       ],
       "relevance_score": 4
     },
@@ -455,22 +438,32 @@
       "relevance_score": 4
     },
     {
-      "paper_id": "2601.13377v1",
-      "title": "Learning time-dependent and integro-differential collision operators from plasma phase space data using differentiable simulators",
+      "paper_id": "2601.22321v1",
+      "title": "Conversion Layer Controls the Evolution of Magnetic Deflections Near the Alfven Surface",
       "authors": [
-        "Diogo D. Carvalho",
-        "Luis O. Silva",
-        "E. P. Alves"
+        "Dominic Payne",
+        "Mojtaba Akhavan-Tafti",
+        "Joshua Goodwill",
+        "Samuel Badman",
+        "Riddhi Bandyopadhyay",
+        "Subash Adhikari",
+        "William Matthaeus",
+        "Gary Zank",
+        "Chen Shi",
+        "Michael Stevens",
+        "Roberto Livi",
+        "Yeimy Rivera",
+        "Kristoff Paulson"
       ],
-      "link": "https://arxiv.org/abs/2601.13377v1",
-      "pdf_link": "https://arxiv.org/pdf/2601.13377v1",
-      "published": "2026-01-19T20:25:01Z",
+      "link": "https://arxiv.org/abs/2601.22321v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.22321v1",
+      "published": "2026-01-29T21:06:07Z",
       "parameters_found": {},
       "keywords": [
         "magnetic",
-        "plasma",
         "particle",
-        "temporal"
+        "solar wind",
+        "perturbation"
       ],
       "relevance_score": 4
     },
@@ -658,21 +651,22 @@
       "relevance_score": 3
     },
     {
-      "paper_id": "2601.20313v2",
-      "title": "Mathematical Anatomy of Neutrino Decoherence in Red Turbulence: A Fractional Calculus Approach",
+      "paper_id": "2601.22937v1",
+      "title": "Linear perturbation theory and structure formation in a Brans-Dicke theory of gravity without dark matter",
       "authors": [
-        "Yiwei Bao",
-        "Andrea Addazi",
-        "Shuai Zha"
+        "Lorenzo Gervani",
+        "Antonaldo Diaferio",
+        "Francesco Pace",
+        "Andrea Pierfrancesco Sanna"
       ],
-      "link": "https://arxiv.org/abs/2601.20313v2",
-      "pdf_link": "https://arxiv.org/pdf/2601.20313v2",
-      "published": "2026-01-28T07:05:53Z",
+      "link": "https://arxiv.org/abs/2601.22937v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.22937v1",
+      "published": "2026-01-30T12:54:06Z",
       "parameters_found": {},
       "keywords": [
+        "particle",
         "perturbation",
-        "chi",
-        "correlation"
+        "delay"
       ],
       "relevance_score": 3
     },
@@ -1180,6 +1174,23 @@
         "plasma",
         "particle",
         "temporal"
+      ],
+      "relevance_score": 3
+    },
+    {
+      "paper_id": "2601.22212v1",
+      "title": "Azimuthal angular entanglement between decaying particles in ultra-peripheral ion collisions",
+      "authors": [
+        "Spencer R. Klein"
+      ],
+      "link": "https://arxiv.org/abs/2601.22212v1",
+      "pdf_link": "https://arxiv.org/pdf/2601.22212v1",
+      "published": "2026-01-29T18:50:19Z",
+      "parameters_found": {},
+      "keywords": [
+        "magnetic",
+        "particle",
+        "correlation"
       ],
       "relevance_score": 3
     }
