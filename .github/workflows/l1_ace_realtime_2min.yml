@@ -34,25 +34,17 @@ jobs:
         run: |
           echo "📡 Fetching ACE L1 solar wind realtime data..."
           
-          # Fetch ACE MAG (magnetic field) data
-          if curl --fail --silent --show-error -o data/ace_l1/ace_mag_realtime.json \
-            "https://services.swpc.noaa.gov/products/solar-wind/mag-1-minute.json"; then
-            echo "✅ ACE MAG data downloaded"
-          else
-            echo "⚠️ ACE MAG fetch failed - using fallback"
-            curl --fail --silent --show-error -o data/ace_l1/ace_mag_realtime.json \
-              "https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json" || true
-          fi
+          # Fetch ACE MAG (magnetic field) - 5-minute cadence
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 \
+            -o data/ace_l1/ace_mag_realtime.json \
+            "https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json"
+          echo "✅ ACE MAG data (5-min) downloaded"
           
-          # Fetch ACE SWEPAM (plasma) data  
-          if curl --fail --silent --show-error -o data/ace_l1/ace_plasma_realtime.json \
-            "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-minute.json"; then
-            echo "✅ ACE plasma data downloaded"
-          else
-            echo "⚠️ ACE plasma fetch failed - using fallback"
-            curl --fail --silent --show-error -o data/ace_l1/ace_plasma_realtime.json \
-              "https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json" || true
-          fi
+          # Fetch ACE SWEPAM (plasma) - 5-minute cadence
+          curl --fail --silent --show-error --retry 3 --retry-delay 5 \
+            -o data/ace_l1/ace_plasma_realtime.json \
+            "https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json"
+          echo "✅ ACE plasma data (5-min) downloaded"
 
       - name: Validate data
         run: |
@@ -70,13 +62,14 @@ jobs:
 
       - name: Commit and push
         run: |
-          git config user.name "LUFT L1 Bot"
-          git config user.email "l1-bot@luft.local"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/ace_l1/*.json || true
           if git diff --cached --quiet; then
             echo "No new ACE L1 data to commit"
           else
             git commit -m "data: ACE L1 realtime update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git pull --rebase origin main --autostash
             git push
             echo "✅ ACE L1 data committed successfully"
           fi
