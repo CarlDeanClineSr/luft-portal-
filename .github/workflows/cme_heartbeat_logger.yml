@@ -66,6 +66,7 @@ jobs:
             echo "No new heartbeat data to commit."
           else
             git commit -m "LUFT CME Heartbeat Log Update - $(date -u +'%Y-%m-%d %H:%M:%S') UTC"
+            git pull --rebase origin main --autostash
             git push
             echo "Heartbeat log committed and pushed successfully."
           fi
