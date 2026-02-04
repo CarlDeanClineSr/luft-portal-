@@ -1,0 +1,133 @@
+name: NASA Daily Data Harvest (4:20 PM ET)
+
+on:
+  schedule:
+    # 4:20 PM Eastern = 9:20 PM UTC (standard time) or 8:20 PM UTC (daylight time)
+    # Using 9:20 PM UTC to catch evening data updates
+    - cron: '20 21 * * *'  # 9:20 PM UTC = 4:20 PM ET
+  workflow_dispatch:  # Manual trigger option
+
+jobs:
+  harvest_all_nasa_missions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120  # 2-hour timeout for large downloads
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Install dependencies
+        run: |
+          pip install pyspedas pandas numpy scipy pytplot cdflib
+          pip install requests beautifulsoup4
+      
+      - name: Calculate date range (yesterday's data)
+        id: dates
+        run: |
+          YESTERDAY=$(date -u -d "yesterday" +%Y-%m-%d)
+          echo "date=$YESTERDAY" >> $GITHUB_OUTPUT
+          echo "Harvesting data for: $YESTERDAY"
+      
+      - name: Download ACE magnetometer data
+        continue-on-error: true
+        run: |
+          python scripts/nasa_daily_harvest.py \
+            --mission ace \
+            --date ${{ steps.dates.outputs.date }} \
+            --output data/daily/ace/
+      
+      - name: Download DSCOVR magnetometer data
+        continue-on-error: true
+        run: |
+          python scripts/nasa_daily_harvest.py \
+            --mission dscovr \
+            --date ${{ steps.dates.outputs.date }} \
+            --output data/daily/dscovr/
+      
+      - name: Download Voyager 1 magnetometer data
+        continue-on-error: true
+        run: |
+          python scripts/nasa_daily_harvest.py \
+            --mission voyager1 \
+            --date ${{ steps.dates.outputs.date }} \
+            --output data/daily/voyager1/
+      
+      - name: Download Voyager 2 magnetometer data
+        continue-on-error: true
+        run: |
+          python scripts/nasa_daily_harvest.py \
+            --mission voyager2 \
+            --date ${{ steps.dates.outputs.date }} \
+            --output data/daily/voyager2/
+      
+      - name: Download MAVEN magnetometer data
+        continue-on-error: true
+        run: |
+          python scripts/nasa_daily_harvest.py \
+            --mission maven \
+            --date ${{ steps.dates.outputs.date }} \
+            --output data/daily/maven/
+      
+      - name: Download Wind magnetometer data
+        continue-on-error: true
+        run: |
+          python scripts/nasa_daily_harvest.py \
+            --mission wind \
+            --date ${{ steps.dates.outputs.date }} \
+            --output data/daily/wind/
+      
+      - name: Download STEREO-A magnetometer data
+        continue-on-error: true
+        run: |
+          python scripts/nasa_daily_harvest.py \
+            --mission stereoa \
+            --date ${{ steps.dates.outputs.date }} \
+            --output data/daily/stereoa/
+      
+      - name: Download PSP (Parker Solar Probe) magnetometer data
+        continue-on-error: true
+        run: |
+          python scripts/nasa_daily_harvest.py \
+            --mission psp \
+            --date ${{ steps.dates.outputs.date }} \
+            --output data/daily/psp/
+      
+      - name: Calculate chi across all missions
+        run: |
+          python scripts/calculate_chi_all_missions.py \
+            --input_dir data/daily/ \
+            --output data/chi_daily_${{ steps.dates.outputs.date }}.csv
+      
+      - name: Scan for chi boundary violations
+        run: |
+          python scripts/scan_chi_violations.py \
+            --input data/chi_daily_${{ steps.dates.outputs.date }}.csv \
+            --output results/violations_${{ steps.dates.outputs.date }}.json
+      
+      - name: Generate daily summary report
+        run: |
+          python scripts/generate_daily_summary.py \
+            --date ${{ steps.dates.outputs.date }} \
+            --output results/summary_${{ steps.dates.outputs.date }}.md
+      
+      - name: Commit daily harvest
+        run: |
+          git config user.name "Imperial Observatory Harvest Bot"
+          git config user.email "harvest@imperial.observatory"
+          git add data/daily/
+          git add data/chi_daily_*.csv
+          git add results/violations_*.json
+          git add results/summary_*.md
+          git commit -m "Daily NASA harvest: ${{ steps.dates.outputs.date }} - All missions chi calculated"
+          git push
+      
+      - name: Display harvest summary
+        run: |
+          echo "=== NASA DAILY HARVEST COMPLETE ==="
+          echo "Date: ${{ steps.dates.outputs.date }}"
+          echo "Time: 4:20 PM ET (9:20 PM UTC)"
+          cat results/summary_${{ steps.dates.outputs.date }}.md
