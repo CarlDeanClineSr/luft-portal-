@@ -1,12 +1,12 @@
 # 🌟 LUFT Portal - Master Data Index
 
-**Last Updated:** 2026-01-25 21:30 UTC
+**Last Updated:** 2026-02-05 21:30 UTC LICNOLN
 
-**Observatory Status:** 🟢 **FULLY OPERATIONAL & AUTOMATED** **Scientific Record:** [DOI: 10.17605/OSF.IO/X5M2T](https://osf.io/x5m2t/)
+**Observatory Status:** 🟢 **AUTOMATED** **Scientific Record:**  
 
 ---
 
-## 📊 LIVE DATA FEEDS (7.8M+ Records)
+## 📊 LIVE DATA FEEDS (67.8M+ Records) old and new evry few minutes ..and nuch more
 
 ### 🛰️ Solar Wind & Magnetosphere
 
