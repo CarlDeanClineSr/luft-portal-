@@ -22,7 +22,9 @@ jobs:
       
       - name: Install dependencies
         run: |
-          pip install pyspedas pandas numpy scipy pytplot cdflib
+          python -m pip install --upgrade pip
+          # FIXED: Pinned bokeh to 2.4.3 to resolve pytplot incompatibility
+          pip install pyspedas pandas numpy scipy pytplot cdflib "bokeh==2.4.3"
           pip install requests beautifulsoup4
       
       - name: Calculate date range (yesterday's data)
@@ -124,10 +126,3 @@ jobs:
           git add results/summary_*.md
           git commit -m "Daily NASA harvest: ${{ steps.dates.outputs.date }} - All missions chi calculated"
           git push
-      
-      - name: Display harvest summary
-        run: |
-          echo "=== NASA DAILY HARVEST COMPLETE ==="
-          echo "Date: ${{ steps.dates.outputs.date }}"
-          echo "Time: 4:20 PM ET (9:20 PM UTC)"
-          cat results/summary_${{ steps.dates.outputs.date }}.md
