@@ -84,9 +84,6 @@ jobs:
           # Trigger hourly DST index
           gh workflow run hourly_dst_index.yml -R ${{ github.repository }} || echo "⚠️ hourly_dst_index.yml not found or failed"
           
-          # Trigger USGS magnetometer
-          gh workflow run hourly_usgs_magnetometer.yml -R ${{ github.repository }} || echo "⚠️ hourly_usgs_magnetometer.yml not found or failed"
-          
           # Trigger GOES ingest
           gh workflow run goes_ingest.yml -R ${{ github.repository }} || echo "⚠️ goes_ingest.yml not found or failed"
           
