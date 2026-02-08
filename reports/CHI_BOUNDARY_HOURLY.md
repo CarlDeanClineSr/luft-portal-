@@ -1,13 +1,13 @@
 # Universal Boundary Condition (χ ≤ 0.15) - Hourly Monitor
 
-**Last Updated:** 2026-02-08 11:53:34 UTC
+**Last Updated:** 2026-02-08 12:17:04 UTC
 
 ## Current Status
 
 - **Source:** DSCOVR
-- **Data Points:** 1,251
+- **Data Points:** 1,250
 - **Maximum χ:** 0.314242
-- **Mean χ:** 0.025739
+- **Mean χ:** 0.025341
 
 ### Boundary Compliance
 
