@@ -32,6 +32,13 @@ jobs:
         run: |
           git config --global user.name "JWST-Bot"
           git config --global user.email "bot@noreply.github.com"
-          git add mission_log.txt
-          # Only commit if there are changes (i.e., data was found)
-          git diff --quiet && git diff --staged --quiet || (git commit -m "🚨 INTERCEPT: Data Detected" && git push)
+          
+          # ONLY run git commands if the file actually exists
+          if [ -f mission_log.txt ]; then
+            git add mission_log.txt
+            # Commit and push only if there are changes
+            git diff --quiet && git diff --staged --quiet || (git commit -m "🚨 INTERCEPT: Data Detected" && git push)
+            echo "✅ Log updated and pushed."
+          else
+            echo "zzz No signal detected. Nothing to commit."
+          fi   
