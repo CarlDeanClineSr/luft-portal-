@@ -1,18 +1,28 @@
 # =====================================================================
-# SENTINEL CONTROL LEADER v2.0: OMNI-DATA AGGREGATOR
+# SENTINEL CONTROL LEADER v2.1: OMNI-DATA AGGREGATOR (PATCHED)
 # =====================================================================
 import os
 import datetime
 
 output_file = "SENTINEL_MASTER_REPORT.txt"
-ignore_list = ["requirements.txt", "README.md", "CMakeLists.txt", output_file]
+
+# Explicitly blacklisting the massive star data files and generic dependencies
+ignore_list = [
+    "requirements.txt", 
+    "README.md", 
+    "CMakeLists.txt", 
+    "Star_data.md",                  # <--- Added to prevent data flood
+    "Repository Knowledge Index.md", # <--- Added to prevent index flood
+    output_file
+]
+
 target_extensions = [".txt", ".log", ".csv", ".md"]
 
-print(">>> INITIALIZING SENTINEL OMNI-SCANNER...")
+print(">>> INITIALIZING SENTINEL OMNI-SCANNER v2.1...")
 
 with open(output_file, "w", encoding="utf-8") as master:
     master.write("="*80 + "\n")
-    master.write(f"IMPERIAL SENTINEL MASTER REPORT (v2.0)\n")
+    master.write(f"IMPERIAL SENTINEL MASTER REPORT (v2.1)\n")
     master.write(f"TIMESTAMP: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')} UTC\n")
     master.write("="*80 + "\n\n")
 
@@ -66,4 +76,4 @@ with open(output_file, "w", encoding="utf-8") as master:
     master.write(f"TOTAL FILES CONSOLIDATED: {file_count}\n")
     master.write("="*80 + "\n")
 
-print(f">>> OMNI-SCAN COMPLETE. {file_count} files merged into {output_file}.")
+print(f">>> OMNI-SCAN COMPLETE. {file_count} files merged. Flooding prevented.")
