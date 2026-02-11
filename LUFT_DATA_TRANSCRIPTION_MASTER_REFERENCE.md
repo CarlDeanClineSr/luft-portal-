@@ -1,4 +1,4 @@
-# LUFT DATA TRANSCRIPTION MASTER REFERENCE
+#  DATA TRANSCRIPTION MASTER REFERENCE
 **Version:** 1.0  
 **Date:** 2026-01-23  
 **Authority:** Carl Dean Cline Sr.  
@@ -8,7 +8,7 @@
 
 ## DOCUMENT PURPOSE
 
-This is the **authoritative formatting guide** for all LUFT (Lattice Unified Field Theory) data transcription. It ensures:
+This is the **authoritative formatting guide** for all  (vacuum Unified Field ) data transcription. It ensures:
 
 ✅ **Zero precision loss** (timestamps to `.000` seconds)  
 ✅ **Cross-platform compatibility** (Word, Excel, GitHub, LaTeX)  
@@ -130,11 +130,11 @@ Timestamp_UTC,Chi_Value,B_Total_nT,Speed_km_s,Density_p_cm3,Status,Quality_Flag,
 
 ### **A. Constants Definition Block**
 
-**Place at top of every LUFT script:**
+**Place at top of every  script:**
 
 ```python
 """
-LUFT Imperial Constants
+ Imperial Constants
 Version: 1.0
 Updated: 2026-01-23
 Author: Carl Dean Cline Sr.
@@ -244,7 +244,7 @@ events = [
     {"time": "2026-01-05T01:13:00.000Z", "chi": 0.0917, "b": 6.47},
 ]
 
-print("LUFT Boundary Validation Report")
+print(" Boundary Validation Report")
 print("=" * 70)
 for event in events:
     result = validate_chi(event["chi"], event["time"])
@@ -257,7 +257,7 @@ print(f"Violations: {sum(1 for e in events if not validate_chi(e['chi'], e['time
 
 **Expected Output:**
 ```
-LUFT Boundary Validation Report
+ Boundary Validation Report
 ======================================================================
 2026-01-05T00:41:00.000Z: χ=0.1284, B=7.28 nT → BELOW_LIMIT
 2026-01-05T00:45:00.000Z: χ=0.1498, B=8.12 nT → AT_BOUNDARY
@@ -289,7 +289,7 @@ Violations: 0
 \title{The Cline Convergence: \\
        Empirical Validation of the Universal $\chi = 0.15$ Boundary}
 \author{Carl Dean Cline Sr. \\
-        LUFT Portal Discovery Engine \\
+         Portal Discovery Engine \\
         Lincoln, Nebraska, USA}
 \date{January 23, 2026}
 
@@ -412,7 +412,7 @@ imperial_constants_v1-0.py               # Code library
 
 ## VII. REFERENCE CHECKLIST
 
-**Before submitting any LUFT document, verify:**
+**Before submitting any  document, verify:**
 
 - [ ] χ symbol renders correctly (not "X" or "?")
 - [ ] All timestamps include `.000` seconds

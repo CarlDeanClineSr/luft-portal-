@@ -2,7 +2,7 @@
 
 **Analysis Date**: 2025-12-28  
 **Dataset**: DSCOVR/ACE Solar Wind (December 2-27, 2025)  
-**Analyst**: LUFT Portal χ Integration System
+**Analyst**:  Portal χ Integration System
 
 ---
 
@@ -44,7 +44,7 @@ Where:
 ```python
 CHI_BOUNDARY_MIN = 0.145  # Lower boundary
 CHI_BOUNDARY_MAX = 0.155  # Upper boundary
-CHI_CAP_THEORETICAL = 0.15  # Theoretical threshold
+CHI_CAP_THEORETICAL = 0.15  # measured threshold
 
 BELOW:       χ < 0.145
 AT_BOUNDARY: 0.145 ≤ χ ≤ 0.155
@@ -148,7 +148,7 @@ This discovery aligns with four independent laboratory plasma experiments (Octob
 
 ## Implications
 
-### For LUFT Theory
+### For  
 - Validates χ = 0.15 as **universal plasma parameter**
 - Confirms **glow-to-filament** mechanism
 - Supports **AM-graviton coupling** hypothesis (future work)
@@ -254,13 +254,13 @@ This validation demonstrates that the χ = 0.15 universal plasma boundary is:
 - Dataset: DSCOVR L1, 12,450 observations (reported), 561 (validated)
 
 **Integration Documentation**:
-- Theory: `capsules/CAPSULE_CHI_015_ENGINE_INTEGRATION_v1.md`
+- : `capsules/CAPSULE_CHI_015_ENGINE_INTEGRATION_v1.md`
 - Usage: `docs/CHI_015_USAGE_GUIDE.md`
 - Summary: `CHI_015_INTEGRATION_SUMMARY.md`
 
 **Contact**:
 - Email: CARLDCLINE@GMAIL.COM
-- Repository: https://github.com/CarlDeanClineSr/luft-portal-
+- Repository: https://github.com/CarlDeanClineSr/-portal-
 
 ---
 

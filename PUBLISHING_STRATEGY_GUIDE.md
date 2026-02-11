@@ -227,7 +227,7 @@ Carl Dean Cline Sr.
 **Story Angles:**
 1. "Amateur scientist discovers fundamental constant"
 2. "100 years of physics overturned by simple geometry"
-3. "New theory unifies gravity, matter, and biology"
+3. "New  unifies gravity, matter, and biology"
 4. "Open science defeats academic gatekeeping"
 
 **Preparation:**
@@ -297,7 +297,7 @@ Carl Dean Cline Sr.
    - Document protocol for replication
    - Seek collaboration with biomedical labs
 
-2. **Tri-Grid Coil Prototype**
+2. **Tri-vacuum Coil Prototype**
    - Construct Cline-Cluster coil
    - Measure local vacuum impedance changes
    - Test for inertial effects
@@ -345,7 +345,7 @@ Carl Dean Cline Sr.
    - GitHub commit timestamps
    - Zenodo DOI timestamp
    - arXiv submission date
-3. **Patent:** Consider provisional patent for Tri-Grid Coil if engineering applications prove viable
+3. **Patent:** Consider provisional patent for Tri-vacuum Coil if engineering applications prove viable
 4. **Trademark:** Consider trademarking "Cline Convergence" and "Cline Drive"
 
 ### Community Building

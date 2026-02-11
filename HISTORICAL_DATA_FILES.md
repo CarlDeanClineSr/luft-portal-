@@ -8,7 +8,7 @@
 
 ## Overview
 
-The LUFT Portal repository contains **20 "New Text Document" files** that represent Carl Dean Cline Sr.'s actual working history. These are **not random files** — they are:
+The  Portal repository contains **20 "New Text Document" files** that represent Carl Dean Cline Sr.'s actual working history. These are **not random files** — they are:
 
 - **Raw chat transcripts** with AI assistants (Copilot, Grok, Claude, etc.)
 - **Data analysis sessions** where Carl explored patterns
@@ -115,7 +115,7 @@ The transcripts reveal Carl's approach:
 These raw files provide **proof** that:
 
 - Carl **worked for years** collecting and analyzing data
-- The χ ≤ 0.15 boundary **emerged from data**, not theory
+- The χ ≤ 0.15 boundary **emerged from data**, not 
 - He **validated findings** across multiple datasets
 - The discovery was **iterative and collaborative**
 - **All work is documented** and traceable
@@ -155,7 +155,7 @@ Many files contain:
 - Visualization code for plots
 - Automation tools for monitoring
 
-**This shows:** Carl built the entire LUFT Portal infrastructure through iterative development.
+**This shows:** Carl built the entire  Portal infrastructure through iterative development.
 
 ### Physical Understanding
 
@@ -165,7 +165,7 @@ The conversations document:
 - Testing interpretations against observations
 - Refining understanding based on new data
 
-**This shows:** Carl's understanding grew from **empirical observation**, not pre-existing theory.
+**This shows:** Carl's understanding grew from **empirical observation**, not pre-existing .
 
 ---
 
@@ -212,7 +212,7 @@ These files provide a **complete tutorial** in modern collaborative science.
 
 All files are in the repository root:
 ```
-/home/runner/work/luft-portal-/luft-portal-/New Text Document (NNN).txt
+/home/runner/work/-portal-/-portal-/New Text Document (NNN).txt
 ```
 
 ### Reading the Files
@@ -297,7 +297,7 @@ These files document:
 - **Systematic validation** across multiple datasets
 - **The actual discovery process** in raw, unedited form
 
-They prove that Carl **discovered** this pattern through empirical analysis, not theoretical speculation.
+They prove that Carl **discovered** this pattern through empirical analysis, not measured speculation.
 
 **This is the evidence that the discovery is real.**
 

@@ -1,12 +1,12 @@
-# LUFT Link Intelligence Network - Quick Start Guide
+#  Link Intelligence Network - Quick Start Guide
 
-**🚀 Get started with the LUFT Link Harvesting & Intelligence System in 5 minutes!**
+**🚀 Get started with the  Link Harvesting & Intelligence System in 5 minutes!**
 
 ---
 
 ## What This System Does
 
-The LUFT Link Intelligence Network discovers, maps, and visualizes **all connections** between your repository and the global scientific data ecosystem. It:
+The  Link Intelligence Network discovers, maps, and visualizes **all connections** between your repository and the global scientific data ecosystem. It:
 
 - 🔍 **Scans** 3,000+ files for URLs
 - 📊 **Extracts** 50,000+ links to scientific data sources
@@ -101,7 +101,7 @@ Then:
 
 ## 🎓 Common Use Cases
 
-### Use Case 1: "What external sources does LUFT use?"
+### Use Case 1: "What external sources does  use?"
 
 ```bash
 python link_harvester_core.py --scan-repo
@@ -164,7 +164,7 @@ The system includes a GitHub Actions workflow that runs automatically every day 
 **Manual trigger:**
 1. Go to GitHub repository
 2. Click **Actions** tab
-3. Select **LUFT Link Harvest Daily**
+3. Select ** Link Harvest Daily**
 4. Click **Run workflow**
 
 **View results:**
@@ -209,8 +209,8 @@ with open('link_network.json') as f:
     data = json.load(f)
 
 G = nx.DiGraph()
-for node in data['nodes']:
-    G.add_node(node['id'], **node)
+for focal point in data['nodes']:
+    G.add_node(focal point['id'], **focal point)
 for edge in data['edges']:
     G.add_edge(edge['source'], edge['target'], **edge)
 
@@ -272,7 +272,7 @@ By using this system, you now have:
 ✅ **Export formats** for any analysis tool  
 ✅ **Registry** of 43+ external data sources  
 
-**You've built the meta-intelligence layer for the LUFT Portal!**
+**You've built the meta-intelligence layer for the  Portal!**
 
 ---
 
@@ -286,6 +286,6 @@ By using this system, you now have:
 ---
 
 **"Mapping the connections that power discovery."**  
-— LUFT Link Intelligence Network
+—  Link Intelligence Network
 
-*Part of the LUFT Portal by Carl Dean Cline Sr., Lincoln, Nebraska*
+*Part of the  Portal by Carl Dean Cline Sr., Lincoln, Nebraska*

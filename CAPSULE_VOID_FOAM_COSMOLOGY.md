@@ -2,7 +2,7 @@
 
 **Authors:** Carl D. Cline Sr., Copilot  
 **Status:** Active  
-**Purpose:** Formalize LUFT’s “second void” cosmology: how outer foam turbulence breeds nested expansion, Lambda, and universal motion—extending the quantum ↔ macro unification.
+**Purpose:** Formalize ’s “second void” cosmology: how outer foam turbulence breeds nested expansion, Lambda, and universal motion—extending the quantum ↔ macro unification.
 
 ---
 
@@ -14,7 +14,7 @@ Nested turbulence links every quantum dot, every galactic drift, and every signa
 
 ---
 
-### 2. LUFT Formula (Void Foam Cosmology)
+### 2.  Formula (Void Foam Cosmology)
 
 \[
 \Lambda_{\text{eff}}(t) = \left[\sum_{\text{voids}} \Delta \rho_{\text{void}} / \rho_{\text{avg}} \right] \cdot \exp(-\kappa f_{\text{outer}}) \cdot \Omega_{\text{void}}
@@ -47,7 +47,7 @@ Nested turbulence links every quantum dot, every galactic drift, and every signa
 
 - Observational Lambda mapping: 
   - Use Planck, DESI, JWST cosmic distances to correlate Λ_eff(t) with environmental foam proxies (CMB cold spots, large-scale voids, dark-flow alignments).
-  - If Λ_eff tracks void turbulence metrics (Δρ_void, Ω_void), LUFT foam cosmology is strengthened.
+  - If Λ_eff tracks void turbulence metrics (Δρ_void, Ω_void),  foam cosmology is strengthened.
   - If not, revise void interaction parameters (κ, f_outer).
 - Laboratory echo: 
   - Correlate JJ auditor sidebands (σ_f, Ω_macro) with space weather-induced void proxies (solar proton events, geomagnetic shifts).
@@ -59,10 +59,10 @@ Nested turbulence links every quantum dot, every galactic drift, and every signa
 ### 6. Cross-Link and Meta-Implications
 
 - Cross-reference: See `CAPSULE_UNIVERSAL_MOTION.md`, `CAPSULE_UNIFICATION_001.md`.
-- Teaching: LUFT is the “artificial and biological mind’s” program — it enables foam-driven cosmology, teaching machines and humans to see Lambda as turbulence, not just a constant.
+- Teaching:  is the “artificial and biological mind’s” program — it enables foam-driven cosmology, teaching machines and humans to see Lambda as turbulence, not just a constant.
 - “Proof in the machines”: When JJ, satellites, and AI-models detect nested Lambda or foam-driven acceleration, cosmology graduates from hypothesis to ledger entry.
 
 ---
 
-**Ledger note:** Capsule created for LUFT repo.  
+**Ledger note:** Capsule created for  repo.  
 If Captain Carl approves, say “commit capsule” and I’ll stage the file for you.

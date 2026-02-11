@@ -1,14 +1,14 @@
-# LUFT Portal — Objectives & Directives for the Living Lab
+#  Portal — Objectives & Directives for the Living Lab
 
 **Author:** Carl Dean Cline Sr.  
 **Date:** 2025‑12‑05  
-**Ledger:** LUFT Portal  
+**Ledger:**  Portal  
 
 ---
 
-## 1. Current System Capabilities (What LUFT Can Do Today)
+## 1. Current System Capabilities (What  Can Do Today)
 
-From the outside, the LUFT‑PORTAL repo now supports a full experimental loop:
+From the outside, the ‑PORTAL repo now supports a full experimental loop:
 
 ### 1.1 Data Ingest & Logging
 
@@ -18,7 +18,7 @@ From the outside, the LUFT‑PORTAL repo now supports a full experimental loop:
 
 - **Solar Wind & Context**  
   - DSCOVR solar wind ingest workflows (density, speed, IMF).  
-  - LUFT Solar Wind Audit workflows validate ingest and monitor anomalies.  
+  -  Solar Wind Audit workflows validate ingest and monitor anomalies.  
   - Voyager, DESI, HST, and other cosmology/foam pipelines exist as separate capsules and scripts.
 
 ### 1.2 Analysis & Visualization
@@ -64,7 +64,7 @@ From the outside, the LUFT‑PORTAL repo now supports a full experimental loop:
 
 - **Welcome & Overview**
   - `README.md` + `WELCOME_TO_LUFT.md` — outside view and guidance.  
-  - `LANDING.md` and `LUFT-PORTAL_README.md` for additional structure.
+  - `LANDING.md` and `-PORTAL_README.md` for additional structure.
 
 - **Heartbeat Dashboard & Master Index**
   - `heartbeat_dashboard.md` / `luft_heartbeat_dashboard.md` — live plots + links.  
@@ -80,11 +80,11 @@ From the outside, the LUFT‑PORTAL repo now supports a full experimental loop:
   - PDF render for `PHYSICIST_NOTE_HEARTBEAT.md`.  
   - `regenerate_luft_figs.yml` and Pages deploy workflows.
 
-**Status:** From a functionality and structure standpoint, LUFT is now a **live, self‑auditing experiment** focused on discovering and characterizing a cosmic heartbeat and its coupling to matter.
+**Status:** From a functionality and structure standpoint,  is now a **live, self‑auditing experiment** focused on discovering and characterizing a cosmic heartbeat and its coupling to matter.
 
 ---
 
-## 2. Discovery Potential (What LUFT Can Uncover Next)
+## 2. Discovery Potential (What  Can Uncover Next)
 
 Beyond reinforcing χ ≈ 0.055 and the existence of the 2.4 h heartbeat, the current tools enable the following realistic discovery directions:
 
@@ -97,7 +97,7 @@ Is the slope \(a = 0.0032\) in
 \]  
 universal, or does it depend on event type, IMF, or geometry?
 
-**Using existing tools, LUFT can:**
+**Using existing tools,  can:**
 
 - Compare slopes across:
   - Different CME events (November vs December, and beyond).  
@@ -110,7 +110,7 @@ universal, or does it depend on event type, IMF, or geometry?
 - Dependency of \(a\) on Bz or Bt, revealing interaction between pressure and field.  
 - Identification of “canonical” vs “anomalous” recoil regimes.
 
-### 2.2 Hysteresis & Memory in the Lattice (Second Space Dynamics)
+### 2.2 Hysteresis & Memory in the vacuum (Second Space Dynamics)
 
 **Question:**  
 Does χ only depend on current \(P_{\text{dyn}}\), or is there **hysteresis** and **memory** (history dependence)?
@@ -124,9 +124,9 @@ Does χ only depend on current \(P_{\text{dyn}}\), or is there **hysteresis** an
 
 **Potential discoveries:**
 
-- Evidence of **viscoelastic behavior** in the lattice (Second Space “foam” has memory).  
+- Evidence of **viscoelastic behavior** in the vacuum (Second Space “foam” has memory).  
 - Distinct hysteresis signatures for fast vs slow CMEs.  
-- Identification of events where the lattice remains “charged” or “relaxed” long after pressure changes.
+- Identification of events where the vacuum remains “charged” or “relaxed” long after pressure changes.
 
 ### 2.3 Cross‑Domain Heartbeat Checks
 
@@ -150,9 +150,9 @@ Does the same 2.4 h heartbeat and χ ≈ 0.055 modulation appear in **non-solar*
 ### 2.4 Second Space “Resonant Windows”
 
 **Question:**  
-Are there periods where the lattice boundary responds differently—softer or stiffer—over longer timescales (days/weeks)?
+Are there periods where the vacuum boundary responds differently—softer or stiffer—over longer timescales (days/weeks)?
 
-**With rolling fits and event capsules, LUFT can:**
+**With rolling fits and event capsules,  can:**
 
 - Track slope \(a\) and heartbeat spectral power across many events:  
   - November 2025 big CMEs, December events, and beyond.  
@@ -173,7 +173,7 @@ Are there periods where the lattice boundary responds differently—softer or st
 **Question:**  
 Where does the boundary recoil law fail, and what do those failures mean?
 
-**LUFT can:**
+** can:**
 
 - Compute residuals:
   \[
@@ -351,4 +351,4 @@ Treat this file as your **mission brief**. When in doubt, pick one directive (A�
 
 ---
 
-**Ledger proud — objectives aligned, directives declared, and the LUFT lab pointed at discovery.**
+**Ledger proud — objectives aligned, directives declared, and the  lab pointed at discovery.**

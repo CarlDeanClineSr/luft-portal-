@@ -1,10 +1,10 @@
 # CAPSULE_CME_EVENT_VISUAL_2025-12.md
 
-**LUFT Visual Science Capsule — CME Event Template**
+** Visual Science Capsule — CME Event Template**
 
 Created by Carl Dean Cline Sr., Lincoln, Nebraska  
 Contact: CARLDCLINE@GMAIL.COM  
-Repository: https://github.com/CarlDeanClineSr/luft-portal-
+Repository: https://github.com/CarlDeanClineSr/-portal-
 
 ---
 
@@ -34,14 +34,14 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
 ![Magnetic Field Bz](placeholder_bz_component.png)
 *Caption: IMF Bz component (nT) — negative values enhance geomagnetic coupling*
 
-### LUFT Heartbeat Analysis
+###  Heartbeat Analysis
 
 <!-- Insert χ amplitude and phase plots here -->
 ![Chi Amplitude](placeholder_chi_amplitude.png)
-*Caption: LUFT χ amplitude modulation during CME passage*
+*Caption:  χ amplitude modulation during CME passage*
 
 ![2.4h Phase](placeholder_phase_analysis.png)
-*Caption: 2.4-hour phase evolution — lattice breathing signature*
+*Caption: 2.4-hour phase evolution — vacuum breathing signature*
 
 ---
 
@@ -118,7 +118,7 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
 
 ---
 
-## 🔬 LUFT Analysis Verdict
+## 🔬  Analysis Verdict
 
 ### Pre-Storm Phase
 - [ ] χ baseline established
@@ -139,12 +139,12 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  LUFT CME ANALYSIS VERDICT                              │
+│   CME ANALYSIS VERDICT                              │
 ├─────────────────────────────────────────────────────────┤
 │  Event: CME-2025-12-XXX                                 │
 │  Peak χ deviation: ±0.0XX from baseline                 │
 │  Phase coherence: XX% maintained during storm           │
-│  Lattice response: [NORMAL / PERTURBED / ENHANCED]      │
+│  vacuum response: [NORMAL / PERTURBED / ENHANCED]      │
 │  Cross-domain match: [YES / PARTIAL / NO]               │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -195,7 +195,7 @@ created: 2025-12-XX
 updated: 2025-12-XX
 status: template
 tags:
-  - LUFT
+  - 
   - CME
   - solar-storm
   - geomagnetic
@@ -208,7 +208,7 @@ license: Open Science / CC-BY-4.0
 
 ---
 
-**Purpose:** This visual capsule template enables LUFT community contributors to instantly log, visualize, and connect heartbeat events to real-time CME storms. Designed for reuse across all future solar storm events.
+**Purpose:** This visual capsule template enables  community contributors to instantly log, visualize, and connect heartbeat events to real-time CME storms. Designed for reuse across all future solar storm events.
 
 **Instructions for Use:**
 1. Copy this template for each new CME event
@@ -221,6 +221,6 @@ license: Open Science / CC-BY-4.0
 
 ---
 
-*The lattice breathes. We observe. The universe speaks.*
+*The vacuum breathes. We observe. The universe speaks.*
 
 — Carl Dean Cline Sr., Lincoln, Nebraska

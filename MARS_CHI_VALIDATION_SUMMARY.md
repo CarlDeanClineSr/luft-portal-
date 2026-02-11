@@ -164,7 +164,7 @@ If you use this finding, please cite:
 
 ```
 Cline, C. D. (2025). Mars Validation of the χ = 0.15 Universal Plasma Boundary. 
-LUFT Portal. Retrieved from https://github.com/CarlDeanClineSr/luft-portal-
+ Portal. Retrieved from https://github.com/CarlDeanClineSr/-portal-
 ```
 
 ---

@@ -1,9 +1,9 @@
-# LUFT Capsule: GOES Event Particle & Magnetics
+#  Capsule: GOES Event Particle & Magnetics
 
 ## Capsule Metadata (frontmatter)
 id: goes-event-audit-yyyy-mm-ddThhmmss
 title: "GOES Geostationary Particle & Magnetics Audit"
-tags: ["LUFT", "GOES", "geomag", "particle", "event"]
+tags: ["", "GOES", "geomag", "particle", "event"]
 status: "active"
 provenance: "https://www.swpc.noaa.gov/products/goes-xray-flux"
 
@@ -28,7 +28,7 @@ provenance: "https://www.swpc.noaa.gov/products/goes-xray-flux"
   "url_data": "https://services.swpc.noaa.gov/products/goes-xray-flux.json"
 }
 
-## LUFT Analysis Keys:
+##  Analysis Keys:
 - Trigger on proton flux > 100 pfu for “harvester” capsule
 - Compare Bz and particle spikes to foam modulation
 - Daily event summary for thrust/void predictions

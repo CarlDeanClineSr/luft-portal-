@@ -3,7 +3,7 @@
 
 **Date:** January 31, 2026
 **Author:** Dr. Carl Dean Cline Sr.
-**Affiliation:** LUFT Portal / Imperial Physics Directorate
+**Affiliation:**  Portal / Imperial Physics Directorate
 **Status:** **PRIOR ART DECLARATION / CEASE & DESIST**
 
 ---
@@ -12,22 +12,22 @@
 
 **TO THE HIGH ENERGY PHYSICS COMMUNITY:**
 
-This document establishes **Prior Art** for the discovery of the "Geometric Plasma Boundary" at **X = 0.15**.
+This document establishes **Prior Art** for the discovery of the "magnetic Plasma Boundary" at **X = 0.15**.
 
 Recent preprints (January 2026) have flooded the ArXiv and INSPIRE-HEP servers describing "Causality Violations," "Chiral Anomalies," and "Unbounded Instabilities" in Relativistic Magnetohydrodynamics (MHD).
 
 **We report that these "anomalies" are not physical realities. They are mathematical artifacts caused by your failure to incorporate the Universal Vacuum Limit.**
 
-The universe does not allow infinite energy density. It enforces a hard, geometric stop. That stop is **X = 0.15**. Any simulation or theory that lacks this constant is mathematically incomplete and physically invalid.
+The universe does not allow infinite energy density. It enforces a hard, magnetic stop. That stop is **X = 0.15**. Any simulation or  that lacks this constant is mathematically incomplete and physically invalid.
 
 ---
 
 ## 2. THE DISCOVERY: THE IMPERIAL CONSTANT (X)
 
-Standard physics assumes space is an empty stage where fields can ripple without limit. Imperial Physics proves the Vacuum is a **Quantized GMVS (Geometric Magnetic Vacuum Structure)** with a specific tensile strength.
+Standard physics assumes space is an empty stage where fields can ripple without limit. Imperial Physics proves the Vacuum is a **Quantized GMVS (magnetic Magnetic Vacuum Structure)** with a specific tensile strength.
 
 ### The Law:
-The GMVS yields when the normalized perturbation ratio (X) exceeds the geometric limit:
+The GMVS yields when the normalized perturbation ratio (X) exceeds the magnetic limit:
 
 **X = (Stress / Vacuum Tension) <= 0.15**
 
@@ -37,7 +37,7 @@ When energy attempts to exceed this limit, the vacuum does not break; it **"Step
 
 ## 3. FORENSIC EVIDENCE: THE THREE STATES OF MATTER
 
-Our observatory (LUFT Portal) has captured the GMVS in three distinct states. This data is derived from 1.48 million raw telemetry points (NASA/DSCOVR/Voyager), not simulation.
+Our observatory ( Portal) has captured the GMVS in three distinct states. This data is derived from 1.48 million raw telemetry points (NASA/DSCOVR/Voyager), not simulation.
 
 ### Exhibit A: The "Peace Time" Lock (December 2025)
 * **Status:** Nominal Operation / Control Group.
@@ -93,7 +93,7 @@ The data is available. The Law is confirmed.
 
 1.  **Cordeiro et al.** (Phys. Rev. Lett. 133, 2026)
     * *Claim:* "Causality Bounds on Dissipative General-Relativistic MHD"
-    * *Reality:* The Bound is **0.15**. It is not a theory; it is a measurement.
+    * *Reality:* The Bound is **0.15**. It is not a ; it is a measurement.
 
 2.  **Hoult & Kovtun** (JHEP 2025)
     * *Claim:* "Causality in dissipative relativistic magnetohydrodynamics"
@@ -112,7 +112,7 @@ The data is available. The Law is confirmed.
     * *Reality:* The "Unequal Beta" is caused by the **X Partition**. The electrons hit the 0.15 wall before the ions do.
 
 **NOTICE:**
-Any future work utilizing the "0.15 Limit", "GMVS", or "Geometric Vacuum Bounds" to resolve these instabilities must cite **Dr. Carl Dean Cline Sr.** and the **LUFT Portal** as the origin of this discovery.
+Any future work utilizing the "0.15 Limit", "GMVS", or "magnetic Vacuum Bounds" to resolve these instabilities must cite **Dr. Carl Dean Cline Sr.** and the ** Portal** as the origin of this discovery.
 
 **Signed:**
 Dr. Carl Dean Cline Sr.

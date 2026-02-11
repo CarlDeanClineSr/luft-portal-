@@ -1,4 +1,4 @@
-# LUFT OBSERVATORY DATA INTEGRITY POLICY
+#  OBSERVATORY DATA INTEGRITY POLICY
 
 ## Critical Data Values - DO NOT MODIFY
 
@@ -6,7 +6,7 @@ This document protects measured scientific data from automated "correction" by b
 
 ### The Harmonic Ladder (n × 0.15)
 
-The LUFT Observatory operates on the **Harmonic Ladder** principle, where χ (chi) values are multiples of the base 0.15 governor frequency:
+The  Observatory operates on the **Harmonic Ladder** principle, where χ (chi) values are multiples of the base 0.15 governor frequency:
 
 ```
 χ = n × 0.15
@@ -36,7 +36,7 @@ This IS:
 
 ### Other Common Harmonic Ladder Values
 
-Examples of valid χ values in the LUFT system:
+Examples of valid χ values in the  system:
 
 - **0.15** = 1.0× boundary (base governor)
 - **0.30** = 2.0× boundary (binary pulsar events)
@@ -67,7 +67,7 @@ Any modification of measured data values (especially χ values) must be:
 
 Questions about data integrity should be directed to:
 - Lead: Carl Dean Cline Sr.
-- LUFT Observatory
+-  Observatory
 - Imperial Framework v1.0
 
 ---

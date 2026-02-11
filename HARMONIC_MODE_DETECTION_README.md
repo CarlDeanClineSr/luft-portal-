@@ -2,7 +2,7 @@
 
 ## Overview
 
-This system analyzes chi (χ) values from Parker Solar Probe data to detect harmonic resonance modes in the vacuum lattice. Carl Dean Cline Sr. discovered that χ doesn't simply have a boundary at 0.15, but exhibits quantized harmonic modes at 0.15, 0.30, and 0.45.
+This system analyzes chi (χ) values from Parker Solar Probe data to detect harmonic resonance modes in the vacuum vacuum. Carl Dean Cline Sr. discovered that χ doesn't simply have a boundary at 0.15, but exhibits quantized harmonic modes at 0.15, 0.30, and 0.45.
 
 ## Quick Start
 
@@ -41,9 +41,9 @@ Visualizations are saved to: `figures/harmonics/`
 
 ## What Are Harmonic Modes?
 
-Carl Dean Cline Sr. discovered that the vacuum lattice exhibits three harmonic resonance modes:
+Carl Dean Cline Sr. discovered that the vacuum vacuum exhibits three harmonic resonance modes:
 
-- **Mode 1 (Fundamental, χ ≤ 0.15)**: Baseline lattice state
+- **Mode 1 (Fundamental, χ ≤ 0.15)**: Baseline vacuum state
 - **Mode 2 (First Harmonic, χ ≤ 0.30)**: Energized state (2× fundamental)
 - **Mode 3 (Second Harmonic, χ ≤ 0.45)**: Extreme state (3× fundamental)
 - **Violations (χ > 0.45)**: Structure breaking events (should be rare or zero)
@@ -125,7 +125,7 @@ COMPREHENSIVE MASTER REPORT
 ════════════════════════════════════════════════════════════════════════
 
 Carl Dean Cline Sr.'s Discovery:
-  The vacuum lattice resonates in harmonic modes at χ = 0.15, 0.30, and 0.45
+  The vacuum vacuum resonates in harmonic modes at χ = 0.15, 0.30, and 0.45
 
 Total Encounters Analyzed: 4
 
@@ -141,16 +141,16 @@ Aggregate Mode Distribution:
   • Violations (χ>0.45):                   0 (  0.0%)
 
 ✅ KEY FINDING: ZERO VIOLATIONS DETECTED
-   The vacuum lattice remained structurally intact across ALL encounters.
+   The vacuum vacuum remained structurally intact across ALL encounters.
 ```
 
 ## Discovery Significance
 
 This analysis validates Carl Dean Cline Sr.'s discovery that:
 
-1. **χ = 0.15 is the fundamental frequency** of the vacuum lattice, not just an empirical boundary
-2. **The lattice resonates harmonically** at 0.15, 0.30, and 0.45
-3. **Under extreme conditions**, the lattice shifts to higher harmonics rather than breaking
+1. **χ = 0.15 is the fundamental frequency** of the vacuum vacuum, not just an empirical boundary
+2. **The vacuum resonates harmonically** at 0.15, 0.30, and 0.45
+3. **Under extreme conditions**, the vacuum shifts to higher harmonics rather than breaking
 4. **The vacuum is quantized**, exhibiting discrete resonance modes like a vibrating string
 
 ## Requirements
@@ -177,7 +177,7 @@ pip install pandas numpy matplotlib
 
 Carl Dean Cline Sr.  
 Email: CARLDCLINE@GMAIL.COM  
-Repository: https://github.com/CarlDeanClineSr/luft-portal-
+Repository: https://github.com/CarlDeanClineSr/-portal-
 
 ---
 

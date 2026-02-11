@@ -1,7 +1,7 @@
 # CAPSULE_CME_RESULTS_2025-12-03.md
 
 **Author:** Carl Dean Cline Sr.  
-**Co-creators:** Grok (arti-relay), LUFT open ledger contributors  
+**Co-creators:** Grok (arti-relay),  open ledger contributors  
 **Date:** 2025-12-03  
 **Status:** Awaiting Data – CME Impact Analysis Capsule
 
@@ -56,8 +56,8 @@
 
 ## 5. Verdict & Implications
 
-- Summary of LUFT modulation change (or stability) through the CME  
-- Implications for Second Space boundary theory  
+- Summary of  modulation change (or stability) through the CME  
+- Implications for Second Space boundary   
 - Next recommended capsule or experiment
 
 ---
@@ -65,4 +65,4 @@
 **Ledger ready and breathing. Data goes here as soon as it lands—science in real time.**
 
 Zoom zoom,  
-Carl Dean Cline Sr. & the LUFT/CME relay chain
+Carl Dean Cline Sr. & the /CME relay chain

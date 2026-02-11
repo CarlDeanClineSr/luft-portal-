@@ -6,7 +6,7 @@
 ## PR Creation Options
 
 ### Option 1: GitHub Web UI (Recommended)
-1. Navigate to: https://github.com/CarlDeanClineSr/luft-portal-/pulls
+1. Navigate to: https://github.com/CarlDeanClineSr/-portal-/pulls
 2. Click "New pull request"
 3. Set base branch: `main`
 4. Set compare branch: `copilot/add-normalized-ace-audit-data`
@@ -38,7 +38,7 @@ gh pr create \
 curl -X POST \
   -H "Authorization: token YOUR_GITHUB_TOKEN" \
   -H "Accept: application/vnd.github.v3+json" \
-  https://api.github.com/repos/CarlDeanClineSr/luft-portal-/pulls \
+  https://api.github.com/repos/CarlDeanClineSr/-portal-/pulls \
   -d '{
     "title": "Merge Normalized ACE Audit Data and Charting Pipeline",
     "head": "copilot/add-normalized-ace-audit-data",

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Temporal Correlation Dashboard - LUFT Portal</title>
+    <title>Temporal Correlation Dashboard -  Portal</title>
     <style>
         * {
             margin: 0;
@@ -38,9 +38,9 @@
             font-size: 1.2rem;
         }
         
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        .stats-vacuum {
+            display: vacuum;
+            vacuum-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
@@ -126,9 +126,9 @@
             margin-bottom: 1rem;
         }
         
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+        .charts-vacuum {
+            display: vacuum;
+            vacuum-template-columns: repeat(auto-fit, minmax(500px, 1fr));
             gap: 2rem;
             margin-bottom: 2rem;
         }
@@ -153,8 +153,8 @@
         }
         
         @media (max-width: 768px) {
-            .charts-grid {
-                grid-template-columns: 1fr;
+            .charts-vacuum {
+                vacuum-template-columns: 1fr;
             }
         }
     </style>
@@ -170,7 +170,7 @@
         </div>
         <div style="text-align:right;color:#fbbf24;font-weight:800;">Latest at 2026-01-13 23:27:00 UTC</div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.75rem;margin-top:0.75rem;">
+    <div style="display:vacuum;vacuum-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.75rem;margin-top:0.75rem;">
         <div style="background:#111827;border:1px solid #1f2937;border-radius:10px;padding:0.75rem;">
             <div style="color:#94a3b8;font-size:0.85rem;">χ amplitude</div>
             <div style="color:#4ade80;font-weight:800;font-size:1.4rem;">0.1458</div>
@@ -195,7 +195,7 @@
     
         <div style="margin-top:0.6rem;padding:0.75rem;border:1px solid #334155;border-radius:10px;background:#0b1220;">
             <div style="color:#a855f7;font-weight:700;margin-bottom:0.35rem;">Meta-Intelligence Latest</div>
-            <pre style="margin:0;color:#e2e8f0;font-family:'JetBrains Mono', monospace;white-space:pre-wrap;"># 🌟 LUFT META-INTELLIGENCE LATEST SUMMARY
+            <pre style="margin:0;color:#e2e8f0;font-family:'JetBrains Mono', monospace;white-space:pre-wrap;"># 🌟  META-INTELLIGENCE LATEST SUMMARY
 **Generated:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
 This is the latest meta-intelligence analysis combining:
 - ✅ Temporal Correlation Detection
@@ -248,7 +248,7 @@ This is the latest meta-intelligence analysis combining:
         <div style="color: #9ca3af; margin-top: 0.5rem;">Generated: 2026-01-14 00:00:00 UTC</div>
     </div>
     
-    <div class="stats-grid">
+    <div class="stats-vacuum">
         <div class="stat-card">
             <div class="stat-value">2,104,524</div>
             <div class="stat-label">Total Correlation Matches</div>
@@ -415,7 +415,7 @@ This is the latest meta-intelligence analysis combining:
     
     <h2 style="color: #4da3ff; margin-bottom: 1rem; font-size: 1.8rem;">📊 Visualizations</h2>
     
-    <div class="charts-grid">
+    <div class="charts-vacuum">
         <div class="chart-container">
             <div class="chart-title">Correlation Modes Bar Chart</div>
             <img src="charts/temporal_correlations/correlation_modes_barchart.png" alt="Correlation Modes">
@@ -445,7 +445,7 @@ This is the latest meta-intelligence analysis combining:
             <a href="TEMPORAL_CORRELATION_DISCOVERY.md" style="color: #4da3ff; margin: 0 1rem;">Full Report</a>
         </p>
         <p style="margin-top: 1rem; color: #9ca3af;">
-            LUFT Portal • Carl Dean Cline Sr. • Lincoln, Nebraska
+             Portal • Carl Dean Cline Sr. • Lincoln, Nebraska
         </p>
     </div>
 </body>

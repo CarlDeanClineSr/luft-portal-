@@ -181,7 +181,7 @@ All changes committed and pushed to GitHub.
 
 **Implementation:** January 17, 2026, GitHub Copilot Agent Task
 
-**Repository:** https://github.com/CarlDeanClineSr/luft-portal-
+**Repository:** https://github.com/CarlDeanClineSr/-portal-
 
 **Contact:** CARLDCLINE@GMAIL.COM
 

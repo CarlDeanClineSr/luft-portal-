@@ -2,7 +2,7 @@
 
 ## Overview
 
-This update implements Carl's request to update the LUFT Portal system to reflect the **CONFIRMED** status of the χ ≤ 0.15 universal plasma boundary at Mars.
+This update implements Carl's request to update the  Portal system to reflect the **CONFIRMED** status of the χ ≤ 0.15 universal plasma boundary at Mars.
 
 **Key Message**: "IT'S THERE. RIGHT NOW. IN THE DATA." - The Mars MAVEN data confirms χ ≤ 0.15.
 

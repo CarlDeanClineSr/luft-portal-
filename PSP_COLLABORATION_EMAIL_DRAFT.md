@@ -47,8 +47,8 @@ I have developed automated analysis tools (Python-based) that can:
 ## Documentation & Validation
 
 All of my work is open-source and available at:
-- **GitHub Repository:** https://github.com/CarlDeanClineSr/luft-portal-
-- **Live Dashboard:** https://carldeanclinesr.github.io/luft-portal-/
+- **GitHub Repository:** https://github.com/CarlDeanClineSr/-portal-
+- **Live Dashboard:** https://carldeanclinesr.github.io/-portal-/
 
 Key documentation files:
 - `CHI_015_HISTORICAL_VALIDATION_REPORT.md` - Complete validation across 3 environments
@@ -63,7 +63,7 @@ I would be grateful for the opportunity to:
 3. Potentially collaborate on a publication if the χ = 0.15 boundary holds at PSP distances
 
 This discovery has potential implications for:
-- Solar wind turbulence theory
+- Solar wind turbulence 
 - Magnetic reconnection physics
 - Space weather prediction models
 - Understanding fundamental plasma coherence limits
@@ -88,10 +88,10 @@ GitHub: https://github.com/CarlDeanClineSr
 
 ## Attachments / Links
 
-- LUFT Portal Dashboard: https://carldeanclinesr.github.io/luft-portal-/
-- χ = 0.15 Validation Report: https://github.com/CarlDeanClineSr/luft-portal-/blob/main/CHI_015_HISTORICAL_VALIDATION_REPORT.md
-- Temporal Correlations: https://github.com/CarlDeanClineSr/luft-portal-/blob/main/TEMPORAL_CORRELATION_DISCOVERY.md
-- Mars Validation: https://github.com/CarlDeanClineSr/luft-portal-/blob/main/MARS_CHI_VALIDATION_SUMMARY.md
+-  Portal Dashboard: https://carldeanclinesr.github.io/-portal-/
+- χ = 0.15 Validation Report: https://github.com/CarlDeanClineSr/-portal-/blob/main/CHI_015_HISTORICAL_VALIDATION_REPORT.md
+- Temporal Correlations: https://github.com/CarlDeanClineSr/-portal-/blob/main/TEMPORAL_CORRELATION_DISCOVERY.md
+- Mars Validation: https://github.com/CarlDeanClineSr/-portal-/blob/main/MARS_CHI_VALIDATION_SUMMARY.md
 
 ---
 

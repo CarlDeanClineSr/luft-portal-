@@ -27,7 +27,7 @@ jobs:
       - name: Commit append if changed
         run: |
           git config user.name "Auto-Ledger"
-          git config user.email "ledger@luft.portal"
+          git config user.email "ledger@.portal"
           git add capsules/2025_dec_batch/CAPSULE_DECEMBER_BASELINE_SHIFT_WATCH_001.md
           if ! git diff --staged --quiet; then
             git commit -m "AUTO-APPEND: Daily χ floor — Dec 2025 [skip ci]"

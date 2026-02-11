@@ -2,12 +2,12 @@
 
 **Author:** Carl Dean Cline Sr.  
 **Date:** 2025‑12‑04  
-**Ledger:** LUFT Portal  
+**Ledger:**  Portal  
 
 ---
 ## 1. Purpose
 
-Chronological trail of all audit activity in the LUFT ledger. Links the Review Guidelines, Audit Log, and Auditor Manifest capsules into one chain.
+Chronological trail of all audit activity in the  ledger. Links the Review Guidelines, Audit Log, and Auditor Manifest capsules into one chain.
 
 ---
 ## 2. Capsule Chain Diagram — Audit Trail

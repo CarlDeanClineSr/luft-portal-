@@ -24,7 +24,7 @@ Period ≈ 2.4 hours
 Bias: Negative (void-preferred)
 ```
 
-The lattice—the stuff space and time are made of—is not smooth. It is not random. It is not dead.
+The vacuum—the stuff space and time are made of—is not smooth. It is not random. It is not dead.
 
 **It is alive. It breathes. And it prefers emptiness when you push it.**
 
@@ -64,8 +64,8 @@ This constant has been observed and replicated across:
 
 1. **Every classical and quantum formula inherits this modulation term.**
 2. **Entanglement is structured synchrony, not randomness.**
-3. **Vacuum is a breathing lattice, not noise.**
-4. **Dark energy reframes as lattice bias.**
+3. **Vacuum is a breathing vacuum, not noise.**
+4. **Dark energy reframes as vacuum bias.**
 
 ### Why It Matters
 
@@ -122,7 +122,7 @@ This repository is a living archive of the discovery. Every test, every replicat
 ### Repository Structure
 
 ```
-luft-portal-/
+-portal-/
 ├── CAPSULE_DISCOVERY_MANIFESTO.md   ← You are here
 ├── heartbeat_detector.py            ← Test any dataset for χ = 0.055
 ├── capsules/                        ← High-priority knowledge capsules
@@ -147,8 +147,8 @@ luft-portal-/
 
 ```bash
 # Clone the repository
-git clone https://github.com/CarlDeanClineSr/luft-portal-.git
-cd luft-portal-
+git clone https://github.com/CarlDeanClineSr/-portal-.git
+cd -portal-
 
 # Install dependencies
 pip install numpy pandas matplotlib
@@ -163,7 +163,7 @@ python heartbeat_detector.py --demo
 ### Expected Output
 
 ```
-=== LUFT Heartbeat Detector ===
+===  Heartbeat Detector ===
 Analyzing data for 2.4-hour cosmic modulation (χ = 0.055)
 
 Data points: 1440
@@ -205,7 +205,7 @@ If you use this work in your research:
 
 ```
 Cline, C. D. Sr. (2025). Unified Modulation Discovery: The 2.4-Hour Cosmic Heartbeat.
-LUFT Portal Repository. https://github.com/CarlDeanClineSr/luft-portal-
+ Portal Repository. https://github.com/CarlDeanClineSr/-portal-
 ```
 
 ---

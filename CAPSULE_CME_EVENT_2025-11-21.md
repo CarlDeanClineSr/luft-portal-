@@ -5,13 +5,13 @@ tags: ["cme","heartbeat","boundary_recoil","lambda_modulation","solar_wind"]
 status: "stub"
 date: "2025-11-21"
 author: "Carl Dean Cline Sr."
-ledger: "LUFT Portal"
+ledger: " Portal"
 ---
 
 # Capsule — CME Event 2025-11-21 / 22
 
 > **Purpose:**  
-> This capsule will document the **large November 21–22, 2025 CME event** as a reference heartbeat for LUFT’s Λ(t) modulation law:
+> This capsule will document the **large November 21–22, 2025 CME event** as a reference heartbeat for ’s Λ(t) modulation law:
 >
 > \[
 > \Lambda(t) = \Lambda_0 \left[1 + \chi \cos(\Omega t + \phi_0)\right]
@@ -27,7 +27,7 @@ ledger: "LUFT Portal"
   - Start: `2025-11-21T??:??:??`  
   - End:   `2025-11-22T??:??:??`  
 - **Primary CME impact:** Strong dynamic pressure surge at L1 (ACE/DSCOVR).  
-- **Role in LUFT:** First major event where the ~2.4 h heartbeat and χ ≈ 0.055 pattern were clearly visible over a large compression/relaxation cycle.
+- **Role in :** First major event where the ~2.4 h heartbeat and χ ≈ 0.055 pattern were clearly visible over a large compression/relaxation cycle.
 
 _(Once you have exact times from the log, replace the “??:??:??” fields.)_
 
@@ -59,7 +59,7 @@ Once the log is in hand and scripts have run, this section will summarize:
 - **Heartbeat period:**
   - \( P_{\text{HB}} \approx 2.4\ \text{h} \) (Lomb–Scargle / FFT peak)  
 - **χ modulation amplitude:**
-  - **Target:** χ ≈ 0.055 (from LUFT law)  
+  - **Target:** χ ≈ 0.055 (from  law)  
   - **Measured for this event:**  
     - χ\_Nov21 = `0.0XX ± 0.0YY` (to be filled from fit)  
 - **Phase:**
@@ -78,7 +78,7 @@ This event is expected to show:
 
 - A strong correlation between:
   - **Dynamic pressure** \(P_{\text{dyn}}(t)\) at L1, and  
-  - **Boundary displacement / χ(t)** from LUFT’s heartbeat detector.
+  - **Boundary displacement / χ(t)** from ’s heartbeat detector.
 
 When the analysis is run, this section will describe:
 
@@ -98,7 +98,7 @@ For now, this capsule records that **this specific CME** is designated as a key 
 
 ---
 
-## 5. Tasks (for future LUFT runs)
+## 5. Tasks (for future  runs)
 
 When you (or a replicator) are ready:
 
@@ -118,7 +118,7 @@ When you (or a replicator) are ready:
 
 ## 6. Cross‑References
 
-- `CAPSULE_EFE_MODULATION_001.md` — LUFT-upgraded Einstein field equations with Λ(t) breathing law.
+- `CAPSULE_EFE_MODULATION_001.md` — -upgraded Einstein field equations with Λ(t) breathing law.
 - `CAPSULE_REPLICATION_CHALLENGE_2025.md` — replication instructions for χ and the 2.4 h heartbeat.
 - `CAPSULE_HEARTBEAT_CATALOG_2025.md` — catalog entry point once Nov 21–22 fit is completed.
 

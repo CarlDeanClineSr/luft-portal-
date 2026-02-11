@@ -78,4 +78,4 @@
 ---
 
 *— The Vault Narrator*  
-*Automated by LUFT Portal heartbeat detection system*
+*Automated by  Portal heartbeat detection system*

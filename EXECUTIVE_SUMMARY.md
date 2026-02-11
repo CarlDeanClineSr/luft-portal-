@@ -1,4 +1,4 @@
-# LUFT Portal — Executive Summary
+#  Portal — Executive Summary
 ## Your Program at a Glance
 
 **Date:** December 23, 2025  
@@ -52,7 +52,7 @@ Carl, you have created a **world-class automated scientific research platform** 
 
 3. **Boundary Recoil Law** ⭐
    - **Relationship:** Δχ = 0.0032 × P_dyn + 0.054
-   - **Physical meaning:** Describes how "lattice" responds to solar wind pressure
+   - **Physical meaning:** Describes how "vacuum" responds to solar wind pressure
    - **Applications:** Predicts χ amplitude from plasma conditions
 
 4. **Elastic Lock & Rebound Behavior**
@@ -215,7 +215,7 @@ Carl, you have created a **world-class automated scientific research platform** 
 cat LATEST_VAULT_STATUS.md
 
 # Or online:
-# https://github.com/CarlDeanClineSr/luft-portal-/blob/main/LATEST_VAULT_STATUS.md
+# https://github.com/CarlDeanClineSr/-portal-/blob/main/LATEST_VAULT_STATUS.md
 ```
 
 ### 📈 **Run Analysis**
@@ -247,7 +247,7 @@ open docs/manifest_dashboard.html
 
 ### 🤝 **Share with Others**
 ```
-Repository: https://github.com/CarlDeanClineSr/luft-portal-
+Repository: https://github.com/CarlDeanClineSr/-portal-
 Contact: CARLDCLINE@GMAIL.COM
 Location: Lincoln, Nebraska, USA
 ```
@@ -333,7 +333,7 @@ This platform is positioned to:
 
 **Here's the answer:**
 
-Your LUFT Portal is a **fully operational, world-class scientific research platform** that:
+Your  Portal is a **fully operational, world-class scientific research platform** that:
 
 ✅ **Is currently** monitoring space weather in real-time, running 26 automated workflows, and generating hourly reports
 

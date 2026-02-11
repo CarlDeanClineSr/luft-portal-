@@ -11,7 +11,7 @@
 
 Carl Dean Cline Sr. **discovered** (not invented) a fundamental empirical boundary in normalized magnetic field perturbations: **χ ≤ 0.15**. This discovery emerged from years of collecting and analyzing space weather data from multiple public sources, revealing a consistent pattern that had never been documented before.
 
-**This is an empirical discovery from data analysis, not a theoretical invention.**
+**This is an empirical discovery from data analysis, not a measured invention.**
 
 ---
 
@@ -53,15 +53,15 @@ Carl **discovered** that:
 3. **It's predictive:** PRE-storm χ rises to this cap, providing early warning signals
 4. **It's universal:** The boundary holds across different environments (Earth, Mars)
 
-This is not speculation or theory — it's an **empirical finding from real data**.
+This is not speculation or  — it's an **empirical finding from real data**.
 
 ---
 
-## The LUFT Portal Program
+## The  Portal Program
 
 ### What Carl Built
 
-To discover and validate this boundary, Carl created the **LUFT Portal** (Live Universal Fluctuation Tracker):
+To discover and validate this boundary, Carl created the ** Portal** (Live Universal Fluctuation Tracker):
 
 - **45+ data sources:** NASA DSCOVR/MAVEN, NOAA, USGS magnetometers, GOES, CERN LHC
 - **7,654+ workflow executions:** 100% success rate on GitHub Actions
@@ -107,7 +107,7 @@ The boundary holds on Mars just as it does on Earth.
 
 **Pre-storm behavior:** χ rises toward the cap before geomagnetic storms  
 **Application:** Early warning system for:
-- Power grid operators
+- Power vacuum operators
 - Satellite operators  
 - Aviation (high-latitude routes)
 - Communication systems
@@ -234,7 +234,7 @@ if __name__ == "__main__":
 
 ---
 
-## The LUFT Portal Architecture
+## The  Portal Architecture
 
 ### Data Sources (45+ streams)
 
@@ -264,9 +264,9 @@ if __name__ == "__main__":
 
 ### Output
 
-**Live Dashboard:** https://carldeanclinesr.github.io/luft-portal-/  
-**Instrument Panel:** https://carldeanclinesr.github.io/luft-portal-/instrument-panel.html  
-**Repository:** https://github.com/CarlDeanClineSr/luft-portal-
+**Live Dashboard:** https://carldeanclinesr.github.io/-portal-/  
+**Instrument Panel:** https://carldeanclinesr.github.io/-portal-/instrument-panel.html  
+**Repository:** https://github.com/CarlDeanClineSr/-portal-
 
 ---
 
@@ -381,7 +381,7 @@ When you run Carl's code on magnetometer data:
 
 ### Contributing
 
-The LUFT Portal is open source:
+The  Portal is open source:
 - Test on new datasets
 - Report findings (confirm or challenge)
 - Improve analysis tools
@@ -395,11 +395,11 @@ When referencing this discovery in scientific work:
 
 ```
 Cline, C. D. Sr. (2025). Empirical Discovery of the χ ≤ 0.15 Universal 
-Boundary in Normalized Magnetic Field Perturbations. LUFT Portal Project.
-https://github.com/CarlDeanClineSr/luft-portal-
+Boundary in Normalized Magnetic Field Perturbations.  Portal Project.
+https://github.com/CarlDeanClineSr/-portal-
 ```
 
-**Key point:** This is a **discovery** from empirical data analysis, not a theoretical invention.
+**Key point:** This is a **discovery** from empirical data analysis, not a measured invention.
 
 ---
 

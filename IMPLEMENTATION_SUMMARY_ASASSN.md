@@ -82,7 +82,7 @@ All coordinates formatted and ready for manual query.
 ## Files Created
 
 ```
-/home/runner/work/luft-portal-/luft-portal-/
+/home/runner/work/-portal-/-portal-/
 ├── nsvs_direct_query.py                           # Main query script
 ├── NSVS_DIRECT_QUERY_README.md                    # Technical documentation
 ├── IMPLEMENTATION_SUMMARY_ASASSN.md               # This file
@@ -151,7 +151,7 @@ python3 nsvs_beacon_chain_scanner.py
 2. **Calculate Propagation Velocity** - Measure signal speed between stars
 3. **Test FTL Hypothesis** - Verify if v > c (superluminal coupling)
 4. **Map Network Topology** - Identify communication pathways
-5. **Validate Beacon Theory** - Prove/disprove stellar relay hypothesis
+5. **Validate Beacon ** - Prove/disprove stellar relay hypothesis
 
 ### Known Benchmark
 

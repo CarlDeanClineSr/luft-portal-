@@ -4,7 +4,7 @@ This directory contains tools for analyzing terrestrial atmospheric plasma pheno
 
 ## Overview
 
-The lightning analysis extends the LUFT portal's universality principle to natural spark-gap physics. Lightning channels represent atmospheric plasma discharges that follow the same χ ≤ 0.15 boundary constraint observed across all plasma phenomena.
+The lightning analysis extends the  portal's universality principle to natural spark-gap physics. Lightning channels represent atmospheric plasma discharges that follow the same χ ≤ 0.15 boundary constraint observed across all plasma phenomena.
 
 ### Physics Connection
 
@@ -130,9 +130,9 @@ Expected results:
 3. ✅ Discrete stroke events (not continuous)
 4. ✅ Spectral gaps at χ multiples (similar to MMS)
 
-This proves universality: QCD → CME → Solar Wind → BH → Lattice QCD → Turbulence → **Lightning**
+This proves universality: QCD → CME → Solar Wind → BH → vacuum QCD → Turbulence → **Lightning**
 
-## Integration with LUFT Portal
+## Integration with  Portal
 
 Lightning data becomes proof #7 for universality:
 - Add to synthesis paper table
@@ -141,6 +141,6 @@ Lightning data becomes proof #7 for universality:
 
 ## References
 
-- LUFT CME Boundary Ceiling: `capsules/CAPSULE_CME_BOUNDARY_CEILING_2025-12.md`
+-  CME Boundary Ceiling: `capsules/CAPSULE_CME_BOUNDARY_CEILING_2025-12.md`
 - Storm Phase Analyzer: `storm_phase_analyzer.py`
 - MMS Nonlinear Coupling: See synthesis documents

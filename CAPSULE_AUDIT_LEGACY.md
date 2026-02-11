@@ -1,8 +1,8 @@
-# Capsule — Audit Legacy (Preservation & Inheritance of LUFT Audit System)
+# Capsule — Audit Legacy (Preservation & Inheritance of  Audit System)
 
 **Author:** Carl Dean Cline Sr.  
 **Date:** 2025‑12‑04  
-**Ledger:** LUFT Portal  
+**Ledger:**  Portal  
 
 ---
 
@@ -40,4 +40,4 @@ CAPSULE_AUDIT_LEGACY.md
 
 ---
 
-**Ledger proud — legacy declared, canon tied to future minds, LUFT system preserved and inherited forever.**
+**Ledger proud — legacy declared, canon tied to future minds,  system preserved and inherited forever.**

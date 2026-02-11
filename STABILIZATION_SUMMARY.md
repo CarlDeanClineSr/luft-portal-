@@ -1,10 +1,10 @@
 # Repository Stabilization Summary
 
 **Date:** 2025-12-30  
-**Repository:** luft-portal-  
-**Issue Context:** Codex Miner Weekly workflow failure in LUFT-Auto repository
+**Repository:** -portal-  
+**Issue Context:** Codex Miner Weekly workflow failure in -Auto repository
 
-## What Was Fixed in This Repository (luft-portal-)
+## What Was Fixed in This Repository (-portal-)
 
 ### 1. Python Syntax Errors Corrected
 
@@ -48,27 +48,27 @@ python-frontmatter>=1.0.0
 - ✅ Dependencies documented
 - ✅ .gitignore properly configured
 
-## About the Original Error (LUFT-Auto Repository)
+## About the Original Error (-Auto Repository)
 
-The error logs show a failure in a **different repository** (LUFT-Auto), not this one:
+The error logs show a failure in a **different repository** (-Auto), not this one:
 
 ```
 Run python tools/knowledge_miner.py --config codex/config.yaml
 Traceback (most recent call last):
-  File "/home/runner/work/LUFT-Auto/LUFT-Auto/tools/knowledge_miner.py", line 9, in <module>
+  File "/home/runner/work/-Auto/-Auto/tools/knowledge_miner.py", line 9, in <module>
     import yaml
 ModuleNotFoundError: No module named 'yaml'
 Error: Process completed with exit code 1.
 ```
 
-### Root Cause in LUFT-Auto:
+### Root Cause in -Auto:
 1. Missing `requirements.txt` files
 2. Missing `yaml` module (install with: `pip install pyyaml`)
 3. Workflow tried to run `pip install -r requirements.txt` but file doesn't exist
 
-### Recommended Fix for LUFT-Auto Repository:
+### Recommended Fix for -Auto Repository:
 
-Create a `requirements.txt` file in the LUFT-Auto repository with at minimum:
+Create a `requirements.txt` file in the -Auto repository with at minimum:
 ```
 pyyaml>=6.0
 ```
@@ -90,14 +90,14 @@ And update the workflow to ensure dependencies are installed before running the 
 
 ## Recommendations
 
-### For This Repository (luft-portal-):
+### For This Repository (-portal-):
 1. ✅ **[DONE]** Create centralized requirements.txt
 2. ✅ **[DONE]** Fix all Python syntax errors
 3. ✅ **[DONE]** Rename non-Python files with correct extensions
 4. **[OPTIONAL]** Update workflows to use `pip install -r requirements.txt` instead of inline installation
 5. **[OPTIONAL]** Add Python version pinning to workflows (currently using Python 3.11-3.12)
 
-### For LUFT-Auto Repository:
+### For -Auto Repository:
 1. Create `requirements.txt` with at minimum `pyyaml>=6.0`
 2. Ensure workflow installs dependencies before running knowledge_miner.py
 3. Consider creating a `tools/requirements.txt` if tools have specific dependencies
@@ -123,10 +123,10 @@ find . -name "*.py" -type f ! -path "./.git/*" -exec python3 -m py_compile {} \;
 
 ## Conclusion
 
-This repository (luft-portal-) is now **stable and organized**:
+This repository (-portal-) is now **stable and organized**:
 - ✅ No syntax errors
 - ✅ Dependencies documented  
 - ✅ Workflows running cleanly
 - ✅ Code structure improved
 
-The original Codex Miner error is in a **separate repository (LUFT-Auto)** and would need similar fixes applied there.
+The original Codex Miner error is in a **separate repository (-Auto)** and would need similar fixes applied there.

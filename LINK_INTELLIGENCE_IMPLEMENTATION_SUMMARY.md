@@ -1,4 +1,4 @@
-# LUFT Link Intelligence Network - Implementation Summary
+#  Link Intelligence Network - Implementation Summary
 
 **Completed:** December 31, 2025  
 **Author:** Implementation for Carl Dean Cline Sr.  
@@ -8,7 +8,7 @@
 
 ## 🎯 Mission Accomplished
 
-Successfully implemented a comprehensive **Link Harvesting & Intelligence Network** system that creates a meta-intelligence layer connecting the LUFT Portal to the entire scientific data ecosystem.
+Successfully implemented a comprehensive **Link Harvesting & Intelligence Network** system that creates a meta-intelligence layer connecting the  Portal to the entire scientific data ecosystem.
 
 ---
 
@@ -47,7 +47,7 @@ Successfully implemented a comprehensive **Link Harvesting & Intelligence Networ
   - File-Domain: Shows which files reference which domains
   - Domain-Only: Domain co-occurrence relationships
   - File-Only: File similarity based on shared domains
-- **Metrics:** Degree distribution, node centrality, top connected nodes
+- **Metrics:** Degree distribution, focal point centrality, top connected nodes
 - **Zero external dependencies** (pure Python stdlib)
 
 #### 4. **Interactive Dashboard** (`link_intelligence_dashboard.html`)
@@ -58,7 +58,7 @@ Successfully implemented a comprehensive **Link Harvesting & Intelligence Networ
   - Interactive graph manipulation (zoom, pan, drag)
   - Search functionality
   - Statistics panels with charts
-  - Node detail views
+  - focal point detail views
   - Responsive design
 - **Style:** Dark theme optimized for scientific data
 
@@ -111,7 +111,7 @@ Nodes:              495 nodes
   - Files:          339 nodes
   - Domains:        156 nodes
 Edges:           58,257 connections
-Average Degree:    ~235 edges per node
+Average Degree:    ~235 edges per focal point
 Most Connected:
   - File:   data/papers/inspire_latest.json (53,164 links)
   - Domain: inspirehep.net (44,177 references)
@@ -154,8 +154,8 @@ link_network.json:    8 MB  (Graph visualization data)
 ### Installation
 ```bash
 # Clone repository
-git clone https://github.com/CarlDeanClineSr/luft-portal-.git
-cd luft-portal-
+git clone https://github.com/CarlDeanClineSr/-portal-.git
+cd -portal-
 
 # No installation required! All scripts use Python stdlib only.
 ```
@@ -191,7 +191,7 @@ open link_intelligence_dashboard.html
 - ✅ **Network analysis** of data relationships
 
 ### For Collaborators
-- ✅ **Easy to understand** what data sources LUFT uses
+- ✅ **Easy to understand** what data sources  uses
 - ✅ **Quick reference** to 43+ external sources
 - ✅ **Visual exploration** of connections
 - ✅ **CSV exports** for custom analysis
@@ -211,7 +211,7 @@ open link_intelligence_dashboard.html
 This system provides:
 
 1. **Discovery Tool:** Find all external connections automatically
-2. **Integration Map:** See how LUFT connects to global science
+2. **Integration Map:** See how  connects to global science
 3. **Network Analysis:** Understand relationships between data sources
 4. **Quality Assurance:** Monitor link health over time
 5. **Documentation Aid:** Keep track of all references
@@ -251,7 +251,7 @@ External Sources:     43 cataloged sources
 
 ## 🎓 Use Cases Enabled
 
-1. **"What sources does LUFT use?"** → Run harvester, see categorized list
+1. **"What sources does  use?"** → Run harvester, see categorized list
 2. **"How are sources connected?"** → Open dashboard, explore graph
 3. **"Find all NASA links"** → Export CSV, filter by category
 4. **"Track changes over time"** → Compare daily timestamped files
@@ -281,13 +281,13 @@ External Sources:     43 cataloged sources
 - **Quick Start:** [LINK_INTELLIGENCE_QUICKSTART.md](LINK_INTELLIGENCE_QUICKSTART.md)
 - **Full Documentation:** [LINK_INTELLIGENCE_REPORT.md](LINK_INTELLIGENCE_REPORT.md)
 - **Data Sources:** [external_data_sources_registry.yaml](external_data_sources_registry.yaml)
-- **Main LUFT README:** [README.md](README.md)
+- **Main  README:** [README.md](README.md)
 
 ---
 
 ## 🙏 Acknowledgments
 
-This system connects LUFT to the incredible work of:
+This system connects  to the incredible work of:
 - NASA, NOAA, USGS (US space/earth science)
 - CERN (particle physics)
 - ESA, JAXA, ISRO (international space agencies)
@@ -300,8 +300,8 @@ This system connects LUFT to the incredible work of:
 
 ---
 
-**LUFT Link Intelligence Network v1.0**  
+** Link Intelligence Network v1.0**  
 *Completed December 31, 2025*  
-*Part of the LUFT Portal by Carl Dean Cline Sr., Lincoln, Nebraska*
+*Part of the  Portal by Carl Dean Cline Sr., Lincoln, Nebraska*
 
-**Repository:** https://github.com/CarlDeanClineSr/luft-portal-
+**Repository:** https://github.com/CarlDeanClineSr/-portal-

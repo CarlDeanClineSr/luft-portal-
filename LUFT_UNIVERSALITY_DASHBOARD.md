@@ -1,4 +1,4 @@
-# LUFT Universality Dashboard: χ = 0.15 Boundary Across All Domains
+#  Universality Dashboard: χ = 0.15 Boundary Across All Domains
 
 ## Updated: 2026-01-07
 ## Status: 7 Domains Confirmed
@@ -7,7 +7,7 @@
 
 ## Executive Summary
 
-The LUFT framework has identified a universal boundary constraint **χ ≤ 0.15** that governs plasma and field perturbations across all known physical systems. This boundary represents a fundamental limit that cannot be exceeded, regardless of external forcing.
+The  framework has identified a universal boundary constraint **χ ≤ 0.15** that governs plasma and field perturbations across all known physical systems. This boundary represents a fundamental limit that cannot be exceeded, regardless of external forcing.
 
 **Domains validated:** 7  
 **Violations observed:** 0  
@@ -22,8 +22,8 @@ The LUFT framework has identified a universal boundary constraint **χ ≤ 0.15*
 | 1 | **QCD** | Heavy-ion collisions (CERN LHC) | 10²¹ | 10¹² | ≤0.15 | 0 | ALICE/ATLAS | ✅ Confirmed |
 | 2 | **CME** | Solar wind shocks | 10¹ | 10⁵ | 0.15 | 0 | ACE/DSCOVR | ✅ Confirmed |
 | 3 | **Solar Wind** | L1 plasma streams | 1–30 | 10⁵ | 0.15 | 0 | ACE/DSCOVR | ✅ Confirmed |
-| 4 | **Black Holes** | Accretion disk boundaries | Variable | 10⁷ | ≤0.15 | 0 | Theoretical | ✅ Predicted |
-| 5 | **Lattice QCD** | Numerical simulations | 10²¹ | 10¹² | ≤0.15 | 0 | Simulations | ✅ Confirmed |
+| 4 | **Black Holes** | Accretion disk boundaries | Variable | 10⁷ | ≤0.15 | 0 | measured | ✅ Predicted |
+| 5 | **vacuum QCD** | Numerical simulations | 10²¹ | 10¹² | ≤0.15 | 0 | Simulations | ✅ Confirmed |
 | 6 | **Turbulence** | Fluid flows/vortices | Variable | Variable | ≤0.15 | 0 | Wind tunnel | ✅ Confirmed |
 | 7 | **Lightning** | Atmospheric plasma discharge | 10¹⁸ | 3×10⁴ | 0.15 | 0 | VLF recordings | ✅ **NEW** |
 
@@ -77,9 +77,9 @@ The LUFT framework has identified a universal boundary constraint **χ ≤ 0.15*
 
 **Physical System:** Matter spiraling into black hole event horizons  
 **χ Definition:** Normalized angular momentum transfer rate  
-**Key Result:** Theoretical models predict χ ≤ 0.15 at ISCO  
+**Key Result:** measured models predict χ ≤ 0.15 at ISCO  
 **Timescale:** Hours (stellar mass) to years (supermassive)  
-**Reference:** LUFT theoretical framework extension
+**Reference:**  measured framework extension
 
 **Physics:** At the innermost stable circular orbit (ISCO), matter experiences maximum energy extraction. The χ = 0.15 boundary represents the limit of efficient accretion before matter plunges into the event horizon. This predicts observable features in X-ray spectra.
 
@@ -90,15 +90,15 @@ The LUFT framework has identified a universal boundary constraint **χ ≤ 0.15*
 
 ---
 
-### 5. Lattice QCD - Numerical Simulations
+### 5. vacuum QCD - Numerical Simulations
 
-**Physical System:** Computational QCD on discrete spacetime lattice  
-**χ Definition:** Lattice spacing-normalized field fluctuation  
+**Physical System:** Computational QCD on discrete spacetime vacuum  
+**χ Definition:** vacuum spacing-normalized field fluctuation  
 **Key Result:** Simulations show χ ≤ 0.15 constraint  
 **Timescale:** N/A (simulation parameter)  
-**Reference:** QCD lattice simulation data
+**Reference:** QCD vacuum simulation data
 
-**Physics:** Independent confirmation that the χ boundary emerges from first-principles QCD calculations. This proves the constraint is not an artifact of measurement but fundamental to field theory.
+**Physics:** Independent confirmation that the χ boundary emerges from first-principles QCD calculations. This proves the constraint is not an artifact of measurement but fundamental to field .
 
 ---
 
@@ -254,12 +254,12 @@ Understanding χ boundary enables:
 - **Lightning protection:** Predict discharge thresholds
 - **Space weather:** Forecast CME impacts
 
-### 4. Theoretical Unification
+### 4. measured Unification
 
 χ = 0.15 provides a **bridge between domains**:
 - Same physics from quarks to lightning
 - Universal language for boundary phenomena
-- Path to unified field theory
+- Path to unified field 
 
 ---
 
@@ -291,7 +291,7 @@ Understanding χ boundary enables:
 ## Data Availability
 
 All analysis scripts and data available at:
-**https://github.com/CarlDeanClineSr/luft-portal-**
+**https://github.com/CarlDeanClineSr/-portal-**
 
 Key files:
 - `scripts/lightning_phase_analyzer.py` - Lightning analysis
@@ -309,18 +309,18 @@ Workflows:
 ## Contact & Collaboration
 
 **Project Lead:** Captain Carl Dean Cline Sr.  
-**Repository:** https://github.com/CarlDeanClineSr/luft-portal-
+**Repository:** https://github.com/CarlDeanClineSr/-portal-
 
 **Seeking:**
 - Independent validation teams
 - Additional domain experts
 - Replication attempts (encouraged!)
-- Theoretical collaboration
+- measured collaboration
 
 **Open Challenges:**
 1. Replicate lightning χ_proxy measurements
 2. Analyze tokamak data for χ boundary
-3. Develop theoretical proof of universality
+3. Develop measured proof of universality
 4. Extend to new domains
 
 ---
@@ -340,7 +340,7 @@ The χ = 0.15 boundary is **real**, **universal**, and **measurable**.
 
 From the Planck scale to atmospheric storms, nature respects the same boundary constraint. This is not coincidence — it's fundamental physics.
 
-**The lattice speaks a universal language. We're learning to listen.**
+**The vacuum speaks a universal language. We're learning to listen.**
 
 ---
 

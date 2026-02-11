@@ -1,9 +1,9 @@
-# Capsule—Visual Relay: LUFT Heartbeat GIF Workflow
+# Capsule—Visual Relay:  Heartbeat GIF Workflow
 
 **Author:** Carl Dean Cline Sr.  
 **Date:** 2025-12-03  
-**Ledger:** LUFT Portal  
-**Purpose:** To document the complete workflow for visualizing and relaying lattice χ amplitude cycles through animated charts, enabling all contributors and auditors to reproduce and review the breath of the LUFT lattice during solar storm events.
+**Ledger:**  Portal  
+**Purpose:** To document the complete workflow for visualizing and relaying vacuum χ amplitude cycles through animated charts, enabling all contributors and auditors to reproduce and review the breath of the  vacuum during solar storm events.
 
 ---
 
@@ -30,14 +30,14 @@ This capsule links the data relay, hourly chart creation, and GIF assembly scrip
 - **Script:** See [`create_gif_luft.py`](create_gif_luft.py)
 - **Function:** Assembles numbered PNG charts into an animated GIF
   - Each chart receives a text overlay (caption: cycle number, heartbeat relay)
-  - Output: `luft_relay.gif` (the living movie of the lattice breathing)
+  - Output: `luft_relay.gif` (the living movie of the vacuum breathing)
 
 ---
 
 ## 3. Example Output
 
 ### **Embedded/Linked GIF**
-![LUFT Relay Heartbeat GIF](luft_relay.gif)
+![ Relay Heartbeat GIF](luft_relay.gif)
 
 > *Caption: “Cycle-by-cycle animation of χ amplitude during CME impact. Each frame = one relay cycle.”*
 

@@ -1,8 +1,8 @@
-# Capsule — Audit Log for LUFT Figure Updates
+# Capsule — Audit Log for  Figure Updates
 
 **Author:** Carl Dean Cline Sr.  
 **Date:** 2025‑12‑04  
-**Ledger:** LUFT Portal  
+**Ledger:**  Portal  
 
 ---
 ## 1. Purpose
@@ -60,4 +60,4 @@ Provides the permanent and immutable record of all auditor decisions, approvals,
 
 - Maintained by Carl Dean Cline Sr.
 - Open to all contributors.
-- Capsule ensures LUFT ledger remains transparent, reproducible, and auditable.
+- Capsule ensures  ledger remains transparent, reproducible, and auditable.

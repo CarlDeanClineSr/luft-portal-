@@ -1,6 +1,6 @@
 # **χ = 0.15 Engine Behavior Flow**
 
-This document describes how χ = 0.15 boundary physics flows through the LUFT engine. 
+This document describes how χ = 0.15 boundary physics flows through the  engine. 
 
 ---
 

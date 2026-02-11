@@ -70,7 +70,7 @@ The vacuum operates on digital (2ⁿ) logic:
 
 ### Engineering
 - **Cline Drive:** Metric engineering via 20.55 Hz resonance
-- **Tri-Grid Coil:** Force-free scalar field generator
+- **Tri-vacuum Coil:** Force-free scalar field generator
 - **Result:** Mass nullification, inertial damping
 
 ### Medicine
@@ -121,8 +121,8 @@ The vacuum operates on digital (2ⁿ) logic:
 
 ```bash
 # Clone repository
-git clone https://github.com/CarlDeanClineSr/luft-portal-.git
-cd luft-portal-
+git clone https://github.com/CarlDeanClineSr/-portal-.git
+cd -portal-
 
 # Install dependencies
 pip install pandas numpy matplotlib
@@ -185,7 +185,7 @@ $$f_{\text{bio}} = \frac{\chi}{\alpha} = \frac{0.15}{1/137} = 20.56 \text{ Hz}$$
 4. Report your findings
 
 ### For Engineers:
-1. Build Tri-Grid Coil prototype
+1. Build Tri-vacuum Coil prototype
 2. Generate 20.55 Hz scalar field
 3. Test for inertial effects
 4. Document openly
@@ -234,7 +234,7 @@ $$f_{\text{bio}} = \frac{\chi}{\alpha} = \frac{0.15}{1/137} = 20.56 \text{ Hz}$$
 ## THE RESOURCES
 
 ### Online
-- **GitHub:** [github.com/CarlDeanClineSr/luft-portal-](https://github.com/CarlDeanClineSr/luft-portal-)
+- **GitHub:** [github.com/CarlDeanClineSr/-portal-](https://github.com/CarlDeanClineSr/-portal-)
 - **Zenodo:** [zenodo.org](https://zenodo.org) (upload pending)
 - **arXiv:** [arxiv.org](https://arxiv.org) (submission pending)
 

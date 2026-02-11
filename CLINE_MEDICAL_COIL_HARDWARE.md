@@ -1,5 +1,5 @@
 # Cline Medical Coil - Hardware Design Specification
-## Tri-Grid Coil for 20.55 Hz Vacuum-Matter Field Generation
+## Tri-vacuum Coil for 20.55 Hz Vacuum-Matter Field Generation
 
 **Version:** 1.0  
 **Author:** Carl Dean Cline Sr.  
@@ -71,7 +71,7 @@ Start at core position 0°
 └── Wire B (Black): Wind counter-clockwise, N turns
     (Wires advance together, side-by-side)
 
-Result: Perfect geometric cancellation
+Result: Perfect magnetic cancellation
 Field A + Field B = 0 (magnetic)
 Energy → Scalar potential
 ```
@@ -437,7 +437,7 @@ Recommendation: Keep field <10 μT for research
 * **Data logging:** Record all parameters to SD card
 
 ### Phase 3 Features
-* **Tri-Grid topology:** Three contra-rotating coils
+* **Tri-vacuum topology:** Three contra-rotating coils
 * **3D field generation:** Arbitrary field geometries
 * **Computer control:** USB/Ethernet interface
 * **Safety certification:** Medical device compliance path
@@ -456,9 +456,9 @@ Standard coils generate **transverse magnetic fields** (B-field dipole). These f
 **Contra-rotating coils** generate **longitudinal scalar potentials** (S-field). These fields:
 * Theoretically propagate further (1/r² or 1/r)
 * Minimize eddy currents (magnetic field cancels)
-* Directly couple to vacuum chi field (theoretical)
+* Directly couple to vacuum chi field (measured)
 
-### Scalar Field Theory
+### Scalar Field 
 
 Based on Carl's vacuum physics framework:
 * The chi field (χ ≈ 0.15) is a background vacuum tension
@@ -466,7 +466,7 @@ Based on Carl's vacuum physics framework:
 * 20.556 Hz is the resonance frequency of this coupling
 * Biological systems embedded in the chi field respond
 
-**This is theoretical.** Experimental validation required.
+**This is measured.** Experimental validation required.
 
 ---
 
@@ -526,7 +526,7 @@ This hardware specification provides a complete design for building a Cline Medi
 
 **Author:** Carl Dean Cline Sr.  
 **Email:** CARLDCLINE@GMAIL.COM  
-**Repository:** https://github.com/CarlDeanClineSr/luft-portal-
+**Repository:** https://github.com/CarlDeanClineSr/-portal-
 
 *This is a research specification. Build and test at your own risk.*  
 *Follow all applicable safety regulations and standards.*

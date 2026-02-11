@@ -2,7 +2,7 @@
 
 **Priority Notice Filed:** January 22, 2026  
 **Author:** Carl Dean Cline Sr.  
-**Repository:** [github.com/CarlDeanClineSr/luft-portal-](https://github.com/CarlDeanClineSr/luft-portal-)
+**Repository:** [github.com/CarlDeanClineSr/-portal-](https://github.com/CarlDeanClineSr/-portal-)
 
 ---
 
@@ -11,7 +11,7 @@
 ### Primary Publication
 - **[THE_CLINE_CONVERGENCE.md](THE_CLINE_CONVERGENCE.md)**
   - Complete scientific manifesto
-  - 11 sections covering theory, evidence, and implications
+  - 11 sections covering , evidence, and implications
   - References and replication instructions
   - **Use this for:** Complete understanding, citation, and distribution
 
@@ -50,13 +50,13 @@ Key sections:
 ### If you have 2 hours:
 → Read **[THE_CLINE_CONVERGENCE.md](THE_CLINE_CONVERGENCE.md)** in full
 
-Complete understanding of theory, evidence, engineering applications, and publishing strategy.
+Complete understanding of , evidence, engineering applications, and publishing strategy.
 
 ### If you want to replicate:
 → Read **[THE_CLINE_CONVERGENCE.md](THE_CLINE_CONVERGENCE.md)** Appendix
 
 Then:
-1. Clone repository: `git clone https://github.com/CarlDeanClineSr/luft-portal-.git`
+1. Clone repository: `git clone https://github.com/CarlDeanClineSr/-portal-.git`
 2. Install dependencies: `pip install pandas numpy matplotlib`
 3. Run calculator: `python chi_calculator.py --demo`
 4. Verify χ ≤ 0.15 in your own data
@@ -103,7 +103,7 @@ Then:
 ### For Engineers
 **Focus on:** THE_CLINE_CONVERGENCE.md Section VIII
 - Metric Engineering principles
-- Cline Drive (Tri-Grid Coil)
+- Cline Drive (Tri-vacuum Coil)
 - 20.55 Hz resonance key
 
 **Key Application:** Mass nullification via vacuum impedance reduction
@@ -143,7 +143,7 @@ Then:
 ### Month 2-6 (Medium-term)
 - [ ] Book proposal
 - [ ] Experimental validation (20.55 Hz tests)
-- [ ] Build Tri-Grid Coil prototype
+- [ ] Build Tri-vacuum Coil prototype
 - [ ] Community building (Discord, wiki)
 
 **Detailed timeline:** See [PUBLISHING_STRATEGY_GUIDE.md](PUBLISHING_STRATEGY_GUIDE.md)
@@ -170,7 +170,7 @@ Preferred citation format:
 ```
 Cline, C.D. (2026). The Cline Convergence: An Audit of the Vacuum 
 and the Failure of the Standard Model. 
-Retrieved from https://github.com/CarlDeanClineSr/luft-portal-
+Retrieved from https://github.com/CarlDeanClineSr/-portal-
 ```
 
 After DOI assignment:
@@ -184,7 +184,7 @@ https://doi.org/10.5281/zenodo.XXXXXXX
 
 ## 🔗 Related Repository Documents
 
-### Theory
+### 
 - [CHI_015_COMPLETE_GUIDE.md](CHI_015_COMPLETE_GUIDE.md) - Technical guide to χ parameter
 - [IMPERIAL_MATH_GEOMETRY_V1.md](IMPERIAL_MATH_GEOMETRY_V1.md) - Mathematical framework
 - [UNIVERSAL_BOUNDARY_REPORT.md](UNIVERSAL_BOUNDARY_REPORT.md) - Original boundary discovery
@@ -203,7 +203,7 @@ https://doi.org/10.5281/zenodo.XXXXXXX
 ## 💬 Contact and Community
 
 ### Primary
-- **Repository Issues:** [github.com/CarlDeanClineSr/luft-portal-/issues](https://github.com/CarlDeanClineSr/luft-portal-/issues)
+- **Repository Issues:** [github.com/CarlDeanClineSr/-portal-/issues](https://github.com/CarlDeanClineSr/-portal-/issues)
 - **Repository Discussions:** Use GitHub Discussions tab
 
 ### For Replication

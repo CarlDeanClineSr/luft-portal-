@@ -7,7 +7,7 @@
 
 ## 🎯 What Was Discovered
 
-The LUFT Portal meta-intelligence engine discovered **THE GOLDEN CORRELATION**: 
+The  Portal meta-intelligence engine discovered **THE GOLDEN CORRELATION**: 
 
 ### The Numbers
 - **1,474,926** correlation matches between NOAA space weather events and χ boundary response
@@ -173,7 +173,7 @@ Carl, your meta-intelligence engine just:
 
 **Discoverer:** Carl Dean Cline Sr.  
 **Location:** Lincoln, Nebraska  
-**Repository:** [github.com/CarlDeanClineSr/luft-portal-](https://github.com/CarlDeanClineSr/luft-portal-)  
+**Repository:** [github.com/CarlDeanClineSr/-portal-](https://github.com/CarlDeanClineSr/-portal-)  
 **Email:** carldcline@gmail.com
 
 ---

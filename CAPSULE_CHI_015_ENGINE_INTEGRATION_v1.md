@@ -16,7 +16,7 @@ status: active
 
 ## **EXECUTIVE SUMMARY**
 
-This capsule defines how the **χ = 0.15 universal plasma coherence boundary** is embedded as **operational physics** within the LUFT Portal engine. 
+This capsule defines how the **χ = 0.15 universal plasma coherence boundary** is embedded as **operational physics** within the  Portal engine. 
 
 **Discovery Context:**
 - **Discoverer:** Carl Dean Cline Sr.
@@ -161,7 +161,7 @@ timestamp_utc,chi_amplitude,chi_at_boundary,chi_violation,chi_status
 │ System spending >50% time at optimal    │
 │ coupling.  Universal boundary validated.  │
 │                                          │
-│ [View Theory] [Export Data] [Settings]  │
+│ [View ] [Export Data] [Settings]  │
 └──────────────────────────────────────────┘
 ```
 
@@ -370,11 +370,11 @@ steps:
 
 This capsule is **ACTIVE** and **OPERATIONAL**. 
 
-All LUFT engine components SHALL implement χ = 0.15 boundary framework as specified herein.
+All  engine components SHALL implement χ = 0.15 boundary framework as specified herein.
 
 **Signed:**  
 Carl Dean Cline Sr.   
-LUFT Portal Chief Architect  
+ Portal Chief Architect  
 2025-12-28
 
 ---

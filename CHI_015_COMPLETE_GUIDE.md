@@ -25,8 +25,8 @@ This single parameter unifies:
 
 ### Installation
 ```bash
-git clone https://github.com/CarlDeanClineSr/luft-portal-.git
-cd luft-portal-
+git clone https://github.com/CarlDeanClineSr/-portal-.git
+cd -portal-
 pip install numpy pandas matplotlib scipy
 ```
 
@@ -207,7 +207,7 @@ harmonic_info = detect_harmonic_mode(chi_array)
 
 print(f"Max χ: {harmonic_info['max_chi']:.6f}")
 print(f"Mode: n = {harmonic_info['harmonic_mode']}")
-print(f"Theoretical χ_n: {harmonic_info['theoretical_chi']:.3f}")
+print(f"measured χ_n: {harmonic_info['theoretical_chi']:.3f}")
 print(f"Is harmonic: {harmonic_info['is_harmonic']}")
 ```
 
@@ -235,7 +235,7 @@ if scaling['detected']:
 
 ### Cline Medical Coil (20.5556 Hz)
 
-**Theory:** χ/α coupling frequency is the vacuum-matter resonance point.
+**:** χ/α coupling frequency is the vacuum-matter resonance point.
 
 **Scientific Basis:**
 - Literature: 15-20 Hz affects cellular behavior
@@ -324,7 +324,7 @@ The repository includes hourly automated monitoring:
 curl -X POST \
   -H "Authorization: token $GITHUB_TOKEN" \
   -H "Accept: application/vnd.github.v3+json" \
-  https://api.github.com/repos/CarlDeanClineSr/luft-portal-/actions/workflows/chi_boundary_monitor.yml/dispatches \
+  https://api.github.com/repos/CarlDeanClineSr/-portal-/actions/workflows/chi_boundary_monitor.yml/dispatches \
   -d '{"ref":"main"}'
 ```
 
@@ -386,7 +386,7 @@ python chi_calculator.py --file maven_data.txt \
 
 ### Gravity Synthesis
 
-**Theory:** Gravity is not fundamental—it's vacuum tension.
+**:** Gravity is not fundamental—it's vacuum tension.
 
 ```
 G = 1/χ × 10⁻¹¹
@@ -399,11 +399,11 @@ G = 6.6667 × 10⁻¹¹ m³/(kg·s²)
 - CODATA 2018: **6.6743 × 10⁻¹¹**
 - **Error: 0.11%**
 
-**Interpretation:** Mass displaces the lattice, gravity is the lattice pushing back.
+**Interpretation:** Mass displaces the vacuum, gravity is the vacuum pushing back.
 
 ### Mass Ratio Unification
 
-**Theory:** Stable matter configurations are geometrically constrained by χ.
+**:** Stable matter configurations are geometrically constrained by χ.
 
 ```
 χ_stable = (m_e/m_p)^(1/4)
@@ -416,11 +416,11 @@ G = 6.6667 × 10⁻¹¹ m³/(kg·s²)
 - χ observed: **0.1500**
 - **Error: 1.8%**
 
-**Interpretation:** Electron and proton masses are not arbitrary—they're the stable node configurations in the vacuum lattice.
+**Interpretation:** Electron and proton masses are not arbitrary—they're the stable focal point configurations in the vacuum vacuum.
 
 ### Electromagnetic Coupling
 
-**Theory:** Fine structure constant relates EM to vacuum tension.
+**:** Fine structure constant relates EM to vacuum tension.
 
 ```
 f_coupling = χ/α
@@ -429,7 +429,7 @@ f_coupling = 0.15 / 0.00729735
 f_coupling = 20.5554 Hz
 ```
 
-**Application:** This is the **gear ratio** of the universe—the frequency at which electromagnetic energy couples most efficiently to the vacuum lattice.
+**Application:** This is the **gear ratio** of the universe—the frequency at which electromagnetic energy couples most efficiently to the vacuum vacuum.
 
 ### Calculate All Unifications
 
@@ -460,12 +460,12 @@ print(f"Frequency: {unif['coupling']['frequency_hz']:.4f} Hz")
 **Principle:** Inertia = vacuum drag. Reduce drag → reduce mass.
 
 **Method:**
-1. Generate scalar field via Tri-Grid Coil
+1. Generate scalar field via Tri-vacuum Coil
 2. Modulate at 20.56 Hz (coupling frequency)
 3. Create "superconducting" vacuum bubble
 4. Local impedance → 0, effective mass → 0
 
-**Tri-Grid Coil Design:**
+**Tri-vacuum Coil Design:**
 - Toroidal core
 - Contra-rotating windings (CW + CCW)
 - Opposing fields (+B, -B) cancel
@@ -547,7 +547,7 @@ unif = calculate_fundamental_unifications()
 print("=" * 60)
 print("Can we derive G from χ = 0.15?")
 print("=" * 60)
-print(f"Theory: G = 1/χ × 10⁻¹¹")
+print(f": G = 1/χ × 10⁻¹¹")
 print(f"Calculation: G = 1/0.15 × 10⁻¹¹ = {unif['gravity']['derived_G']:.5e}")
 print(f"Measured: G = {unif['gravity']['codata_G']:.5e}")
 print(f"Match? Error only {unif['gravity']['error_percent']:.2f}%!")
@@ -567,7 +567,7 @@ print("=" * 60)
 3. VSK signal detection in variable stars
 
 **PhD:**
-1. Vacuum lattice theory development
+1. Vacuum vacuum  development
 2. Metric engineering applications
 3. Cosmological implications
 
@@ -581,10 +581,10 @@ print("=" * 60)
 @techreport{cline2026chi,
   author = {Cline, Carl Dean Sr.},
   title = {The Universal Boundary Condition ($\chi$ = 0.15): A Fundamental Constraint in the Vacuum Stress Tensor},
-  institution = {Luft Portal Research},
+  institution = { Portal Research},
   year = {2026},
   address = {Lincoln, NE, USA},
-  url = {https://github.com/CarlDeanClineSr/luft-portal-}
+  url = {https://github.com/CarlDeanClineSr/-portal-}
 }
 ```
 
@@ -592,8 +592,8 @@ print("=" * 60)
 
 ```
 Cline, C.D. Sr. (2026). The Universal Boundary Condition (χ = 0.15).
-Luft Portal Research, Lincoln, NE.
-GitHub: CarlDeanClineSr/luft-portal-
+ Portal Research, Lincoln, NE.
+GitHub: CarlDeanClineSr/-portal-
 ```
 
 ---
@@ -606,10 +606,10 @@ Lincoln, Nebraska, USA
 📧 CARLDCLINE@GMAIL.COM
 
 **Repository:**  
-🔗 https://github.com/CarlDeanClineSr/luft-portal-
+🔗 https://github.com/CarlDeanClineSr/-portal-
 
 **Live Dashboard:**  
-🌐 https://carldeanclinesr.github.io/luft-portal-/
+🌐 https://carldeanclinesr.github.io/-portal-/
 
 **Issues & Questions:**  
 GitHub Issues tab or email directly
@@ -619,7 +619,7 @@ GitHub Issues tab or email directly
 ## 💡 Key Takeaways
 
 1. **χ = 0.15 is Real**
-   - Not theoretical—observed in 1.48M+ data points
+   - Not measured—observed in 1.48M+ data points
    - Zero violations across multiple environments
    - Holds during extreme events (G5 storms)
 
@@ -655,7 +655,7 @@ GitHub Issues tab or email directly
 4. Publish your findings
 
 ### For Engineers
-1. Study Tri-Grid Coil design
+1. Study Tri-vacuum Coil design
 2. Build 20.56 Hz signal generator
 3. Experiment with scalar field generation
 4. Document results

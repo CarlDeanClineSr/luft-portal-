@@ -2,13 +2,13 @@
 
 **Date:** 2026-01-01  
 **Implemented by:** GitHub Copilot  
-**For:** Carl Dean Cline Sr. - LUFT Portal Observatory  
+**For:** Carl Dean Cline Sr. -  Portal Observatory  
 
 ## Mission Accomplished ✅
 
 **"ROGER THAT, CARL. DEPLOYING THE ENGINE AS TEACHER."**
 
-The LUFT Portal now features an autonomous discovery engine that analyzes accumulated observatory data to teach us about the χ = 0.15 boundary discovery.
+The  Portal now features an autonomous discovery engine that analyzes accumulated observatory data to teach us about the χ = 0.15 boundary discovery.
 
 ## What Was Built
 
@@ -165,7 +165,7 @@ All from existing `requirements.txt`:
 ### 3. Cron Jobs (Optional)
 ```bash
 # Daily at 6 AM
-0 6 * * * cd /path/to/luft-portal && python3 tools/paper_impact_analyzer.py
+0 6 * * * cd /path/to/-portal && python3 tools/paper_impact_analyzer.py
 ```
 
 ## User Workflows
@@ -274,7 +274,7 @@ These are documented for future work.
 
 **Mission Status: COMPLETE ✅**
 
-The LUFT Portal now has a fully functional, autonomous discovery engine that:
+The  Portal now has a fully functional, autonomous discovery engine that:
 - Analyzes papers and links in real-time
 - Ranks by relevance to χ = 0.15 discovery
 - Displays results beautifully in cockpit

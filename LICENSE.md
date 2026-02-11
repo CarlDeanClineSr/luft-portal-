@@ -1,4 +1,4 @@
-# LUFT Observatory Data and Code License
+#  Observatory Data and Code License
 
 
 ### **For Presentations/Reports:**
@@ -17,9 +17,9 @@
 
 **If you use this data, code, methods, or findings, you MUST cite:**
 
-> Carl Dean Cline Sr. (2025). "Universal Plasma Oscillation Boundary (χ = 0.15) — LUFT Observatory Multi-Domain Plasma Monitor."  
-> GitHub:  https://github.com/CarlDeanClineSr/luft-portal-  
-> Dashboard: https://carldeanclinesr.github.io/luft-portal-/
+> Carl Dean Cline Sr. (2025). "Universal Plasma Oscillation Boundary (χ = 0.15) —  Observatory Multi-Domain Plasma Monitor."  
+> GitHub:  https://github.com/CarlDeanClineSr/-portal-  
+> Dashboard: https://carldeanclinesr.github.io/-portal-/
 
 ### ❌ **RESTRICTIONS**:
 - **Commercial use requires written permission** (contact via GitHub)
@@ -37,13 +37,13 @@ This data and software are provided **"AS IS"**, without warranty of any kind, e
 **For licensing inquiries, collaboration, or commercial use:**
 
 - GitHub: @CarlDeanClineSr  carldcline@gmail.com
-- Repository: https://github.com/CarlDeanClineSr/luft-portal-
+- Repository: https://github.com/CarlDeanClineSr/-portal-
 
 ---
 
 ## Acknowledgments
 
-Data sources integrated into LUFT Observatory:
+Data sources integrated into  Observatory:
 - NOAA DSCOVR (solar wind)
 - USGS Geomagnetism Program (magnetosphere)
 - NASA GOES (X-ray flux, satellite magnetometer)

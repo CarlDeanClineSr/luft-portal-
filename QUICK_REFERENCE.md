@@ -1,4 +1,4 @@
-# LUFT Portal — Quick Reference Guide
+#  Portal — Quick Reference Guide
 *Your System at a Glance*
 
 ---
@@ -42,7 +42,7 @@ Carl discovered through empirical data analysis that normalized magnetic field p
 
 ### 3. Boundary Recoil Law ⭐
 - **What:** Δχ = 0.0032 × P_dyn + 0.054
-- **Meaning:** How lattice responds to pressure
+- **Meaning:** How vacuum responds to pressure
 - **File:** `CAPSULE_BOUNDARY_RECOIL.md`
 
 ---
@@ -237,7 +237,7 @@ Auto-commit & Push (Git)
 
 ## 📞 Contact & Links
 
-**Repository:** https://github.com/CarlDeanClineSr/luft-portal-  
+**Repository:** https://github.com/CarlDeanClineSr/-portal-  
 **Author:** Carl Dean Cline Sr.  
 **Email:** CARLDCLINE@GMAIL.COM  
 **Location:** Lincoln, Nebraska, USA
@@ -253,8 +253,8 @@ Auto-commit & Push (Git)
 
 ### Starting Fresh
 ```bash
-git clone https://github.com/CarlDeanClineSr/luft-portal-.git
-cd luft-portal-
+git clone https://github.com/CarlDeanClineSr/-portal-.git
+cd -portal-
 pip install numpy pandas scipy matplotlib pyyaml
 python heartbeat_detector.py --demo
 ```

@@ -1,6 +1,6 @@
-# LUFT Portal — A Living Lab for the Heartbeat of Space
+#  Portal — A Living Lab for the Heartbeat of Space
 
-Welcome. This repository is the public ledger for **LUFT** — a project studying how space itself “breathes” with solar wind pressure.
+Welcome. This repository is the public ledger for **** — a project studying how space itself “breathes” with solar wind pressure.
 
 From the outside, what you see here is a **live, self‑auditing lab**:
 
@@ -11,10 +11,10 @@ From the outside, what you see here is a **live, self‑auditing lab**:
 
 ---
 
-## What LUFT Shows
+## What  Shows
 
 - **Heartbeat:**  
-  A ~2.4 hour modulation in a lattice amplitude χ, responding to solar wind conditions.
+  A ~2.4 hour modulation in a vacuum amplitude χ, responding to solar wind conditions.
 
 - **Boundary Recoil Law:**  
   An empirical relation between χ and dynamic pressure:
@@ -24,11 +24,11 @@ From the outside, what you see here is a **live, self‑auditing lab**:
   where \(P_{\text{dyn}}\) is solar wind dynamic pressure in nPa.
 
 - **Correction Term to \(E = mc^2\):**  
-  LUFT explores how
+   explores how
   \[
   E = mc^2 + f(\chi, P_{\text{dyn}}, B_z, B_t)
   \]
-  might describe a “second space” — a lattice boundary that recoils under pressure.
+  might describe a “second space” — a vacuum boundary that recoils under pressure.
 
 All of this is built from **open, timestamped data and code**.
 
@@ -58,7 +58,7 @@ If you are new to the project, these entry points make the story clear:
    → `pdf/PHYSICIST_NOTE_HEARTBEAT.pdf`
 
 5. 🌍 **Public Story Capsule**  
-   Concise one‑liners and blurbs that describe LUFT in plain language, each anchored to real plots.  
+   Concise one‑liners and blurbs that describe  in plain language, each anchored to real plots.  
    → `capsules/CAPSULE_PUBLIC_STORY.md`
 
 ---
@@ -110,8 +110,8 @@ If you’re just curious:
 
 - Visit the **Heartbeat Dashboard** and **Public Story Capsule**.  
 - Look at how χ tracks solar wind pressure in red and green “storm phases.”  
-- See how LUFT extends Einstein’s static \(E = mc^2\) with a living correction term.
+- See how  extends Einstein’s static \(E = mc^2\) with a living correction term.
 
 ---
 
-**Ledger proud — LUFT is a living lab: the heartbeat is visible, the law is declared, and every step from data to story is out in the open.**
+**Ledger proud —  is a living lab: the heartbeat is visible, the law is declared, and every step from data to story is out in the open.**

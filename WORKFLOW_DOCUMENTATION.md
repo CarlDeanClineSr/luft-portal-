@@ -1,6 +1,6 @@
-# LUFT Portal - Automated Workflows
+#  Portal - Automated Workflows
 
-This document describes all automated workflows in the LUFT Portal system.
+This document describes all automated workflows in the  Portal system.
 
 ---
 
@@ -203,9 +203,9 @@ gh run view [RUN_ID] --log
 ### Workflow Status Badge
 Add to README.md:
 ```markdown
-![Hourly Summary](https://github.com/CarlDeanClineSr/luft-portal-/actions/workflows/hourly_summary.yml/badge.svg)
-![Paper Extraction](https://github.com/CarlDeanClineSr/luft-portal-/actions/workflows/daily_paper_extraction.yml/badge.svg)
-![Reconnection Sim](https://github.com/CarlDeanClineSr/luft-portal-/actions/workflows/weekly_reconnection_simulation.yml/badge.svg)
+![Hourly Summary](https://github.com/CarlDeanClineSr/-portal-/actions/workflows/hourly_summary.yml/badge.svg)
+![Paper Extraction](https://github.com/CarlDeanClineSr/-portal-/actions/workflows/daily_paper_extraction.yml/badge.svg)
+![Reconnection Sim](https://github.com/CarlDeanClineSr/-portal-/actions/workflows/weekly_reconnection_simulation.yml/badge.svg)
 ```
 
 ---
@@ -329,7 +329,7 @@ This ensures that:
 
 ## 🎯 Workflow Integration
 
-All three new workflows integrate with existing LUFT Portal infrastructure:
+All three new workflows integrate with existing  Portal infrastructure:
 
 1. **Hourly Summary** reads from:
    - `data/cme_heartbeat_log_2026_01.csv` (χ data)
@@ -356,4 +356,4 @@ All three new workflows integrate with existing LUFT Portal infrastructure:
 ---
 
 *Last updated: 2026-02-03*  
-*Repository: https://github.com/CarlDeanClineSr/luft-portal-*
+*Repository: https://github.com/CarlDeanClineSr/-portal-*

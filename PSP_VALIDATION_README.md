@@ -118,7 +118,7 @@ python chi_calculator.py \
 ## Output Structure
 
 ```
-luft-portal-/
+-portal-/
 ├── data/psp/
 │   ├── psp_encounter17_mag.csv      # Raw magnetic field data (RTN)
 │   ├── psp_encounter18_mag.csv
@@ -207,7 +207,7 @@ Try:
 - Discovery: Carl Dean Cline Sr., November 2025
 - Location: Lincoln, Nebraska, USA
 - Email: CARLDCLINE@GMAIL.COM
-- Repository: https://github.com/CarlDeanClineSr/luft-portal-
+- Repository: https://github.com/CarlDeanClineSr/-portal-
 
 ## Citation
 
@@ -216,7 +216,7 @@ If you use this pipeline or validate the χ ≤ 0.15 boundary:
 ```
 Cline Sr., C. D. (2025). Universal χ ≤ 0.15 boundary in space plasma 
 perturbations: Validation at extreme solar proximity using Parker Solar Probe. 
-https://github.com/CarlDeanClineSr/luft-portal-
+https://github.com/CarlDeanClineSr/-portal-
 ```
 
 ## License
@@ -240,4 +240,4 @@ python chi_calculator.py --help
 
 For questions about the χ ≤ 0.15 discovery or this validation pipeline:
 - Email: CARLDCLINE@GMAIL.COM
-- Repository Issues: https://github.com/CarlDeanClineSr/luft-portal-/issues
+- Repository Issues: https://github.com/CarlDeanClineSr/-portal-/issues

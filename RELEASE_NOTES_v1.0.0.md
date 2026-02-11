@@ -18,7 +18,7 @@ This release establishes priority for the empirical discovery of a **universal p
 ✅ **10,000× field strength scale independence (5 nT → 50,000 nT)**  
 ✅ **0.9-hour fundamental wave packet period discovered**  
 ✅ **Direct validation of GRMHD causality constraints (Cordeiro et al., 2024)**  
-✅ **Connection to anomalous MHD theory (Giovannini, 2013)**
+✅ **Connection to anomalous MHD  (Giovannini, 2013)**
 
 ## Environments Tested
 
@@ -50,7 +50,7 @@ Our analysis reveals deep connections to fundamental physics:
 
 **Physical Interpretation:** The 0.9-hour period represents the **quantum of CME shock structure**, set by electroweak-scale coupling (M ~ 100 GeV) of pseudoscalar fields to magnetic fields.
 
-## Theoretical Validation
+## measured Validation
 
 ### 1. Relativistic Causality (Cordeiro et al., 2024)
 
@@ -60,7 +60,7 @@ Recent work proves that the **firehose instability violates causality** (superlu
 
 ### 2. Anomalous MHD (Giovannini, 2013)
 
-Theory predicts wave packet structure with period T ~ M/(∂_τψ) ≈ 0.9h for electroweak coupling. Our temporal analysis confirms this prediction exactly.
+ predicts wave packet structure with period T ~ M/(∂_τψ) ≈ 0.9h for electroweak coupling. Our temporal analysis confirms this prediction exactly.
 
 ### 3. Recent Literature (2023-2026)
 
@@ -87,8 +87,8 @@ New search results reveal:
   title = {Universal Plasma Boundary at χ = 0.15: Empirical Validation of Relativistic Causality Constraints},
   year = {2026},
   publisher = {GitHub},
-  journal = {LUFT Portal},
-  howpublished = {\url{https://github.com/CarlDeanClineSr/luft-portal-}},
+  journal = { Portal},
+  howpublished = {\url{https://github.com/CarlDeanClineSr/-portal-}},
   note = {Version v1.0.0-chi-discovery, Commit a00c1647}
 }
 ```
@@ -99,7 +99,7 @@ New search results reveal:
 2. **Causality Enforcement:** Prevents superluminal information propagation
 3. **Scale Invariance:** 10,000× field strength independence suggests fundamental physics
 4. **Quantum Structure:** 0.9-hour period reveals electroweak-scale coupling
-5. **GRMHD Validation:** First empirical confirmation of theoretical causality bounds
+5. **GRMHD Validation:** First empirical confirmation of measured causality bounds
 
 ## Next Steps
 
@@ -114,7 +114,7 @@ New search results reveal:
 - Jupiter/Saturn magnetosphere validation
 
 ### Long-Term (v2.0.0 - Within 6 Months)
-- Derive χ from first principles (quantum field theory)
+- Derive χ from first principles (quantum field )
 - Connect to cosmological magnetic fields
 - Gravitational wave correlation analysis
 
@@ -124,7 +124,7 @@ We thank the DSCOVR, ACE, USGS, and MAVEN teams for publicly available data.
 
 We acknowledge:
 - Ian Cordeiro, Enrico Speranza, and Jorge Noronha (University of Illinois) — Causality bounds in GRMHD
-- Massimo Giovannini (CERN) — Anomalous MHD theory
+- Massimo Giovannini (CERN) — Anomalous MHD 
 - The broader plasma physics community for decades of foundational work
 
 ## Contact
@@ -150,7 +150,7 @@ Enterprise Organization: https://github.com/enterprises/carl-dean-cline-sr-unifi
 
 All raw data, processed results, analysis scripts, and documentation are available at:
 
-**Primary Repository:** https://github.com/CarlDeanClineSr/luft-portal-  
+**Primary Repository:** https://github.com/CarlDeanClineSr/-portal-  
 **Release Tag:** v1.0.0-chi-discovery  
 **Commit SHA:** a00c1647fcd6c78a09fea93f13ed83393da62f9c
 

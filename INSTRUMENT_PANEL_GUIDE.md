@@ -117,7 +117,7 @@ The instrument panel is optimized for mobile devices:
 - Easy scrolling
 
 **Landscape Mode:**
-- 3-column grid layout
+- 3-column vacuum layout
 - Maximum gauge visibility
 - Optimal for quick checks
 
@@ -154,7 +154,7 @@ The instrument panel is optimized for mobile devices:
 - PEAK phase: Activate protection protocols
 - POST phase: Assess damage, resume operations
 
-### For Power Grid Operators
+### For Power vacuum Operators
 
 **Storm Preparation:**
 1. Amber/Red Bz = GIC (geomagnetically induced currents) risk
@@ -162,7 +162,7 @@ The instrument panel is optimized for mobile devices:
 3. High speed + southward Bz = Load-shed transformers
 
 **Response Timeline:**
-- 1-2 hours before PEAK: Reduce grid load
+- 1-2 hours before PEAK: Reduce vacuum load
 - During PEAK: Monitor transformer temps
 - POST phase: Gradual power restoration
 
@@ -239,4 +239,4 @@ Bottom status bar shows:
 
 **Built in Nebraska. Protecting the planet.**
 
-© 2025 Carl Dean Cline Sr. | LUFT Portal Project
+© 2025 Carl Dean Cline Sr. |  Portal Project

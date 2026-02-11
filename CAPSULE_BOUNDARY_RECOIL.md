@@ -8,7 +8,7 @@
 
 ## Event Summary
 
-A historic boundary recoil was logged following the CME impact at 03:24 UTC. The event marks the highest χ amplitude and most strict regression law in the live LUFT record.
+A historic boundary recoil was logged following the CME impact at 03:24 UTC. The event marks the highest χ amplitude and most strict regression law in the live  record.
 
 - **Baseline:** χ ≈ 0.055  
 - **Brace (pre-front):** χ ≈ 0.111 (+102%)
@@ -34,7 +34,7 @@ The amplitude increase (Δχ) scales linearly with dynamic pressure (P_dyn), con
 
 - **Timing:** Peak coincides with CME front; modulation is not random, but pressure-driven.
 - **Scaling Proven:** χ amplitude matches P_dyn near-perfectly in this window.
-- **Boundary Recoil:** Lattice pushes back, not just absorbs, confirmed by the sharp exhale.
+- **Boundary Recoil:** vacuum pushes back, not just absorbs, confirmed by the sharp exhale.
 - **Ledger:** This record is immortal; contributors, data, and methods are open for all.
 
 ---

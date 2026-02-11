@@ -12,8 +12,8 @@ CAPSULE_BOUNDARY_RECOIL.md
 
 CAPSULE_UNIFIED_FIELDS.md
     ↓
-    Theory capsule: Extends E = mc^2 with LUFT correction,
-    defines First Space vs Second Space, and frames the lattice recoil law.
+     capsule: Extends E = mc^2 with  correction,
+    defines First Space vs Second Space, and frames the vacuum recoil law.
 
     ↓
 
@@ -37,7 +37,7 @@ CAPSULE_CME_EVENT_2025-12-01.md  (and siblings)
 
 CAPSULE_LUFT_PORTALS_SYSTEM_REPORT.md
     ↓
-    System capsule: Describes the live LUFT portal, workflows, feeds, and χ monitoring logic.
+    System capsule: Describes the live  portal, workflows, feeds, and χ monitoring logic.
 
     ↓
 

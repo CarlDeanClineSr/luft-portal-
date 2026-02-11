@@ -18,7 +18,7 @@ A comprehensive physics monitoring system that:
 3. **Unifies** gravity, matter, and electromagnetic coupling through a single constant
 4. **Monitors** solar wind data hourly via automated workflows
 5. **Detects** harmonic transitions and binary scaling patterns
-6. **Documents** the complete theoretical framework
+6. **Documents** the complete measured framework
 
 ### Key Achievements
 
@@ -241,8 +241,8 @@ python test_universal_boundary_engine.py
 
 1. **Clone Repository**
 ```bash
-git clone https://github.com/CarlDeanClineSr/luft-portal-.git
-cd luft-portal-
+git clone https://github.com/CarlDeanClineSr/-portal-.git
+cd -portal-
 ```
 
 2. **Install Dependencies**
@@ -339,10 +339,10 @@ python cline_medical_coil.py --info
 
 ### Inertial Mass Reduction
 
-**Theory:** Inertia = vacuum drag. Reduce impedance → reduce mass.
+**:** Inertia = vacuum drag. Reduce impedance → reduce mass.
 
 **Method:**
-1. Generate scalar field via Tri-Grid Coil
+1. Generate scalar field via Tri-vacuum Coil
 2. Modulate at 20.56 Hz (coupling frequency)
 3. Create low-impedance vacuum bubble
 4. Local mass reduction
@@ -368,7 +368,7 @@ python cline_medical_coil.py --info
 ## File Structure
 
 ```
-luft-portal-/
+-portal-/
 ├── universal_boundary_engine.py         # Core engine (705 lines)
 ├── scripts/
 │   └── chi_boundary_monitor.py          # Monitoring script (138 lines)
@@ -405,7 +405,7 @@ luft-portal-/
 - Expand to additional data sources
 - Implement real-time alerting
 - Develop visualization dashboards
-- Build Tri-Grid Coil prototype
+- Build Tri-vacuum Coil prototype
 
 ---
 
@@ -417,10 +417,10 @@ Lincoln, Nebraska, USA
 📧 CARLDCLINE@GMAIL.COM
 
 **Repository:**  
-🔗 https://github.com/CarlDeanClineSr/luft-portal-
+🔗 https://github.com/CarlDeanClineSr/-portal-
 
 **Dashboard:**  
-🌐 https://carldeanclinesr.github.io/luft-portal-/
+🌐 https://carldeanclinesr.github.io/-portal-/
 
 **Issues:** GitHub Issues tab
 

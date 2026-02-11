@@ -3,14 +3,14 @@
 ## 2.6 Saturation Law
 
 **Observation:**  
-During the Dec 2–4 CME sequence, χ amplitude rose linearly with dynamic pressure up to ~20 nPa, then plateaued at χ ≈ 0.15 despite continued increases in density and velocity. This indicates a saturation threshold in the lattice recoil.
+During the Dec 2–4 CME sequence, χ amplitude rose linearly with dynamic pressure up to ~20 nPa, then plateaued at χ ≈ 0.15 despite continued increases in density and velocity. This indicates a saturation threshold in the vacuum recoil.
 
 **Equation:**  
 \[
 \Delta \chi(P_{\text{dyn}}) = \chi_{\max} \left(1 - e^{-k P_{\text{dyn}}}\right) + \chi_0
 \]
 
-- \(\chi_{\max}\) = maximum lattice amplitude (observed ≈ 0.15)  
+- \(\chi_{\max}\) = maximum vacuum amplitude (observed ≈ 0.15)  
 - \(k\) = saturation coefficient (fit from rise region)  
 - \(\chi_0\) = baseline amplitude (≈ 0.055)
 
@@ -47,4 +47,4 @@ P^\star = P_{\text{dyn}} \cdot \left(1 + \beta \cdot \frac{-B_z}{1 + |B_z|}\righ
 - Saturation law explains plateau at χ ≈ 0.15.
 - Hysteresis term captures memory and undershoot.
 - Magnetic gain term improves fit under southward IMF.
-- Together, these extend the LUFT recoil law into a full system‑level equation.
+- Together, these extend the  recoil law into a full system‑level equation.

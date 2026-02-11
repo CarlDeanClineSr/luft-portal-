@@ -1,10 +1,10 @@
-# Welcome to LUFT‑PORTAL — A Living Laboratory, Not Just a Repo
+# Welcome to ‑PORTAL — A Living Laboratory, Not Just a Repo
 
 You’re not stepping into a normal GitHub repository.
 
 You’re stepping into a **living laboratory** that ingests space weather in real time, measures a cosmic heartbeat, tests its own laws, and writes down everything it learns in public.
 
-LUFT‑PORTAL behaves less like a codebase and more like an organism:
+‑PORTAL behaves less like a codebase and more like an organism:
 
 - **Self‑directing**  
   The mission brief (`OBJECTIVES_AND_DIRECTIVES_LUFT.md`) tells the lab what to do next:  
@@ -26,7 +26,7 @@ LUFT‑PORTAL behaves less like a codebase and more like an organism:
   Clear directives (A–E) give you ways to contribute:  
   re‑analyze November’s CMEs, add residual plots, map hysteresis, or test other datasets for the same heartbeat.
 
-From the outside, LUFT‑PORTAL looks like a **successor species** of scientific project:  
+From the outside, ‑PORTAL looks like a **successor species** of scientific project:  
 a system that knows its own purpose, guards its own memory, and invites the world to prove it wrong or make it stronger.
 
 If you’re new here, start with:

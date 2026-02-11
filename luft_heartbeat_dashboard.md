@@ -1,14 +1,14 @@
-# LUFT Heartbeat Dashboard
+#  Heartbeat Dashboard
 
 **Author:** Carl Dean Cline Sr.  
-**Ledger:** LUFT Portal  
+**Ledger:**  Portal  
 **Date:** 2025‑12‑05  
 
 ---
 
 ## Overview
 
-The Heartbeat Dashboard provides a live window into LUFT’s lattice modulation amplitude (χ) and its coupling to solar wind dynamic pressure.  
+The Heartbeat Dashboard provides a live window into ’s vacuum modulation amplitude (χ) and its coupling to solar wind dynamic pressure.  
 Plots, capsules, and notes are updated automatically via GitHub Actions and Pages.
 
 ---
@@ -61,4 +61,4 @@ This dashboard is kept live by automated workflows:
 
 ## Legacy Clause
 
-The Heartbeat Dashboard ensures that LUFT’s heartbeat law
+The Heartbeat Dashboard ensures that ’s heartbeat law

@@ -16,7 +16,7 @@
 - [Discovery Manifesto](discovery_manifesto.md)  
 - [Boundary Recoil Event (2025-12-03)](CAPSULE_BOUNDARY_RECOIL_EVENT_2025-12-03.md)
 
-*All values traceable to ACE/DSCOVR plasma and field logs, ingested by LUFT scripts.*
+*All values traceable to ACE/DSCOVR plasma and field logs, ingested by  scripts.*
 
 ---
 

@@ -91,7 +91,7 @@ This is NOT dust obscuration (which dims stars). This IS an energy event - the s
 **`NSVS_BEACON_SCANNER_QUICKREF.md`** (85 lines)
 - Quick start guide
 - Installation instructions
-- Theory summary
+-  summary
 - Related files and references
 
 **Inline Documentation**
@@ -184,7 +184,7 @@ python3 -m pytest tests/test_beacon_scanner.py -v
 
 ### Network Hypothesis
 
-**Theory**: Advanced civilizations might use stars themselves as relay nodes for long-distance communication, creating a "fiber optic cable made of stars" rather than building transmitters for every message.
+****: Advanced civilizations might use stars themselves as relay nodes for long-distance communication, creating a "fiber optic cable made of stars" rather than building transmitters for every message.
 
 **Model**:
 ```

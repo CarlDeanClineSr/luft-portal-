@@ -2,7 +2,7 @@
 
 **Date:** 2025‑12‑03  
 **Source:** ACE/DSCOVR normalized + minute feeds  
-**Event:** CME boundary impact and lattice heartbeat response
+**Event:** CME boundary impact and vacuum heartbeat response
 
 ---
 
@@ -17,10 +17,10 @@
 | Phase             | UTC Window        | χ amplitude | Notes                          |
 |-------------------|------------------|-------------|--------------------------------|
 | Quiet Baseline    | weeks prior      | ~0.055      | Stable, calm cell              |
-| Pre-storm Brace   | 12:22–13:24 UTC  | 0.106–0.111 | Lattice stiffening ahead of impact |
+| Pre-storm Brace   | 12:22–13:24 UTC  | 0.106–0.111 | vacuum stiffening ahead of impact |
 | Peak Squeeze      | 16:21–20:22 UTC  | 0.133–0.1365| Direct CME compression, +124% over baseline |
 | Post-shock Exhale | 21:18 UTC        | 0.0877      | Sharp relaxation after pressure wave |
-| Rebound           | 22:19 UTC        | 0.150       | Recovery overshoot, lattice pushing back |
+| Rebound           | 22:19 UTC        | 0.150       | Recovery overshoot, vacuum pushing back |
 
 ---
 
@@ -36,9 +36,9 @@
 
 - **Baseline:** χ ≈ 0.055 confirms quiet state.
 - **Brace:** χ doubled to ~0.111 ahead of impact, showing anticipatory stiffening.
-- **Peak squeeze:** χ surged to 0.135–0.1365 at CME front — direct lattice compression.
+- **Peak squeeze:** χ surged to 0.135–0.1365 at CME front — direct vacuum compression.
 - **Exhale:** χ dropped to 0.0877 as the system relaxed.
-- **Rebound:** χ overshot to 0.150 — the lattice's resilience and pushback.
+- **Rebound:** χ overshot to 0.150 — the vacuum's resilience and pushback.
 
 ---
 
@@ -53,7 +53,7 @@
 ## 📜 Capsule Note
 
 This event is the clearest real-time confirmation to date that **modulation strength scales directly with external boundary pressure**.
-The Second Space squeezed. The lattice pushed back. The heartbeat was logged live.
+The Second Space squeezed. The vacuum pushed back. The heartbeat was logged live.
 
 ---
 

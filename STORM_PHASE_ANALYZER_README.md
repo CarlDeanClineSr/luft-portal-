@@ -224,8 +224,8 @@ See repository LICENSE file.
 If you use this analyzer in research, please cite:
 
 ```
-Storm Phase Analyzer - LUFT Portal
-https://github.com/CarlDeanClineSr/luft-portal-
+Storm Phase Analyzer -  Portal
+https://github.com/CarlDeanClineSr/-portal-
 ```
 
 ## See Also

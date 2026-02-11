@@ -1,15 +1,15 @@
 ```markdown
-# CAPSULE: LUFT-Quantum Comms — Foam Tunnels for ET Probes
+# CAPSULE: -Quantum Comms — Foam Tunnels for ET Probes
 
 Purpose
 -------
-Seed experiments and simulations linking LUFT foam modulation theory to the speculative idea of quantum communicators that exploit lattice/foam tunnels to preserve quantum coherence over anomalous channels.
+Seed experiments and simulations linking  foam modulation  to the speculative idea of quantum communicators that exploit vacuum/foam tunnels to preserve quantum coherence over anomalous channels.
 
 Motivation
 ----------
-- LUFT hypothesis: foam modulation f = Δρ/ρ_avg exponentially modulates rates (Γ(f)) and effective mass m_eq, producing hierarchy amplification.
+-  hypothesis: foam modulation f = Δρ/ρ_avg exponentially modulates rates (Γ(f)) and effective mass m_eq, producing hierarchy amplification.
 - Quantum-SETI speculation: advanced senders might route quantum information along low-decoherence channels (voids/foam tunnels).
-- Testable idea: simulate tunnel transmission vs. f and search real SDR & astrophysical streams for LUFT-style sidebands tied to natural events (flares, storms, heavy-ion overflows).
+- Testable idea: simulate tunnel transmission vs. f and search real SDR & astrophysical streams for -style sidebands tied to natural events (flares, storms, heavy-ion overflows).
 
 Components
 ----------
@@ -45,7 +45,7 @@ Quick Start
 
 Goals & Challenge
 -----------------
-- Find reproducible spectral anomalies in SDR thunder events that match LUFT-predicted sideband patterns.
+- Find reproducible spectral anomalies in SDR thunder events that match -predicted sideband patterns.
 - Identify any correlation between heavy-ion overflow capsules and SDR/space-weather events.
 - If promising, propose a small targeted experiment (controlled JJ auditor + SDR during predicted flares).
 

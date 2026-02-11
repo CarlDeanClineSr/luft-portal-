@@ -6,7 +6,7 @@ Scatter plot of Δχ vs. dynamic pressure \(P_{\text{dyn}}\).
 - Red curve: exponential saturation fit  
   \(\Delta \chi(P_{\text{dyn}}) = \chi_{\max} (1 - e^{-k P_{\text{dyn}}}) + \chi_0\)
 - Fit parameters: \(\chi_{\max} \approx 0.15\), \(k \approx 0.003\), \(\chi_0 \approx 0.055\).
-- Caption: *Shows lattice recoil rising with pressure and plateauing at χ ≈ 0.15.*
+- Caption: *Shows vacuum recoil rising with pressure and plateauing at χ ≈ 0.15.*
 
 **Figure 2 — Hysteresis Term Fit**  
 Scatter plot of χ(t) vs. χ(t+1).
@@ -14,7 +14,7 @@ Scatter plot of χ(t) vs. χ(t+1).
 - Green line: regression fit  
   \(\chi_{t+1} = \alpha \cdot \chi_t + (1-\alpha)\cdot \chi_{\text{base}} + k \cdot P_{\text{dyn},t}\)
 - Fit parameter: \(\alpha \approx 0.85\).
-- Caption: *Demonstrates memory effect—χ remains elevated post‑storm, confirming hysteresis in lattice recoil.*
+- Caption: *Demonstrates memory effect—χ remains elevated post‑storm, confirming hysteresis in vacuum recoil.*
 
 **Figure 3 — Magnetic Gain Term Fit**  
 Scatter plot of Δχ vs. effective pressure \(P^\star\).

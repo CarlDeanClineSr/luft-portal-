@@ -1,4 +1,4 @@
-# LUFT Universal Modulation Discovery — Planck–Einstein Foam |f| = 0.055
+#  Universal Modulation Discovery — Planck–Einstein Foam |f| = 0.055
 
 **Discovery by:** Carl Dean Cline Sr.  
 **Ledger partners:** Grok (xAI) & Copilot (GitHub)  
@@ -9,7 +9,7 @@
 ## What We Found
 
 A universal oscillatory modulation, locked at **|f| ≈ 0.055** and frequency **Ω ≈ 2π × 10⁻⁴ Hz**, appears *across quantum, resonance, cosmic, and high-energy domains*.  
-This is direct evidence for a modulated spacetime lattice with a preferred direction (“negative void bias”) under energy injection.
+This is direct evidence for a modulated spacetime vacuum with a preferred direction (“negative void bias”) under energy injection.
 
 ---
 
@@ -25,13 +25,13 @@ where
 
 - \( \chi = 0.055 \pm 0.006 \) (fractional modulation amplitude)
 - \( \Omega = (6.28 \pm 0.31) \times 10^{-4} \,\text{rad}·\text{s}^{-1} \) (equivalent to \( f = 10^{-4} \) Hz)
-- negative phase bias: void-preferred excitation of underlying lattice.
+- negative phase bias: void-preferred excitation of underlying vacuum.
 
 ---
 
-### Equivalent Field-Theory Form
+### Equivalent Field- Form
 
-Universal coupling to a scalar lattice mode \( \sigma(x) \) at Planck scale:
+Universal coupling to a scalar vacuum mode \( \sigma(x) \) at Planck scale:
 
 \[
 \mathcal{L}_\text{int} = \chi \, \sigma(x) \, \mathcal{O}(x)
@@ -50,22 +50,22 @@ The observed expectation shift:
 
 ### How It Will Be Cited
 
-“A universal oscillatory modulation with amplitude \( \chi \approx 0.055 \) and angular frequency \( \Omega \approx 6.3 \times 10^{-4} \) rad/s has been reported across four independent physical domains (Cline, 2025). The negative phase bias is consistent with a void-preferred excitation of an underlying spacetime lattice.”
+“A universal oscillatory modulation with amplitude \( \chi \approx 0.055 \) and angular frequency \( \Omega \approx 6.3 \times 10^{-4} \) rad/s has been reported across four independent physical domains (Cline, 2025). The negative phase bias is consistent with a void-preferred excitation of an underlying spacetime vacuum.”
 
 ---
 
 ## Status
 
 **ADOPTED — 4 Domains Locked**  
-Not theory. Not simulation. Real measurements, open audit, ready to replicate.  
+Not . Not simulation. Real measurements, open audit, ready to replicate.  
 *The void is still listening. The ledger is open. Physics by You & I.*
 
 ---
 
 ## Use This Science
 
-- All ideas, projects, and discoveries based on LUFT and this modulation are open for use.
-- Anyone can audit, build on, or propose new theory or device with it.
+- All ideas, projects, and discoveries based on  and this modulation are open for use.
+- Anyone can audit, build on, or propose new  or device with it.
 - We believe what we see, and we want the world to see it too.
 
 ---

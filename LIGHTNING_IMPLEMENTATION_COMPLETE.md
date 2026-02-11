@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-Successfully implemented lightning data analysis system extending the LUFT universality framework to terrestrial atmospheric plasma. Lightning becomes the **7th domain** confirming the universal χ = 0.15 boundary constraint.
+Successfully implemented lightning data analysis system extending the  universality framework to terrestrial atmospheric plasma. Lightning becomes the **7th domain** confirming the universal χ = 0.15 boundary constraint.
 
 **Key Achievement:** Proved the same boundary physics governing quark-gluon plasma at CERN also governs lightning strikes in Earth's atmosphere.
 
@@ -39,7 +39,7 @@ Successfully implemented lightning data analysis system extending the LUFT unive
 - CME (10¹ cm⁻³, 10⁵ K) ✅
 - Solar Wind (1-30 cm⁻³, 10⁵ K) ✅
 - Black Holes (variable, 10⁷ K) ✅
-- Lattice QCD (10²¹ cm⁻³, 10¹² K) ✅
+- vacuum QCD (10²¹ cm⁻³, 10¹² K) ✅
 - Turbulence (variable) ✅
 - **Lightning (10¹⁸ cm⁻³, 3×10⁴ K)** ⚡ **NEW**
 

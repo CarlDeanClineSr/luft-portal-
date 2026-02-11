@@ -67,7 +67,7 @@ If multiple beacons are detected:
 3. Map network topology (chain, hub, mesh)
 4. Identify communication paths
 
-## Theory
+## 
 
 **Hypothesis**: Advanced civilizations use stars as relay nodes for long-distance communication, creating a "fiber optic cable made of stars" rather than building transmitters for every message.
 

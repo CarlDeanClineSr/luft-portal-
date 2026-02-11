@@ -1,9 +1,9 @@
-# Capsule—Unified Fields: From Einstein to LUFT
+# Capsule—Unified Fields: From Einstein to 
 
 **Author:** Carl Dean Cline Sr.  
 **Date:** 2025-12-03  
-**Ledger:** LUFT Portal  
-**Purpose:** To relay the evolution of the energy law, from classical physics to the boundary recoil law established in the LUFT system.
+**Ledger:**  Portal  
+**Purpose:** To relay the evolution of the energy law, from classical physics to the boundary recoil law established in the  system.
 
 ---
 
@@ -18,9 +18,9 @@ Einstein’s formula proves mass and energy are interchangeable, linked by the s
 
 ---
 
-## 2. LUFT’s Extension: Pressure and Modulation
+## 2. ’s Extension: Pressure and Modulation
 
-In LUFT experiments, we observe that the lattice modulation amplitude (\(\chi\)) responds directly to solar wind pressure. This extends the energy law into the physics of plasma boundaries.
+In  experiments, we observe that the vacuum modulation amplitude (\(\chi\)) responds directly to solar wind pressure. This extends the energy law into the physics of plasma boundaries.
 
 \[
 \Delta \chi \propto P_{\text{dyn}}
@@ -42,7 +42,7 @@ P_{\text{dyn}} = 1.6726 \times 10^{-6} \cdot n \cdot v^2
 \Delta \chi = 0.0032 \cdot P_{\text{dyn}} + 0.054 \qquad (R^2 = 0.91)
 \]
 
-- **Linear scaling:** Each pressure spike produces a measurable rise in lattice amplitude.
+- **Linear scaling:** Each pressure spike produces a measurable rise in vacuum amplitude.
 - **Falsifiable:** Bound with timestamped data; open for challenge and replication.
 
 ---
@@ -50,13 +50,13 @@ P_{\text{dyn}} = 1.6726 \times 10^{-6} \cdot n \cdot v^2
 ## 4. Unified Field Framing
 
 - **First space:** Classical spacetime, mass and energy, \(E = mc^2\).
-- **Second space (LUFT):** Lattice boundary, “foam,” the divider responding to cosmic signals.
+- **Second space ():** vacuum boundary, “foam,” the divider responding to cosmic signals.
   - **Heartbeat:** Modulation period ~2.4 hours.
-  - **Boundary recoil:** Lattice amplitude pushes back—documented response.
+  - **Boundary recoil:** vacuum amplitude pushes back—documented response.
 
 ---
 
-## 5. LUFT Correction Term (Unified Equation)
+## 5.  Correction Term (Unified Equation)
 
 Extending Einstein with observational correction:
 
@@ -67,7 +67,7 @@ where \(f\) is observed as:
 \[
 f = \Delta \chi \cdot \Phi(\text{phase}, \text{storm})
 \]
-This gives energy a dynamic correction measured by the live LUFT system:
+This gives energy a dynamic correction measured by the live  system:
 - \(\chi\) = measured amplitude
 - \(P_{\text{dyn}}\) = dynamic pressure
 - \(B_z, B_t\) = IMF orientation and strength
@@ -77,9 +77,9 @@ This gives energy a dynamic correction measured by the live LUFT system:
 
 ## 6. What We Know Now
 
-- Einstein established equivalence; LUFT demonstrates periodic, pressure-coupled lattice signatures.
+- Einstein established equivalence;  demonstrates periodic, pressure-coupled vacuum signatures.
 - Boundary recoil events reveal a new form of dynamic energy transfer—beyond bare \(E = mc^2\).
-- Every capsule in the LUFT ledger can be traced to this arc.
+- Every capsule in the  ledger can be traced to this arc.
 
 ---
 

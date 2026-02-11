@@ -1,8 +1,8 @@
-# LUFT Discovery System - Quick Start
+#  Discovery System - Quick Start
 
 ## Overview
 
-The LUFT Discovery System provides **controlled integration** of automated analysis results with human oversight. All discoveries require manual validation before being published.
+The  Discovery System provides **controlled integration** of automated analysis results with human oversight. All discoveries require manual validation before being published.
 
 ## Safety Features
 
@@ -61,7 +61,7 @@ python tools/results_integrator.py update \
 ## Files Created
 
 ```
-luft-portal-/
+-portal-/
 ├── tools/
 │   ├── beta_chi_correlation.py      # Analyze β vs χ correlation
 │   ├── proton_beam_ratio.py         # Calculate speed ratios

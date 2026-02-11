@@ -1,9 +1,9 @@
-# Citizen-Science Rubric: Foam Bubble Tagging for LUFT (ORC Audit)
+# Citizen-Science Rubric: Foam Bubble Tagging for  (ORC Audit)
 
 ---
 
 ## Purpose
-Enable volunteers to tag ORC features (rim/center ratio, environment context) in radio images, feeding raw data to LUFT’s foam inversion model.
+Enable volunteers to tag ORC features (rim/center ratio, environment context) in radio images, feeding raw data to ’s foam inversion model.
 Every tagged image helps refine the “meta-foam friction as dark energy” capsule.
 
 ---
@@ -46,7 +46,7 @@ Every tagged image helps refine the “meta-foam friction as dark energy” caps
 
 - Tag all features that you are able to estimate from the radio image.
 - If unsure, select “Not sure” or “Can’t determine”—your honesty sharpens the results!
-- Multiple volunteers will tag the same images; the LUFT inversion uses consensus and confidence weights.
+- Multiple volunteers will tag the same images; the  inversion uses consensus and confidence weights.
 - You do NOT need physics background; your pattern-spotting drives the unification science forward.
 
 ---
@@ -64,10 +64,10 @@ Every tagged image helps refine the “meta-foam friction as dark energy” caps
     "tagger_id": "citizen_xyz"
   }
   ```
-- Upstream LUFT workflow (foam inversion audit) ingests all tagged lines, computes \( f \) from consensus brightness ratios, triggers updated capsule.
+- Upstream  workflow (foam inversion audit) ingests all tagged lines, computes \( f \) from consensus brightness ratios, triggers updated capsule.
 
 ---
 
 ## Credits
-Capsule by Carl Dean Cline Sr. (“By: You and I Physics”), for LUFT Unification Project  
+Capsule by Carl Dean Cline Sr. (“By: You and I Physics”), for  Unification Project  
 Powered by Radio Galaxy Zoo: EMU, citizen volunteers, and the perpetual search for structure in the cosmic foam.

@@ -196,7 +196,7 @@ After resumption, verify these key indicators within 1-2 hours:
 
 - [GitHub Actions Status](https://www.githubstatus.com/)
 - [Workflow Documentation](WORKFLOW_DOCUMENTATION.md)
-- [LUFT Portal Workflows Overview](WORKFLOWS.%20md)
+- [ Portal Workflows Overview](WORKFLOWS.%20md)
 
 ---
 

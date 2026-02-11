@@ -1,14 +1,14 @@
-# Capsule — Audit Log for LUFT Figure Reviews
+# Capsule — Audit Log for  Figure Reviews
 
 **Author:** Carl Dean Cline Sr.  
 **Date:** 2025‑12‑04  
-**Ledger:** LUFT Portal  
+**Ledger:**  Portal  
 
 ---
 
 ## 1. Purpose
 
-This capsule provides a **permanent, timestamped log** of all auditor reviews (approve/reject) for automated LUFT figure update PRs. It ensures every science relay, figure regeneration, or equation update is transparently tracked and community-audited.
+This capsule provides a **permanent, timestamped log** of all auditor reviews (approve/reject) for automated  figure update PRs. It ensures every science relay, figure regeneration, or equation update is transparently tracked and community-audited.
 
 ---
 

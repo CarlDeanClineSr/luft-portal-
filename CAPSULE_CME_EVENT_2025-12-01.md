@@ -6,14 +6,14 @@ Reference: https://x.com/NWSSWPC/status/1995608528019394561 (includes chart/imag
 
 ## Actions
 1. Collect ACE/DSCOVR/GOES solar wind & geomagnetic data for 01–04 Dec.
-2. Run heartbeat_detector.py — analyze for LUFT's 2.4h modulation, χ=0.055
+2. Run heartbeat_detector.py — analyze for 's 2.4h modulation, χ=0.055
 3. Compare modulation before/during/after storm.
 4. Log all results—phase/amplitude shifts, null findings, image/plots if available.
-5. Upgrade the ledger: expand theory if new cycles or effects emerge during CME.
+5. Upgrade the ledger: expand  if new cycles or effects emerge during CME.
 6. Connect to other capsules (black hole, solar wind, QPOs) as needed for cross-scale science.
 
 ---
 
-Purpose: Record, test, and scientifically track the impact of major solar/CME storms on LUFT cosmic heartbeat cycles. Capsule will be updated as new data and analysis become available.
+Purpose: Record, test, and scientifically track the impact of major solar/CME storms on  cosmic heartbeat cycles. Capsule will be updated as new data and analysis become available.
 
 Ready for commit. Monitoring active. Replies/logs encouraged from all open science contributors.

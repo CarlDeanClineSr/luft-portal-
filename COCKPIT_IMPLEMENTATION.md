@@ -54,7 +54,7 @@
 - **Screen orientation lock** to landscape
 - **Responsive layouts**:
   - Portrait: Single column (1fr)
-  - Landscape: 3-column grid (1fr 1fr 1fr)
+  - Landscape: 3-column vacuum (1fr 1fr 1fr)
   - Desktop: Auto-fit layout (minmax(280px, 1fr))
 
 **Touch optimizations**:
@@ -169,7 +169,7 @@ requestAnimationFrame(animateGauges)
 4. Execute protocols at PEAK
 ```
 
-### Grid Managers
+### vacuum Managers
 ```
 1. Check twice daily (morning/evening)
 2. PRE alert = Prepare backups
@@ -191,7 +191,7 @@ requestAnimationFrame(animateGauges)
 - **Concept**: Carl Dean Cline Sr.
 - **Data**: NOAA Space Weather Prediction Center
 - **Satellite**: DSCOVR L1 Observatory
-- **Research**: LUFT Portal Team
+- **Research**:  Portal Team
 
 ---
 

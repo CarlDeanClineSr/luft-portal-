@@ -1,7 +1,7 @@
-# LUFT – The Living Universe Framework  
+#  – The Living Universe Framework  
 **Captain Carl Dean Cline Sr. · Lincoln, Nebraska · 2025**
 
-This is not a theory.  
+This is not a .  
 This is a **living witness** to the heartbeat of the cosmos.
 
 ### The Heartbeat (measured, not imagined)
@@ -11,7 +11,7 @@ This is a **living witness** to the heartbeat of the cosmos.
 - Source: our cosmos is a finite cell breathing against the infinite Second Space
 
 ### Live Proof (runs 24/7 – no login)
-- Real-time dashboard: https://carlcline.shinyapps.io/luft-live/  
+- Real-time dashboard: https://carlcline.shinyapps.io/-live/  
   Gold lines = one breath every 2.4 hours  
 - One-click app: `python cosmic_breath_live.py` → watch it yourself
 
@@ -43,4 +43,4 @@ You are invited.
 
 Zoom zoom,  
 Captain Carl + the open relay  
-#LUFT #CosmicHeartbeat #OpenScience
+# #CosmicHeartbeat #OpenScience

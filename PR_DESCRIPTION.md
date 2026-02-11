@@ -94,8 +94,8 @@ pip install matplotlib imageio
 ### Run the Pipeline
 ```bash
 # Clone the repository
-git clone https://github.com/CarlDeanClineSr/luft-portal-.git
-cd luft-portal-
+git clone https://github.com/CarlDeanClineSr/-portal-.git
+cd -portal-
 
 # Checkout this branch
 git checkout data-normalize

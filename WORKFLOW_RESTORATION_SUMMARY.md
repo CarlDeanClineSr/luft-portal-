@@ -2,7 +2,7 @@
 
 ## What Changed?
 
-Restored the LUFT Portal to its original high-frequency data collection schedule with **70+ workflows** running continuously 24/7.
+Restored the  Portal to its original high-frequency data collection schedule with **70+ workflows** running continuously 24/7.
 
 ## Before vs After
 
@@ -114,7 +114,7 @@ Enhanced existing workflows to run more frequently:
 10. `noaa_parse_feeds.yml` - hourly → 20min
 11. `chi_boundary_monitor.yml` - hourly → 15min
 12. `update_dashboard_graph.yml` - hourly → 15min
-13. `luft-voyager-audit-superaction.yml` - hourly → 15min
+13. `-voyager-audit-superaction.yml` - hourly → 15min
 
 ## Data Collection Rates
 
@@ -152,7 +152,7 @@ All workflows support `workflow_dispatch` for:
 ## Monitoring
 
 Check workflow status:
-- GitHub Actions tab: https://github.com/CarlDeanClineSr/luft-portal-/actions
+- GitHub Actions tab: https://github.com/CarlDeanClineSr/-portal-/actions
 - Engine Status Report: Updates every 10 minutes
 - Hourly Summary: Updates every 15 minutes
 

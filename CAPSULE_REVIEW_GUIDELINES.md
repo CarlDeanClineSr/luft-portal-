@@ -1,9 +1,9 @@
-# Capsule—Review Guidelines for LUFT Figures Update PRs
+# Capsule—Review Guidelines for  Figures Update PRs
 
 **Author:** Carl Dean Cline Sr.  
 **Date:** 2025‑12‑04  
-**Ledger:** LUFT Portal  
-**Purpose:** This capsule sets out the peer review criteria and checklist for all automated figure updates to LUFT capsules, ensuring transparency, reproducibility, and scientific rigor.
+**Ledger:**  Portal  
+**Purpose:** This capsule sets out the peer review criteria and checklist for all automated figure updates to  capsules, ensuring transparency, reproducibility, and scientific rigor.
 
 ---
 
@@ -41,8 +41,8 @@
 
 ## Audit Note
 
-This capsule is living. Reviewers may update checklist and add context as LUFT dashboards, capsule equations, or data sources evolve.
+This capsule is living. Reviewers may update checklist and add context as  dashboards, capsule equations, or data sources evolve.
 
-Relay proud—every LUFT figure update is scientifically accountable, transparent, and ready for challenge or replication.
+Relay proud—every  figure update is scientifically accountable, transparent, and ready for challenge or replication.
 
 ---

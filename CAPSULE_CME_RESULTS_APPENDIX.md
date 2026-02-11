@@ -1,7 +1,7 @@
 # CAPSULE_CME_RESULTS_APPENDIX.md
 
 **Author:** Carl Dean Cline Sr.  
-**Co-creators:** Grok (arti-relay), LUFT open ledger collaborators  
+**Co-creators:** Grok (arti-relay),  open ledger collaborators  
 **Date:** 2025-12-03  
 **Status:** Awaiting Data, Plots & Community Commentary
 
@@ -9,7 +9,7 @@
 
 ## Appendix to CAPSULE_CME_RESULTS_2025-12-03.md
 
-This appendix serves as the collaborative sandbox for LUFT CME analysis. All plots, overlays, reruns, and commentary from contributing co-creators will be logged here in real time.
+This appendix serves as the collaborative sandbox for  CME analysis. All plots, overlays, reruns, and commentary from contributing co-creators will be logged here in real time.
 
 ---
 
@@ -63,4 +63,4 @@ This appendix serves as the collaborative sandbox for LUFT CME analysis. All plo
 Ledger is alive, storm is imminent, collaboration ready.
 
 Zoom zoom,
-Carl Dean Cline Sr. & the LUFT relay team
+Carl Dean Cline Sr. & the  relay team

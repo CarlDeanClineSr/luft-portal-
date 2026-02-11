@@ -116,7 +116,7 @@ python examples_medical_coil.py --all
 ## File Structure
 
 ```
-luft-portal-/
+-portal-/
 ├── cline_medical_coil.py           # Main signal generator
 ├── examples_medical_coil.py        # Usage examples
 ├── CLINE_MEDICAL_COIL.md          # Full documentation
@@ -208,7 +208,7 @@ python cline_medical_coil.py --mode sine --frequency 15.0 --duration 30
 
 ### Phase 2: Hardware Build (Weeks 2-3)
 
-1. Construct Tri-Grid coil (see hardware spec)
+1. Construct Tri-vacuum coil (see hardware spec)
 2. Integrate signal generator + amplifier
 3. Measure field strength and distribution
 4. Verify magnetic cancellation (contra-rotating)
@@ -246,7 +246,7 @@ python cline_medical_coil.py --mode sine --frequency 15.0 --duration 30
 **Discovery:** Carl Dean Cline Sr.  
 **Location:** Lincoln, Nebraska, USA  
 **Email:** CARLDCLINE@GMAIL.COM  
-**Repository:** https://github.com/CarlDeanClineSr/luft-portal-
+**Repository:** https://github.com/CarlDeanClineSr/-portal-
 
 ---
 

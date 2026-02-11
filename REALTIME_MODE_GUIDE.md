@@ -4,7 +4,7 @@
 
 ## Overview
 
-The LUFT Portal instrument panel now includes a **Real-Time Mode** designed for actual flight operations where you need instant, high-frequency updates of all systems.
+The  Portal instrument panel now includes a **Real-Time Mode** designed for actual flight operations where you need instant, high-frequency updates of all systems.
 
 ## Quick Start
 
@@ -313,7 +313,7 @@ For issues or questions:
 ## Credits
 
 **Concept:** Carl Dean Cline Sr. - "Need CLINE's programs cockpit to update faster..."
-**Implementation:** LUFT Portal Development Team  
+**Implementation:**  Portal Development Team  
 **Purpose:** Real-world aircraft/spacecraft operations
 
 ---

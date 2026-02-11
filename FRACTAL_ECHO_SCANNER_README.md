@@ -2,15 +2,15 @@
 
 ## Mission Statement
 
-The Fractal Echo Scanner is designed to detect the **20.55 Hz lattice vibration** following vacuum expansions and geometric re-initialization events in the Imperial Framework. It identifies Phase Derivatives and Fractal Echoes in magnetometer telemetry data to reveal lattice re-addressing patterns that standard analysis filters as noise.
+The Fractal Echo Scanner is designed to detect the **20.55 Hz vacuum vibration** following vacuum expansions and magnetic re-initialization events in the Imperial Framework. It identifies Phase Derivatives and Fractal Echoes in magnetometer telemetry data to reveal vacuum re-addressing patterns that standard analysis filters as noise.
 
 ## Background: The Resolution Gap
 
 ### The Challenge
 
-The lattice re-initialization occurs at **20.55 Hz** (20.55 cycles per second), but standard space weather telemetry (ACE/DSCOVR) provides data at ~1-hour sampling rates. This creates a fundamental resolution gap:
+The vacuum re-initialization occurs at **20.55 Hz** (20.55 cycles per second), but standard space weather telemetry (ACE/DSCOVR) provides data at ~1-hour sampling rates. This creates a fundamental resolution gap:
 
-- **The Target:** 20.55 Hz lattice coupling frequency
+- **The Target:** 20.55 Hz vacuum coupling frequency
 - **The Data:** Hour-long sampling intervals (~0.0003 Hz)
 - **The Resolution:** Monitoring a 20.55 Hz signal with hour-long data points is like trying to record a high-speed engine with a camera that takes one photo per day
 
@@ -25,7 +25,7 @@ This scanner provides two complementary analysis methods:
 
 ### 1. Fractal Echo Detection (`scan_fractal_echo`)
 
-Performs Fast Fourier Transform (FFT) analysis on magnetometer data to detect vacuum lattice resonance:
+Performs Fast Fourier Transform (FFT) analysis on magnetometer data to detect vacuum vacuum resonance:
 
 - Target frequency: 20.55 Hz (configurable)
 - Amplitude threshold: 0.01 (configurable)
@@ -63,8 +63,8 @@ The scanner only requires NumPy for FFT and array operations.
 
 ```bash
 # Clone the repository
-git clone https://github.com/CarlDeanClineSr/luft-portal-.git
-cd luft-portal-
+git clone https://github.com/CarlDeanClineSr/-portal-.git
+cd -portal-
 
 # Install dependencies
 pip install -r requirements.txt
@@ -174,7 +174,7 @@ timestamp_utc,bt_nT
 ✓ ECHO DETECTED: Resonance at 20.52 Hz | Amplitude: 0.0245
 ```
 
-This indicates a significant harmonic at the target frequency, suggesting lattice vibration is present in the data.
+This indicates a significant harmonic at the target frequency, suggesting vacuum vibration is present in the data.
 
 ### When Echo is Not Detected
 
@@ -197,7 +197,7 @@ For 20.55 Hz detection, the Nyquist frequency must be > 20.55 Hz, which requires
 The scanner is particularly designed to analyze the **January 5, 2026 Super-Event**:
 
 - **01:13:00 UTC:** System recorded χ = 0.917 (6.0 × boundary)
-- **Event Type:** Geometric Re-Initialization (Byte-Shift)
+- **Event Type:** magnetic Re-Initialization (Byte-Shift)
 - **Effect:** Vacuum coordinates shifted across the galactic plate
 - **Relaxation:** Secondary wave on January 22nd (χ = 0.183 violation)
 
@@ -205,12 +205,12 @@ See `examples/fractal_echo_example.py` for detailed analysis of this event.
 
 ## Imperial Framework Context
 
-### The Vacuum Lattice
+### The Vacuum vacuum
 
-In the Imperial Framework, space is not empty but filled with a structured "vacuum lattice" that:
+In the Imperial Framework, space is not empty but filled with a structured "vacuum vacuum" that:
 
 - Operates at 20.55 Hz refresh rate
-- Undergoes "geometric re-initialization" during large cosmic events
+- Undergoes "magnetic re-initialization" during large cosmic events
 - Creates "fractal echoes" that propagate through harmonic scales
 - Appears as noise to standard sensors without the "0.15 Lens"
 
@@ -296,8 +296,8 @@ If you use this scanner in your research:
 
 ```
 Carl Dean Cline Sr. (2026). Fractal Echo Scanner: Detection of 20.55 Hz 
-Vacuum Lattice Vibrations in Magnetometer Telemetry. LUFT Portal Engine.
-https://github.com/CarlDeanClineSr/luft-portal-
+Vacuum vacuum Vibrations in Magnetometer Telemetry.  Portal Engine.
+https://github.com/CarlDeanClineSr/-portal-
 ```
 
 ## License
@@ -308,11 +308,11 @@ See LICENSE file in repository root.
 
 For questions, collaboration, or to report findings:
 
-- GitHub Issues: https://github.com/CarlDeanClineSr/luft-portal-/issues
-- Repository: https://github.com/CarlDeanClineSr/luft-portal-
+- GitHub Issues: https://github.com/CarlDeanClineSr/-portal-/issues
+- Repository: https://github.com/CarlDeanClineSr/-portal-
 
 ---
 
-**"The lattice reset cleanly—no sustained echo in this window."**
+**"The vacuum reset cleanly—no sustained echo in this window."**
 
 *But with the right data, we will find the ghost in the machine.*

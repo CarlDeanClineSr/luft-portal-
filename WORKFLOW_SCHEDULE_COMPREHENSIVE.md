@@ -1,7 +1,7 @@
 # High-Frequency Workflow Schedule Documentation
 
 ## Overview
-This document describes the comprehensive automated data ingestion system for the LUFT Portal, featuring 70+ workflows that run at various intervals to continuously collect L1 satellite data, space weather observations, and scientific measurements.
+This document describes the comprehensive automated data ingestion system for the  Portal, featuring 70+ workflows that run at various intervals to continuously collect L1 satellite data, space weather observations, and scientific measurements.
 
 ## Workflow Schedule Summary
 
@@ -39,7 +39,7 @@ This document describes the comprehensive automated data ingestion system for th
 
 ### Every 15 Minutes
 - **Chi Boundary Monitor** (`chi_boundary_monitor.yml`) - χ ≤ 0.15 boundary analysis
-- **Voyager Audit** (`luft-voyager-audit-superaction.yml`) - Multi-satellite audit
+- **Voyager Audit** (`-voyager-audit-superaction.yml`) - Multi-satellite audit
 - **Dashboard Updates** (`update_dashboard_graph.yml`) - Real-time visualization
 - **Vault Forecast** (`vault_10row_forecast.yml`) - Predictive analytics
 - **Vault Narrator** (`vault_narrator.yml`) - System narration
@@ -197,7 +197,7 @@ With this schedule, the system processes:
 - **~120,000+ workflow runs per week**
 - **Continuous 24/7/365 data collection**
 
-This ensures comprehensive real-time monitoring of space weather, solar wind, geomagnetic activity, and multi-satellite data streams for the LUFT Portal Imperial Physics Observatory.
+This ensures comprehensive real-time monitoring of space weather, solar wind, geomagnetic activity, and multi-satellite data streams for the  Portal Imperial Physics Observatory.
 
 ---
 

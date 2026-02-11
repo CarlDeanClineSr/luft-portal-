@@ -2,12 +2,12 @@
 
 **Author:** Carl Dean Cline Sr.  
 **Date:** 2025‑12‑04  
-**Ledger:** LUFT Portal  
+**Ledger:**  Portal  
 
 ---
 
 ## 1. Purpose  
-Declares the **Bill of Rights** for the LUFT audit system. Specifies what contributors, auditors, and automation can expect—ensuring fairness, transparency, and accountability.
+Declares the **Bill of Rights** for the  audit system. Specifies what contributors, auditors, and automation can expect—ensuring fairness, transparency, and accountability.
 
 ---
 
@@ -31,7 +31,7 @@ Declares the **Bill of Rights** for the LUFT audit system. Specifies what contri
 
 ## 5. Enforcement  
 
-- All rights are guaranteed under the LUFT Audit Constitution.
+- All rights are guaranteed under the  Audit Constitution.
 - Violations are logged; amendments require consensus.
 
 ---
@@ -44,4 +44,4 @@ CAPSULE_AUDIT_CONSTITUTION.md
 CAPSULE_AUDIT_BILL_OF_RIGHTS.md
 ```
 
-**Ledger proud — rights declared, fairness enshrined, LUFT charter protected for all contributors, auditors, automation.**
+**Ledger proud — rights declared, fairness enshrined,  charter protected for all contributors, auditors, automation.**

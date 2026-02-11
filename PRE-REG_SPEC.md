@@ -1,4 +1,4 @@
-# LUFT Pre‑registration (Lite) — Fixed Analysis Manifest
+#  Pre‑registration (Lite) — Fixed Analysis Manifest
 
 Purpose
 Freeze target frequency, filters, weighting, and decision thresholds before any reveal, then publish this file’s SHA256 hash. On unseal, show the same file; the hash proves no “tuning drift.”

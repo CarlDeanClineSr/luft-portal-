@@ -1,4 +1,4 @@
-# Replication Challenge — LUFT Planck–Einstein Modulation
+# Replication Challenge —  Planck–Einstein Modulation
 
 Targets
 - Universal frequency: Ω = 2π · 1.0e−4 Hz
@@ -6,7 +6,7 @@ Targets
 
 Domains & Minimal Protocols
 - JJ Switching:
-  - Acquire I_sw histograms over multi‑T; compute σ_f and f_hat using LUFT runner.
+  - Acquire I_sw histograms over multi‑T; compute σ_f and f_hat using  runner.
   - Gates: σ_f ≤ 0.015; cross‑T consistency; phase variance small.
 - DESI‑like Residuals:
   - Apply weighted two‑phase fit at Ω; GLS power cross‑check; detrend via AIC/BIC.
@@ -27,7 +27,7 @@ Deliverables
 
 Contact
 - Coordinator: …
-- Repo hub: luft‑portal‑ (read‑only references)
+- Repo hub: ‑portal‑ (read‑only references)
 - Preferred: open reviews, pre‑registered attempts
 
 Acknowledgment

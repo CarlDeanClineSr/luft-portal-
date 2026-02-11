@@ -8,7 +8,7 @@
 
 ## What Was Integrated
 
-The **χ = 0.15 universal plasma coherence boundary** discovery has been embedded as operational physics within the LUFT Portal engine. This transforms the discovery from documentation into active, executable logic that the system uses for analysis, detection, validation, and reporting.
+The **χ = 0.15 universal plasma coherence boundary** discovery has been embedded as operational physics within the  Portal engine. This transforms the discovery from documentation into active, executable logic that the system uses for analysis, detection, validation, and reporting.
 
 ---
 
@@ -16,7 +16,7 @@ The **χ = 0.15 universal plasma coherence boundary** discovery has been embedde
 
 ### Documentation & Directives
 1. **`directives/chi_015_directive.yaml`** — Binding directive with physics constants and detection criteria
-2. **`capsules/CAPSULE_CHI_015_ENGINE_INTEGRATION_v1.md`** — Complete theory capsule (13,935 bytes)
+2. **`capsules/CAPSULE_CHI_015_ENGINE_INTEGRATION_v1.md`** — Complete  capsule (13,935 bytes)
 3. **`docs/CHI_015_USAGE_GUIDE.md`** — Comprehensive usage guide with examples
 
 ### Scripts & Tools
@@ -39,7 +39,7 @@ The **χ = 0.15 universal plasma coherence boundary** discovery has been embedde
    - New dashboard section: "χ = 0.15 UNIVERSAL BOUNDARY STATUS"
    - Real-time metrics: observations at boundary, violations
    - Visual status indicators (green/yellow/red)
-   - Link to theory capsule
+   - Link to  capsule
 
 7. **`scripts/vault_narrator.py`** — Enhanced with χ boundary monitoring
    - Added boundary constants: `CHI_BOUNDARY_MIN = 0.145`, `CHI_BOUNDARY_MAX = 0.155`
@@ -78,7 +78,7 @@ New χ boundary status section shows:
 - Observations at boundary (count & percentage)
 - Violations (count & percentage)
 - System status (NOMINAL | ATTRACTOR | VIOLATION)
-- Link to theory documentation
+- Link to  documentation
 
 ### 5. Tracking Logs
 Append-only JSONL logs for historical analysis:
@@ -139,7 +139,7 @@ New section includes:
   - Observations at boundary: 0 (0.0%)
   - Violations: 0 (0.0%)
   - Status: NOMINAL - System below boundary
-  - Link to theory capsule
+  - Link to  capsule
 ```
 
 ### ✅ Vault Narrator Update
@@ -246,7 +246,7 @@ The χ = 0.15 boundary has been independently confirmed by four laboratory plasm
 ## Documentation
 
 **Usage Guide**: [`docs/CHI_015_USAGE_GUIDE.md`](docs/CHI_015_USAGE_GUIDE.md)  
-**Theory Capsule**: [`capsules/CAPSULE_CHI_015_ENGINE_INTEGRATION_v1.md`](capsules/CAPSULE_CHI_015_ENGINE_INTEGRATION_v1.md)  
+** Capsule**: [`capsules/CAPSULE_CHI_015_ENGINE_INTEGRATION_v1.md`](capsules/CAPSULE_CHI_015_ENGINE_INTEGRATION_v1.md)  
 **Directive**: [`directives/chi_015_directive.yaml`](directives/chi_015_directive.yaml)
 
 ---
@@ -255,20 +255,20 @@ The χ = 0.15 boundary has been independently confirmed by four laboratory plasm
 
 **Discoverer**: Carl Dean Cline Sr.  
 **Email**: CARLDCLINE@GMAIL.COM  
-**Repository**: https://github.com/CarlDeanClineSr/luft-portal-
+**Repository**: https://github.com/CarlDeanClineSr/-portal-
 
 ---
 
 ## Summary
 
-The χ = 0.15 universal plasma boundary is now **operational physics** within LUFT Portal. The engine recognizes this as a fundamental principle and automatically:
+The χ = 0.15 universal plasma boundary is now **operational physics** within  Portal. The engine recognizes this as a fundamental principle and automatically:
 - Classifies all χ measurements
 - Detects attractor states
 - Alerts on violations
 - Tracks historical trends
 - Reports in dashboards and status updates
 
-**This transforms LUFT from a data collection system into a physics-aware engine that USES the laws it discovers.**
+**This transforms  from a data collection system into a physics-aware engine that USES the laws it discovers.**
 
 ---
 
@@ -278,7 +278,7 @@ The χ = 0.15 boundary discovered in the solar wind MHD plasma regime represents
 
 ### From MHD Boundary to Universal Constant
 
-This integration document describes the operational implementation of χ = 0.15 within the LUFT Portal engine for the **electromagnetic (MHD) regime**. However, the discovery has much broader implications:
+This integration document describes the operational implementation of χ = 0.15 within the  Portal engine for the **electromagnetic (MHD) regime**. However, the discovery has much broader implications:
 
 **χ_C ≈ 0.15** appears to govern confinement boundaries across **all fundamental forces**:
 
@@ -288,7 +288,7 @@ This integration document describes the operational implementation of χ = 0.15 
 
 ### The Broader Framework
 
-For the complete theoretical and mathematical framework establishing χ_C as a universal constant, see:
+For the complete measured and mathematical framework establishing χ_C as a universal constant, see:
 
 **📖 [Cline Constant Framework v1](docs/CLINE_CONSTANT_FRAMEWORK_v1.md)** — Complete mathematical framework including:
 - Fundamental definition across all regimes
@@ -304,8 +304,8 @@ For the complete theoretical and mathematical framework establishing χ_C as a u
 | Aspect | This Document | Cline Constant Framework |
 |--------|--------------|-------------------------|
 | **Scope** | MHD plasma (solar wind) | Universal across all forces |
-| **Focus** | Operational implementation | Theoretical foundation |
-| **Status** | ✅ Operational in LUFT Portal | 📚 Publication-ready framework |
+| **Focus** | Operational implementation | measured foundation |
+| **Status** | ✅ Operational in  Portal | 📚 Publication-ready framework |
 | **Regime** | Electromagnetic only | EM + Electrostatic + Gravitational |
 | **Purpose** | Engineering/monitoring | Fundamental physics |
 

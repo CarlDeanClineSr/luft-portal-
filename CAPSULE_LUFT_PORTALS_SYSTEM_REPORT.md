@@ -2,7 +2,7 @@
 
 **Authors:** Carl Dean Cline Sr., Copilot  
 **Status:** Active  
-**Purpose:** Document the current functions, attributes, and daily run‑through of the LUFT Portals system.
+**Purpose:** Document the current functions, attributes, and daily run‑through of the  Portals system.
 
 ---
 
@@ -42,4 +42,4 @@
 
 ### Ledger Note
 
-This capsule serves as a **control‑point report** for LUFT Portals, ensuring continuity of system knowledge and daily relay status.
+This capsule serves as a **control‑point report** for  Portals, ensuring continuity of system knowledge and daily relay status.

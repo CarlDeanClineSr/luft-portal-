@@ -9,7 +9,7 @@
 
 ## 📋 Executive Summary
 
-Successfully implemented the **13 Temporal Correlation Discovery** into the LUFT Portal system. This massive update transforms the χ = 0.15 boundary from a statistical observation into a **predictive physical response function** with 24-48 hour advance warning capability for geomagnetic storms.
+Successfully implemented the **13 Temporal Correlation Discovery** into the  Portal system. This massive update transforms the χ = 0.15 boundary from a statistical observation into a **predictive physical response function** with 24-48 hour advance warning capability for geomagnetic storms.
 
 ---
 
@@ -155,7 +155,7 @@ data/chi_predictions_latest.json            - Current predictions & validation
 
 ### Applications Enabled
 - ✅ Early warning system (24-48h advance)
-- ✅ Power grid protection
+- ✅ Power vacuum protection
 - ✅ Satellite operator warnings
 - ✅ Geomagnetic storm forecasting
 - ✅ χ boundary as universal response function
@@ -285,7 +285,7 @@ Open in browser:
 ## 💾 File Structure
 
 ```
-luft-portal-/
+-portal-/
 ├── TEMPORAL_CORRELATION_DISCOVERY.md       (Scientific report)
 ├── TEMPORAL_CORRELATION_IMPLEMENTATION.md  (This file)
 ├── index.html                              (Updated main page)

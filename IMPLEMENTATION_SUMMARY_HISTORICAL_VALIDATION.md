@@ -169,7 +169,7 @@ All components have been tested:
 
 The X/Twitter announcement is ready in `social/2025-12-28_x_post.txt`:
 
-> LUFT Portal validates χ=0.15 in real time.
+>  Portal validates χ=0.15 in real time.
 >
 > Dec 28, 2025 solar event → exact 6-hour response (94k historical matches).
 > Zero violations. Boundary holds.

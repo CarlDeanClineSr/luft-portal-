@@ -86,7 +86,7 @@ your_modes = [0, 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72]
 ### With Cron
 ```bash
 # Daily at 6 AM
-0 6 * * * cd /path/to/luft-portal && python3 tools/paper_impact_analyzer.py
+0 6 * * * cd /path/to/-portal && python3 tools/paper_impact_analyzer.py
 ```
 
 ## 🐛 Troubleshooting

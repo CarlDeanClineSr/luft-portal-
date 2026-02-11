@@ -2577,21 +2577,21 @@ Repository Knowledge Index
 | Path | Title | Lines | Keywords |
 |------|-------|-------|----------|
 | [A true account by Carl Dean Cline Sr.md](A true account by Carl Dean Cline Sr.md) | Captain Carl, November 25, 2025 — 12:12 PM CDTYou just asked | 28 | story, universe, earth, ... |
-| [AGENT_TASKS_2026_01_03.md](AGENT_TASKS_2026_01_03.md) | LUFT Agent Task Coordinator | 234 | task, ready, data, ... |
-| [AI_CREDIT_PROTOCOL.md](AI_CREDIT_PROTOCOL.md) | AI_CREDIT_PROTOCOL.md | 20 | luft, md, new, ... |
-| [ARCHIVE_GUIDE.md](ARCHIVE_GUIDE.md) | LUFT Archive Guide | 166 | archive, portal, data, ... |
+| [AGENT_TASKS_2026_01_03.md](AGENT_TASKS_2026_01_03.md) |  Agent Task Coordinator | 234 | task, ready, data, ... |
+| [AI_CREDIT_PROTOCOL.md](AI_CREDIT_PROTOCOL.md) | AI_CREDIT_PROTOCOL.md | 20 | , md, new, ... |
+| [ARCHIVE_GUIDE.md](ARCHIVE_GUIDE.md) |  Archive Guide | 166 | archive, portal, data, ... |
 | [ARXIV_SUBMISSION_CHECKLIST.md](ARXIV_SUBMISSION_CHECKLIST.md) | arXiv Submission Checklist | 735 | plasma, physics, experimental, ... |
 | [BLINDED_RUNNER.md](BLINDED_RUNNER.md) | Blinded Capsule Runner — Minimal I/O Contract | 32 | data, json, runner, ... |
 | [CAPSULE_AUDITOR_MANIFEST.md](CAPSULE_AUDITOR_MANIFEST.md) | Capsule — Auditor Manifest | 48 | auditor, md, auditor manifest, ... |
 | [CAPSULE_AUDIT_ARCHIVE.md](CAPSULE_AUDIT_ARCHIVE.md) | Capsule — Audit Archive (Long‑Term Storage of Past Cycles) | 53 | capsule, archive, cycles, ... |
-| [CAPSULE_AUDIT_BILL_OF_RIGHTS.md](CAPSULE_AUDIT_BILL_OF_RIGHTS.md) | Capsule — Audit Bill of Rights (Explicit Rights of the Audit | 48 | luft, rights, audit, ... |
-| [CAPSULE_AUDIT_CANON.md](CAPSULE_AUDIT_CANON.md) | Capsule — Audit Canon (Permanent Reference of LUFT Audit Sys | 45 | audit, canon, canonical principles, ... |
-| [CAPSULE_AUDIT_CHARTER.md](CAPSULE_AUDIT_CHARTER.md) | Capsule — Audit Charter (Unified Framework of LUFT Audit Sys | 52 | rights, audit, charter, ... |
+| [CAPSULE_AUDIT_BILL_OF_RIGHTS.md](CAPSULE_AUDIT_BILL_OF_RIGHTS.md) | Capsule — Audit Bill of Rights (Explicit Rights of the Audit | 48 | , rights, audit, ... |
+| [CAPSULE_AUDIT_CANON.md](CAPSULE_AUDIT_CANON.md) | Capsule — Audit Canon (Permanent Reference of  Audit Sys | 45 | audit, canon, canonical principles, ... |
+| [CAPSULE_AUDIT_CHARTER.md](CAPSULE_AUDIT_CHARTER.md) | Capsule — Audit Charter (Unified Framework of  Audit Sys | 52 | rights, audit, charter, ... |
 | [CAPSULE_AUDIT_GOVERNANCE.md](CAPSULE_AUDIT_GOVERNANCE.md) | Capsule — Audit Governance (Rules & Protocols) | 45 | contributors, automation, audit, ... |
 | [CAPSULE_AUDIT_INDEX.md](CAPSULE_AUDIT_INDEX.md) | Capsule — Audit Index (Master Navigation Hub) | 33 | md, audit, index, ... |
-| [CAPSULE_AUDIT_LEGACY.md](CAPSULE_AUDIT_LEGACY.md) | Capsule — Audit Legacy (Preservation & Inheritance of LUFT A | 44 | legacy, inheritance, audit, ... |
-| [CAPSULE_AUDIT_LOG.md](CAPSULE_AUDIT_LOG.md) | Capsule — Audit Log for LUFT Figure Reviews | 56 | log, audit, decision, ... |
-| [CAPSULE_AUDIT_LOG2.md](CAPSULE_AUDIT_LOG2.md) | Capsule — Audit Log for LUFT Figure Updates | 64 | entries, entry, date, ... |
+| [CAPSULE_AUDIT_LEGACY.md](CAPSULE_AUDIT_LEGACY.md) | Capsule — Audit Legacy (Preservation & Inheritance of  A | 44 | legacy, inheritance, audit, ... |
+| [CAPSULE_AUDIT_LOG.md](CAPSULE_AUDIT_LOG.md) | Capsule — Audit Log for  Figure Reviews | 56 | log, audit, decision, ... |
+| [CAPSULE_AUDIT_LOG2.md](CAPSULE_AUDIT_LOG2.md) | Capsule — Audit Log for  Figure Updates | 64 | entries, entry, date, ... |
 | [CAPSULE_AUDIT_METRICS.md](CAPSULE_AUDIT_METRICS.md) | Capsule — Audit Metrics (Deeper Statistical Analysis) | 57 | vs, analysis, ledger, ... |
 | [CAPSULE_AUDIT_SUMMARY.md](CAPSULE_AUDIT_SUMMARY.md) | Capsule — Audit Summary (High‑Level Oversight Metrics) | 45 | summary, rejections, approvals, ... |
 | [CAPSULE_AUDIT_TRAIL.md](CAPSULE_AUDIT_TRAIL.md) | Capsule — Audit Trail (Chronological Chain of Review Activit | 42 | audit, md, chronological, ... |
@@ -2603,27 +2603,27 @@ Repository Knowledge Index
 | [CAPSULE_CME_EVENT_2025-11-21.md](CAPSULE_CME_EVENT_2025-11-21.md) | Capsule — CME Event 2025-11-21 / 22 | 129 | event, heartbeat, md, ... |
 | [CAPSULE_CME_EVENT_2025-12-01.md](CAPSULE_CME_EVENT_2025-12-01.md) | CAPSULE_CME_EVENT_2025-12-01.md | 20 | solar, cme, storm, ... |
 | [CAPSULE_CME_EVENT_VISUAL_2025-12.md](CAPSULE_CME_EVENT_VISUAL_2025-12.md) | CAPSULE_CME_EVENT_VISUAL_2025-12.md | 227 | event, cme, time, ... |
-| [CAPSULE_CME_IMPACT_PROOF_PULSE.md](CAPSULE_CME_IMPACT_PROOF_PULSE.md) | CAPSULE_CME_IMPACT_PROOF_PULSE | 61 | lattice, impact, 1365, ... |
+| [CAPSULE_CME_IMPACT_PROOF_PULSE.md](CAPSULE_CME_IMPACT_PROOF_PULSE.md) | CAPSULE_CME_IMPACT_PROOF_PULSE | 61 | vacuum, impact, 1365, ... |
 | [CAPSULE_CME_RESULTS_2025-12-03.md](CAPSULE_CME_RESULTS_2025-12-03.md) | CAPSULE_CME_RESULTS_2025-12-03.md | 69 | cme, insert, dec, ... |
 | [CAPSULE_CME_RESULTS_APPENDIX.md](CAPSULE_CME_RESULTS_APPENDIX.md) | CAPSULE_CME_RESULTS_APPENDIX.md | 67 | commentary, md, cme, ... |
 | [CAPSULE_CME_RESULTS_APPENDIX_2025-12-03.md](CAPSULE_CME_RESULTS_APPENDIX_2025-12-03.md) | CAPSULE_CME_RESULTS_APPENDIX_2025-12-03.md | 68 | anomaly, overlays, cme, ... |
 | [CAPSULE_DISCOVERY_MANIFESTO.md](CAPSULE_DISCOVERY_MANIFESTO.md) | CAPSULE: Discovery Manifesto | 223 | 055, data, modulation, ... |
-| [CAPSULE_EFE_MODULATION_001.md](CAPSULE_EFE_MODULATION_001.md) | CAPSULE_EFE_MODULATION_001 — LUFT-Upgraded Einstein Field Eq | 60 | luft, lambda, nu, ... |
+| [CAPSULE_EFE_MODULATION_001.md](CAPSULE_EFE_MODULATION_001.md) | CAPSULE_EFE_MODULATION_001 — -Upgraded Einstein Field Eq | 60 | , lambda, nu, ... |
 | [CAPSULE_HEARTBEAT_CATALOG_2025.md](CAPSULE_HEARTBEAT_CATALOG_2025.md) | Capsule — Heartbeat Catalog for 2025 | 78 | event, window, 2025, ... |
-| [CAPSULE_HST_XDF_FOAM_2025.md](CAPSULE_HST_XDF_FOAM_2025.md) | LUFT Ledger — HST XDF Foam Confirmation (November 20, 2025) | 29 | luft, foam, cosmological, ... |
+| [CAPSULE_HST_XDF_FOAM_2025.md](CAPSULE_HST_XDF_FOAM_2025.md) |  Ledger — HST XDF Foam Confirmation (November 20, 2025) | 29 | , foam, cosmological, ... |
 | [CAPSULE_LEDGER_MAP.md](CAPSULE_LEDGER_MAP.md) | Capsule—Ledger Index (Capsule Chain Map) | 72 | capsule, md, 12 03, ... |
-| [CAPSULE_LEDGER_MAP2.md](CAPSULE_LEDGER_MAP2.md) | 📜 Capsule Ledger Map — LUFT / Unified Fields | 48 | capsule, md, 12 03, ... |
-| [CAPSULE_LEDGER_SPEAKS.md](CAPSULE_LEDGER_SPEAKS.md) | CAPSULE_LEDGER_SPEAKS.md | 50 | ledger, luft, capsule, ... |
+| [CAPSULE_LEDGER_MAP2.md](CAPSULE_LEDGER_MAP2.md) | 📜 Capsule Ledger Map —  / Unified Fields | 48 | capsule, md, 12 03, ... |
+| [CAPSULE_LEDGER_SPEAKS.md](CAPSULE_LEDGER_SPEAKS.md) | CAPSULE_LEDGER_SPEAKS.md | 50 | ledger, , capsule, ... |
 | [CAPSULE_LUFT_PORTALS_SYSTEM_REPORT.md](CAPSULE_LUFT_PORTALS_SYSTEM_REPORT.md) | Capsule: LUFT_PORTALS_SYSTEM_REPORT_2025-11-28 | 46 | capsule, operator, data, ... |
-| [CAPSULE_LUFT_QUANTUM_COMMS.md](CAPSULE_LUFT_QUANTUM_COMMS.md) | CAPSULE: LUFT-Quantum Comms — Foam Tunnels for ET Probes | 62 | sdr, overflow, luft, ... |
-| [CAPSULE_OPEN_CREDIT.md](CAPSULE_OPEN_CREDIT.md) | LUFT Shared Credit Capsule | 26 | capsule, luft, relay agent, ... |
-| [CAPSULE_REVIEW_GUIDELINES.md](CAPSULE_REVIEW_GUIDELINES.md) | Capsule—Review Guidelines for LUFT Figures Update PRs | 49 | capsule, figures, luft, ... |
-| [CAPSULE_REVIEW_GUIDELINES2.md](CAPSULE_REVIEW_GUIDELINES2.md) | Capsule — Review Guidelines for LUFT Figure Updates | 29 | capsule, luft, review, ... |
-| [CAPSULE_SESSION_CONTINUITY.md](CAPSULE_SESSION_CONTINUITY.md) | Session Continuity & Recovery Capsule — LUFT Ledger Root | 81 | capsule, session, relay, ... |
-| [CAPSULE_UNIFIED_FIELDS.md](CAPSULE_UNIFIED_FIELDS.md) | Capsule—Unified Fields: From Einstein to LUFT | 98 | luft, energy, text, ... |
-| [CAPSULE_UNIFIED_MODULATION.md](CAPSULE_UNIFIED_MODULATION.md) | Unified Modulation Discovery Statement | 57 | lattice, modulation, discovery, ... |
+| [CAPSULE_LUFT_QUANTUM_COMMS.md](CAPSULE_LUFT_QUANTUM_COMMS.md) | CAPSULE: -Quantum Comms — Foam Tunnels for ET Probes | 62 | sdr, overflow, , ... |
+| [CAPSULE_OPEN_CREDIT.md](CAPSULE_OPEN_CREDIT.md) |  Shared Credit Capsule | 26 | capsule, , relay agent, ... |
+| [CAPSULE_REVIEW_GUIDELINES.md](CAPSULE_REVIEW_GUIDELINES.md) | Capsule—Review Guidelines for  Figures Update PRs | 49 | capsule, figures, , ... |
+| [CAPSULE_REVIEW_GUIDELINES2.md](CAPSULE_REVIEW_GUIDELINES2.md) | Capsule — Review Guidelines for  Figure Updates | 29 | capsule, , review, ... |
+| [CAPSULE_SESSION_CONTINUITY.md](CAPSULE_SESSION_CONTINUITY.md) | Session Continuity & Recovery Capsule —  Ledger Root | 81 | capsule, session, relay, ... |
+| [CAPSULE_UNIFIED_FIELDS.md](CAPSULE_UNIFIED_FIELDS.md) | Capsule—Unified Fields: From Einstein to  | 98 | , energy, text, ... |
+| [CAPSULE_UNIFIED_MODULATION.md](CAPSULE_UNIFIED_MODULATION.md) | Unified Modulation Discovery Statement | 57 | vacuum, modulation, discovery, ... |
 | [CAPSULE_UNIVERSAL_MOTION.md](CAPSULE_UNIVERSAL_MOTION.md) | Carl—this capsule is excellent. It captures your vision of m | 37 | capsule, unification, cosmology, ... |
-| [CAPSULE_VISUAL_RELAY.md](CAPSULE_VISUAL_RELAY.md) | Capsule—Visual Relay: LUFT Heartbeat GIF Workflow | 71 | gif, relay, charts, ... |
+| [CAPSULE_VISUAL_RELAY.md](CAPSULE_VISUAL_RELAY.md) | Capsule—Visual Relay:  Heartbeat GIF Workflow | 71 | gif, relay, charts, ... |
 | [CAPSULE_VOID_FOAM_COSMOLOGY.md](CAPSULE_VOID_FOAM_COSMOLOGY.md) | Capsule: Void Foam Cosmology — The Second Void and Lambda | 69 | foam, void, turbulence, ... |
 | [CARL_DISCOVERY_STORY.md](CARL_DISCOVERY_STORY.md) | Carl Dean Cline Sr. — The Discovery of the χ ≤ 0.15 Universa | 443 | data, carl, discovery, ... |
 | [CHANGES_SUMMARY.txt](CHANGES_SUMMARY.txt) | ════════════════════════════════════════════════════════════ | 130 | mars, confirmed, validation, ... |
@@ -2634,76 +2634,76 @@ Repository Knowledge Index
 | [CHI_015_QUICK_REFERENCE.md](CHI_015_QUICK_REFERENCE.md) | **χ = 0.15 Quick Reference Card** | 72 | attractor, 155, df, ... |
 | [COCKPIT_IMPLEMENTATION.md](COCKPIT_IMPLEMENTATION.md) | Space Weather Cockpit - Implementation Summary | 199 | api, panel, bz, ... |
 | [COCKPIT_USER_GUIDE.md](COCKPIT_USER_GUIDE.md) | Space Weather Cockpit - User Guide | 176 | warning, 15, storm, ... |
-| [COMPLETE_IMPLEMENTATION_SUMMARY.md](COMPLETE_IMPLEMENTATION_SUMMARY.md) | LUFT Portal V2.0 - Complete Implementation Summary | 522 | kb, md, discovery, ... |
-| [Copilot Chat record 11-22-2025.md](Copilot Chat record 11-22-2025.md) | Copilot Chat | 2196 | luft, data, lattice, ... |
-| [DAILY_STATUS_REPORT_2026_01_02.md](DAILY_STATUS_REPORT_2026_01_02.md) | LUFT PORTAL - DAILY DATA STATUS REPORT | 270 | data, wave, packet, ... |
-| [DATA_MASTER_INDEX.md](DATA_MASTER_INDEX.md) | LUFT Portal - Master Data Index | 453 | data, papers, json, ... |
+| [COMPLETE_IMPLEMENTATION_SUMMARY.md](COMPLETE_IMPLEMENTATION_SUMMARY.md) |  Portal V2.0 - Complete Implementation Summary | 522 | kb, md, discovery, ... |
+| [Copilot Chat record 11-22-2025.md](Copilot Chat record 11-22-2025.md) | Copilot Chat | 2196 | , data, vacuum, ... |
+| [DAILY_STATUS_REPORT_2026_01_02.md](DAILY_STATUS_REPORT_2026_01_02.md) |  PORTAL - DAILY DATA STATUS REPORT | 270 | data, wave, packet, ... |
+| [DATA_MASTER_INDEX.md](DATA_MASTER_INDEX.md) |  Portal - Master Data Index | 453 | data, papers, json, ... |
 | [DEC2025 CAPSULE_DISCOVERY_MANIFESTO.md](DEC2025 CAPSULE_DISCOVERY_MANIFESTO.md) | CAPSULE_DISCOVERY_MANIFESTO.md | 48 | md, capsule, law, ... |
 | [DELIVERY_SUMMARY.md](DELIVERY_SUMMARY.md) | Space Weather Cockpit - Delivery Summary | 269 | js, data, panel, ... |
-| [DISCOVERY_INTEGRATION_GUIDE.md](DISCOVERY_INTEGRATION_GUIDE.md) | LUFT System Self-Discovery Integration Guide | 361 | carl, discoveries, discovery, ... |
-| [DISCOVERY_SYSTEM_QUICKSTART.md](DISCOVERY_SYSTEM_QUICKSTART.md) | LUFT Discovery System - Quick Start | 153 | discovery, discoveries, py, ... |
-| [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | LUFT Portal — Documentation Index | 361 | md, use, status, ... |
+| [DISCOVERY_INTEGRATION_GUIDE.md](DISCOVERY_INTEGRATION_GUIDE.md) |  System Self-Discovery Integration Guide | 361 | carl, discoveries, discovery, ... |
+| [DISCOVERY_SYSTEM_QUICKSTART.md](DISCOVERY_SYSTEM_QUICKSTART.md) |  Discovery System - Quick Start | 153 | discovery, discoveries, py, ... |
+| [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) |  Portal — Documentation Index | 361 | md, use, status, ... |
 | [ENGINE_DISCOVERY_QUICKREF.md](ENGINE_DISCOVERY_QUICKREF.md) | Engine Discovery Quick Reference 🚀 | 116 | pts, run, papers, ... |
-| [EXECUTIVE_SUMMARY.md](EXECUTIVE_SUMMARY.md) | LUFT Portal — Executive Summary | 366 | data, status, heartbeat, ... |
+| [EXECUTIVE_SUMMARY.md](EXECUTIVE_SUMMARY.md) |  Portal — Executive Summary | 366 | data, status, heartbeat, ... |
 | [FIX_STALE_DATA_SUMMARY.md](FIX_STALE_DATA_SUMMARY.md) | Fix Summary: Stale Data Issues Resolved | 205 | data, fresh, fetch, ... |
 | [GIT_CONFLICT_FIX_SUMMARY.md](GIT_CONFLICT_FIX_SUMMARY.md) | Git Conflict Fix - Implementation Summary | 218 | yml, workflows, workflow, ... |
 | [HISTORICAL_DATA_FILES.md](HISTORICAL_DATA_FILES.md) | Historical Data Files — Carl Dean Cline Sr.'s Work Archive | 337 | data, carl, files, ... |
 | [IMPERIAL_MATH_MULTILINGUAL.md](IMPERIAL_MATH_MULTILINGUAL.md) | Imperial Math — Language-Agnostic Grammar | 35 | language, chi, force_raw, ... |
 | [IMPLEMENTATION_COMPLETE_SUMMARY.md](IMPLEMENTATION_COMPLETE_SUMMARY.md) | ✅ COMPLETE: Analysis Tools & Workflows for Carl | 327 | paper, tools, data, ... |
 | [IMPLEMENTATION_COMPLETE_WAVE_PACKET.md](IMPLEMENTATION_COMPLETE_WAVE_PACKET.md) | IMPLEMENTATION COMPLETE - WAVE PACKET DISCOVERY INTEGRATION | 280 | data, packet, wave, ... |
-| [IMPLEMENTATION_SUMMARY_2026_01_03.md](IMPLEMENTATION_SUMMARY_2026_01_03.md) | LUFT Intelligence Report Implementation - Complete Summary | 369 | psp, ready, data, ... |
-| [IMPLEMENTATION_SUMMARY_ANALYSIS_SCRIPTS.md](IMPLEMENTATION_SUMMARY_ANALYSIS_SCRIPTS.md) | LUFT Analysis Scripts Implementation - Complete Summary | 371 | carl, discovery, discoveries, ... |
+| [IMPLEMENTATION_SUMMARY_2026_01_03.md](IMPLEMENTATION_SUMMARY_2026_01_03.md) |  Intelligence Report Implementation - Complete Summary | 369 | psp, ready, data, ... |
+| [IMPLEMENTATION_SUMMARY_ANALYSIS_SCRIPTS.md](IMPLEMENTATION_SUMMARY_ANALYSIS_SCRIPTS.md) |  Analysis Scripts Implementation - Complete Summary | 371 | carl, discovery, discoveries, ... |
 | [IMPLEMENTATION_SUMMARY_ENGINE_DISCOVERY.md](IMPLEMENTATION_SUMMARY_ENGINE_DISCOVERY.md) | Engine Discovery Mode - Implementation Summary | 296 | papers, discovery, data, ... |
 | [IMPLEMENTATION_SUMMARY_HISTORICAL_VALIDATION.md](IMPLEMENTATION_SUMMARY_HISTORICAL_VALIDATION.md) | Implementation Summary: Automated Historical Validation Syst | 203 | data, workflows, hours, ... |
 | [IMPLEMENTATION_SUMMARY_OLD.md](IMPLEMENTATION_SUMMARY_OLD.md) | Implementation Summary — Carl Dean Cline Sr.'s Discovery Doc | 344 | discovery, data, files, ... |
 | [INSTRUMENT_PANEL_GUIDE.md](INSTRUMENT_PANEL_GUIDE.md) | Space Weather Cockpit - Instrument Panel Guide | 243 | red, bz, 15, ... |
-| [LANDING.md](LANDING.md) | LUFT – The Living Universe Framework | 47 | witness, heartbeat, luft, ... |
+| [LANDING.md](LANDING.md) |  – The Living Universe Framework | 47 | witness, heartbeat, , ... |
 | [LATEST_VAULT_STATUS.md](LATEST_VAULT_STATUS.md) | 🔐 VAULT STATUS REPORT | 82 | 2025, lock, 1500, ... |
-| [LAYER4_IMPLEMENTATION_SUMMARY.md](LAYER4_IMPLEMENTATION_SUMMARY.md) | 🌟 LUFT Layer 4 Meta-Intelligence Implementation Summary | 416 | data, layer, source, ... |
-| [LICENSE.md](LICENSE.md) | LUFT Observatory Data and Code License | 62 | use, github, luft, ... |
+| [LAYER4_IMPLEMENTATION_SUMMARY.md](LAYER4_IMPLEMENTATION_SUMMARY.md) | 🌟  Layer 4 Meta-Intelligence Implementation Summary | 416 | data, layer, source, ... |
+| [LICENSE.md](LICENSE.md) |  Observatory Data and Code License | 62 | use, github, , ... |
 | [LIGHTNING_ANALYZER_README.md](LIGHTNING_ANALYZER_README.md) | Lightning Storm Phase Analyzer | 147 | lightning, data, py, ... |
 | [LIGHTNING_IMPLEMENTATION_COMPLETE.md](LIGHTNING_IMPLEMENTATION_COMPLETE.md) | Lightning Storm Phase Analyzer - Implementation Complete ✅ | 88 | lightning, analysis, data, ... |
-| [LINK_INTELLIGENCE_IMPLEMENTATION_SUMMARY.md](LINK_INTELLIGENCE_IMPLEMENTATION_SUMMARY.md) | LUFT Link Intelligence Network - Implementation Summary | 308 | data, sources, lines, ... |
-| [LINK_INTELLIGENCE_QUICKSTART.md](LINK_INTELLIGENCE_QUICKSTART.md) | LUFT Link Intelligence Network - Quick Start Guide | 292 | data, links, json, ... |
-| [LINK_INTELLIGENCE_REPORT.md](LINK_INTELLIGENCE_REPORT.md) | LUFT Link Intelligence Report | 688 | data, json, python, ... |
-| [LUFT-PORTAL_README.md](LUFT-PORTAL_README.md) | LUFT Portal — Current Work & Dashboard | 43 | capsule, capsules, raw, ... |
-| [LUFT_AUTO_FIX_GUIDE.md](LUFT_AUTO_FIX_GUIDE.md) | How to Fix the LUFT-Auto Codex Miner Failure | 109 | requirements, txt, requirements txt, ... |
-| [LUFT_PORTAL_COMPREHENSIVE_REPORT.md](LUFT_PORTAL_COMPREHENSIVE_REPORT.md) | LUFT Portal — Comprehensive System Report | 1544 | data, analysis, solar, ... |
-| [LUFT_SUCCESSOR_WELCOME.md](LUFT_SUCCESSOR_WELCOME.md) | Welcome to LUFT‑PORTAL — A Living Laboratory, Not Just a Rep | 41 | self, heartbeat, portal, ... |
-| [LUFT_UNIVERSALITY_DASHBOARD.md](LUFT_UNIVERSALITY_DASHBOARD.md) | LUFT Universality Dashboard: χ = 0.15 Boundary Across All Do | 350 | 15, boundary, plasma, ... |
-| [LUFT_YOUTUBE_VIDEO_SCRIPT.md](LUFT_YOUTUBE_VIDEO_SCRIPT.md) | Video Script — LUFT Universal Modulation Breakthrough @capta | 92 | carl, universe, luft, ... |
+| [LINK_INTELLIGENCE_IMPLEMENTATION_SUMMARY.md](LINK_INTELLIGENCE_IMPLEMENTATION_SUMMARY.md) |  Link Intelligence Network - Implementation Summary | 308 | data, sources, lines, ... |
+| [LINK_INTELLIGENCE_QUICKSTART.md](LINK_INTELLIGENCE_QUICKSTART.md) |  Link Intelligence Network - Quick Start Guide | 292 | data, links, json, ... |
+| [LINK_INTELLIGENCE_REPORT.md](LINK_INTELLIGENCE_REPORT.md) |  Link Intelligence Report | 688 | data, json, python, ... |
+| [-PORTAL_README.md](-PORTAL_README.md) |  Portal — Current Work & Dashboard | 43 | capsule, capsules, raw, ... |
+| [LUFT_AUTO_FIX_GUIDE.md](LUFT_AUTO_FIX_GUIDE.md) | How to Fix the -Auto Codex Miner Failure | 109 | requirements, txt, requirements txt, ... |
+| [LUFT_PORTAL_COMPREHENSIVE_REPORT.md](LUFT_PORTAL_COMPREHENSIVE_REPORT.md) |  Portal — Comprehensive System Report | 1544 | data, analysis, solar, ... |
+| [LUFT_SUCCESSOR_WELCOME.md](LUFT_SUCCESSOR_WELCOME.md) | Welcome to ‑PORTAL — A Living Laboratory, Not Just a Rep | 41 | self, heartbeat, portal, ... |
+| [LUFT_UNIVERSALITY_DASHBOARD.md](LUFT_UNIVERSALITY_DASHBOARD.md) |  Universality Dashboard: χ = 0.15 Boundary Across All Do | 350 | 15, boundary, plasma, ... |
+| [LUFT_YOUTUBE_VIDEO_SCRIPT.md](LUFT_YOUTUBE_VIDEO_SCRIPT.md) | Video Script —  Universal Modulation Breakthrough @capta | 92 | carl, universe, , ... |
 | [MARS_CHI_VALIDATION_SUMMARY.md](MARS_CHI_VALIDATION_SUMMARY.md) | Mars χ ≤ 0.15 Validation Summary | 182 | 15, plasma, data, ... |
 | [MARS_CHI_VALIDATION_UPDATE.md](MARS_CHI_VALIDATION_UPDATE.md) | Implementation Summary: Mars χ ≤ 0.15 Validation Update | 107 | mars, 15, confirmed, ... |
 | [MARS_VALIDATION_QUICK_REF.md](MARS_VALIDATION_QUICK_REF.md) | Mars χ = 0.15 Validation - Quick Reference | 130 | confirmed, mars, 15, ... |
 | [MASTER_REPAIRS.md](MASTER_REPAIRS.md) | MASTER REPAIRS — χ = 0.15 Implementation Kit | 44 | validate_chi_repairs py, validate_chi_repairs, tools validate_chi_repairs, ... |
-| [META_INTELLIGENCE_INTEGRATION_GUIDE.md](META_INTELLIGENCE_INTEGRATION_GUIDE.md) | 🌟 LUFT Layer 4 Meta-Intelligence Integration Guide | 462 | data, analysis, python, ... |
-| [META_INTELLIGENCE_QUICK_REFERENCE.md](META_INTELLIGENCE_QUICK_REFERENCE.md) | 🌟 LUFT Layer 4 Meta-Intelligence Quick Reference | 176 | analysis, md, reports, ... |
-| [META_PATTERN_REPORT_TEMPLATE.md](META_PATTERN_REPORT_TEMPLATE.md) | 🌟 LUFT META-INTELLIGENCE REPORT TEMPLATE | 417 | source, data, sources, ... |
-| [New Text Document (137).txt](New Text Document (137).txt) | New Text Document (136).txt | 2033 | foam, 10, luft, ... |
-| [New Text Document (139).txt](New Text Document (139).txt) | See new posts | 5943 | foam, luft, lattice, ... |
-| [New Text Document (147).txt](New Text Document (147).txt) | Copilot Chat | 8986 | luft, data, lattice, ... |
-| [New Text Document (148).txt](New Text Document (148).txt) | Copilot Chat | 9796 | luft, data, carl, ... |
-| [New Text Document (149).txt](New Text Document (149).txt) | Copilot Chat | 18142 | data, luft, carl, ... |
-| [New Text Document (151).txt](New Text Document (151).txt) | ### Deriving the Foam Modulation Equation in LUFT Captain Ca | 11483 | capsule, luft, data, ... |
+| [META_INTELLIGENCE_INTEGRATION_GUIDE.md](META_INTELLIGENCE_INTEGRATION_GUIDE.md) | 🌟  Layer 4 Meta-Intelligence Integration Guide | 462 | data, analysis, python, ... |
+| [META_INTELLIGENCE_QUICK_REFERENCE.md](META_INTELLIGENCE_QUICK_REFERENCE.md) | 🌟  Layer 4 Meta-Intelligence Quick Reference | 176 | analysis, md, reports, ... |
+| [META_PATTERN_REPORT_TEMPLATE.md](META_PATTERN_REPORT_TEMPLATE.md) | 🌟  META-INTELLIGENCE REPORT TEMPLATE | 417 | source, data, sources, ... |
+| [New Text Document (137).txt](New Text Document (137).txt) | New Text Document (136).txt | 2033 | foam, 10, , ... |
+| [New Text Document (139).txt](New Text Document (139).txt) | See new posts | 5943 | foam, , vacuum, ... |
+| [New Text Document (147).txt](New Text Document (147).txt) | Copilot Chat | 8986 | , data, vacuum, ... |
+| [New Text Document (148).txt](New Text Document (148).txt) | Copilot Chat | 9796 | , data, carl, ... |
+| [New Text Document (149).txt](New Text Document (149).txt) | Copilot Chat | 18142 | data, , carl, ... |
+| [New Text Document (151).txt](New Text Document (151).txt) | ### Deriving the Foam Modulation Equation in  Captain Ca | 11483 | capsule, , data, ... |
 | [New Text Document (155).txt](New Text Document (155).txt) | See new posts | 9321 | data, just, heartbeat, ... |
 | [New Text Document (160).txt](New Text Document (160).txt) | #!/usr/bin/env python3 | 65 | json, df, pd, ... |
 | [New Text Document (161).txt](New Text Document (161).txt) | name: Auto-Append Baseline Watch | 35 | git, append, run, ... |
 | [New Text Document (194).txt](New Text Document (194).txt) | By deploying **core_directive.py** and **core_directive.yaml | 7909 | data, 2025, 12, ... |
-| [New Text Document (195).txt](New Text Document (195).txt) | Copilot Chat | 6878 | data, solar, luft, ... |
-| [New Text Document (196).txt](New Text Document (196).txt) | Last Tuesday | 26398 | data, luft, solar, ... |
-| [New Text Document (197).txt](New Text Document (197).txt) | https://github.com/CarlDeanClineSr/luft-portal-/blob/main/LU | 3392 | data, jades, jades gs, ... |
-| [New Text Document (198).txt](New Text Document (198).txt) | LATTICE PERIODIC TABLE 2025 — Quantum Law Matrix | 452 | law, table, vacuum, ... |
+| [New Text Document (195).txt](New Text Document (195).txt) | Copilot Chat | 6878 | data, solar, , ... |
+| [New Text Document (196).txt](New Text Document (196).txt) | Last Tuesday | 26398 | data, , solar, ... |
+| [New Text Document (197).txt](New Text Document (197).txt) | https://github.com/CarlDeanClineSr/-portal-/blob/main/LU | 3392 | data, jades, jades gs, ... |
+| [New Text Document (198).txt](New Text Document (198).txt) | vacuum PERIODIC TABLE 2025 — Quantum Law Matrix | 452 | law, table, vacuum, ... |
 | [New Text Document (199).txt](New Text Document (199).txt) | ✅ **COMMITTED:  `tools/fft_sideband_analysis.py`** | 469 | data, sidebands, fft, ... |
 | [New Text Document (200).txt](New Text Document (200).txt) | This folder/file is a compltete chat sesion with Grok Xai an | 29330 | data, 2025, 12, ... |
-| [New Text Document (201).txt](New Text Document (201).txt) | Graviton Amplitude Modulation Physics | 6556 | data, results, luft, ... |
+| [New Text Document (201).txt](New Text Document (201).txt) | Graviton Amplitude Modulation Physics | 6556 | data, results, , ... |
 | [New Text Document (202).txt](New Text Document (202).txt) | plasma_acceleration.md | 459 | 15, plasma, solar, ... |
-| [New Text Document (203).txt](New Text Document (203).txt) | Dear NOAA Space Weather Prediction Center, | 46 | luft, data, plasma, ... |
+| [New Text Document (203).txt](New Text Document (203).txt) | Dear NOAA Space Weather Prediction Center, | 46 | , data, plasma, ... |
 | [New Text Document (204).txt](New Text Document (204).txt) | Graviton Amplitude Modulation Physics | 19882 | data, 15, run, ... |
 | [New Text Document (223).txt](New Text Document (223).txt) | { | 83099 | value, https, net, ... |
 | [New Text Document (225).txt](New Text Document (225).txt) | timestamp_utc,chi_amplitude,phase_radians,storm_phase,densit | 3450 | data, time, einstein, ... |
 | [New Text Document (226).txt](New Text Document (226).txt) | CarlDeanClineSr | 1066 | md, ago, months, ... |
 | [New Text Document (227).txt](New Text Document (227).txt) | Ah yes! Element 119 (ununennium) – let's examine what your p | 15825 | particle, energy, 10, ... |
-| [New Text Document (228).txt](New Text Document (228).txt) | e for LUFT system | 8610 | 15, data, paper, ... |
+| [New Text Document (228).txt](New Text Document (228).txt) | e for  system | 8610 | 15, data, paper, ... |
 | [New Text Document (230).txt](New Text Document (230).txt) | The Cline Convergence: Five Universal Principles of Magnetiz | 6676 | data, 15, boundary, ... |
 | [New Text Document (231).txt](New Text Document (231).txt) | See new posts | 3657 | 15, data, boundary, ... |
 | [New Text Document (232).txt](New Text Document (232).txt) | See new posts | 9532 | 15, plasma, https, ... |
@@ -2723,31 +2723,31 @@ Repository Knowledge Index
 | [New Text Document (246).txt](New Text Document (246).txt) | timestamp,bx_gsm,by_gsm,bz_gsm,lon_gsm,lat_gsm,bt,baseline,c | 7004 | 2025, below, violation, ... |
 | [New Text Document (247).txt](New Text Document (247).txt) | timestamp,B_total_nT,B_baseline_nT,chi | 88559 | 2000, 2004, 2001, ... |
 | [New Text Document (249).txt](New Text Document (249).txt) | Addresses potential circularity in χ boundary analysis by im | 2907 | data, 15, boundary, ... |
-| [OBJECTIVES_AND_DIRECTIVES_LUFT.md](OBJECTIVES_AND_DIRECTIVES_LUFT.md) | LUFT Portal — Objectives & Directives for the Living Lab | 355 | heartbeat, recoil, november, ... |
-| [PRE-REG_SPEC.md](PRE-REG_SPEC.md) | LUFT Pre‑registration (Lite) — Fixed Analysis Manifest | 35 | frequency, sha256, target, ... |
+| [OBJECTIVES_AND_DIRECTIVES_LUFT.md](OBJECTIVES_AND_DIRECTIVES_LUFT.md) |  Portal — Objectives & Directives for the Living Lab | 355 | heartbeat, recoil, november, ... |
+| [PRE-REG_SPEC.md](PRE-REG_SPEC.md) |  Pre‑registration (Lite) — Fixed Analysis Manifest | 35 | frequency, sha256, target, ... |
 | [PR_CREATION_INSTRUCTIONS.md](PR_CREATION_INSTRUCTIONS.md) | Instructions for Creating the Pull Request | 75 | data, branch, audit, ... |
 | [PR_DESCRIPTION.md](PR_DESCRIPTION.md) | Pull Request: Merge Normalized ACE Audit Data and Charting P | 166 | data, scripts, cycle, ... |
 | [PSP_COLLABORATION_EMAIL_DRAFT.md](PSP_COLLABORATION_EMAIL_DRAFT.md) | Parker Solar Probe Collaboration Request | 99 | data, solar, boundary, ... |
-| [QUICK_REFERENCE.md](QUICK_REFERENCE.md) | LUFT Portal — Quick Reference Guide | 322 | data, md, workflows, ... |
-| [README.md](README.md) | LUFT Portal — Carl Dean Cline Sr.'s Discovery | 226 | data, md, portal, ... |
-| [README2.md](README2.md) | LUFT Universal Modulation Discovery — Planck–Einstein Foam | | 72 | modulation, universal, omega, ... |
+| [QUICK_REFERENCE.md](QUICK_REFERENCE.md) |  Portal — Quick Reference Guide | 322 | data, md, workflows, ... |
+| [README.md](README.md) |  Portal — Carl Dean Cline Sr.'s Discovery | 226 | data, md, portal, ... |
+| [README2.md](README2.md) |  Universal Modulation Discovery — Planck–Einstein Foam | | 72 | modulation, universal, omega, ... |
 | [README_PORTAL_JJ_SNIPPET.md](README_PORTAL_JJ_SNIPPET.md) | Portal snippet — JJ focus | 13 | jj_mqt_overview, jj, capsule, ... |
 | [REALTIME_MODE_GUIDE.md](REALTIME_MODE_GUIDE.md) | Real-Time Cockpit Mode 🚀⚡ | 325 | mode, real, time, ... |
-| [REALTIME_QUICKSTART.md](REALTIME_QUICKSTART.md) | LUFT Portal Cockpit - Real-Time Mode Quick Start ⚡ | 290 | mode, seconds, real, ... |
+| [REALTIME_QUICKSTART.md](REALTIME_QUICKSTART.md) |  Portal Cockpit - Real-Time Mode Quick Start ⚡ | 290 | mode, seconds, real, ... |
 | [RELEASE_NOTES_v1.0.0.md](RELEASE_NOTES_v1.0.0.md) | Universal Plasma Boundary at χ = 0.15 - Priority Discovery | 157 | 15, causality, discovery, ... |
-| [REPLICATION_CHALLENGE.md](REPLICATION_CHALLENGE.md) | Replication Challenge — LUFT Planck–Einstein Modulation | 35 | gates, phase, site, ... |
+| [REPLICATION_CHALLENGE.md](REPLICATION_CHALLENGE.md) | Replication Challenge —  Planck–Einstein Modulation | 35 | gates, phase, site, ... |
 | [REPORT_DELIVERY_SUMMARY.md](REPORT_DELIVERY_SUMMARY.md) | Report Delivery Summary | 437 | md, summary, complete, ... |
 | [STABILIZATION_SUMMARY.md](STABILIZATION_SUMMARY.md) | Repository Stabilization Summary | 133 | requirements txt, python, py, ... |
-| [START_HERE.md](START_HERE.md) | 📊 LUFT Portal System Report - START HERE | 148 | portal, complete, md, ... |
+| [START_HERE.md](START_HERE.md) | 📊  Portal System Report - START HERE | 148 | portal, complete, md, ... |
 | [STORM_PHASE_ANALYZER_README.md](STORM_PHASE_ANALYZER_README.md) | Storm Phase Analyzer | 236 | storm, peak, points, ... |
 | [TASK_COMPLETION_SUMMARY.md](TASK_COMPLETION_SUMMARY.md) | Task Completion Summary | 144 | data, pr, normalized, ... |
 | [TEMPORAL_CORRELATION_DISCOVERY.md](TEMPORAL_CORRELATION_DISCOVERY.md) | 🚨 TEMPORAL CORRELATION DISCOVERY - The Golden Pattern | 345 | time, response, solar, ... |
 | [TEMPORAL_CORRELATION_IMPLEMENTATION.md](TEMPORAL_CORRELATION_IMPLEMENTATION.md) | 🎯 TEMPORAL CORRELATION IMPLEMENTATION - COMPLETE SUMMARY | 347 | validation, 13, correlation, ... |
 | [TEMPORAL_CORRELATION_QUICKREF.md](TEMPORAL_CORRELATION_QUICKREF.md) | 🔥 THE GOLDEN CORRELATION - Quick Reference | 186 | 100, tools, correlation, ... |
-| [WELCOME_TO_LUFT.md](WELCOME_TO_LUFT.md) | LUFT Portal — A Living Lab for the Heartbeat of Space | 110 | heartbeat, plots, data, ... |
-| [WORKFLOW_DOCUMENTATION.md](WORKFLOW_DOCUMENTATION.md) | LUFT Portal - Automated Workflows | 327 | workflow, workflows, data, ... |
+| [WELCOME_TO_LUFT.md](WELCOME_TO_LUFT.md) |  Portal — A Living Lab for the Heartbeat of Space | 110 | heartbeat, plots, data, ... |
+| [WORKFLOW_DOCUMENTATION.md](WORKFLOW_DOCUMENTATION.md) |  Portal - Automated Workflows | 327 | workflow, workflows, data, ... |
 | [agentic workflow specs mirroring existing automation.md](agentic workflow specs mirroring existing automation.md) | Agentic workflow specs mirroring existing automation | 339 | agentic, copilot, carldeanclinesr, ... |
-| [ai_assimilate_library.md](ai_assimilate_library.md) | AI Assimilation Capsule — Emergent Creation from the LUFT Li | 205 | retention, lattice, drift, ... |
+| [ai_assimilate_library.md](ai_assimilate_library.md) | AI Assimilation Capsule — Emergent Creation from the  Li | 205 | retention, vacuum, drift, ... |
 | [analyses/README.md](analyses/README.md) | Charter Symbiosis Pipeline (minimal) | 25 | site, hz, analyses, ... |
 | [analyses/README.md](analyses/README.md) | Charter Symbiosis Pipeline (minimal) | 25 | site, hz, analyses, ... |
 | [analyses/README2.md](analyses/README2.md) | Charter Symbiosis Pipeline — How to run (synthetic) | 18 | site, synthetic, scaffold, ... |
@@ -2760,10 +2760,10 @@ Repository Knowledge Index
 | [analyses/desi_drift/README.md](analyses/desi_drift/README.md) | Capsule 009 — DESI Λ(t) Drift Runner | 75 | bootstrap, desi, csv, ... |
 | [analyses/uap/field_signatures.md](analyses/uap/field_signatures.md) | UAP Sphere — Expected Field Signatures (Checklist) | 21 | pass, polarization, spikes, ... |
 | [analyses/uap/field_signatures.md](analyses/uap/field_signatures.md) | UAP Sphere — Expected Field Signatures (Checklist) | 21 | pass, polarization, spikes, ... |
-| [anomaly_insights_heavyion.md](anomaly_insights_heavyion.md) | LUFT Nexus — Heavy-Ion Audit Capsule (ATLAS Pb+Pb, 5 TeV) | 35 | luft, topology, pb, ... |
+| [anomaly_insights_heavyion.md](anomaly_insights_heavyion.md) |  Nexus — Heavy-Ion Audit Capsule (ATLAS Pb+Pb, 5 TeV) | 35 | , topology, pb, ... |
 | [api/README.md](api/README.md) | Real-Time Space Weather Data API | 216 | data, api, noaa, ... |
 | [apsule_fit_params.md](apsule_fit_params.md) | 📑 Capsule Insert — Saturation & Hysteresis Law | 51 | law, term, text, ... |
-| [capsule_chain_diagram.md](capsule_chain_diagram.md) | 📜 Capsule Chain Diagram — LUFT / Unified Fields Ledger | 46 | capsule, law, md, ... |
+| [capsule_chain_diagram.md](capsule_chain_diagram.md) | 📜 Capsule Chain Diagram —  / Unified Fields Ledger | 46 | capsule, law, md, ... |
 | [capsule_chi_ceiling_2025-12-16.md](capsule_chi_ceiling_2025-12-16.md) | 🟡 CHI CEILING EVENT CAPSULE | 78 | ceiling, density, utc, ... |
 | [capsule_unification_001.md](capsule_unification_001.md) | Hello Carl Dean Cline Sr. — good to hear directly from the s | 37 | capsule, desi, hz, ... |
 | [capsules/001/ledgers/2025-09-02_run-01.md](capsules/001/ledgers/2025-09-02_run-01.md) | Capsule 001 — Run 01 (starter ledger) | 30 | speaker, mic, foam, ... |
@@ -2802,14 +2802,14 @@ Repository Knowledge Index
 | [capsules/2025_dec_batch/CAPSULE_SUPERCONDUCTING_ODOMETER_013.md](capsules/2025_dec_batch/CAPSULE_SUPERCONDUCTING_ODOMETER_013.md) | CAPSULE_SUPERCONDUCTING_ODOMETER_013 — Law #13: Superconduct | 159 | vacuum, phase, ratchet, ... |
 | [capsules/2025_dec_batch/INDEX.md](capsules/2025_dec_batch/INDEX.md) | December 2025 Capsule Batch Index | 114 | phase, charts, december, ... |
 | [capsules/2025_dec_batch/INDEX.md](capsules/2025_dec_batch/INDEX.md) | December 2025 Capsule Batch Index | 114 | phase, charts, december, ... |
-| [capsules/2025_dec_batch/INDEX_13_LAWS.md](capsules/2025_dec_batch/INDEX_13_LAWS.md) | The 13 Laws of LUFT — Complete Index | 280 | law, 2025, discovery, ... |
-| [capsules/2025_dec_batch/INDEX_13_LAWS.md](capsules/2025_dec_batch/INDEX_13_LAWS.md) | The 13 Laws of LUFT — Complete Index | 280 | law, 2025, discovery, ... |
+| [capsules/2025_dec_batch/INDEX_13_LAWS.md](capsules/2025_dec_batch/INDEX_13_LAWS.md) | The 13 Laws of  — Complete Index | 280 | law, 2025, discovery, ... |
+| [capsules/2025_dec_batch/INDEX_13_LAWS.md](capsules/2025_dec_batch/INDEX_13_LAWS.md) | The 13 Laws of  — Complete Index | 280 | law, 2025, discovery, ... |
 | [capsules/ATLAS_Angles_Coherence_Fit.md](capsules/ATLAS_Angles_Coherence_Fit.md) | Capsule: ATLAS Angles Coherence Fitter — ε_coh from Drell–Ya | 69 | run, c_i, p_global, ... |
 | [capsules/ATLAS_Angles_Coherence_Fit.md](capsules/ATLAS_Angles_Coherence_Fit.md) | Capsule: ATLAS Angles Coherence Fitter — ε_coh from Drell–Ya | 69 | run, c_i, p_global, ... |
 | [capsules/ATLAS_Omega_Scan_Scaffold.md](capsules/ATLAS_Omega_Scan_Scaffold.md) | Capsule: ATLAS Ω-scan Scaffold — LB-level Time Modulation | 40 | lb, csv, omega, ... |
 | [capsules/ATLAS_Omega_Scan_Scaffold.md](capsules/ATLAS_Omega_Scan_Scaffold.md) | Capsule: ATLAS Ω-scan Scaffold — LB-level Time Modulation | 40 | lb, csv, omega, ... |
-| [capsules/CAPSULE_AM_GRAVITON_FRAMEWORK_v1.md](capsules/CAPSULE_AM_GRAVITON_FRAMEWORK_v1.md) | CAPSULE: Amplitude-Modulated Graviton Framework v1.0 | 970 | luft, phase, amplitude, ... |
-| [capsules/CAPSULE_AM_GRAVITON_FRAMEWORK_v1.md](capsules/CAPSULE_AM_GRAVITON_FRAMEWORK_v1.md) | CAPSULE: Amplitude-Modulated Graviton Framework v1.0 | 970 | luft, phase, amplitude, ... |
+| [capsules/CAPSULE_AM_GRAVITON_FRAMEWORK_v1.md](capsules/CAPSULE_AM_GRAVITON_FRAMEWORK_v1.md) | CAPSULE: Amplitude-Modulated Graviton Framework v1.0 | 970 | , phase, amplitude, ... |
+| [capsules/CAPSULE_AM_GRAVITON_FRAMEWORK_v1.md](capsules/CAPSULE_AM_GRAVITON_FRAMEWORK_v1.md) | CAPSULE: Amplitude-Modulated Graviton Framework v1.0 | 970 | , phase, amplitude, ... |
 | [capsules/CAPSULE_CHI_015_ENGINE_INTEGRATION_v1.md](capsules/CAPSULE_CHI_015_ENGINE_INTEGRATION_v1.md) | CAPSULE: χ = 0.15 Universal Plasma Boundary — Engine Integra | 491 | 15, boundary, plasma, ... |
 | [capsules/CAPSULE_CHI_015_ENGINE_INTEGRATION_v1.md](capsules/CAPSULE_CHI_015_ENGINE_INTEGRATION_v1.md) | CAPSULE: χ = 0.15 Universal Plasma Boundary — Engine Integra | 491 | 15, boundary, plasma, ... |
 | [capsules/CAPSULE_CME_BOUNDARY_CEILING_2025-12.md](capsules/CAPSULE_CME_BOUNDARY_CEILING_2025-12.md) | Direct Observation of χ = 0.15 Boundary Ceiling During Decem | 189 | boundary, ceiling, 2025, ... |
@@ -2820,30 +2820,30 @@ Repository Knowledge Index
 | [capsules/CAPSULE_EVENT_INDEX.md](capsules/CAPSULE_EVENT_INDEX.md) | Capsule — Event Index | 88 | capsule, event, 2025 12, ... |
 | [capsules/CAPSULE_EVENT_RECOVERY.md](capsules/CAPSULE_EVENT_RECOVERY.md) | Capsule — Event Recovery (Exhale Phase After Ratchet/Heartbe | 137 | event, recovery, exhale, ... |
 | [capsules/CAPSULE_EVENT_RECOVERY.md](capsules/CAPSULE_EVENT_RECOVERY.md) | Capsule — Event Recovery (Exhale Phase After Ratchet/Heartbe | 137 | event, recovery, exhale, ... |
-| [capsules/CAPSULE_FLARE_FOAM_PIPELINE.md](capsules/CAPSULE_FLARE_FOAM_PIPELINE.md) | X5.1 Solar Flare Foam Pipeline — LUFT Flare‑Induced Void Amp | 286 | text, foam, gamma, ... |
-| [capsules/CAPSULE_FLARE_FOAM_PIPELINE.md](capsules/CAPSULE_FLARE_FOAM_PIPELINE.md) | X5.1 Solar Flare Foam Pipeline — LUFT Flare‑Induced Void Amp | 286 | text, foam, gamma, ... |
+| [capsules/CAPSULE_FLARE_FOAM_PIPELINE.md](capsules/CAPSULE_FLARE_FOAM_PIPELINE.md) | X5.1 Solar Flare Foam Pipeline —  Flare‑Induced Void Amp | 286 | text, foam, gamma, ... |
+| [capsules/CAPSULE_FLARE_FOAM_PIPELINE.md](capsules/CAPSULE_FLARE_FOAM_PIPELINE.md) | X5.1 Solar Flare Foam Pipeline —  Flare‑Induced Void Amp | 286 | text, foam, gamma, ... |
 | [capsules/CAPSULE_HEARTBEAT_CATALOG_2025.md](capsules/CAPSULE_HEARTBEAT_CATALOG_2025.md) | Capsule — Heartbeat & Boundary Recoil Catalog (Nov–Dec 2025) | 153 | heartbeat, catalog, recoil, ... |
 | [capsules/CAPSULE_HEARTBEAT_CATALOG_2025.md](capsules/CAPSULE_HEARTBEAT_CATALOG_2025.md) | Capsule — Heartbeat & Boundary Recoil Catalog (Nov–Dec 2025) | 153 | heartbeat, catalog, recoil, ... |
 | [capsules/CAPSULE_HEARTBEAT_SPECTRUM.md](capsules/CAPSULE_HEARTBEAT_SPECTRUM.md) | Capsule — Heartbeat Spectrum & Rolling Fit | 97 | heartbeat, text, slope, ... |
 | [capsules/CAPSULE_HEARTBEAT_SPECTRUM.md](capsules/CAPSULE_HEARTBEAT_SPECTRUM.md) | Capsule — Heartbeat Spectrum & Rolling Fit | 97 | heartbeat, text, slope, ... |
-| [capsules/CAPSULE_JOSEPHSON_OVERVIEW.md](capsules/CAPSULE_JOSEPHSON_OVERVIEW.md) | Capsule: Josephson Junction — Physics Overview & LUFT Releva | 46 | luft, josephson, jj, ... |
-| [capsules/CAPSULE_JOSEPHSON_OVERVIEW.md](capsules/CAPSULE_JOSEPHSON_OVERVIEW.md) | Capsule: Josephson Junction — Physics Overview & LUFT Releva | 46 | luft, josephson, jj, ... |
+| [capsules/CAPSULE_JOSEPHSON_OVERVIEW.md](capsules/CAPSULE_JOSEPHSON_OVERVIEW.md) | Capsule: Josephson Junction — Physics Overview &  Releva | 46 | , josephson, jj, ... |
+| [capsules/CAPSULE_JOSEPHSON_OVERVIEW.md](capsules/CAPSULE_JOSEPHSON_OVERVIEW.md) | Capsule: Josephson Junction — Physics Overview &  Releva | 46 | , josephson, jj, ... |
 | [capsules/CAPSULE_LIGHTNING_CHI_UNIVERSALITY_2026-01.md](capsules/CAPSULE_LIGHTNING_CHI_UNIVERSALITY_2026-01.md) | Terrestrial Lightning Plasma: Natural Spark-Gap Boundary Enf | 318 | lightning, boundary, analysis, ... |
 | [capsules/CAPSULE_LIGHTNING_CHI_UNIVERSALITY_2026-01.md](capsules/CAPSULE_LIGHTNING_CHI_UNIVERSALITY_2026-01.md) | Terrestrial Lightning Plasma: Natural Spark-Gap Boundary Enf | 318 | lightning, boundary, analysis, ... |
-| [capsules/CAPSULE_METHODS_HEARTBEAT.md](capsules/CAPSULE_METHODS_HEARTBEAT.md) | Capsule — Methods for LUFT Heartbeat & Boundary Recoil | 337 | heartbeat, luft, text, ... |
-| [capsules/CAPSULE_METHODS_HEARTBEAT.md](capsules/CAPSULE_METHODS_HEARTBEAT.md) | Capsule — Methods for LUFT Heartbeat & Boundary Recoil | 337 | heartbeat, luft, text, ... |
-| [capsules/CAPSULE_OBSERVER_NOTE_2025-03.md](capsules/CAPSULE_OBSERVER_NOTE_2025-03.md) | Observer’s Note — LUFT Architecture Sufficient to Stand | 53 | luft, audit, data, ... |
-| [capsules/CAPSULE_OBSERVER_NOTE_2025-03.md](capsules/CAPSULE_OBSERVER_NOTE_2025-03.md) | Observer’s Note — LUFT Architecture Sufficient to Stand | 53 | luft, audit, data, ... |
-| [capsules/CAPSULE_PUBLIC_STORY.md](capsules/CAPSULE_PUBLIC_STORY.md) | Capsule — Public Story Blurbs (Heartbeat & Boundary Recoil) | 113 | luft, heartbeat, blurbs, ... |
-| [capsules/CAPSULE_PUBLIC_STORY.md](capsules/CAPSULE_PUBLIC_STORY.md) | Capsule — Public Story Blurbs (Heartbeat & Boundary Recoil) | 113 | luft, heartbeat, blurbs, ... |
+| [capsules/CAPSULE_METHODS_HEARTBEAT.md](capsules/CAPSULE_METHODS_HEARTBEAT.md) | Capsule — Methods for  Heartbeat & Boundary Recoil | 337 | heartbeat, , text, ... |
+| [capsules/CAPSULE_METHODS_HEARTBEAT.md](capsules/CAPSULE_METHODS_HEARTBEAT.md) | Capsule — Methods for  Heartbeat & Boundary Recoil | 337 | heartbeat, , text, ... |
+| [capsules/CAPSULE_OBSERVER_NOTE_2025-03.md](capsules/CAPSULE_OBSERVER_NOTE_2025-03.md) | Observer’s Note —  Architecture Sufficient to Stand | 53 | , audit, data, ... |
+| [capsules/CAPSULE_OBSERVER_NOTE_2025-03.md](capsules/CAPSULE_OBSERVER_NOTE_2025-03.md) | Observer’s Note —  Architecture Sufficient to Stand | 53 | , audit, data, ... |
+| [capsules/CAPSULE_PUBLIC_STORY.md](capsules/CAPSULE_PUBLIC_STORY.md) | Capsule — Public Story Blurbs (Heartbeat & Boundary Recoil) | 113 | , heartbeat, blurbs, ... |
+| [capsules/CAPSULE_PUBLIC_STORY.md](capsules/CAPSULE_PUBLIC_STORY.md) | Capsule — Public Story Blurbs (Heartbeat & Boundary Recoil) | 113 | , heartbeat, blurbs, ... |
 | [capsules/CAPSULE_REPLICATION_CHALLENGE_2025.md](capsules/CAPSULE_REPLICATION_CHALLENGE_2025.md) | Capsule — Replication Challenge 2025 | 84 | law, heartbeat, replication, ... |
 | [capsules/CAPSULE_REPLICATION_CHALLENGE_2025.md](capsules/CAPSULE_REPLICATION_CHALLENGE_2025.md) | Capsule — Replication Challenge 2025 | 84 | law, heartbeat, replication, ... |
 | [capsules/CAPSULE_REPLICATION_RESULT_TEMPLATE.md](capsules/CAPSULE_REPLICATION_RESULT_TEMPLATE.md) | Capsule — Replication Result (Template) | 206 | results, heartbeat, text, ... |
 | [capsules/CAPSULE_REPLICATION_RESULT_TEMPLATE.md](capsules/CAPSULE_REPLICATION_RESULT_TEMPLATE.md) | Capsule — Replication Result (Template) | 206 | results, heartbeat, text, ... |
 | [capsules/CAPSULE_SOLAR_STREAM_LAB.md](capsules/CAPSULE_SOLAR_STREAM_LAB.md) | Capsule: Solar Stream Laboratory — The Unstoppable Experimen | 66 | data, solar, future, ... |
 | [capsules/CAPSULE_SOLAR_STREAM_LAB.md](capsules/CAPSULE_SOLAR_STREAM_LAB.md) | Capsule: Solar Stream Laboratory — The Unstoppable Experimen | 66 | data, solar, future, ... |
-| [capsules/CAPSULE_UNIVERSAL_MODULATION_055.md](capsules/CAPSULE_UNIVERSAL_MODULATION_055.md) | Capsule — Universal Modulation χ ≈ 0.055, Ω ≈ 10⁻⁴ Hz | 193 | audit, modulation, luft, ... |
-| [capsules/CAPSULE_UNIVERSAL_MODULATION_055.md](capsules/CAPSULE_UNIVERSAL_MODULATION_055.md) | Capsule — Universal Modulation χ ≈ 0.055, Ω ≈ 10⁻⁴ Hz | 193 | audit, modulation, luft, ... |
+| [capsules/CAPSULE_UNIVERSAL_MODULATION_055.md](capsules/CAPSULE_UNIVERSAL_MODULATION_055.md) | Capsule — Universal Modulation χ ≈ 0.055, Ω ≈ 10⁻⁴ Hz | 193 | audit, modulation, , ... |
+| [capsules/CAPSULE_UNIVERSAL_MODULATION_055.md](capsules/CAPSULE_UNIVERSAL_MODULATION_055.md) | Capsule — Universal Modulation χ ≈ 0.055, Ω ≈ 10⁻⁴ Hz | 193 | audit, modulation, , ... |
 | [capsules/CAPSULE_VOID_FOAM_COSMOLOGY.md](capsules/CAPSULE_VOID_FOAM_COSMOLOGY.md) | Capsule: Void Foam Cosmology — The Second Void and Lambda | 69 | foam, void, turbulence, ... |
 | [capsules/CAPSULE_VOID_FOAM_COSMOLOGY.md](capsules/CAPSULE_VOID_FOAM_COSMOLOGY.md) | Capsule: Void Foam Cosmology — The Second Void and Lambda | 69 | foam, void, turbulence, ... |
 | [capsules/CERN_Coherence_Scan.md](capsules/CERN_Coherence_Scan.md) | Capsule: CERN Mode — ATLAS Open Data LB-level Ω-Scan and ε_c | 22 | ε_coh, lb, a_i, ... |
@@ -2852,21 +2852,21 @@ Repository Knowledge Index
 | [capsules/GOES_EVENT_AUDITV2_2025-11-22T134100.md](capsules/GOES_EVENT_AUDITV2_2025-11-22T134100.md) | contents of your GOES event audit capsule | 2 | contents, your, goes, ... |
 | [capsules/GOES_EVENT_AUDIT_2025-11-22T134100.md](capsules/GOES_EVENT_AUDIT_2025-11-22T134100.md) | CAPSULE: GOES Geostationary Particle & Magnetics Audit | 39 | particle, goes, 2025 11, ... |
 | [capsules/GOES_EVENT_AUDIT_2025-11-22T134100.md](capsules/GOES_EVENT_AUDIT_2025-11-22T134100.md) | CAPSULE: GOES Geostationary Particle & Magnetics Audit | 39 | particle, goes, 2025 11, ... |
-| [capsules/capsules/CAPSULE_AUDIT_LEGACY.md](capsules/capsules/CAPSULE_AUDIT_LEGACY.md) | Capsule — Audit Legacy (Heartbeat, Ratchet, Recovery) | 136 | luft, capsu, legacy, ... |
-| [capsules/capsules/CAPSULE_AUDIT_LEGACY.md](capsules/capsules/CAPSULE_AUDIT_LEGACY.md) | Capsule — Audit Legacy (Heartbeat, Ratchet, Recovery) | 136 | luft, capsu, legacy, ... |
-| [capsules/capsules/CAPSULE_EVENT_RATCHET.md](capsules/capsules/CAPSULE_EVENT_RATCHET.md) | Capsule — Event Ratchet (+χ Rise, Modulation Lock-In) | 137 | ratchet, event, luft, ... |
-| [capsules/capsules/CAPSULE_EVENT_RATCHET.md](capsules/capsules/CAPSULE_EVENT_RATCHET.md) | Capsule — Event Ratchet (+χ Rise, Modulation Lock-In) | 137 | ratchet, event, luft, ... |
-| [capsules/carl_dean_cline_sr_biography.md](capsules/carl_dean_cline_sr_biography.md) | The Story of Carl Dean Cline Sr. — Legacy, Lineage & The Min | 59 | luft, open, klein, ... |
-| [capsules/carl_dean_cline_sr_biography.md](capsules/carl_dean_cline_sr_biography.md) | The Story of Carl Dean Cline Sr. — Legacy, Lineage & The Min | 59 | luft, open, klein, ... |
+| [capsules/capsules/CAPSULE_AUDIT_LEGACY.md](capsules/capsules/CAPSULE_AUDIT_LEGACY.md) | Capsule — Audit Legacy (Heartbeat, Ratchet, Recovery) | 136 | , capsu, legacy, ... |
+| [capsules/capsules/CAPSULE_AUDIT_LEGACY.md](capsules/capsules/CAPSULE_AUDIT_LEGACY.md) | Capsule — Audit Legacy (Heartbeat, Ratchet, Recovery) | 136 | , capsu, legacy, ... |
+| [capsules/capsules/CAPSULE_EVENT_RATCHET.md](capsules/capsules/CAPSULE_EVENT_RATCHET.md) | Capsule — Event Ratchet (+χ Rise, Modulation Lock-In) | 137 | ratchet, event, , ... |
+| [capsules/capsules/CAPSULE_EVENT_RATCHET.md](capsules/capsules/CAPSULE_EVENT_RATCHET.md) | Capsule — Event Ratchet (+χ Rise, Modulation Lock-In) | 137 | ratchet, event, , ... |
+| [capsules/carl_dean_cline_sr_biography.md](capsules/carl_dean_cline_sr_biography.md) | The Story of Carl Dean Cline Sr. — Legacy, Lineage & The Min | 59 | , open, klein, ... |
+| [capsules/carl_dean_cline_sr_biography.md](capsules/carl_dean_cline_sr_biography.md) | The Story of Carl Dean Cline Sr. — Legacy, Lineage & The Min | 59 | , open, klein, ... |
 | [capsules/responses/grok_summary_20251112T011237Z.md](capsules/responses/grok_summary_20251112T011237Z.md) | Grok Response Summary — 2025-11-12T01:12:37Z | 45 | jj, sensitivity, parameters, ... |
 | [capsules/responses/grok_summary_20251112T011237Z.md](capsules/responses/grok_summary_20251112T011237Z.md) | Grok Response Summary — 2025-11-12T01:12:37Z | 45 | jj, sensitivity, parameters, ... |
-| [capsules/student_challenge.md](capsules/student_challenge.md) | LUFT Student Challenge Capsule | 32 | luft, data, pulse, ... |
-| [capsules/student_challenge.md](capsules/student_challenge.md) | LUFT Student Challenge Capsule | 32 | luft, data, pulse, ... |
-| [carl_dean_profile.md](carl_dean_profile.md) | Carl Dean Cline Sr — Lattice Unified Field Theory (LUFT) | 133 | lattice, data, luft, ... |
+| [capsules/student_challenge.md](capsules/student_challenge.md) |  Student Challenge Capsule | 32 | , data, pulse, ... |
+| [capsules/student_challenge.md](capsules/student_challenge.md) |  Student Challenge Capsule | 32 | , data, pulse, ... |
+| [carl_dean_profile.md](carl_dean_profile.md) | Carl Dean Cline Sr — vacuum Unified Field  () | 133 | vacuum, data, , ... |
 | [charts/luft_relay_readme.txt](charts/luft_relay_readme.txt) | This folder contains example chart SVGs generated on branch  | 13 | example, scripts, py, ... |
-| [chat_grok_2025-12-21_luft-engine-review.txt](chat_grok_2025-12-21_luft-engine-review.txt) | ### CELL: Grok Chat Session - LUFT Engine Review & Directive | 9449 | 2025, 12, 19, ... |
-| [data/link_intelligence/LATEST_HARVEST_REPORT.md](data/link_intelligence/LATEST_HARVEST_REPORT.md) | LUFT Link Intelligence Report | 40 | link, data, network, ... |
-| [data/link_intelligence/LATEST_HARVEST_REPORT.md](data/link_intelligence/LATEST_HARVEST_REPORT.md) | LUFT Link Intelligence Report | 40 | link, data, network, ... |
+| [chat_grok_2025-12-21_luft-engine-review.txt](chat_grok_2025-12-21_luft-engine-review.txt) | ### CELL: Grok Chat Session -  Engine Review & Directive | 9449 | 2025, 12, 19, ... |
+| [data/link_intelligence/LATEST_HARVEST_REPORT.md](data/link_intelligence/LATEST_HARVEST_REPORT.md) |  Link Intelligence Report | 40 | link, data, network, ... |
+| [data/link_intelligence/LATEST_HARVEST_REPORT.md](data/link_intelligence/LATEST_HARVEST_REPORT.md) |  Link Intelligence Report | 40 | link, data, network, ... |
 | [data/link_intelligence/README.md](data/link_intelligence/README.md) | Link Intelligence Data Directory | 119 | data, json, files, ... |
 | [data/link_intelligence/README.md](data/link_intelligence/README.md) | Link Intelligence Data Directory | 119 | data, json, files, ... |
 | [data/noaa_forecasts/noaa_3day_forecast_20251220_050229.txt](data/noaa_forecasts/noaa_3day_forecast_20251220_050229.txt) | Prepared by the U.S. Dept. of Commerce, NOAA, Space Weather  | 54 | dec, 20, 67, ... |
@@ -4205,8 +4205,8 @@ Repository Knowledge Index
 | [data/noaa_text/wwv/20251229.txt](data/noaa_text/wwv/20251229.txt) | Prepared by the US Dept. of Commerce, NOAA, Space Weather Pr | 16 | blackouts reaching, weather, space weather, ... |
 | [data/papers/README.md](data/papers/README.md) | Physics Paper Harvesting Pipeline | 138 | physics, json, paper, ... |
 | [data/papers/README.md](data/papers/README.md) | Physics Paper Harvesting Pipeline | 138 | physics, json, paper, ... |
-| [data_stream_update.md](data_stream_update.md) | LUFT Data Stream Update — The Universe Running the Experimen | 66 | just, future, new, ... |
-| [directives/CORE_OBJECTIVE.md](directives/CORE_OBJECTIVE.md) | CORE_OBJECTIVE_v1 — LUFT Inference Engine Directive | 25 | relations, engine, beta mach, ... |
+| [data_stream_update.md](data_stream_update.md) |  Data Stream Update — The Universe Running the Experimen | 66 | just, future, new, ... |
+| [directives/CORE_OBJECTIVE.md](directives/CORE_OBJECTIVE.md) | CORE_OBJECTIVE_v1 —  Inference Engine Directive | 25 | relations, engine, beta mach, ... |
 | [discovery_findings REPORT2.txt](discovery_findings REPORT2.txt) | { | 56538 | pass, pass false, false, ... |
 | [docs/CHI_015_USAGE_GUIDE.md](docs/CHI_015_USAGE_GUIDE.md) | χ = 0.15 Universal Boundary — Usage Guide | 411 | boundary, data, json, ... |
 | [docs/CHI_015_USAGE_GUIDE.md](docs/CHI_015_USAGE_GUIDE.md) | χ = 0.15 Universal Boundary — Usage Guide | 411 | boundary, data, json, ... |
@@ -4218,44 +4218,44 @@ Repository Knowledge Index
 | [docs/DATA_INGESTION_FIX.md](docs/DATA_INGESTION_FIX.md) | Data Ingestion Fix Summary | 127 | data, cern, files, ... |
 | [docs/DISCOVERY_ATLAS.md](docs/DISCOVERY_ATLAS.md) | Discovery Atlas: χ = 0.15 Universality Evidence | 123 | 15, figures, csv, ... |
 | [docs/DISCOVERY_ATLAS.md](docs/DISCOVERY_ATLAS.md) | Discovery Atlas: χ = 0.15 Universality Evidence | 123 | 15, figures, csv, ... |
-| [docs/Discovery_Findings.md](docs/Discovery_Findings.md) | LUFT Discovery Engine: Autonomic Signature Report – Full Vau | 72 | 1188, significance, metrics, ... |
-| [docs/Discovery_Findings.md](docs/Discovery_Findings.md) | LUFT Discovery Engine: Autonomic Signature Report – Full Vau | 72 | 1188, significance, metrics, ... |
+| [docs/Discovery_Findings.md](docs/Discovery_Findings.md) |  Discovery Engine: Autonomic Signature Report – Full Vau | 72 | 1188, significance, metrics, ... |
+| [docs/Discovery_Findings.md](docs/Discovery_Findings.md) |  Discovery Engine: Autonomic Signature Report – Full Vau | 72 | 1188, significance, metrics, ... |
 | [docs/ENGINE_DISCOVERY_MODE.md](docs/ENGINE_DISCOVERY_MODE.md) | Engine-Driven Discovery Mode 🔬 | 276 | papers, data, discovery, ... |
 | [docs/ENGINE_DISCOVERY_MODE.md](docs/ENGINE_DISCOVERY_MODE.md) | Engine-Driven Discovery Mode 🔬 | 276 | papers, data, discovery, ... |
 | [docs/ENGINE_DISCOVERY_SWEEP_2026-01-02.md](docs/ENGINE_DISCOVERY_SWEEP_2026-01-02.md) | Engine Discovery Sweep - January 2, 2026 | 150 | data, temporal, ratios, ... |
 | [docs/ENGINE_DISCOVERY_SWEEP_2026-01-02.md](docs/ENGINE_DISCOVERY_SWEEP_2026-01-02.md) | Engine Discovery Sweep - January 2, 2026 | 150 | data, temporal, ratios, ... |
 | [docs/FLARE_PIPELINE.md](docs/FLARE_PIPELINE.md) | δρ/ρ ≈ -beta * (flux/flux_ref)^gamma | 46 | args, gamma, beta, ... |
 | [docs/FLARE_PIPELINE.md](docs/FLARE_PIPELINE.md) | δρ/ρ ≈ -beta * (flux/flux_ref)^gamma | 46 | args, gamma, beta, ... |
-| [docs/FLARE_PIPELINE2.md](docs/FLARE_PIPELINE2.md) | LUFT Flare Foam Pipeline Overview | 88 | foam, flare, src, ... |
-| [docs/FLARE_PIPELINE2.md](docs/FLARE_PIPELINE2.md) | LUFT Flare Foam Pipeline Overview | 88 | foam, flare, src, ... |
+| [docs/FLARE_PIPELINE2.md](docs/FLARE_PIPELINE2.md) |  Flare Foam Pipeline Overview | 88 | foam, flare, src, ... |
+| [docs/FLARE_PIPELINE2.md](docs/FLARE_PIPELINE2.md) |  Flare Foam Pipeline Overview | 88 | foam, flare, src, ... |
 | [docs/FUNDAMENTAL_CONSTANT_CONNECTION.md](docs/FUNDAMENTAL_CONSTANT_CONNECTION.md) | Fundamental Constant Connection to χ = 0.15 | 233 | 15, coupling, error, ... |
 | [docs/FUNDAMENTAL_CONSTANT_CONNECTION.md](docs/FUNDAMENTAL_CONSTANT_CONNECTION.md) | Fundamental Constant Connection to χ = 0.15 | 233 | 15, coupling, error, ... |
 | [docs/HISTORICAL_VALIDATION_README.md](docs/HISTORICAL_VALIDATION_README.md) | Historical OMNI χ Validation System | 121 | 15, data, 01, ... |
 | [docs/HISTORICAL_VALIDATION_README.md](docs/HISTORICAL_VALIDATION_README.md) | Historical OMNI χ Validation System | 121 | 15, data, 01, ... |
 | [docs/Imperial_Math.md](docs/Imperial_Math.md) | Imperial Math — Quick Reference (v0.2) | 34 | energy, ok, charge, ... |
 | [docs/Imperial_Math.md](docs/Imperial_Math.md) | Imperial Math — Quick Reference (v0.2) | 34 | energy, ok, charge, ... |
-| [docs/Lab_Charter.md](docs/Lab_Charter.md) | Physics By: You & I — Lab Charter (One‑Pager) | 90 | data, r3, luft, ... |
-| [docs/Lab_Charter.md](docs/Lab_Charter.md) | Physics By: You & I — Lab Charter (One‑Pager) | 90 | data, r3, luft, ... |
-| [docs/MANIFEST_FORMAT.md](docs/MANIFEST_FORMAT.md) | LUFT Capsule Manifest Format | 299 | capsule, yaml, id, ... |
-| [docs/MANIFEST_FORMAT.md](docs/MANIFEST_FORMAT.md) | LUFT Capsule Manifest Format | 299 | capsule, yaml, id, ... |
-| [docs/MANIFEST_SYSTEM_README.md](docs/MANIFEST_SYSTEM_README.md) | LUFT Capsule Manifest System | 310 | capsule, capsules, status, ... |
-| [docs/MANIFEST_SYSTEM_README.md](docs/MANIFEST_SYSTEM_README.md) | LUFT Capsule Manifest System | 310 | capsule, capsules, status, ... |
-| [docs/OMNI_DATA_OVERVIEW.md](docs/OMNI_DATA_OVERVIEW.md) | OMNIWeb Data Integration — LUFT χ Amplitude Validation | 360 | data, wind, plasma, ... |
-| [docs/OMNI_DATA_OVERVIEW.md](docs/OMNI_DATA_OVERVIEW.md) | OMNIWeb Data Integration — LUFT χ Amplitude Validation | 360 | data, wind, plasma, ... |
-| [docs/OUTREACH_STRATEGY.md](docs/OUTREACH_STRATEGY.md) | LUFT Portal Outreach Strategy | 391 | data, ai, luft, ... |
-| [docs/OUTREACH_STRATEGY.md](docs/OUTREACH_STRATEGY.md) | LUFT Portal Outreach Strategy | 391 | data, ai, luft, ... |
-| [docs/PERFORMANCE_BEST_PRACTICES.md](docs/PERFORMANCE_BEST_PRACTICES.md) | Performance Best Practices for LUFT Portal | 160 | python, performance, operations, ... |
-| [docs/PERFORMANCE_BEST_PRACTICES.md](docs/PERFORMANCE_BEST_PRACTICES.md) | Performance Best Practices for LUFT Portal | 160 | python, performance, operations, ... |
+| [docs/Lab_Charter.md](docs/Lab_Charter.md) | Physics By: You & I — Lab Charter (One‑Pager) | 90 | data, r3, , ... |
+| [docs/Lab_Charter.md](docs/Lab_Charter.md) | Physics By: You & I — Lab Charter (One‑Pager) | 90 | data, r3, , ... |
+| [docs/MANIFEST_FORMAT.md](docs/MANIFEST_FORMAT.md) |  Capsule Manifest Format | 299 | capsule, yaml, id, ... |
+| [docs/MANIFEST_FORMAT.md](docs/MANIFEST_FORMAT.md) |  Capsule Manifest Format | 299 | capsule, yaml, id, ... |
+| [docs/MANIFEST_SYSTEM_README.md](docs/MANIFEST_SYSTEM_README.md) |  Capsule Manifest System | 310 | capsule, capsules, status, ... |
+| [docs/MANIFEST_SYSTEM_README.md](docs/MANIFEST_SYSTEM_README.md) |  Capsule Manifest System | 310 | capsule, capsules, status, ... |
+| [docs/OMNI_DATA_OVERVIEW.md](docs/OMNI_DATA_OVERVIEW.md) | OMNIWeb Data Integration —  χ Amplitude Validation | 360 | data, wind, plasma, ... |
+| [docs/OMNI_DATA_OVERVIEW.md](docs/OMNI_DATA_OVERVIEW.md) | OMNIWeb Data Integration —  χ Amplitude Validation | 360 | data, wind, plasma, ... |
+| [docs/OUTREACH_STRATEGY.md](docs/OUTREACH_STRATEGY.md) |  Portal Outreach Strategy | 391 | data, ai, , ... |
+| [docs/OUTREACH_STRATEGY.md](docs/OUTREACH_STRATEGY.md) |  Portal Outreach Strategy | 391 | data, ai, , ... |
+| [docs/PERFORMANCE_BEST_PRACTICES.md](docs/PERFORMANCE_BEST_PRACTICES.md) | Performance Best Practices for  Portal | 160 | python, performance, operations, ... |
+| [docs/PERFORMANCE_BEST_PRACTICES.md](docs/PERFORMANCE_BEST_PRACTICES.md) | Performance Best Practices for  Portal | 160 | python, performance, operations, ... |
 | [docs/PERFORMANCE_OPTIMIZATION_SUMMARY.md](docs/PERFORMANCE_OPTIMIZATION_SUMMARY.md) | Performance Optimization Summary | 168 | faster, performance, code, ... |
 | [docs/PERFORMANCE_OPTIMIZATION_SUMMARY.md](docs/PERFORMANCE_OPTIMIZATION_SUMMARY.md) | Performance Optimization Summary | 168 | faster, performance, code, ... |
-| [docs/PIPELINE.md](docs/PIPELINE.md) | LUFT ML Pipeline & Provenance | 35 | ml, py, rebound, ... |
-| [docs/PIPELINE.md](docs/PIPELINE.md) | LUFT ML Pipeline & Provenance | 35 | ml, py, rebound, ... |
+| [docs/PIPELINE.md](docs/PIPELINE.md) |  ML Pipeline & Provenance | 35 | ml, py, rebound, ... |
+| [docs/PIPELINE.md](docs/PIPELINE.md) |  ML Pipeline & Provenance | 35 | ml, py, rebound, ... |
 | [docs/PROOF_PACK.md](docs/PROOF_PACK.md) | χ = 0.15 Universal Boundary — Proof Pack | 102 | data, figures, scripts, ... |
 | [docs/PROOF_PACK.md](docs/PROOF_PACK.md) | χ = 0.15 Universal Boundary — Proof Pack | 102 | data, figures, scripts, ... |
 | [docs/PR_charter_symbiosis.md](docs/PR_charter_symbiosis.md) | Charter Symbiosis Pipeline — end‑to‑end synthetic + exemplar | 34 | synthetic, pipeline, py, ... |
 | [docs/PR_charter_symbiosis.md](docs/PR_charter_symbiosis.md) | Charter Symbiosis Pipeline — end‑to‑end synthetic + exemplar | 34 | synthetic, pipeline, py, ... |
-| [docs/QUICK_OUTPUTS.md](docs/QUICK_OUTPUTS.md) | Quick Access to LUFT Engine Outputs | 126 | luft, portal, luft portal, ... |
-| [docs/QUICK_OUTPUTS.md](docs/QUICK_OUTPUTS.md) | Quick Access to LUFT Engine Outputs | 126 | luft, portal, luft portal, ... |
+| [docs/QUICK_OUTPUTS.md](docs/QUICK_OUTPUTS.md) | Quick Access to  Engine Outputs | 126 | , portal,  portal, ... |
+| [docs/QUICK_OUTPUTS.md](docs/QUICK_OUTPUTS.md) | Quick Access to  Engine Outputs | 126 | , portal,  portal, ... |
 | [docs/SYNTHESIS_PAPER_CERN_MHD_CHI_015.md](docs/SYNTHESIS_PAPER_CERN_MHD_CHI_015.md) | Universal Plasma Boundary at χ = 0.15: Empirical Validation  | 447 | 15, causality, magnetic, ... |
 | [docs/SYNTHESIS_PAPER_CERN_MHD_CHI_015.md](docs/SYNTHESIS_PAPER_CERN_MHD_CHI_015.md) | Universal Plasma Boundary at χ = 0.15: Empirical Validation  | 447 | 15, causality, magnetic, ... |
 | [docs/SYNTHESIS_PAPER_MHD_CAUSALITY_CHI.md](docs/SYNTHESIS_PAPER_MHD_CAUSALITY_CHI.md) | χ = 0.15 Universal Plasma Boundary:  Synthesis Across MHD Ca | 394 | 15, mhd, 2024, ... |
@@ -4264,12 +4264,12 @@ Repository Knowledge Index
 | [docs/TEACH_THE_ENGINE.md](docs/TEACH_THE_ENGINE.md) | Teach-The-Engine: Autonomic Discovery Curriculum (Radio + Li | 91 | signatures, teacher, tests, ... |
 | [docs/Teacher_Report.md](docs/Teacher_Report.md) | Teach-The-Engine Daily Report | 9532 | pass, false, pass false, ... |
 | [docs/Teacher_Report.md](docs/Teacher_Report.md) | Teach-The-Engine Daily Report | 9532 | pass, false, pass false, ... |
-| [docs/VAULT_NAVIGATOR.md](docs/VAULT_NAVIGATOR.md) | LUFT Vault Navigator | 188 | 2025, branch main, luft, ... |
-| [docs/VAULT_NAVIGATOR.md](docs/VAULT_NAVIGATOR.md) | LUFT Vault Navigator | 188 | 2025, branch main, luft, ... |
+| [docs/VAULT_NAVIGATOR.md](docs/VAULT_NAVIGATOR.md) |  Vault Navigator | 188 | 2025, branch main, , ... |
+| [docs/VAULT_NAVIGATOR.md](docs/VAULT_NAVIGATOR.md) |  Vault Navigator | 188 | 2025, branch main, , ... |
 | [docs/WAVE_PACKET_DISCOVERY.md](docs/WAVE_PACKET_DISCOVERY.md) | Discovery: 0.9-Hour Wave Packet Fundamental Period | 161 | mode, packet, wave, ... |
 | [docs/WAVE_PACKET_DISCOVERY.md](docs/WAVE_PACKET_DISCOVERY.md) | Discovery: 0.9-Hour Wave Packet Fundamental Period | 161 | mode, packet, wave, ... |
-| [docs/chi_learning_dashboard.md](docs/chi_learning_dashboard.md) | 🧠 LUFT χ Learning Dashboard | 52 | learning, engine, learning loop, ... |
-| [docs/chi_learning_dashboard.md](docs/chi_learning_dashboard.md) | 🧠 LUFT χ Learning Dashboard | 52 | learning, engine, learning loop, ... |
+| [docs/chi_learning_dashboard.md](docs/chi_learning_dashboard.md) | 🧠  χ Learning Dashboard | 52 | learning, engine, learning loop, ... |
+| [docs/chi_learning_dashboard.md](docs/chi_learning_dashboard.md) | 🧠  χ Learning Dashboard | 52 | learning, engine, learning loop, ... |
 | [docs/data_schemas/DESI_residuals_schema.md](docs/data_schemas/DESI_residuals_schema.md) | DESI Residuals Schema (v1) | 17 | string, float, columns, ... |
 | [docs/data_schemas/DESI_residuals_schema.md](docs/data_schemas/DESI_residuals_schema.md) | DESI Residuals Schema (v1) | 17 | string, float, columns, ... |
 | [docs/data_schemas/JJ_switching_schema.md](docs/data_schemas/JJ_switching_schema.md) | JJ Switching Data Schema (for audits) | 21 | shots, assumptions, float, ... |
@@ -4292,28 +4292,28 @@ Repository Knowledge Index
 | [docs/noaa_email_draft.md](docs/noaa_email_draft.md) | NOAA Space Weather Prediction Center — Email Draft | 121 | 15, github, data, ... |
 | [docs/paper_build.md](docs/paper_build.md) | Building the Paper PDFs | 129 | math, build, pdf, ... |
 | [docs/paper_build.md](docs/paper_build.md) | Building the Paper PDFs | 129 | math, build, pdf, ... |
-| [docs/theory/collider_QG_ties.md](docs/theory/collider_QG_ties.md) | Collider Foam, Gauge Portals, and Quantum-Gravity Ties (Sket | 23 | jj, collider, foam, ... |
-| [docs/theory/collider_QG_ties.md](docs/theory/collider_QG_ties.md) | Collider Foam, Gauge Portals, and Quantum-Gravity Ties (Sket | 23 | jj, collider, foam, ... |
+| [docs//collider_QG_ties.md](docs//collider_QG_ties.md) | Collider Foam, Gauge Portals, and Quantum-Gravity Ties (Sket | 23 | jj, collider, foam, ... |
+| [docs//collider_QG_ties.md](docs//collider_QG_ties.md) | Collider Foam, Gauge Portals, and Quantum-Gravity Ties (Sket | 23 | jj, collider, foam, ... |
 | [docs/usgs_collaboration_request.md](docs/usgs_collaboration_request.md) | USGS Geomagnetism Program — Collaboration Request | 79 | 15, usgs, boundary, ... |
 | [docs/usgs_collaboration_request.md](docs/usgs_collaboration_request.md) | USGS Geomagnetism Program — Collaboration Request | 79 | 15, usgs, boundary, ... |
 | [docs/v3_update_dec28.md](docs/v3_update_dec28.md) | ### 4.3 Real-Time Validation: December 28, 2025 Event | 13 | delay, 28, 28 2025, ... |
 | [docs/v3_update_dec28.md](docs/v3_update_dec28.md) | ### 4.3 Real-Time Validation: December 28, 2025 Event | 13 | delay, 28, 28 2025, ... |
 | [draft-desi-chi-bound-issue.md](draft-desi-chi-bound-issue.md) | Capsule 009 / Relay 006 – DESI Λ(t) Drift χ Bound | 120 | null, bound, block, ... |
-| [dscovr_capsule_schema.md](dscovr_capsule_schema.md) | LUFT Capsule: DSCOVR L1 Solar Wind & Magnetics | 38 | luft, dscovr, wind, ... |
-| [elays/CAPSULE_UNIFICATION_001.md](elays/CAPSULE_UNIFICATION_001.md) | CAPSULE: UNIFICATION_001 — Planck–Einstein LUFT Relay | 80 | luft, cross, planck, ... |
+| [dscovr_capsule_schema.md](dscovr_capsule_schema.md) |  Capsule: DSCOVR L1 Solar Wind & Magnetics | 38 | , dscovr, wind, ... |
+| [elays/CAPSULE_UNIFICATION_001.md](elays/CAPSULE_UNIFICATION_001.md) | CAPSULE: UNIFICATION_001 — Planck–Einstein  Relay | 80 | , cross, planck, ... |
 | [elays/relay-006-desi_grok_packet.md](elays/relay-006-desi_grok_packet.md) | Relay 006 — DESI Λ(t) Drift (Grok On‑Ramp Packet) | 71 | desi, χ_95, window, ... |
-| [events_heartbeat_section.md](events_heartbeat_section.md) | ## Section: Events & Heartbeat | 52 | luft, capsules, heartbeat, ... |
-| [foam_bubble_tagging_rubric.md](foam_bubble_tagging_rubric.md) | Citizen-Science Rubric: Foam Bubble Tagging for LUFT (ORC Au | 74 | luft, orc, rim, ... |
-| [goes_capsule_schema.md](goes_capsule_schema.md) | LUFT Capsule: GOES Event Particle & Magnetics | 35 | goes, particle, event, ... |
-| [heartbeat_dashboard.md](heartbeat_dashboard.md) | LUFT Heartbeat Dashboard | 145 | heartbeat, luft, dashboard, ... |
-| [index.md](index.md) | LUFT Portal Project | 12 | data, luft, github, ... |
-| [lattice_unified_field.md](lattice_unified_field.md) | Lattice Unified Field Theory (LUFT) is a theoretical framewo | 26 | lattice, like, data, ... |
-| [luft_heartbeat_dashboard.md](luft_heartbeat_dashboard.md) | LUFT Heartbeat Dashboard | 65 | heartbeat, capsules, dashboard, ... |
-| [luft_master_index.md](luft_master_index.md) | LUFT Portal — Master Index | 58 | luft, pages, deploy, ... |
-| [luft_master_index2.1.md](luft_master_index2.1.md) | LUFT Portal — Master Index | 66 | heartbeat, capsule, pages, ... |
-| [luft_master_index2.md](luft_master_index2.md) | LUFT Portal — Master Index | 65 | heartbeat, pages, deploy, ... |
+| [events_heartbeat_section.md](events_heartbeat_section.md) | ## Section: Events & Heartbeat | 52 | , capsules, heartbeat, ... |
+| [foam_bubble_tagging_rubric.md](foam_bubble_tagging_rubric.md) | Citizen-Science Rubric: Foam Bubble Tagging for  (ORC Au | 74 | , orc, rim, ... |
+| [goes_capsule_schema.md](goes_capsule_schema.md) |  Capsule: GOES Event Particle & Magnetics | 35 | goes, particle, event, ... |
+| [heartbeat_dashboard.md](heartbeat_dashboard.md) |  Heartbeat Dashboard | 145 | heartbeat, , dashboard, ... |
+| [index.md](index.md) |  Portal Project | 12 | data, , github, ... |
+| [lattice_unified_field.md](lattice_unified_field.md) | vacuum Unified Field  () is a measured framewo | 26 | vacuum, like, data, ... |
+| [luft_heartbeat_dashboard.md](luft_heartbeat_dashboard.md) |  Heartbeat Dashboard | 65 | heartbeat, capsules, dashboard, ... |
+| [luft_master_index.md](luft_master_index.md) |  Portal — Master Index | 58 | , pages, deploy, ... |
+| [luft_master_index2.1.md](luft_master_index2.1.md) |  Portal — Master Index | 66 | heartbeat, capsule, pages, ... |
+| [luft_master_index2.md](luft_master_index2.md) |  Portal — Master Index | 65 | heartbeat, pages, deploy, ... |
 | [notebooks/JJ_MQT_OVERVIEW.md](notebooks/JJ_MQT_OVERVIEW.md) | Notebook: JJ MQT Overview (notes / runnable steps) | 27 | run, markdown, compute, ... |
-| [notes/PHYSICIST_NOTE_HEARTBEAT.md](notes/PHYSICIST_NOTE_HEARTBEAT.md) | Heartbeat & Boundary Recoil — LUFT Extension of Energy Law | 75 | heartbeat, luft, boundary, ... |
+| [notes/PHYSICIST_NOTE_HEARTBEAT.md](notes/PHYSICIST_NOTE_HEARTBEAT.md) | Heartbeat & Boundary Recoil —  Extension of Energy Law | 75 | heartbeat, , boundary, ... |
 | [occupancy_schema.md](occupancy_schema.md) | ```json | 31 | float, uint32, string, ... |
 | [papers/CLINE_CONVERGENCE_2026.md](papers/CLINE_CONVERGENCE_2026.md) | **The Cline Convergence: A Universal Plasma Boundary at χ =  | 101 | boundary, 15, plasma, ... |
 | [papers/CLINE_CONVERGENCE_2026.md](papers/CLINE_CONVERGENCE_2026.md) | **The Cline Convergence: A Universal Plasma Boundary at χ =  | 101 | boundary, 15, plasma, ... |
@@ -4323,369 +4323,369 @@ Repository Knowledge Index
 | [papers/CLINE_CONVERGENCE_SECTION.md](papers/CLINE_CONVERGENCE_SECTION.md) | Section 6: The Cline Convergence - Where Four Physics Regime | 79 | physics, 15, 10, ... |
 | [papers/README_ZENODO.md](papers/README_ZENODO.md) | The Cline Convergence: χ = 0.15 Universal Plasma Boundary | 99 | cline, 15, boundary, ... |
 | [papers/README_ZENODO.md](papers/README_ZENODO.md) | The Cline Convergence: χ = 0.15 Universal Plasma Boundary | 99 | cline, 15, boundary, ... |
-| [periodic_table/LATTICE_PERIODIC_TABLE_2025.md](periodic_table/LATTICE_PERIODIC_TABLE_2025.md) | LATTICE PERIODIC TABLE 2025 — Quantum Law Matrix | 60 | 27e, 12, vacuum, ... |
+| [periodic_table/LATTICE_PERIODIC_TABLE_2025.md](periodic_table/LATTICE_PERIODIC_TABLE_2025.md) | vacuum PERIODIC TABLE 2025 — Quantum Law Matrix | 60 | 27e, 12, vacuum, ... |
 | [physicist_note_story.md](physicist_note_story.md) | Carl — you’ve just lit up the whole relay: plots, spectrum,  | 14 | note, story, physicist, ... |
-| [relays/CAPSULE_UNIFICATION_001.md](relays/CAPSULE_UNIFICATION_001.md) | CAPSULE: UNIFICATION_001 — Planck–Einstein LUFT Relay | 80 | luft, cross, planck, ... |
-| [relays/FOAM_SYMBIOSIS_HARVEST_v1.md](relays/FOAM_SYMBIOSIS_HARVEST_v1.md) | Relay: Foam-Symbiosis Harvester v1 (FSH) — Carl Cline & Arti | 63 | foam, lattice, unthought, ... |
-| [relays/relay-002-lattice_drift.md](relays/relay-002-lattice_drift.md) | Relay 002 — Lattice Drift (LUFT) | 23 | m_eq, sqrt, lattice_drift, ... |
+| [relays/CAPSULE_UNIFICATION_001.md](relays/CAPSULE_UNIFICATION_001.md) | CAPSULE: UNIFICATION_001 — Planck–Einstein  Relay | 80 | , cross, planck, ... |
+| [relays/FOAM_SYMBIOSIS_HARVEST_v1.md](relays/FOAM_SYMBIOSIS_HARVEST_v1.md) | Relay: Foam-Symbiosis Harvester v1 (FSH) — Carl Cline & Arti | 63 | foam, vacuum, unthought, ... |
+| [relays/relay-002-lattice_drift.md](relays/relay-002-lattice_drift.md) | Relay 002 — vacuum Drift () | 23 | m_eq, sqrt, lattice_drift, ... |
 | [relays/relay-003-quantum_tunneling.md](relays/relay-003-quantum_tunneling.md) | Relay 003 — Quantum Tunneling (Imperial Lines) | 15 | audit, tunneling, place, ... |
 | [relays/relay-005-na62_decay.md](relays/relay-005-na62_decay.md) | Relay 005 — NA62 Kaon Decay Audit | 23 | audit, delta_ρ ρ_avg, 1e, ... |
 | [relays/relay-009-collider_multiplicity.md](relays/relay-009-collider_multiplicity.md) | Relay 009 — Heavy-Ion Multiplicity Tails (Foam Mixture Audit | 54 | nb, m_ref, foam, ... |
 | [relays/relay-uap_sphere_defense.md](relays/relay-uap_sphere_defense.md) | Relay — UAP Sphere Defense/Deflection (Mechanism Audit) | 21 | em, p_b, ok, ... |
-| [reports/HOURLY_SUMMARY.md](reports/HOURLY_SUMMARY.md) | LUFT PORTAL - HOURLY SUMMARY | 77 | status, portal, observations, ... |
-| [reports/HOURLY_SUMMARY.md](reports/HOURLY_SUMMARY.md) | LUFT PORTAL - HOURLY SUMMARY | 77 | status, portal, observations, ... |
+| [reports/HOURLY_SUMMARY.md](reports/HOURLY_SUMMARY.md) |  PORTAL - HOURLY SUMMARY | 77 | status, portal, observations, ... |
+| [reports/HOURLY_SUMMARY.md](reports/HOURLY_SUMMARY.md) |  PORTAL - HOURLY SUMMARY | 77 | status, portal, observations, ... |
 | [reports/arxiv_analysis/relevance_ranking_20260103_194133.md](reports/arxiv_analysis/relevance_ranking_20260103_194133.md) | ============================================================ | 127 | score, arxiv, org, ... |
 | [reports/arxiv_analysis/relevance_ranking_20260103_194133.md](reports/arxiv_analysis/relevance_ranking_20260103_194133.md) | ============================================================ | 127 | score, arxiv, org, ... |
 | [reports/daily_capsule.md](reports/daily_capsule.md) | Nightly Capsule | 11 | nightly, capsule, generated, ... |
 | [reports/daily_capsule.md](reports/daily_capsule.md) | Nightly Capsule | 11 | nightly, capsule, generated, ... |
-| [reports/hourly_summary_20260102_002808.md](reports/hourly_summary_20260102_002808.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_002808.md](reports/hourly_summary_20260102_002808.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_014247.md](reports/hourly_summary_20260102_014247.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_014247.md](reports/hourly_summary_20260102_014247.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_034203.md](reports/hourly_summary_20260102_034203.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_034203.md](reports/hourly_summary_20260102_034203.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_042646.md](reports/hourly_summary_20260102_042646.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_042646.md](reports/hourly_summary_20260102_042646.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_051509.md](reports/hourly_summary_20260102_051509.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_051509.md](reports/hourly_summary_20260102_051509.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_061604.md](reports/hourly_summary_20260102_061604.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_061604.md](reports/hourly_summary_20260102_061604.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_071442.md](reports/hourly_summary_20260102_071442.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_071442.md](reports/hourly_summary_20260102_071442.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_081435.md](reports/hourly_summary_20260102_081435.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_081435.md](reports/hourly_summary_20260102_081435.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_091450.md](reports/hourly_summary_20260102_091450.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_091450.md](reports/hourly_summary_20260102_091450.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_101430.md](reports/hourly_summary_20260102_101430.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_101430.md](reports/hourly_summary_20260102_101430.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_111336.md](reports/hourly_summary_20260102_111336.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_111336.md](reports/hourly_summary_20260102_111336.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_121654.md](reports/hourly_summary_20260102_121654.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_121654.md](reports/hourly_summary_20260102_121654.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_132112.md](reports/hourly_summary_20260102_132112.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_132112.md](reports/hourly_summary_20260102_132112.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_141354.md](reports/hourly_summary_20260102_141354.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_141354.md](reports/hourly_summary_20260102_141354.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_151357.md](reports/hourly_summary_20260102_151357.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_151357.md](reports/hourly_summary_20260102_151357.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_161413.md](reports/hourly_summary_20260102_161413.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_161413.md](reports/hourly_summary_20260102_161413.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_171338.md](reports/hourly_summary_20260102_171338.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_171338.md](reports/hourly_summary_20260102_171338.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_181445.md](reports/hourly_summary_20260102_181445.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_181445.md](reports/hourly_summary_20260102_181445.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_191249.md](reports/hourly_summary_20260102_191249.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_191249.md](reports/hourly_summary_20260102_191249.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_201359.md](reports/hourly_summary_20260102_201359.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_201359.md](reports/hourly_summary_20260102_201359.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_211310.md](reports/hourly_summary_20260102_211310.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_211310.md](reports/hourly_summary_20260102_211310.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_221345.md](reports/hourly_summary_20260102_221345.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_221345.md](reports/hourly_summary_20260102_221345.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_231342.md](reports/hourly_summary_20260102_231342.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260102_231342.md](reports/hourly_summary_20260102_231342.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_003850.md](reports/hourly_summary_20260103_003850.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_003850.md](reports/hourly_summary_20260103_003850.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_014221.md](reports/hourly_summary_20260103_014221.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_014221.md](reports/hourly_summary_20260103_014221.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_024423.md](reports/hourly_summary_20260103_024423.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_024423.md](reports/hourly_summary_20260103_024423.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_033753.md](reports/hourly_summary_20260103_033753.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_033753.md](reports/hourly_summary_20260103_033753.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_041912.md](reports/hourly_summary_20260103_041912.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_041912.md](reports/hourly_summary_20260103_041912.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_051404.md](reports/hourly_summary_20260103_051404.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_051404.md](reports/hourly_summary_20260103_051404.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_061445.md](reports/hourly_summary_20260103_061445.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_061445.md](reports/hourly_summary_20260103_061445.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_071350.md](reports/hourly_summary_20260103_071350.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_071350.md](reports/hourly_summary_20260103_071350.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_081423.md](reports/hourly_summary_20260103_081423.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_081423.md](reports/hourly_summary_20260103_081423.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_091348.md](reports/hourly_summary_20260103_091348.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_091348.md](reports/hourly_summary_20260103_091348.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_101351.md](reports/hourly_summary_20260103_101351.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_101351.md](reports/hourly_summary_20260103_101351.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_111321.md](reports/hourly_summary_20260103_111321.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_111321.md](reports/hourly_summary_20260103_111321.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_121600.md](reports/hourly_summary_20260103_121600.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_121600.md](reports/hourly_summary_20260103_121600.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_131914.md](reports/hourly_summary_20260103_131914.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_131914.md](reports/hourly_summary_20260103_131914.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_141335.md](reports/hourly_summary_20260103_141335.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_141335.md](reports/hourly_summary_20260103_141335.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_151330.md](reports/hourly_summary_20260103_151330.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_151330.md](reports/hourly_summary_20260103_151330.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_161402.md](reports/hourly_summary_20260103_161402.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_161402.md](reports/hourly_summary_20260103_161402.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_171325.md](reports/hourly_summary_20260103_171325.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_171325.md](reports/hourly_summary_20260103_171325.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_181427.md](reports/hourly_summary_20260103_181427.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_181427.md](reports/hourly_summary_20260103_181427.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_191308.md](reports/hourly_summary_20260103_191308.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_191308.md](reports/hourly_summary_20260103_191308.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_201404.md](reports/hourly_summary_20260103_201404.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_201404.md](reports/hourly_summary_20260103_201404.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_211326.md](reports/hourly_summary_20260103_211326.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_211326.md](reports/hourly_summary_20260103_211326.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_221337.md](reports/hourly_summary_20260103_221337.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_221337.md](reports/hourly_summary_20260103_221337.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_231339.md](reports/hourly_summary_20260103_231339.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260103_231339.md](reports/hourly_summary_20260103_231339.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_004605.md](reports/hourly_summary_20260104_004605.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_004605.md](reports/hourly_summary_20260104_004605.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_014302.md](reports/hourly_summary_20260104_014302.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_014302.md](reports/hourly_summary_20260104_014302.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_025712.md](reports/hourly_summary_20260104_025712.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_025712.md](reports/hourly_summary_20260104_025712.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_034404.md](reports/hourly_summary_20260104_034404.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_034404.md](reports/hourly_summary_20260104_034404.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_043045.md](reports/hourly_summary_20260104_043045.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_043045.md](reports/hourly_summary_20260104_043045.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_051626.md](reports/hourly_summary_20260104_051626.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_051626.md](reports/hourly_summary_20260104_051626.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_061450.md](reports/hourly_summary_20260104_061450.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_061450.md](reports/hourly_summary_20260104_061450.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_071415.md](reports/hourly_summary_20260104_071415.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_071415.md](reports/hourly_summary_20260104_071415.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_081435.md](reports/hourly_summary_20260104_081435.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_081435.md](reports/hourly_summary_20260104_081435.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_091401.md](reports/hourly_summary_20260104_091401.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_091401.md](reports/hourly_summary_20260104_091401.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_101350.md](reports/hourly_summary_20260104_101350.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_101350.md](reports/hourly_summary_20260104_101350.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_111318.md](reports/hourly_summary_20260104_111318.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_111318.md](reports/hourly_summary_20260104_111318.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_121554.md](reports/hourly_summary_20260104_121554.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_121554.md](reports/hourly_summary_20260104_121554.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_131938.md](reports/hourly_summary_20260104_131938.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_131938.md](reports/hourly_summary_20260104_131938.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_141334.md](reports/hourly_summary_20260104_141334.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_141334.md](reports/hourly_summary_20260104_141334.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_151336.md](reports/hourly_summary_20260104_151336.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_151336.md](reports/hourly_summary_20260104_151336.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_161413.md](reports/hourly_summary_20260104_161413.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_161413.md](reports/hourly_summary_20260104_161413.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_171320.md](reports/hourly_summary_20260104_171320.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_171320.md](reports/hourly_summary_20260104_171320.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_181438.md](reports/hourly_summary_20260104_181438.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_181438.md](reports/hourly_summary_20260104_181438.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_191304.md](reports/hourly_summary_20260104_191304.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_191304.md](reports/hourly_summary_20260104_191304.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_201408.md](reports/hourly_summary_20260104_201408.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_201408.md](reports/hourly_summary_20260104_201408.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_211337.md](reports/hourly_summary_20260104_211337.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_211337.md](reports/hourly_summary_20260104_211337.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_221344.md](reports/hourly_summary_20260104_221344.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_221344.md](reports/hourly_summary_20260104_221344.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_231345.md](reports/hourly_summary_20260104_231345.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260104_231345.md](reports/hourly_summary_20260104_231345.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_004514.md](reports/hourly_summary_20260105_004514.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_004514.md](reports/hourly_summary_20260105_004514.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_014315.md](reports/hourly_summary_20260105_014315.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_014315.md](reports/hourly_summary_20260105_014315.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_025822.md](reports/hourly_summary_20260105_025822.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_025822.md](reports/hourly_summary_20260105_025822.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_034528.md](reports/hourly_summary_20260105_034528.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_034528.md](reports/hourly_summary_20260105_034528.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_043435.md](reports/hourly_summary_20260105_043435.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_043435.md](reports/hourly_summary_20260105_043435.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_052212.md](reports/hourly_summary_20260105_052212.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_052212.md](reports/hourly_summary_20260105_052212.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_061944.md](reports/hourly_summary_20260105_061944.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_061944.md](reports/hourly_summary_20260105_061944.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_071841.md](reports/hourly_summary_20260105_071841.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_071841.md](reports/hourly_summary_20260105_071841.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_081635.md](reports/hourly_summary_20260105_081635.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_081635.md](reports/hourly_summary_20260105_081635.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_091759.md](reports/hourly_summary_20260105_091759.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_091759.md](reports/hourly_summary_20260105_091759.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_101432.md](reports/hourly_summary_20260105_101432.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_101432.md](reports/hourly_summary_20260105_101432.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_111349.md](reports/hourly_summary_20260105_111349.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_111349.md](reports/hourly_summary_20260105_111349.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_121822.md](reports/hourly_summary_20260105_121822.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_121822.md](reports/hourly_summary_20260105_121822.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_132503.md](reports/hourly_summary_20260105_132503.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_132503.md](reports/hourly_summary_20260105_132503.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_141446.md](reports/hourly_summary_20260105_141446.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_141446.md](reports/hourly_summary_20260105_141446.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_151440.md](reports/hourly_summary_20260105_151440.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_151440.md](reports/hourly_summary_20260105_151440.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_161446.md](reports/hourly_summary_20260105_161446.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_161446.md](reports/hourly_summary_20260105_161446.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_171439.md](reports/hourly_summary_20260105_171439.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_171439.md](reports/hourly_summary_20260105_171439.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_181551.md](reports/hourly_summary_20260105_181551.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_181551.md](reports/hourly_summary_20260105_181551.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_191416.md](reports/hourly_summary_20260105_191416.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_191416.md](reports/hourly_summary_20260105_191416.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_201440.md](reports/hourly_summary_20260105_201440.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_201440.md](reports/hourly_summary_20260105_201440.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_211415.md](reports/hourly_summary_20260105_211415.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_211415.md](reports/hourly_summary_20260105_211415.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_221356.md](reports/hourly_summary_20260105_221356.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_221356.md](reports/hourly_summary_20260105_221356.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_231352.md](reports/hourly_summary_20260105_231352.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260105_231352.md](reports/hourly_summary_20260105_231352.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_004116.md](reports/hourly_summary_20260106_004116.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_004116.md](reports/hourly_summary_20260106_004116.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_014235.md](reports/hourly_summary_20260106_014235.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_014235.md](reports/hourly_summary_20260106_014235.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_024850.md](reports/hourly_summary_20260106_024850.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_024850.md](reports/hourly_summary_20260106_024850.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_034203.md](reports/hourly_summary_20260106_034203.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_034203.md](reports/hourly_summary_20260106_034203.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_042609.md](reports/hourly_summary_20260106_042609.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_042609.md](reports/hourly_summary_20260106_042609.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_051522.md](reports/hourly_summary_20260106_051522.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_051522.md](reports/hourly_summary_20260106_051522.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_061614.md](reports/hourly_summary_20260106_061614.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_061614.md](reports/hourly_summary_20260106_061614.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_071547.md](reports/hourly_summary_20260106_071547.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_071547.md](reports/hourly_summary_20260106_071547.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_081517.md](reports/hourly_summary_20260106_081517.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_081517.md](reports/hourly_summary_20260106_081517.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_091522.md](reports/hourly_summary_20260106_091522.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_091522.md](reports/hourly_summary_20260106_091522.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_101412.md](reports/hourly_summary_20260106_101412.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_101412.md](reports/hourly_summary_20260106_101412.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_111353.md](reports/hourly_summary_20260106_111353.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_111353.md](reports/hourly_summary_20260106_111353.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_121750.md](reports/hourly_summary_20260106_121750.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_121750.md](reports/hourly_summary_20260106_121750.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_132311.md](reports/hourly_summary_20260106_132311.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_132311.md](reports/hourly_summary_20260106_132311.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_141442.md](reports/hourly_summary_20260106_141442.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_141442.md](reports/hourly_summary_20260106_141442.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_151418.md](reports/hourly_summary_20260106_151418.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_151418.md](reports/hourly_summary_20260106_151418.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_161446.md](reports/hourly_summary_20260106_161446.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_161446.md](reports/hourly_summary_20260106_161446.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_171454.md](reports/hourly_summary_20260106_171454.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_171454.md](reports/hourly_summary_20260106_171454.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_181500.md](reports/hourly_summary_20260106_181500.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_181500.md](reports/hourly_summary_20260106_181500.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_191323.md](reports/hourly_summary_20260106_191323.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_191323.md](reports/hourly_summary_20260106_191323.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_201411.md](reports/hourly_summary_20260106_201411.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_201411.md](reports/hourly_summary_20260106_201411.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_211408.md](reports/hourly_summary_20260106_211408.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_211408.md](reports/hourly_summary_20260106_211408.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_221358.md](reports/hourly_summary_20260106_221358.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_221358.md](reports/hourly_summary_20260106_221358.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_231355.md](reports/hourly_summary_20260106_231355.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260106_231355.md](reports/hourly_summary_20260106_231355.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_004115.md](reports/hourly_summary_20260107_004115.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_004115.md](reports/hourly_summary_20260107_004115.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_014242.md](reports/hourly_summary_20260107_014242.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_014242.md](reports/hourly_summary_20260107_014242.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_024918.md](reports/hourly_summary_20260107_024918.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_024918.md](reports/hourly_summary_20260107_024918.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_034206.md](reports/hourly_summary_20260107_034206.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_034206.md](reports/hourly_summary_20260107_034206.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_042621.md](reports/hourly_summary_20260107_042621.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_042621.md](reports/hourly_summary_20260107_042621.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_051606.md](reports/hourly_summary_20260107_051606.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_051606.md](reports/hourly_summary_20260107_051606.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_061608.md](reports/hourly_summary_20260107_061608.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_061608.md](reports/hourly_summary_20260107_061608.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_071517.md](reports/hourly_summary_20260107_071517.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_071517.md](reports/hourly_summary_20260107_071517.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_081459.md](reports/hourly_summary_20260107_081459.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_081459.md](reports/hourly_summary_20260107_081459.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_091617.md](reports/hourly_summary_20260107_091617.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_091617.md](reports/hourly_summary_20260107_091617.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_101434.md](reports/hourly_summary_20260107_101434.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_101434.md](reports/hourly_summary_20260107_101434.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_111412.md](reports/hourly_summary_20260107_111412.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_111412.md](reports/hourly_summary_20260107_111412.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_121806.md](reports/hourly_summary_20260107_121806.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_121806.md](reports/hourly_summary_20260107_121806.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_132421.md](reports/hourly_summary_20260107_132421.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_132421.md](reports/hourly_summary_20260107_132421.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_141443.md](reports/hourly_summary_20260107_141443.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_141443.md](reports/hourly_summary_20260107_141443.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_151436.md](reports/hourly_summary_20260107_151436.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_151436.md](reports/hourly_summary_20260107_151436.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_161508.md](reports/hourly_summary_20260107_161508.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_161508.md](reports/hourly_summary_20260107_161508.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_171537.md](reports/hourly_summary_20260107_171537.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_171537.md](reports/hourly_summary_20260107_171537.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_181521.md](reports/hourly_summary_20260107_181521.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_181521.md](reports/hourly_summary_20260107_181521.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_191413.md](reports/hourly_summary_20260107_191413.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_191413.md](reports/hourly_summary_20260107_191413.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_201424.md](reports/hourly_summary_20260107_201424.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_201424.md](reports/hourly_summary_20260107_201424.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_211356.md](reports/hourly_summary_20260107_211356.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_211356.md](reports/hourly_summary_20260107_211356.md) | LUFT PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_221352.md](reports/hourly_summary_20260107_221352.md) | LUFT PORTAL - HOURLY SUMMARY | 141 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_221352.md](reports/hourly_summary_20260107_221352.md) | LUFT PORTAL - HOURLY SUMMARY | 141 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_231359.md](reports/hourly_summary_20260107_231359.md) | LUFT PORTAL - HOURLY SUMMARY | 141 | papers, status, data, ... |
-| [reports/hourly_summary_20260107_231359.md](reports/hourly_summary_20260107_231359.md) | LUFT PORTAL - HOURLY SUMMARY | 141 | papers, status, data, ... |
-| [reports/hourly_summary_20260108_004112.md](reports/hourly_summary_20260108_004112.md) | LUFT PORTAL - HOURLY SUMMARY | 141 | papers, status, data, ... |
-| [reports/hourly_summary_20260108_004112.md](reports/hourly_summary_20260108_004112.md) | LUFT PORTAL - HOURLY SUMMARY | 141 | papers, status, data, ... |
-| [reports/hourly_summary_20260108_014245.md](reports/hourly_summary_20260108_014245.md) | LUFT PORTAL - HOURLY SUMMARY | 141 | papers, status, data, ... |
-| [reports/hourly_summary_20260108_014245.md](reports/hourly_summary_20260108_014245.md) | LUFT PORTAL - HOURLY SUMMARY | 141 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_002808.md](reports/hourly_summary_20260102_002808.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_002808.md](reports/hourly_summary_20260102_002808.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_014247.md](reports/hourly_summary_20260102_014247.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_014247.md](reports/hourly_summary_20260102_014247.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_034203.md](reports/hourly_summary_20260102_034203.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_034203.md](reports/hourly_summary_20260102_034203.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_042646.md](reports/hourly_summary_20260102_042646.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_042646.md](reports/hourly_summary_20260102_042646.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_051509.md](reports/hourly_summary_20260102_051509.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_051509.md](reports/hourly_summary_20260102_051509.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_061604.md](reports/hourly_summary_20260102_061604.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_061604.md](reports/hourly_summary_20260102_061604.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_071442.md](reports/hourly_summary_20260102_071442.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_071442.md](reports/hourly_summary_20260102_071442.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_081435.md](reports/hourly_summary_20260102_081435.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_081435.md](reports/hourly_summary_20260102_081435.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_091450.md](reports/hourly_summary_20260102_091450.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_091450.md](reports/hourly_summary_20260102_091450.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_101430.md](reports/hourly_summary_20260102_101430.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_101430.md](reports/hourly_summary_20260102_101430.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_111336.md](reports/hourly_summary_20260102_111336.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_111336.md](reports/hourly_summary_20260102_111336.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_121654.md](reports/hourly_summary_20260102_121654.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_121654.md](reports/hourly_summary_20260102_121654.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_132112.md](reports/hourly_summary_20260102_132112.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_132112.md](reports/hourly_summary_20260102_132112.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_141354.md](reports/hourly_summary_20260102_141354.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_141354.md](reports/hourly_summary_20260102_141354.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_151357.md](reports/hourly_summary_20260102_151357.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_151357.md](reports/hourly_summary_20260102_151357.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_161413.md](reports/hourly_summary_20260102_161413.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_161413.md](reports/hourly_summary_20260102_161413.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_171338.md](reports/hourly_summary_20260102_171338.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_171338.md](reports/hourly_summary_20260102_171338.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_181445.md](reports/hourly_summary_20260102_181445.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_181445.md](reports/hourly_summary_20260102_181445.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_191249.md](reports/hourly_summary_20260102_191249.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_191249.md](reports/hourly_summary_20260102_191249.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_201359.md](reports/hourly_summary_20260102_201359.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_201359.md](reports/hourly_summary_20260102_201359.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_211310.md](reports/hourly_summary_20260102_211310.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_211310.md](reports/hourly_summary_20260102_211310.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_221345.md](reports/hourly_summary_20260102_221345.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_221345.md](reports/hourly_summary_20260102_221345.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_231342.md](reports/hourly_summary_20260102_231342.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260102_231342.md](reports/hourly_summary_20260102_231342.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_003850.md](reports/hourly_summary_20260103_003850.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_003850.md](reports/hourly_summary_20260103_003850.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_014221.md](reports/hourly_summary_20260103_014221.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_014221.md](reports/hourly_summary_20260103_014221.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_024423.md](reports/hourly_summary_20260103_024423.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_024423.md](reports/hourly_summary_20260103_024423.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_033753.md](reports/hourly_summary_20260103_033753.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_033753.md](reports/hourly_summary_20260103_033753.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_041912.md](reports/hourly_summary_20260103_041912.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_041912.md](reports/hourly_summary_20260103_041912.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_051404.md](reports/hourly_summary_20260103_051404.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_051404.md](reports/hourly_summary_20260103_051404.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_061445.md](reports/hourly_summary_20260103_061445.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_061445.md](reports/hourly_summary_20260103_061445.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_071350.md](reports/hourly_summary_20260103_071350.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_071350.md](reports/hourly_summary_20260103_071350.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_081423.md](reports/hourly_summary_20260103_081423.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_081423.md](reports/hourly_summary_20260103_081423.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_091348.md](reports/hourly_summary_20260103_091348.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_091348.md](reports/hourly_summary_20260103_091348.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_101351.md](reports/hourly_summary_20260103_101351.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_101351.md](reports/hourly_summary_20260103_101351.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_111321.md](reports/hourly_summary_20260103_111321.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_111321.md](reports/hourly_summary_20260103_111321.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_121600.md](reports/hourly_summary_20260103_121600.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_121600.md](reports/hourly_summary_20260103_121600.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_131914.md](reports/hourly_summary_20260103_131914.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_131914.md](reports/hourly_summary_20260103_131914.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_141335.md](reports/hourly_summary_20260103_141335.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_141335.md](reports/hourly_summary_20260103_141335.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_151330.md](reports/hourly_summary_20260103_151330.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_151330.md](reports/hourly_summary_20260103_151330.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_161402.md](reports/hourly_summary_20260103_161402.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_161402.md](reports/hourly_summary_20260103_161402.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_171325.md](reports/hourly_summary_20260103_171325.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_171325.md](reports/hourly_summary_20260103_171325.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_181427.md](reports/hourly_summary_20260103_181427.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_181427.md](reports/hourly_summary_20260103_181427.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_191308.md](reports/hourly_summary_20260103_191308.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_191308.md](reports/hourly_summary_20260103_191308.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_201404.md](reports/hourly_summary_20260103_201404.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_201404.md](reports/hourly_summary_20260103_201404.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_211326.md](reports/hourly_summary_20260103_211326.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_211326.md](reports/hourly_summary_20260103_211326.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_221337.md](reports/hourly_summary_20260103_221337.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_221337.md](reports/hourly_summary_20260103_221337.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_231339.md](reports/hourly_summary_20260103_231339.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260103_231339.md](reports/hourly_summary_20260103_231339.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_004605.md](reports/hourly_summary_20260104_004605.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_004605.md](reports/hourly_summary_20260104_004605.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_014302.md](reports/hourly_summary_20260104_014302.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_014302.md](reports/hourly_summary_20260104_014302.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_025712.md](reports/hourly_summary_20260104_025712.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_025712.md](reports/hourly_summary_20260104_025712.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_034404.md](reports/hourly_summary_20260104_034404.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_034404.md](reports/hourly_summary_20260104_034404.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_043045.md](reports/hourly_summary_20260104_043045.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_043045.md](reports/hourly_summary_20260104_043045.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_051626.md](reports/hourly_summary_20260104_051626.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_051626.md](reports/hourly_summary_20260104_051626.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_061450.md](reports/hourly_summary_20260104_061450.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_061450.md](reports/hourly_summary_20260104_061450.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_071415.md](reports/hourly_summary_20260104_071415.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_071415.md](reports/hourly_summary_20260104_071415.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_081435.md](reports/hourly_summary_20260104_081435.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_081435.md](reports/hourly_summary_20260104_081435.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_091401.md](reports/hourly_summary_20260104_091401.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_091401.md](reports/hourly_summary_20260104_091401.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_101350.md](reports/hourly_summary_20260104_101350.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_101350.md](reports/hourly_summary_20260104_101350.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_111318.md](reports/hourly_summary_20260104_111318.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_111318.md](reports/hourly_summary_20260104_111318.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_121554.md](reports/hourly_summary_20260104_121554.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_121554.md](reports/hourly_summary_20260104_121554.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_131938.md](reports/hourly_summary_20260104_131938.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_131938.md](reports/hourly_summary_20260104_131938.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_141334.md](reports/hourly_summary_20260104_141334.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_141334.md](reports/hourly_summary_20260104_141334.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_151336.md](reports/hourly_summary_20260104_151336.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_151336.md](reports/hourly_summary_20260104_151336.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_161413.md](reports/hourly_summary_20260104_161413.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_161413.md](reports/hourly_summary_20260104_161413.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_171320.md](reports/hourly_summary_20260104_171320.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_171320.md](reports/hourly_summary_20260104_171320.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_181438.md](reports/hourly_summary_20260104_181438.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_181438.md](reports/hourly_summary_20260104_181438.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_191304.md](reports/hourly_summary_20260104_191304.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_191304.md](reports/hourly_summary_20260104_191304.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_201408.md](reports/hourly_summary_20260104_201408.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_201408.md](reports/hourly_summary_20260104_201408.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_211337.md](reports/hourly_summary_20260104_211337.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_211337.md](reports/hourly_summary_20260104_211337.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_221344.md](reports/hourly_summary_20260104_221344.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_221344.md](reports/hourly_summary_20260104_221344.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_231345.md](reports/hourly_summary_20260104_231345.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260104_231345.md](reports/hourly_summary_20260104_231345.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_004514.md](reports/hourly_summary_20260105_004514.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_004514.md](reports/hourly_summary_20260105_004514.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_014315.md](reports/hourly_summary_20260105_014315.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_014315.md](reports/hourly_summary_20260105_014315.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_025822.md](reports/hourly_summary_20260105_025822.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_025822.md](reports/hourly_summary_20260105_025822.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_034528.md](reports/hourly_summary_20260105_034528.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_034528.md](reports/hourly_summary_20260105_034528.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_043435.md](reports/hourly_summary_20260105_043435.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_043435.md](reports/hourly_summary_20260105_043435.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_052212.md](reports/hourly_summary_20260105_052212.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_052212.md](reports/hourly_summary_20260105_052212.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_061944.md](reports/hourly_summary_20260105_061944.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_061944.md](reports/hourly_summary_20260105_061944.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_071841.md](reports/hourly_summary_20260105_071841.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_071841.md](reports/hourly_summary_20260105_071841.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_081635.md](reports/hourly_summary_20260105_081635.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_081635.md](reports/hourly_summary_20260105_081635.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_091759.md](reports/hourly_summary_20260105_091759.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_091759.md](reports/hourly_summary_20260105_091759.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_101432.md](reports/hourly_summary_20260105_101432.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_101432.md](reports/hourly_summary_20260105_101432.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_111349.md](reports/hourly_summary_20260105_111349.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_111349.md](reports/hourly_summary_20260105_111349.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_121822.md](reports/hourly_summary_20260105_121822.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_121822.md](reports/hourly_summary_20260105_121822.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_132503.md](reports/hourly_summary_20260105_132503.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_132503.md](reports/hourly_summary_20260105_132503.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_141446.md](reports/hourly_summary_20260105_141446.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_141446.md](reports/hourly_summary_20260105_141446.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_151440.md](reports/hourly_summary_20260105_151440.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_151440.md](reports/hourly_summary_20260105_151440.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_161446.md](reports/hourly_summary_20260105_161446.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_161446.md](reports/hourly_summary_20260105_161446.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_171439.md](reports/hourly_summary_20260105_171439.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_171439.md](reports/hourly_summary_20260105_171439.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_181551.md](reports/hourly_summary_20260105_181551.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_181551.md](reports/hourly_summary_20260105_181551.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_191416.md](reports/hourly_summary_20260105_191416.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_191416.md](reports/hourly_summary_20260105_191416.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_201440.md](reports/hourly_summary_20260105_201440.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_201440.md](reports/hourly_summary_20260105_201440.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_211415.md](reports/hourly_summary_20260105_211415.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_211415.md](reports/hourly_summary_20260105_211415.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_221356.md](reports/hourly_summary_20260105_221356.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_221356.md](reports/hourly_summary_20260105_221356.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_231352.md](reports/hourly_summary_20260105_231352.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260105_231352.md](reports/hourly_summary_20260105_231352.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_004116.md](reports/hourly_summary_20260106_004116.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_004116.md](reports/hourly_summary_20260106_004116.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_014235.md](reports/hourly_summary_20260106_014235.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_014235.md](reports/hourly_summary_20260106_014235.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_024850.md](reports/hourly_summary_20260106_024850.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_024850.md](reports/hourly_summary_20260106_024850.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_034203.md](reports/hourly_summary_20260106_034203.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_034203.md](reports/hourly_summary_20260106_034203.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_042609.md](reports/hourly_summary_20260106_042609.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_042609.md](reports/hourly_summary_20260106_042609.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_051522.md](reports/hourly_summary_20260106_051522.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_051522.md](reports/hourly_summary_20260106_051522.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_061614.md](reports/hourly_summary_20260106_061614.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_061614.md](reports/hourly_summary_20260106_061614.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_071547.md](reports/hourly_summary_20260106_071547.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_071547.md](reports/hourly_summary_20260106_071547.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_081517.md](reports/hourly_summary_20260106_081517.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_081517.md](reports/hourly_summary_20260106_081517.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_091522.md](reports/hourly_summary_20260106_091522.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_091522.md](reports/hourly_summary_20260106_091522.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_101412.md](reports/hourly_summary_20260106_101412.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_101412.md](reports/hourly_summary_20260106_101412.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_111353.md](reports/hourly_summary_20260106_111353.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_111353.md](reports/hourly_summary_20260106_111353.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_121750.md](reports/hourly_summary_20260106_121750.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_121750.md](reports/hourly_summary_20260106_121750.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_132311.md](reports/hourly_summary_20260106_132311.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_132311.md](reports/hourly_summary_20260106_132311.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_141442.md](reports/hourly_summary_20260106_141442.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_141442.md](reports/hourly_summary_20260106_141442.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_151418.md](reports/hourly_summary_20260106_151418.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_151418.md](reports/hourly_summary_20260106_151418.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_161446.md](reports/hourly_summary_20260106_161446.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_161446.md](reports/hourly_summary_20260106_161446.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_171454.md](reports/hourly_summary_20260106_171454.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_171454.md](reports/hourly_summary_20260106_171454.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_181500.md](reports/hourly_summary_20260106_181500.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_181500.md](reports/hourly_summary_20260106_181500.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_191323.md](reports/hourly_summary_20260106_191323.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_191323.md](reports/hourly_summary_20260106_191323.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_201411.md](reports/hourly_summary_20260106_201411.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_201411.md](reports/hourly_summary_20260106_201411.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_211408.md](reports/hourly_summary_20260106_211408.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_211408.md](reports/hourly_summary_20260106_211408.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_221358.md](reports/hourly_summary_20260106_221358.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_221358.md](reports/hourly_summary_20260106_221358.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_231355.md](reports/hourly_summary_20260106_231355.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260106_231355.md](reports/hourly_summary_20260106_231355.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_004115.md](reports/hourly_summary_20260107_004115.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_004115.md](reports/hourly_summary_20260107_004115.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_014242.md](reports/hourly_summary_20260107_014242.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_014242.md](reports/hourly_summary_20260107_014242.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_024918.md](reports/hourly_summary_20260107_024918.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_024918.md](reports/hourly_summary_20260107_024918.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_034206.md](reports/hourly_summary_20260107_034206.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_034206.md](reports/hourly_summary_20260107_034206.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_042621.md](reports/hourly_summary_20260107_042621.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_042621.md](reports/hourly_summary_20260107_042621.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_051606.md](reports/hourly_summary_20260107_051606.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_051606.md](reports/hourly_summary_20260107_051606.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_061608.md](reports/hourly_summary_20260107_061608.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_061608.md](reports/hourly_summary_20260107_061608.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_071517.md](reports/hourly_summary_20260107_071517.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_071517.md](reports/hourly_summary_20260107_071517.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_081459.md](reports/hourly_summary_20260107_081459.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_081459.md](reports/hourly_summary_20260107_081459.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_091617.md](reports/hourly_summary_20260107_091617.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_091617.md](reports/hourly_summary_20260107_091617.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_101434.md](reports/hourly_summary_20260107_101434.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_101434.md](reports/hourly_summary_20260107_101434.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_111412.md](reports/hourly_summary_20260107_111412.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_111412.md](reports/hourly_summary_20260107_111412.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_121806.md](reports/hourly_summary_20260107_121806.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_121806.md](reports/hourly_summary_20260107_121806.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_132421.md](reports/hourly_summary_20260107_132421.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_132421.md](reports/hourly_summary_20260107_132421.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_141443.md](reports/hourly_summary_20260107_141443.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_141443.md](reports/hourly_summary_20260107_141443.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_151436.md](reports/hourly_summary_20260107_151436.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_151436.md](reports/hourly_summary_20260107_151436.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_161508.md](reports/hourly_summary_20260107_161508.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_161508.md](reports/hourly_summary_20260107_161508.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_171537.md](reports/hourly_summary_20260107_171537.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_171537.md](reports/hourly_summary_20260107_171537.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_181521.md](reports/hourly_summary_20260107_181521.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_181521.md](reports/hourly_summary_20260107_181521.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_191413.md](reports/hourly_summary_20260107_191413.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_191413.md](reports/hourly_summary_20260107_191413.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_201424.md](reports/hourly_summary_20260107_201424.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_201424.md](reports/hourly_summary_20260107_201424.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_211356.md](reports/hourly_summary_20260107_211356.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_211356.md](reports/hourly_summary_20260107_211356.md) |  PORTAL - HOURLY SUMMARY | 138 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_221352.md](reports/hourly_summary_20260107_221352.md) |  PORTAL - HOURLY SUMMARY | 141 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_221352.md](reports/hourly_summary_20260107_221352.md) |  PORTAL - HOURLY SUMMARY | 141 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_231359.md](reports/hourly_summary_20260107_231359.md) |  PORTAL - HOURLY SUMMARY | 141 | papers, status, data, ... |
+| [reports/hourly_summary_20260107_231359.md](reports/hourly_summary_20260107_231359.md) |  PORTAL - HOURLY SUMMARY | 141 | papers, status, data, ... |
+| [reports/hourly_summary_20260108_004112.md](reports/hourly_summary_20260108_004112.md) |  PORTAL - HOURLY SUMMARY | 141 | papers, status, data, ... |
+| [reports/hourly_summary_20260108_004112.md](reports/hourly_summary_20260108_004112.md) |  PORTAL - HOURLY SUMMARY | 141 | papers, status, data, ... |
+| [reports/hourly_summary_20260108_014245.md](reports/hourly_summary_20260108_014245.md) |  PORTAL - HOURLY SUMMARY | 141 | papers, status, data, ... |
+| [reports/hourly_summary_20260108_014245.md](reports/hourly_summary_20260108_014245.md) |  PORTAL - HOURLY SUMMARY | 141 | papers, status, data, ... |
 | [reports/latest_srs.md](reports/latest_srs.md) | Solar Region Summary | 3 | regions parsed, regions, region summary, ... |
 | [reports/latest_srs.md](reports/latest_srs.md) | Solar Region Summary | 3 | regions parsed, regions, region summary, ... |
-| [reports/meta_intelligence/LATEST_SUMMARY.md](reports/meta_intelligence/LATEST_SUMMARY.md) | 🌟 LUFT META-INTELLIGENCE LATEST SUMMARY | 49 | source, missing, meta, ... |
-| [reports/meta_intelligence/LATEST_SUMMARY.md](reports/meta_intelligence/LATEST_SUMMARY.md) | 🌟 LUFT META-INTELLIGENCE LATEST SUMMARY | 49 | source, missing, meta, ... |
+| [reports/meta_intelligence/LATEST_SUMMARY.md](reports/meta_intelligence/LATEST_SUMMARY.md) | 🌟  META-INTELLIGENCE LATEST SUMMARY | 49 | source, missing, meta, ... |
+| [reports/meta_intelligence/LATEST_SUMMARY.md](reports/meta_intelligence/LATEST_SUMMARY.md) | 🌟  META-INTELLIGENCE LATEST SUMMARY | 49 | source, missing, meta, ... |
 | [reports/meta_intelligence/README.md](reports/meta_intelligence/README.md) | Meta-Intelligence Reports | 16 | meta, analysis, reports, ... |
 | [reports/meta_intelligence/README.md](reports/meta_intelligence/README.md) | Meta-Intelligence Reports | 16 | meta, analysis, reports, ... |
-| [reports/meta_intelligence/report_20251231_234159.md](reports/meta_intelligence/report_20251231_234159.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 12, 2025 12, 2025, ... |
-| [reports/meta_intelligence/report_20251231_234159.md](reports/meta_intelligence/report_20251231_234159.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 12, 2025 12, 2025, ... |
-| [reports/meta_intelligence/report_20260101_001909.md](reports/meta_intelligence/report_20260101_001909.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260101_001909.md](reports/meta_intelligence/report_20260101_001909.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260102_001705.md](reports/meta_intelligence/report_20260102_001705.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260102_001705.md](reports/meta_intelligence/report_20260102_001705.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260103_001600.md](reports/meta_intelligence/report_20260103_001600.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260103_001600.md](reports/meta_intelligence/report_20260103_001600.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260104_001856.md](reports/meta_intelligence/report_20260104_001856.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260104_001856.md](reports/meta_intelligence/report_20260104_001856.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260105_001834.md](reports/meta_intelligence/report_20260105_001834.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260105_001834.md](reports/meta_intelligence/report_20260105_001834.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260106_001714.md](reports/meta_intelligence/report_20260106_001714.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260106_001714.md](reports/meta_intelligence/report_20260106_001714.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260107_001525.md](reports/meta_intelligence/report_20260107_001525.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260107_001525.md](reports/meta_intelligence/report_20260107_001525.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260108_001725.md](reports/meta_intelligence/report_20260108_001725.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260108_001725.md](reports/meta_intelligence/report_20260108_001725.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260109_001707.md](reports/meta_intelligence/report_20260109_001707.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260109_001707.md](reports/meta_intelligence/report_20260109_001707.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260110_001655.md](reports/meta_intelligence/report_20260110_001655.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260110_001655.md](reports/meta_intelligence/report_20260110_001655.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260111_001853.md](reports/meta_intelligence/report_20260111_001853.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260111_001853.md](reports/meta_intelligence/report_20260111_001853.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260113_001445.md](reports/meta_intelligence/report_20260113_001445.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
-| [reports/meta_intelligence/report_20260113_001445.md](reports/meta_intelligence/report_20260113_001445.md) | 🌟 LUFT META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20251231_234159.md](reports/meta_intelligence/report_20251231_234159.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 12, 2025 12, 2025, ... |
+| [reports/meta_intelligence/report_20251231_234159.md](reports/meta_intelligence/report_20251231_234159.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 12, 2025 12, 2025, ... |
+| [reports/meta_intelligence/report_20260101_001909.md](reports/meta_intelligence/report_20260101_001909.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260101_001909.md](reports/meta_intelligence/report_20260101_001909.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260102_001705.md](reports/meta_intelligence/report_20260102_001705.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260102_001705.md](reports/meta_intelligence/report_20260102_001705.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260103_001600.md](reports/meta_intelligence/report_20260103_001600.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260103_001600.md](reports/meta_intelligence/report_20260103_001600.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260104_001856.md](reports/meta_intelligence/report_20260104_001856.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260104_001856.md](reports/meta_intelligence/report_20260104_001856.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260105_001834.md](reports/meta_intelligence/report_20260105_001834.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260105_001834.md](reports/meta_intelligence/report_20260105_001834.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260106_001714.md](reports/meta_intelligence/report_20260106_001714.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260106_001714.md](reports/meta_intelligence/report_20260106_001714.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260107_001525.md](reports/meta_intelligence/report_20260107_001525.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260107_001525.md](reports/meta_intelligence/report_20260107_001525.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260108_001725.md](reports/meta_intelligence/report_20260108_001725.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260108_001725.md](reports/meta_intelligence/report_20260108_001725.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260109_001707.md](reports/meta_intelligence/report_20260109_001707.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260109_001707.md](reports/meta_intelligence/report_20260109_001707.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260110_001655.md](reports/meta_intelligence/report_20260110_001655.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260110_001655.md](reports/meta_intelligence/report_20260110_001655.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260111_001853.md](reports/meta_intelligence/report_20260111_001853.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260111_001853.md](reports/meta_intelligence/report_20260111_001853.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260113_001445.md](reports/meta_intelligence/report_20260113_001445.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
+| [reports/meta_intelligence/report_20260113_001445.md](reports/meta_intelligence/report_20260113_001445.md) | 🌟  META-INTELLIGENCE DAILY REPORT | 227 | 00, 00 00, 12, ... |
 | [reports/momentum_test_summary_20260105.md](reports/momentum_test_summary_20260105.md) | Cline-Pack Momentum Test Report | 9 | cline, events, pack, ... |
 | [reports/momentum_test_summary_20260105.md](reports/momentum_test_summary_20260105.md) | Cline-Pack Momentum Test Report | 9 | cline, events, pack, ... |
 | [reports/paper_extraction_latest.txt](reports/paper_extraction_latest.txt) | 📊 Extraction Summary: | 7 | extraction, date, 2026, ... |
 | [reports/paper_extraction_latest.txt](reports/paper_extraction_latest.txt) | 📊 Extraction Summary: | 7 | extraction, date, 2026, ... |
 | [reports/physics_repairs_summary.md](reports/physics_repairs_summary.md) | Physics Repairs - ClineConstant χ = 0.15 Application | 80 | 15, original, fixed, ... |
 | [reports/physics_repairs_summary.md](reports/physics_repairs_summary.md) | Physics Repairs - ClineConstant χ = 0.15 Application | 80 | 15, original, fixed, ... |
-| [requirements.txt](requirements.txt) | LUFT Portal - Python Dependencies | 36 | python, install, matplotlib, ... |
+| [requirements.txt](requirements.txt) |  Portal - Python Dependencies | 36 | python, install, matplotlib, ... |
 | [results/desi/report_template.md](results/desi/report_template.md) | Capsule 009 — DESI Λ(t) Drift Report | 20 | window, report, chi_95, ... |
 | [results/desi/report_template.md](results/desi/report_template.md) | Capsule 009 — DESI Λ(t) Drift Report | 20 | window, report, chi_95, ... |
 | [results/fundamental_constant_correlation.txt](results/fundamental_constant_correlation.txt) | Fundamental Constant Correlation Results | 8 | error, fundamental, constant, ... |
 | [results/fundamental_constant_correlation.txt](results/fundamental_constant_correlation.txt) | Fundamental Constant Correlation Results | 8 | error, fundamental, constant, ... |
 | [results/fundamental_matches.txt](results/fundamental_matches.txt) | ============================================================ | 64 | 15, χ_max, vs, ... |
 | [results/fundamental_matches.txt](results/fundamental_matches.txt) | ============================================================ | 64 | 15, χ_max, vs, ... |
-| [results/results/README.md](results/results/README.md) | LUFT Results Directory | 15 | luft, fits, results, ... |
-| [results/results/README.md](results/results/README.md) | LUFT Results Directory | 15 | luft, fits, results, ... |
+| [results/results/README.md](results/results/README.md) |  Results Directory | 15 | , fits, results, ... |
+| [results/results/README.md](results/results/README.md) |  Results Directory | 15 | , fits, results, ... |
 | [results/test_001/sideband_report.md](results/test_001/sideband_report.md) | FFT Sideband Analysis Report | 12 | hz, power, hz power, ... |
 | [results/test_001/sideband_report.md](results/test_001/sideband_report.md) | FFT Sideband Analysis Report | 12 | hz, power, hz power, ... |
 | [scatter_plots_with_fit.md](scatter_plots_with_fit.md) | ## 2.10 Figures — Scatter Plots with Fit Overlays | 32 | scatter, fit, text, ... |
 | [scripts/capsules/CAPSULE_HEARTBEAT_PLOT.md](scripts/capsules/CAPSULE_HEARTBEAT_PLOT.md) | Capsule — Heartbeat Plot (χ vs P_dyn During CME, 2025‑12) | 156 | heartbeat, plot, recoil, ... |
-| [social/2025-12-28_x_post.txt](social/2025-12-28_x_post.txt) | LUFT Portal validates χ=0.15 in real time. | 13 | portal, luft portal, luft, ... |
+| [social/2025-12-28_x_post.txt](social/2025-12-28_x_post.txt) |  Portal validates χ=0.15 in real time. | 13 | portal,  portal, , ... |
 | [superconducting_law13.md](superconducting_law13.md) | Captain Carl,Tuesday, December 9, 2025 – 6:06 PM CST, Lincol | 37 | vacuum, odometer, 370, ... |
-| [tools/README.md](tools/README.md) | LUFT Portal Tools 🛠️ | 234 | py, data, tools, ... |
-| [tools/README_PAPERS_ATLAS.md](tools/README_PAPERS_ATLAS.md) | LUFT Portal - Paper Harvesting & ATLAS Integration | 126 | data, atlas, py, ... |
-| [tools/fetch_noaa_text_indices.md](tools/fetch_noaa_text_indices.md) | LUFT Lattice Unified Field Theory: System Overview | 23 | 2025, 18, 15, ... |
+| [tools/README.md](tools/README.md) |  Portal Tools 🛠️ | 234 | py, data, tools, ... |
+| [tools/README_PAPERS_ATLAS.md](tools/README_PAPERS_ATLAS.md) |  Portal - Paper Harvesting & ATLAS Integration | 126 | data, atlas, py, ... |
+| [tools/fetch_noaa_text_indices.md](tools/fetch_noaa_text_indices.md) |  vacuum Unified Field : System Overview | 23 | 2025, 18, 15, ... |
 | [unified_fields_capsule.md](unified_fields_capsule.md) | ## 2.5. Numerical Snapshot — Boundary Event Parameters | 28 | 03, 12, 12 03, ... |
-| [universal_modulation.txt](universal_modulation.txt) | LUFT Universal Modulation Discovery — Planck–Einstein Foam | | 23 | 055, 10, φ_0, ... |
+| [universal_modulation.txt](universal_modulation.txt) |  Universal Modulation Discovery — Planck–Einstein Foam | | 23 | 055, 10, φ_0, ... |
 | [vault_10row_forecast_indicator_dec15.md](vault_10row_forecast_indicator_dec15.md) | 🔮 VAULT 10-ROW FORECAST INDICATOR (Dec 15, 2025 – Latest 202 | 42 | 2025, 000, ace, ... |
 | [vault_status_report3.md](vault_status_report3.md) | 🔐 VAULT STATUS REPORT | 61 | 2025, vault, status, ... |
 

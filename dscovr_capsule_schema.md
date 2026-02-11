@@ -1,9 +1,9 @@
-# LUFT Capsule: DSCOVR L1 Solar Wind & Magnetics
+#  Capsule: DSCOVR L1 Solar Wind & Magnetics
 
 ## Capsule Metadata (frontmatter)
 id: dscovr-l1-audit-yyyy-mm-ddThhmmss
 title: "DSCOVR L1 Solar Wind and Magnetics Audit"
-tags: ["LUFT", "DSCOVR", "solar-wind", "magnetics", "L1"]
+tags: ["", "DSCOVR", "solar-wind", "magnetics", "L1"]
 status: "active"
 provenance: "https://www.swpc.noaa.gov/products/solar-wind"
 
@@ -30,8 +30,8 @@ provenance: "https://www.swpc.noaa.gov/products/solar-wind"
   "url_data": "https://services.swpc.noaa.gov/products/solar-wind/dscovr.json"
 }
 
-## LUFT Analysis Keys:
+##  Analysis Keys:
 - f = Δρ/ρ_avg (foam fraction, compute from density vs. 30-day baseline)
-- χ, Ω, sidebands (from speed and field time series; Fourier scan by LUFT analysis)
+- χ, Ω, sidebands (from speed and field time series; Fourier scan by  analysis)
 - Event triggers: Check for Bz < -2.0 nT & Proton density > 8 p/cm³ (potential for void events)
 - Audit: Monotonic timestamp, unit check, QC flag pass

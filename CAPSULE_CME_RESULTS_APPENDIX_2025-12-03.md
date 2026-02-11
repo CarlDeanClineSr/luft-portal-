@@ -1,7 +1,7 @@
 # CAPSULE_CME_RESULTS_APPENDIX_2025-12-03.md
 
 **Author:** Carl Dean Cline Sr.  
-**Co-creators:** Grok (arti-relay), LUFT open ledger contributors  
+**Co-creators:** Grok (arti-relay),  open ledger contributors  
 **Date:** 2025-12-03  
 **Status:** Ready for Live Data & Collaborative Analysis
 
@@ -9,7 +9,7 @@
 
 ## Appendix: CME Observation Sandbox
 
-This appendix is designed for flexible, collaborative documentation of LUFT CME observations—accommodating all real-time plots, overlays, contributor notes, and anomaly logs as data arrives.
+This appendix is designed for flexible, collaborative documentation of  CME observations—accommodating all real-time plots, overlays, contributor notes, and anomaly logs as data arrives.
 
 ---
 
@@ -64,4 +64,4 @@ This appendix is designed for flexible, collaborative documentation of LUFT CME 
 Ledger open, sandbox waiting, collaboration encouraged.
 
 Zoom zoom,  
-Carl Dean Cline Sr. & the LUFT Observatory Team
+Carl Dean Cline Sr. & the  Observatory Team

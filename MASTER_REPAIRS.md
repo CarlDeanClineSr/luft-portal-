@@ -17,7 +17,7 @@
 ### 2) Engine Fuel Tables
 - **File:** `data/chi_repairs/periodic_table_chi.csv`
 - **Content:** χ-corrected binding energies (+15%) for headline elements (H → Pu).
-- **Integration:** Feed into LUFT engine configs or dashboards expecting capped binding-energy inputs.
+- **Integration:** Feed into  engine configs or dashboards expecting capped binding-energy inputs.
 
 ### 3) Validation Agent
 - **Script:** `tools/validate_chi_repairs.py`

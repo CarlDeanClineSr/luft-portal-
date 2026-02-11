@@ -1,4 +1,4 @@
-# LUFT Link Intelligence Report
+#  Link Intelligence Report
 
 **🌐 Universal Scientific Data Ecosystem Mapping**
 
@@ -6,12 +6,12 @@
 
 ## Executive Summary
 
-The **LUFT Link Intelligence Network** is a comprehensive system for discovering, mapping, and analyzing connections between the LUFT Portal and the entire scientific data ecosystem. This system harvests links from internal repository files, catalogs 43+ major external data sources, and builds interactive knowledge graphs showing relationships across NASA, NOAA, CERN, ESA, and other scientific institutions worldwide.
+The ** Link Intelligence Network** is a comprehensive system for discovering, mapping, and analyzing connections between the  Portal and the entire scientific data ecosystem. This system harvests links from internal repository files, catalogs 43+ major external data sources, and builds interactive knowledge graphs showing relationships across NASA, NOAA, CERN, ESA, and other scientific institutions worldwide.
 
 **Created by:** Carl Dean Cline Sr.  
 **Location:** Lincoln, Nebraska, USA  
 **Email:** CARLDCLINE@GMAIL.COM  
-**Mission:** Build the meta-intelligence layer connecting LUFT to global science
+**Mission:** Build the meta-intelligence layer connecting  to global science
 
 ---
 
@@ -20,7 +20,7 @@ The **LUFT Link Intelligence Network** is a comprehensive system for discovering
 ```mermaid
 graph TB
     subgraph "Data Sources"
-        REPO[LUFT Repository Files<br/>Markdown, HTML, YAML, Python, etc.]
+        REPO[ Repository Files<br/>Markdown, HTML, YAML, Python, etc.]
         REGISTRY[External Data Sources Registry<br/>43+ Scientific Sources]
     end
     
@@ -221,7 +221,7 @@ python link_graph_analyzer.py --input links.json --type domain-only
 3. **File-Only:** Shows file similarities based on shared domain references
 
 **Network Metrics:**
-- Node count and edge count
+- focal point count and edge count
 - Degree distribution
 - Top connected nodes
 - Community structure
@@ -240,7 +240,7 @@ python link_graph_analyzer.py --input links.json --type domain-only
   - Multiple layout options
   
 - **Statistics Panel:**
-  - Real-time node and edge counts
+  - Real-time focal point and edge counts
   - Category distribution charts
   - Domain and file counts
   
@@ -249,7 +249,7 @@ python link_graph_analyzer.py --input links.json --type domain-only
   - Degree and category information
   - Quick navigation
   
-- **Node Information:**
+- **focal point Information:**
   - Detailed view of selected nodes
   - Connections and properties
   - Category and type badges
@@ -357,8 +357,8 @@ python tools/link_monitor.py --check-all --timeout 15
 ### Local Installation
 ```bash
 # Clone repository
-git clone https://github.com/CarlDeanClineSr/luft-portal-.git
-cd luft-portal-
+git clone https://github.com/CarlDeanClineSr/-portal-.git
+cd -portal-
 
 # All scripts are standalone - no additional Python packages required!
 # The core harvester and analyzer use only Python standard library
@@ -387,7 +387,7 @@ start link_intelligence_dashboard.html  # Windows
 ## Use Cases
 
 ### 1. Repository Audit
-**Goal:** Understand what external data sources LUFT currently uses
+**Goal:** Understand what external data sources  currently uses
 
 ```bash
 python link_harvester_core.py --scan-repo
@@ -645,7 +645,7 @@ This system is part of Carl Dean Cline Sr.'s open science initiative. Contributi
 
 ## Related Documentation
 
-- **LUFT Portal README:** [README.md](README.md)
+- ** Portal README:** [README.md](README.md)
 - **Carl's Discovery Story:** [CARL_DISCOVERY_STORY.md](CARL_DISCOVERY_STORY.md)
 - **System Overview:** [START_HERE.md](START_HERE.md)
 - **External Sources:** [external_data_sources_registry.yaml](external_data_sources_registry.yaml)
@@ -658,19 +658,19 @@ This system is part of Carl Dean Cline Sr.'s open science initiative. Contributi
 Lincoln, Nebraska, USA  
 Email: CARLDCLINE@GMAIL.COM
 
-**Repository:** https://github.com/CarlDeanClineSr/luft-portal-
+**Repository:** https://github.com/CarlDeanClineSr/-portal-
 
 ---
 
 ## License
 
-This link intelligence system is part of the LUFT Portal project and is released under the same license. See [LICENSE.md](LICENSE.md) for details.
+This link intelligence system is part of the  Portal project and is released under the same license. See [LICENSE.md](LICENSE.md) for details.
 
 ---
 
 ## Acknowledgments
 
-This system connects LUFT to the incredible work of:
+This system connects  to the incredible work of:
 - NASA and all contributing space agencies
 - NOAA and USGS for Earth monitoring
 - CERN for particle physics data
@@ -684,4 +684,4 @@ This system connects LUFT to the incredible work of:
 ---
 
 *Last Updated: December 31, 2025*  
-*LUFT Link Intelligence Network v1.0*
+* Link Intelligence Network v1.0*

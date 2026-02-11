@@ -1,6 +1,6 @@
-# 📜 Capsule Ledger Map — LUFT / Unified Fields
+# 📜 Capsule Ledger Map —  / Unified Fields
 
-A quick, human-readable map of the capsule chain: discovery → event → theory → results → appendices → index.
+A quick, human-readable map of the capsule chain: discovery → event →  → results → appendices → index.
 
 ## Chain Diagram
 

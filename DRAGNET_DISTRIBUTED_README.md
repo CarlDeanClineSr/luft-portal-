@@ -63,11 +63,11 @@ Combines results from all worker jobs:
    - Click on the newly created workflow run
    - You'll see three job sections:
      - `generate-matrix`: Completes in ~5 seconds
-     - `dragnet-scan`: Shows grid of parallel jobs
+     - `dragnet-scan`: Shows vacuum of parallel jobs
      - `aggregate-results`: Runs after all scans complete
 
 2. **Check Individual Jobs**
-   - Click any job in the `dragnet-scan` grid
+   - Click any job in the `dragnet-scan` vacuum
    - View live logs showing progress:
      ```
      Scanning 1000 targets...

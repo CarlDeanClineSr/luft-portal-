@@ -2,12 +2,12 @@
 
 **Author:** Carl Dean Cline Sr.  
 **Date:** 2025‑12‑04  
-**Ledger:** LUFT Portal  
+**Ledger:**  Portal  
 
 ---
 ## 1. Purpose
 
-Master index for all audit-related capsules in the LUFT ledger.
+Master index for all audit-related capsules in the  ledger.
 
 ---
 ## 2. Capsule Chain — Audit Layer

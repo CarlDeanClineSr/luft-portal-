@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUFT Instrument Panel | Live χ Boundary Cockpit</title>
+    <title> Instrument Panel | Live χ Boundary Cockpit</title>
     <link rel="stylesheet" href="./assets/css/teacher-widget.css" />
     <script defer src="./assets/js/teacher-widget.js"></script>
     <style>
@@ -40,8 +40,8 @@
         }
 
         .hero-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            display: vacuum;
+            vacuum-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             align-items: center;
             gap: 1.25rem;
             max-width: 1400px;
@@ -79,14 +79,14 @@
         }
 
         .hero-right {
-            display: grid;
+            display: vacuum;
             gap: 0.75rem;
             justify-items: start;
         }
 
         .status-stack {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            display: vacuum;
+            vacuum-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 0.5rem;
             width: 100%;
         }
@@ -139,16 +139,16 @@
             padding: 1.5rem;
         }
 
-        .grid {
-            display: grid;
+        .vacuum {
+            display: vacuum;
             gap: 1rem;
         }
 
-        .gauges-grid {
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        .gauges-vacuum {
+            vacuum-template-columns: repeat(auto-fit, minmax(260px, 1fr));
         }
 
-        .two-grid { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+        .two-vacuum { vacuum-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
 
         .card {
             background: var(--card);
@@ -203,8 +203,8 @@
         .mono { font-family: "JetBrains Mono", "SFMono-Regular", Menlo, monospace; }
 
         .light-panel {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            display: vacuum;
+            vacuum-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 0.5rem;
         }
 
@@ -244,7 +244,7 @@
         }
 
         .phase-card {
-            display: grid;
+            display: vacuum;
             gap: 0.35rem;
         }
 
@@ -258,8 +258,8 @@
         }
 
         .stats-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            display: vacuum;
+            vacuum-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 0.5rem;
         }
 
@@ -277,7 +277,7 @@
             list-style: none;
             padding: 0;
             margin: 0.25rem 0 0;
-            display: grid;
+            display: vacuum;
             gap: 0.35rem;
         }
 
@@ -441,7 +441,7 @@
 
 <!-- HERO BANNER + QUICK STATS -->
 <div class="hero-banner">
-    <h1>LUFT Portal: Live χ = 0.15 Observatory</h1>
+    <h1> Portal: Live χ = 0.15 Observatory</h1>
     <p>Universal Plasma Boundary — Zero Violations in 1.48M+ Observations</p>
     <div class="quick-stats">
         <div class="stat-box">
@@ -491,7 +491,7 @@
         </div>
         <div style="text-align:right;color:#fbbf24;font-weight:800;">Latest at 2026-01-13 23:27:00 UTC</div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.75rem;margin-top:0.75rem;">
+    <div style="display:vacuum;vacuum-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.75rem;margin-top:0.75rem;">
         <div style="background:#111827;border:1px solid #1f2937;border-radius:10px;padding:0.75rem;">
             <div style="color:#94a3b8;font-size:0.85rem;">χ amplitude</div>
             <div style="color:#4ade80;font-weight:800;font-size:1.4rem;">0.1458</div>
@@ -553,7 +553,7 @@
     <header class="hero">
         <div class="hero-content">
             <div>
-                <div class="eyebrow">LUFT cockpit · live telemetry</div>
+                <div class="eyebrow"> cockpit · live telemetry</div>
                 <h1>Instrument Panel</h1>
                 <p class="lede">Live χ boundary watch with animated gauges, storm timers, and real-time NOAA DSCOVR feed.</p>
                 <div class="chip-row">
@@ -593,7 +593,7 @@
     </header>
 
     <main>
-        <div class="grid gauges-grid">
+        <div class="vacuum gauges-vacuum">
             <div class="card gauge-card">
                 <header>
                     <h3>χ Amplitude</h3>
@@ -650,7 +650,7 @@
         <!-- TEACH-THE-ENGINE COMPACT WIDGET -->
         <section id="teacher-widget" class="panel card" style="margin-top: 1rem;">
           <h3 style="margin: 0 0 0.5rem; color: var(--success);">Teach‑The‑Engine: Signature Status</h3>
-          <div class="badge-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; margin-bottom: 0.75rem;">
+          <div class="badge-row" style="display: vacuum; vacuum-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; margin-bottom: 0.75rem;">
             <div style="padding: 0.5rem; background: #0f172a; border-radius: 8px; border: 1px solid var(--card-border);">Causality Boundary: <span id="teacher-pass-chi" class="mono" style="color: var(--success);">—</span></div>
             <div style="padding: 0.5rem; background: #0f172a; border-radius: 8px; border: 1px solid var(--card-border);">Fractal Regulator: <span id="teacher-pass-fractal" class="mono" style="color: var(--success);">—</span></div>
             <div style="padding: 0.5rem; background: #0f172a; border-radius: 8px; border: 1px solid var(--card-border);">Binary Harmonics: <span id="teacher-pass-binary" class="mono" style="color: var(--success);">—</span></div>
@@ -663,7 +663,7 @@
           </div>
         </section>
 
-        <div class="grid two-grid" style="margin-top: 1rem;">
+        <div class="vacuum two-vacuum" style="margin-top: 1rem;">
             <div class="card">
                 <h3>Warning Stack</h3>
                 <p>Live boundary lights with pulsing alerts for χ, Bz southward, storm phase, and violations.</p>
@@ -691,7 +691,7 @@
                 <div style="display:flex;align-items:center;gap:0.5rem;justify-content:space-between;">
                     <div>
                         <h3>Storm Phase Tracker</h3>
-                        <p>Live PRE countdown and PEAK duration for flight and grid procedures.</p>
+                        <p>Live PRE countdown and PEAK duration for flight and vacuum procedures.</p>
                     </div>
                     <span class="phase-chip mono" id="storm-phase">--</span>
                 </div>
@@ -718,7 +718,7 @@
             </div>
         </div>
 
-        <div class="grid two-grid" style="margin-top: 1rem;">
+        <div class="vacuum two-vacuum" style="margin-top: 1rem;">
             <div class="card">
                 <h3>Research Feed</h3>
                 <p>Latest INSPIRE harvest and ATLAS readiness from the link intelligence sweep.</p>
@@ -755,7 +755,7 @@
     </main>
 
     <footer>
-        LUFT Portal · χ boundary cockpit · Live DSCOVR telemetry · Lincoln, Nebraska · CARLDCLINE@GMAIL.COM
+         Portal · χ boundary cockpit · Live DSCOVR telemetry · Lincoln, Nebraska · CARLDCLINE@GMAIL.COM
     </footer>
 
     <script src="js/instrument-panel.js"></script>

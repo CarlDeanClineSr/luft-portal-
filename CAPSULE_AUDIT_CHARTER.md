@@ -1,8 +1,8 @@
-# Capsule — Audit Charter (Unified Framework of LUFT Audit System)
+# Capsule — Audit Charter (Unified Framework of  Audit System)
 
 **Author:** Carl Dean Cline Sr.  
 **Date:** 2025‑12‑04  
-**Ledger:** LUFT Portal  
+**Ledger:**  Portal  
 
 ---
 

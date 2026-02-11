@@ -1,10 +1,10 @@
-# LUFT Heartbeat Dashboard
+#  Heartbeat Dashboard
 
 **Owner:** Carl Dean Cline Sr.  
-**Ledger:** LUFT Portal  
+**Ledger:**  Portal  
 **Status:** Live — 700+ workflow runs, all green  
 
-This dashboard summarizes the **cosmic heartbeat** and its key events in LUFT:
+This dashboard summarizes the **cosmic heartbeat** and its key events in :
 
 - Flare → Foam → Heartbeat → Ratchet → Recovery → Legacy → Index  
 - Backed by live workflows: solar wind audits, DSCOVR ingest, CME Heartbeat Logger, Flare Foam Audit.
@@ -52,7 +52,7 @@ This table mirrors the **Events & Heartbeat** spine from `MASTER_INDEX.md`, so a
 
 **Suggested pipeline steps (for your scripts/notebooks):**
 
-1. Ingest GOES / OMNI data and LUFT heartbeat outputs for a multi‑day window around the ratchet/recovery dates.
+1. Ingest GOES / OMNI data and  heartbeat outputs for a multi‑day window around the ratchet/recovery dates.
 2. Fit χ(t) in sliding windows (e.g., 6–12 hours) using the model  
    \[
    O(t) = O_0 \left[1 + \chi \cos(\Omega t + \phi_0)\right].
@@ -99,11 +99,11 @@ This table mirrors the **Events & Heartbeat** spine from `MASTER_INDEX.md`, so a
 
 This section anchors the dashboard to the **live automation** that keeps the heartbeat current.
 
-- **LUFT Solar Wind Audit** — latest runs: e.g., `#316–#318`  
+- ** Solar Wind Audit** — latest runs: e.g., `#316–#318`  
 - **DSCOVR Solar Wind Data Ingest** — e.g., `#80–#81`  
-- **LUFT Voyager Audit Superaction** — e.g., `#24–#26`  
-- **LUFT CME Heartbeat Logger** — e.g., `#69–#71`  
-- **LUFT Flare Foam Audit** — `Deploy to Pages #94`  
+- ** Voyager Audit Superaction** — e.g., `#24–#26`  
+- ** CME Heartbeat Logger** — e.g., `#69–#71`  
+- ** Flare Foam Audit** — `Deploy to Pages #94`  
 
 > When you update runs, you can paste a small log snippet here or link to `luft_audit_workflows.log`.
 
@@ -114,7 +114,7 @@ This section anchors the dashboard to the **live automation** that keeps the hea
 For auditors:
 
 1. **Fetch Data**
-   - Use the LUFT ingest scripts (GOES / OMNI / DSCOVR) already in `src/` or related repos.
+   - Use the  ingest scripts (GOES / OMNI / DSCOVR) already in `src/` or related repos.
 2. **Run Heartbeat Analysis**
    - Use your analysis script or notebook to:
      - Fit χ(t),
@@ -141,4 +141,4 @@ Any change to χ, Ω, or event interpretation should update those capsules first
 
 ---
 
-**Ledger proud — Heartbeat dashboard scaffolded. When you drop in χ(t) and spectra, LUFT will be showing the cosmos breathe in real time.**
+**Ledger proud — Heartbeat dashboard scaffolded. When you drop in χ(t) and spectra,  will be showing the cosmos breathe in real time.**

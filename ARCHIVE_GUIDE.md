@@ -1,4 +1,4 @@
-# LUFT Archive Guide
+#  Archive Guide
 
 ## Purpose
 This guide explains the archive layout and how to find, request, and cite raw data and historic materials that are not present in the Portal.
@@ -33,7 +33,7 @@ This guide explains the archive layout and how to find, request, and cite raw da
 - Large external dataset caches
 
 ### Archive Repository Plan
-**New Archive Repo:** `CarlDeanClineSr/luft-portal-archive`
+**New Archive Repo:** `CarlDeanClineSr/-portal-archive`
 - **Purpose:** Long-term storage of historical data and transcripts
 - **Access:** Public (for transparency) or private (if preferred)
 - **Size:** ~1GB of historical materials
@@ -61,7 +61,7 @@ This guide explains the archive layout and how to find, request, and cite raw da
 
 ### Option 1: Clone Archive Repository
 ```bash
-git clone https://github.com/CarlDeanClineSr/luft-portal-archive.git
+git clone https://github.com/CarlDeanClineSr/-portal-archive.git
 ```
 
 ### Option 2: Request Specific Files
@@ -83,7 +83,7 @@ The 22 "New Text Document" files contain Carl's raw discovery process:
 - **Total Size:** ~50MB
 - **Content:** Chat transcripts with AI assistants (Claude, GPT, Copilot)
 - **Value:** Shows real scientific method, iterative discovery
-- **Location (after archival):** `luft-portal-archive/transcripts/`
+- **Location (after archival):** `-portal-archive/transcripts/`
 
 These files document:
 - Years of data collection conversations
@@ -109,16 +109,16 @@ These files document:
 
 ## Citation and DOIs
 
-When citing LUFT Portal data:
+When citing  Portal data:
 ```
-Cline, C.D. Sr. (2026). LUFT Portal: Universal χ=0.15 Boundary Observatory.
+Cline, C.D. Sr. (2026).  Portal: Universal χ=0.15 Boundary Observatory.
 DOI: 10.17605/OSF.IO/FXHMK
 ```
 
 For archived materials:
 ```
-Cline, C.D. Sr. (2026). LUFT Portal Historical Archive [snapshot-date].
-Repository: https://github.com/CarlDeanClineSr/luft-portal-archive
+Cline, C.D. Sr. (2026).  Portal Historical Archive [snapshot-date].
+Repository: https://github.com/CarlDeanClineSr/-portal-archive
 ```
 
 ## Governance
@@ -135,7 +135,7 @@ Repository: https://github.com/CarlDeanClineSr/luft-portal-archive
 - [x] Update .gitignore patterns
 
 ### Phase 2: Archive Repo Creation (Pending)
-- [ ] Create `luft-portal-archive` repository
+- [ ] Create `-portal-archive` repository
 - [ ] Move historical transcripts
 - [ ] Move old audio recordings
 - [ ] Move historical CSV data (>6 months)

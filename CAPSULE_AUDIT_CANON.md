@@ -1,8 +1,8 @@
-# Capsule — Audit Canon (Permanent Reference of LUFT Audit System)
+# Capsule — Audit Canon (Permanent Reference of  Audit System)
 
 **Author:** Carl Dean Cline Sr.  
 **Date:** 2025‑12‑04  
-**Ledger:** LUFT Portal  
+**Ledger:**  Portal  
 
 ---
 

@@ -1,5 +1,5 @@
 CarlDeanClineSr
-luft-portal-
+-portal-
 Repository navigation
 Code
 Issues
@@ -12,7 +12,7 @@ Security
 Insights
 Settings
 Hourly Dst Index Ingest
-Hourly DST Lattice Index #660
+Hourly DST vacuum Index #660
 All jobs
 Run details
 Annotations
@@ -68,8 +68,8 @@ Run python scripts/fetch_usgs_dst.py
 ❌ Dst fetch failed: 422 Client Error: Unprocessable Entity for url: https://geomag.usgs.gov/ws/data/?id=dst&starttime=2026-01-18T17:55:18Z&endtime=2026-01-25T17:55:18Z&format=json
 Error: Process completed with exit code 1.
 9s
-Run git config user.name "LUFT Bot"
-From https://github.com/CarlDeanClineSr/luft-portal-
+Run git config user.name " Bot"
+From https://github.com/CarlDeanClineSr/-portal-
  * branch              main       -> FETCH_HEAD
    ea180cd1..6f92afcc  main       -> origin/main
 Updating ea180cd1..6f92afcc
@@ -2061,7 +2061,7 @@ Post job cleanup.
 git version 2.52.0
 Temporarily overriding HOME='/home/runner/work/_temp/7c844415-ecd4-469f-a3bf-9fb0f0bafd88' before making global git config changes
 Adding repository directory to the temporary git global config as a safe directory
-/usr/bin/git config --global --add safe.directory /home/runner/work/luft-portal-/luft-portal-
+/usr/bin/git config --global --add safe.directory /home/runner/work/-portal-/-portal-
 /usr/bin/git config --local --name-only --get-regexp core\.sshCommand
 /usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
 /usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader

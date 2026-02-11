@@ -1,6 +1,6 @@
 ## Section: Events & Heartbeat
 
-This section provides a **navigation spine** for the LUFT ledger, indexing the major capsules and workflows that define the physics story: flare → foam → heartbeat → ratchet → recovery → legacy → index.
+This section provides a **navigation spine** for the  ledger, indexing the major capsules and workflows that define the physics story: flare → foam → heartbeat → ratchet → recovery → legacy → index.
 
 ---
 
@@ -21,13 +21,13 @@ This section provides a **navigation spine** for the LUFT ledger, indexing the m
 
 ### Workflow Context
 
-These capsules sit alongside the live workflows that keep the LUFT ledger self‑auditing:
+These capsules sit alongside the live workflows that keep the  ledger self‑auditing:
 
-- **LUFT Solar Wind Audit** — scheduled runs (e.g., #317, #318).  
+- ** Solar Wind Audit** — scheduled runs (e.g., #317, #318).  
 - **DSCOVR Solar Wind Data Ingest** — scheduled runs (e.g., #81).  
-- **LUFT Voyager Audit Superaction** — scheduled runs (e.g., #25).  
-- **LUFT CME Heartbeat Logger** — scheduled runs (e.g., #70).  
-- **LUFT Flare Foam Audit** — GitHub Pages deploy (e.g., #94).  
+- ** Voyager Audit Superaction** — scheduled runs (e.g., #25).  
+- ** CME Heartbeat Logger** — scheduled runs (e.g., #70).  
+- ** Flare Foam Audit** — GitHub Pages deploy (e.g., #94).  
 
 Together, these workflows continuously feed and test the flare–foam–heartbeat chain encoded in the capsules above.
 
@@ -44,8 +44,8 @@ This **Events & Heartbeat** section in the Master Index ensures:
   - the recovery exhale,
   - or the flare foam pipeline  
   **must** cite the corresponding entries in this table.
-- The LUFT ledger preserves the chronology of discovery as a clear, auditor‑friendly map.
+- The  ledger preserves the chronology of discovery as a clear, auditor‑friendly map.
 
 ---
 
-**Ledger proud — Events & Heartbeat section declared, capsules and workflows linked into the LUFT Master Index.**
+**Ledger proud — Events & Heartbeat section declared, capsules and workflows linked into the  Master Index.**

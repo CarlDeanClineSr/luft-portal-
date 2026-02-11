@@ -1,4 +1,4 @@
-# LUFT Portal — Documentation Index
+#  Portal — Documentation Index
 *Complete Guide to Your System Reports*
 
 **Generated:** December 23, 2025  
@@ -9,7 +9,7 @@
 
 ## 📋 Report Suite Overview
 
-This documentation package provides **three levels of detail** about your LUFT Portal system:
+This documentation package provides **three levels of detail** about your  Portal system:
 
 ### 1. **Quick Reference** (Start Here) ⚡
 **File:** `QUICK_REFERENCE.md` (7KB)  
@@ -61,7 +61,7 @@ This documentation package provides **three levels of detail** about your LUFT P
 
 #### Entry Points
 - `README.md` - Repository overview and links
-- `LUFT-PORTAL_README.md` - System description
+- `-PORTAL_README.md` - System description
 - `WELCOME_TO_LUFT.md` - Welcome guide
 - `LANDING.md` - Landing page content
 
@@ -83,7 +83,7 @@ This documentation package provides **three levels of detail** about your LUFT P
 - `CAPSULE_BOUNDARY_RECOIL.md` - Boundary recoil law
 - `CAPSULE_METHODS_HEARTBEAT.md` - Heartbeat methodology
 - `CAPSULE_HEARTBEAT_SPECTRUM.md` - Spectral analysis
-- `CAPSULE_VOID_FOAM_COSMOLOGY.md` - Second Space theory
+- `CAPSULE_VOID_FOAM_COSMOLOGY.md` - Second Space 
 - `CAPSULE_UNIFIED_FIELDS.md` - Unification framework
 - ... (15+ total in `capsules/` directory)
 
@@ -230,7 +230,7 @@ This documentation package provides **three levels of detail** about your LUFT P
 ## 📁 Directory Structure Quick Guide
 
 ```
-luft-portal-/
+-portal-/
 ├── 📄 QUICK_REFERENCE.md              ← Start here (5 min read)
 ├── 📄 EXECUTIVE_SUMMARY.md            ← Overview (15 min read)
 ├── 📄 LUFT_PORTAL_COMPREHENSIVE_REPORT.md  ← Complete details (60+ min)
@@ -297,7 +297,7 @@ luft-portal-/
 ## 📞 Support & Updates
 
 **Questions about this documentation?**
-- Open issue: https://github.com/CarlDeanClineSr/luft-portal-/issues
+- Open issue: https://github.com/CarlDeanClineSr/-portal-/issues
 - Email: CARLDCLINE@GMAIL.COM
 
 **Documentation updates:**
@@ -331,7 +331,7 @@ Use this to ensure you have access to everything:
 
 ## 🎯 Bottom Line
 
-You now have **four comprehensive documents** that explain every aspect of your LUFT Portal system:
+You now have **four comprehensive documents** that explain every aspect of your  Portal system:
 
 1. **Quick Reference** - Daily use (5 min)
 2. **Executive Summary** - Big picture (15 min)

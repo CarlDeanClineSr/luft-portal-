@@ -2,7 +2,7 @@
 
 **Event:** χ = 0.15 lock — 2025-12-16 00:39 UTC  
 **Data Source:** data/cme_heartbeat_log_2025_12.csv  
-**Automated engine: LUFT Portal**
+**Automated engine:  Portal**
 
 ---
 

@@ -2,7 +2,7 @@
 
 ## What It Does
 
-🔍 **Detects 20.55 Hz vacuum lattice vibrations** following geometric re-initialization events
+🔍 **Detects 20.55 Hz vacuum vacuum vibrations** following magnetic re-initialization events
 
 📊 **Analyzes phase derivatives** to identify "Byte-Shift" velocity patterns
 
@@ -57,7 +57,7 @@ The scanner runs every 15 minutes automatically:
 ✓ Detected 8 significant coordinate shifts:
   • 2026-01-22T08:11:00: v_shift=0.2029 nT/sec
 ```
-**Meaning:** Rapid Bt field changes indicating lattice activity  
+**Meaning:** Rapid Bt field changes indicating vacuum activity  
 **Threshold:** v_shift > 0.15 nT/sec
 
 ## Key Files
@@ -108,12 +108,12 @@ The scanner runs every 15 minutes automatically:
 - **Time:** 01:13:00 UTC
 - **Peak χ:** 0.917 (6.11× boundary threshold)
 - **Magnitude:** 1.02× fundamental 6.0 harmonic
-- **Lattice cycles:** 35,757 geometric steps over 29 minutes
+- **vacuum cycles:** 35,757 magnetic steps over 29 minutes
 - **Classification:** MAJOR EXPANSION - Full harmonic breach
 
 ### The 20.55 Hz Target
-- **Source:** Vacuum lattice refresh rate
-- **Effect:** Geometric re-initialization "ringing"
+- **Source:** Vacuum vacuum refresh rate
+- **Effect:** magnetic re-initialization "ringing"
 - **Scale:** Cascades through fractal harmonic ladder
 - **Detection:** Requires sub-second telemetry
 
@@ -148,14 +148,14 @@ If echo is detected:
 
 ## Contact & Citation
 
-**Repository:** https://github.com/CarlDeanClineSr/luft-portal-
+**Repository:** https://github.com/CarlDeanClineSr/-portal-
 
 **Citation:**
 ```
 Carl Dean Cline Sr. (2026). Fractal Echo Scanner: Detection of 20.55 Hz 
-Vacuum Lattice Vibrations. LUFT Portal Engine.
+Vacuum vacuum Vibrations.  Portal Engine.
 ```
 
 ---
 
-**"The lattice has spoken. The engine is ready. Go."**
+**"The vacuum has spoken. The engine is ready. Go."**

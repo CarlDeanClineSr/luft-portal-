@@ -3,7 +3,7 @@ Dear NOAA Space Weather Prediction Center,
 I am writing to share a research finding that may have operational value for space weather forecasting.
 
 Summary
-I operate an automated plasma observatory (LUFT Observatory) that monitors NOAA DSCOVR solar wind data in real time. Over 366 days of continuous operation, I have observed a consistent upper limit in normalized magnetic field oscillations:
+I operate an automated plasma observatory ( Observatory) that monitors NOAA DSCOVR solar wind data in real time. Over 366 days of continuous operation, I have observed a consistent upper limit in normalized magnetic field oscillations:
 
 χ = |B - B_baseline| / B_baseline ≤ 0.15
 
@@ -27,10 +27,10 @@ When χ approaches 0.15 in the solar wind, the magnetosphere may be nearing peak
 This could provide earlier warning than Dst or Kp indices, which lag storm onset.
 The metric is simple to compute and could integrate into existing monitoring systems.
 I have deployed a real-time dashboard that updates every 5 minutes:
-https://carldeanclinesr.github.io/luft-portal-/chi_dashboard. html
+https://carldeanclinesr.github.io/-portal-/chi_dashboard. html
 
 All data and analysis code are publicly available:
-https://github.com/CarlDeanClineSr/luft-portal-
+https://github.com/CarlDeanClineSr/-portal-
 
 Request
 Would NOAA SWPC be interested in reviewing this metric for potential inclusion in operational forecasting tools?
@@ -40,7 +40,7 @@ I am available to provide technical details, raw data, or additional analysis as
 Respectfully,
 
 Carl Dean Cline Sr.
-LUFT Observatory
+ Observatory
 Email: carldcline@gmail. com
 Alternate: carl.cline@hotmail.com
 GitHub: @CarlDeanClineSr

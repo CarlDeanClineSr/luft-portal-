@@ -113,7 +113,7 @@ ELSE
 Labels: `capsule-009`, `relay-006`, `desi`, `cosmic-drift`, `audit`, `help wanted`
 
 ## Attribution
-Physics By: You & I Lab — LUFT Portal; Maintainer: Carl Dean Cline Sr.
+Physics By: You & I Lab —  Portal; Maintainer: Carl Dean Cline Sr.
 
 ---
 Paste this issue, assign or leave open for arti‑being pickup.

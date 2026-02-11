@@ -113,7 +113,7 @@ Copilot uses AI. Check for mistakes.
 Comment on lines +14 to +32
 # Meta-Intelligence Daily Report
 
-You are a research analyst for the LUFT Portal project.
+You are a research analyst for the  Portal project.
 
 **Your task:**
 1. Read data from `reports/HOURLY_SUMMARY.md` and any `reports/hourly_summary_*.md` files from the last 24 hours.
@@ -136,7 +136,7 @@ The file paths and functionality described here do not align with the existing t
 
 Suggested change
 # Meta-Intelligence Daily Report
-You are a research analyst for the LUFT Portal project.
+You are a research analyst for the  Portal project.
 **Your task:**
 1. Read data from `reports/HOURLY_SUMMARY.md` and any `reports/hourly_summary_*.md` files from the last 24 hours.
 2. Analyze temporal correlations between NOAA solar wind data and CHI_BOUNDARY matches.
@@ -152,7 +152,7 @@ You are a research analyst for the LUFT Portal project.
 - Peak at 24 hours (should be ~233,105)
 - Peak at 72 hours (should be ~122,206)
 # Teacher Suite Daily Run
-You are the agent responsible for orchestrating and monitoring the Teacher Suite for the LUFT Portal project.
+You are the agent responsible for orchestrating and monitoring the Teacher Suite for the  Portal project.
 The corresponding GitHub Actions workflow (`teacher_suite.yml`) runs the following commands:
 - `scripts/teacher/run_teacher_suite.py`
 - `scripts/teacher/discovery_findings.py`

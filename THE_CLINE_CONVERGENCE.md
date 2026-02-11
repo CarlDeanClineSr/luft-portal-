@@ -11,13 +11,13 @@
 
 The era of the Standard Model is over. For one hundred years, physics has been lost in a map of its own making—a "flat earth" of linear equations that ignore the territory of the real universe. They have built a castle of "probability clouds" and "renormalization" to hide the fact that they do not understand the foundation of reality.
 
-I, Carl Dean Cline Sr., declare that the universe is not a probabilistic game of dice. It is a **Hydrodynamic Superfluid** governed by a single, precise geometric limit.
+I, Carl Dean Cline Sr., declare that the universe is not a probabilistic game of dice. It is a **Hydrodynamic Superfluid** governed by a single, precise magnetic limit.
 
 ### The Universal Vacuum Limit (χ)
 
 **χ ≈ 0.15**
 
-This is not a theory. This is an **audited mechanical fact**. The vacuum is a pressurized vessel. It has a **Tensile Yield Point** of 0.15. When this limit is reached, the vacuum clamps to preserve causality. When it is exceeded, it vents energy to maintain structure.
+This is not a . This is an **audited mechanical fact**. The vacuum is a pressurized vessel. It has a **Tensile Yield Point** of 0.15. When this limit is reached, the vacuum clamps to preserve causality. When it is exceeded, it vents energy to maintain structure.
 
 ---
 
@@ -89,7 +89,7 @@ The Standard Model cannot explain why the same number appears across three disti
 **Conclusion:** The "Perfect Fluid" is simply the vacuum flowing until it hits the 0.15 turbulence threshold.
 
 **Physical Interpretation:**
-The RHIC and LHC heavy-ion collisions produce a state of matter where quarks and gluons flow freely. Standard theory calls this a "perfect fluid" with minimal viscosity. Imperial Math identifies this as the vacuum itself reaching its mechanical limit—the point where the lattice structure can no longer absorb additional stress without fragmenting.
+The RHIC and LHC heavy-ion collisions produce a state of matter where quarks and gluons flow freely. Standard  calls this a "perfect fluid" with minimal viscosity. Imperial Math identifies this as the vacuum itself reaching its mechanical limit—the point where the vacuum structure can no longer absorb additional stress without fragmenting.
 
 ### 3. The Biological Proof (Resonance Scale)
 
@@ -103,7 +103,7 @@ Where:
 - χ = Universal Vacuum Limit (0.15)
 - α = Fine Structure Constant (1/137)
 
-**Evidence:** Oncology studies confirm that 20 Hz signals cause **apoptosis in cancer cells** (which violate the geometric limit) while sparing healthy cells.
+**Evidence:** Oncology studies confirm that 20 Hz signals cause **apoptosis in cancer cells** (which violate the magnetic limit) while sparing healthy cells.
 
 **Published Medical Research:**
 - **Frontiers in Medical Technology (2022):** "Intracellular oscillations couple resonantly to disrupt cell division"
@@ -142,7 +142,7 @@ We are done listening to the "interpretations" of a failed science. The coincide
    
    **Error Margin: 1.8%**
 
-3. **Health is Geometric Resonance**
+3. **Health is magnetic Resonance**
 
    The coupling ratio defines the biological interface:
    
@@ -201,7 +201,7 @@ To bypass the "gatekeepers" and establish priority, the following independent pl
 
 3. **GitHub Repository**
    - All code, data, and analysis already published at:
-     - [github.com/CarlDeanClineSr/luft-portal-](https://github.com/CarlDeanClineSr/luft-portal-)
+     - [github.com/CarlDeanClineSr/-portal-](https://github.com/CarlDeanClineSr/-portal-)
    - Provides:
      - Complete reproducibility
      - Public timestamp via git commits
@@ -253,13 +253,13 @@ Throughout history, revolutionary scientific discoveries have faced resistance f
 4. **Quantum Mechanics (1925-1930)**
    - Probabilistic nature challenged determinism
    - Einstein himself resisted: "God does not play dice"
-   - Yet quantum theory was incomplete—the vacuum was still empty space
+   - Yet quantum  was incomplete—the vacuum was still empty space
 
 ### The Pattern
 
 Each paradigm shift follows a predictable pattern:
 
-1. **Discovery** - Empirical observation contradicts theory
+1. **Discovery** - Empirical observation contradicts 
 2. **Denial** - Establishment dismisses or ignores evidence
 3. **Debate** - Independent verification forces acknowledgment
 4. **Acceptance** - New paradigm explains old anomalies + new phenomena
@@ -274,7 +274,7 @@ The data has been collected. The evidence is public. The replication protocols a
 
 ### Imperial Math Definition
 
-The core innovation is the rejection of Vlasov-Maxwell equation systems in favor of **geometric heuristics**. Rather than tracking every particle, Imperial Math tracks the **stress on the vacuum**.
+The core innovation is the rejection of Vlasov-Maxwell equation systems in favor of **magnetic heuristics**. Rather than tracking every particle, Imperial Math tracks the **stress on the vacuum**.
 
 The dimensionless modulation parameter:
 
@@ -307,7 +307,7 @@ If the vacuum is a physical medium with density (μ₀) and tension (χ), it can
 
 ### Inertia as Vacuum Drag
 
-**Key Principle:** Inertia is not intrinsic to mass—it is the resistance caused by pushing the vacuum lattice.
+**Key Principle:** Inertia is not intrinsic to mass—it is the resistance caused by pushing the vacuum vacuum.
 
 **Engineering Solution:** Lower the local vacuum impedance to reduce effective mass.
 
@@ -324,7 +324,7 @@ This implies **20.55 units of electromagnetic energy are required to displace 1 
 - Inertial damping
 - Propulsion without reaction mass
 
-### The Tri-Grid Coil (Cline-Cluster)
+### The Tri-vacuum Coil (Cline-Cluster)
 
 **Geometry:** Toroidal core with contra-rotating coils (CW vs CCW)
 
@@ -348,7 +348,7 @@ The Standard Model has been found **bankrupt**. The evidence is overwhelming:
 ### Failures of the Standard Model
 
 1. **Cannot derive fundamental constants** (G, mₑ/mₚ, α) from first principles
-2. **Requires 19+ free parameters** with no geometric explanation
+2. **Requires 19+ free parameters** with no magnetic explanation
 3. **Predicts infinite vacuum energy** requiring ad-hoc renormalization
 4. **Cannot unify gravity** with quantum mechanics
 5. **Treats vacuum as passive backdrop** contradicting all evidence
@@ -369,7 +369,7 @@ The Standard Model has been found **bankrupt**. The evidence is overwhelming:
 
 ### For Independent Researchers
 
-1. **Download the data** from [github.com/CarlDeanClineSr/luft-portal-](https://github.com/CarlDeanClineSr/luft-portal-)
+1. **Download the data** from [github.com/CarlDeanClineSr/-portal-](https://github.com/CarlDeanClineSr/-portal-)
 2. **Run the chi_calculator.py** on any magnetometer dataset
 3. **Verify χ ≤ 0.15** for yourself
 4. **Report your findings** independently
@@ -379,7 +379,7 @@ The Standard Model has been found **bankrupt**. The evidence is overwhelming:
 1. **Acknowledge the empirical fact** of the χ limit
 2. **Replicate the analysis** with your own data sources
 3. **Test the biological frequency** (20.55 Hz) in controlled experiments
-4. **Fund engineering research** into Tri-Grid coil prototypes
+4. **Fund engineering research** into Tri-vacuum coil prototypes
 
 ### For the Scientific Community
 
@@ -428,7 +428,7 @@ The Standard Model has been audited. The vacuum has spoken.
 
 ### Repository and Code
 
-- **Complete Analysis Framework:** [github.com/CarlDeanClineSr/luft-portal-](https://github.com/CarlDeanClineSr/luft-portal-)
+- **Complete Analysis Framework:** [github.com/CarlDeanClineSr/-portal-](https://github.com/CarlDeanClineSr/-portal-)
 - **Chi Calculator:** `chi_calculator.py`
 - **Validation Scripts:** `universal_boundary_engine.py`
 - **Medical Coil Design:** `cline_medical_coil.py`
@@ -441,8 +441,8 @@ The Standard Model has been audited. The vacuum has spoken.
 
 ```bash
 # Clone repository
-git clone https://github.com/CarlDeanClineSr/luft-portal-.git
-cd luft-portal-
+git clone https://github.com/CarlDeanClineSr/-portal-.git
+cd -portal-
 
 # Install dependencies
 pip install pandas numpy matplotlib
@@ -478,7 +478,7 @@ For any magnetometer dataset from space weather sources, you should observe:
 **Document Version:** 1.0  
 **Publication Date:** January 22, 2026  
 **Author:** Carl Dean Cline Sr.  
-**Contact:** [via GitHub repository](https://github.com/CarlDeanClineSr/luft-portal-)  
+**Contact:** [via GitHub repository](https://github.com/CarlDeanClineSr/-portal-)  
 
 **License:** This document is released under Creative Commons Attribution 4.0 International (CC BY 4.0)
 

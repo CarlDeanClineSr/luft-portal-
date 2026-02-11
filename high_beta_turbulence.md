@@ -1,13 +1,13 @@
 # Observation of Discrete Harmonic Modes and Binary Scaling in High-Beta Solar Wind Turbulence
 
 **Carl Dean Cline Sr.**  
-*LUFT Observatory, Lincoln, Nebraska*
+* Observatory, Lincoln, Nebraska*
 
 ---
 
 ## ABSTRACT
 
-Analysis of high-resolution magnetic field data from the Parker Solar Probe (Encounter 17) and terrestrial magnetosphere stations reveals a universal dimensionless saturation boundary, $\chi \le 0.15$, governing magnetic tension in collisionless plasmas. Across $2.1 \times 10^6$ observations spanning four orders of magnitude in field strength, we observe zero violations of this limit in fundamental modes. Furthermore, we report two anomalous behaviors inconsistent with continuous magnetohydrodynamic (MHD) theory: (1) Binary Temporal Scaling, where plasma wave periods scale by powers of 2 ($2^n$), and (2) Harmonic Resonance, where the system responds to extreme geomagnetic stress (e.g., the May 2024 G5 storm) by shifting to discrete integer harmonic states ($2\chi \approx 0.30$). These observations suggest the vacuum imposes a quantized geometric constraint on plasma dynamics.
+Analysis of high-resolution magnetic field data from the Parker Solar Probe (Encounter 17) and terrestrial magnetosphere stations reveals a universal dimensionless saturation boundary, $\chi \le 0.15$, governing magnetic tension in collisionless plasmas. Across $2.1 \times 10^6$ observations spanning four orders of magnitude in field strength, we observe zero violations of this limit in fundamental modes. Furthermore, we report two anomalous behaviors inconsistent with continuous magnetohydrodynamic (MHD) : (1) Binary Temporal Scaling, where plasma wave periods scale by powers of 2 ($2^n$), and (2) Harmonic Resonance, where the system responds to extreme geomagnetic stress (e.g., the May 2024 G5 storm) by shifting to discrete integer harmonic states ($2\chi \approx 0.30$). These observations suggest the vacuum imposes a quantized magnetic constraint on plasma dynamics.
 
 ---
 
@@ -54,7 +54,7 @@ This implies that temporal information in the solar wind propagates in discrete 
 
 ### 3.3 Harmonic Resonance (The "Jump")
 
-During the May 10, 2024 G5 storm, the magnetosphere was subjected to extreme forcing. Standard theory predicts turbulence or chaotic breakdown. 
+During the May 10, 2024 G5 storm, the magnetosphere was subjected to extreme forcing. Standard  predicts turbulence or chaotic breakdown. 
 
 **Observation:** The $\chi$ parameter did not exceed $0.15$ randomly. Instead, it shifted to a stable plateau of $0.306$.
 
@@ -62,15 +62,15 @@ During the May 10, 2024 G5 storm, the magnetosphere was subjected to extreme for
 
 **Conclusion:** The system entered the First Harmonic Mode ($n=2$).
 
-Rather than breaking the $0.15$ limit, the vacuum lattice resonated at exactly $2\times$ the fundamental frequency to dissipate energy. 
+Rather than breaking the $0.15$ limit, the vacuum vacuum resonated at exactly $2\times$ the fundamental frequency to dissipate energy. 
 
 ---
 
 ## 4. DISCUSSION
 
-The persistence of the $\chi \le 0.15$ boundary, combined with the observation of binary scaling ($2^n$) and integer harmonic jumps ($n \times 0.15$), strongly suggests that the underlying medium—the vacuum itself—possesses a discrete, lattice-like structure.
+The persistence of the $\chi \le 0.15$ boundary, combined with the observation of binary scaling ($2^n$) and integer harmonic jumps ($n \times 0.15$), strongly suggests that the underlying medium—the vacuum itself—possesses a discrete, vacuum-like structure.
 
-This "Quantized Vacuum" model explains the anomalous stability of high-beta plasmas: the plasma is not a continuous fluid, but a medium navigating a pre-existing geometric grid. 
+This "Quantized Vacuum" model explains the anomalous stability of high-beta plasmas: the plasma is not a continuous fluid, but a medium navigating a pre-existing magnetic vacuum. 
 
 ---
 

@@ -1,16 +1,16 @@
 ---
 id: "CAPSULE_HEARTBEAT_CATALOG_2025"
 title: "Heartbeat Catalog — 2025 CME Events"
-tags: ["heartbeat","catalog","cme","lambda_modulation","luft"]
+tags: ["heartbeat","catalog","cme","lambda_modulation",""]
 status: "stub"
 date: "2025-12-05"
 author: "Carl Dean Cline Sr."
-ledger: "LUFT Portal"
+ledger: " Portal"
 ---
 
 # Capsule — Heartbeat Catalog for 2025
 
-This capsule collects the key fitted parameters of the ~2.4 h cosmic heartbeat for major 2025 CME events and intervals. It is the **index** that connects event‑level capsules to the LUFT Λ(t) modulation law:
+This capsule collects the key fitted parameters of the ~2.4 h cosmic heartbeat for major 2025 CME events and intervals. It is the **index** that connects event‑level capsules to the  Λ(t) modulation law:
 
 \[
 \Lambda(t) = \Lambda_0 \left[1 + \chi \cos(\Omega t + \phi_0)\right]

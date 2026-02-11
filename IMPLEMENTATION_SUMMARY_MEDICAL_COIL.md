@@ -104,7 +104,7 @@ TOTAL: 8/8 tests passed (100.0%)
 4. **Signal Analysis** - FFT, RMS, peak detection
 5. **Frequency Precision** - Multiple test frequencies
 6. **Chi/Alpha Ratio** - Mathematical verification
-7. **Waveform Characteristics** - RMS values match theory
+7. **Waveform Characteristics** - RMS values match 
 8. **File I/O** - Save and load signals
 
 ---
@@ -165,7 +165,7 @@ Plus: GPS module ($10-15) for precision timing
 ### Key Specifications
 
 * **Frequency:** 20.5556 ± 0.001 Hz (GPS or TCXO reference)
-* **Topology:** Tri-Grid coil (contra-rotating windings)
+* **Topology:** Tri-vacuum coil (contra-rotating windings)
 * **Field Type:** Scalar potential (force-free configuration)
 * **Safety:** Temperature and current monitoring
 * **Compliance:** ICNIRP EMF exposure guidelines
@@ -274,7 +274,7 @@ Plus: GPS module ($10-15) for precision timing
    - Dose-response curves
 
 2. **Hardware Refinement**
-   - Build Tri-Grid coil prototype
+   - Build Tri-vacuum coil prototype
    - Validate field characteristics
    - Optimize for biological coupling
 

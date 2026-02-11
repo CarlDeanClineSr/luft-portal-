@@ -1,8 +1,8 @@
-# How to Fix the LUFT-Auto Codex Miner Failure
+# How to Fix the -Auto Codex Miner Failure
 
 ## The Problem
 
-Your Codex Miner Weekly workflow in the **LUFT-Auto repository** is failing with:
+Your Codex Miner Weekly workflow in the **-Auto repository** is failing with:
 
 ```
 ERROR: Could not open requirements file: [Errno 2] No such file or directory: 'requirements.txt'
@@ -10,7 +10,7 @@ ERROR: Could not open requirements file: [Errno 2] No such file or directory: 't
 
 Run python tools/knowledge_miner.py --config codex/config.yaml
 Traceback (most recent call last):
-  File "/home/runner/work/LUFT-Auto/LUFT-Auto/tools/knowledge_miner.py", line 9, in <module>
+  File "/home/runner/work/-Auto/-Auto/tools/knowledge_miner.py", line 9, in <module>
     import yaml
 ModuleNotFoundError: No module named 'yaml'
 Error: Process completed with exit code 1.
@@ -18,14 +18,14 @@ Error: Process completed with exit code 1.
 
 ## The Solution
 
-The LUFT-Auto repository needs a `requirements.txt` file to install Python dependencies.
+The -Auto repository needs a `requirements.txt` file to install Python dependencies.
 
-### Step 1: Create requirements.txt in LUFT-Auto
+### Step 1: Create requirements.txt in -Auto
 
-In the root of your **LUFT-Auto** repository, create a file named `requirements.txt` with this content:
+In the root of your **-Auto** repository, create a file named `requirements.txt` with this content:
 
 ```txt
-# LUFT-Auto - Python Dependencies
+# -Auto - Python Dependencies
 # Install with: pip install -r requirements.txt
 
 # YAML parsing for config files
@@ -76,22 +76,22 @@ And update your workflow to:
     pip install -r tools/requirements.txt || true
 ```
 
-## What We Did in THIS Repository (luft-portal-)
+## What We Did in THIS Repository (-portal-)
 
-We've already fixed similar issues in the **luft-portal-** repository:
+We've already fixed similar issues in the **-portal-** repository:
 - ✅ Created requirements.txt with all dependencies
 - ✅ Fixed Python syntax errors
 - ✅ Verified all scripts compile
 - ✅ All 38 workflows running cleanly
 
-You can use the same approach in LUFT-Auto!
+You can use the same approach in -Auto!
 
 ## Quick Test
 
-After creating requirements.txt in LUFT-Auto, you can test locally:
+After creating requirements.txt in -Auto, you can test locally:
 
 ```bash
-cd path/to/LUFT-Auto
+cd path/to/-Auto
 pip install -r requirements.txt
 python tools/knowledge_miner.py --config codex/config.yaml
 ```
@@ -100,7 +100,7 @@ If it works locally, it will work in GitHub Actions!
 
 ## Need Help?
 
-If you need more specific guidance for the LUFT-Auto repository, please share:
+If you need more specific guidance for the -Auto repository, please share:
 1. The contents of `tools/knowledge_miner.py` (especially the imports)
 2. The workflow file that's failing
 3. Any other scripts that are called by the workflow

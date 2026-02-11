@@ -2,7 +2,7 @@
 
 **Author:** Carl Dean Cline Sr.  
 **Date:** 2025‑12‑04  
-**Ledger:** LUFT Portal  
+**Ledger:**  Portal  
 
 ---
 ## 1. Purpose
@@ -52,4 +52,4 @@ CAPSULE_CHAIN_AUDIT.md
 
 - Maintained by Carl Dean Cline Sr.
 - Capsule chain extended to include review and audit capsules.
-- Ensures LUFT ledger remains permanently auditable.
+- Ensures  ledger remains permanently auditable.

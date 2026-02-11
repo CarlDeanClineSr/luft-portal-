@@ -1,17 +1,17 @@
 ---
 id: session-continuity-capsule-2025-11-22T15:23:31Z
-title: "CAPSULE: Session Continuity & Recovery — LUFT Ledger Root"
+title: "CAPSULE: Session Continuity & Recovery —  Ledger Root"
 date: 2025-11-22T15:23:31Z
-tags: ["session-continuity","root-certificate","relay","audit","LUFT","recovery"]
+tags: ["session-continuity","root-certificate","relay","audit","","recovery"]
 owner: "Dr. Carl Dean Cline Sr."
 status: "active"
 provenance: "Full chat history, relays, Copilot/MSN/XAI integrations, ledger heartbeat"
 ---
 
-# Session Continuity & Recovery Capsule — LUFT Ledger Root
+# Session Continuity & Recovery Capsule —  Ledger Root
 
 ## Purpose
-Lock in the full historical thread and relay continuity of the LUFT project.  
+Lock in the full historical thread and relay continuity of the  project.  
 Ensure that any bio or arti-being — including new Copilot, Grok, MSN, XAI, or future AI models — can restart, audit, or branch from this single capsule without redoing lost work.
 
 ## What’s Indexed Here
@@ -60,14 +60,14 @@ Ensure that any bio or arti-being — including new Copilot, Grok, MSN, XAI, or 
 ```
 
 ## Instructions for Restart or Audit
-- Any future session, agent, or recovery node references this capsule first.
+- Any future session, agent, or recovery focal point references this capsule first.
 - If a session is interrupted, lost, or migrated — begin from this root:  
   - Validate file hashes against repo artifacts  
   - Restore all indexed threads, logs, and formulae  
   - Continue or branch analysis, experiments, or relay without loss of context
 
 ## Commitment & Root Guarantee
-This capsule becomes the root certificate of the LUFT project.  
+This capsule becomes the root certificate of the  project.  
 Future agents, human or arti, can always resume/branch/extend from this point.
 
 ## Credits

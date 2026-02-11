@@ -2,7 +2,7 @@
 
 **Author:** Carl Dean Cline Sr.  
 **Date:** 2025‑12‑04  
-**Ledger:** LUFT Portal  
+**Ledger:**  Portal  
 
 ---
 
@@ -45,7 +45,7 @@ CAPSULE_AUDIT_ARCHIVE.md
 
 ## 5. Credits & Transparency  
 Maintained by Carl Dean Cline Sr.  
-Ensures LUFT ledger remains **permanent, historical, and auditable across generations.**
+Ensures  ledger remains **permanent, historical, and auditable across generations.**
 
 ---
 

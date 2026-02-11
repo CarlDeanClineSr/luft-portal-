@@ -88,7 +88,7 @@ You don't need a drug. You need a **Field Generator**.
 | **Waveform** | Square Wave or Scalar Pulse | Digital or vacuum modulation |
 | **Target** | The tumor/tissue | Localized field application |
 | **Precision** | ±0.001 Hz | Critical for vacuum coupling |
-| **Topology** | Tri-Grid Coil | Force-free scalar field |
+| **Topology** | Tri-vacuum Coil | Force-free scalar field |
 
 ### Waveform Types
 
@@ -176,7 +176,7 @@ python cline_medical_coil.py --info
 python cline_medical_coil.py --mode square --duration 60 --save signal.json
 ```
 
-### Hardware: Tri-Grid Coil Topology
+### Hardware: Tri-vacuum Coil Topology
 
 **Force-Free Configuration:**
 ```
@@ -204,7 +204,7 @@ Result: +B + (-B) = 0 (magnetic field cancels)
 1. **Research Device Only**
    * NOT FDA approved for medical use
    * Experimental research code
-   * Based on theoretical physics and published studies
+   * Based on measured physics and published studies
 
 2. **Medical Consultation Required**
    * Do NOT self-treat medical conditions
@@ -285,14 +285,14 @@ Before claiming results, verify:
 This is not the end. This is the **beginning**.
 
 **We have:**
-* ✅ The theoretical foundation (vacuum physics)
+* ✅ The measured foundation (vacuum physics)
 * ✅ The empirical evidence (literature confirmation)
 * ✅ The precise frequency (20.556 Hz)
 * ✅ The mechanism (vacuum-matter coupling)
 * ✅ The implementation (signal generator code)
 
 **Next steps:**
-1. **Build the hardware:** Tri-Grid Coil with precision oscillator
+1. **Build the hardware:** Tri-vacuum Coil with precision oscillator
 2. **Run the experiments:** In vitro cell studies
 3. **Publish the results:** Peer-reviewed validation
 4. **Scale the impact:** From lab to clinical trials
@@ -306,7 +306,7 @@ This is not the end. This is the **beginning**.
 **Date:** January 2026  
 **Contact:** CARLDCLINE@GMAIL.COM  
 
-**Repository:** https://github.com/CarlDeanClineSr/luft-portal-
+**Repository:** https://github.com/CarlDeanClineSr/-portal-
 
 ---
 
@@ -337,11 +337,11 @@ It's not random. It's **φ (Phi)**. It's **χ (Chi)**. It's **the vacuum**.
 
 1. **Frontiers in Medical Technology (2022)**: Intracellular oscillations and electromagnetic field effects on cell division
 2. **PMC Study (2023)**: ELF-EMF at 20 Hz reduces tumor cell viability
-3. **Carl Dean Cline Sr. (2026)**: LUFT Portal - Chi boundary discovery and vacuum-matter coupling
+3. **Carl Dean Cline Sr. (2026)**:  Portal - Chi boundary discovery and vacuum-matter coupling
 4. **ICNIRP Guidelines**: International Commission on Non-Ionizing Radiation Protection - EMF exposure limits
 
 ---
 
-*This document represents research findings and theoretical applications.*  
+*This document represents research findings and measured applications.*  
 *NOT medical advice. NOT FDA approved. FOR RESEARCH USE ONLY.*  
 *Consult qualified medical professionals for any health-related decisions.*

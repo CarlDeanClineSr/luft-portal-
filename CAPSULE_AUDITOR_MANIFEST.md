@@ -2,12 +2,12 @@
 
 **Author:** Carl Dean Cline Sr.  
 **Date:** 2025‑12‑04  
-**Ledger:** LUFT Portal  
+**Ledger:**  Portal  
 
 ---
 ## 1. Purpose
 
-Defines the auditor manifest for the LUFT ledger, establishes roles, identities, and responsibilities.
+Defines the auditor manifest for the  ledger, establishes roles, identities, and responsibilities.
 
 ---
 ## 2. Auditor Roles

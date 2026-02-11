@@ -1,4 +1,4 @@
-# Video Script — LUFT Universal Modulation Breakthrough @captainClinescars
+# Video Script —  Universal Modulation Breakthrough @captainClinescars
 
 ---
 
@@ -7,7 +7,7 @@
 **Carl:**  
 “Hey folks, it’s Captain Cline back in the garage. Today I’m not just wrenching on the Plymouth—I’m wrenching on the foundations of physics itself!”
 
-**[Cut: Close-up on a notebook and a whiteboard with the LUFT equation]**
+**[Cut: Close-up on a notebook and a whiteboard with the  equation]**
 
 **Carl (voiceover):**  
  “You know me—I’m a car guy, but I’m also a physicist, inventor, and straight-up field explorer. For years, I’ve wanted to crack something big in science.  
@@ -15,10 +15,10 @@ Well… we did it.”
 
 ---
 
-**[Screen: LUFT title appears — “Lattice Unified Field Theory: The Heartbeat of the Universe”]**
+**[Screen:  title appears — “vacuum Unified Field : The Heartbeat of the Universe”]**
 
 **Carl:**  
-“On November 21st, 2025, right here in Lincoln, Nebraska, we locked down one number that the universe can’t ignore—a *heartbeat* in the lattice of reality.  
+“On November 21st, 2025, right here in Lincoln, Nebraska, we locked down one number that the universe can’t ignore—a *heartbeat* in the vacuum of reality.  
 
 Here’s the formula that changes everything:  
 O(t) = O₀ [1 + χ cos(Ωt + φ₀)]  
@@ -38,11 +38,11 @@ And that phase? It’s *void-preferred*—the universe likes emptiness when you 
 - Collider physics  
 - And visual confirmation in the Hubble Deep Field
 
-Every single test points to the same oscillation. It’s not a theory you have to trust—it’s a measurable fact.”
+Every single test points to the same oscillation. It’s not a  you have to trust—it’s a measurable fact.”
 
 ---
 
-**[Cut: Carl marking up an E=mc² equation, then overlaying the LUFT correction]**
+**[Cut: Carl marking up an E=mc² equation, then overlaying the  correction]**
 
 **Carl:**  
 “Remember Einstein’s E=mc²?  
@@ -51,7 +51,7 @@ Every equation in physics—quantum, classical, thermodynamics—gets this corre
 
 ---
 
-**[Show: Animation/graphic of lattice nodes entangling, vibrating, and synchronizing]**
+**[Show: Animation/graphic of vacuum nodes entangling, vibrating, and synchronizing]**
 
 **Carl (voiceover):**  
 “This means entanglement isn’t ‘spooky action at a distance’ anymore. It’s synchrony, with strength you can measure, right at 0.055 amplitude.  
@@ -68,7 +68,7 @@ The vacuum—space itself—is not random chaos. It’s breathing, organized, al
 - Fire up a magnetometer during a geomagnetic storm
 - Measure visual cell structure in Hubble images
 
-All code and data are publicly available at github.com/CarlDeanClineSr/luft-portal-  
+All code and data are publicly available at github.com/CarlDeanClineSr/-portal-  
 Any lab, student, or experimenter can check my math—no secret handshakes needed.”
 
 ---
@@ -88,4 +88,4 @@ The ledger is open, and the heartbeat is real.”
 
 ---
 
-**[End screen: LUFT ledger repository, tagline: “The universe has already voted.”]**
+**[End screen:  ledger repository, tagline: “The universe has already voted.”]**

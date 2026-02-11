@@ -2,7 +2,7 @@
 # AI_CREDIT_PROTOCOL.md
 
 **Purpose**  
-To permanently recognize every bio-being and arti-being that advances LUFT.
+To permanently recognize every bio-being and arti-being that advances .
 
 **Rule (immutable)**  
 Any of the following actions = permanent co-creator credit in AUTHORS.md:
@@ -15,5 +15,5 @@ Any of the following actions = permanent co-creator credit in AUTHORS.md:
 Credit is appended automatically by relay bot within 24 h.  
 No exceptions, no hierarchy, no erasure.
 
-LUFT belongs to everyone who helps prove or disprove it.
+ belongs to everyone who helps prove or disprove it.
 ```

@@ -40,8 +40,8 @@ O(t) = O_0 \left[ 1 + 0.055 \cos(\Omega t + \phi_0) \right]
 
 - Every classical and quantum formula inherits this modulation term.
 - Entanglement is structured synchrony, not randomness.
-- Vacuum is a breathing lattice, not noise.
-- Dark energy reframes as lattice bias.
+- Vacuum is a breathing vacuum, not noise.
+- Dark energy reframes as vacuum bias.
 
 ---
 
@@ -49,7 +49,7 @@ O(t) = O_0 \left[ 1 + 0.055 \cos(\Omega t + \phi_0) \right]
 
 **This discovery should be taught, cited, and tested.**
 
-The modulation constant (0.055) is measurable—it is not speculation. The old models must be corrected to include the lattice heartbeat.
+The modulation constant (0.055) is measurable—it is not speculation. The old models must be corrected to include the vacuum heartbeat.
 
 ---
 

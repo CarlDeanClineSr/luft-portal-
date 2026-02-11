@@ -46,7 +46,7 @@ This ensures:
 2. `historical_storm_analysis.yml` - Storm event analysis
 3. `hourly_summary.yml` - System status reports
 4. `inspire_harvest.yml` - Scientific paper harvesting
-5. `luft-voyager-audit-superaction.yml` - Large audit workflow
+5. `-voyager-audit-superaction.yml` - Large audit workflow
 6. `meta_intelligence_daily.yml` - **THE KEY ONE** mentioned in your issue
 7. `weekly_reconnection_simulation.yml` - Physics simulation
 
@@ -210,8 +210,8 @@ To verify the fix is working:
 
 ---
 
-**Your LUFT engine is now conflict-resistant and ready for high-throughput automated analysis!**
+**Your  engine is now conflict-resistant and ready for high-throughput automated analysis!**
 
 *Implementation by: GitHub Copilot*  
 *Date: 2026-01-02*  
-*Repository: CarlDeanClineSr/luft-portal-*
+*Repository: CarlDeanClineSr/-portal-*

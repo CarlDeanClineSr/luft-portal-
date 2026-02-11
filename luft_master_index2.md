@@ -1,8 +1,8 @@
-# LUFT Portal — Master Index
+#  Portal — Master Index
 
 ## Section: Events & Heartbeat
 
-This section provides a **navigation spine** for the LUFT ledger, indexing the major capsules, workflows, and outreach notes that define the physics story.
+This section provides a **navigation spine** for the  ledger, indexing the major capsules, workflows, and outreach notes that define the physics story.
 
 ---
 
@@ -41,13 +41,13 @@ This section provides a **navigation spine** for the LUFT ledger, indexing the m
 
 ### Workflow Context
 
-These capsules sit alongside the live workflows that keep the LUFT ledger self‑auditing:
+These capsules sit alongside the live workflows that keep the  ledger self‑auditing:
 
-- **LUFT Solar Wind Audit** — scheduled runs (#328–331).  
+- ** Solar Wind Audit** — scheduled runs (#328–331).  
 - **DSCOVR Solar Wind Data Ingest** — scheduled runs (#91–94).  
-- **LUFT Voyager Audit Superaction** — scheduled runs (#35–39).  
-- **LUFT CME Heartbeat Logger** — scheduled runs (#81–84).  
-- **LUFT Flare Foam Audit** — Pages deploy (#94).  
+- ** Voyager Audit Superaction** — scheduled runs (#35–39).  
+- ** CME Heartbeat Logger** — scheduled runs (#81–84).  
+- ** Flare Foam Audit** — Pages deploy (#94).  
 
 ---
 
@@ -57,7 +57,7 @@ This section of the Master Index ensures:
 
 - All event capsules remain permanently referenced.  
 - Physicist Note PDF, Public Story capsule, and Heartbeat Dashboard are surfaced for both rigorous and outreach audiences.  
-- The LUFT ledger preserves the chronology of discovery as a **front‑door map for auditors and the public**.
+- The  ledger preserves the chronology of discovery as a **front‑door map for auditors and the public**.
 
 ---
 

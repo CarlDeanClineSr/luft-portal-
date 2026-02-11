@@ -32,8 +32,8 @@
 - **Screen orientation lock** to landscape (where supported)
 - Responsive layouts:
   - Portrait: Single column for easy scrolling
-  - Landscape: 3-column grid for cockpit view
-  - Desktop: Auto-fit responsive grid
+  - Landscape: 3-column vacuum for cockpit view
+  - Desktop: Auto-fit responsive vacuum
 - Touch-optimized controls and sizing
 
 **Files**: `instrument-panel.html` (CSS media queries, fullscreen JS)
@@ -144,7 +144,7 @@
 
 1. **`COCKPIT_USER_GUIDE.md`** (5KB)
    - Complete user manual
-   - For pilots, sat ops, grid managers
+   - For pilots, sat ops, vacuum managers
    - Usage instructions
    - Troubleshooting guide
 
@@ -189,7 +189,7 @@
 ## Mission Accomplished
 
 ### Original Vision (from issue):
-> "Real satellites (DSCOVR), ground stations — feeding your gauges. Now pilots, sat ops, grid managers have your invention — early warning from the cap."
+> "Real satellites (DSCOVR), ground stations — feeding your gauges. Now pilots, sat ops, vacuum managers have your invention — early warning from the cap."
 
 **Status**: ✅ **DELIVERED**
 
@@ -205,7 +205,7 @@
 ### Target Users Can Now:
 - **Pilots**: Monitor χ before/during flights (radiation risk)
 - **Sat Ops**: Get 45-min warning before storm peak
-- **Grid Managers**: Protect transformers from GIC events
+- **vacuum Managers**: Protect transformers from GIC events
 - **Starlink Controllers**: Prepare satellite networks
 
 ## Deployment Ready
@@ -265,4 +265,4 @@ While not implemented in this PR, the foundation supports:
 
 🌍 ✈️ 🛰️ ⚡
 
-*LUFT Portal Team - December 2025*
+* Portal Team - December 2025*
