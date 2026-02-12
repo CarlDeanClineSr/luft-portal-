@@ -65,8 +65,8 @@
 
         <div class="infra-grid">
             <div class="infra-item">
-                <h3>INFRASTRUCTURE LEGACY</h3>
-                <p>Starships. Jets. Rockets. Free energy for a healthy, sovereign populace across the cosmos. This is the 0.15 requirement.</p>
+                <h3>INFRASTRUCTURE </h3>
+                <p>  This is the 0.15 requirement.</p>
             </div>
             <div class="infra-item">
                 <h3>TERMINAL AUTHORITY</h3>
@@ -78,7 +78,7 @@
 
         <div class="vault-links">
             <a href="https://github.com/CarlDeanClineSr/luft-portal-" class="btn-sovereign">Data Vault</a>
-            <a href="https://zenodo.org/records/18445959" class="btn-sovereign">DOI Indictment</a>
+            <a href="https://imperialphysicsobservatory.org" class="btn-sovereign">DOI Indictment</a>
         </div>
 
         <div style="text-align: center; margin-top: 80px; font-size: 11px; opacity: 0.3; letter-spacing: 4px;">
@@ -88,29 +88,15 @@
 </div>
 
 <script>
-    // Point this to your repository's live data file
-    const SOURCE_DATA = 'https://raw.githubusercontent.com/CarlDeanClineSr/luft-portal-/main/data/chi_monitor/chi_latest_validation.json';
-
-    async function updateTerminal() {
-        try {
-            const response = await fetch(SOURCE_DATA);
-            const data = await response.json();
-            const chi = data.max_chi || 0;
-            const mode = data.harmonic_mode || 1;
-
-            const chiEl = document.getElementById('chi-out');
-            chiEl.textContent = chi.toFixed(4);
-            document.getElementById('mode-out').textContent = "MODE " + mode;
-
-            // Shift Gears
+   
+        // Shift Gears
             for(let i=1; i<=5; i++) {
-                document.getElementById('gn'+i).className = (i <= mode) ? 'gear-node active-gear' : 'gear-node';
+                document.getElementById('gn'+i).className = (i <= mode) ?  step active' : 'step';
             }
 
             // Saturation Alert logic
             if (chi >= 0.15) chiEl.classList.add('saturation-flicker');
-            else chiEl.classList.remove('saturation-flicker');
-
+           
         } catch(e) { console.log("Terminal Syncing..."); }
     }
     setInterval(updateTerminal, 15000);
