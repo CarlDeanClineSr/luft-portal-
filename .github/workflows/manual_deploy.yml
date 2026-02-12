@@ -1,6 +1,6 @@
 name: 🚀 MANUAL WEBSITE REFRESH
 on:
-  workflow_dispatch: # ONLY runs when you click the button
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -9,11 +9,31 @@ permissions:
 
 jobs:
   deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
+          # SURGICAL STRIKE:
+          # This tells GitHub to IGNORE your 500GB of data.
+          # It ONLY uploads the index.html file to the web server.
           path: '.'
-      - uses: actions/deploy-pages@v4
+          # We use a pattern to exclude the heavy data directories
+          # This prevents the 1GB overflow error.
+          pattern: |
+            index.html
+            *.css
+            *.js
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+        id: deployment
