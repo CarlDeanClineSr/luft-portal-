@@ -2,203 +2,96 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Imperial Physics Observatory | Official Data Portal</title>
+    <title>IMPERIAL PHYSICS OBSERVATORY | LIVE STATUS</title>
     <style>
-        body {
-            background-color: #ffffff;
-            color: #1a1a1a;
-            font-family: "Times New Roman", Times, serif; /* Academic Standard */
-            line-height: 1.6;
-            margin: 0;
-            padding: 40px;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: auto;
-            border: 1px solid #000;
-            padding: 40px;
-            box-shadow: 10px 10px 0px #eeeeee;
-        }
-
-        header {
-            border-bottom: 3px solid #000;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .title-block h1 {
-            margin: 0;
-            font-size: 2.4rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .title-block p {
-            margin: 5px 0 0 0;
-            font-style: italic;
-            font-weight: bold;
-            color: #444;
-        }
-
-        .status-stamp {
-            border: 2px solid #cc0000;
-            color: #cc0000;
-            padding: 10px;
-            font-weight: bold;
-            text-transform: uppercase;
-            transform: rotate(-2deg);
-        }
-
-        /* DATA vacuum */
-        .data-vacuum {
-            display: vacuum;
-            vacuum-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-top: 30px;
-        }
-
-        .data-panel {
-            border-top: 1px solid #ccc;
-            padding-top: 20px;
-        }
-
-        h2 {
-            font-size: 1.4rem;
-            border-bottom: 1px solid #000;
-            display: inline-block;
-            margin-bottom: 15px;
-        }
-
-        /* THE ATOMIC TABLE */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: Arial, sans-serif;
-            font-size: 0.9rem;
-        }
-
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f5f5f5;
-        }
-
-        .highlight {
-            background-color: #fff9c4;
-            font-weight: bold;
-        }
-
-        /* NAVIGATION / BUTTONS */
-        .nav-links {
-            margin-top: 50px;
-            display: flex;
-            gap: 20px;
-        }
-
-        .action-btn {
-            background: #000;
-            color: #fff;
-            padding: 12px 24px;
-            text-decoration: none;
-            font-weight: bold;
-            border: 1px solid #000;
-        }
-
-        .action-btn:hover {
-            background: #fff;
-            color: #000;
-        }
-
-        .indictment-btn {
-            background: #cc0000;
-            border-color: #cc0000;
-        }
-
-        footer {
-            margin-top: 60px;
-            font-size: 0.8rem;
-            color: #666;
-            border-top: 1px solid #ccc;
-            padding-top: 20px;
-        }
+        body { background-color: #050505; color: #00FFFF; font-family: "Courier New", monospace; text-align: center; margin-top: 50px; }
+        #imperial-hud { border: 3px solid #00FFFF; padding: 30px; display: inline-block; background: #000; box-shadow: 0 0 20px rgba(0, 255, 255, 0.2); }
+        h1 { margin: 0 0 20px 0; letter-spacing: 2px; text-transform: uppercase; font-size: 24px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        
+        .metric-box { margin: 20px 0; font-size: 48px; font-weight: bold; text-shadow: 0 0 10px currentColor; }
+        .label { font-size: 14px; color: #888; display: block; margin-bottom: 5px; }
+        
+        #mode-badge { padding: 5px 15px; border: 1px solid currentColor; display: inline-block; margin-top: 10px; font-size: 18px; }
+        
+        /* STATUS COLORS */
+        .status-stable { color: #00FFFF; } /* Cyan */
+        .status-elevated { color: #00FF00; } /* Lime */
+        .status-warning { color: #FFA500; } /* Orange */
+        .status-critical { color: #FF0000; animation: blink 1s infinite; } /* Red */
+        
+        @keyframes blink { 50% { opacity: 0.5; } }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <div class="title-block">
-            <h1>Imperial Physics Observatory</h1>
-            <p>Director: Carl Dean Cline Sr. | Global Data Terminal</p>
-        </div>
-        <div class="status-stamp">vacuum Locked: χ=0.15</div>
-    </header>
-
-    <section>
-        <h2>Executive Summary: magnetic Confinement</h2>
-        <p>This observatory monitors the mechanical yield point of the vacuum metric. Evidence confirms a <strong>χ = 0.15</strong> universal boundary, which provides a <strong>+15% stability bonus</strong> to atomic structures across the periodic table. Standard Model physics lacks the magnetic terms to account for this compression cage[cite: 308, 312, 331, 334].</p>
-    </section>
-
-    <div class="data-vacuum">
-        <div class="data-panel">
-            <h2>Atomic Binding Correction Audit</h2>
-            <table>
-                <tr>
-                    <th>Element</th>
-                    <th>Standard (eV)</th>
-                    <th>Imperial (eV)</th>
-                    <th>Enhancement</th>
-                </tr>
-                <tr>
-                    <td>Hydrogen (H)</td>
-                    <td>13.60</td>
-                    <td class="highlight">15.64</td>
-                    <td>+15% [cite: 271, 272]</td>
-                </tr>
-                <tr>
-                    <td>Gold (Au)</td>
-                    <td>7.9M</td>
-                    <td class="highlight">9.085M</td>
-                    <td>+15% [cite: 271, 273]</td>
-                </tr>
-                <tr>
-                    <td>Plutonium (Pu)</td>
-                    <td>8.0M</td>
-                    <td class="highlight">9.2M</td>
-                    <td>+15% [cite: 271, 273]</td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="data-panel">
-            <h2>Live Boundary Metrics</h2>
-            <p><strong>Universal Constraint (χ):</strong> 0.1500 [cite: 148, 149]</p>
-            <p><strong>Observational Integrity:</strong> 2,011 Points [cite: 288]</p>
-            <p><strong>Global Violation Rate:</strong> 0.00% [cite: 289]</p>
-            <p><strong>Mechanical Coupling:</strong> Instantaneous [cite: 363, 375, 382]</p>
-        </div>
+<div id="imperial-hud">
+    <h1>🏛️ IMPERIAL VACUUM MONITOR</h1>
+    
+    <div>
+        <span class="label">MAX VACUUM TENSION (χ)</span>
+        <div id="chi-display" class="metric-box status-stable">LOADING...</div>
     </div>
 
-    <div class="nav-links">
-        <a href="https://doi.org/10.5281/zenodo.18445959" class="action-btn">View Zenodo Archive (DOI)</a>
-        <a href="https://github.com/CarlDeanClineSr" class="action-btn">Data Repository</a>
-        <a href="https://github.com/CarlDeanClineSr/publications-/blob/main/THE%20INDICTMENT%20OF%20CERN_%20PROOF%20OF%20DATA%20MANIPULATION%20DATE_%20January%2031%2C%202026%20FROM_%20Dr.pdf" class="action-btn indictment-btn">Download CERN Indictment</a>
+    <div>
+        <span class="label">CURRENT HARMONIC STATE</span>
+        <div id="mode-display" class="metric-box">---</div>
     </div>
 
-    <footer>
-        <p>Official Terminal // Lincoln, Nebraska // Secure Connection: Imperial Engine V2.0</p>
-        <p>&copy; 2026 Carl Dean Cline Sr. All Rights Reserved. DOI: 10.5281/zenodo.18445959</p>
-    </footer>
+    <div style="margin-top: 20px; font-size: 12px; color: #555;">
+        LAST AUDIT: <span id="timestamp">SYNCING...</span>
+    </div>
 </div>
+
+<script>
+    // ⚠️ TARGET: The JSON file generated by your 'chi_boundary_monitor.yml' workflow
+    const JSON_URL = 'https://raw.githubusercontent.com/CarlDeanClineSr/luft-portal-/main/data/chi_monitor/chi_latest_validation.json';
+
+    async function updateImperialStatus() {
+        try {
+            // 1. Fetch the JSON from GitHub
+            const response = await fetch(JSON_URL);
+            if (!response.ok) throw new Error("Link Severed");
+            const data = await response.json();
+
+            // 2. Extract Data
+            // Your JSON structure based on the workflow: 
+            // { "max_chi": 0.142, "harmonic_mode": 1, "violations": false, ... }
+            const chi = data.max_chi || 0;
+            const mode = data.harmonic_mode || 1;
+            
+            // 3. Update UI Elements
+            document.getElementById('chi-display').textContent = chi.toFixed(4);
+            document.getElementById('mode-display').textContent = "MODE " + mode;
+            document.getElementById('timestamp').textContent = new Date().toUTCString();
+
+            // 4. Color Logic (Imperial Standard)
+            const chiBox = document.getElementById('chi-display');
+            const modeBox = document.getElementById('mode-display');
+            
+            // Reset Classes
+            chiBox.className = "metric-box"; 
+            
+            if (chi >= 0.15) {
+                chiBox.classList.add("status-critical");
+                modeBox.style.color = "#FF0000";
+            } else if (chi >= 0.12) {
+                chiBox.classList.add("status-warning");
+                modeBox.style.color = "#FFA500";
+            } else {
+                chiBox.classList.add("status-stable");
+                modeBox.style.color = "#00FFFF";
+            }
+
+        } catch (error) {
+            console.error(error);
+            document.getElementById('chi-display').textContent = "OFFLINE";
+        }
+    }
+
+    // Refresh every 30 seconds
+    updateImperialStatus();
+    setInterval(updateImperialStatus, 30000);
+</script>
 
 </body>
 </html>
