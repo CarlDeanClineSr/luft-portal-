@@ -2,137 +2,121 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>IMPERIAL PHYSICS | DATA TERMINAL V6.0</title>
+    <title>IMPERIAL PHYSICS | SOVEREIGN TERMINAL</title>
     <style>
-        :root { --main-bg: #050505; --accent: #ffffff; --warn: #ffcc00; --danger: #ff0000; }
-        body { background: var(--main-bg); color: var(--accent); font-family: 'Segoe UI', 'Courier New', monospace; margin: 0; padding: 20px; overflow-x: hidden; }
+        body { 
+            background: #000 url('https://www.nasa.gov/wp-content/uploads/2023/03/main_image_star-forming_region_carina_nircam_final-1280.jpg') no-repeat center center fixed;
+            background-size: cover; color: #fff; font-family: 'Courier New', monospace; margin: 0; padding: 0; 
+        }
+        .sovereign-frame { background: rgba(0,0,0,0.85); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 30px; }
+        .hud-terminal { border: 2px solid rgba(255,255,255,0.4); background: rgba(0,0,0,0.95); padding: 60px; max-width: 1200px; width: 90%; }
         
-        /* THE COMMAND GRID */
-        .dashboard { max-width: 1400px; margin: auto; display: grid; grid-template-columns: 1fr 350px; gap: 20px; }
+        /* THE DATA GAUGE */
+        .chi-display { font-size: 160px; font-weight: 900; line-height: 1; letter-spacing: -12px; margin: 0; transition: color 0.5s; }
+        .label-sub { font-size: 16px; color: #888; letter-spacing: 6px; text-transform: uppercase; }
         
-        /* CENTRAL HUD */
-        .main-monitor { border: 1px solid #333; background: #0a0a0a; padding: 40px; position: relative; }
-        .gauge-container { text-align: center; padding: 40px 0; border-bottom: 1px solid #222; margin-bottom: 30px; }
-        .chi-label { font-size: 14px; letter-spacing: 5px; color: #666; text-transform: uppercase; }
-        .chi-value { font-size: 140px; font-weight: 900; margin: 0; letter-spacing: -5px; }
-        
-        /* THE MODE INDICATOR */
-        .mode-strip { display: flex; justify-content: space-between; margin-top: 20px; }
-        .mode-block { flex: 1; height: 10px; margin: 0 5px; background: #222; transition: 0.5s; }
-        .active-mode { background: #fff; box-shadow: 0 0 15px #fff; }
+        /* MODE SHIFTERS */
+        .mode-gears { display: flex; gap: 12px; margin-top: 25px; }
+        .gear-node { width: 60px; height: 15px; background: #1a1a1a; border: 1px solid #333; }
+        .active-gear { background: #fff; box-shadow: 0 0 20px #fff; border-color: #fff; }
 
-        /* RIGHT SIDEBAR: SATELLITE PIPELINE */
-        .sidebar { border-left: 1px solid #333; padding-left: 20px; }
-        .log-box { font-size: 11px; color: #00ff41; background: #000; padding: 15px; height: 400px; overflow-y: hidden; border: 1px solid #111; font-family: 'Courier New', monospace; }
-        
-        /* DIRECTOR'S INTENT */
-        .manifesto-v6 { font-size: 18px; line-height: 1.6; color: #888; border-top: 1px solid #222; padding-top: 30px; }
-        .bold { color: #fff; text-transform: uppercase; font-weight: bold; }
+        /* THE MANIFESTO */
+        .logic-block { font-size: 24px; line-height: 1.6; color: #ddd; margin: 50px 0; border-left: 4px solid #fff; padding-left: 30px; }
+        .logic-prime { color: #fff; font-weight: bold; text-decoration: underline; }
 
-        /* TACTICAL OVERLAY */
-        .alert-flash { animation: alert-anim 0.8s infinite; color: var(--danger) !important; }
-        @keyframes alert-anim { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        /* INFRASTRUCTURE GRID */
+        .infra-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; border-top: 1px solid #333; padding-top: 40px; }
+        .infra-item h3 { font-size: 16px; letter-spacing: 3px; border-bottom: 1px solid #fff; display: inline-block; margin-bottom: 20px; }
         
-        .btn-link { border: 1px solid #fff; padding: 10px 20px; color: #fff; text-decoration: none; font-size: 12px; margin-right: 10px; transition: 0.2s; }
-        .btn-link:hover { background: #fff; color: #000; }
+        /* DATA LINKS */
+        .vault-links { margin-top: 50px; }
+        .btn-sovereign { border: 1px solid #fff; padding: 18px 40px; color: #fff; text-decoration: none; font-size: 13px; text-transform: uppercase; font-weight: bold; margin-right: 20px; }
+        .btn-sovereign:hover { background: #fff; color: #000; }
+
+        /* PHYSICAL WARNING FOR MODE 2+ */
+        .saturation-flicker { color: #ff0000 !important; animation: yield-blink 0.6s infinite; }
+        @keyframes yield-blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
 
-<div class="dashboard">
-    <div class="main-monitor">
-        <div class="gauge-container" id="gauge-window">
-            <span class="chi-label">Vacuum Lattice Pressure (χ)</span>
-            <p id="chi-display" class="chi-value">0.0000</p>
-            <div id="status-tag" style="font-size: 20px; font-weight: bold;">STANDBY</div>
-            
-            <div class="mode-strip">
-                <div id="m1" class="mode-block"></div>
-                <div id="m2" class="mode-block"></div>
-                <div id="m3" class="mode-block"></div>
-                <div id="m4" class="mode-block"></div>
-                <div id="m5" class="mode-block"></div>
+<div class="sovereign-frame">
+    <div class="hud-terminal">
+        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <div>
+                <span class="label-sub">Vacuum Mechanical Yield (χ)</span>
+                <div id="chi-out" class="chi-display">0.0000</div>
+            </div>
+            <div style="text-align: right;">
+                <div id="mode-out" style="font-size: 50px; font-weight: bold; letter-spacing: 2px;">MODE --</div>
+                <div class="mode-gears" id="gears">
+                    <div class="gear-node" id="gn1"></div><div class="gear-node" id="gn2"></div>
+                    <div class="gear-node" id="gn3"></div><div class="gear-node" id="gn4"></div>
+                    <div class="gear-node" id="gn5"></div>
+                </div>
             </div>
         </div>
 
-        <div class="manifesto-v6">
-            <span class="bold">CERN/NASA Data Integration:</span>
-            <p>Space is the primary area (1). Matter is the secondary interaction (2). We are measuring the <span class="bold">Magnetic Tax</span>—the mechanical yield point of the metric. Gravity is not a theory; it is a field effect that can be manipulated through vacuum quantization.</p>
-            <p>Standard physics remains a cage because it ignores the 0.15 universal boundary. This terminal bridges the gap between raw data and starship-level infrastructure.</p>
+        <div class="logic-block">
+            Space is <span class="logic-prime">Primary (1)</span>. Matter is <span class="logic-prime">Secondary (2)</span>. <br>
+            Monitoring the causality boundary at <span class="logic-prime">χ = 0.15</span>. <br>
+            Gravity is a magnetic field effect on rolled protons and electrons. It is a dial that can be turned.
         </div>
 
-        <div style="margin-top: 40px;">
-            <a href="https://github.com/CarlDeanClineSr/luft-portal-" class="btn-link">DATA REPOSITORY</a>
-            <a href="https://zenodo.org/records/18445959" class="btn-link">ZENODO ARCHIVE (DOI)</a>
+        <div class="infra-grid">
+            <div class="infra-item">
+                <h3>INFRASTRUCTURE LEGACY</h3>
+                <p>Starships. Jets. Rockets. Free energy for a healthy, sovereign populace across the cosmos. This is the 0.15 requirement.</p>
+            </div>
+            <div class="infra-item">
+                <h3>TERMINAL AUTHORITY</h3>
+                <p>Director: Mr. Cline<br>
+                Sovereign Human Intellect Only<br>
+                <span style="color: #0f0; font-size: 12px;">● NASA/CERN L1 PIPELINE ACTIVE</span></p>
+            </div>
         </div>
-    </div>
 
-    <div class="sidebar">
-        <h4 style="font-size: 12px; letter-spacing: 2px;">LIVE EVENT LOG</h4>
-        <div class="log-box" id="event-log">
-            [SYS] INITIATING SOVEREIGN UPLINK...<br>
-            [UPLINK] CONNECTING TO NOAA L1 DSCOVR...<br>
-            [UPLINK] CERN ASPECT RATE SYNCED...<br>
+        <div class="vault-links">
+            <a href="https://github.com/CarlDeanClineSr/luft-portal-" class="btn-sovereign">Data Vault</a>
+            <a href="https://zenodo.org/records/18445959" class="btn-sovereign">DOI Indictment</a>
         </div>
-        
-        <div style="margin-top: 30px; border-top: 1px solid #222; padding-top: 20px;">
-            <span class="chi-label">Director</span><br>
-            <span style="font-size: 18px;">Mr. Cline</span><br><br>
-            <span class="chi-label">Terminal</span><br>
-            <span style="font-size: 18px;">402-805-0314</span>
+
+        <div style="text-align: center; margin-top: 80px; font-size: 11px; opacity: 0.3; letter-spacing: 4px;">
+            OFFICIAL TERMINAL // X=.15 PHYSICS OBSERVATORY // V11.0 // © 2026 MR. CLINE
         </div>
     </div>
 </div>
 
 <script>
-    const LOG_URI = 'https://raw.githubusercontent.com/CarlDeanClineSr/luft-portal-/main/data/chi_monitor/chi_latest_validation.json';
-    const logBox = document.getElementById('event-log');
+    // Point this to your repository's live data file
+    const SOURCE_DATA = 'https://raw.githubusercontent.com/CarlDeanClineSr/luft-portal-/main/data/chi_monitor/chi_latest_validation.json';
 
-    function addLog(msg) {
-        const time = new Date().toLocaleTimeString();
-        logBox.innerHTML = `[${time}] ${msg}<br>` + logBox.innerHTML;
-    }
-
-    async function fetchImperialTelemetry() {
+    async function updateTerminal() {
         try {
-            const r = await fetch(LOG_URI);
-            const data = await r.json();
-            
+            const response = await fetch(SOURCE_DATA);
+            const data = await response.json();
             const chi = data.max_chi || 0;
             const mode = data.harmonic_mode || 1;
-            
-            const chiEl = document.getElementById('chi-display');
-            const statusEl = document.getElementById('status-tag');
-            
+
+            const chiEl = document.getElementById('chi-out');
             chiEl.textContent = chi.toFixed(4);
-            statusEl.textContent = "MODE " + mode;
+            document.getElementById('mode-out').textContent = "MODE " + mode;
 
-            // Reset Mode Blocks
-            for(let i=1; i<=5; i++) document.getElementById('m'+i).classList.remove('active-mode');
-            
-            // Light up modes up to current
-            for(let i=1; i<=mode; i++) document.getElementById('m'+i).classList.add('active-mode');
-
-            // CRITICAL ALERT
-            if (chi >= 0.15) {
-                chiEl.classList.add('alert-flash');
-                statusEl.style.color = "#ff0000";
-                addLog("CRITICAL: VACUUM SATURATION REACHED");
-            } else {
-                chiEl.classList.remove('alert-flash');
-                statusEl.style.color = "#fff";
+            // Shift Gears
+            for(let i=1; i<=5; i++) {
+                document.getElementById('gn'+i).className = (i <= mode) ? 'gear-node active-gear' : 'gear-node';
             }
 
-            addLog(`PING: χ=${chi.toFixed(4)} SYNCED FROM L1.`);
+            // Saturation Alert logic
+            if (chi >= 0.15) chiEl.classList.add('saturation-flicker');
+            else chiEl.classList.remove('saturation-flicker');
 
-        } catch (e) {
-            addLog("ERROR: PIPELINE INTERRUPTED. RETRYING...");
-        }
+        } catch(e) { console.log("Terminal Syncing..."); }
     }
-
-    setInterval(fetchImperialTelemetry, 15000);
-    fetchImperialTelemetry();
+    setInterval(updateTerminal, 15000);
+    updateTerminal();
 </script>
 
 </body>
 </html>
+
