@@ -2,127 +2,109 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>IMPERIAL PHYSICS | SOVEREIGN TERMINAL</title>
+    <title>The Physics of | X=0.15 Chi</title>
     <style>
-        body { 
-            background: #000 url('https://www.nasa.gov/wp-content/uploads/2023/03/main_image_star-forming_region_carina_nircam_final-1280.jpg') no-repeat center center fixed;
-            background-size: cover; color: #fff; font-family: 'Courier New', monospace; margin: 0; padding: 0; 
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000; font-family: 'Courier New', monospace; }
+        
+        /* THE LIVE SOLAR ENGINE */
+        .solar-stream {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; object-fit: cover; opacity: 0.5; filter: contrast(1.2) brightness(0.8);
         }
-        .sovereign-frame { background: rgba(0,0,0,0.85); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 30px; }
-        .hud-terminal { border: 2px solid rgba(255,255,255,0.4); background: rgba(0,0,0,0.95); padding: 60px; max-width: 1200px; width: 90%; }
-        
-        .chi-display { font-size: 160px; font-weight: 900; line-height: 1; letter-spacing: -12px; margin: 0; }
-        .label-sub { font-size: 16px; color: #888; letter-spacing: 6px; text-transform: uppercase; }
-        
-        .mode-gears { display: flex; gap: 12px; margin-top: 25px; }
-        .gear-node { width: 60px; height: 15px; background: #1a1a1a; border: 1px solid #333; }
-        .active-gear { background: #fff; box-shadow: 0 0 20px #fff; border-color: #fff; }
 
-        .logic-block { font-size: 24px; line-height: 1.6; color: #ddd; margin: 50px 0; border-left: 4px solid #fff; padding-left: 30px; }
-        .logic-prime { color: #fff; font-weight: bold; text-decoration: underline; }
+        .command-overlay { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.95) 90%);
+            display: flex; align-items: center; justify-content: center;
+        }
 
-        .infra-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; border-top: 1px solid #333; padding-top: 40px; }
-        .infra-item h3 { font-size: 16px; letter-spacing: 3px; border-bottom: 1px solid #fff; display: inline-block; margin-bottom: 20px; }
+        .terminal-v14 {
+            border: 1px solid rgba(255,255,255,0.3); background: rgba(0,0,0,0.9);
+            padding: 60px; width: 90%; max-width: 1300px; backdrop-filter: blur(15px);
+            box-shadow: 0 0 100px #000;
+        }
+
+        .chi-mega { font-size: 180px; font-weight: 900; line-height: 0.9; letter-spacing: -15px; color: #fff; margin: 0; }
+        .mode-indicator { font-size: 45px; font-weight: bold; border: 3px solid #fff; padding: 10px 30px; display: inline-block; text-transform: uppercase; }
         
-        .vault-links { margin-top: 50px; }
-        .btn-sovereign { border: 1px solid #fff; padding: 18px 40px; color: #fff; text-decoration: none; font-size: 13px; text-transform: uppercase; font-weight: bold; margin-right: 20px; }
-        .btn-sovereign:hover { background: #fff; color: #000; }
+        .manifesto-v14 { font-size: 26px; line-height: 1.5; margin: 50px 0; color: #ccc; border-left: 6px solid #fff; padding-left: 35px; }
+        .highlight { color: #fff; font-weight: bold; text-decoration: underline; }
 
-        .saturation-flicker { color: #ff0000 !important; animation: yield-blink 0.6s infinite; }
-        @keyframes yield-blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+        .btn-action { 
+            display: inline-block; border: 2px solid #fff; padding: 20px 45px; color: #fff; 
+            text-decoration: none; font-size: 14px; font-weight: bold; text-transform: uppercase; margin-right: 25px; transition: 0.3s;
+        }
+        .btn-action:hover { background: #fff; color: #000; }
+
+        .saturation-event { color: #ff0000 !important; animation: yield-strobe 0.8s infinite; }
+        @keyframes yield-strobe { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
     </style>
 </head>
 <body>
 
-<div class="sovereign-frame">
-    <div class="hud-terminal">
-        <div style="display: flex; justify-content: space-between; align-items: baseline;">
+<video autoplay muted loop playsinline class="solar-stream">
+    <source src="https://sdo.gsfc.nasa.gov/assets/img/latest/latest_1024_0171.mp4" type="video/mp4">
+</video>
+
+<div class="command-overlay">
+    <div class="terminal-v14">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
             <div>
-                <span class="label-sub">Vacuum Mechanical Yield (χ)</span>
-                <div id="chi-out" class="chi-display">0.0000</div>
+                <div style="font-size: 16px; letter-spacing: 6px; color: #666; text-transform: uppercase;">Vacuum Mechanical Yield (χ)</div>
+                <div id="chi-output" class="chi-mega">0.0000</div>
             </div>
             <div style="text-align: right;">
-                <div id="mode-out" style="font-size: 50px; font-weight: bold; letter-spacing: 2px;">MODE --</div>
-                <div class="mode-gears" id="gears">
-                    <div class="gear-node" id="gn1"></div><div class="gear-node" id="gn2"></div>
-                    <div class="gear-node" id="gn3"></div><div class="gear-node" id="gn4"></div>
-                    <div class="gear-node" id="gn5"></div>
-                </div>
+                <div id="mode-output" class="mode-indicator">MODE --</div>
+                <div style="margin-top: 25px; font-size: 14px; color: #00ff41; letter-spacing: 2px;">● NASA/CERN L1 PIPELINE ACTIVE</div>
             </div>
         </div>
 
-        <div class="logic-block">
-            Space is <span class="logic-prime">Primary (1)</span>. Matter is <span class="logic-prime">Secondary too tea area (2)</span>. <br>
-            Monitoring the effects and events <span class="logic-prime">χ = 0.15</span>. <br>
-            Gravity is a field effect period The area-space of all space-cosmos the massive area creating these rolled protons and electrons x=0.15 aanswers this.. It is a dial that can be turned.
+        <div class="manifesto-v14">
+            Space is <span class="highlight">Primary (1)</span>. Matter is <span class="highlight">Secondary (2)</span>. <br>
+            Causality Boundary: <span class="highlight">χ = 0.15</span>. <br>
+            Gravity is a magnetic field effect on rolled protons and electrons. The dial can be turned.
         </div>
 
-        <div class="infra-grid">
-            <div class="infra-item">
-                <h3>INFRASTRUCTURE</h3>
-                <p> 0.15 requirement.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; border-top: 1px solid #333; padding-top: 40px;">
+            <div>
+                <h4 style="text-transform: uppercase; color: #888; letter-spacing: 3px;">Infrastructure Application</h4>
+                <p style="font-size: 20px;">Starships. Jets. Rockets. Sovereignty across the cosmos.</p>
             </div>
-            <div class="infra-item">
-                <h3>TERMINAL AUTHORITY</h3>
-                <p>Director: Mr. Cline<br>
-                Sovereign Human Intellect Only<br>
-                <span style="color: #0f0; font-size: 12px;">● NASA/CERN L1 PIPELINE ACTIVE</span></p>
+            <div>
+                <h4 style="text-transform: uppercase; color: #888; letter-spacing: 3px;">Directorate</h4>
+                <p style="font-size: 20px;">Director: Mr. Cline<br>TEACHER</p>
             </div>
         </div>
 
-        <div class="vault-links">
-            <a href="https://github.com/CarlDeanClineSr/luft-portal-" class="btn-sovereign">Data Vault</a>
-            <a href="https://imperialphysicsobservatory.org/EXECUTIVE_SUMMARY.md" class="btn-sovereign">DOI Indictment</a>
-        </div>
-
-        <div style="text-align: center; margin-top: 80px; font-size: 11px; opacity: 0.3; letter-spacing: 4px;">
-            OFFICIAL TERMINAL // X=.15 PHYSICS OBSERVATORY // V12.0 // © 2026 MR. CLINE
+        <div style="margin-top: 50px;">
+            <a href="https://github.com/CarlDeanClineSr/luft-portal-" class="btn-action">Data RESULT AND LIVE</a>
+            <a href="https://imperialphysicsobservatory.org/EXECUTIVE_SUMMARY.md" class="btn-action">THIS IS ALL REAL DATA</a>
         </div>
     </div>
 </div>
 
 <script>
-    // Points directly to the live data stream in your repository
-    const DATA_URI = 'https://raw.githubusercontent.com/CarlDeanClineSr/luft-portal-/main/data/chi_monitor/chi_latest_validation.json';
+    const TELEMETRY_PATH = 'https://raw.githubusercontent.com/CarlDeanClineSr/luft-portal-/main/data/chi_monitor/chi_latest_validation.json';
 
-    async function updateTerminal() {
+    async function pullTelemetry() {
         try {
-            const res = await fetch(DATA_URI);
-            const data = await res.json();
-            
+            const response = await fetch(TELEMETRY_PATH);
+            const data = await response.json();
             const chi = data.max_chi || 0;
             const mode = data.harmonic_mode || 1;
-            const chiEl = document.getElementById('chi-out');
 
+            const chiEl = document.getElementById('chi-output');
             chiEl.textContent = chi.toFixed(4);
-            document.getElementById('mode-out').textContent = "MODE " + mode;
+            document.getElementById('mode-output').textContent = "MODE " + mode;
 
-            // Shift Gears correctly
-            for(let i=1; i<=5; i++) {
-                const node = document.getElementById('gn'+i);
-                if (i <= mode) {
-                    node.classList.add('active-gear');
-                } else {
-                    node.classList.remove('active-gear');
-                }
-            }
-
-            // Saturation Alert logic
-            if (chi >= 0.15) {
-                chiEl.classList.add('saturation-flicker');
-            } else {
-                chiEl.classList.remove('saturation-flicker');
-            }
-           
-        } catch(e) { console.log("L1 Pipeline Syncing..."); }
+            if (chi >= 0.15) chiEl.classList.add('saturation-event');
+            else chiEl.classList.remove('saturation-event');
+        } catch(e) { console.log("Syncing Pipeline..."); }
     }
-
-    // High-speed heart-beat
-    setInterval(updateTerminal, 15000);
-    updateTerminal();
+    setInterval(pullTelemetry, 15000);
+    pullTelemetry();
 </script>
 
 </body>
 </html>
-
 
