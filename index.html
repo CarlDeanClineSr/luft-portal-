@@ -2,272 +2,137 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>X=.15 | IMPERIAL ENGINE TERMINAL</title>
+    <title>IMPERIAL PHYSICS | DATA TERMINAL V6.0</title>
     <style>
-        body { background: #000; color: #fff; font-family: "Courier New", monospace; padding: 50px; margin: 0; }
-        .grid { border: 4px solid #fff; padding: 40px; max-width: 1000px; margin: auto; }
+        :root { --main-bg: #050505; --accent: #ffffff; --warn: #ffcc00; --danger: #ff0000; }
+        body { background: var(--main-bg); color: var(--accent); font-family: 'Segoe UI', 'Courier New', monospace; margin: 0; padding: 20px; overflow-x: hidden; }
         
-        /* DATA HEADER */
-        .header { border-bottom: 4px solid #fff; padding-bottom: 20px; margin-bottom: 40px; display: flex; justify-content: space-between; }
-        .chi-readout { font-size: 120px; line-height: 1; font-weight: bold; }
-        .status-box { text-align: right; border-left: 2px solid #fff; padding-left: 30px; }
+        /* THE COMMAND GRID */
+        .dashboard { max-width: 1400px; margin: auto; display: grid; grid-template-columns: 1fr 350px; gap: 20px; }
         
-        /* CONTENT STYLES */
-        .manifesto { font-size: 20px; line-height: 1.5; margin-bottom: 60px; }
-        .infrastructure { border: 1px solid #444; padding: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .infrastructure h3 { margin-top: 0; text-decoration: underline; letter-spacing: 2px; }
+        /* CENTRAL HUD */
+        .main-monitor { border: 1px solid #333; background: #0a0a0a; padding: 40px; position: relative; }
+        .gauge-container { text-align: center; padding: 40px 0; border-bottom: 1px solid #222; margin-bottom: 30px; }
+        .chi-label { font-size: 14px; letter-spacing: 5px; color: #666; text-transform: uppercase; }
+        .chi-value { font-size: 140px; font-weight: 900; margin: 0; letter-spacing: -5px; }
+        
+        /* THE MODE INDICATOR */
+        .mode-strip { display: flex; justify-content: space-between; margin-top: 20px; }
+        .mode-block { flex: 1; height: 10px; margin: 0 5px; background: #222; transition: 0.5s; }
+        .active-mode { background: #fff; box-shadow: 0 0 15px #fff; }
 
-        /* BUTTONS */
-        .link-block { margin-top: 50px; }
-        .link-block a { color: #000; background: #fff; text-decoration: none; padding: 15px 30px; font-weight: bold; margin-right: 20px; text-transform: uppercase; }
-        .link-block a:hover { background: #ccc; }
+        /* RIGHT SIDEBAR: SATELLITE PIPELINE */
+        .sidebar { border-left: 1px solid #333; padding-left: 20px; }
+        .log-box { font-size: 11px; color: #00ff41; background: #000; padding: 15px; height: 400px; overflow-y: hidden; border: 1px solid #111; font-family: 'Courier New', monospace; }
+        
+        /* DIRECTOR'S INTENT */
+        .manifesto-v6 { font-size: 18px; line-height: 1.6; color: #888; border-top: 1px solid #222; padding-top: 30px; }
+        .bold { color: #fff; text-transform: uppercase; font-weight: bold; }
 
-        /* WARNING STATE */
-        .yield-alert { animation: pulse 0.5s infinite; color: #ff0000; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
+        /* TACTICAL OVERLAY */
+        .alert-flash { animation: alert-anim 0.8s infinite; color: var(--danger) !important; }
+        @keyframes alert-anim { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        
+        .btn-link { border: 1px solid #fff; padding: 10px 20px; color: #fff; text-decoration: none; font-size: 12px; margin-right: 10px; transition: 0.2s; }
+        .btn-link:hover { background: #fff; color: #000; }
     </style>
 </head>
 <body>
 
-<div class="grid">
-    <div class="header">
-        <div>
-            <div style="font-size: 14px;">VACUUM PRESSURE (χ)</div>
-            <div id="chi" class="chi-readout">0.0000</div>
+<div class="dashboard">
+    <div class="main-monitor">
+        <div class="gauge-container" id="gauge-window">
+            <span class="chi-label">Vacuum Lattice Pressure (χ)</span>
+            <p id="chi-display" class="chi-value">0.0000</p>
+            <div id="status-tag" style="font-size: 20px; font-weight: bold;">STANDBY</div>
+            
+            <div class="mode-strip">
+                <div id="m1" class="mode-block"></div>
+                <div id="m2" class="mode-block"></div>
+                <div id="m3" class="mode-block"></div>
+                <div id="m4" class="mode-block"></div>
+                <div id="m5" class="mode-block"></div>
+            </div>
         </div>
-        <div class="status-box">
-            <div style="font-size: 20px;">STATE: <span id="state">INIT</span></div>
-            <div style="font-size: 12px; margin-top: 10px;">NASA/CERN PIPELINE: ACTIVE</div>
-            <div style="font-size: 12px;">LOCATION: LINCOLN, NE [402]</div>
-        </div>
-    </div>
 
-    <div class="manifesto">
-        <p>Standard physics is a cage. <span style="background: #fff; color: #000; padding: 0 5px;">χ = 0.15</span> is the exit.</p>
-        <p>Space is a massive area (1). Matter is (2). The interaction is a magnetic field effect on rolled protons and electrons. This is the mechanical yield point. Gravity is a dial that can be turned.</p>
-    </div>
-
-    <div class="infrastructure">
-        <div>
-            <h3>THE LEGACY</h3>
-            <p>Starships. Jets. Rockets. Free energy for a sovereign populace. The 0.15 boundary is the key to the cosmos.</p>
+        <div class="manifesto-v6">
+            <span class="bold">CERN/NASA Data Integration:</span>
+            <p>Space is the primary area (1). Matter is the secondary interaction (2). We are measuring the <span class="bold">Magnetic Tax</span>—the mechanical yield point of the metric. Gravity is not a theory; it is a field effect that can be manipulated through vacuum quantization.</p>
+            <p>Standard physics remains a cage because it ignores the 0.15 universal boundary. This terminal bridges the gap between raw data and starship-level infrastructure.</p>
         </div>
-        <div>
-            <h3>ACCESS</h3>
-            <p>Director: Mr. Cline<br>
-            Terminal: 402-805-0314</p>
+
+        <div style="margin-top: 40px;">
+            <a href="https://github.com/CarlDeanClineSr/luft-portal-" class="btn-link">DATA REPOSITORY</a>
+            <a href="https://zenodo.org/records/18445959" class="btn-link">ZENODO ARCHIVE (DOI)</a>
         </div>
     </div>
 
-    <div class="link-block">
-        <a href="https://github.com/CarlDeanClineSr/luft-portal-">Data Vault</a>
-        <a href="https://zenodo.org/records/18445959">DOI Evidence</a>
-    </div>
-
-    <div style="margin-top: 60px; font-size: 10px; border-top: 1px solid #333; padding-top: 10px;">
-        © 2026 CARL DEAN CLINE SR. // SOVEREIGN HUMAN INTELLECT // V5.0
+    <div class="sidebar">
+        <h4 style="font-size: 12px; letter-spacing: 2px;">LIVE EVENT LOG</h4>
+        <div class="log-box" id="event-log">
+            [SYS] INITIATING SOVEREIGN UPLINK...<br>
+            [UPLINK] CONNECTING TO NOAA L1 DSCOVR...<br>
+            [UPLINK] CERN ASPECT RATE SYNCED...<br>
+        </div>
+        
+        <div style="margin-top: 30px; border-top: 1px solid #222; padding-top: 20px;">
+            <span class="chi-label">Director</span><br>
+            <span style="font-size: 18px;">Mr. Cline</span><br><br>
+            <span class="chi-label">Terminal</span><br>
+            <span style="font-size: 18px;">402-805-0314</span>
+        </div>
     </div>
 </div>
 
 <script>
-    const DATA_URI = 'https://raw.githubusercontent.com/CarlDeanClineSr/luft-portal-/main/data/chi_monitor/chi_latest_validation.json';
-    async function update() {
-        try {
-            const r = await fetch(DATA_URI);
-            const d = await r.json();
-            const chi = d.max_chi || 0;
-            const mode = d.harmonic_mode || 1;
-            
-            const chiEl = document.getElementById('chi');
-            chiEl.textContent = chi.toFixed(4);
-            document.getElementById('state').textContent = "MODE " + mode;
+    const LOG_URI = 'https://raw.githubusercontent.com/CarlDeanClineSr/luft-portal-/main/data/chi_monitor/chi_latest_validation.json';
+    const logBox = document.getElementById('event-log');
 
-            if (chi >= 0.15) chiEl.classList.add('yield-alert');
-            else chiEl.classList.remove('yield-alert');
-        } catch (e) {}
+    function addLog(msg) {
+        const time = new Date().toLocaleTimeString();
+        logBox.innerHTML = `[${time}] ${msg}<br>` + logBox.innerHTML;
     }
-    setInterval(update, 15000);
-    update();
+
+    async function fetchImperialTelemetry() {
+        try {
+            const r = await fetch(LOG_URI);
+            const data = await r.json();
+            
+            const chi = data.max_chi || 0;
+            const mode = data.harmonic_mode || 1;
+            
+            const chiEl = document.getElementById('chi-display');
+            const statusEl = document.getElementById('status-tag');
+            
+            chiEl.textContent = chi.toFixed(4);
+            statusEl.textContent = "MODE " + mode;
+
+            // Reset Mode Blocks
+            for(let i=1; i<=5; i++) document.getElementById('m'+i).classList.remove('active-mode');
+            
+            // Light up modes up to current
+            for(let i=1; i<=mode; i++) document.getElementById('m'+i).classList.add('active-mode');
+
+            // CRITICAL ALERT
+            if (chi >= 0.15) {
+                chiEl.classList.add('alert-flash');
+                statusEl.style.color = "#ff0000";
+                addLog("CRITICAL: VACUUM SATURATION REACHED");
+            } else {
+                chiEl.classList.remove('alert-flash');
+                statusEl.style.color = "#fff";
+            }
+
+            addLog(`PING: χ=${chi.toFixed(4)} SYNCED FROM L1.`);
+
+        } catch (e) {
+            addLog("ERROR: PIPELINE INTERRUPTED. RETRYING...");
+        }
+    }
+
+    setInterval(fetchImperialTelemetry, 15000);
+    fetchImperialTelemetry();
 </script>
 
 </body>
 </html>
-
-# @title 🏛️ THE IMPERIAL HARMONIC OBSERVATORY (V3.0 LIVE)
-# @markdown **Active Systems:**
-# @markdown - **Live Telemetry:** Pulls real-time NOAA DSCOVR/ACE Plasma & Mag data.
-# @markdown - **Quantization Engine:** Calculates χ and snaps to Mode = n * 0.15.
-# @markdown - **Harmonic Display:** Visualizes the vacuum gears shifting live.
-
-import requests
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from datetime import datetime, timezone
-from IPython.display import clear_output, display
-import time
-
-# --- IMPERIAL CONSTANTS ---
-BASE_CHI = 0.15
-MODES = {
-    1: {"limit": 0.15, "name": "Mode 1 (Base State)", "color": "cyan"},
-    2: {"limit": 0.30, "name": "Mode 2 (Elevated)", "color": "lime"},
-    3: {"limit": 0.45, "name": "Mode 3 (High Stress)", "color": "yellow"},
-    4: {"limit": 0.60, "name": "Mode 4 (Critical)", "color": "orange"},
-    5: {"limit": 0.75, "name": "Mode 5 (Lunar Clog / Extreme)", "color": "red"}
-}
-
-# --- 1. DATA INGESTION ENGINE ---
-def fetch_live_solar_wind():
-    """Fetches real-time JSON data from NOAA SWPC."""
-    mag_url = "https://services.swpc.noaa.gov/products/solar-wind/mag-1-day.json"
-    plasma_url = "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-day.json"
-
-    try:
-        # Fetch Magnetometer Data
-        r_mag = requests.get(mag_url, timeout=5).json()
-        df_mag = pd.DataFrame(r_mag[1:], columns=r_mag[0])
-        df_mag['time_tag'] = pd.to_datetime(df_mag['time_tag'])
-        df_mag[['bz_gsm', 'bt']] = df_mag[['bz_gsm', 'bt']].astype(float)
-
-        # Fetch Plasma Data
-        r_plas = requests.get(plasma_url, timeout=5).json()
-        df_plas = pd.DataFrame(r_plas[1:], columns=r_plas[0])
-        df_plas['time_tag'] = pd.to_datetime(df_plas['time_tag'])
-        df_plas['speed'] = df_plas['speed'].astype(float)
-
-        # Merge on timestamp (Inner join to get exact matches)
-        df = pd.merge(df_mag, df_plas, on='time_tag', how='inner')
-
-        # Keep last 120 minutes (120 data points)
-        return df.tail(120).reset_index(drop=True)
-    except Exception as e:
-        return None
-
-# --- 2. THE CHI (χ) CALCULATOR ---
-def calculate_imperial_chi(df):
-    """
-    Calculates the Vacuum Stress (χ) proxy based on live telemetry.
-    Normalizes Bz tension and Kinetic Speed into the 0.15 Harmonic framework.
-    """
-    # Base normalization factors based on imperial standard
-    bz_stress = (np.abs(df['bz_gsm']) / df['bt']).fillna(0) # Magnetic tearing
-    speed_stress = ((df['speed'] - 400) / 400).clip(lower=0) # Kinetic pressure
-
-    # Composite Chi Proxy (Scaled to align with the 0.15 threshold)
-    df['chi'] = 0.08 + (bz_stress * 0.05) + (speed_stress * 0.15)
-
-    return df
-
-# --- 3. HARMONIC MODE DETECTOR ---
-def get_current_mode(chi_val):
-    """Calculates Mode = ceil(χ / 0.15)"""
-    n = int(np.ceil(chi_val / BASE_CHI))
-    if n < 1: n = 1
-    if n > 5: n = 5
-    return n
-
-# --- MAIN OBSERVATORY LOOP ---
-plt.ion()
-fig = plt.figure(figsize=(14, 8), facecolor='#050505')
-
-# Dual Axes setup
-ax1 = fig.add_subplot(2, 1, 1, facecolor='#0d0d0d') # Telemetry
-ax2 = fig.add_subplot(2, 1, 2, facecolor='#0d0d0d') # Quantization
-
-print("🚀 INITIALIZING IMPERIAL HARMONIC OBSERVATORY...")
-
-while True:
-    try:
-        # 1. Fetch & Calculate
-        df = fetch_live_solar_wind()
-        if df is None or df.empty:
-            time.sleep(5)
-            continue
-
-        df = calculate_imperial_chi(df)
-
-        current_time = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')
-        latest_chi = df['chi'].iloc[-1]
-        latest_bz = df['bz_gsm'].iloc[-1]
-        latest_speed = df['speed'].iloc[-1]
-
-        # 2. Determine Mode
-        current_n = get_current_mode(latest_chi)
-        active_mode = MODES[current_n]
-
-        # --- TOP GRAPH: RAW TELEMETRY ---
-        ax1.clear()
-        ax1.set_facecolor('#0d0d0d')
-
-        ax1.plot(df['time_tag'], df['speed'], color='cyan', label='Solar Wind Speed (km/s)')
-        ax1.set_ylabel('Speed (km/s)', color='cyan')
-        ax1.tick_params(axis='y', labelcolor='cyan')
-        ax1.grid(True, color='#333333', linestyle=':')
-
-        ax1_bz = ax1.twinx()
-        ax1_bz.plot(df['time_tag'], df['bz_gsm'], color='magenta', alpha=0.7, label='Bz Magnetic Field (nT)')
-        ax1_bz.set_ylabel('Bz (nT)', color='magenta')
-        ax1_bz.tick_params(axis='y', labelcolor='magenta')
-
-        ax1.set_title(f"LIVE TELEMETRY INTERCEPT | Earth L1 Shield Status", color='white', loc='left')
-
-        # --- BOTTOM GRAPH: GEOMAGNETIC VACUUM QUANTIZATION ---
-        ax2.clear()
-        ax2.set_facecolor('#0d0d0d')
-
-        # Plot the actual Chi stress
-        ax2.plot(df['time_tag'], df['chi'], color=active_mode['color'], linewidth=2, label='Observed Vacuum Stress (χ)')
-
-        # Draw the Harmonic Boundary Lines
-        for n, mode_data in MODES.items():
-            ax2.axhline(y=mode_data['limit'], color=mode_data['color'], linestyle='--', alpha=0.5)
-            ax2.text(df['time_tag'].iloc[0], mode_data['limit'] + 0.005, f"Mode {n} ({mode_data['limit']:.2f})", color=mode_data['color'], fontsize=9)
-
-        # Highlight current state
-        ax2.fill_between(df['time_tag'], df['chi'], 0, color=active_mode['color'], alpha=0.1)
-
-        ax2.set_title(f"HARMONIC LATTICE QUANTIZATION (Rule: Mode = n * {BASE_CHI})", color='gold', fontweight='bold', loc='left')
-        ax2.set_ylabel('Chi (χ) Amplitude', color='white')
-        ax2.set_ylim([0, 0.9])
-        ax2.grid(True, color='#333333', linestyle=':')
-        ax2.tick_params(colors='gray')
-
-        # --- IMPERIAL ALERTS LOGIC ---
-        chi_alert = ""
-        if latest_chi >= 0.15:
-            chi_alert = "🚨 [CRITICAL SATURATION] χ ≥ 0.15 CAUSALITY BOUNDARY REACHED!"
-            ax2.set_facecolor('#3d0000') # Flashes dark red
-        elif latest_chi >= 0.12:
-            chi_alert = "⚠️ [WARNING] Lattice stress approaching χ = 0.15 yield point."
-        else:
-            chi_alert = "✅ [NOMINAL] Vacuum lattice tension stable."
-
-        if latest_bz < -2.0:
-            field_state = "🔴 SOUTHWARD (LATTICE OPEN - VULNERABLE)"
-        elif latest_bz > 2.0:
-            field_state = "🛡️ NORTHWARD (LATTICE CLOSED - DEFLECTING)"
-        else:
-            field_state = "➖ NEUTRAL / TRANSITIONING"
-
-        # --- RENDER AND READOUT ---
-        clear_output(wait=True)
-        display(fig)
-
-        print("="*70)
-        print(f"🏛️ IMPERIAL OBSERVATORY LIVE FEED | {current_time}")
-        print("="*70)
-        print(f"📡 K-INDEX (Bz): {latest_bz:.2f} nT  | STATE: {field_state}")
-        print(f"⚡ χ-STRESS:    {latest_chi:.4f}     | HARMONIC MODE: {current_n}")
-        print(f"🚀 SOLAR WIND:  {latest_speed:.1f} km/s | STATUS: {active_mode['name']}")
-        print("-" * 70)
-        print(chi_alert)
-        print("="*70)
-
-        # Pause for 60 seconds before fetching the next data point
-        time.sleep(60)
-
-    except Exception as e:
-        # THIS WAS THE MISSING PIECE! It catches errors and keeps the loop alive.
-        print(f"⚠️ Telemetry Interruption: {e}. Retrying in 10 seconds...")
-        time.sleep(10)
