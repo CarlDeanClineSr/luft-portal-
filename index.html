@@ -11,29 +11,23 @@
         .sovereign-frame { background: rgba(0,0,0,0.85); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 30px; }
         .hud-terminal { border: 2px solid rgba(255,255,255,0.4); background: rgba(0,0,0,0.95); padding: 60px; max-width: 1200px; width: 90%; }
         
-        /* THE DATA GAUGE */
-        .chi-display { font-size: 160px; font-weight: 900; line-height: 1; letter-spacing: -12px; margin: 0; transition: color 0.5s; }
+        .chi-display { font-size: 160px; font-weight: 900; line-height: 1; letter-spacing: -12px; margin: 0; }
         .label-sub { font-size: 16px; color: #888; letter-spacing: 6px; text-transform: uppercase; }
         
-        /* MODE SHIFTERS */
         .mode-gears { display: flex; gap: 12px; margin-top: 25px; }
         .gear-node { width: 60px; height: 15px; background: #1a1a1a; border: 1px solid #333; }
         .active-gear { background: #fff; box-shadow: 0 0 20px #fff; border-color: #fff; }
 
-        /* THE MANIFESTO */
         .logic-block { font-size: 24px; line-height: 1.6; color: #ddd; margin: 50px 0; border-left: 4px solid #fff; padding-left: 30px; }
         .logic-prime { color: #fff; font-weight: bold; text-decoration: underline; }
 
-        /* INFRASTRUCTURE GRID */
         .infra-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; border-top: 1px solid #333; padding-top: 40px; }
         .infra-item h3 { font-size: 16px; letter-spacing: 3px; border-bottom: 1px solid #fff; display: inline-block; margin-bottom: 20px; }
         
-        /* DATA LINKS */
         .vault-links { margin-top: 50px; }
         .btn-sovereign { border: 1px solid #fff; padding: 18px 40px; color: #fff; text-decoration: none; font-size: 13px; text-transform: uppercase; font-weight: bold; margin-right: 20px; }
         .btn-sovereign:hover { background: #fff; color: #000; }
 
-        /* PHYSICAL WARNING FOR MODE 2+ */
         .saturation-flicker { color: #ff0000 !important; animation: yield-blink 0.6s infinite; }
         @keyframes yield-blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
     </style>
@@ -58,15 +52,15 @@
         </div>
 
         <div class="logic-block">
-            Space is <span class="logic-prime">Primary (1)</span>. Matter is <span class="logic-prime">Secondary (2)</span>. <br>
-            Monitoring the causality boundary at <span class="logic-prime">χ = 0.15</span>. <br>
-            Gravity is a magnetic field effect on rolled protons and electrons. It is a dial that can be turned.
+            Space is <span class="logic-prime">Primary (1)</span>. Matter is <span class="logic-prime">Secondary too tea area (2)</span>. <br>
+            Monitoring the effects and events <span class="logic-prime">χ = 0.15</span>. <br>
+            Gravity is a field effect period The area-space of all space-cosmos the massive area creating these rolled protons and electrons x=0.15 aanswers this.. It is a dial that can be turned.
         </div>
 
         <div class="infra-grid">
             <div class="infra-item">
-                <h3>INFRASTRUCTURE </h3>
-                <p>  This is the 0.15 requirement.</p>
+                <h3>INFRASTRUCTURE</h3>
+                <p> 0.15 requirement.</p>
             </div>
             <div class="infra-item">
                 <h3>TERMINAL AUTHORITY</h3>
@@ -78,31 +72,55 @@
 
         <div class="vault-links">
             <a href="https://github.com/CarlDeanClineSr/luft-portal-" class="btn-sovereign">Data Vault</a>
-            <a href="https://imperialphysicsobservatory.org" class="btn-sovereign">DOI Indictment</a>
+            <a href="https://imperialphysicsobservatory.org/EXECUTIVE_SUMMARY.md" class="btn-sovereign">DOI Indictment</a>
         </div>
 
         <div style="text-align: center; margin-top: 80px; font-size: 11px; opacity: 0.3; letter-spacing: 4px;">
-            OFFICIAL TERMINAL // X=.15 PHYSICS OBSERVATORY // V11.0 // © 2026 MR. CLINE
+            OFFICIAL TERMINAL // X=.15 PHYSICS OBSERVATORY // V12.0 // © 2026 MR. CLINE
         </div>
     </div>
 </div>
 
 <script>
-   
-        // Shift Gears
+    // Points directly to the live data stream in your repository
+    const DATA_URI = 'https://raw.githubusercontent.com/CarlDeanClineSr/luft-portal-/main/data/chi_monitor/chi_latest_validation.json';
+
+    async function updateTerminal() {
+        try {
+            const res = await fetch(DATA_URI);
+            const data = await res.json();
+            
+            const chi = data.max_chi || 0;
+            const mode = data.harmonic_mode || 1;
+            const chiEl = document.getElementById('chi-out');
+
+            chiEl.textContent = chi.toFixed(4);
+            document.getElementById('mode-out').textContent = "MODE " + mode;
+
+            // Shift Gears correctly
             for(let i=1; i<=5; i++) {
-                document.getElementById('gn'+i).className = (i <= mode) ?  step active' : 'step';
+                const node = document.getElementById('gn'+i);
+                if (i <= mode) {
+                    node.classList.add('active-gear');
+                } else {
+                    node.classList.remove('active-gear');
+                }
             }
 
             // Saturation Alert logic
-            if (chi >= 0.15) chiEl.classList.add('saturation-flicker');
+            if (chi >= 0.15) {
+                chiEl.classList.add('saturation-flicker');
+            } else {
+                chiEl.classList.remove('saturation-flicker');
+            }
            
-        } catch(e) { console.log("Terminal Syncing..."); }
+        } catch(e) { console.log("L1 Pipeline Syncing..."); }
     }
+
+    // High-speed heart-beat
     setInterval(updateTerminal, 15000);
     updateTerminal();
 </script>
 
 </body>
 </html>
-
