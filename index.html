@@ -3,126 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IMPERIAL PHYSICS OBSERVATORY | DIRECTOR: MR CLINE</title>
+    <title>IMPERIAL PHYSICS | SOVEREIGN TERMINAL</title>
     <style>
-        body { background-color: #050505; color: #e0e0e0; font-family: "Courier New", monospace; margin: 0; padding: 20px; }
-        .container { max-width: 900px; margin: 0 auto; border: 1px solid #333; padding: 20px; background: #0a0a0a; }
+        /* CORE ARCHITECTURE */
+        body { background-color: #000; color: #FFF; font-family: "Courier New", monospace; margin: 0; padding: 40px; }
+        .terminal { max-width: 1100px; margin: auto; border: 1px solid #FFF; padding: 2px; }
+        .inner-border { border: 1px solid #FFF; padding: 40px; }
+
+        /* DATA HUD */
+        .hud-header { border-bottom: 2px solid #FFF; padding-bottom: 20px; margin-bottom: 40px; }
+        .readout-row { display: flex; justify-content: space-between; align-items: baseline; }
+        .chi-large { font-size: 110px; font-weight: bold; margin: 0; letter-spacing: -5px; }
+        .unit { font-size: 20px; letter-spacing: 2px; }
+
+        /* THE MISSION */
+        .section-header { font-size: 24px; border-bottom: 1px solid #FFF; display: inline-block; margin-bottom: 20px; padding-right: 50px; }
+        .vision-block { font-size: 18px; line-height: 1.6; color: #CCC; margin-bottom: 50px; }
+        .bold { color: #FFF; font-weight: bold; }
         
-        /* HEADER */
-        header { border-bottom: 2px solid #00FFFF; padding-bottom: 20px; margin-bottom: 30px; text-align: center; }
-        h1 { color: #00FFFF; text-transform: uppercase; margin: 0; letter-spacing: 2px; }
-        .subtitle { color: #888; font-size: 14px; margin-top: 5px; }
+        /* THE FUTURE GRID */
+        .cosmic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; border-top: 1px solid #333; padding-top: 40px; }
+        .grid-item { border-left: 2px solid #FFF; padding-left: 20px; }
+        .item-title { font-size: 14px; text-transform: uppercase; color: #888; margin-bottom: 10px; }
 
-        /* LIVE HUD */
-        #live-hud { border: 2px solid #333; padding: 20px; margin-bottom: 30px; background: #000; display: flex; flex-wrap: wrap; justify-content: space-around; }
-        .metric { text-align: center; padding: 10px; min-width: 150px; }
-        .metric-val { font-size: 36px; font-weight: bold; display: block; margin-top: 5px; text-shadow: 0 0 10px rgba(0,255,255,0.3); }
-        .metric-label { font-size: 12px; color: #888; letter-spacing: 1px; }
+        /* INTERFACE */
+        .btn { border: 1px solid #FFF; padding: 15px 30px; color: #FFF; text-decoration: none; display: inline-block; margin-right: 15px; text-transform: uppercase; font-size: 12px; }
+        .btn:hover { background: #FFF; color: #000; }
 
-        /* STORY BLOCK */
-        .story-block { border-left: 4px solid #FFD700; padding-left: 20px; margin: 40px 0; background: #111; padding: 20px; }
-        h2 { color: #FFD700; margin-top: 0; }
-        p { line-height: 1.6; }
-        .quote { font-style: italic; color: #aaa; margin: 20px 0; display: block; }
-
-        /* FOOTER */
-        footer { text-align: center; margin-top: 50px; border-top: 1px solid #333; padding-top: 20px; font-size: 12px; color: #555; }
-        a { color: #00FFFF; text-decoration: none; }
-        
-        /* STATUS COLORS */
-        .status-stable { color: #00FFFF; }
-        .status-warning { color: #FFA500; }
-        .status-critical { color: #FF0000; animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        /* SYSTEM STATUS */
+        #status-indicator { font-size: 12px; color: #0F0; }
+        .warning { color: #F00 !important; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1>REALITY Physics Observatory</h1>
-        <div class="subtitle">DIRECTOR: MR CLINE | LINCOLN, NE 402-805-0314 | GLOBAL TERMINAL</div>
-    </header>
+<div class="terminal">
+    <div class="inner-border">
+        
+        <div class="hud-header">
+            <div class="readout-row">
+                <div>
+                    <span class="unit">VACUUM PRESSURE [χ]</span>
+                    <p id="chi-val" class="chi-large">0.1500</p>
+                </div>
+                <div style="text-align: right;">
+                    <span class="unit">STATE: </span><span id="state-val" style="font-size: 40px;">LOCK</span><br>
+                    <span id="status-indicator">● SYSTEM ONLINE // NOAH/CERN PIPELINE ACTIVE</span>
+                </div>
+            </div>
+        </div>
 
-    <div id="live-hud">
-        <div class="metric">
-            <span class="metric-label">VACUUM EFFECT STEP 1 (χ)</span>
-            <span id="chi-val" class="metric-val status-stable">LOADING</span>
+        <div class="vision-block">
+            <div class="section-header">DIRECTOR'S MANIFESTO</div>
+            <p>Standard physics is a cage. <span class="bold">χ = 0.15</span> is the exit. This observatory monitors the constant tax the vacuum extracts from matter. We are not watching theoretical particles; we are watching the mechanical yield point of the metric.</p>
+            
+            <p>The space as we know it is a massive area. Logic dictates that if the area is Primary (1) and matter is Secondary (2), the interaction is the only thing that matters. We have the data. Gravity is a magnetic field effect on rolled protons and electrons. It is a dial that can be turned.</p>
         </div>
-        <div class="metric">
-            <span class="metric-label">First STATE</span>
-            <span id="mode-val" class="metric-val" style="color:#FFF;">---</span>
+
+        <div class="cosmic-grid">
+            <div class="grid-item">
+                <div class="item-title">Imperial Infrastructure</div>
+                <p>Starships. Jets. Rockets. Free energy for a healthy, sovereign populace across the cosmos. This is the 0.15 legacy.</p>
+            </div>
+            <div class="grid-item">
+                <div class="item-title">Terminal Access</div>
+                <p>Location: Lincoln, NE [402]<br>
+                Director: Mr. Cline<br>
+                Direct: 402-805-0314</p>
+            </div>
         </div>
-        <div class="metric">
-            <span class="metric-label">ALL PHYSICS CONNECTIONS AND ASPECT RATE INDICATOR</span>
-            <span class="metric-val" style="color:#00FF00;">0.00%</span>
+
+        <div style="margin-top: 60px;">
+            <a href="https://github.com/CarlDeanClineSr/luft-portal-" class="btn">Data Vault</a>
+            <a href="https://zenodo.org/records/18445959" class="btn">DOI Evidence</a>
+        </div>
+
+        <div style="margin-top: 40px; font-size: 10px; color: #444;">
+            X=.15 PHYSICS OBSERVATORY V5.0 // SOVEREIGN HUMAN INTELLECT ONLY // © 2026 MR. CLINE
         </div>
     </div>
-
-    <div class="story-block">
-        <h2>The on going study of Nasa and CERN DATA NONE STOP datasets and live satillite pipelines</h2>
-        <p><strong>Carl Dean Cline MR CLINE | Febuary 12th 2026</strong></p>
-        <p>hello I am Carl I have questions  : <em>Why is everything — from ALL ELECTRONS TO ALL photon MICRO-MACRO ALL MATTER regulated by X=.15 THIS NATURAL FIELD EFFECT IN THE COSMIC AREA-SPACE — </em></p>
-        <p>The space as we know it THIS is a very large AREA YOUR saying that, THAT is nothing THAT is now logical, this huge area that is number (1) we are and all matter THAT IS IN IT number (2) too the first space-area that is massive /p>
-        <p class="quote">"ThE matter IS + ANTI IS LESS - SIMPLE CERN DATA."</p>
-        <p> x=0.15 <strong>χ ≈ 0.15</strong>. SPACE IS NOT NOTHING THE TAX IS REAL AND WE ARE MAGNETIC FEILD ROLLED ELECTRONS AND PROTONS GRAVITY IS NOT WHAT THEY SAY AND CAN BE ALTERED NOW.</p>
-        <p>The Vacuum or space-area every thing is in tis area simple logic we and all of it that is matter and the effects if a area that prefure this matter are what is in the area-space.</p>
-    </div>
-
-    <div style="text-align: center; margin-bottom: 30px;">
-        <a href="https://github.com/CarlDeanClineSr/luft-portal-" target="_blank">[ ACCESS DATA REPOSITORY ]</a> &nbsp;&nbsp;
-        <a href="https://zenodo.org/records/18445959" target="_blank">[ DOWNLOAD PROOF (DOI) ]</a>
-    </div>
-
-    <footer>
-        OFFICIAL TERMINAL // X=.15 PHYISICS OBSERVATORY V4.0<br>
-        © 2026 Carl Dean Cline Sr. All Rights Reserved.
-    </footer>
 </div>
 
 <script>
-    // IMPERIAL UPLINK SCRIPT
-    // Pulls processed JSON from the Beast (GitHub Actions)
-    const JSON_URL = 'https://raw.githubusercontent.com/CarlDeanClineSr/luft-portal-/main/data/chi_monitor/chi_latest_validation.json';
+    const DATA_URL = 'https://raw.githubusercontent.com/CarlDeanClineSr/luft-portal-/main/data/chi_monitor/chi_latest_validation.json';
 
-    async function updateStatus() {
+    async function pull() {
         try {
-            const response = await fetch(JSON_URL);
-            if (!response.ok) throw new Error("Connection Lost");
-            const data = await response.json();
+            const r = await fetch(DATA_URL);
+            const d = await r.json();
+            const chi = d.max_chi || 0;
+            const mode = d.harmonic_mode || 1;
 
-            // PARSE DATA
-            const chi = data.max_chi || 0;
-            const mode = data.harmonic_mode || 1;
+            document.getElementById('chi-val').textContent = chi.toFixed(4);
+            document.getElementById('state-val').textContent = "MODE " + mode;
 
-            // UPDATE DOM
-            const chiEl = document.getElementById('chi-val');
-            const modeEl = document.getElementById('mode-val');
-
-            chiEl.textContent = chi.toFixed(4);
-            modeEl.textContent = "MODE " + mode;
-
-            // COLOR LOGIC
-            chiEl.className = "metric-val"; // Reset
             if (chi >= 0.15) {
-                chiEl.classList.add("status-critical");
-                modeEl.style.color = "#FF0000";
-            } else if (chi >= 0.12) {
-                chiEl.classList.add("status-warning");
-                modeEl.style.color = "#FFA500";
+                document.getElementById('chi-val').style.color = "#F00";
             } else {
-                chiEl.classList.add("status-stable");
-                modeEl.style.color = "#00FFFF";
+                document.getElementById('chi-val').style.color = "#FFF";
             }
-
         } catch (e) {
-            console.log("Uplink waiting...", e);
+            console.log("Syncing...");
         }
     }
-
-    // Refresh loop
-    updateStatus();
-    setInterval(updateStatus, 30000);
+    setInterval(pull, 15000);
+    pull();
 </script>
 
 </body>
