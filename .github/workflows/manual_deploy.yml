@@ -1,0 +1,19 @@
+name: 🚀 MANUAL WEBSITE REFRESH
+on:
+  workflow_dispatch: # ONLY runs when you click the button
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+      - uses: actions/deploy-pages@v4
