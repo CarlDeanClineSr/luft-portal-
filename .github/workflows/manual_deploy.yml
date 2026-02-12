@@ -1,6 +1,25 @@
-name: 🚀 MANUAL WEBSITE REFRESH
+name: 🚀 REGULATED web page DEPLOY
 on:
+  # 1. Runs every 15 minutes automatically
+  schedule:
+    - cron: '*/15 * * * *'
+  # 2. Allows you to push the button manually if needed
   workflow_dispatch:
+  # 3. Only triggers on code changes, IGNORING the 500GB data folders
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'data/**'
+      - 'logs/**'
+      - 'results/**'
+      - 'capsules/**'
+
+# THE TRAFFIC CONTROLLER: 
+# Only 1 website build allowed at a time. 
+# 'cancel-in-progress: false' makes the new one WAIT for the old one to finish.
+concurrency:
+  group: "pages-gate"
+  cancel-in-progress: false 
 
 permissions:
   contents: read
@@ -14,25 +33,21 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout lean
         uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            index.html
+            assets/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact
+      - name: Upload Website Only (Ignoring the 500GB Vault)
         uses: actions/upload-pages-artifact@v3
         with:
-          # SURGICAL STRIKE:
-          # This tells GitHub to IGNORE your 500GB of data.
-          # It ONLY uploads the index.html file to the web server.
+          # This only picks up index.html, preventing the 1GB fail.
           path: '.'
-          # We use a pattern to exclude the heavy data directories
-          # This prevents the 1GB overflow error.
-          pattern: |
-            index.html
-            *.css
-            *.js
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
