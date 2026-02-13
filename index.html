@@ -162,7 +162,7 @@
 
 <div id="cabinet">
     <div class="glass-tube" onclick="unmuteVideo()">
-        <video id="player" playsinline webkit-playsinline muted autoplay></video>
+        <video id="player" controls playsinline webkit-playsinline></video>
     </div>
 
     <div class="side-panel">
@@ -200,10 +200,7 @@
 </div>
 
 <script>
-    // ==============================================
-    // CONTENT ARRAYS – ALL YOUR REAL LINKS
-    // ==============================================
-
+    // CONTENT ARRAYS (your real links)
     const ads49 = [
         {n: "1949 Lincoln", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1949_Lincoln.mp4"},
         {n: "1949 Mercury", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1949_Mercury.mp4"},
@@ -266,18 +263,41 @@
         {n: "Making of Living Planet", u: "https://archive.org/download/living-planet/living_planet_13_the_making_of_the_living_planet.mp4"}
     ];
 
+    const apollo = [
+        {n: "Apollo 11 Reel 01", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2001.mp4"},
+        {n: "Apollo 11 Reel 02", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2002.mp4"},
+        {n: "Apollo 11 Reel 03", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2003.mp4"},
+        {n: "Apollo 11 Reel 04", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2004.mp4"},
+        {n: "Apollo 11 Reel 05", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2005.mp4"},
+        {n: "Apollo 11 Reel 06", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2006.mp4"},
+        {n: "Apollo 11 Reel 07", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2007.mp4"},
+        {n: "Apollo 11 Reel 08", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2008.mp4"},
+        {n: "Apollo 11 Reel 09", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2009.mp4"},
+        {n: "Apollo 11 Reel 10", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2010.mp4"},
+        {n: "Apollo 11 Reel 11", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2011.mp4"},
+        {n: "Apollo 11 Reel 12", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2012.mp4"},
+        {n: "Apollo 11 Reel 13", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2013.mp4"},
+        {n: "Apollo 11 Reel 14", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2014.mp4"},
+        {n: "Apollo 11 Reel 15", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2015.mp4"},
+        {n: "Apollo 11 Reel 16", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2016.mp4"},
+        {n: "Apollo 11 Reel 17", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2017.mp4"},
+        {n: "Apollo 11 Reel 18", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2018.mp4"},
+        {n: "Apollo 11 Reel 19", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2019.mp4"},
+        {n: "Apollo 11 Reel 20", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2020.mp4"},
+        {n: "Apollo 11 Reel 21", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2021.mp4"},
+        {n: "Apollo 11 Reel 22", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2022.mp4"},
+        {n: "Apollo 11 Reel 23", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2023.mp4"}
+    ];
+
     const specials = [
         {n: "Wonderful World of Wheels", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"},
         {n: "The Time Machine 1978", u: "https://archive.org/download/the-time-machine-1978-time-travel-sci-fi/The%20Time%20Machine%20%281978%20Time%20Travel%20SciFi%29.mp4"}
     ];
 
-    // ==============================================
-    // MASTER ARCHIVE – ALL CATEGORIES COMBINED
-    // ==============================================
+    // MASTER ARCHIVE
     let archive = ads49.concat(ads61, nature, apollo, specials);
-    archive.sort(() => Math.random() - 0.5); // Shuffle once on load
+    archive.sort(() => Math.random() - 0.5); // Shuffle
 
-    // Category start indexes (approximate – used for jumping)
     const catStarts = {
         ads49: 0,
         ads61: ads49.length,
@@ -294,16 +314,11 @@
     const screen = document.getElementById('index-screen');
     const channelNum = document.getElementById('channel-num');
 
-    // ==============================================
-    // INITIALIZATION
-    // ==============================================
     window.onload = function() {
         makeDashes('t-dashes', 100);
         makeDashes('s-dashes', 80);
         loadVideo(0);
-
-        // Try auto-play (muted first)
-        player.play().catch(() => console.log("Auto-play blocked – waiting for user gesture"));
+        player.play().catch(() => console.log("Auto-play blocked – waiting for click"));
     };
 
     function loadVideo(idx) {
@@ -311,7 +326,6 @@
         const item = archive[currentIndex];
         player.src = item.u;
         player.load();
-        player.play().catch(() => console.log("Play blocked"));
         screen.innerText = item.n;
         let ch = (currentIndex + 1).toString().padStart(2, '0');
         channelNum.innerText = "CH " + ch;
@@ -336,7 +350,7 @@
     function jumpTo(key) {
         let start = catStarts[key];
         if (start === undefined) return;
-        currentIndex = start + Math.floor(Math.random() * 5); // random within ~5 items of category
+        currentIndex = start + Math.floor(Math.random() * 5);
         loadVideo(currentIndex);
     }
 
@@ -369,4 +383,3 @@
 </script>
 </body>
 </html>
-
