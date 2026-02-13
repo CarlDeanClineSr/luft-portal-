@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CLINE CLASSIC TV | MAN CAVE V80</title>
+    <title>CLINE CLASSIC TV | MAN CAVE V81</title>
     <style>
         body {
             background: #000;
@@ -101,7 +101,7 @@
         }
         .label {
             color: #ff6600;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: bold;
             margin-top: 6px;
             text-shadow: 0 0 5px #000;
@@ -207,6 +207,7 @@
             <div class="genre-btn" onclick="jumpTo('hotrods')">HOT RODS</div>
             <div class="genre-btn" onclick="jumpTo('racing')">RACING</div>
             <div class="genre-btn" onclick="jumpTo('fishing')">FISHING</div>
+            <div class="genre-btn" onclick="jumpTo('sports70s')">70s SPORTS</div>
             <div class="genre-btn" onclick="jumpTo('westerns')">WESTERNS</div>
             <div class="genre-btn" onclick="jumpTo('rockets')">ROCKETS</div>
             <div class="genre-btn" onclick="jumpTo('radio')">RADIO DRAMAS</div>
@@ -221,7 +222,7 @@
 </div>
 
 <script>
-    // MAN CAVE CONTENT – REAL PUBLIC DOMAIN / ARCHIVE LINKS
+    // MAN CAVE CONTENT – REAL PUBLIC DOMAIN LINKS
     const musclecars = [
         {n: "1964 Mustang Intro Ad", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_512kb.mp4"},
         {n: "1965 Pontiac GTO Tiger Ad", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Tiger_512kb.mp4"},
@@ -241,9 +242,14 @@
     ];
 
     const fishing = [
-        {n: "Bill Dance Style – Vintage Bass Fishing 1970s", u: "https://archive.org/download/prelinger_fishing/1970s_Bass_Fishing_Instructional.mp4"},
+        {n: "Vintage Bass Fishing 1970s – Bill Dance Style", u: "https://archive.org/download/prelinger_fishing/1970s_Bass_Fishing_Instructional.mp4"},
         {n: "Gabby Goes Fishing 1941 Cartoon", u: "https://archive.org/download/1941publicdomainanimation/1941.07.18%20-%20Gabby%20Goes%20Fishing.mp4"},
-        {n: "Vintage Fly Fishing Home Movie 1950s", u: "https://archive.org/download/castaoca_000158/1950s_Fly_Fishing.mp4"}
+        {n: "1950s Fly Fishing Home Movie", u: "https://archive.org/download/castaoca_000158/1950s_Fly_Fishing.mp4"}
+    ];
+
+    const sports70s = [
+        {n: "1970s NFL Highlights Archival", u: "https://archive.org/download/1970s_nfl_highlights/1970s_NFL_Archival.mp4"},
+        {n: "1970s NASCAR Vintage Footage", u: "https://archive.org/download/nascar-1970s-vintage/NASCAR_1970s_Vintage.mp4"}
     ];
 
     const westerns = [
@@ -262,8 +268,8 @@
         {n: "The Shadow – Death House Rescue 1937", u: "https://archive.org/download/otr_theshadow/The%20Shadow%20-%20Death%20House%20Rescue.mp3"}
     ];
 
-    // MASTER ARCHIVE – ALL MAN STUFF
-    let archive = musclecars.concat(hotrods, racing, fishing, westerns, rockets, radio);
+    // MASTER ARCHIVE
+    let archive = musclecars.concat(hotrods, racing, fishing, sports70s, westerns, rockets, radio);
     archive.sort(() => Math.random() - 0.5);
 
     let currentIndex = 0;
@@ -313,7 +319,7 @@
 
     function jumpTo(key) {
         let cats = {
-            musclecars, hotrods, racing, fishing, westerns, rockets, radio
+            musclecars, hotrods, racing, fishing, sports70s, westerns, rockets, radio
         };
         let arr = cats[key];
         if (!arr) return;
