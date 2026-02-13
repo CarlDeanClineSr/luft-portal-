@@ -2,122 +2,119 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>THE CLINE CLASSIC COLLECTION | VINTAGE TV</title>
+    <title>CLINE CLASSIC TV | FULL SCREEN</title>
     <style>
-        body { background: #000; color: #fff; font-family: 'Courier New', monospace; margin: 0; padding: 0; overflow: hidden; }
+        body { background: #050505; color: #fff; font-family: 'Courier New', monospace; margin: 0; padding: 0; overflow: hidden; }
         
-        /* ADJUSTED VINTAGE TV CHASSIS */
-        .tv-chassis {
-            width: 85%; max-width: 800px; height: 48vh; margin: 10px auto;
-            background: #2b1d0e; border: 12px solid #3d2b1f; border-radius: 50px;
-            position: relative; box-shadow: inset 0 0 40px #000, 0 10px 30px rgba(0,0,0,0.8);
+        /* HEAVY WOOD CHASSIS - OPTIMIZED FOR 52" VIZIO */
+        .console-unit {
+            width: 95vw; height: 85vh; margin: 2vh auto;
+            background: #2b1d0e; border: 20px solid #1a110a; border-radius: 60px;
+            position: relative; box-shadow: inset 0 0 100px #000, 0 30px 60px #000;
             display: flex; align-items: center; justify-content: center;
         }
-        .tv-screen { 
-            width: 82%; height: 85%; background: #000; border-radius: 15%; 
-            overflow: hidden; border: 8px solid #111; position: relative; z-index: 1;
-        }
-        video, iframe { width: 100%; height: 100%; object-fit: contain; }
 
-        /* ANALOG DIAL CONTROLS */
-        .analog-controls {
-            position: absolute; right: 15px; display: flex; flex-direction: column; gap: 15px; align-items: center;
+        /* CRT STYLE SCREEN */
+        .screen-glass { 
+            width: 82%; height: 88%; background: #000; border-radius: 15%; 
+            overflow: hidden; border: 15px solid #111; position: relative;
+            box-shadow: inset 0 0 40px rgba(255,255,255,0.05);
         }
-        .dial { width: 40px; height: 40px; background: #555; border: 3px solid #111; border-radius: 50%; cursor: pointer; position: relative; }
-        .dial::after { content: ''; position: absolute; top: 4px; left: 50%; width: 3px; height: 12px; background: #fff; transform: translateX(-50%); }
-        .dial:active { transform: rotate(30deg); }
+        video { width: 100%; height: 100%; object-fit: contain; }
 
-        /* COMPACT HUD (CLEANED - NO MATH) */
-        .compact-hud {
-            padding: 10px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
-            background: #0a0a0a; border-top: 1px solid #444; align-items: center; height: 120px;
+        /* TWIN DIAL ASSEMBLY */
+        .control-panel {
+            position: absolute; right: 30px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 60px; align-items: center;
         }
-        .lesson-text { font-size: 16px; line-height: 1.5; border-left: 3px solid #fff; padding-left: 20px; }
-        .director-tag { text-align: right; font-size: 10px; color: #888; letter-spacing: 2px; }
+        .dial-group { text-align: center; }
+        .dial-knob { 
+            width: 80px; height: 80px; background: #444; border: 5px solid #000; 
+            border-radius: 50%; cursor: pointer; position: relative; transition: 0.2s;
+            box-shadow: 0 5px 15px #000;
+        }
+        .dial-knob::after { content: ''; position: absolute; top: 8px; left: 50%; width: 6px; height: 25px; background: #fff; transform: translateX(-50%); }
+        .dial-knob:active { transform: rotate(30deg); }
+        .dial-label { font-size: 12px; margin-top: 10px; color: #888; letter-spacing: 2px; font-weight: bold; }
 
-        /* ALPHABETICAL ACTION STRIP */
-        .action-strip { display: flex; gap: 15px; padding: 15px 40px; background: #000; align-items: center; }
+        /* CHANNEL STRIP & INDEX */
+        .bottom-shelf { 
+            height: 10vh; background: #000; display: flex; align-items: center; 
+            padding: 0 50px; gap: 30px; border-top: 1px solid #222;
+        }
         select { 
-            background: #111; color: #fff; border: 1px solid #fff; padding: 10px; 
-            font-family: 'Courier New'; cursor: pointer; font-size: 13px; width: 350px;
-            text-transform: uppercase;
+            background: #111; color: #fff; border: 1px solid #555; padding: 12px; 
+            font-size: 18px; font-family: 'Courier New'; width: 500px; cursor: pointer;
         }
-        .reel-tab { 
-            flex: 0 0 100px; height: 45px; border: 1px solid #444; 
-            display: flex; align-items: center; justify-content: center; 
-            text-align: center; font-size: 10px; cursor: pointer; 
-        }
-        .reel-tab:hover { border-color: #fff; color: #0f0; }
+        .dir-tag { margin-left: auto; text-align: right; font-size: 12px; color: #444; }
     </style>
 </head>
 <body>
 
-<div class="tv-chassis">
-    <div class="tv-screen" id="main-view">
-        <video id="player" controls autoplay muted loop>
-            <source src="https://archive.org/download/donald-in-mathematic-land-pack/1959-06-26%20-%20Donald%20in%20Mathematic%20Land%20%28Short%29%20TreasDVD.mp4" type="video/mp4">
+<div class="console-unit">
+    <div class="screen-glass" id="display-out">
+        <video id="tv-core" controls autoplay loop>
+            <source src="https://archive.org/download/dvd-transfer-12-wfld/VTS_01_1.mp4" type="video/mp4">
         </video>
     </div>
-    <div class="analog-controls">
-        <div class="dial" onclick="cycleReels()"></div>
-        <div style="font-size: 8px;">CHANNELS</div>
+
+    <div class="control-panel">
+        <div class="dial-group">
+            <div class="dial-knob" onclick="nextChannel()"></div>
+            <div class="dial-label">TUNER</div>
+        </div>
+        <div class="dial-group">
+            <div class="dial-knob" style="width:60px; height:60px;" onclick="togglePower()"></div>
+            <div class="dial-label">MASTER</div>
+        </div>
     </div>
 </div>
 
-<div class="compact-hud">
-    <div class="lesson-text">
-        Welcome to the <b>Cline Classic Collection</b>.<br>
-        Space is Primary (1). Matter is Secondary (2). <br>
-        Visualizing the future through the logic of the past.
-    </div>
-    <div class="director-tag">
-        DIRECTOR: MR. CLINE<br>
-        LINCOLN, NE [402]<br>
-        <span style="color:#0f0;">● BROADCAST ACTIVE</span>
-    </div>
-</div>
-
-<div class="action-strip">
-    <select id="master-index" onchange="loadMedia(this.value)">
-        <option value="">-- ALPHABETICAL ARCHIVE INDEX --</option>
-        <option value="https://archive.org/download/CosmosEpisode1TheShoresOfTheCosmicOcean/Cosmos%20-%20Episode%201%20-%20The%20Shores%20of%20the%20Cosmic%20Ocean.mp4">A - Carl Sagan: Shores of the Cosmic Ocean</option>
-        <option value="https://archive.org/download/DestinationMoon1950/DestinationMoon1950.mp4">D - Destination Moon (1950)</option>
-        <option value="https://archive.org/download/donald-in-mathematic-land-pack/1959-06-26%20-%20Donald%20in%20Mathematic%20Land%20%28Short%29%20TreasDVD.mp4">D - Donald in Mathmagic Land (1959)</option>
-        <option value="https://archive.org/download/73812EyesInOuterSpace_201808/73812EyesInOuterSpace_201808_512kb.mp4">E - Eyes in Outer Space (1959)</option>
-        <option value="https://archive.org/download/ManAndTheMoon/ManAndTheMoon.mp4">M - Man and the Moon (Von Braun)</option>
-        <option value="https://archive.org/download/ManInSpace/ManInSpace.mp4">M - Man in Space (Von Braun)</option>
-        <option value="https://archive.org/download/OurMrSun/Our_Mr_Sun.mp4">O - Our Mr. Sun (1956)</option>
-        <option value="https://archive.org/download/TheoryOfRelativity/Theory_of_Relativity_512kb.mp4">T - Theory of Relativity (Educational)</option>
+<div class="bottom-shelf">
+    <select id="archive-index" onchange="tuneTo(this.value)">
+        <option value="">-- SELECT BROADCAST (DVD TRANSFER 12) --</option>
+        <option value="https://archive.org/download/dvd-transfer-12-wfld/VTS_01_1.mp4">REEL 01: VTS_01_1</option>
+        <option value="https://archive.org/download/dvd-transfer-12-wfld/VTS_01_2.mp4">REEL 02: VTS_01_2</option>
+        <option value="https://archive.org/download/dvd-transfer-12-wfld/VTS_01_3.mp4">REEL 03: VTS_01_3</option>
+        <option value="https://archive.org/download/dvd-transfer-12-wfld/VTS_01_4.mp4">REEL 04: VTS_01_4</option>
+        <option value="https://archive.org/download/dvd-transfer-12-wfld/VTS_01_5.mp4">REEL 05: VTS_01_5</option>
+        <option value="https://archive.org/download/donald-in-mathematic-land-pack/1959-06-26%20-%20Donald%20in%20Mathematic%20Land%20%28Short%29%20TreasDVD.mp4">BONUS: MATHMAGIC LAND</option>
     </select>
 
-    <div class="reel-tab" onclick="loadMedia('discovery.mp4')">MY<br>DISCOVERY</div>
-    <div class="reel-tab" onclick="loadMedia('https://archive.org/download/VoyageToTheMoon/VoyageToTheMoon_512kb.mp4')">VOYAGE TO<br>THE MOON</div>
+    <div class="dir-tag">
+        MR. CLINE | CLASSIC COLLECTION<br>
+        LINCOLN, NE TERMINAL [402]
+    </div>
 </div>
 
 <script>
-    function loadMedia(url) {
+    const reels = [
+        "https://archive.org/download/dvd-transfer-12-wfld/VTS_01_1.mp4",
+        "https://archive.org/download/dvd-transfer-12-wfld/VTS_01_2.mp4",
+        "https://archive.org/download/dvd-transfer-12-wfld/VTS_01_3.mp4",
+        "https://archive.org/download/dvd-transfer-12-wfld/VTS_01_4.mp4",
+        "https://archive.org/download/dvd-transfer-12-wfld/VTS_01_5.mp4"
+    ];
+    let currentChannel = 0;
+
+    function tuneTo(url) {
         if(!url) return;
-        const view = document.getElementById('main-view');
-        // Smoothly swap between Video and Iframe for YouTube/Archive compatibility
-        if (url.includes('youtube.com') || url.includes('youtu.be')) {
-            const id = url.split('v=')[1] || url.split('/').pop();
-            view.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay" allowfullscreen></iframe>`;
-        } else {
-            view.innerHTML = `<video controls autoplay loop><source src="${url}" type="video/mp4"></video>`;
-        }
+        const core = document.getElementById('tv-core');
+        core.src = url;
+        core.play();
     }
 
-    let reel_list = [
-        "https://archive.org/download/donald-in-mathematic-land-pack/1959-06-26%20-%20Donald%20in%20Mathematic%20Land%20%28Short%29%20TreasDVD.mp4",
-        "https://archive.org/download/ManInSpace/ManInSpace.mp4",
-        "https://archive.org/download/ManAndTheMoon/ManAndTheMoon.mp4"
-    ];
-    let current = 0;
-    function cycleReels() {
-        current = (current + 1) % reel_list.length;
-        loadMedia(reel_list[current]);
+    function nextChannel() {
+        currentChannel = (currentChannel + 1) % reels.length;
+        tuneTo(reels[currentChannel]);
+    }
+
+    function togglePower() {
+        const screen = document.getElementById('display-out');
+        screen.style.opacity = (screen.style.opacity === "0") ? "1" : "0";
     }
 </script>
 
 </body>
 </html>
+
