@@ -2,130 +2,144 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>IMPERIAL ACADEMY | COSMOS TV</title>
+    <title>IMPERIAL ACADEMY | 100-CHANNEL CONSOLE</title>
     <style>
-        body { background: #000; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; }
+        body { background: #000; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; width: 100vw; }
         
-        /* THE VIZIO-SCALE CHASSIS */
-        .tv-chassis {
+        /* FULL-SCREEN CHASSIS DESIGN */
+        #main-console {
             width: 96vw; height: 92vh;
-            background: #2b1d0e; 
-            border: 25px solid #1a110a; border-radius: 90px;
-            position: relative; box-shadow: inset 0 0 150px #000, 0 50px 100px #000;
+            background: radial-gradient(circle, #3d2b1f 0%, #1a110a 100%);
+            border: 25px solid #140d08; border-radius: 80px;
             display: flex; align-items: center; justify-content: space-around;
-            padding: 0 40px;
+            padding: 0 40px; box-sizing: border-box;
+            box-shadow: inset 0 0 100px #000, 0 50px 100px #000;
         }
 
-        /* GLASS CRT TUBE */
+        /* CRT TUBE */
         .crt-tube { 
-            width: 76%; height: 86%; background: #000; border-radius: 18%; 
+            width: 72%; height: 85%; background: #000; border-radius: 18%; 
             overflow: hidden; border: 20px solid #111; position: relative;
-            box-shadow: inset 0 0 100px rgba(255,255,255,0.05);
+            cursor: zoom-in; box-shadow: inset 0 0 80px rgba(255,255,255,0.05);
         }
         video { width: 100%; height: 100%; object-fit: contain; background: #000; }
 
-        /* ANALOG CONTROL BAY */
-        .dial-bay { display: flex; flex-direction: column; gap: 80px; align-items: center; width: 18%; }
-        .dial-unit { position: relative; display: flex; flex-direction: column; align-items: center; }
-        
-        /* DIAL KNOBS */
+        /* CONTROL COLUMN */
+        .controls { width: 22%; display: flex; flex-direction: column; align-items: center; gap: 40px; }
+
+        /* 100-NUMBER TUNER */
+        .dial-wrap { position: relative; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; }
         .knob {
-            width: 120px; height: 120px; background: #333; border: 6px solid #000;
-            border-radius: 50%; cursor: pointer; position: relative; 
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 20px #000; z-index: 5;
+            width: 100px; height: 100px; background: #333; border: 6px solid #000;
+            border-radius: 50%; cursor: pointer; position: relative; z-index: 10;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .knob::after { content: ''; position: absolute; top: 10px; left: 50%; width: 8px; height: 35px; background: #fff; transform: translateX(-50%); }
+        .knob::after { content: ''; position: absolute; top: 8px; left: 50%; width: 6px; height: 30px; background: #fff; transform: translateX(-50%); }
 
-        /* TUNER NUMBERS 1-13 */
         .num-ring {
-            position: absolute; width: 220px; height: 220px; top: -50px;
-            font-family: 'Arial Black', sans-serif; color: #555; pointer-events: none;
+            position: absolute; width: 220px; height: 220px;
+            font-family: 'Arial Narrow', sans-serif; color: #555; pointer-events: none;
         }
-        .num-pos { position: absolute; width: 220px; text-align: center; transform-origin: 110px 110px; font-size: 26px; }
+        .n { position: absolute; width: 220px; text-align: center; transform-origin: 110px 110px; font-size: 10px; font-weight: bold; }
 
-        .label { font-size: 16px; color: #666; letter-spacing: 5px; margin-top: 15px; font-weight: bold; text-transform: uppercase; }
-        .id-stamp { position: absolute; bottom: 35px; right: 60px; color: #222; font-size: 14px; letter-spacing: 3px; font-weight: bold; }
+        /* INDEPENDENT INDEX BOX */
+        .index-box {
+            width: 180px; height: 80px; background: #0a0a0a; border: 2px solid #444;
+            color: #0f0; font-family: 'Courier New', monospace; font-size: 12px;
+            padding: 10px; overflow: hidden; text-transform: uppercase; text-align: center;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .label { font-size: 14px; color: #666; letter-spacing: 3px; font-weight: bold; text-transform: uppercase; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-<div class="tv-chassis">
-    <div class="crt-tube">
+<div id="main-console">
+    <div class="crt-tube" onclick="goFullscreen()">
         <video id="tv-player" controls autoplay loop>
             <source src="https://archive.org/download/cosmos_1980/COSMOS_01.mp4" type="video/mp4">
         </video>
     </div>
 
-    <div class="dial-bay">
-        <div class="dial-unit">
-            <div class="num-ring" id="tuner-ring"></div>
-            <div class="knob" id="tuner-knob" onclick="clickTuner()"></div>
-            <div class="label">Cosmos Tuner</div>
+    <div class="controls">
+        <div class="dial-wrap">
+            <div class="num-ring" id="ring"></div>
+            <div class="knob" id="tuner" onclick="tuneVideo()"></div>
         </div>
+        <div class="label">Tuner (Active)</div>
 
-        <div class="dial-unit">
-            <div class="knob" style="width:100px; height:100px;" id="selector-knob" onclick="clickSelector()"></div>
-            <div class="label">Selector</div>
+        <div class="index-box" id="info-screen">COSMOS EP 1: SHORES OF THE COSMIC OCEAN</div>
+
+        <div class="dial-wrap" style="height: 140px;">
+            <div class="knob" style="width:80px; height:80px;" id="selector" onclick="scrollIndex()"></div>
+            <div class="label">Index (Preview)</div>
         </div>
     </div>
-
-    <div class="id-stamp">DIRECTOR: MR. CLINE | LINCOLN, NE</div>
 </div>
 
 <script>
-    // BUILD THE NUMBERS AROUND THE DIAL
-    const tunerRing = document.getElementById('tuner-ring');
-    for(let i=1; i<=13; i++) {
-        const div = document.createElement('div');
-        div.className = 'num-pos';
-        div.innerText = i;
-        div.style.transform = `rotate(${i * (360/13)}deg)`;
-        tunerRing.appendChild(div);
+    // 100 NUMBER GENERATOR
+    const ring = document.getElementById('ring');
+    for(let i=0; i<100; i++) {
+        const d = document.createElement('div');
+        d.className = 'n'; d.innerText = i;
+        d.style.transform = `rotate(${i * 3.6}deg)`;
+        ring.appendChild(d);
     }
 
-    // THE COSMOS 1980 ARCHIVE LIST
+    // ARCHIVE INDEX
     const archive = [
-        "https://archive.org/download/cosmos_1980/COSMOS_01.mp4",
-        "https://archive.org/download/cosmos_1980/COSMOS_02.mp4",
-        "https://archive.org/download/cosmos_1980/COSMOS_03.mp4",
-        "https://archive.org/download/cosmos_1980/COSMOS_04.mp4",
-        "https://archive.org/download/cosmos_1980/COSMOS_05.mp4",
-        "https://archive.org/download/cosmos_1980/COSMOS_06.mp4",
-        "https://archive.org/download/cosmos_1980/COSMOS_07.mp4",
-        "https://archive.org/download/cosmos_1980/COSMOS_08.mp4",
-        "https://archive.org/download/cosmos_1980/COSMOS_09.mp4",
-        "https://archive.org/download/cosmos_1980/COSMOS_10.mp4",
-        "https://archive.org/download/cosmos_1980/COSMOS_11.mp4",
-        "https://archive.org/download/cosmos_1980/COSMOS_12.mp4",
-        "https://archive.org/download/cosmos_1980/COSMOS_13.mp4",
-        "https://archive.org/download/cosmos_1980/COSMOS_14.mp4"
+        {t: "COSMOS EP 1: SHORES OF OCEAN", u: "https://archive.org/download/cosmos_1980/COSMOS_01.mp4"},
+        {t: "COSMOS EP 2: VOICE IN FUGUE", u: "https://archive.org/download/cosmos_1980/COSMOS_02.mp4"},
+        {t: "COSMOS EP 3: HARMONY OF WORLDS", u: "https://archive.org/download/cosmos_1980/COSMOS_03.mp4"},
+        {t: "COSMOS EP 4: HEAVEN AND HELL", u: "https://archive.org/download/cosmos_1980/COSMOS_04.mp4"},
+        {t: "COSMOS EP 5: BLUES FOR RED PLANET", u: "https://archive.org/download/cosmos_1980/COSMOS_05.mp4"},
+        {t: "COSMOS EP 6: TRAVELERS TALES", u: "https://archive.org/download/cosmos_1980/COSMOS_06.mp4"},
+        {t: "COSMOS EP 7: BACKBONE OF NIGHT", u: "https://archive.org/download/cosmos_1980/COSMOS_07.mp4"},
+        {t: "COSMOS EP 8: TRAVELS IN SPACE", u: "https://archive.org/download/cosmos_1980/COSMOS_08.mp4"},
+        {t: "COSMOS EP 9: LIVES OF STARS", u: "https://archive.org/download/cosmos_1980/COSMOS_09.mp4"},
+        {t: "COSMOS EP 10: EDGE OF FOREVER", u: "https://archive.org/download/cosmos_1980/COSMOS_10.mp4"},
+        {t: "COSMOS EP 11: MEMORY OF GALAXY", u: "https://archive.org/download/cosmos_1980/COSMOS_11.mp4"},
+        {t: "COSMOS EP 12: ENCYCLO GALACTICA", u: "https://archive.org/download/cosmos_1980/COSMOS_12.mp4"},
+        {t: "COSMOS EP 13: WHO SPEAKS FOR EARTH", u: "https://archive.org/download/cosmos_1980/COSMOS_13.mp4"},
+        {t: "DONALD: MATHMAGIC LAND", u: "https://archive.org/download/donald-in-mathematic-land-pack/1959-06-26%20-%20Donald%20in%20Mathematic%20Land%20%28Short%29%20TreasDVD.mp4"}
     ];
 
-    let current = 0;
+    let tunerPos = 0;
+    let indexPos = 0;
     let tDeg = 0;
     let sDeg = 0;
 
-    function playReel(idx) {
+    // TOP DIAL: Changes the video and the index box
+    function tuneVideo() {
+        tDeg += 36.0; // Moves 10 "numbers" per click
+        tunerPos = (tunerPos + 1) % archive.length;
+        document.getElementById('tuner').style.transform = `rotate(${tDeg}deg)`;
+        
         const player = document.getElementById('tv-player');
-        player.pause();
-        player.src = archive[idx];
-        player.load(); // Refresh the buffer for the smart TV
-        player.play().catch(e => console.log("Playback error: ", e));
+        player.src = archive[tunerPos].u;
+        player.load();
+        player.play();
+        
+        document.getElementById('info-screen').innerText = archive[tunerPos].t;
+        indexPos = tunerPos; // Sync the index dial to the tuner
     }
 
-    function clickTuner() {
-        tDeg += (360/13);
-        document.getElementById('tuner-knob').style.transform = `rotate(${tDeg}deg)`;
-        current = (current + 1) % archive.length;
-        playReel(current);
-    }
-
-    function clickSelector() {
+    // BOTTOM DIAL: Changes the index box ONLY
+    function scrollIndex() {
         sDeg += 30;
-        document.getElementById('selector-knob').style.transform = `rotate(${sDeg}deg)`;
-        current = (current + 1) % archive.length;
-        playReel(current);
+        indexPos = (indexPos + 1) % archive.length;
+        document.getElementById('selector').style.transform = `rotate(${sDeg}deg)`;
+        document.getElementById('info-screen').innerText = archive[indexPos].t;
+    }
+
+    // FULL SCREEN COMMAND
+    function goFullscreen() {
+        const elem = document.getElementById("main-console");
+        if (elem.requestFullscreen) { elem.requestFullscreen(); }
+        else if (elem.webkitRequestFullscreen) { elem.webkitRequestFullscreen(); }
+        else if (elem.msRequestFullscreen) { elem.msRequestFullscreen(); }
     }
 </script>
 
