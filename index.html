@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CLINE CLASSIC TV | MAN CAVE V94</title>
+    <title>CLINE CLASSIC TV | MAN CAVE V95</title>
     <style>
         body {
             background: #000;
@@ -52,16 +52,17 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 30px;
+            padding-top: 40px;
         }
         .dial-housing {
             position: relative;
             width: 120px;
-            height: 140px;
+            height: 160px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
         }
         .knob {
             width: 90px;
@@ -90,6 +91,7 @@
             width: 140px;
             height: 140px;
             pointer-events: none;
+            top: -25px;
         }
         .dash {
             position: absolute;
@@ -100,11 +102,11 @@
             top: 50%;
         }
         .label {
-            color: #ff6600;
-            font-size: 16px;
+            color: #fff;
+            font-size: 18px;
             font-weight: bold;
-            margin-top: 10px;
-            text-shadow: 0 0 10px #ff6600;
+            margin-top: 25px;
+            text-shadow: 0 0 8px #fff;
             letter-spacing: 2px;
         }
         .volume-container {
@@ -136,24 +138,6 @@
             border: 2px solid #000;
             box-shadow: 0 2px 6px #000;
         }
-        .category-display {
-            background: #111;
-            border: 3px solid #ff6600;
-            padding: 12px 18px;
-            color: #ff6600;
-            font-size: 14px;
-            font-weight: bold;
-            text-align: center;
-            border-radius: 8px;
-            box-shadow: 0 0 20px #ff6600, inset 0 0 15px #000;
-            width: 90%;
-            letter-spacing: 1px;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-        @keyframes glow {
-            from { box-shadow: 0 0 10px #ff6600, inset 0 0 10px #000; }
-            to { box-shadow: 0 0 25px #ff6600, inset 0 0 15px #000; }
-        }
         .social-ledger {
             position: absolute;
             bottom: 25px;
@@ -175,21 +159,6 @@
             font-weight: bold;
             border-radius: 8px;
         }
-        .info-display {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0,0,0,0.9);
-            color: #ff6600;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 12px;
-            max-width: 70%;
-            text-align: center;
-            border: 2px solid #ff6600;
-            box-shadow: 0 0 15px #ff6600;
-        }
         .version {
             position: absolute;
             top: 15px;
@@ -203,12 +172,11 @@
 <body>
 
 <button class="fs-toggle" onclick="toggleFS()">[ FULL SCREEN ]</button>
-<div class="version">V94</div>
+<div class="version">V95</div>
 
 <div id="cabinet">
     <div class="glass-tube" onclick="startBroadcast()">
         <video id="player" controls playsinline webkit-playsinline></video>
-        <div class="info-display" id="info">Click screen to start broadcast</div>
     </div>
 
     <div class="side-panel">
@@ -221,8 +189,6 @@
         <div class="volume-container">
             <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider" id="volume-knob" oninput="player.volume = this.value">
         </div>
-
-        <div class="category-display" id="cat-display">ADDAMS FAMILY</div>
 
         <div class="dial-housing">
             <div class="dash-ring" id="s-dashes"></div>
@@ -351,6 +317,11 @@
         {n: "1964 Oldsmobile Jetfire Turbo", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Oldsmobile_Jetfire_Turbo_Rocket_V-8_512kb.mp4"}
     ];
 
+    // ========== MILITARY & HISTORY ==========
+    const military = [
+        {n: "DOD Film - Military History", u: "https://archive.org/download/gov.dod.dimoc.30190/gov.dod.dimoc.30190_512kb.mp4"}
+    ];
+
     // ========== SPACE & ROCKETS ==========
     const space = [
         {n: "Apollo 11 Moon Landing (1969)", u: "https://archive.org/download/Apollo_11_Television_Coverage/Apollo_11_Moon_Landing.mp4"}
@@ -369,6 +340,7 @@
         {name: "CLASSIC TV", content: classicTV},
         {name: "SCI-FI CLASSICS", content: sciFi},
         {name: "VINTAGE ADS", content: commercials},
+        {name: "MILITARY & HISTORY", content: military},
         {name: "SPACE & ROCKETS", content: space},
         {name: "DRIVE-IN MOVIES", content: driveIn}
     ];
@@ -380,8 +352,6 @@
     let isRunning = false;
 
     const player = document.getElementById('player');
-    const catDisplay = document.getElementById('cat-display');
-    const infoDisplay = document.getElementById('info');
 
     window.onload = () => {
         makeDashes('t-dashes', 100);
@@ -394,8 +364,6 @@
         const video = cat.content[currentVideoIndex];
         player.src = video.u;
         player.load();
-        catDisplay.textContent = cat.name;
-        infoDisplay.textContent = video.n;
     }
 
     function startBroadcast() {
