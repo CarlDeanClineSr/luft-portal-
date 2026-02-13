@@ -2,42 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CLINE CLASSIC TV | V62 VERIFIED</title>
+    <title>CLINE CLASSIC TV |  V68</title>
     <style>
         body { background: #000; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; width: 100vw; }
-        #cabinet { 
-            width: 98vw; height: 94vh; 
-            background: linear-gradient(to bottom, #3d2914, #2b1d0e); /* Rich wood grain */
-            border: 25px solid #1a110a; border-radius: 70px;
+        #cabinet {
+            width: 98vw; height: 94vh;
+            background: #2b1d0e; border: 20px solid #1a110a; border-radius: 60px;
             display: flex; align-items: center; justify-content: space-around;
-            padding: 30px; box-sizing: border-box; position: relative;
-            box-shadow: inset 0 0 200px #000, 0 60px 120px #000;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%233d2914"/><path d="M0,0 Q50,100 100,0" stroke="%234d3418" stroke-width="8" fill="none"/><path d="M0,50 Q50,0 100,50" stroke="%232d1d0a" stroke-width="6" fill="none"/></svg>'); /* Wood grain texture */
-            background-size: 200px;
+            padding: 20px; box-sizing: border-box; position: relative;
+            box-shadow: inset 0 0 150px #000, 0 50px 100px #000;
         }
-        .glass-tube { width: 75%; height: 90%; background: #000; border-radius: 15%; overflow: hidden; border: 20px solid #111; position: relative; cursor: pointer; box-shadow: inset 0 0 50px #000; }
+        .glass-tube { width: 75%; height: 90%; background: #000; border-radius: 15%; overflow: hidden; border: 15px solid #111; position: relative; cursor: pointer; }
         video { width: 100%; height: 100%; object-fit: contain; background: #000; }
-        .side-panel { width: 22%; display: flex; flex-direction: column; align-items: center; gap: 25px; }
-        .dial-housing { position: relative; width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; }
-        .knob { width: 100px; height: 100px; background: #333; border: 8px solid #000; border-radius: 50%; cursor: pointer; position: relative; z-index: 10; transition: transform 0.2s; box-shadow: 0 10px 20px #000; }
-        .knob::after { content: ''; position: absolute; top: 10px; left: 50%; width: 6px; height: 35px; background: #fff; transform: translateX(-50%); }
-        .dash-ring { position: absolute; width: 160px; height: 160px; pointer-events: none; }
-        .dash { position: absolute; width: 160px; height: 3px; background: #555; transform-origin: center; top: 50%; }
-        .orange-monitor { 
-            width: 240px; height: 100px; background: #050505; border: 3px solid #642; 
-            color: #ff6600; font-family: 'Courier New', monospace; font-size: 16px; font-weight: bold;
-            padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            text-align: center; box-shadow: inset 0 0 20px #000, 0 0 20px #ff6600; text-shadow: 0 0 10px #cc4400;
-            position: relative; overflow: hidden;
+        .side-panel { width: 22%; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .dial-housing { position: relative; width: 130px; height: 130px; display: flex; align-items: center; justify-content: center; }
+        .knob {
+            width: 95px; height: 95px; background: #333; border: 6px solid #000;
+            border-radius: 50%; cursor: pointer; position: relative; z-index: 10;
+            transition: transform 0.2s; box-shadow: 0 8px 15px #000;
         }
-        .orange-monitor::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, #ff6600, transparent); animation: scan 4s linear infinite; }
-        @keyframes scan { 0% { top: -100%; } 100% { top: 100%; } }
-        .genre-buttons { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 10px; }
-        .genre-btn { width: 40px; height: 40px; background: #333; border: 4px solid #000; border-radius: 50 sjuk%; color: #ff6600; font-size: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 10px #000; }
-        .like-dislike { display: flex; gap: 20px; margin-top: 10px; }
-        .like-dislike button { background: #222; color: #ff6600; border: 1px solid #642; padding: 8px 15px; cursor: pointer; border-radius: 10px; }
-        .social-ledger { position: absolute; bottom: 30px; right: 50px; color: #666; font-size: 12px; }
-        .fs-toggle { position: absolute; top: 20px; left: 20px; background: #111; color: #fff; border: 1px solid #444; padding: 12px; cursor: pointer; font-size: 12px; z-index: 100; font-weight: bold; border-radius: 10px; }
+        .knob::after { content: ''; position: absolute; top: 8px; left: 50%; width: 5px; height: 28px; background: #fff; transform: translateX(-50%); }
+        .dash-ring { position: absolute; width: 150px; height: 150px; pointer-events: none; }
+        .dash { position: absolute; width: 150px; height: 2px; background: #444; transform-origin: center; top: 50%; }
+        
+        .orange-monitor {
+            width: 210px; height: 60px; background: #050505; border: 2px solid #531;
+            color: #ff6600; font-family: 'Courier New', monospace; font-size: 10px;
+            padding: 8px; display: flex; align-items: center; justify-content: center;
+            text-align: center; text-transform: uppercase; box-shadow: inset 0 0 15px #000;
+            text-shadow: 0 0 8px #cc4400; overflow: hidden; font-weight: bold; line-height: 1.2;
+        }
+        
+        /* REAL COUNTER CONTAINER */
+        .social-ledger { position: absolute; bottom: 25px; right: 40px; color: #444; font-family: sans-serif; font-size: 12px; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+        .fs-toggle { position: absolute; top: 15px; left: 15px; background: #111; color: #fff; border: 1px solid #444; padding: 10px; cursor: pointer; font-size: 10px; z-index: 100; font-weight: bold; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -45,65 +43,140 @@
 <button class="fs-toggle" onclick="toggleFS()">[ FULL CABINET MODE ]</button>
 
 <div id="cabinet">
-    <div class="glass-tube" onclick="toggleFS()"><video id="player" controls autoplay playsinline></video></div>
+    <div class="glass-tube" onclick="toggleFS()"><video id="player" controls autoplay loop playsinline></video></div>
     <div class="side-panel">
-        <div class="dial-housing"><div class="dash-ring" id="t-dashes"></div><div class="knob" id="t-knob" onclick="tune(1)" oncontextmenu="event.preventDefault(); tune(-1);"></div></div>
-        <div style="color:#777; font-size:10px; font-weight:bold; letter-spacing:3px;">TUNER</div>
+        <div class="dial-housing"><div class="dash-ring" id="t-dashes"></div><div class="knob" id="t-knob" onclick="tune(1)" oncontextmenu="tune(-1)"></div></div>
+        <div style="color:#555; font-size:9px; font-weight:bold; letter-spacing:2px; text-align:center;">TUNER (SYNC VIDEO)</div>
         
-        <div class="orange-monitor">
-            <div id="channel-display">CHANNEL 01</div>
-            <div id="title-display">LOADING BROADCAST...</div>
-            <div class="like-dislike">
-                <button onclick="like()">LIKE (<span id="likes">0</span>)</button>
-                <button onclick="dislike()">DISLIKE (<span id="dislikes">0</span>)</button>
-            </div>
-        </div>
+        <div class="orange-monitor" id="index-screen">LOADING SIMULATOR...</div>
         
-        <div class="genre-buttons">
-            <div class="genre-btn" onclick="jumpToCategory('nascar')">NASCAR</div>
-            <div class="genre-btn" onclick="jumpToCategory('commercials')">ADS</div>
-            <div class="genre-btn" onclick="jumpToCategory('radio')">RADIO</div>
-            <div class="genre-btn" onclick="jumpToCategory('scifi')">SCI-FI</div>
-            <div class="genre-btn" onclick="jumpToCategory('nasa')">NASA</div>
-        </div>
-        
-        <div class="dial-housing"><div class="dash-ring" id="s-dashes"></div><div class="knob" style="width:80px; height:80px;" id="s-knob" onclick="scrollIndex(1)" oncontextmenu="event.preventDefault(); scrollIndex(-1);"></div></div>
-        <div style="color:#777; font-size:10px; font-weight:bold; letter-spacing:3px;">INDEX</div>
+        <div class="dial-housing"><div class="dash-ring" id="s-dashes"></div><div class="knob" style="width:75px; height:75px;" id="s-knob" onclick="scrollIndex(1)" oncontextmenu="scrollIndex(-1)"></div></div>
+        <div style="color:#555; font-size:9px; font-weight:bold; letter-spacing:2px; text-align:center;">INDEX (SURF TITLES)</div>
     </div>
     
     <div class="social-ledger">
-        <img src="https://hitwebcounter.com/counter/counter.php?page=17462819&style=0006&nbdigits=5&type=page&initCount=1952" alt="view counter" />
-        <span>LIVE VIEWERS</span>
+        <a href="https://www.hitwebcounter.com" target="_blank">
+            <img src="https://hitwebcounter.com/counter/counter.php?page=17462819&style=0006&nbdigits=5&type=page&initCount=1650" title="Free Counter" Alt="web counter" border="0" />
+        </a>
+        <span style="color:#666; font-size:10px;">LIVE BROADCAST VIEWERS</span>
     </div>
 </div>
 
 <script>
-    // Your full categorized library here (nascar, commercials, radioDramas, sciFi, nasa, apolloFiles)
-    // Example structure:
-    const nascar = [/* 50+ links */];
-    const commercials = [/* 100+ links */];
-    // ... etc.
+    // --- APOLLO 11 ARCHIVE (Verified Identifiers) ---
+    // Using the exact file names from the directory listing
+    const apolloBase = "https://archive.org/download/apollo-11-mission/";
+    const apolloFiles = [
+        "Apollo%2011%2001.mp4", "Apollo%2011%2002.mp4", "Apollo%2011%2003.mp4", "Apollo%2011%2004.mp4",
+        "Apollo%2011%2005.mp4", "Apollo%2011%2006.mp4", "Apollo%2011%2007.mp4", "Apollo%2011%2008.mp4",
+        "Apollo%2011%2009.mp4", "Apollo%2011%2010.mp4", "Apollo%2011%2011.mp4", "Apollo%2011%2012.mp4",
+        "Apollo%2011%2013.mp4", "Apollo%2011%2014.mp4", "Apollo%2011%2015.mp4", "Apollo%2011%2016.mp4",
+        "Apollo%2011%2017.mp4", "Apollo%2011%2018.mp4", "Apollo%2011%2019.mp4", "Apollo%2011%2020.mp4",
+        "Apollo%2011%2021.mp4", "Apollo%2011%2022.mp4", "Apollo%2011%2023.mp4"
+    ];
+    const apolloList = apolloFiles.map((f, i) => ({n: `Apollo 11 Reel ${i+1}`, u: apolloBase + f}));
 
-    // Master archive = shuffled mix
-    let archive = [...nascar, ...commercials, ...radioDramas, ...sciFi, ...nasa, ...apolloFiles];
-    archive = archive.sort(() => Math.random() - 0.5);
+    // --- MAIN FEATURES (Movies & Docs) ---
+    const features = [
+        ...apolloList,
+        {n: "Target Earth (1954) Color", u: "https://archive.org/download/target-earth-1954-colorized/Target%20Earth%201954%20colorized.mp4"},
+        {n: "Invasion: Saucer Men (1957)", u: "https://archive.org/download/invasion-of-the-saucer-men-1957-colorized-classics/Invasion%20of%20the%20Saucer%20Men%20%281957%29%20Colorized%20Classics.mp4"},
+        {n: "Plan 9 from Outer Space", u: "https://archive.org/download/Plan_9_from_Outer_Space_1959/Plan_9_from_Outer_Space_1959.mp4"},
+        {n: "Brain That Wouldn't Die", u: "https://archive.org/download/The_Brain_That_Wouldnt_Die/The_Brain_That_Wouldnt_Die.mp4"},
+        {n: "NASCAR: Stock Car 1965", u: "https://archive.org/download/StockCar1965/StockCar1965.mp4"},
+        {n: "Weather: Hurricane Camille", u: "https://archive.org/download/gov.archives.arc.20455/gov.archives.arc.20455.mp4"},
+        {n: "Shocker Wk 18: Naschy", u: "https://archive.org/download/ShockerInternetDriveIn-Week18aNaschyDoubleFeature/week_18.mp4"},
+        {n: "Shocker Wk 56: Witch", u: "https://archive.org/download/ShockerInternetDriveIn-Week56whichWitchDoubleFeature/week_56.mp4"},
+        {n: "Shocker Wk 37: Spaghetti", u: "https://archive.org/download/ShockerInternetDriveIn-Week37summerSpaghettiDoubleFeature/Week_37.mp4"},
+        {n: "Shocker Wk 46: Sci-Fi", u: "https://archive.org/download/ShockerInternetDriveIn-Week46sci-fiSpaghettiDoubleFeature/week_46.mp4"},
+        {n: "Cosmos 01: Shores", u: "https://archive.org/download/cosmos_1980/COSMOS_01.mp4"},
+        {n: "Earth 1: Living Machine", u: "https://archive.org/download/planet.earth/Planet%20Earth%201%20The%20Living%20Machine.mp4"},
+        {n: "Godzilla 1956", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/1.Godzilla-KingOfTheMonsters1956.mp4"},
+        {n: "Steamboat Willie (1928)", u: "https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Steamboat%20Willie.mp4"},
+        {n: "Alice Solves Puzzle (1925)", u: "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925%20Alice%20Solves%20the%20Puzzle%20%28Walt%20Disney%29.mp4"}
+    ];
 
-    // Category start indices (for genre buttons)
-    const categoryStarts = {
-        nascar: 0,
-        commercials: nascar.length,
-        radio: nascar.length + commercials.length,
-        scifi: /* calculate */,
-        nasa: /* calculate */
-    };
+    // --- COMMERCIALS (Fixed Links - Full Reels) ---
+    // These are full collections, ensuring playback works unlike individual clips
+    const commercials = [
+        {n: "Ad Reel: 1950s Ford", u: "https://archive.org/download/Ford1958/Ford1958.mp4"},
+        {n: "Ad Reel: Chevrolet 1960", u: "https://archive.org/download/1960ChevroletCorvairCommercial/1960ChevroletCorvairCommercial.mp4"},
+        {n: "Ad Reel: Drive-In Ads", u: "https://archive.org/download/Drive-InMovieAds/Drive-InMovieAds.mp4"},
+        {n: "Ad Reel: Classic TV 1948", u: "https://archive.org/download/ClassicT1948/ClassicT1948.mp4"},
+        {n: "Ad Reel: Desilu Ads", u: "https://archive.org/download/Desilu_Commercials/Desilu_Commercials.mp4"},
+        {n: "Ad Reel: 1950s Animation", u: "https://archive.org/download/ClassicT1950_2/ClassicT1950_2.mp4"},
+        {n: "Short: Man in Space", u: "https://archive.org/download/ManInSpace/ManInSpace.mp4"}
+    ];
 
-    function jumpToCategory(cat) {
-        currentIndex = categoryStarts[cat];
-        loadVideo(currentIndex);
+    // --- SIMULATOR LOGIC ---
+    let archive = [];
+    let shuffledFeatures = [...features].sort(() => Math.random() - 0.5);
+    let shuffledAds = [...commercials].sort(() => Math.random() - 0.5);
+    
+    // Interleave: Feature -> Commercial -> Feature -> Commercial
+    shuffledFeatures.forEach((movie, index) => {
+        archive.push(movie);
+        archive.push(shuffledAds[index % shuffledAds.length]); 
+    });
+
+    let sIdx = 0, tDeg = 0, sDeg = 0;
+
+    function init() {
+        makeDashes('t-dashes', 100); 
+        makeDashes('s-dashes', 80);
+        document.getElementById('index-screen').innerText = archive[0].n;
+        const p = document.getElementById('player');
+        p.src = archive[0].u;
+        p.load();
+        
+        // Auto-Advance for TV Simulator effect
+        p.onended = function() {
+            sIdx = (sIdx + 1) % archive.length;
+            p.src = archive[sIdx].u;
+            p.load();
+            p.play();
+            document.getElementById('index-screen').innerText = archive[sIdx].n;
+            tDeg += 15; sDeg += 15;
+            document.getElementById('t-knob').style.transform = `rotate(${tDeg}deg)`;
+            document.getElementById('s-knob').style.transform = `rotate(${sDeg}deg)`;
+        };
     }
 
-    // Rest of the script same as before, with bigger text already in CSS
+    function tune(dir) {
+        tDeg += (dir * 30);
+        document.getElementById('t-knob').style.transform = `rotate(${tDeg}deg)`;
+        const p = document.getElementById('player');
+        p.src = archive[sIdx].u; 
+        p.load(); 
+        p.play().catch(e => console.log("Click required"));
+    }
+
+    function scrollIndex(dir) {
+        sDeg += (dir * 30);
+        sIdx = (sIdx + dir + archive.length) % archive.length;
+        document.getElementById('s-knob').style.transform = `rotate(${sDeg}deg)`;
+        document.getElementById('index-screen').innerText = archive[sIdx].n;
+    }
+
+    function makeDashes(id, count) {
+        const ring = document.getElementById(id);
+        for(let i=0; i<count; i++) {
+            const d = document.createElement('div'); d.className = 'dash';
+            d.style.transform = `rotate(${i * (360/count)}deg)`; ring.appendChild(d);
+        }
+    }
+
+    function toggleFS() {
+        const c = document.getElementById('cabinet');
+        if (!document.fullscreenElement) {
+            if (c.requestFullscreen) c.requestFullscreen();
+            else if (c.webkitRequestFullscreen) c.webkitRequestFullscreen();
+        } else {
+            document.exitFullscreen();
+        }
+    }
+    
+    window.onload = init;
 </script>
 </body>
 </html>
-
