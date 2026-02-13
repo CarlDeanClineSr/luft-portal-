@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CLINE CLASSIC TV | ANTHOLOGY V29</title>
+    <title>IMPERIAL ACADEMY | COSMOS TV</title>
     <style>
         body { background: #000; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; }
         
-        /* FULL-WIDTH VIZIO CHASSIS */
+        /* THE VIZIO-SCALE CHASSIS */
         .tv-chassis {
             width: 96vw; height: 92vh;
             background: #2b1d0e; 
@@ -16,7 +16,7 @@
             padding: 0 40px;
         }
 
-        /* CENTERED CRT TUBE */
+        /* GLASS CRT TUBE */
         .crt-tube { 
             width: 76%; height: 86%; background: #000; border-radius: 18%; 
             overflow: hidden; border: 20px solid #111; position: relative;
@@ -26,10 +26,9 @@
 
         /* ANALOG CONTROL BAY */
         .dial-bay { display: flex; flex-direction: column; gap: 80px; align-items: center; width: 18%; }
-        
         .dial-unit { position: relative; display: flex; flex-direction: column; align-items: center; }
         
-        /* TOP DIAL (TUNER) */
+        /* DIAL KNOBS */
         .knob {
             width: 120px; height: 120px; background: #333; border: 6px solid #000;
             border-radius: 50%; cursor: pointer; position: relative; 
@@ -54,7 +53,7 @@
 <div class="tv-chassis">
     <div class="crt-tube">
         <video id="tv-player" controls autoplay loop>
-            <source src="https://archive.org/download/RecurringDinosaurInfestationFilms/1.Godzilla-KingOfTheMonsters1956.mp4" type="video/mp4">
+            <source src="https://archive.org/download/cosmos_1980/COSMOS_01.mp4" type="video/mp4">
         </video>
     </div>
 
@@ -62,7 +61,7 @@
         <div class="dial-unit">
             <div class="num-ring" id="tuner-ring"></div>
             <div class="knob" id="tuner-knob" onclick="clickTuner()"></div>
-            <div class="label">Tuner</div>
+            <div class="label">Cosmos Tuner</div>
         </div>
 
         <div class="dial-unit">
@@ -75,7 +74,7 @@
 </div>
 
 <script>
-    // BUILD THE TUNER RING
+    // BUILD THE NUMBERS AROUND THE DIAL
     const tunerRing = document.getElementById('tuner-ring');
     for(let i=1; i<=13; i++) {
         const div = document.createElement('div');
@@ -85,37 +84,22 @@
         tunerRing.appendChild(div);
     }
 
-    // REPAIRED ARCHIVE LIST
+    // THE COSMOS 1980 ARCHIVE LIST
     const archive = [
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/1.Godzilla-KingOfTheMonsters1956.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/2.GodzillaRaidsAgain1955.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/3.KingKongVsGodzilla1962.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/4.GhidorahTheThreeHeadedMonster1964.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/5.MothraVsGodzilla1964.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/6.GodzillaVsMonsterZero1965.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/7.GodzillaVsTheSeaMonster1966.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/8.SonOfGodzilla1967.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/9.DestroyAllMonsters1968.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/10.GodzillasRevenge1969.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/11.GodzillaVsTheSmogMonster1971.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/12.GodzillaVsGigan1972.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/13.GodzillaVsMegalon1973.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/14.GodzillaVsMechagodzilla1974.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/15.TerrorOfMechagodzilla1975.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/16.Godzilla1985.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/17.GodzillaVsBiollante1989.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/18.GodzillaVsKingGhidorah1991.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/19.GodzillaAndMothra-TheBattleForEarth1992.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/20.GodzillaVsMechagodzilla21993.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/21.GodzillaVsSpaceGodzilla1994.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/22.GodzillaVsDestroyah1995.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/24.Godzilla20001999.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/25.GodzillaVsMegaguirus2000.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/26.GodzillaMothraAndKingGhidorahGiantMonstersAllOutAttack2001.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/27.GodzillaAgainstMechagodzilla2002.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/28.Godzilla-TokyoS.o.s.2003.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/29.Godzilla-FinalWars2004.mp4",
-        "https://archive.org/download/GulliversTravels720p_652/GulliversTravels_512kb.mp4"
+        "https://archive.org/download/cosmos_1980/COSMOS_01.mp4",
+        "https://archive.org/download/cosmos_1980/COSMOS_02.mp4",
+        "https://archive.org/download/cosmos_1980/COSMOS_03.mp4",
+        "https://archive.org/download/cosmos_1980/COSMOS_04.mp4",
+        "https://archive.org/download/cosmos_1980/COSMOS_05.mp4",
+        "https://archive.org/download/cosmos_1980/COSMOS_06.mp4",
+        "https://archive.org/download/cosmos_1980/COSMOS_07.mp4",
+        "https://archive.org/download/cosmos_1980/COSMOS_08.mp4",
+        "https://archive.org/download/cosmos_1980/COSMOS_09.mp4",
+        "https://archive.org/download/cosmos_1980/COSMOS_10.mp4",
+        "https://archive.org/download/cosmos_1980/COSMOS_11.mp4",
+        "https://archive.org/download/cosmos_1980/COSMOS_12.mp4",
+        "https://archive.org/download/cosmos_1980/COSMOS_13.mp4",
+        "https://archive.org/download/cosmos_1980/COSMOS_14.mp4"
     ];
 
     let current = 0;
@@ -124,8 +108,9 @@
 
     function playReel(idx) {
         const player = document.getElementById('tv-player');
+        player.pause();
         player.src = archive[idx];
-        player.load(); // Forces the player to catch the new source
+        player.load(); // Refresh the buffer for the smart TV
         player.play().catch(e => console.log("Playback error: ", e));
     }
 
