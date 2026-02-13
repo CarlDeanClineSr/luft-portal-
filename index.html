@@ -162,7 +162,7 @@
 
 <div id="cabinet">
     <div class="glass-tube" onclick="unmuteVideo()">
-        <video id="player" controls playsinline webkit-playsinline></video>
+        <video id="player" controls playsinline webkit-playsinline muted></video>
     </div>
 
     <div class="side-panel">
@@ -308,7 +308,7 @@
 
     let currentIndex = 0;
     let tunerDeg = 0;
-    let scrollDeg = 0;
+    let sDeg = 0;
 
     const player = document.getElementById('player');
     const screen = document.getElementById('index-screen');
@@ -317,16 +317,14 @@
     window.onload = function() {
         makeDashes('t-dashes', 100);
         makeDashes('s-dashes', 80);
-        loadVideo(0);
-        player.play().catch(() => console.log("Auto-play blocked – waiting for click"));
+        updateDisplay();
+        player.src = archive[0].u;
+        player.load();
+        player.play().catch(() => console.log("Auto-play prevented. User interaction needed."));
     };
 
-    function loadVideo(idx) {
-        currentIndex = idx % archive.length;
-        const item = archive[currentIndex];
-        player.src = item.u;
-        player.load();
-        screen.innerText = item.n;
+    function updateDisplay() {
+        screen.innerText = archive[currentIndex].n;
         let ch = (currentIndex + 1).toString().padStart(2, '0');
         channelNum.innerText = "CH " + ch;
     }
@@ -335,23 +333,27 @@
         tunerDeg += dir * 30;
         document.getElementById('t-knob').style.transform = `rotate(${tunerDeg}deg)`;
         currentIndex = (currentIndex + dir + archive.length) % archive.length;
-        loadVideo(currentIndex);
+        player.src = archive[currentIndex].u;
+        player.load();
+        player.play();
+        updateDisplay();
     }
 
     function scrollIndex(dir) {
-        scrollDeg += dir * 30;
-        document.getElementById('s-knob').style.transform = `rotate(${scrollDeg}deg)`;
+        sDeg += dir * 30;
+        document.getElementById('s-knob').style.transform = `rotate(${sDeg}deg)`;
         currentIndex = (currentIndex + dir + archive.length) % archive.length;
-        screen.innerText = archive[currentIndex].n;
-        let ch = (currentIndex + 1).toString().padStart(2, '0');
-        channelNum.innerText = "CH " + ch;
+        updateDisplay();
     }
 
     function jumpTo(key) {
         let start = catStarts[key];
         if (start === undefined) return;
-        currentIndex = start + Math.floor(Math.random() * 5);
-        loadVideo(currentIndex);
+        currentIndex = start + Math.floor(Math.random() * 5); // random within ~5 items of category
+        player.src = archive[currentIndex].u;
+        player.load();
+        player.play();
+        updateDisplay();
     }
 
     player.onended = () => tune(1);
