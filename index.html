@@ -2,144 +2,156 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>IMPERIAL ACADEMY | 100-CHANNEL CONSOLE</title>
+    <title>CLINE CLASSIC TV | CLINE CLASIC TV</title>
     <style>
         body { background: #000; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; width: 100vw; }
         
-        /* FULL-SCREEN CHASSIS DESIGN */
-        #main-console {
-            width: 96vw; height: 92vh;
-            background: radial-gradient(circle, #3d2b1f 0%, #1a110a 100%);
-            border: 25px solid #140d08; border-radius: 80px;
+        #cabinet {
+            width: 98vw; height: 94vh;
+            background: #2b1d0e; 
+            border: 20px solid #1a110a; border-radius: 60px;
             display: flex; align-items: center; justify-content: space-around;
-            padding: 0 40px; box-sizing: border-box;
-            box-shadow: inset 0 0 100px #000, 0 50px 100px #000;
+            padding: 20px; box-sizing: border-box;
+            box-shadow: inset 0 0 150px #000, 0 50px 100px #000;
         }
 
-        /* CRT TUBE */
-        .crt-tube { 
-            width: 72%; height: 85%; background: #000; border-radius: 18%; 
-            overflow: hidden; border: 20px solid #111; position: relative;
-            cursor: zoom-in; box-shadow: inset 0 0 80px rgba(255,255,255,0.05);
+        .glass-tube { 
+            width: 75%; height: 90%; background: #000; border-radius: 15%; 
+            overflow: hidden; border: 15px solid #111; position: relative;
         }
         video { width: 100%; height: 100%; object-fit: contain; background: #000; }
 
-        /* CONTROL COLUMN */
-        .controls { width: 22%; display: flex; flex-direction: column; align-items: center; gap: 40px; }
+        .side-panel { width: 20%; display: flex; flex-direction: column; align-items: center; gap: 40px; }
 
-        /* 100-NUMBER TUNER */
-        .dial-wrap { position: relative; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; }
+        .dial-housing { position: relative; width: 160px; height: 160px; display: flex; align-items: center; justify-content: center; }
         .knob {
             width: 100px; height: 100px; background: #333; border: 6px solid #000;
             border-radius: 50%; cursor: pointer; position: relative; z-index: 10;
             transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .knob::after { content: ''; position: absolute; top: 8px; left: 50%; width: 6px; height: 30px; background: #fff; transform: translateX(-50%); }
+        .knob::after { content: ''; position: absolute; top: 8px; left: 50%; width: 6px; height: 25px; background: #fff; transform: translateX(-50%); }
 
-        .num-ring {
-            position: absolute; width: 220px; height: 220px;
-            font-family: 'Arial Narrow', sans-serif; color: #555; pointer-events: none;
-        }
-        .n { position: absolute; width: 220px; text-align: center; transform-origin: 110px 110px; font-size: 10px; font-weight: bold; }
+        .dash-ring { position: absolute; width: 160px; height: 160px; pointer-events: none; }
+        .dash { position: absolute; width: 160px; height: 3px; background: #555; transform-origin: center; top: 50%; margin-top: -1.5px; }
 
-        /* INDEPENDENT INDEX BOX */
-        .index-box {
-            width: 180px; height: 80px; background: #0a0a0a; border: 2px solid #444;
-            color: #0f0; font-family: 'Courier New', monospace; font-size: 12px;
-            padding: 10px; overflow: hidden; text-transform: uppercase; text-align: center;
-            display: flex; align-items: center; justify-content: center;
+        .index-monitor {
+            width: 240px; height: 120px; background: #050505; border: 3px solid #444;
+            color: #0f0; font-family: 'Courier New', monospace; font-size: 13px;
+            padding: 10px; display: flex; align-items: center; justify-content: center;
+            text-align: center; text-transform: uppercase; box-shadow: inset 0 0 15px #000;
         }
 
-        .label { font-size: 14px; color: #666; letter-spacing: 3px; font-weight: bold; text-transform: uppercase; margin-top: 10px; }
+        .btn-fs {
+            position: absolute; top: 15px; left: 15px; background: #111; color: #fff; border: 1px solid #444; padding: 12px; cursor: pointer; font-size: 11px; font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-<div id="main-console">
-    <div class="crt-tube" onclick="goFullscreen()">
-        <video id="tv-player" controls autoplay loop>
+<button class="btn-fs" onclick="toggleFS()">FULL SCREEN CABINET</button>
+
+<div id="cabinet">
+    <div class="glass-tube">
+        <video id="player" controls autoplay loop>
             <source src="https://archive.org/download/cosmos_1980/COSMOS_01.mp4" type="video/mp4">
         </video>
     </div>
 
-    <div class="controls">
-        <div class="dial-wrap">
-            <div class="num-ring" id="ring"></div>
-            <div class="knob" id="tuner" onclick="tuneVideo()"></div>
+    <div class="side-panel">
+        <div class="dial-housing">
+            <div class="dash-ring" id="t-dashes"></div>
+            <div class="knob" id="t-knob" onclick="tune()"></div>
         </div>
-        <div class="label">Tuner (Active)</div>
+        <div style="color:#888; font-size:11px; font-weight:bold; letter-spacing:3px; margin-top:-10px;">TUNER</div>
 
-        <div class="index-box" id="info-screen">COSMOS EP 1: SHORES OF THE COSMIC OCEAN</div>
+        <div class="index-monitor" id="index-screen">COSMOS EP 1: SHORES OF THE COSMIC OCEAN</div>
 
-        <div class="dial-wrap" style="height: 140px;">
-            <div class="knob" style="width:80px; height:80px;" id="selector" onclick="scrollIndex()"></div>
-            <div class="label">Index (Preview)</div>
+        <div class="dial-housing">
+            <div class="dash-ring" id="s-dashes"></div>
+            <div class="knob" style="width:80px; height:80px;" id="s-knob" onclick="scrollIndex()"></div>
         </div>
+        <div style="color:#888; font-size:11px; font-weight:bold; letter-spacing:3px; margin-top:-10px;">INDEX</div>
     </div>
 </div>
 
 <script>
-    // 100 NUMBER GENERATOR
-    const ring = document.getElementById('ring');
-    for(let i=0; i<100; i++) {
-        const d = document.createElement('div');
-        d.className = 'n'; d.innerText = i;
-        d.style.transform = `rotate(${i * 3.6}deg)`;
-        ring.appendChild(d);
+    function makeDashes(id, count) {
+        const ring = document.getElementById(id);
+        for(let i=0; i<count; i++) {
+            const d = document.createElement('div');
+            d.className = 'dash';
+            d.style.transform = `rotate(${i * (360/count)}deg)`;
+            ring.appendChild(d);
+        }
     }
+    makeDashes('t-dashes', 60); makeDashes('s-dashes', 36);
 
-    // ARCHIVE INDEX
     const archive = [
-        {t: "COSMOS EP 1: SHORES OF OCEAN", u: "https://archive.org/download/cosmos_1980/COSMOS_01.mp4"},
-        {t: "COSMOS EP 2: VOICE IN FUGUE", u: "https://archive.org/download/cosmos_1980/COSMOS_02.mp4"},
-        {t: "COSMOS EP 3: HARMONY OF WORLDS", u: "https://archive.org/download/cosmos_1980/COSMOS_03.mp4"},
-        {t: "COSMOS EP 4: HEAVEN AND HELL", u: "https://archive.org/download/cosmos_1980/COSMOS_04.mp4"},
-        {t: "COSMOS EP 5: BLUES FOR RED PLANET", u: "https://archive.org/download/cosmos_1980/COSMOS_05.mp4"},
-        {t: "COSMOS EP 6: TRAVELERS TALES", u: "https://archive.org/download/cosmos_1980/COSMOS_06.mp4"},
-        {t: "COSMOS EP 7: BACKBONE OF NIGHT", u: "https://archive.org/download/cosmos_1980/COSMOS_07.mp4"},
-        {t: "COSMOS EP 8: TRAVELS IN SPACE", u: "https://archive.org/download/cosmos_1980/COSMOS_08.mp4"},
-        {t: "COSMOS EP 9: LIVES OF STARS", u: "https://archive.org/download/cosmos_1980/COSMOS_09.mp4"},
-        {t: "COSMOS EP 10: EDGE OF FOREVER", u: "https://archive.org/download/cosmos_1980/COSMOS_10.mp4"},
-        {t: "COSMOS EP 11: MEMORY OF GALAXY", u: "https://archive.org/download/cosmos_1980/COSMOS_11.mp4"},
-        {t: "COSMOS EP 12: ENCYCLO GALACTICA", u: "https://archive.org/download/cosmos_1980/COSMOS_12.mp4"},
-        {t: "COSMOS EP 13: WHO SPEAKS FOR EARTH", u: "https://archive.org/download/cosmos_1980/COSMOS_13.mp4"},
-        {t: "DONALD: MATHMAGIC LAND", u: "https://archive.org/download/donald-in-mathematic-land-pack/1959-06-26%20-%20Donald%20in%20Mathematic%20Land%20%28Short%29%20TreasDVD.mp4"}
+        // COSMOS (1980)
+        {n: "Cosmos Ep 1", u: "https://archive.org/download/cosmos_1980/COSMOS_01.mp4"},
+        {n: "Cosmos Ep 2", u: "https://archive.org/download/cosmos_1980/COSMOS_02.mp4"},
+        {n: "Cosmos Ep 3", u: "https://archive.org/download/cosmos_1980/COSMOS_03.mp4"},
+        {n: "Cosmos Ep 4", u: "https://archive.org/download/cosmos_1980/COSMOS_04.mp4"},
+        {n: "Cosmos Ep 5", u: "https://archive.org/download/cosmos_1980/COSMOS_05.mp4"},
+        {n: "Cosmos Ep 6", u: "https://archive.org/download/cosmos_1980/COSMOS_06.mp4"},
+        {n: "Cosmos Ep 7", u: "https://archive.org/download/cosmos_1980/COSMOS_07.mp4"},
+        {n: "Cosmos Ep 8", u: "https://archive.org/download/cosmos_1980/COSMOS_08.mp4"},
+        {n: "Cosmos Ep 9", u: "https://archive.org/download/cosmos_1980/COSMOS_09.mp4"},
+        {n: "Cosmos Ep 10", u: "https://archive.org/download/cosmos_1980/COSMOS_10.mp4"},
+        {n: "Cosmos Ep 11", u: "https://archive.org/download/cosmos_1980/COSMOS_11.mp4"},
+        {n: "Cosmos Ep 12", u: "https://archive.org/download/cosmos_1980/COSMOS_12.mp4"},
+        {n: "Cosmos Ep 13", u: "https://archive.org/download/cosmos_1980/COSMOS_13.mp4"},
+        {n: "Cosmos Ep 14", u: "https://archive.org/download/cosmos_1980/COSMOS_14.mp4"},
+
+        // MICKEY MOUSE (1928-1929)
+        {n: "Steamboat Willie", u: "https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Steamboat%20Willie.mp4"},
+        {n: "Plane Crazy", u: "https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Mickey%20Mouse%20-%20Plane%20Crazy%20_%20B98.TV.mp4"},
+        {n: "The Gallopin Gaucho", u: "https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Mickey%20Mouse%20-%20The%20Gallopin%20Gaucho%20%28color%29.mp4"},
+        {n: "Barnyard Battle", u: "https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Mickey%20Mouse%20-%20The%20Barnyard%20Battle%201929%20HD.mp4"},
+        {n: "Haunted House 4K", u: "https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Mickey%20Mouse%20-%20The%20Haunted%20House%201929%204k%20AI%20Enhanced%20Remastered%20Colorized.mp4"},
+
+        // ALICE COMEDIES
+        {n: "Alice Solves the Puzzle", u: "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925%20Alice%20Solves%20the%20Puzzle%20%28Walt%20Disney%29.mp4"},
+        {n: "Alice Wins the Derby", u: "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925-07-12%20Alice%20Wins%20the%20Derby%20%28Alice%29%20-%20Video%20Dailymotion.mp4"},
+        {n: "Alice on the Farm", u: "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1926-01-01%20Alice%20on%20the%20Farm%20%28Alice%29%20-%20Video%20Dailymotion.mp4"},
+
+        // GODZILLA (SHOWA & HEISEI)
+        {n: "Godzilla 1956", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/1.Godzilla-KingOfTheMonsters1956.mp4"},
+        {n: "Godzilla Raids Again 1955", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/2.GodzillaRaidsAgain1955.mp4"},
+        {n: "King Kong vs Godzilla 1962", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/3.KingKongVsGodzilla1962.mp4"},
+        {n: "Godzilla vs Gigan 1972", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/12.GodzillaVsGigan1972.mp4"},
+        {n: "Godzilla vs Biollante 1989", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/17.GodzillaVsBiollante1989.mp4"},
+        {n: "Godzilla vs Destroyah 1995", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/22.GodzillaVsDestroyah1995.mp4"},
+        {n: "Godzilla Final Wars 2004", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/29.Godzilla-FinalWars2004.mp4"},
+
+        // SPECIALS
+        {n: "Mathmagic Land", u: "https://archive.org/download/donald-in-mathematic-land-pack/1959-06-26%20-%20Donald%20in%20Mathematic%20Land%20%28Short%29%20TreasDVD.mp4"},
+        {n: "Gulliver's Travels", u: "https://archive.org/download/GulliversTravels720p_652/GulliversTravels_512kb.mp4"}
     ];
 
-    let tunerPos = 0;
-    let indexPos = 0;
-    let tDeg = 0;
-    let sDeg = 0;
+    let tIdx = 0; let sIdx = 0;
+    let tDeg = 0; let sDeg = 0;
 
-    // TOP DIAL: Changes the video and the index box
-    function tuneVideo() {
-        tDeg += 36.0; // Moves 10 "numbers" per click
-        tunerPos = (tunerPos + 1) % archive.length;
-        document.getElementById('tuner').style.transform = `rotate(${tDeg}deg)`;
-        
-        const player = document.getElementById('tv-player');
-        player.src = archive[tunerPos].u;
-        player.load();
-        player.play();
-        
-        document.getElementById('info-screen').innerText = archive[tunerPos].t;
-        indexPos = tunerPos; // Sync the index dial to the tuner
+    function tune() {
+        tDeg += 6; // Precise Analog rotation
+        tIdx = (tIdx + 1) % archive.length;
+        document.getElementById('t-knob').style.transform = `rotate(${tDeg}deg)`;
+        const p = document.getElementById('player');
+        p.src = archive[tIdx].u; p.load(); p.play();
+        document.getElementById('index-screen').innerText = archive[tIdx].n;
+        sIdx = tIdx; 
     }
 
-    // BOTTOM DIAL: Changes the index box ONLY
     function scrollIndex() {
-        sDeg += 30;
-        indexPos = (indexPos + 1) % archive.length;
-        document.getElementById('selector').style.transform = `rotate(${sDeg}deg)`;
-        document.getElementById('info-screen').innerText = archive[indexPos].t;
+        sDeg += 10; sIdx = (sIdx + 1) % archive.length;
+        document.getElementById('s-knob').style.transform = `rotate(${sDeg}deg)`;
+        document.getElementById('index-screen').innerText = archive[sIdx].n;
     }
 
-    // FULL SCREEN COMMAND
-    function goFullscreen() {
-        const elem = document.getElementById("main-console");
-        if (elem.requestFullscreen) { elem.requestFullscreen(); }
-        else if (elem.webkitRequestFullscreen) { elem.webkitRequestFullscreen(); }
-        else if (elem.msRequestFullscreen) { elem.msRequestFullscreen(); }
+    function toggleFS() {
+        const c = document.getElementById('cabinet');
+        if (c.requestFullscreen) { c.requestFullscreen(); }
+        else if (c.webkitRequestFullscreen) { c.webkitRequestFullscreen(); }
     }
 </script>
 
