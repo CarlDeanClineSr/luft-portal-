@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CLINE CLASSIC TV</title>
+    <title>CLINE CLASSIC TV | V64</title>
     <style>
-        body { background: #000; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; width: 100vw; font-family: 'Courier New', monospace; }
-        
+        body { background: #000; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; width: 100vw; }
         #cabinet {
             width: 98vw; height: 94vh;
             background: #2b1d0e; border: 20px solid #1a110a; border-radius: 60px;
@@ -13,85 +12,79 @@
             padding: 20px; box-sizing: border-box; position: relative;
             box-shadow: inset 0 0 150px #000, 0 50px 100px #000;
         }
-
-        /* CLICK SCREEN TO UNMUTE OVERLAY */
-        #glass-tube { 
-            width: 75%; height: 90%; background: #000; border-radius: 15%; 
-            overflow: hidden; border: 15px solid #111; position: relative; cursor: pointer; 
-        }
-        
+        .glass-tube { width: 75%; height: 90%; background: #000; border-radius: 15%; overflow: hidden; border: 15px solid #111; position: relative; cursor: pointer; }
+        /* VIDEO SET TO FILL TUBE */
         video { width: 100%; height: 100%; object-fit: contain; background: #000; }
         
         .side-panel { width: 22%; display: flex; flex-direction: column; align-items: center; gap: 20px; }
-        
         .dial-housing { position: relative; width: 130px; height: 130px; display: flex; align-items: center; justify-content: center; }
         
+        /* DIALS */
         .knob {
             width: 95px; height: 95px; background: #333; border: 6px solid #000;
             border-radius: 50%; cursor: pointer; position: relative; z-index: 10;
             transition: transform 0.2s; box-shadow: 0 8px 15px #000;
         }
         .knob::after { content: ''; position: absolute; top: 8px; left: 50%; width: 5px; height: 28px; background: #fff; transform: translateX(-50%); }
+        .dash-ring { position: absolute; width: 150px; height: 150px; pointer-events: none; }
+        .dash { position: absolute; width: 150px; height: 2px; background: #444; transform-origin: center; top: 50%; }
         
         .orange-monitor {
             width: 210px; height: 60px; background: #050505; border: 2px solid #531;
-            color: #ff6600; font-size: 11px; padding: 8px; 
-            display: flex; align-items: center; justify-content: center;
-            text-align: center; text-transform: uppercase; 
-            box-shadow: inset 0 0 15px #000; text-shadow: 0 0 8px #cc4400; font-weight: bold;
+            color: #ff6600; font-family: 'Courier New', monospace; font-size: 10px;
+            padding: 8px; display: flex; align-items: center; justify-content: center;
+            text-align: center; text-transform: uppercase; box-shadow: inset 0 0 15px #000;
+            text-shadow: 0 0 8px #cc4400; overflow: hidden; font-weight: bold; line-height: 1.2;
         }
-
-        .social-ledger { position: absolute; bottom: 25px; right: 40px; color: #444; font-size: 12px; display: flex; flex-direction: column; align-items: flex-end; }
         
-        /* OVERLAY FOR SOUND */
-        #mute-overlay {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            color: rgba(255, 102, 0, 0.5); font-size: 20px; pointer-events: none;
-            border: 2px solid rgba(255, 102, 0, 0.3); padding: 10px; display: none;
-        }
+        .social-ledger { position: absolute; bottom: 25px; right: 40px; color: #444; font-family: sans-serif; font-size: 12px; display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+        .fs-toggle { position: absolute; top: 15px; left: 15px; background: #111; color: #fff; border: 1px solid #444; padding: 10px; cursor: pointer; font-size: 10px; z-index: 100; font-weight: bold; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
+
+<button class="fs-toggle" onclick="toggleFS()">[ FULL CABINET MODE ]</button>
 
 <div id="cabinet">
-    <div id="glass-tube" onclick="unmuteVideo()">
-        <div id="mute-overlay">CLICK FOR SOUND</div>
-        <video id="player" playsinline webkit-playsinline muted autoplay>
+    <div class="glass-tube" onclick="unmute()">
+        <video id="player" muted autoplay playsinline>
             <source src="" type="video/mp4">
         </video>
     </div>
 
     <div class="side-panel">
-        <div class="dial-housing">
-            <div class="knob" id="t-knob" onclick="tune(1)"></div>
-        </div>
-        <div style="color:#555; font-size:9px; font-weight:bold; letter-spacing:2px;">TUNER (PLAY)</div>
+        <div class="dial-housing"><div class="dash-ring" id="t-dashes"></div><div class="knob" id="t-knob" onclick="tune(1)" oncontextmenu="tune(-1)"></div></div>
+        <div style="color:#555; font-size:9px; font-weight:bold; letter-spacing:2px; text-align:center;">TUNER (CHANGE CHANNEL)</div>
         
-        <div class="orange-monitor" id="index-screen">LOADING SYSTEM...</div>
+        <div class="orange-monitor" id="index-screen">SYSTEM BOOT...</div>
         
-        <div class="dial-housing">
-            <div class="knob" id="s-knob" onclick="scrollIndex(1)"></div>
-        </div>
-        <div style="color:#555; font-size:9px; font-weight:bold; letter-spacing:2px;">INDEX (SELECT)</div>
+        <div class="dial-housing"><div class="dash-ring" id="s-dashes"></div><div class="knob" style="width:75px; height:75px;" id="s-knob" onclick="scrollIndex(1)" oncontextmenu="scrollIndex(-1)"></div></div>
+        <div style="color:#555; font-size:9px; font-weight:bold; letter-spacing:2px; text-align:center;">INDEX (PREVIEW)</div>
     </div>
     
     <div class="social-ledger">
         <a href="https://www.hitwebcounter.com" target="_blank">
-            <img src="https://hitwebcounter.com/counter/counter.php?page=17462819&style=0006&nbdigits=5&type=page&initCount=2400" border="0" />
+            <img src="https://hitwebcounter.com/counter/counter.php?page=17462819&style=0006&nbdigits=5&type=page&initCount=2200" title="Counter" Alt="web counter" border="0" />
         </a>
+        <span style="color:#666; font-size:10px;">LIVE VIEWERS</span>
     </div>
 </div>
 
 <script>
-    // --- LEGACY JS FOR SMART TV COMPATIBILITY (NO 'CONST', NO ARROWS) ---
-    
-    // 1. Define the Master List
-    var masterList = [
+    // --- STATIC LIST: NO LOOPS, NO ERRORS ---
+    const features = [
         {n: "Target Earth (1954)", u: "https://archive.org/download/target-earth-1954-colorized/Target%20Earth%201954%20colorized.mp4"},
         {n: "Invasion: Saucer Men", u: "https://archive.org/download/invasion-of-the-saucer-men-1957-colorized-classics/Invasion%20of%20the%20Saucer%20Men%20%281957%29%20Colorized%20Classics.mp4"},
         {n: "Apollo 11 Reel 01", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2001.mp4"},
         {n: "Apollo 11 Reel 02", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2002.mp4"},
         {n: "Apollo 11 Reel 03", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2003.mp4"},
+        {n: "Apollo 11 Reel 04", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2004.mp4"},
+        {n: "Apollo 11 Reel 05", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2005.mp4"},
+        {n: "Apollo 11 Reel 06", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2006.mp4"},
+        {n: "Apollo 11 Reel 07", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2007.mp4"},
+        {n: "Apollo 11 Reel 08", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2008.mp4"},
+        {n: "Apollo 11 Reel 09", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2009.mp4"},
+        {n: "Apollo 11 Reel 10", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2010.mp4"},
         {n: "Plan 9 Outer Space", u: "https://archive.org/download/Plan_9_from_Outer_Space_1959/Plan_9_from_Outer_Space_1959.mp4"},
         {n: "Brain That Wouldn't Die", u: "https://archive.org/download/The_Brain_That_Wouldnt_Die/The_Brain_That_Wouldnt_Die.mp4"},
         {n: "Shocker Wk 18: Naschy", u: "https://archive.org/download/ShockerInternetDriveIn-Week18aNaschyDoubleFeature/week_18.mp4"},
@@ -100,89 +93,119 @@
         {n: "Shocker Wk 46: Sci-Fi", u: "https://archive.org/download/ShockerInternetDriveIn-Week46sci-fiSpaghettiDoubleFeature/week_46.mp4"},
         {n: "Shocker Wk 12: Massacre", u: "https://archive.org/download/ShockerInternetDriveIn-Week12MassacreDoubleFeature/week_12.mp4"},
         {n: "Cosmos 01: Shores", u: "https://archive.org/download/cosmos_1980/COSMOS_01.mp4"},
+        {n: "Cosmos 06: Travelers", u: "https://archive.org/download/cosmos_1980/COSMOS_06.mp4"},
         {n: "Earth 1: Living Machine", u: "https://archive.org/download/planet.earth/Planet%20Earth%201%20The%20Living%20Machine.mp4"},
         {n: "Godzilla 1956", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/1.Godzilla-KingOfTheMonsters1956.mp4"},
         {n: "Steamboat Willie", u: "https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Steamboat%20Willie.mp4"},
-        {n: "Ad: Ford 1959", u: "https://archive.org/download/FordMoto1959/FordMoto1959.mp4"},
-        {n: "Ad: Chevy Corvair 1960", u: "https://archive.org/download/Corvair1960/Corvair1960.mp4"},
-        {n: "Ad: Drive-In Ads", u: "https://archive.org/download/Drive-InMovieAds/Drive-InMovieAds.mp4"},
-        {n: "Ad: Classic TV 1948", u: "https://archive.org/download/ClassicT1948/ClassicT1948.mp4"},
-        {n: "Ad: Desilu Ads", u: "https://archive.org/download/Desilu_Commercials/Desilu_Commercials.mp4"}
+        {n: "Alice Solves Puzzle", u: "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925%20Alice%20Solves%20the%20Puzzle%20%28Walt%20Disney%29.mp4"}
     ];
 
-    // 2. Double and Shuffle (Old School Way)
-    var archive = masterList.concat(masterList);
-    archive.sort(function() { return 0.5 - Math.random() });
+    const commercials = [
+        {n: "Ad Reel: Drive-In Ads", u: "https://archive.org/download/Drive-InMovieAds/Drive-InMovieAds.mp4"},
+        {n: "Ad Reel: Classic TV 1948", u: "https://archive.org/download/ClassicT1948/ClassicT1948.mp4"},
+        {n: "Ad Reel: Desilu Ads", u: "https://archive.org/download/Desilu_Commercials/Desilu_Commercials.mp4"},
+        {n: "Ad Reel: 1950s Animation", u: "https://archive.org/download/ClassicT1950_2/ClassicT1950_2.mp4"},
+        {n: "Short: Man in Space", u: "https://archive.org/download/ManInSpace/ManInSpace.mp4"}
+    ];
 
-    var sIdx = 0; // Index shown on screen
-    var pIdx = 0; // Index currently playing
-    var tDeg = 0; // Knob Rotation
-    var sDeg = 0;
+    // --- MIXER LOGIC ---
+    let archive = [];
+    let shuffledFeatures = [...features, ...features].sort(() => Math.random() - 0.5);
+    let shuffledAds = [...commercials].sort(() => Math.random() - 0.5);
+    
+    // Inject Ads
+    shuffledFeatures.forEach((movie, index) => {
+        archive.push(movie);
+        archive.push(shuffledAds[index % shuffledAds.length]); 
+    });
 
-    var player = document.getElementById('player');
-    var screen = document.getElementById('index-screen');
-    var overlay = document.getElementById('mute-overlay');
+    let sIdx = 0, tDeg = 0, sDeg = 0;
 
-    // 3. Initialize
-    window.onload = function() {
-        screen.innerText = archive[0].n;
-        player.src = archive[0].u;
+    function init() {
+        makeDashes('t-dashes', 100); 
+        makeDashes('s-dashes', 80);
+        document.getElementById('index-screen').innerText = archive[0].n;
+        const p = document.getElementById('player');
         
-        // Vizio Hack: Must load, then mute, then play
-        player.load();
-        player.muted = true; 
-        
-        var playPromise = player.play();
-        if (playPromise !== undefined) {
-            playPromise.then(function() {
-                overlay.style.display = "block"; // Show "Click for Sound"
-            }).catch(function(error) {
-                console.log("Auto-play prevented");
+        // AUTO-ADVANCE LOGIC
+        p.onended = function() {
+            sIdx = (sIdx + 1) % archive.length;
+            p.src = archive[sIdx].u;
+            p.load();
+            p.play();
+            document.getElementById('index-screen').innerText = archive[sIdx].n;
+            tDeg += 10; sDeg += 10;
+            updateKnobs();
+        };
+
+        // LOAD FIRST VIDEO
+        p.src = archive[0].u;
+        p.load();
+        // ATTEMPT AUTO PLAY (MUTED)
+        var promise = p.play();
+        if (promise !== undefined) {
+            promise.then(_ => {
+                // Autoplay started!
+            }).catch(error => {
+                // Autoplay was prevented.
+                document.getElementById('index-screen').innerText = "CLICK SCREEN TO START";
             });
         }
+    }
 
-        // Auto-Next Logic
-        player.onended = function() {
-            sIdx = sIdx + 1;
-            if (sIdx >= archive.length) { sIdx = 0; }
-            pIdx = sIdx;
-            
-            player.src = archive[sIdx].u;
-            player.load();
-            player.play();
-            screen.innerText = archive[sIdx].n;
-        };
-    };
-
-    // 4. Tuner Function (Top Knob)
     function tune(dir) {
-        tDeg = tDeg + 30;
-        document.getElementById('t-knob').style.transform = "rotate(" + tDeg + "deg)";
-        
-        // Sync Play to Selection
-        pIdx = sIdx;
-        player.src = archive[pIdx].u;
-        player.load();
-        player.play();
-        screen.innerText = archive[pIdx].n;
+        tDeg += (dir * 30);
+        updateKnobs();
+        const p = document.getElementById('player');
+        p.src = archive[sIdx].u; 
+        p.load(); 
+        p.play();
+        // Update Title immediately
+        document.getElementById('index-screen').innerText = archive[sIdx].n;
     }
 
-    // 5. Scroll Function (Bottom Knob)
     function scrollIndex(dir) {
-        sDeg = sDeg + 30;
-        document.getElementById('s-knob').style.transform = "rotate(" + sDeg + "deg)";
-        
-        sIdx = sIdx + 1;
-        if (sIdx >= archive.length) { sIdx = 0; }
-        
-        screen.innerText = archive[sIdx].n;
+        sDeg += (dir * 30);
+        sIdx = (sIdx + dir + archive.length) % archive.length;
+        updateKnobs();
+        document.getElementById('index-screen').innerText = archive[sIdx].n;
     }
 
-    // 6. Unmute Helper
-    function unmuteVideo() {
-        player.muted = false;
-        overlay.style.display = "none";
+    function updateKnobs() {
+        document.getElementById('t-knob').style.transform = `rotate(${tDeg}deg)`;
+        document.getElementById('s-knob').style.transform = `rotate(${sDeg}deg)`;
     }
+
+    // FUNCTION TO UNMUTE ON CLICK
+    function unmute() {
+        const p = document.getElementById('player');
+        p.muted = false;
+        if(p.paused) { p.play(); }
+        if(document.getElementById('cabinet').requestFullscreen) {
+            document.getElementById('cabinet').requestFullscreen();
+        }
+    }
+
+    function makeDashes(id, count) {
+        const ring = document.getElementById(id);
+        for(let i=0; i<count; i++) {
+            const d = document.createElement('div'); d.className = 'dash';
+            d.style.transform = `rotate(${i * (360/count)}deg)`; ring.appendChild(d);
+        }
+    }
+
+    function toggleFS() {
+        const c = document.getElementById('cabinet');
+        if (!document.fullscreenElement) {
+            if (c.requestFullscreen) c.requestFullscreen();
+            else if (c.webkitRequestFullscreen) c.webkitRequestFullscreen();
+        } else {
+            document.exitFullscreen();
+        }
+    }
+    
+    window.onload = init;
 </script>
 </body>
 </html>
+
