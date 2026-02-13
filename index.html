@@ -2,37 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CLINE CLASSIC TV | GODZILLA ANTHOLOGY</title>
+    <title>CLINE CLASSIC TV | ANTHOLOGY V29</title>
     <style>
         body { background: #000; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; }
         
-        /* 52" VIZIO-SCALE CHASSIS */
+        /* FULL-WIDTH VIZIO CHASSIS */
         .tv-chassis {
             width: 96vw; height: 92vh;
-            background: linear-gradient(135deg, #2b1d0e 0%, #1a110a 100%); 
-            border: 25px solid #140d08; border-radius: 90px;
+            background: #2b1d0e; 
+            border: 25px solid #1a110a; border-radius: 90px;
             position: relative; box-shadow: inset 0 0 150px #000, 0 50px 100px #000;
             display: flex; align-items: center; justify-content: space-around;
             padding: 0 40px;
         }
 
-        /* CRT TUBE SCREEN */
+        /* CENTERED CRT TUBE */
         .crt-tube { 
-            width: 78%; height: 86%; background: #000; border-radius: 18%; 
+            width: 76%; height: 86%; background: #000; border-radius: 18%; 
             overflow: hidden; border: 20px solid #111; position: relative;
             box-shadow: inset 0 0 100px rgba(255,255,255,0.05);
         }
-        video { width: 100%; height: 100%; object-fit: contain; }
+        video { width: 100%; height: 100%; object-fit: contain; background: #000; }
 
         /* ANALOG CONTROL BAY */
-        .dial-bay { display: flex; flex-direction: column; gap: 80px; align-items: center; width: 15%; }
+        .dial-bay { display: flex; flex-direction: column; gap: 80px; align-items: center; width: 18%; }
         
         .dial-unit { position: relative; display: flex; flex-direction: column; align-items: center; }
         
         /* TOP DIAL (TUNER) */
         .knob {
             width: 120px; height: 120px; background: #333; border: 6px solid #000;
-            border-radius: 50%; cursor: pointer; position: relative; transition: transform 0.2s;
+            border-radius: 50%; cursor: pointer; position: relative; 
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 10px 20px #000; z-index: 5;
         }
         .knob::after { content: ''; position: absolute; top: 10px; left: 50%; width: 8px; height: 35px; background: #fff; transform: translateX(-50%); }
@@ -45,8 +46,6 @@
         .num-pos { position: absolute; width: 220px; text-align: center; transform-origin: 110px 110px; font-size: 26px; }
 
         .label { font-size: 16px; color: #666; letter-spacing: 5px; margin-top: 15px; font-weight: bold; text-transform: uppercase; }
-
-        /* ID PLATE */
         .id-stamp { position: absolute; bottom: 35px; right: 60px; color: #222; font-size: 14px; letter-spacing: 3px; font-weight: bold; }
     </style>
 </head>
@@ -67,7 +66,7 @@
         </div>
 
         <div class="dial-unit">
-            <div class="knob" style="width:100px; height:100px;" id="selector-knob" onclick="nextReel()"></div>
+            <div class="knob" style="width:100px; height:100px;" id="selector-knob" onclick="clickSelector()"></div>
             <div class="label">Selector</div>
         </div>
     </div>
@@ -76,7 +75,7 @@
 </div>
 
 <script>
-    // GENERATE 1-13 TUNER NUMBERS
+    // BUILD THE TUNER RING
     const tunerRing = document.getElementById('tuner-ring');
     for(let i=1; i<=13; i++) {
         const div = document.createElement('div');
@@ -86,7 +85,7 @@
         tunerRing.appendChild(div);
     }
 
-    // FULL GODZILLA ANTHOLOGY LIST (MP4 STREAMS)
+    // REPAIRED ARCHIVE LIST
     const archive = [
         "https://archive.org/download/RecurringDinosaurInfestationFilms/1.Godzilla-KingOfTheMonsters1956.mp4",
         "https://archive.org/download/RecurringDinosaurInfestationFilms/2.GodzillaRaidsAgain1955.mp4",
@@ -115,27 +114,33 @@
         "https://archive.org/download/RecurringDinosaurInfestationFilms/26.GodzillaMothraAndKingGhidorahGiantMonstersAllOutAttack2001.mp4",
         "https://archive.org/download/RecurringDinosaurInfestationFilms/27.GodzillaAgainstMechagodzilla2002.mp4",
         "https://archive.org/download/RecurringDinosaurInfestationFilms/28.Godzilla-TokyoS.o.s.2003.mp4",
-        "https://archive.org/download/RecurringDinosaurInfestationFilms/29.Godzilla-FinalWars2004.mp4"
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/29.Godzilla-FinalWars2004.mp4",
         "https://archive.org/download/GulliversTravels720p_652/GulliversTravels_512kb.mp4"
     ];
 
     let current = 0;
-    let tunerDeg = 0;
-    let selectorDeg = 0;
+    let tDeg = 0;
+    let sDeg = 0;
 
-    function nextReel() {
-        selectorDeg += 30;
-        document.getElementById('selector-knob').style.transform = `rotate(${selectorDeg}deg)`;
-        current = (current + 1) % archive.length;
+    function playReel(idx) {
         const player = document.getElementById('tv-player');
-        player.src = archive[current];
-        player.play();
+        player.src = archive[idx];
+        player.load(); // Forces the player to catch the new source
+        player.play().catch(e => console.log("Playback error: ", e));
     }
 
     function clickTuner() {
-        tunerDeg += (360/13);
-        document.getElementById('tuner-knob').style.transform = `rotate(${tunerDeg}deg)`;
-        nextReel();
+        tDeg += (360/13);
+        document.getElementById('tuner-knob').style.transform = `rotate(${tDeg}deg)`;
+        current = (current + 1) % archive.length;
+        playReel(current);
+    }
+
+    function clickSelector() {
+        sDeg += 30;
+        document.getElementById('selector-knob').style.transform = `rotate(${sDeg}deg)`;
+        current = (current + 1) % archive.length;
+        playReel(current);
     }
 </script>
 
