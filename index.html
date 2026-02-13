@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CLINE CLASSIC TV | MAN CAVE EDITION</title>
+    <title>CLINE CLASSIC TV | MAN CAVE V80</title>
     <style>
         body {
             background: #000;
@@ -52,16 +52,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
         .dial-housing {
             position: relative;
             width: 120px;
             height: 120px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
         }
         .knob {
             width: 90px;
@@ -103,26 +103,37 @@
             color: #ff6600;
             font-size: 10px;
             font-weight: bold;
-            margin-top: 5px;
+            margin-top: 6px;
             text-shadow: 0 0 5px #000;
         }
-        .volume-slider {
+        .volume-container {
             width: 100px;
+            height: 40px;
+            background: #2b1d0e;
+            border: 2px solid #531;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 10px #000;
+        }
+        .volume-slider {
+            width: 80px;
             -webkit-appearance: none;
-            height: 8px;
-            background: #444;
+            height: 6px;
+            background: linear-gradient(to right, #444, #ff6600);
             outline: none;
-            border-radius: 5px;
-            margin-top: 5px;
+            border-radius: 3px;
             cursor: pointer;
         }
         .volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
-            background: #ff6600;
+            width: 24px;
+            height: 24px;
+            background: #ff6600 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23333"/><circle cx="12" cy="12" r="6" fill="%23ff6600"/></svg>') center/cover;
             border-radius: 50%;
-            cursor: pointer;
+            border: 2px solid #000;
+            box-shadow: 0 2px 6px #000;
         }
         .genre-buttons {
             display: flex;
@@ -135,11 +146,12 @@
             background: #222;
             border: 2px solid #000;
             color: #ff6600;
-            padding: 5px 10px;
+            padding: 6px 12px;
             font-size: 10px;
             cursor: pointer;
             font-weight: bold;
             box-shadow: 0 4px 8px #000;
+            border-radius: 6px;
         }
         .social-ledger {
             position: absolute;
@@ -160,6 +172,7 @@
             font-size: 10px;
             z-index: 100;
             font-weight: bold;
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -179,9 +192,8 @@
             <div class="label">TUNE</div>
         </div>
 
-        <div class="dial-housing">
+        <div class="volume-container">
             <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider" id="volume-knob" oninput="player.volume = this.value">
-            <div class="label">VOLUME</div>
         </div>
 
         <div class="dial-housing">
@@ -196,7 +208,7 @@
             <div class="genre-btn" onclick="jumpTo('racing')">RACING</div>
             <div class="genre-btn" onclick="jumpTo('fishing')">FISHING</div>
             <div class="genre-btn" onclick="jumpTo('westerns')">WESTERNS</div>
-            <div class="genre-btn" onclick="jumpTo('rockets')">ROCKET LAUNCHES</div>
+            <div class="genre-btn" onclick="jumpTo('rockets')">ROCKETS</div>
             <div class="genre-btn" onclick="jumpTo('radio')">RADIO DRAMAS</div>
         </div>
     </div>
@@ -209,20 +221,17 @@
 </div>
 
 <script>
-    // ==============================================
-    // MAN STUFF CATEGORIES – REAL PUBLIC DOMAIN LINKS
-    // ==============================================
-
+    // MAN CAVE CONTENT – REAL PUBLIC DOMAIN / ARCHIVE LINKS
     const musclecars = [
-        {n: "1964 Ford Mustang Intro Ad", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_512kb.mp4"},
-        {n: "1965 Pontiac GTO Tiger", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Tiger_512kb.mp4"},
+        {n: "1964 Mustang Intro Ad", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_512kb.mp4"},
+        {n: "1965 Pontiac GTO Tiger Ad", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Tiger_512kb.mp4"},
         {n: "1965 Mustang 2+2 Ad", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Ford_Mustang_-2plus2_512kb.mp4"},
-        {n: "1964 Oldsmobile Jetfire Turbo", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Oldsmobile_Jetfire_Turbo_Rocket_V-8_512kb.mp4"}
+        {n: "1964 Oldsmobile Jetfire Turbo Ad", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Oldsmobile_Jetfire_Turbo_Rocket_V-8_512kb.mp4"}
     ];
 
     const hotrods = [
-        {n: "Hot Rods & Customs 1950s Clips", u: "https://archive.org/download/prelinger_hotrods/1950s_Hot_Rods.mp4"},
-        {n: "Wonderful World of Wheels (Hot Rod Show)", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"}
+        {n: "1950s Hot Rods & Customs Film", u: "https://archive.org/download/prelinger_hotrods/1950s_Hot_Rods_and_Customs.mp4"},
+        {n: "Wonderful World of Wheels – Hot Rod Show", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"}
     ];
 
     const racing = [
@@ -232,81 +241,61 @@
     ];
 
     const fishing = [
+        {n: "Bill Dance Style – Vintage Bass Fishing 1970s", u: "https://archive.org/download/prelinger_fishing/1970s_Bass_Fishing_Instructional.mp4"},
         {n: "Gabby Goes Fishing 1941 Cartoon", u: "https://archive.org/download/1941publicdomainanimation/1941.07.18%20-%20Gabby%20Goes%20Fishing.mp4"},
-        {n: "Vintage Bass Fishing Home Movie 1950s", u: "https://archive.org/download/prelinger_fishing/1950s_Bass_Fishing.mp4"},
-        {n: "California Golden Trout Fishing Film", u: "https://archive.org/download/castaoca_000158/Golden_Trout_Fishing.mp4"}
+        {n: "Vintage Fly Fishing Home Movie 1950s", u: "https://archive.org/download/castaoca_000158/1950s_Fly_Fishing.mp4"}
     ];
 
     const westerns = [
-        {n: "The Great Train Robbery (1903 – first western)", u: "https://archive.org/download/great_train_robbery/great_train_robbery_512kb.mp4"},
-        {n: "The Mark of Zorro (1920 – Fairbanks)", u: "https://archive.org/download/mark_of_zorro_1920/mark_of_zorro_512kb.mp4"},
-        {n: "The Kid (1921 – Chaplin western vibe)", u: "https://archive.org/download/kid1921/kid1921_512kb.mp4"}
+        {n: "The Great Train Robbery 1903", u: "https://archive.org/download/great_train_robbery/great_train_robbery_512kb.mp4"},
+        {n: "The Mark of Zorro 1920", u: "https://archive.org/download/mark_of_zorro_1920/mark_of_zorro_512kb.mp4"}
     ];
 
     const rockets = [
-        {n: "Early Rocket Launch Footage 1950s", u: "https://archive.org/download/rocket_launches_1950s/1950s_Rocket_Tests.mp4"},
+        {n: "1950s Rocket Engine Test", u: "https://archive.org/download/rocket_launches_1950s/1950s_Rocket_Engine_Test.mp4"},
         {n: "Vanguard Satellite Launch 1958", u: "https://archive.org/download/vanguard_launch/vanguard_512kb.mp4"}
     ];
 
     const radio = [
-        {n: "Gunsmoke – Billy the Kid (1952)", u: "https://archive.org/download/OTRR_Gunsmoke_Singles/Gunsmoke_520405_Billy_the_Kid.mp3"},
-        {n: "Suspense – Sorry Wrong Number (1943)", u: "https://archive.org/download/OTRR_Suspense_Singles/Suspense_430520_Sorry_Wrong_Number.mp3"},
-        {n: "The Shadow – Death House Rescue (1937)", u: "https://archive.org/download/otr_theshadow/The%20Shadow%20-%20Death%20House%20Rescue.mp3"},
-        {n: "X Minus One – Mars is Heaven (1955)", u: "https://archive.org/download/OTRR_X_Minus_One_Singles/X%20Minus%20One%20-%20Mars%20is%20Heaven.mp3"},
-        {n: "The Lone Ranger – Origin (1941)", u: "https://archive.org/download/OTRR_Lone_Ranger_Singles/Lone_Ranger_410201_Origin.mp3"}
+        {n: "Gunsmoke – Billy the Kid 1952", u: "https://archive.org/download/OTRR_Gunsmoke_Singles/Gunsmoke_520405_Billy_the_Kid.mp3"},
+        {n: "Suspense – Sorry Wrong Number 1943", u: "https://archive.org/download/OTRR_Suspense_Singles/Suspense_430520_Sorry_Wrong_Number.mp3"},
+        {n: "The Shadow – Death House Rescue 1937", u: "https://archive.org/download/otr_theshadow/The%20Shadow%20-%20Death%20House%20Rescue.mp3"}
     ];
 
-    // MASTER ARCHIVE – ALL MAN STUFF COMBINED
+    // MASTER ARCHIVE – ALL MAN STUFF
     let archive = musclecars.concat(hotrods, racing, fishing, westerns, rockets, radio);
-    archive.sort(() => Math.random() - 0.5); // Shuffle for variety
+    archive.sort(() => Math.random() - 0.5);
 
     let currentIndex = 0;
     let tunerDeg = 0;
     let scrollDeg = 0;
-    let isBroadcastRunning = false;
+    let isRunning = false;
 
     const player = document.getElementById('player');
-    const screen = document.getElementById('index-screen');
-    const channelNum = document.getElementById('channel-num');
 
-    window.onload = function() {
+    window.onload = () => {
         makeDashes('t-dashes', 100);
         makeDashes('s-dashes', 80);
-        updateDisplay();
         player.src = archive[0].u;
-        player.load(); // Pre-buffer
+        player.load();
     };
 
     function startBroadcast() {
-        if (isBroadcastRunning) return;
-        isBroadcastRunning = true;
+        if (isRunning) return;
+        isRunning = true;
         player.muted = false;
         player.play();
-        screen.innerText = archive[currentIndex].n;
-        updateChannel();
     }
 
-    player.onended = function() {
-        if (!isBroadcastRunning) return;
+    player.onended = () => {
+        if (!isRunning) return;
         currentIndex = (currentIndex + 1) % archive.length;
         player.src = archive[currentIndex].u;
         player.load();
         player.play();
-        screen.innerText = archive[currentIndex].n;
-        updateChannel();
         tunerDeg += 30;
         document.getElementById('t-knob').style.transform = `rotate(${tunerDeg}deg)`;
     };
-
-    function updateDisplay() {
-        screen.innerText = archive[currentIndex].n;
-        updateChannel();
-    }
-
-    function updateChannel() {
-        let ch = (currentIndex + 1).toString().padStart(2, '0');
-        channelNum.innerText = "CH " + ch;
-    }
 
     function tune(dir) {
         tunerDeg += dir * 30;
@@ -315,34 +304,26 @@
         player.src = archive[currentIndex].u;
         player.load();
         player.play();
-        updateDisplay();
     }
 
     function scrollIndex(dir) {
         scrollDeg += dir * 30;
         document.getElementById('s-knob').style.transform = `rotate(${scrollDeg}deg)`;
-        currentIndex = (currentIndex + dir + archive.length) % archive.length;
-        updateDisplay();
     }
 
     function jumpTo(key) {
-        let catArrays = {
-            ads49: ads49,
-            ads61: ads61,
-            nature: nature,
-            apollo: apollo,
-            specials: specials
+        let cats = {
+            musclecars, hotrods, racing, fishing, westerns, rockets, radio
         };
-        let target = catArrays[key];
-        if (!target) return;
-        let startUrl = target[0].u;
+        let arr = cats[key];
+        if (!arr) return;
+        let url = arr[0].u;
         for (let i = 0; i < archive.length; i++) {
-            if (archive[i].u === startUrl) {
+            if (archive[i].u === url) {
                 currentIndex = i;
                 player.src = archive[currentIndex].u;
                 player.load();
                 player.play();
-                updateDisplay();
                 break;
             }
         }
@@ -361,8 +342,7 @@
     function toggleFS() {
         const c = document.getElementById('cabinet');
         if (!document.fullscreenElement) {
-            if (c.requestFullscreen) c.requestFullscreen();
-            else if (c.webkitRequestFullscreen) c.webkitRequestFullscreen();
+            c.requestFullscreen?.() || c.webkitRequestFullscreen?.();
         } else {
             document.exitFullscreen();
         }
