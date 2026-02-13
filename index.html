@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CLINE CLASSIC TV | MAN CAVE V82</title>
+    <title>CLINE CLASSIC TV | MAN CAVE V94</title>
     <style>
         body {
             background: #000;
@@ -52,12 +52,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 20px;
         }
         .dial-housing {
             position: relative;
             width: 120px;
-            height: 120px;
+            height: 140px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -101,10 +101,11 @@
         }
         .label {
             color: #ff6600;
-            font-size: 11px;
+            font-size: 16px;
             font-weight: bold;
-            margin-top: 6px;
-            text-shadow: 0 0 5px #000;
+            margin-top: 10px;
+            text-shadow: 0 0 10px #ff6600;
+            letter-spacing: 2px;
         }
         .volume-container {
             width: 100px;
@@ -130,28 +131,28 @@
             -webkit-appearance: none;
             width: 24px;
             height: 24px;
-            background: #ff6600 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="%23333"/><circle cx="12" cy="12" r="6" fill="%23ff6600"/></svg>') center/cover;
+            background: #ff6600;
             border-radius: 50%;
             border: 2px solid #000;
             box-shadow: 0 2px 6px #000;
         }
-        .genre-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            width: 100%;
-        }
-        .genre-btn {
-            background: #222;
-            border: 2px solid #000;
+        .category-display {
+            background: #111;
+            border: 3px solid #ff6600;
+            padding: 12px 18px;
             color: #ff6600;
-            padding: 6px 12px;
-            font-size: 10px;
-            cursor: pointer;
+            font-size: 14px;
             font-weight: bold;
-            box-shadow: 0 4px 8px #000;
-            border-radius: 6px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 0 20px #ff6600, inset 0 0 15px #000;
+            width: 90%;
+            letter-spacing: 1px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 10px #ff6600, inset 0 0 10px #000; }
+            to { box-shadow: 0 0 25px #ff6600, inset 0 0 15px #000; }
         }
         .social-ledger {
             position: absolute;
@@ -174,15 +175,40 @@
             font-weight: bold;
             border-radius: 8px;
         }
+        .info-display {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.9);
+            color: #ff6600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 12px;
+            max-width: 70%;
+            text-align: center;
+            border: 2px solid #ff6600;
+            box-shadow: 0 0 15px #ff6600;
+        }
+        .version {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: #ff6600;
+            font-size: 10px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
 <button class="fs-toggle" onclick="toggleFS()">[ FULL SCREEN ]</button>
+<div class="version">V94</div>
 
 <div id="cabinet">
     <div class="glass-tube" onclick="startBroadcast()">
         <video id="player" controls playsinline webkit-playsinline></video>
+        <div class="info-display" id="info">Click screen to start broadcast</div>
     </div>
 
     <div class="side-panel">
@@ -196,21 +222,12 @@
             <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider" id="volume-knob" oninput="player.volume = this.value">
         </div>
 
+        <div class="category-display" id="cat-display">ADDAMS FAMILY</div>
+
         <div class="dial-housing">
             <div class="dash-ring" id="s-dashes"></div>
-            <div class="knob" id="s-knob" onclick="scrollIndex(1)" oncontextmenu="event.preventDefault(); scrollIndex(-1);"></div>
-            <div class="label">SELECT</div>
-        </div>
-
-        <div class="genre-buttons">
-            <div class="genre-btn" onclick="jumpTo('musclecars')">MUSCLE CARS</div>
-            <div class="genre-btn" onclick="jumpTo('hotrods')">HOT RODS</div>
-            <div class="genre-btn" onclick="jumpTo('racing')">RACING</div>
-            <div class="genre-btn" onclick="jumpTo('fishing')">FISHING</div>
-            <div class="genre-btn" onclick="jumpTo('sports70s')">70s SPORTS</div>
-            <div class="genre-btn" onclick="jumpTo('westerns')">WESTERNS</div>
-            <div class="genre-btn" onclick="jumpTo('rockets')">ROCKETS</div>
-            <div class="genre-btn" onclick="jumpTo('radio')">RADIO DRAMAS</div>
+            <div class="knob" id="s-knob" onclick="changeCategory(1)" oncontextmenu="event.preventDefault(); changeCategory(-1);"></div>
+            <div class="label">CATEGORY</div>
         </div>
     </div>
 
@@ -222,69 +239,164 @@
 </div>
 
 <script>
-    // MAN CAVE CONTENT – REAL PUBLIC DOMAIN LINKS
-    const musclecars = [
-        {n: "1964 Ford Mustang Intro Ad", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_512kb.mp4"},
-        {n: "1965 Pontiac GTO Tiger Ad", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Tiger_512kb.mp4"},
-        {n: "1965 Ford Mustang 2+2 Ad", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Ford_Mustang_-2plus2_512kb.mp4"},
-        {n: "1964 Oldsmobile Jetfire Turbo Ad", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Oldsmobile_Jetfire_Turbo_Rocket_V-8_512kb.mp4"}
+    // ========== THE ADDAMS FAMILY - COMPLETE SEASONS 1 & 2 (64 EPISODES!) ==========
+    const addamsFamily = [
+        // Season 1 - 34 Episodes
+        {n: "The Addams Family Goes to School", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x01%20--%20The%20Addams%20Family%20Goes%20to%20School.mp4"},
+        {n: "Morticia and the Psychologist", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x02%20--%20Morticia%20and%20the%20Psychologist.mp4"},
+        {n: "Fester's Punctured Romance", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x03%20--%20Fester%27s%20Punctured%20Romance.mp4"},
+        {n: "Gomez, the Politician", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x04%20--%20Gomez%2C%20the%20Politician.mp4"},
+        {n: "The Addams Family Tree", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x05%20--%20The%20Addams%20Family%20Tree.mp4"},
+        {n: "Morticia Joins the Ladies League", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x06%20--%20Morticia%20Joins%20the%20Ladies%27%20League.mp4"},
+        {n: "Halloween With the Addams Family", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x07%20--%20Halloween%20With%20the%20Addams%20Family.mp4"},
+        {n: "Green-Eyed Gomez", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x08%20--%20Green-Eyed%20Gomez.mp4"},
+        {n: "The New Neighbors Meet the Addams Family", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x09%20--%20The%20New%20Neighbors%20Meet%20the%20Addams%20Family.mp4"},
+        {n: "Wednesday Leaves Home", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x10%20--%20Wednesday%20Leaves%20Home.mp4"},
+        {n: "The Addams Family Meets the VIPs", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x11%20--%20The%20Addams%20Family%20Meets%20the%20VIPs.mp4"},
+        {n: "Morticia, the Matchmaker", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x12%20--%20Morticia%2C%20the%20Matchmaker.mp4"},
+        {n: "Lurch Learns to Dance", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x13%20--%20Lurch%20Learns%20to%20Dance.mp4"},
+        {n: "Art and the Addams Family", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x14%20--%20Art%20and%20the%20Addams%20Family.mp4"},
+        {n: "The Addams Family Meets a Beatnik", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x15%20--%20The%20Addams%20Family%20Meets%20a%20Beatnik.mp4"},
+        {n: "The Addams Family Meets the Undercover Man", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x16%20--%20The%20Addams%20Family%20Meets%20the%20Undercover%20Man.mp4"},
+        {n: "Mother Lurch Visits the Addams Family", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x17%20--%20Mother%20Lurch%20Visits%20the%20Addams%20Family.mp4"},
+        {n: "Uncle Fester's Illness", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x18%20--%20Uncle%20Fester%27s%20Illness.mp4"},
+        {n: "The Addams Family Splurges", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x19%20--%20The%20Addams%20Family%20Splurges.mp4"},
+        {n: "Cousin Itt Visits the Addams Family", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x20%20--%20Cousin%20Itt%20Visits%20the%20Addams%20Family.mp4"},
+        {n: "The Addams Family in Court", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x21%20--%20The%20Addams%20Family%20in%20Court.mp4"},
+        {n: "Amnesia in the Addams Family", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x22%20--%20Amnesia%20in%20the%20Addams%20Family.mp4"},
+        {n: "Thing is Missing", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x23%20--%20Thing%20is%20Missing.mp4"},
+        {n: "Crisis in the Addams Family", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x24%20--%20Crisis%20in%20the%20Addams%20Family.mp4"},
+        {n: "Lurch and His Harpsichord", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x25%20--%20Lurch%20and%20His%20Harpsichord.mp4"},
+        {n: "Morticia, the Breadwinner", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x26%20--%20Morticia%2C%20the%20Breadwinner.mp4"},
+        {n: "The Addams Family and the Spacemen", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x27%20--%20The%20Addams%20Family%20and%20the%20Spacemen.mp4"},
+        {n: "My Son, the Chimp", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x28%20--%20My%20Son%2C%20the%20Chimp.mp4"},
+        {n: "Morticia's Favorite Charity", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x29%20--%20Morticia%27s%20Favorite%20Charity.mp4"},
+        {n: "Progress and the Addams Family", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x30%20--%20Progress%20and%20the%20Addams%20Family.mp4"},
+        {n: "Uncle Fester's Toupee", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x31%20--%20Uncle%20Fester%27s%20Toupee.mp4"},
+        {n: "Cousin Itt and the Vocational Counselor", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x32%20--%20Cousin%20Itt%20and%20the%20Vocational%20Counselor.mp4"},
+        {n: "Lurch, the Teenage Idol", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x33%20--%20Lurch%2C%20the%20Teenage%20Idol.mp4"},
+        {n: "The Winning of Morticia Addams", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x34%20--%20The%20Winning%20of%20Morticia%20Addams.mp4"},
+        
+        // Season 2 - 30 Episodes
+        {n: "My Fair Cousin Itt", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x01%20--%20My%20Fair%20Cousin%20Itt.mp4"},
+        {n: "Morticia's Romance Part 1", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x02%20--%20Morticia%27s%20Romance%20%28part%201%29.mp4"},
+        {n: "Morticia's Romance Part 2", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x03%20--%20Morticia%27s%20Romance%20%28part%202%29.mp4"},
+        {n: "Morticia Meets Royalty", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x04%20--%20Morticia%20Meets%20Royalty.mp4"},
+        {n: "Gomez, the People's Choice", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x05%20--%20Gomez%2C%20the%20People%27s%20Choice.mp4"},
+        {n: "Cousin Itt's Problem", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x06%20--%20Cousin%20Itt%27s%20Problem.mp4"},
+        {n: "Halloween - Addams Style", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x07%20--%20Halloween%20-%20Addams%27%20Style.mp4"},
+        {n: "Morticia, the Writer", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x08%20--%20Morticia%2C%20the%20Writer.mp4"},
+        {n: "Morticia, the Sculptress", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x09%20--%20Morticia%2C%20the%20Sculptress.mp4"},
+        {n: "Gomez, the Reluctant Lover", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x10%20--%20Gomez%2C%20the%20Reluctant%20Lover.mp4"},
+        {n: "Feud in the Addams Family", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x11%20--%20Feud%20in%20the%20Addams%20Family.mp4"},
+        {n: "Gomez, the Cat Burglar", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x12%20--%20Gomez%2C%20the%20Cat%20Burglar.mp4"},
+        {n: "Portrait of Gomez", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x13%20--%20Portrait%20of%20Gomez.mp4"},
+        {n: "Morticia's Dilemma", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x14%20--%20Morticia%27s%20Dilemma.mp4"},
+        {n: "Christmas with the Addams Family", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x15%20--%20Christmas%20with%20the%20Addams%20Family.mp4"},
+        {n: "Uncle Fester, Tycoon", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x16%20--%20Uncle%20Fester%2C%20Tycoon.mp4"},
+        {n: "Morticia & Gomez vs Fester & Grandmama", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x17%20--%20Morticia%20%26%20Gomez%20vs%20Fester%20%26%20Grandmama.mp4"},
+        {n: "Fester Goes on a Diet", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x18%20--%20Fester%20Goes%20on%20a%20Diet.mp4"},
+        {n: "The Great Treasure Hunt", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x19%20--%20The%20Great%20Treasure%20Hunt.mp4"},
+        {n: "Ophelia Finds Romance", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x20%20--%20Ophelia%20Finds%20Romance.mp4"},
+        {n: "Pugsley's Allowance", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x21%20--%20Pugsley%27s%20Allowance.mp4"},
+        {n: "Happy Birthday, Grandma Frump", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x22%20--%20Happy%20Birthday%2C%20Grandma%20Frump.mp4"},
+        {n: "Morticia, the Decorator", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x23%20--%20Morticia%2C%20the%20Decorator.mp4"},
+        {n: "Ophelia Visits Morticia", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x24%20--%20Ophelia%20Visits%20Morticia.mp4"},
+        {n: "Addams Cum Laude", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x25%20--%20Addams%20Cum%20Laude.mp4"},
+        {n: "Cat Addams", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x26%20--%20Cat%20Addams.mp4"},
+        {n: "Lurch's Little Helper", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x27%20--%20Lurch%27s%20Little%20Helper.mp4"},
+        {n: "The Addams Policy", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x28%20--%20The%20Addams%20Policy.mp4"},
+        {n: "Lurch's Grand Romance", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x29%20--%20Lurch%27s%20Grand%20Romance.mp4"},
+        {n: "Ophelia's Career", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x30%20--%20Ophelia%27s%20Career.mp4"}
     ];
 
-    const hotrods = [
-        {n: "1950s Hot Rods & Customs Film", u: "https://archive.org/download/prelinger_hotrods/1950s_Hot_Rods_and_Customs.mp4"},
-        {n: "Wonderful World of Wheels – Hot Rod Show", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"}
+    // ========== MERCURY THEATRE - ORSON WELLES RADIO DRAMAS ==========
+    const mercuryTheatre = [
+        {n: "War of the Worlds (1938) - FAMOUS BROADCAST!", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-30WarOfTheWorlds.mp3"},
+        {n: "Dracula", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-11Dracula.mp3"},
+        {n: "Treasure Island", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-18TreasureIsland.mp3"},
+        {n: "A Tale of Two Cities", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-25ATaleOfTwoCities.mp3"},
+        {n: "The Thirty-Nine Steps", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-08-01TheThirtyNineSteps.mp3"},
+        {n: "Abraham Lincoln", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-08-15AbrahamLincoln.mp3"},
+        {n: "The Count of Monte Cristo", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-08-29TheCountOfMonteCristo.mp3"},
+        {n: "Julius Caesar", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-09-11JuliusCeasar.mp3"},
+        {n: "The Immortal Sherlock Holmes", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-09-25TheImmortalSherlockHolmes.mp3"},
+        {n: "Hell On Ice", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-09HellOnIce.mp3"},
+        {n: "Around the World in 80 Days", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-23AroundTheWorldIn80Days.mp3"},
+        {n: "A Passenger to Bali", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-11-13APassengerToBali.mp3"},
+        {n: "Pickwick Papers", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-11-20PickwickPapers.mp3"},
+        {n: "The Hitch-hiker (1946)", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater46-06-21TheHitch-hiker.mp3"},
+        {n: "Heart of Darkness & Life With Father", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/Mercurytheater38-11-06HeartOfDarknessLifeWithFather.mp3"}
     ];
 
-    const racing = [
-        {n: "1960s Daytona NASCAR Highlights", u: "https://archive.org/download/nascar-daytona-1960s/NASCAR%20Daytona%201960s.mp4"},
-        {n: "1965 Stock Car Racing Full", u: "https://archive.org/download/StockCar1965/StockCar1965.mp4"},
-        {n: "1965 Grand National Race", u: "https://archive.org/download/1965GrandNational/1965GrandNational.mp4"}
+    // ========== CLASSIC TV SHOWS ==========
+    const classicTV = [
+        {n: "The Lone Ranger - Enter the Lone Ranger (1949)", u: "https://archive.org/download/lone_ranger_1949/Lone_Ranger_Enter_1949.mp4"},
+        {n: "Superman - Superman on Earth (1952)", u: "https://archive.org/download/SupermanTheAdventuresOfSupermantvSeries/Superman%20-%20The%20Adventures%20of%20Superman%20tv%20Series%20-%20Superman%20on%20Earth.mp4"},
+        {n: "Dragnet - The Big Cast (1952)", u: "https://archive.org/download/Dragnet_OTR/Dragnet_520117_137_The_Big_Cast.mp4"},
+        {n: "Popeye Meets Sindbad (1936)", u: "https://archive.org/download/popeye_sindbad/Popeye_Sindbad.mp4"}
     ];
 
-    const fishing = [
-        {n: "Vintage Bass Fishing 1970s – Bill Dance Style", u: "https://archive.org/download/prelinger_fishing/1970s_Bass_Fishing_Instructional.mp4"},
-        {n: "Gabby Goes Fishing 1941 Cartoon", u: "https://archive.org/download/1941publicdomainanimation/1941.07.18%20-%20Gabby%20Goes%20Fishing.mp4"},
-        {n: "1950s Fly Fishing Home Movie", u: "https://archive.org/download/castaoca_000158/1950s_Fly_Fishing.mp4"}
+    // ========== SCI-FI CLASSICS ==========
+    const sciFi = [
+        {n: "Flash Gordon - Rocketship (1936)", u: "https://archive.org/download/flash_gordon_rocketship/Flash_Gordon_Rocketship.mp4"},
+        {n: "Plan 9 from Outer Space (1959)", u: "https://archive.org/download/Plan9FromOuterSpace/Plan9FromOuterSpace_512kb.mp4"}
     ];
 
-    const sports70s = [
-        {n: "1970s NFL Highlights Archival", u: "https://archive.org/download/1970s_nfl_highlights/1970s_NFL_Archival.mp4"},
-        {n: "1970s NASCAR Vintage Footage", u: "https://archive.org/download/nascar-1970s-vintage/NASCAR_1970s_Vintage.mp4"}
+    // ========== VINTAGE COMMERCIALS ==========
+    const commercials = [
+        {n: "1964 Ford Mustang Intro", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_512kb.mp4"},
+        {n: "1965 Pontiac GTO Tiger", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Tiger_512kb.mp4"},
+        {n: "1965 Ford Mustang 2+2", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Ford_Mustang_-2plus2_512kb.mp4"},
+        {n: "1964 Oldsmobile Jetfire Turbo", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Oldsmobile_Jetfire_Turbo_Rocket_V-8_512kb.mp4"}
     ];
 
-    const westerns = [
-        {n: "The Great Train Robbery 1903", u: "https://archive.org/download/great_train_robbery/great_train_robbery_512kb.mp4"},
-        {n: "The Mark of Zorro 1920", u: "https://archive.org/download/mark_of_zorro_1920/mark_of_zorro_512kb.mp4"}
+    // ========== SPACE & ROCKETS ==========
+    const space = [
+        {n: "Apollo 11 Moon Landing (1969)", u: "https://archive.org/download/Apollo_11_Television_Coverage/Apollo_11_Moon_Landing.mp4"}
     ];
 
-    const rockets = [
-        {n: "1950s Rocket Engine Test", u: "https://archive.org/download/rocket_launches_1950s/1950s_Rocket_Engine_Test.mp4"},
-        {n: "Vanguard Satellite Launch 1958", u: "https://archive.org/download/vanguard_launch/vanguard_512kb.mp4"}
+    // ========== DRIVE-IN MOVIES ==========
+    const driveIn = [
+        {n: "Night of the Living Dead (1968)", u: "https://archive.org/download/night_of_the_living_dead/Night_Living_Dead_1968.mp4"},
+        {n: "Reefer Madness (1936)", u: "https://archive.org/download/ReeferMadness/Reefer_Madness_512kb.mp4"}
     ];
 
-    const radio = [
-        {n: "Gunsmoke – Billy the Kid 1952", u: "https://archive.org/download/OTRR_Gunsmoke_Singles/Gunsmoke_520405_Billy_the_Kid.mp3"},
-        {n: "Suspense – Sorry Wrong Number 1943", u: "https://archive.org/download/OTRR_Suspense_Singles/Suspense_430520_Sorry_Wrong_Number.mp3"},
-        {n: "The Shadow – Death House Rescue 1937", u: "https://archive.org/download/otr_theshadow/The%20Shadow%20-%20Death%20House%20Rescue.mp3"}
+    // ========== CATEGORY SYSTEM ==========
+    const categories = [
+        {name: "ADDAMS FAMILY", content: addamsFamily},
+        {name: "MERCURY THEATRE", content: mercuryTheatre},
+        {name: "CLASSIC TV", content: classicTV},
+        {name: "SCI-FI CLASSICS", content: sciFi},
+        {name: "VINTAGE ADS", content: commercials},
+        {name: "SPACE & ROCKETS", content: space},
+        {name: "DRIVE-IN MOVIES", content: driveIn}
     ];
 
-    // MASTER ARCHIVE – ALL MAN STUFF
-    let archive = musclecars.concat(hotrods, racing, fishing, sports70s, westerns, rockets, radio);
-    archive.sort(() => Math.random() - 0.5);
-
-    let currentIndex = 0;
+    let currentCategoryIndex = 0;
+    let currentVideoIndex = 0;
     let tunerDeg = 0;
-    let scrollDeg = 0;
+    let categoryDeg = 0;
     let isRunning = false;
 
     const player = document.getElementById('player');
+    const catDisplay = document.getElementById('cat-display');
+    const infoDisplay = document.getElementById('info');
 
     window.onload = () => {
         makeDashes('t-dashes', 100);
         makeDashes('s-dashes', 80);
-        player.src = archive[0].u;
-        player.load();
+        loadVideo();
     };
+
+    function loadVideo() {
+        const cat = categories[currentCategoryIndex];
+        const video = cat.content[currentVideoIndex];
+        player.src = video.u;
+        player.load();
+        catDisplay.textContent = cat.name;
+        infoDisplay.textContent = video.n;
+    }
 
     function startBroadcast() {
         if (isRunning) return;
@@ -293,47 +405,35 @@
         player.play();
     }
 
-    player.onended = () => {
-        if (!isRunning) return;
-        currentIndex = (currentIndex + 1) % archive.length;
-        player.src = archive[currentIndex].u;
-        player.load();
-        player.play();
-        tunerDeg += 30;
-        document.getElementById('t-knob').style.transform = `rotate(${tunerDeg}deg)`;
-    };
-
+    // TOP DIAL: TUNE - advances through videos in current category
     function tune(dir) {
         tunerDeg += dir * 30;
         document.getElementById('t-knob').style.transform = `rotate(${tunerDeg}deg)`;
-        currentIndex = (currentIndex + dir + archive.length) % archive.length;
-        player.src = archive[currentIndex].u;
-        player.load();
-        player.play();
+        
+        const cat = categories[currentCategoryIndex];
+        currentVideoIndex = (currentVideoIndex + dir + cat.content.length) % cat.content.length;
+        
+        loadVideo();
+        if (isRunning) player.play();
     }
 
-    function scrollIndex(dir) {
-        scrollDeg += dir * 30;
-        document.getElementById('s-knob').style.transform = `rotate(${scrollDeg}deg)`;
+    // BOTTOM DIAL: CATEGORY - switches between categories
+    function changeCategory(dir) {
+        categoryDeg += dir * 30;
+        document.getElementById('s-knob').style.transform = `rotate(${categoryDeg}deg)`;
+        
+        currentCategoryIndex = (currentCategoryIndex + dir + categories.length) % categories.length;
+        currentVideoIndex = 0;
+        
+        loadVideo();
+        if (isRunning) player.play();
     }
 
-    function jumpTo(key) {
-        let cats = {
-            musclecars, hotrods, racing, fishing, sports70s, westerns, rockets, radio
-        };
-        let arr = cats[key];
-        if (!arr) return;
-        let url = arr[0].u;
-        for (let i = 0; i < archive.length; i++) {
-            if (archive[i].u === url) {
-                currentIndex = i;
-                player.src = archive[currentIndex].u;
-                player.load();
-                player.play();
-                break;
-            }
-        }
-    }
+    // Auto-advance when video ends
+    player.onended = () => {
+        if (!isRunning) return;
+        tune(1);
+    };
 
     function makeDashes(id, count) {
         const ring = document.getElementById(id);
