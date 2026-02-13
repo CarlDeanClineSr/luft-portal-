@@ -1,9 +1,8 @@
- 
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>IMPERIAL ACADEMY | SOVEREIGN MASTER CONSOLE V50</title>
+    <title>IMPERIAL ACADEMY | MASTER SHUFFLE V52</title>
     <style>
         body { background: #000; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; width: 100vw; }
         #cabinet {
@@ -37,6 +36,8 @@
         
         .social-ledger { position: absolute; bottom: 25px; right: 40px; color: #444; font-family: sans-serif; font-size: 12px; }
         .fs-toggle { position: absolute; top: 15px; left: 15px; background: #111; color: #fff; border: 1px solid #444; padding: 10px; cursor: pointer; font-size: 10px; z-index: 100; font-weight: bold; }
+        .star-btn { cursor: pointer; font-size: 18px; color: #555; transition: 0.3s; }
+        .star-btn:hover { color: #ff6600; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -54,89 +55,25 @@
         <div class="dial-housing"><div class="dash-ring" id="s-dashes"></div><div class="knob" style="width:75px; height:75px;" id="s-knob" onclick="scrollIndex(1)" oncontextmenu="scrollIndex(-1)"></div></div>
         <div style="color:#555; font-size:9px; font-weight:bold; letter-spacing:2px; text-align:center;">INDEX (SURF TITLES)</div>
     </div>
-    <div class="social-ledger">STATION VIEWS: 6,402 | ★ 512</div>
+    <div class="social-ledger">STATION VIEWS: 7,204 | <span class="star-btn" onclick="like()">★</span> <span id="stars">612</span></div>
 </div>
 
 <script>
-    const masterList = [ 
-        
-        // COLORIZED & NEW FEATURES
-        {n: "Target Earth (1954) Color", u: "https://archive.org/download/target-earth-1954-colorized/Target%20Earth%201954%20colorized.mp4"},
-        {n: "Invasion: Saucer Men (1957) Color", u: "https://archive.org/download/invasion-of-the-saucer-men-1957-colorized-classics/Invasion%20of%20the%20Saucer%20Men%20%281957%29%20Colorized%20Classics.mp4"},
-        
-        // SHOCKER INTERNET DRIVE-IN (WEEKS 2-61)
-        {n: "Shocker Week 18: Naschy", u: "https://archive.org/download/ShockerInternetDriveIn-Week18aNaschyDoubleFeature/week_18.mp4"},
-        {n: "Shocker Week 56: Which Witch", u: "https://archive.org/download/ShockerInternetDriveIn-Week56whichWitchDoubleFeature/week_56.mp4"},
-        {n: "Shocker Week 37: Spaghetti", u: "https://archive.org/download/ShockerInternetDriveIn-Week37summerSpaghettiDoubleFeature/Week_37.mp4"},
-        {n: "Shocker Week 46: Sci-Fi", u: "https://archive.org/download/ShockerInternetDriveIn-Week46sci-fiSpaghettiDoubleFeature/week_46.mp4"},
-        {n: "Shocker Week 12: Massacre", u: "https://archive.org/download/ShockerInternetDriveIn-Week12MassacreDoubleFeature/week_12.mp4"},
-        {n: "Shocker Week 2: Horror Classics", u: "https://archive.org/download/ShockerInternetDriveIn-Week2/week_2.mp4"},
-        {n: "Shocker Week 61: Summer Slasher", u: "https://archive.org/download/ShockerInternetDriveIn-Week61summerSlasherFunDoubleFeature/week_61.mp4"},
-
-        // CARL SAGAN COSMOS (EP 1-14)
-        {n: "Cosmos 01: Shores", u: "https://archive.org/download/cosmos_1980/COSMOS_01.mp4"},
-        {n: "Cosmos 02: Fugue", u: "https://archive.org/download/cosmos_1980/COSMOS_02.mp4"},
-        {n: "Cosmos 03: Harmony", u: "https://archive.org/download/cosmos_1980/COSMOS_03.mp4"},
-        {n: "Cosmos 04: Heaven/Hell", u: "https://archive.org/download/cosmos_1980/COSMOS_04.mp4"},
-        {n: "Cosmos 05: Red Planet", u: "https://archive.org/download/cosmos_1980/COSMOS_05.mp4"},
-        {n: "Cosmos 06: Travelers", u: "https://archive.org/download/cosmos_1980/COSMOS_06.mp4"},
-        {n: "Cosmos 07: Backbone", u: "https://archive.org/download/cosmos_1980/COSMOS_07.mp4"},
-        {n: "Cosmos 08: Space Time", u: "https://archive.org/download/cosmos_1980/COSMOS_08.mp4"},
-        {n: "Cosmos 09: Lives of Stars", u: "https://archive.org/download/cosmos_1980/COSMOS_09.mp4"},
-        {n: "Cosmos 10: Forever", u: "https://archive.org/download/cosmos_1980/COSMOS_10.mp4"},
-        {n: "Cosmos 11: Memory", u: "https://archive.org/download/cosmos_1980/COSMOS_11.mp4"},
-        {n: "Cosmos 12: Galactica", u: "https://archive.org/download/cosmos_1980/COSMOS_12.mp4"},
-        {n: "Cosmos 13: Who Speaks", u: "https://archive.org/download/cosmos_1980/COSMOS_13.mp4"},
-        {n: "Cosmos 14: Special", u: "https://archive.org/download/cosmos_1980/COSMOS_14.mp4"},
-
-        // NASA / PLANET EARTH / SCIENCE
-        {n: "Earth 1: Living Machine", u: "https://archive.org/download/planet.earth/Planet%20Earth%201%20The%20Living%20Machine.mp4"},
-        {n: "Earth 2: Blue Planet", u: "https://archive.org/download/planet.earth/Planet%20Earth%202%20The%20Blue%20Planet.mp4"},
-        {n: "Earth 6: The Solar Sea", u: "https://archive.org/download/planet.earth/Planet%20Earth%206%20The%20Solar%20Sea.mp4"},
-        {n: "NASA: Apollo 11 Mission", u: "https://archive.org/download/Apollo11MoonLanding/Apollo11MoonLanding.mp4"},
-        {n: "NASA: Friendship 7", u: "https://archive.org/download/Friendship7/Friendship7.mp4"},
-        {n: "NASA: Shoot the Moon", u: "https://archive.org/download/AssignmentShootTheMoon/AssignmentShootTheMoon.mp4"},
-        {n: "Donald: Mathmagic Land", u: "https://archive.org/download/donald-in-mathematic-land-pack/1959-06-26%20-%20Donald%20in%20Mathematic%20Land%20%28Short%29%20TreasDVD.mp4"},
-        {n: "Man in Space (1955)", u: "https://archive.org/download/ManInSpace/ManInSpace.mp4"},
-
-        // GODZILLA ANTHOLOGY (1956-2004)
-        {n: "Godzilla 1956", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/1.Godzilla-KingOfTheMonsters1956.mp4"},
-        {n: "Godzilla Raids Again (1955)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/2.GodzillaRaidsAgain1955.mp4"},
-        {n: "King Kong vs Godzilla (1962)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/3.KingKongVsGodzilla1962.mp4"},
-        {n: "Ghidorah (1964)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/4.GhidorahTheThreeHeadedMonster1964.mp4"},
-        {n: "Mothra vs Godzilla (1964)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/5.MothraVsGodzilla1964.mp4"},
-        {n: "Godzilla vs Monster Zero", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/6.GodzillaVsMonsterZero1965.mp4"},
-        {n: "Godzilla vs Gigan (1972)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/12.GodzillaVsGigan1972.mp4"},
-        {n: "Godzilla Final Wars (2004)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/29.Godzilla-FinalWars2004.mp4"},
-
-        // DISNEY ROOTS / ALICE COMEDIES
-        {n: "Steamboat Willie (1928)", u: "https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Steamboat%20Willie.mp4"},
-        {n: "Mickey: Plane Crazy", u: "https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Mickey%20Mouse%20-%20Plane%20Crazy%20_%20B98.TV.mp4"},
-        {n: "Alice Solves Puzzle (1925)", u: "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925%20Alice%20Solves%20the%20Puzzle%20%28Walt%20Disney%29.mp4"},
-        {n: "Alice on the Farm (1926)", u: "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1926-01-01%20Alice%20on%20the%20Farm%20%28Alice%29%20-%20Video%20Dailymotion.mp4"},
-        {n: "Alice Spooky Adventure", u: "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/Walt%20Disney%27s%20Alice%20Comedies%20-%20Alice%27s%20Spooky%20Adventure.mp4"}
-
-        // NASA / PLANET EARTH / SCIENCE
-        {n: "Earth 1: Living Machine", u: "https://archive.org/download/planet.earth/Planet%20Earth%201%20The%20Living%20Machine.mp4"},
-        {n: "Earth 2: Blue Planet", u: "https://archive.org/download/planet.earth/Planet%20Earth%202%20The%20Blue%20Planet.mp4"},
-        {n: "Earth 6: The Solar Sea", u: "https://archive.org/download/planet.earth/Planet%20Earth%206%20The%20Solar%20Sea.mp4"},
-        {n: "NASA: Apollo 11 Mission", u: "https://archive.org/download/Apollo11MoonLanding/Apollo11MoonLanding.mp4"},
-        {n: "NASA: Friendship 7", u: "https://archive.org/download/Friendship7/Friendship7.mp4"},
-        {n: "NASA: Shoot the Moon", u: "https://archive.org/download/AssignmentShootTheMoon/AssignmentShootTheMoon.mp4"},
-        {n: "Donald: Mathmagic Land", u: "https://archive.org/download/donald-in-mathematic-land-pack/1959-06-26%20-%20Donald%20in%20Mathematic%20Land%20%28Short%29%20TreasDVD.mp4"},
-        {n: "Man in Space (1955)", u: "https://archive.org/download/ManInSpace/ManInSpace.mp4"},
-
-<script>
     const masterList = [
+        // COLORIZED CLASSICS
         {n: "Target Earth (1954) Color", u: "https://archive.org/download/target-earth-1954-colorized/Target%20Earth%201954%20colorized.mp4"},
         {n: "Invasion: Saucer Men (1957) Color", u: "https://archive.org/download/invasion-of-the-saucer-men-1957-colorized-classics/Invasion%20of%20the%20Saucer%20Men%20%281957%29%20Colorized%20Classics.mp4"},
+        
+        // SHOCKER DRIVE-IN
         {n: "Shocker Wk 18: Naschy", u: "https://archive.org/download/ShockerInternetDriveIn-Week18aNaschyDoubleFeature/week_18.mp4"},
-        {n: "Shocker Wk 56: Witch", u: "https://archive.org/download/ShockerInternetDriveIn-Week56whichWitchDoubleFeature/week_56.mp4"},
+        {n: "Shocker Wk 56: Which Witch", u: "https://archive.org/download/ShockerInternetDriveIn-Week56whichWitchDoubleFeature/week_56.mp4"},
         {n: "Shocker Wk 37: Spaghetti", u: "https://archive.org/download/ShockerInternetDriveIn-Week37summerSpaghettiDoubleFeature/Week_37.mp4"},
         {n: "Shocker Wk 46: Sci-Fi", u: "https://archive.org/download/ShockerInternetDriveIn-Week46sci-fiSpaghettiDoubleFeature/week_46.mp4"},
         {n: "Shocker Wk 12: Massacre", u: "https://archive.org/download/ShockerInternetDriveIn-Week12MassacreDoubleFeature/week_12.mp4"},
         {n: "Shocker Wk 2: Horror Classics", u: "https://archive.org/download/ShockerInternetDriveIn-Week2/week_2.mp4"},
         {n: "Shocker Wk 61: Summer Slasher", u: "https://archive.org/download/ShockerInternetDriveIn-Week61summerSlasherFunDoubleFeature/week_61.mp4"},
+
+        // COSMOS (1980)
         {n: "Cosmos 01: Shores", u: "https://archive.org/download/cosmos_1980/COSMOS_01.mp4"},
         {n: "Cosmos 02: Fugue", u: "https://archive.org/download/cosmos_1980/COSMOS_02.mp4"},
         {n: "Cosmos 03: Harmony", u: "https://archive.org/download/cosmos_1980/COSMOS_03.mp4"},
@@ -151,6 +88,8 @@
         {n: "Cosmos 12: Galactica", u: "https://archive.org/download/cosmos_1980/COSMOS_12.mp4"},
         {n: "Cosmos 13: Who Speaks", u: "https://archive.org/download/cosmos_1980/COSMOS_13.mp4"},
         {n: "Cosmos 14: Special", u: "https://archive.org/download/cosmos_1980/COSMOS_14.mp4"},
+
+        // EARTH & NASA
         {n: "Earth 1: Living Machine", u: "https://archive.org/download/planet.earth/Planet%20Earth%201%20The%20Living%20Machine.mp4"},
         {n: "Earth 2: Blue Planet", u: "https://archive.org/download/planet.earth/Planet%20Earth%202%20The%20Blue%20Planet.mp4"},
         {n: "Earth 6: The Solar Sea", u: "https://archive.org/download/planet.earth/Planet%20Earth%206%20The%20Solar%20Sea.mp4"},
@@ -159,6 +98,8 @@
         {n: "NASA: Shoot the Moon", u: "https://archive.org/download/AssignmentShootTheMoon/AssignmentShootTheMoon.mp4"},
         {n: "Donald: Mathmagic Land", u: "https://archive.org/download/donald-in-mathematic-land-pack/1959-06-26%20-%20Donald%20in%20Mathematic%20Land%20%28Short%29%20TreasDVD.mp4"},
         {n: "Man in Space (1955)", u: "https://archive.org/download/ManInSpace/ManInSpace.mp4"},
+
+        // GODZILLA
         {n: "Godzilla 1956", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/1.Godzilla-KingOfTheMonsters1956.mp4"},
         {n: "Godzilla Raids Again (1955)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/2.GodzillaRaidsAgain1955.mp4"},
         {n: "King Kong vs Godzilla (1962)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/3.KingKongVsGodzilla1962.mp4"},
@@ -167,6 +108,8 @@
         {n: "Godzilla vs Monster Zero", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/6.GodzillaVsMonsterZero1965.mp4"},
         {n: "Godzilla vs Gigan (1972)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/12.GodzillaVsGigan1972.mp4"},
         {n: "Godzilla Final Wars (2004)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/29.Godzilla-FinalWars2004.mp4"},
+
+        // DISNEY & ALICE
         {n: "Steamboat Willie (1928)", u: "https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Steamboat%20Willie.mp4"},
         {n: "Mickey: Plane Crazy", u: "https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Mickey%20Mouse%20-%20Plane%20Crazy%20_%20B98.TV.mp4"},
         {n: "Alice Solves Puzzle (1925)", u: "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925%20Alice%20Solves%20the%20Puzzle%20%28Walt%20Disney%29.mp4"},
@@ -174,26 +117,31 @@
         {n: "Alice Spooky Adventure", u: "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/Walt%20Disney%27s%20Alice%20Comedies%20-%20Alice%27s%20Spooky%20Adventure.mp4"}
     ];
 
-    // DOUBLE AND MIX PROTOCOL
+    // DOUBLE AND MIX LOGIC
     let archive = [...masterList, ...masterList].sort(() => Math.random() - 0.5);
 
     let tIdx = 0, sIdx = 0, tDeg = 0, sDeg = 0;
 
     function init() {
         makeDashes('t-dashes', 100); 
-        makeDashes('s-dashes', 80);
+        makeDashes('s-dashes', 100);
         document.getElementById('index-screen').innerText = archive[0].n;
-        document.getElementById('player').src = archive[0].u;
+        const player = document.getElementById('player');
+        player.src = archive[0].u;
+        player.load();
     }
 
+    // TOP DIAL: SYNC PLAYER TO BOX
     function tune(dir) {
         tDeg += (dir * 30);
-        tIdx = sIdx; // Tuner hard-syncs video to current index preview
+        tIdx = sIdx; 
         document.getElementById('t-knob').style.transform = `rotate(${tDeg}deg)`;
         const p = document.getElementById('player');
-        p.src = archive[tIdx].u; p.load(); p.play();
+        p.src = archive[tIdx].u; 
+        p.load(); p.play();
     }
 
+    // BOTTOM DIAL: SURF TITLES ONLY
     function scrollIndex(dir) {
         sDeg += (dir * 30);
         sIdx = (sIdx + dir + archive.length) % archive.length;
@@ -209,6 +157,8 @@
         }
     }
 
+    function like() { let s = document.getElementById('stars'); s.innerText = parseInt(s.innerText) + 1; }
+
     function toggleFS() {
         const c = document.getElementById('cabinet');
         if (!document.fullscreenElement) {
@@ -219,7 +169,7 @@
         }
     }
     
-    init();
+    window.onload = init;
 </script>
 </body>
 </html>
