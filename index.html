@@ -2,211 +2,348 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CLINE CLASSIC TV | V68 VERIFIED</title>
+    <title>CLINE CLASSIC TV | V78 MASTER</title>
     <style>
-        body { background: #000; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; width: 100vw; }
-        #cabinet { 
-            width: 98vw; height: 94vh; 
+        body { background: #000; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; width: 100vw; font-family: 'Courier New', monospace; }
+        
+        #cabinet {
+            width: 98vw; height: 94vh;
             background: linear-gradient(to bottom, #3d2914, #2b1d0e);
-            border: 25px solid #1a110a; border-radius: 70px;
+            border: 25px solid #1a110a; border-radius: 60px;
             display: flex; align-items: center; justify-content: space-around;
-            padding: 30px; box-sizing: border-box; position: relative;
-            box-shadow: inset 0 0 200px #000, 0 60px 120px #000;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%233d2914"/><path d="M0,0 Q50,100 100,0" stroke="%234d3418" stroke-width="8" fill="none"/><path d="M0,50 Q50,0 100,50" stroke="%232d1d0a" stroke-width="6" fill="none"/></svg>');
-            background-size: 200px;
+            padding: 20px; box-sizing: border-box; position: relative;
+            box-shadow: inset 0 0 150px #000, 0 50px 100px #000;
         }
-        .glass-tube { width: 75%; height: 90%; background: #000; border-radius: 15%; overflow: hidden; border: 20px solid #111; position: relative; cursor: pointer; box-shadow: inset 0 0 50px #000; }
+
+        .glass-tube { width: 75%; height: 90%; background: #000; border-radius: 15%; overflow: hidden; border: 15px solid #111; position: relative; cursor: pointer; }
         video { width: 100%; height: 100%; object-fit: contain; background: #000; }
-        .side-panel { width: 22%; display: flex; flex-direction: column; align-items: center; gap: 25px; }
-        .dial-housing { position: relative; width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; }
-        .knob { width: 100px; height: 100px; background: #333; border: 8px solid #000; border-radius: 50%; cursor: pointer; position: relative; z-index: 10; transition: transform 0.2s; box-shadow: 0 10px 20px #000; }
-        .knob::after { content: ''; position: absolute; top: 10px; left: 50%; width: 6px; height: 35px; background: #fff; transform: translateX(-50%); }
-        .dash-ring { position: absolute; width: 160px; height: 160px; pointer-events: none; }
-        .dash { position: absolute; width: 160px; height: 3px; background: #555; transform-origin: center; top: 50%; }
-        .orange-monitor { 
-            width: 240px; height: 140px; background: #050505; border: 3px solid #642; 
-            color: #ff6600; font-family: 'Courier New', monospace; font-size: 20px; font-weight: bold;
-            padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            text-align: center; box-shadow: inset 0 0 20px #000, 0 0 20px #ff6600; text-shadow: 0 0 10px #cc4400;
-            position: relative; overflow: hidden;
+        
+        .side-panel { width: 22%; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        
+        .dial-housing { position: relative; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; }
+        
+        .knob {
+            width: 90px; height: 90px; background: #333; border: 6px solid #000;
+            border-radius: 50%; cursor: pointer; position: relative; z-index: 10;
+            transition: transform 0.2s; box-shadow: 0 8px 15px #000;
         }
-        .orange-monitor::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, #ff6600, transparent); animation: scan 4s linear infinite; }
-        @keyframes scan { 0% { top: -100%; } 100% { top: 100%; } }
-        .genre-buttons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 15px; }
-        .genre-btn { width: 60px; height: 60px; background: #333; border: 5px solid #000; border-radius: 50%; color: #ff6600; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 12px #000; font-weight: bold; }
-        .like-dislike { display: flex; gap: 25px; margin-top: 15px; }
-        .like-dislike button { background: #222; color: #ff6600; border: 2px solid #642; padding: 10px 20px; cursor: pointer; border-radius: 15px; font-size: 16px; }
-        .social-ledger { position: absolute; bottom: 30px; right: 50px; color: #666; font-size: 14px; }
-        .fs-toggle { position: absolute; top: 20px; left: 20px; background: #111; color: #fff; border: 2px solid #444; padding: 12px; cursor: pointer; font-size: 14px; z-index: 100; font-weight: bold; border-radius: 12px; }
+        .knob::after { content: ''; position: absolute; top: 8px; left: 50%; width: 5px; height: 28px; background: #fff; transform: translateX(-50%); }
+        
+        .dash-ring { position: absolute; width: 140px; height: 140px; pointer-events: none; }
+        .dash { position: absolute; width: 140px; height: 2px; background: #444; transform-origin: center; top: 50%; }
+        
+        .orange-monitor {
+            width: 210px; height: 80px; background: #050505; border: 2px solid #531;
+            color: #ff6600; font-size: 11px; padding: 10px; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; text-transform: uppercase; 
+            box-shadow: inset 0 0 15px #000; text-shadow: 0 0 8px #cc4400; font-weight: bold;
+        }
+
+        .genre-buttons { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; width: 100%; }
+        .genre-btn { 
+            background: #222; border: 2px solid #000; color: #ff6600; 
+            padding: 5px 10px; font-size: 10px; cursor: pointer; font-weight: bold;
+            box-shadow: 0 4px 8px #000;
+        }
+
+        .social-ledger { position: absolute; bottom: 25px; right: 40px; color: #444; font-size: 12px; }
+        
+        .fs-toggle { position: absolute; top: 15px; left: 15px; background: #111; color: #fff; border: 1px solid #444; padding: 10px; cursor: pointer; font-size: 10px; z-index: 100; font-weight: bold; }
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body>
 
-<button class="fs-toggle" onclick="toggleFS()">[ FULL CABINET MODE ]</button>
+<button class="fs-toggle" onclick="toggleFS()">[ FULL SCREEN ]</button>
 
 <div id="cabinet">
-    <div class="glass-tube" onclick="toggleFS()"><video id="player" controls autoplay playsinline muted></video></div>
+    <div class="glass-tube" onclick="unmuteVideo()">
+        <video id="player" playsinline webkit-playsinline muted autoplay>
+            <source src="" type="video/mp4">
+        </video>
+    </div>
+
     <div class="side-panel">
-        <div class="dial-housing"><div class="dash-ring" id="t-dashes"></div><div class="knob" id="t-knob" onclick="tune(1)" oncontextmenu="event.preventDefault(); tune(-1);"></div></div>
-        <div style="color:#777; font-size:12px; font-weight:bold; letter-spacing:3px;">TUNER</div>
+        <div class="dial-housing">
+            <div class="dash-ring" id="t-dashes"></div>
+            <div class="knob" id="t-knob" onclick="tune(1)"></div>
+        </div>
+        <div style="color:#555; font-size:9px; font-weight:bold; letter-spacing:2px;">TUNER (NEXT)</div>
         
         <div class="orange-monitor">
-            <div id="channel-display">CHANNEL 001</div>
-            <div id="title-display">LOADING BROADCAST...</div>
-            <div class="like-dislike">
-                <button onclick="like()">LIKE (<span id="likes">0</span>)</button>
-                <button onclick="dislike()">DISLIKE (<span id="dislikes">0</span>)</button>
-            </div>
+            <div id="channel-num" style="font-size: 14px; margin-bottom: 5px;">CH 01</div>
+            <div id="index-screen">SYSTEM READY</div>
         </div>
-        
+
         <div class="genre-buttons">
-            <div class="genre-btn" onclick="jumpToCategory('apollo')">APOLLO</div>
-            <div class="genre-btn" onclick="jumpToCategory('nascar')">NASCAR</div>
-            <div class="genre-btn" onclick="jumpToCategory('carads4965')">CAR ADS 49-65</div>
-            <div class="genre-btn" onclick="jumpToCategory('carads6165')">CAR ADS 61-65</div>
-            <div class="genre-btn" onclick="jumpToCategory('radio')">RADIO</div>
-            <div class="genre-btn" onclick="jumpToCategory('scifi')">SCI-FI</div>
-            <div class="genre-btn" onclick="jumpToCategory('nasa')">NASA</div>
+            <div class="genre-btn" onclick="jumpTo('ads49')">ADS 49-55</div>
+            <div class="genre-btn" onclick="jumpTo('ads61')">ADS 61-65</div>
+            <div class="genre-btn" onclick="jumpTo('nature')">NATURE</div>
+            <div class="genre-btn" onclick="jumpTo('apollo')">APOLLO</div>
+            <div class="genre-btn" onclick="jumpTo('specials')">SPECIALS</div>
         </div>
         
-        <div class="dial-housing"><div class="dash-ring" id="s-dashes"></div><div class="knob" style="width:80px; height:80px;" id="s-knob" onclick="scrollIndex(1)" oncontextmenu="event.preventDefault(); scrollIndex(-1);"></div></div>
-        <div style="color:#777; font-size:12px; font-weight:bold; letter-spacing:3px;">INDEX</div>
+        <div class="dial-housing">
+            <div class="dash-ring" id="s-dashes"></div>
+            <div class="knob" id="s-knob" onclick="scrollIndex(1)"></div>
+        </div>
+        <div style="color:#555; font-size:9px; font-weight:bold; letter-spacing:2px;">INDEX (SCROLL)</div>
     </div>
     
     <div class="social-ledger">
-        <img src="https://hitwebcounter.com/counter/counter.php?page=17462819&style=0006&nbdigits=5&type=page&initCount=1650" alt="view counter" />
-        <span>LIVE VIEWERS</span>
+        <a href="https://www.hitwebcounter.com" target="_blank">
+            <img src="https://hitwebcounter.com/counter/counter.php?page=17462819&style=0006&nbdigits=5&type=page&initCount=2500" border="0" />
+        </a>
     </div>
 </div>
 
 <script>
-    // === CAR ADS 1949-1955 (All from your first listing – verified working) ===
-    const carads4965 = [
+    // --- 1. CAR ADS 1949-1955 (From your directory list) ---
+    var ads49 = [
         {n: "1949 Lincoln", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1949_Lincoln.mp4"},
         {n: "1949 Mercury", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1949_Mercury.mp4"},
-        {n: "1950 Ford Floating on Air", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1950_Ford_Floating_on_air.mp4"},
-        {n: "1951 Kaiser Frazer Henry J", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1951_Kaiser_Frazer_Henry_J.mp4"},
+        {n: "1950 Ford Floating", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1950_Ford_Floating_on_air.mp4"},
+        {n: "1951 Kaiser Frazer", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1951_Kaiser_Frazer_Henry_J.mp4"},
         {n: "1951 Nash Air Flyte", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1951_Nash_Air_Flyte.mp4"},
         {n: "1952 Chevrolet", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1952_Chevrolet.mp4"},
         {n: "1953 Dodge Texan", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1953_Dodge_Texan.mp4"},
-        {n: "1953 Ford Heavy Duty Dump Truck", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1953_Ford_Heavy_Duty_Dump_Truck.mp4"},
-        {n: "1953 Ford Pickup Truck", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1953_Ford_Pickup_Truck.mp4"},
-        {n: "1953 Oldsmobile 88 w Mel Torme", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1953_Oldsmobile_88_w_Mel_Torme.mp4"},
+        {n: "1953 Ford Dump Truck", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1953_Ford_Heavy_Duty_Dump_Truck.mp4"},
+        {n: "1953 Ford Pickup", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1953_Ford_Pickup_Truck.mp4"},
+        {n: "1953 Olds 88 Torme", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1953_Oldsmobile_88_w_Mel_Torme.mp4"},
         {n: "1954 Buick Special", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_Buick_Special.mp4"},
         {n: "1954 Chevy Corvette", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_Chevy_Corvette.mp4"},
         {n: "1954 DeSoto", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_DeSoto.mp4"},
-        {n: "1954 DeSoto Top Value Used Cars", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_DeSoto_Top_Value_Used_Cars.mp4"},
-        {n: "1954 DeSoto w Powerflyte Transmission", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_DeSoto_w_Powerflyte_Transmission.mp4"},
         {n: "1954 Lincoln", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_Lincoln.mp4"},
-        {n: "1955 Buick Promo Film w Milton Berle", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Buick_Promo_Film_w_Milton_Berle.mp4"},
-        {n: "1955 Buick Special", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Buick_Special.mp4"},
-        {n: "1955 Chevrolet B-W", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Chevrolet_B-W.mp4"},
-        {n: "1955 DeSoto Love Letter corny", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_DeSoto_Love_Letter_-_corny.mp4"},
-        {n: "1955 DeSoto Styled For Tomorrow", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_DeSoto_Styled_For_Tomorrow.mp4"},
-        {n: "1955 DeSoto w George Fenneman", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_DeSoto_w_George_Fenneman.mp4"},
+        {n: "1955 Buick Berle", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Buick_Promo_Film_w_Milton_Berle.mp4"},
+        {n: "1955 Chevy BW", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Chevrolet_B-W.mp4"},
         {n: "1955 Dodge", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Dodge.mp4"},
-        {n: "1955 Dodge 120 seconds", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Dodge_120_seconds.mp4"},
         {n: "1955 Ford", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Ford.mp4"},
         {n: "1955 Ford Trucks", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Ford_Trucks.mp4"},
-        {n: "1955 GM Motorama Full line", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_GM_Motorama_Full_line.mp4"},
-        {n: "1955 Hudson Hornet and Wasp", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Hudson_Hornet_and_Wasp.mp4"},
-        {n: "1955 Nash Ambassador and Statesman w Jiminy Cricket", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Nash_Ambassador_and_Statesman_w_Jiminy_Cricket.mp4"},
-        {n: "1955 Packard Executive", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Packard_Executive.mp4"},
+        {n: "1955 GM Motorama", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_GM_Motorama_Full_line.mp4"},
+        {n: "1955 Hudson Hornet", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Hudson_Hornet_and_Wasp.mp4"},
+        {n: "1955 Nash Cricket", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Nash_Ambassador_and_Statesman_w_Jiminy_Cricket.mp4"},
+        {n: "1955 Packard Exec", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Packard_Executive.mp4"},
         {n: "1955 Plymouth Color", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Plymouth_Color.mp4"},
-        {n: "1955 Rambler Cross Country Wagon w All Season Air Conditioning", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Rambler_Cross_Country_Wagon_w_All_Season_Air_Conditioning.mp4"}
+        {n: "1955 Rambler Wagon", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Rambler_Cross_Country_Wagon_w_All_Season_Air_Conditioning.mp4"}
     ];
 
-    // === CAR ADS 1961-1965 (All from your second listing – verified working) ===
-    const carads6165 = [
-        {n: "1961 Chevrolet", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1961_Chevrolet.mp4"},
-        {n: "1961 Chevrolet Impala", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1961_Chevrolet_Impala.mp4"},
-        {n: "1961 Chevrolet w Dinah Shore Color", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1961_Chevrolet_w_Dinah_Shore_Color.mp4"},
-        {n: "1961 Ford Galaxie", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1961_Ford_Galaxie.mp4"},
-        {n: "1961 Ford Thunderbird Color", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1961_Ford_Thunderbird__Color_.mp4"},
-        {n: "1961 Studebaker Lark w Rex May", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1961_Studebaker_Lark_w_Rex_May.mp4"},
-        {n: "1962 Chevrolet See the USA", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1962_Chevrolet_See_the_USA.mp4"},
-        {n: "1962 Ford Fairlane 500", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1962_Ford_Fairlane_500.mp4"},
-        {n: "1962 Ford Thunderbird", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1962_Ford_Thunderbird.mp4"},
-        {n: "1962 Pontiac Grand Prix", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1962_Pontiac_Grand_Prix.mp4"},
-        {n: "1962 Studebaker Lark", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1962_Studebaker_Lark.mp4"},
-        {n: "1962 Studebaker Lark w Mr.Ed sponsor ID", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1962_Studebaker_Lark_w_Mr.Ed_sponsor_ID.mp4"},
-        {n: "1962 Studebaker Lark with Mr.Ed", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1962_Studebaker_Lark_with_Mr.Ed.mp4"},
-        {n: "1963 Chevrolet All", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Chevrolet_All.mp4"},
-        {n: "1963 Chevrolet Corvair Monza", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Chevrolet_Corvair_Monza.mp4"},
-        {n: "1963 Chevrolet Corvette Sting Ray", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Chevrolet_Corvette_Sting_Ray.mp4"},
-        {n: "1963 Ford FalconFairlane", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Ford_FalconFairlane.mp4"},
-        {n: "1963 Ford Sports Hardtop", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Ford_Sports_Hardtop.mp4"},
-        {n: "1963 Ford Sunliner Convertible", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Ford_Sunliner_Convertible.mp4"},
-        {n: "1963 Ford Thunderbird Landau", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Ford_Thunderbird_Landau.mp4"},
-        {n: "1963 Ford w Hazel opening theme", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Ford_w_Hazel_opening_theme.mp4"},
-        {n: "1963 Mercury Monterey", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Mercury_Monterey.mp4"},
-        {n: "1963 Oldsmobile Ninety Eight", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Oldsmobile_Ninety_Eight.mp4"},
-        {n: "1963 Studebaker Lark Daytona Wagonaire", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Studebaker_Lark_Daytona_Wagonaire.mp4"},
-        {n: "1963 Studebaker Wagonaire Intro by Mr.Ed", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Studebaker_Wagonaire_Intro_by_Mr.Ed.mp4"},
-        {n: "1964 Buick Riviera", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Buick_Riviera.mp4"},
-        {n: "1964 Buick Wildcat", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Buick_Wildcat.mp4"},
-        {n: "1964 Chevrolet Impala", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Chevrolet_Impala.mp4"},
-        {n: "1964 Chevrolet Impala w Route 66 Sponsor ID", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Chevrolet_Impala_w_Route_66_Sponsor_ID.mp4"},
-        {n: "1964 Dodge Dart", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Dodge_Dart.mp4"},
-        {n: "1964 Ford Fairlane", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Fairlane.mp4"},
-        {n: "1964 Ford Falcon", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Falcon.mp4"},
-        {n: "1964 Ford Falcon V-8 color", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Falcon_V-8_color.mp4"},
-        {n: "1964 Ford Falcon w Shirley Booth Hazel", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Falcon_w_Shirley_Booth_Hazel.mp4"},
-        {n: "1964 Ford Mustang", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang.mp4"},
-        {n: "1964 Ford Mustang II", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_II.mp4"},
-        {n: "1964 Ford Mustang Tiffany Award", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_Tiffany_Award.mp4"},
-        {n: "1964 Ford Mustang Coming April 17th", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang__Coming_April_17th_.mp4"},
-        {n: "1964 Ford Thunderbird", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Thunderbird.mp4"},
-        {n: "1964 Ford Van w Buster Keaton", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Van_w_Buster_Keaton.mp4"},
-        {n: "1964 Oldsmobile F-85 Cutlass", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Oldsmobile_F-85_Cutlass.mp4"},
-        {n: "1964 Oldsmobile F-85 Station Wagon", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Oldsmobile_F-85_Station_Wagon.mp4"},
-        {n: "1964 Oldsmobile Jetfire Turbo Rocket V-8", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Oldsmobile_Jetfire_Turbo_Rocket_V-8.mp4"},
-        {n: "1964 Oldsmobile Jetstar 1 Sports Coupe", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Oldsmobile_Jetstar_1_Sports_Coupe.mp4"},
-        {n: "1964 Pontiac Grand Prix", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Pontiac_Grand_Prix.mp4"},
-        {n: "1965 Chevrolet Corvair", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Chevrolet_Corvair.mp4"},
-        {n: "1965 Chevrolet full line w Bewitched and Bonanza casts", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Chevrolet_full_line_w_Bewitched_and_Bonanza_casts.mp4"},
-        {n: "1965 Chrysler Imperial", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Chrysler_Imperial.mp4"},
-        {n: "1965 Ford Mustang", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Ford_Mustang.mp4"},
-        {n: "1965 Ford Mustang 2plus2", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Ford_Mustang_-2plus2.mp4"},
-        {n: "1965 Ford Mustang Countryside", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Ford_Mustang_Countryside.mp4"},
-        {n: "1965 Ford Thunderbird", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Ford_Thunderbird.mp4"},
-        {n: "1965 Oldsmobile 442", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Oldsmobile_442.mp4"},
-        {n: "1965 Oldsmobile Delta 88 w Shorty Powers", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Oldsmobile_Delta_88_w_Shorty_Powers.mp4"},
-        {n: "1965 Plymouth w the Plymouth Tiger", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Plymouth_w_the_Plymouth_Tiger.mp4"},
-        {n: "1965 Pontiac GTO Car of the Year", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Car_of_the_Year.mp4"},
-        {n: "1965 Pontiac GTO Convertible", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Convertible.mp4"},
-        {n: "1965 Pontiac GTO Tiger", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Tiger.mp4"},
-        {n: "1965 Pontiac GTO Year of the Widetracks", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Year_of_the_Widetracks.mp4"}
+    // --- 2. CAR ADS 1961-1965 (From your directory list) ---
+    var ads61 = [
+        {n: "1961 Chevy", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1961_Chevrolet_512kb.mp4"},
+        {n: "1961 Chevy Impala", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1961_Chevrolet_Impala_512kb.mp4"},
+        {n: "1961 Ford Galaxie", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1961_Ford_Galaxie_512kb.mp4"},
+        {n: "1961 Thunderbird", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1961_Ford_Thunderbird__Color__512kb.mp4"},
+        {n: "1961 Studebaker Lark", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1961_Studebaker_Lark_w_Rex_May_512kb.mp4"},
+        {n: "1962 Chevy USA", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1962_Chevrolet_See_the_USA_512kb.mp4"},
+        {n: "1962 Ford Fairlane", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1962_Ford_Fairlane_500_512kb.mp4"},
+        {n: "1962 Thunderbird", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1962_Ford_Thunderbird_512kb.mp4"},
+        {n: "1962 Pontiac GP", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1962_Pontiac_Grand_Prix_512kb.mp4"},
+        {n: "1962 Lark Mr Ed", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1962_Studebaker_Lark_with_Mr.Ed_512kb.mp4"},
+        {n: "1963 Chevy Corvair", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Chevrolet_Corvair_Monza_512kb.mp4"},
+        {n: "1963 Sting Ray", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Chevrolet_Corvette_Sting_Ray_512kb.mp4"},
+        {n: "1963 Ford Falcon", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Ford_FalconFairlane_512kb.mp4"},
+        {n: "1963 T-Bird Landau", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Ford_Thunderbird_Landau_512kb.mp4"},
+        {n: "1963 Mercury", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Mercury_Monterey_512kb.mp4"},
+        {n: "1963 Olds 98", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Oldsmobile_Ninety_Eight_512kb.mp4"},
+        {n: "1964 Buick Riviera", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Buick_Riviera_512kb.mp4"},
+        {n: "1964 Chevy Impala", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Chevrolet_Impala_512kb.mp4"},
+        {n: "1964 Dodge Dart", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Dodge_Dart_512kb.mp4"},
+        {n: "1964 Ford Mustang", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_512kb.mp4"},
+        {n: "1964 Ford Van", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Van_w_Buster_Keaton_512kb.mp4"},
+        {n: "1964 Olds Cutlass", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Oldsmobile_F-85_Cutlass_512kb.mp4"},
+        {n: "1964 Olds Jetfire", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Oldsmobile_Jetfire_Turbo_Rocket_V-8_512kb.mp4"},
+        {n: "1965 Chevy Corvair", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Chevrolet_Corvair_512kb.mp4"},
+        {n: "1965 Imperial", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Chrysler_Imperial_512kb.mp4"},
+        {n: "1965 Mustang 2+2", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Ford_Mustang_-2plus2_512kb.mp4"},
+        {n: "1965 Olds 442", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Oldsmobile_442_512kb.mp4"},
+        {n: "1965 Plymouth Tiger", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Plymouth_w_the_Plymouth_Tiger_512kb.mp4"},
+        {n: "1965 GTO Tiger", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Tiger_512kb.mp4"}
     ];
 
-    // === View from Space (your two direct links) ===
-    const viewfromspace = [
-        {n: "View from Space Reel 1", u: "https://archive.org/download/viewfromspace/viewfromspacereel1.mp4"},
-        {n: "View from Space Reel 2", u: "https://archive.org/download/viewfromspace/viewfromspacereel2.mp4"}
+    // --- 3. LIVING PLANET (From your directory list) ---
+    var livingPlanet = [
+        {n: "Living Planet 01", u: "https://archive.org/download/living-planet/living_planet_01_the_building_of_the_earth.mp4"},
+        {n: "Living Planet 02", u: "https://archive.org/download/living-planet/living_planet_02_the_frozen_world.mp4"},
+        {n: "Living Planet 03", u: "https://archive.org/download/living-planet/living_planet_03_the_northern_forests.mp4"},
+        {n: "Living Planet 04", u: "https://archive.org/download/living-planet/living_planet_04_jungle.mp4"},
+        {n: "Living Planet 05", u: "https://archive.org/download/living-planet/living_planet_05_seas_of_grass.mp4"},
+        {n: "Living Planet 06", u: "https://archive.org/download/living-planet/living_planet_06_the_baking_deserts.mp4"},
+        {n: "Living Planet 07", u: "https://archive.org/download/living-planet/living_planet_07_the_sky_above.mp4"},
+        {n: "Living Planet 08", u: "https://archive.org/download/living-planet/living_planet_08_sweet_fresh_water.mp4"},
+        {n: "Living Planet 09", u: "https://archive.org/download/living-planet/living_planet_09_the_margins_of_the_land.mp4"},
+        {n: "Living Planet 10", u: "https://archive.org/download/living-planet/living_planet_10_worlds_apart.mp4"},
+        {n: "Living Planet 11", u: "https://archive.org/download/living-planet/living_planet_11_the_open_ocean.mp4"},
+        {n: "Living Planet 12", u: "https://archive.org/download/living-planet/living_planet_12_new_worlds.mp4"},
+        {n: "Living Planet 13", u: "https://archive.org/download/living-planet/living_planet_13_the_making_of_the_living_planet.mp4"}
     ];
 
-    // === Master archive – all categories combined and shuffled ===
-    let archive = [...apollo, ...nascar, ...carads4965, ...carads6165, ...viewfromspace, ...radio, ...scifi, ...nasa];
-    archive = archive.sort(() => Math.random() - 0.5);
+    // --- 4. SPECIALS (From your list) ---
+    var specials = [
+        {n: "Wonderful World of Wheels", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"},
+        {n: "The Time Machine 1978", u: "https://archive.org/download/the-time-machine-1978-time-travel-sci-fi/The%20Time%20Machine%20%281978%20Time%20Travel%20SciFi%29.mp4"}
+    ];
 
-    // Category start indices for genre buttons
-    const categoryStarts = {
-        apollo: 0,
-        nascar: apollo.length,
-        carads4965: apollo.length + nascar.length,
-        carads6165: apollo.length + nascar.length + carads4965.length,
-        viewfromspace: apollo.length + nascar.length + carads4965.length + carads6165.length,
-        radio: /* ... calculate */,
-        scifi: /* ... */,
-        nasa: archive.length - nasa.length
+    // --- 5. APOLLO 11 (From your list) ---
+    var apollo = [
+        {n: "Apollo 11 Reel 01", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2001.mp4"},
+        {n: "Apollo 11 Reel 02", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2002.mp4"},
+        {n: "Apollo 11 Reel 03", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2003.mp4"},
+        {n: "Apollo 11 Reel 04", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2004.mp4"},
+        {n: "Apollo 11 Reel 05", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2005.mp4"},
+        {n: "Apollo 11 Reel 06", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2006.mp4"},
+        {n: "Apollo 11 Reel 07", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2007.mp4"},
+        {n: "Apollo 11 Reel 08", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2008.mp4"},
+        {n: "Apollo 11 Reel 09", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2009.mp4"},
+        {n: "Apollo 11 Reel 10", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2010.mp4"},
+        {n: "Apollo 11 Reel 11", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2011.mp4"},
+        {n: "Apollo 11 Reel 12", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2012.mp4"},
+        {n: "Apollo 11 Reel 13", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2013.mp4"},
+        {n: "Apollo 11 Reel 14", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2014.mp4"},
+        {n: "Apollo 11 Reel 15", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2015.mp4"},
+        {n: "Apollo 11 Reel 16", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2016.mp4"},
+        {n: "Apollo 11 Reel 17", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2017.mp4"},
+        {n: "Apollo 11 Reel 18", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2018.mp4"},
+        {n: "Apollo 11 Reel 19", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2019.mp4"},
+        {n: "Apollo 11 Reel 20", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2020.mp4"},
+        {n: "Apollo 11 Reel 21", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2021.mp4"},
+        {n: "Apollo 11 Reel 22", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2022.mp4"},
+        {n: "Apollo 11 Reel 23", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2023.mp4"}
+    ];
+
+    // --- MASTER ARCHIVE ---
+    var archive = ads49.concat(ads61, livingPlanet, specials, apollo);
+    
+    // Shuffle the master archive
+    archive.sort(function() { return 0.5 - Math.random() });
+
+    // Category Indexes
+    var catMap = {
+        'ads49': ads49,
+        'ads61': ads61,
+        'nature': livingPlanet,
+        'specials': specials,
+        'apollo': apollo
     };
 
-    // Add buttons in HTML for new categories:
-    // <div class="genre-btn" onclick="jumpToCategory('carads4965')">CAR ADS 49-55</div>
-    // <div class="genre-btn" onclick="jumpToCategory('carads6165')">CAR ADS 61-65</div>
-    // <div class="genre-btn" onclick="jumpToCategory('viewfromspace')">VIEW FROM SPACE</div>
+    var sIdx = 0; // Index shown on screen
+    var pIdx = 0; // Index currently playing
+    var tDeg = 0; // Knob Rotation
+    var sDeg = 0;
 
-    // Rest of script unchanged – all functions work
+    var player = document.getElementById('player');
+    var screen = document.getElementById('index-screen');
+    var channelDisplay = document.getElementById('channel-num');
+
+    // --- INITIALIZATION ---
+    window.onload = function() {
+        makeDashes('t-dashes', 100); 
+        makeDashes('s-dashes', 80);
+        updateDisplay();
+        
+        // Vizio Hack: Load, Mute, Play
+        player.src = archive[0].u;
+        player.load();
+        player.muted = true; 
+        
+        var playPromise = player.play();
+        if (playPromise !== undefined) {
+            playPromise.then(function() {
+                // Auto-play started
+            }).catch(function(error) {
+                console.log("Auto-play prevented. User interaction needed.");
+            });
+        }
+
+        // Auto-Next Logic
+        player.onended = function() {
+            tune(1); // Simulate turning the knob forward
+        };
+    };
+
+    // --- CONTROLS ---
+    function tune(dir) {
+        tDeg = tDeg + 30;
+        document.getElementById('t-knob').style.transform = "rotate(" + tDeg + "deg)";
+        
+        // Move Playing Index
+        pIdx = pIdx + dir;
+        if (pIdx >= archive.length) { pIdx = 0; }
+        if (pIdx < 0) { pIdx = archive.length - 1; }
+        
+        // Sync Screen Index to Playing Index
+        sIdx = pIdx;
+        
+        player.src = archive[pIdx].u;
+        player.load();
+        player.play();
+        updateDisplay();
+    }
+
+    function scrollIndex(dir) {
+        sDeg = sDeg + 30;
+        document.getElementById('s-knob').style.transform = "rotate(" + sDeg + "deg)";
+        
+        sIdx = sIdx + dir;
+        if (sIdx >= archive.length) { sIdx = 0; }
+        if (sIdx < 0) { sIdx = archive.length - 1; }
+        
+        updateDisplay();
+    }
+
+    function jumpTo(key) {
+        // Find the first item of this category in the master archive
+        var targetArray = catMap[key];
+        if(!targetArray) return;
+        
+        var firstItemUrl = targetArray[0].u;
+        
+        // Find index in master archive
+        for(var i=0; i<archive.length; i++) {
+            if (archive[i].u === firstItemUrl) {
+                pIdx = i;
+                sIdx = i;
+                
+                player.src = archive[pIdx].u;
+                player.load();
+                player.play();
+                updateDisplay();
+                break;
+            }
+        }
+    }
+
+    function updateDisplay() {
+        screen.innerText = archive[sIdx].n;
+        // Simple Channel Number
+        var ch = sIdx + 1;
+        if(ch < 10) ch = "0" + ch;
+        channelDisplay.innerText = "CH " + ch;
+    }
+
+    function unmuteVideo() {
+        player.muted = false;
+    }
+
+    function makeDashes(id, count) {
+        var ring = document.getElementById(id);
+        for(var i=0; i<count; i++) {
+            var d = document.createElement('div');
+            d.className = 'dash';
+            d.style.transform = "rotate(" + (i * (360/count)) + "deg)";
+            ring.appendChild(d);
+        }
+    }
+
+    function toggleFS() {
+        var c = document.getElementById('cabinet');
+        if (!document.fullscreenElement) {
+            if (c.requestFullscreen) c.requestFullscreen();
+            else if (c.webkitRequestFullscreen) c.webkitRequestFullscreen();
+        } else {
+            document.exitFullscreen();
+        }
+    }
 </script>
 </body>
 </html>
+
