@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CLINE CLASSIC TV | MAN CAVE V95</title>
+    <title>CLINE CLASSIC TV | MAN CAVE V96</title>
     <style>
         body {
             background: #000;
@@ -52,8 +52,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 30px;
-            padding-top: 40px;
+            gap: 40px;
+            padding-top: 60px;
         }
         .dial-housing {
             position: relative;
@@ -105,7 +105,7 @@
             color: #fff;
             font-size: 18px;
             font-weight: bold;
-            margin-top: 25px;
+            margin-top: 30px;
             text-shadow: 0 0 8px #fff;
             letter-spacing: 2px;
         }
@@ -172,7 +172,7 @@
 <body>
 
 <button class="fs-toggle" onclick="toggleFS()">[ FULL SCREEN ]</button>
-<div class="version">V95</div>
+<div class="version">V96</div>
 
 <div id="cabinet">
     <div class="glass-tube" onclick="startBroadcast()">
@@ -207,7 +207,6 @@
 <script>
     // ========== THE ADDAMS FAMILY - COMPLETE SEASONS 1 & 2 (64 EPISODES!) ==========
     const addamsFamily = [
-        // Season 1 - 34 Episodes
         {n: "The Addams Family Goes to School", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x01%20--%20The%20Addams%20Family%20Goes%20to%20School.mp4"},
         {n: "Morticia and the Psychologist", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x02%20--%20Morticia%20and%20the%20Psychologist.mp4"},
         {n: "Fester's Punctured Romance", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x03%20--%20Fester%27s%20Punctured%20Romance.mp4"},
@@ -242,8 +241,6 @@
         {n: "Cousin Itt and the Vocational Counselor", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x32%20--%20Cousin%20Itt%20and%20the%20Vocational%20Counselor.mp4"},
         {n: "Lurch, the Teenage Idol", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x33%20--%20Lurch%2C%20the%20Teenage%20Idol.mp4"},
         {n: "The Winning of Morticia Addams", u: "https://archive.org/download/the-addams-family__season-1/The%20Addams%20Family%20--%201x34%20--%20The%20Winning%20of%20Morticia%20Addams.mp4"},
-        
-        // Season 2 - 30 Episodes
         {n: "My Fair Cousin Itt", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x01%20--%20My%20Fair%20Cousin%20Itt.mp4"},
         {n: "Morticia's Romance Part 1", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x02%20--%20Morticia%27s%20Romance%20%28part%201%29.mp4"},
         {n: "Morticia's Romance Part 2", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x03%20--%20Morticia%27s%20Romance%20%28part%202%29.mp4"},
@@ -276,9 +273,8 @@
         {n: "Ophelia's Career", u: "https://archive.org/download/the-addams-family__season-2/The%20Addams%20Family%20--%202x30%20--%20Ophelia%27s%20Career.mp4"}
     ];
 
-    // ========== MERCURY THEATRE - ORSON WELLES RADIO DRAMAS ==========
     const mercuryTheatre = [
-        {n: "War of the Worlds (1938) - FAMOUS BROADCAST!", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-30WarOfTheWorlds.mp3"},
+        {n: "War of the Worlds", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-30WarOfTheWorlds.mp3"},
         {n: "Dracula", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-11Dracula.mp3"},
         {n: "Treasure Island", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-18TreasureIsland.mp3"},
         {n: "A Tale of Two Cities", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-25ATaleOfTwoCities.mp3"},
@@ -291,58 +287,51 @@
         {n: "Around the World in 80 Days", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-23AroundTheWorldIn80Days.mp3"},
         {n: "A Passenger to Bali", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-11-13APassengerToBali.mp3"},
         {n: "Pickwick Papers", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-11-20PickwickPapers.mp3"},
-        {n: "The Hitch-hiker (1946)", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater46-06-21TheHitch-hiker.mp3"},
-        {n: "Heart of Darkness & Life With Father", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/Mercurytheater38-11-06HeartOfDarknessLifeWithFather.mp3"}
+        {n: "The Hitch-hiker", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater46-06-21TheHitch-hiker.mp3"},
+        {n: "Heart of Darkness", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/Mercurytheater38-11-06HeartOfDarknessLifeWithFather.mp3"}
     ];
 
-    // ========== CLASSIC TV SHOWS ==========
     const classicTV = [
-        {n: "The Lone Ranger - Enter the Lone Ranger (1949)", u: "https://archive.org/download/lone_ranger_1949/Lone_Ranger_Enter_1949.mp4"},
-        {n: "Superman - Superman on Earth (1952)", u: "https://archive.org/download/SupermanTheAdventuresOfSupermantvSeries/Superman%20-%20The%20Adventures%20of%20Superman%20tv%20Series%20-%20Superman%20on%20Earth.mp4"},
-        {n: "Dragnet - The Big Cast (1952)", u: "https://archive.org/download/Dragnet_OTR/Dragnet_520117_137_The_Big_Cast.mp4"},
-        {n: "Popeye Meets Sindbad (1936)", u: "https://archive.org/download/popeye_sindbad/Popeye_Sindbad.mp4"}
+        {n: "The Lone Ranger", u: "https://archive.org/download/lone_ranger_1949/Lone_Ranger_Enter_1949.mp4"},
+        {n: "Superman", u: "https://archive.org/download/SupermanTheAdventuresOfSupermantvSeries/Superman%20-%20The%20Adventures%20of%20Superman%20tv%20Series%20-%20Superman%20on%20Earth.mp4"},
+        {n: "Dragnet", u: "https://archive.org/download/Dragnet_OTR/Dragnet_520117_137_The_Big_Cast.mp4"},
+        {n: "Popeye Meets Sindbad", u: "https://archive.org/download/popeye_sindbad/Popeye_Sindbad.mp4"}
     ];
 
-    // ========== SCI-FI CLASSICS ==========
     const sciFi = [
-        {n: "Flash Gordon - Rocketship (1936)", u: "https://archive.org/download/flash_gordon_rocketship/Flash_Gordon_Rocketship.mp4"},
-        {n: "Plan 9 from Outer Space (1959)", u: "https://archive.org/download/Plan9FromOuterSpace/Plan9FromOuterSpace_512kb.mp4"}
+        {n: "Flash Gordon", u: "https://archive.org/download/flash_gordon_rocketship/Flash_Gordon_Rocketship.mp4"},
+        {n: "Plan 9 from Outer Space", u: "https://archive.org/download/Plan9FromOuterSpace/Plan9FromOuterSpace_512kb.mp4"}
     ];
 
-    // ========== VINTAGE COMMERCIALS ==========
     const commercials = [
-        {n: "1964 Ford Mustang Intro", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_512kb.mp4"},
-        {n: "1965 Pontiac GTO Tiger", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Tiger_512kb.mp4"},
+        {n: "1964 Ford Mustang", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_512kb.mp4"},
+        {n: "1965 Pontiac GTO", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Tiger_512kb.mp4"},
         {n: "1965 Ford Mustang 2+2", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Ford_Mustang_-2plus2_512kb.mp4"},
-        {n: "1964 Oldsmobile Jetfire Turbo", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Oldsmobile_Jetfire_Turbo_Rocket_V-8_512kb.mp4"}
+        {n: "1964 Oldsmobile Jetfire", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Oldsmobile_Jetfire_Turbo_Rocket_V-8_512kb.mp4"}
     ];
 
-    // ========== MILITARY & HISTORY ==========
     const military = [
-        {n: "DOD Film - Military History", u: "https://archive.org/download/gov.dod.dimoc.30190/gov.dod.dimoc.30190_512kb.mp4"}
+        {n: "DOD Military Film", u: "https://archive.org/download/gov.dod.dimoc.30190/gov.dod.dimoc.30190_512kb.mp4"}
     ];
 
-    // ========== SPACE & ROCKETS ==========
     const space = [
-        {n: "Apollo 11 Moon Landing (1969)", u: "https://archive.org/download/Apollo_11_Television_Coverage/Apollo_11_Moon_Landing.mp4"}
+        {n: "Apollo 11 Moon Landing", u: "https://archive.org/download/Apollo_11_Television_Coverage/Apollo_11_Moon_Landing.mp4"}
     ];
 
-    // ========== DRIVE-IN MOVIES ==========
     const driveIn = [
-        {n: "Night of the Living Dead (1968)", u: "https://archive.org/download/night_of_the_living_dead/Night_Living_Dead_1968.mp4"},
-        {n: "Reefer Madness (1936)", u: "https://archive.org/download/ReeferMadness/Reefer_Madness_512kb.mp4"}
+        {n: "Night of the Living Dead", u: "https://archive.org/download/night_of_the_living_dead/Night_Living_Dead_1968.mp4"},
+        {n: "Reefer Madness", u: "https://archive.org/download/ReeferMadness/Reefer_Madness_512kb.mp4"}
     ];
 
-    // ========== CATEGORY SYSTEM ==========
     const categories = [
         {name: "ADDAMS FAMILY", content: addamsFamily},
         {name: "MERCURY THEATRE", content: mercuryTheatre},
         {name: "CLASSIC TV", content: classicTV},
-        {name: "SCI-FI CLASSICS", content: sciFi},
+        {name: "SCI-FI", content: sciFi},
         {name: "VINTAGE ADS", content: commercials},
-        {name: "MILITARY & HISTORY", content: military},
-        {name: "SPACE & ROCKETS", content: space},
-        {name: "DRIVE-IN MOVIES", content: driveIn}
+        {name: "MILITARY", content: military},
+        {name: "SPACE", content: space},
+        {name: "DRIVE-IN", content: driveIn}
     ];
 
     let currentCategoryIndex = 0;
@@ -373,7 +362,6 @@
         player.play();
     }
 
-    // TOP DIAL: TUNE - advances through videos in current category
     function tune(dir) {
         tunerDeg += dir * 30;
         document.getElementById('t-knob').style.transform = `rotate(${tunerDeg}deg)`;
@@ -385,7 +373,6 @@
         if (isRunning) player.play();
     }
 
-    // BOTTOM DIAL: CATEGORY - switches between categories
     function changeCategory(dir) {
         categoryDeg += dir * 30;
         document.getElementById('s-knob').style.transform = `rotate(${categoryDeg}deg)`;
@@ -397,7 +384,6 @@
         if (isRunning) player.play();
     }
 
-    // Auto-advance when video ends
     player.onended = () => {
         if (!isRunning) return;
         tune(1);
