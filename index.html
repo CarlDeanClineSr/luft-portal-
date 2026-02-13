@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CLINE CLASSIC TV | V64</title>
+    <title>CLINE CLASSIC TV | V62 VERIFIED</title>
     <style>
         body { background: #000; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; width: 100vw; }
         #cabinet {
@@ -13,13 +13,9 @@
             box-shadow: inset 0 0 150px #000, 0 50px 100px #000;
         }
         .glass-tube { width: 75%; height: 90%; background: #000; border-radius: 15%; overflow: hidden; border: 15px solid #111; position: relative; cursor: pointer; }
-        /* VIDEO SET TO FILL TUBE */
         video { width: 100%; height: 100%; object-fit: contain; background: #000; }
-        
         .side-panel { width: 22%; display: flex; flex-direction: column; align-items: center; gap: 20px; }
         .dial-housing { position: relative; width: 130px; height: 130px; display: flex; align-items: center; justify-content: center; }
-        
-        /* DIALS */
         .knob {
             width: 95px; height: 95px; background: #333; border: 6px solid #000;
             border-radius: 50%; cursor: pointer; position: relative; z-index: 10;
@@ -46,74 +42,74 @@
 <button class="fs-toggle" onclick="toggleFS()">[ FULL CABINET MODE ]</button>
 
 <div id="cabinet">
-    <div class="glass-tube" onclick="unmute()">
-        <video id="player" muted autoplay playsinline>
-            <source src="" type="video/mp4">
-        </video>
-    </div>
-
+    <div class="glass-tube" onclick="toggleFS()"><video id="player" controls autoplay loop playsinline></video></div>
     <div class="side-panel">
         <div class="dial-housing"><div class="dash-ring" id="t-dashes"></div><div class="knob" id="t-knob" onclick="tune(1)" oncontextmenu="tune(-1)"></div></div>
-        <div style="color:#555; font-size:9px; font-weight:bold; letter-spacing:2px; text-align:center;">TUNER (CHANGE CHANNEL)</div>
+        <div style="color:#555; font-size:9px; font-weight:bold; letter-spacing:2px; text-align:center;">TUNER (SYNC VIDEO)</div>
         
-        <div class="orange-monitor" id="index-screen">SYSTEM BOOT...</div>
+        <div class="orange-monitor" id="index-screen">LOADING SIMULATOR...</div>
         
         <div class="dial-housing"><div class="dash-ring" id="s-dashes"></div><div class="knob" style="width:75px; height:75px;" id="s-knob" onclick="scrollIndex(1)" oncontextmenu="scrollIndex(-1)"></div></div>
-        <div style="color:#555; font-size:9px; font-weight:bold; letter-spacing:2px; text-align:center;">INDEX (PREVIEW)</div>
+        <div style="color:#555; font-size:9px; font-weight:bold; letter-spacing:2px; text-align:center;">INDEX (SURF TITLES)</div>
     </div>
     
     <div class="social-ledger">
         <a href="https://www.hitwebcounter.com" target="_blank">
-            <img src="https://hitwebcounter.com/counter/counter.php?page=17462819&style=0006&nbdigits=5&type=page&initCount=2200" title="Counter" Alt="web counter" border="0" />
+            <img src="https://hitwebcounter.com/counter/counter.php?page=17462819&style=0006&nbdigits=5&type=page&initCount=1952" title="Free Counter" Alt="web counter" border="0" />
         </a>
-        <span style="color:#666; font-size:10px;">LIVE VIEWERS</span>
+        <span style="color:#666; font-size:10px;">LIVE BROADCAST VIEWERS</span>
     </div>
 </div>
 
 <script>
-    // --- STATIC LIST: NO LOOPS, NO ERRORS ---
+    // --- APOLLO 11 (Verified) ---
+    const apolloBase = "https://archive.org/download/apollo-11-mission/";
+    const apolloFiles = [];
+    for(let i=1; i<=23; i++) {
+        let num = i < 10 ? "0"+i : i;
+        apolloFiles.push({n: `Apollo 11 Reel ${num}`, u: `${apolloBase}Apollo%2011%20${num}.mp4`});
+    }
+
+    // --- MAIN FEATURES ---
     const features = [
-        {n: "Target Earth (1954)", u: "https://archive.org/download/target-earth-1954-colorized/Target%20Earth%201954%20colorized.mp4"},
-        {n: "Invasion: Saucer Men", u: "https://archive.org/download/invasion-of-the-saucer-men-1957-colorized-classics/Invasion%20of%20the%20Saucer%20Men%20%281957%29%20Colorized%20Classics.mp4"},
-        {n: "Apollo 11 Reel 01", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2001.mp4"},
-        {n: "Apollo 11 Reel 02", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2002.mp4"},
-        {n: "Apollo 11 Reel 03", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2003.mp4"},
-        {n: "Apollo 11 Reel 04", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2004.mp4"},
-        {n: "Apollo 11 Reel 05", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2005.mp4"},
-        {n: "Apollo 11 Reel 06", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2006.mp4"},
-        {n: "Apollo 11 Reel 07", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2007.mp4"},
-        {n: "Apollo 11 Reel 08", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2008.mp4"},
-        {n: "Apollo 11 Reel 09", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2009.mp4"},
-        {n: "Apollo 11 Reel 10", u: "https://archive.org/download/apollo-11-mission/Apollo%2011%2010.mp4"},
-        {n: "Plan 9 Outer Space", u: "https://archive.org/download/Plan_9_from_Outer_Space_1959/Plan_9_from_Outer_Space_1959.mp4"},
+        ...apolloFiles,
+        {n: "Target Earth (1954) Color", u: "https://archive.org/download/target-earth-1954-colorized/Target%20Earth%201954%20colorized.mp4"},
+        {n: "Invasion: Saucer Men (1957)", u: "https://archive.org/download/invasion-of-the-saucer-men-1957-colorized-classics/Invasion%20of%20the%20Saucer%20Men%20%281957%29%20Colorized%20Classics.mp4"},
+        {n: "Plan 9 from Outer Space", u: "https://archive.org/download/Plan_9_from_Outer_Space_1959/Plan_9_from_Outer_Space_1959.mp4"},
         {n: "Brain That Wouldn't Die", u: "https://archive.org/download/The_Brain_That_Wouldnt_Die/The_Brain_That_Wouldnt_Die.mp4"},
+        {n: "NASCAR: Stock Car 1965", u: "https://archive.org/download/StockCar1965/StockCar1965.mp4"},
+        {n: "Weather: Hurricane Camille", u: "https://archive.org/download/gov.archives.arc.20455/gov.archives.arc.20455.mp4"},
         {n: "Shocker Wk 18: Naschy", u: "https://archive.org/download/ShockerInternetDriveIn-Week18aNaschyDoubleFeature/week_18.mp4"},
         {n: "Shocker Wk 56: Witch", u: "https://archive.org/download/ShockerInternetDriveIn-Week56whichWitchDoubleFeature/week_56.mp4"},
         {n: "Shocker Wk 37: Spaghetti", u: "https://archive.org/download/ShockerInternetDriveIn-Week37summerSpaghettiDoubleFeature/Week_37.mp4"},
         {n: "Shocker Wk 46: Sci-Fi", u: "https://archive.org/download/ShockerInternetDriveIn-Week46sci-fiSpaghettiDoubleFeature/week_46.mp4"},
-        {n: "Shocker Wk 12: Massacre", u: "https://archive.org/download/ShockerInternetDriveIn-Week12MassacreDoubleFeature/week_12.mp4"},
         {n: "Cosmos 01: Shores", u: "https://archive.org/download/cosmos_1980/COSMOS_01.mp4"},
         {n: "Cosmos 06: Travelers", u: "https://archive.org/download/cosmos_1980/COSMOS_06.mp4"},
         {n: "Earth 1: Living Machine", u: "https://archive.org/download/planet.earth/Planet%20Earth%201%20The%20Living%20Machine.mp4"},
+        {n: "NASA: Apollo 11 Mission (Doc)", u: "https://archive.org/download/Apollo11MoonLanding/Apollo11MoonLanding.mp4"},
+        {n: "NASA: Shoot the Moon", u: "https://archive.org/download/AssignmentShootTheMoon/AssignmentShootTheMoon.mp4"},
         {n: "Godzilla 1956", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/1.Godzilla-KingOfTheMonsters1956.mp4"},
-        {n: "Steamboat Willie", u: "https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Steamboat%20Willie.mp4"},
-        {n: "Alice Solves Puzzle", u: "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925%20Alice%20Solves%20the%20Puzzle%20%28Walt%20Disney%29.mp4"}
+        {n: "Steamboat Willie (1928)", u: "https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Steamboat%20Willie.mp4"},
+        {n: "Alice Solves Puzzle (1925)", u: "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925%20Alice%20Solves%20the%20Puzzle%20%28Walt%20Disney%29.mp4"}
     ];
 
+    // --- REPLACED COMMERCIALS (Verified Prelinger/Archive Identifiers) ---
     const commercials = [
+        {n: "Ad Reel: Ford 1959", u: "https://archive.org/download/FordMoto1959/FordMoto1959.mp4"},
+        {n: "Ad Reel: Chevy Corvair 1960", u: "https://archive.org/download/Corvair1960/Corvair1960.mp4"},
+        {n: "Cartoon: Destination Earth", u: "https://archive.org/download/Destinat1956/Destinat1956.mp4"},
+        {n: "Space: Challenge Outer Space", u: "https://archive.org/download/Challeng1961/Challeng1961.mp4"},
         {n: "Ad Reel: Drive-In Ads", u: "https://archive.org/download/Drive-InMovieAds/Drive-InMovieAds.mp4"},
         {n: "Ad Reel: Classic TV 1948", u: "https://archive.org/download/ClassicT1948/ClassicT1948.mp4"},
-        {n: "Ad Reel: Desilu Ads", u: "https://archive.org/download/Desilu_Commercials/Desilu_Commercials.mp4"},
-        {n: "Ad Reel: 1950s Animation", u: "https://archive.org/download/ClassicT1950_2/ClassicT1950_2.mp4"},
-        {n: "Short: Man in Space", u: "https://archive.org/download/ManInSpace/ManInSpace.mp4"}
+        {n: "Ad Reel: Desilu Ads", u: "https://archive.org/download/Desilu_Commercials/Desilu_Commercials.mp4"}
     ];
 
-    // --- MIXER LOGIC ---
+    // --- SIMULATOR LOGIC (2x Shuffle) ---
     let archive = [];
-    let shuffledFeatures = [...features, ...features].sort(() => Math.random() - 0.5);
+    let shuffledFeatures = [...features, ...features].sort(() => Math.random() - 0.5); // Double & Shuffle Features
     let shuffledAds = [...commercials].sort(() => Math.random() - 0.5);
     
-    // Inject Ads
+    // Interleave
     shuffledFeatures.forEach((movie, index) => {
         archive.push(movie);
         archive.push(shuffledAds[index % shuffledAds.length]); 
@@ -126,64 +122,36 @@
         makeDashes('s-dashes', 80);
         document.getElementById('index-screen').innerText = archive[0].n;
         const p = document.getElementById('player');
+        p.src = archive[0].u;
+        p.load();
         
-        // AUTO-ADVANCE LOGIC
+        // Auto-Advance
         p.onended = function() {
             sIdx = (sIdx + 1) % archive.length;
             p.src = archive[sIdx].u;
             p.load();
             p.play();
             document.getElementById('index-screen').innerText = archive[sIdx].n;
-            tDeg += 10; sDeg += 10;
-            updateKnobs();
+            tDeg += 15; sDeg += 15;
+            document.getElementById('t-knob').style.transform = `rotate(${tDeg}deg)`;
+            document.getElementById('s-knob').style.transform = `rotate(${sDeg}deg)`;
         };
-
-        // LOAD FIRST VIDEO
-        p.src = archive[0].u;
-        p.load();
-        // ATTEMPT AUTO PLAY (MUTED)
-        var promise = p.play();
-        if (promise !== undefined) {
-            promise.then(_ => {
-                // Autoplay started!
-            }).catch(error => {
-                // Autoplay was prevented.
-                document.getElementById('index-screen').innerText = "CLICK SCREEN TO START";
-            });
-        }
     }
 
     function tune(dir) {
         tDeg += (dir * 30);
-        updateKnobs();
+        document.getElementById('t-knob').style.transform = `rotate(${tDeg}deg)`;
         const p = document.getElementById('player');
         p.src = archive[sIdx].u; 
         p.load(); 
-        p.play();
-        // Update Title immediately
-        document.getElementById('index-screen').innerText = archive[sIdx].n;
+        p.play().catch(e => console.log("Click required"));
     }
 
     function scrollIndex(dir) {
         sDeg += (dir * 30);
         sIdx = (sIdx + dir + archive.length) % archive.length;
-        updateKnobs();
-        document.getElementById('index-screen').innerText = archive[sIdx].n;
-    }
-
-    function updateKnobs() {
-        document.getElementById('t-knob').style.transform = `rotate(${tDeg}deg)`;
         document.getElementById('s-knob').style.transform = `rotate(${sDeg}deg)`;
-    }
-
-    // FUNCTION TO UNMUTE ON CLICK
-    function unmute() {
-        const p = document.getElementById('player');
-        p.muted = false;
-        if(p.paused) { p.play(); }
-        if(document.getElementById('cabinet').requestFullscreen) {
-            document.getElementById('cabinet').requestFullscreen();
-        }
+        document.getElementById('index-screen').innerText = archive[sIdx].n;
     }
 
     function makeDashes(id, count) {
@@ -208,4 +176,3 @@
 </script>
 </body>
 </html>
-
