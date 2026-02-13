@@ -2,116 +2,147 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CLINE CLASSIC TV | FULL SCREEN</title>
+    <title>CLINE CLASSIC TV | 1921-1929 ANTHOLOGY</title>
     <style>
-        body { background: #050505; color: #fff; font-family: 'Courier New', monospace; margin: 0; padding: 0; overflow: hidden; }
+        body { background: #000; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; }
         
-        /* HEAVY WOOD CHASSIS - OPTIMIZED FOR 52" VIZIO */
-        .console-unit {
-            width: 95vw; height: 85vh; margin: 2vh auto;
-            background: #2b1d0e; border: 20px solid #1a110a; border-radius: 60px;
-            position: relative; box-shadow: inset 0 0 100px #000, 0 30px 60px #000;
-            display: flex; align-items: center; justify-content: center;
+        /* HEAVY VIZIO-SCALE CHASSIS */
+        .tv-chassis {
+            width: 96vw; height: 92vh;
+            background: #2b1d0e; /* Deep Walnut */
+            border: 22px solid #1a110a; border-radius: 90px;
+            position: relative; box-shadow: inset 0 0 150px #000, 0 50px 100px #000;
+            display: flex; align-items: center; justify-content: space-around;
+            padding: 0 40px;
         }
 
-        /* CRT STYLE SCREEN */
-        .screen-glass { 
-            width: 82%; height: 88%; background: #000; border-radius: 15%; 
-            overflow: hidden; border: 15px solid #111; position: relative;
-            box-shadow: inset 0 0 40px rgba(255,255,255,0.05);
+        /* GLASS CRT TUBE */
+        .crt-tube { 
+            width: 78%; height: 86%; background: #000; border-radius: 18%; 
+            overflow: hidden; border: 20px solid #111; position: relative;
+            box-shadow: inset 0 0 80px rgba(255,255,255,0.08);
         }
         video { width: 100%; height: 100%; object-fit: contain; }
 
-        /* TWIN DIAL ASSEMBLY */
-        .control-panel {
-            position: absolute; right: 30px; top: 50%; transform: translateY(-50%);
-            display: flex; flex-direction: column; gap: 60px; align-items: center;
+        /* MECHANICAL DIAL BAY */
+        .dial-bay { display: flex; flex-direction: column; gap: 80px; align-items: center; width: 15%; }
+        
+        .dial-unit { position: relative; display: flex; flex-direction: column; align-items: center; }
+        
+        /* TOP DIAL WITH NUMBERS */
+        .knob {
+            width: 110px; height: 110px; background: #333; border: 6px solid #000;
+            border-radius: 50%; cursor: pointer; position: relative; transition: transform 0.2s;
+            box-shadow: 0 10px 20px #000; z-index: 5;
         }
-        .dial-group { text-align: center; }
-        .dial-knob { 
-            width: 80px; height: 80px; background: #444; border: 5px solid #000; 
-            border-radius: 50%; cursor: pointer; position: relative; transition: 0.2s;
-            box-shadow: 0 5px 15px #000;
-        }
-        .dial-knob::after { content: ''; position: absolute; top: 8px; left: 50%; width: 6px; height: 25px; background: #fff; transform: translateX(-50%); }
-        .dial-knob:active { transform: rotate(30deg); }
-        .dial-label { font-size: 12px; margin-top: 10px; color: #888; letter-spacing: 2px; font-weight: bold; }
+        .knob::after { content: ''; position: absolute; top: 10px; left: 50%; width: 8px; height: 35px; background: #fff; transform: translateX(-50%); }
 
-        /* CHANNEL STRIP & INDEX */
-        .bottom-shelf { 
-            height: 10vh; background: #000; display: flex; align-items: center; 
-            padding: 0 50px; gap: 30px; border-top: 1px solid #222;
+        .num-ring {
+            position: absolute; width: 200px; height: 200px; top: -45px;
+            font-family: 'Arial Black', sans-serif; color: #666; pointer-events: none;
         }
-        select { 
-            background: #111; color: #fff; border: 1px solid #555; padding: 12px; 
-            font-size: 18px; font-family: 'Courier New'; width: 500px; cursor: pointer;
+        .num-pos { position: absolute; width: 200px; text-align: center; transform-origin: 100px 100px; font-size: 24px; }
+
+        .label { font-size: 14px; color: #888; letter-spacing: 5px; margin-top: 15px; font-weight: bold; text-transform: uppercase; }
+
+        /* FOOTER CONTROLS */
+        .footer-tray {
+            position: absolute; bottom: 30px; left: 60px; display: flex; align-items: center; gap: 20px;
         }
-        .dir-tag { margin-left: auto; text-align: right; font-size: 12px; color: #444; }
+        select {
+            background: #111; color: #fff; border: 1px solid #444; padding: 10px;
+            font-family: 'Courier New', monospace; font-size: 16px; width: 450px; cursor: pointer;
+        }
+        .id-stamp { color: #333; font-size: 12px; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
-<div class="console-unit">
-    <div class="screen-glass" id="display-out">
-        <video id="tv-core" controls autoplay loop>
-            <source src="https://archive.org/download/dvd-transfer-12-wfld/VTS_01_1.mp4" type="video/mp4">
+<div class="tv-chassis">
+    <div class="crt-tube">
+        <video id="vid-player" controls autoplay loop>
+            <source src="https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925%20Alice%20Solves%20the%20Puzzle%20%28Walt%20Disney%29.mp4" type="video/mp4">
         </video>
     </div>
 
-    <div class="control-panel">
-        <div class="dial-group">
-            <div class="dial-knob" onclick="nextChannel()"></div>
-            <div class="dial-label">TUNER</div>
+    <div class="dial-bay">
+        <div class="dial-unit">
+            <div class="num-ring" id="tuner-ring"></div>
+            <div class="knob" id="tuner-knob" onclick="clickTuner()"></div>
+            <div class="label">Tuner</div>
         </div>
-        <div class="dial-group">
-            <div class="dial-knob" style="width:60px; height:60px;" onclick="togglePower()"></div>
-            <div class="dial-label">MASTER</div>
+
+        <div class="dial-unit">
+            <div class="knob" style="width:90px; height:90px;" id="selector-knob" onclick="nextReel()"></div>
+            <div class="label">Selector</div>
         </div>
     </div>
-</div>
 
-<div class="bottom-shelf">
-    <select id="archive-index" onchange="tuneTo(this.value)">
-        <option value="">-- SELECT BROADCAST (DVD TRANSFER 12) --</option>
-        <option value="https://archive.org/download/dvd-transfer-12-wfld/VTS_01_1.mp4">REEL 01: VTS_01_1</option>
-        <option value="https://archive.org/download/dvd-transfer-12-wfld/VTS_01_2.mp4">REEL 02: VTS_01_2</option>
-        <option value="https://archive.org/download/dvd-transfer-12-wfld/VTS_01_3.mp4">REEL 03: VTS_01_3</option>
-        <option value="https://archive.org/download/dvd-transfer-12-wfld/VTS_01_4.mp4">REEL 04: VTS_01_4</option>
-        <option value="https://archive.org/download/dvd-transfer-12-wfld/VTS_01_5.mp4">REEL 05: VTS_01_5</option>
-        <option value="https://archive.org/download/donald-in-mathematic-land-pack/1959-06-26%20-%20Donald%20in%20Mathematic%20Land%20%28Short%29%20TreasDVD.mp4">BONUS: MATHMAGIC LAND</option>
-    </select>
-
-    <div class="dir-tag">
-        MR. CLINE | CLASSIC COLLECTION<br>
-        LINCOLN, NE TERMINAL [402]
+    <div class="footer-tray">
+        <select id="master-index" onchange="tuneTo(this.value)">
+            <option value="">-- MASTER ARCHIVE INDEX --</option>
+            <optgroup label="ALICE COMEDIES (1924-1927)">
+                <option value="https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925%20Alice%20Solves%20the%20Puzzle%20%28Walt%20Disney%29.mp4">Alice Solves the Puzzle (1925)</option>
+                <option value="https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925-07-12%20Alice%20Wins%20the%20Derby%20%28Alice%29%20-%20Video%20Dailymotion.mp4">Alice Wins the Derby (1925)</option>
+                <option value="https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925-11-15%20Alice%20Rattled%20by%20Rats%20%28Alice%29%20-%20Video%20Dailymotion.mp4">Alice Rattled by Rats (1925)</option>
+                <option value="https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1926-01-01%20Alice%20on%20the%20Farm%20%28Alice%29%20-%20Video%20Dailymotion.mp4">Alice on the Farm (1926)</option>
+                <option value="https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/Walt%20Disney%27s%20Alice%20Comedies%20-%20Alice%27s%20Day%20at%20Sea%20.mp4">Alice's Day at Sea (1924)</option>
+                <option value="https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/Walt%20Disney%27s%20Alice%20Comedies%20-%20Alice%27s%20Spooky%20Adventure.mp4">Alice's Spooky Adventure (1924)</option>
+            </optgroup>
+            <optgroup label="MICKEY MOUSE (1928-1929)">
+                <option value="https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Steamboat%20Willie.mp4">Steamboat Willie (1928)</option>
+                <option value="https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Mickey%20Mouse%20-%20The%20Haunted%20House%201929%204k%20AI%20Enhanced%20Remastered%20Colorized.mp4">The Haunted House (1929) 4K</option>
+            </optgroup>
+        </select>
+        <div class="id-stamp">MR. CLINE | CLASSIC COLLECTION | LINCOLN, NE</div>
     </div>
 </div>
 
 <script>
-    const reels = [
-        "https://archive.org/download/dvd-transfer-12-wfld/VTS_01_1.mp4",
-        "https://archive.org/download/dvd-transfer-12-wfld/VTS_01_2.mp4",
-        "https://archive.org/download/dvd-transfer-12-wfld/VTS_01_3.mp4",
-        "https://archive.org/download/dvd-transfer-12-wfld/VTS_01_4.mp4",
-        "https://archive.org/download/dvd-transfer-12-wfld/VTS_01_5.mp4"
+    // GENERATE NUMBERS 1-13 AROUND THE TUNER
+    const tunerRing = document.getElementById('tuner-ring');
+    for(let i=1; i<=13; i++) {
+        const div = document.createElement('div');
+        div.className = 'num-pos';
+        div.innerText = i;
+        div.style.transform = `rotate(${i * (360/13)}deg)`;
+        tunerRing.appendChild(div);
+    }
+
+    // THE MASSIVE REEL LIST
+    const archive = [
+        "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925%20Alice%20Solves%20the%20Puzzle%20%28Walt%20Disney%29.mp4",
+        "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925-07-12%20Alice%20Wins%20the%20Derby%20%28Alice%29%20-%20Video%20Dailymotion.mp4",
+        "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925-11-15%20Alice%20Rattled%20by%20Rats%20%28Alice%29%20-%20Video%20Dailymotion.mp4",
+        "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1926-01-01%20Alice%20on%20the%20Farm%20%28Alice%29%20-%20Video%20Dailymotion.mp4",
+        "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/Walt%20Disney%27s%20Alice%20Comedies%20-%20Alice%27s%20Day%20at%20Sea%20.mp4",
+        "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/Walt%20Disney%27s%20Alice%20Comedies%20-%20Alice%27s%20Spooky%20Adventure.mp4",
+        "https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Steamboat%20Willie.mp4",
+        "https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Mickey%20Mouse%20-%20The%20Haunted%20House%201929%204k%20AI%20Enhanced%20Remastered%20Colorized.mp4"
     ];
-    let currentChannel = 0;
+
+    let current = 0;
+    let tunerDeg = 0;
+    let selectorDeg = 0;
 
     function tuneTo(url) {
         if(!url) return;
-        const core = document.getElementById('tv-core');
-        core.src = url;
-        core.play();
+        const p = document.getElementById('vid-player');
+        p.src = url;
+        p.play();
     }
 
-    function nextChannel() {
-        currentChannel = (currentChannel + 1) % reels.length;
-        tuneTo(reels[currentChannel]);
+    function nextReel() {
+        selectorDeg += 30;
+        document.getElementById('selector-knob').style.transform = `rotate(${selectorDeg}deg)`;
+        current = (current + 1) % archive.length;
+        tuneTo(archive[current]);
     }
 
-    function togglePower() {
-        const screen = document.getElementById('display-out');
-        screen.style.opacity = (screen.style.opacity === "0") ? "1" : "0";
+    function clickTuner() {
+        tunerDeg += (360/13);
+        document.getElementById('tuner-knob').style.transform = `rotate(${tunerDeg}deg)`;
+        nextReel();
     }
 </script>
 
