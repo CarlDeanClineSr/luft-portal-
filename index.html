@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>IMPERIAL ACADEMY | MASTER SHUFFLE V54</title>
+    <title>CLINE CLASSIC TV</title>
     <style>
         body { background: #000; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; width: 100vw; }
         #cabinet {
@@ -24,6 +24,7 @@
         .knob::after { content: ''; position: absolute; top: 8px; left: 50%; width: 5px; height: 28px; background: #fff; transform: translateX(-50%); }
         .dash-ring { position: absolute; width: 150px; height: 150px; pointer-events: none; }
         .dash { position: absolute; width: 150px; height: 2px; background: #444; transform-origin: center; top: 50%; }
+        
         .orange-monitor {
             width: 210px; height: 60px; background: #050505; border: 2px solid #531;
             color: #ff6600; font-family: 'Courier New', monospace; font-size: 10px;
@@ -31,6 +32,7 @@
             text-align: center; text-transform: uppercase; box-shadow: inset 0 0 15px #000;
             text-shadow: 0 0 8px #cc4400; overflow: hidden; font-weight: bold; line-height: 1.2;
         }
+        
         .social-ledger { position: absolute; bottom: 25px; right: 40px; color: #444; font-family: sans-serif; font-size: 12px; }
         .fs-toggle { position: absolute; top: 15px; left: 15px; background: #111; color: #fff; border: 1px solid #444; padding: 10px; cursor: pointer; font-size: 10px; z-index: 100; font-weight: bold; }
     </style>
@@ -44,24 +46,26 @@
     <div class="side-panel">
         <div class="dial-housing"><div class="dash-ring" id="t-dashes"></div><div class="knob" id="t-knob" onclick="tune(1)" oncontextmenu="tune(-1)"></div></div>
         <div style="color:#555; font-size:9px; font-weight:bold; letter-spacing:2px; text-align:center;">TUNER (SYNC VIDEO)</div>
-        <div class="orange-monitor" id="index-screen">MASTER REEL READY...</div>
+        
+        <div class="orange-monitor" id="index-screen">SYSTEM READY...</div>
+        
         <div class="dial-housing"><div class="dash-ring" id="s-dashes"></div><div class="knob" style="width:75px; height:75px;" id="s-knob" onclick="scrollIndex(1)" oncontextmenu="scrollIndex(-1)"></div></div>
         <div style="color:#555; font-size:9px; font-weight:bold; letter-spacing:2px; text-align:center;">INDEX (SURF TITLES)</div>
     </div>
-    <div class="social-ledger">STATION VIEWS: 8,122 | ★ 742</div>
+    <div class="social-ledger">STATION VIEWS: 8,421 | ★ 794</div>
 </div>
 
 <script>
     const masterList = [
         {n: "Target Earth (1954) Color", u: "https://archive.org/download/target-earth-1954-colorized/Target%20Earth%201954%20colorized.mp4"},
         {n: "Invasion: Saucer Men (1957) Color", u: "https://archive.org/download/invasion-of-the-saucer-men-1957-colorized-classics/Invasion%20of%20the%20Saucer%20Men%20%281957%29%20Colorized%20Classics.mp4"},
-        {n: "Shocker Wk 18: Naschy", u: "https://archive.org/download/ShockerInternetDriveIn-Week18aNaschyDoubleFeature/week_18.mp4"},
-        {n: "Shocker Wk 56: Which Witch", u: "https://archive.org/download/ShockerInternetDriveIn-Week56whichWitchDoubleFeature/week_56.mp4"},
-        {n: "Shocker Wk 37: Spaghetti", u: "https://archive.org/download/ShockerInternetDriveIn-Week37summerSpaghettiDoubleFeature/Week_37.mp4"},
-        {n: "Shocker Wk 46: Sci-Fi", u: "https://archive.org/download/ShockerInternetDriveIn-Week46sci-fiSpaghettiDoubleFeature/week_46.mp4"},
-        {n: "Shocker Wk 12: Massacre", u: "https://archive.org/download/ShockerInternetDriveIn-Week12MassacreDoubleFeature/week_12.mp4"},
-        {n: "Shocker Wk 2: Horror Classics", u: "https://archive.org/download/ShockerInternetDriveIn-Week2/week_2.mp4"},
-        {n: "Shocker Wk 61: Summer Slasher", u: "https://archive.org/download/ShockerInternetDriveIn-Week61summerSlasherFunDoubleFeature/week_61.mp4"},
+        {n: "Shocker Week 18: Naschy", u: "https://archive.org/download/ShockerInternetDriveIn-Week18aNaschyDoubleFeature/week_18.mp4"},
+        {n: "Shocker Week 56: Witch", u: "https://archive.org/download/ShockerInternetDriveIn-Week56whichWitchDoubleFeature/week_56.mp4"},
+        {n: "Shocker Week 37: Spaghetti", u: "https://archive.org/download/ShockerInternetDriveIn-Week37summerSpaghettiDoubleFeature/Week_37.mp4"},
+        {n: "Shocker Week 46: Sci-Fi", u: "https://archive.org/download/ShockerInternetDriveIn-Week46sci-fiSpaghettiDoubleFeature/week_46.mp4"},
+        {n: "Shocker Week 12: Massacre", u: "https://archive.org/download/ShockerInternetDriveIn-Week12MassacreDoubleFeature/week_12.mp4"},
+        {n: "Shocker Week 2: Horror Classics", u: "https://archive.org/download/ShockerInternetDriveIn-Week2/week_2.mp4"},
+        {n: "Shocker Week 61: Summer Slasher", u: "https://archive.org/download/ShockerInternetDriveIn-Week61summerSlasherFunDoubleFeature/week_61.mp4"},
         {n: "Cosmos 01: Shores", u: "https://archive.org/download/cosmos_1980/COSMOS_01.mp4"},
         {n: "Cosmos 02: Fugue", u: "https://archive.org/download/cosmos_1980/COSMOS_02.mp4"},
         {n: "Cosmos 03: Harmony", u: "https://archive.org/download/cosmos_1980/COSMOS_03.mp4"},
@@ -118,7 +122,7 @@
         const p = document.getElementById('player');
         p.src = archive[sIdx].u; 
         p.load(); 
-        p.play().catch(e => { console.log("User click required for first play."); });
+        p.play();
     }
 
     function scrollIndex(dir) {
@@ -138,11 +142,15 @@
 
     function toggleFS() {
         const c = document.getElementById('cabinet');
-        if (!document.fullscreenElement) { c.requestFullscreen(); } else { document.exitFullscreen(); }
+        if (!document.fullscreenElement) {
+            if (c.requestFullscreen) c.requestFullscreen();
+            else if (c.webkitRequestFullscreen) c.webkitRequestFullscreen();
+        } else {
+            document.exitFullscreen();
+        }
     }
     
     window.onload = init;
 </script>
 </body>
 </html>
-
