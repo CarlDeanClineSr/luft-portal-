@@ -2,66 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CLINE CLASSIC TV | 1921-1929 ANTHOLOGY</title>
+    <title>CLINE CLASSIC TV | GODZILLA ANTHOLOGY</title>
     <style>
         body { background: #000; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; }
         
-        /* HEAVY VIZIO-SCALE CHASSIS */
+        /* 52" VIZIO-SCALE CHASSIS */
         .tv-chassis {
             width: 96vw; height: 92vh;
-            background: #2b1d0e; /* Deep Walnut */
-            border: 22px solid #1a110a; border-radius: 90px;
+            background: linear-gradient(135deg, #2b1d0e 0%, #1a110a 100%); 
+            border: 25px solid #140d08; border-radius: 90px;
             position: relative; box-shadow: inset 0 0 150px #000, 0 50px 100px #000;
             display: flex; align-items: center; justify-content: space-around;
             padding: 0 40px;
         }
 
-        /* GLASS CRT TUBE */
+        /* CRT TUBE SCREEN */
         .crt-tube { 
             width: 78%; height: 86%; background: #000; border-radius: 18%; 
             overflow: hidden; border: 20px solid #111; position: relative;
-            box-shadow: inset 0 0 80px rgba(255,255,255,0.08);
+            box-shadow: inset 0 0 100px rgba(255,255,255,0.05);
         }
         video { width: 100%; height: 100%; object-fit: contain; }
 
-        /* MECHANICAL DIAL BAY */
+        /* ANALOG CONTROL BAY */
         .dial-bay { display: flex; flex-direction: column; gap: 80px; align-items: center; width: 15%; }
         
         .dial-unit { position: relative; display: flex; flex-direction: column; align-items: center; }
         
-        /* TOP DIAL WITH NUMBERS */
+        /* TOP DIAL (TUNER) */
         .knob {
-            width: 110px; height: 110px; background: #333; border: 6px solid #000;
+            width: 120px; height: 120px; background: #333; border: 6px solid #000;
             border-radius: 50%; cursor: pointer; position: relative; transition: transform 0.2s;
             box-shadow: 0 10px 20px #000; z-index: 5;
         }
         .knob::after { content: ''; position: absolute; top: 10px; left: 50%; width: 8px; height: 35px; background: #fff; transform: translateX(-50%); }
 
+        /* TUNER NUMBERS 1-13 */
         .num-ring {
-            position: absolute; width: 200px; height: 200px; top: -45px;
-            font-family: 'Arial Black', sans-serif; color: #666; pointer-events: none;
+            position: absolute; width: 220px; height: 220px; top: -50px;
+            font-family: 'Arial Black', sans-serif; color: #555; pointer-events: none;
         }
-        .num-pos { position: absolute; width: 200px; text-align: center; transform-origin: 100px 100px; font-size: 24px; }
+        .num-pos { position: absolute; width: 220px; text-align: center; transform-origin: 110px 110px; font-size: 26px; }
 
-        .label { font-size: 14px; color: #888; letter-spacing: 5px; margin-top: 15px; font-weight: bold; text-transform: uppercase; }
+        .label { font-size: 16px; color: #666; letter-spacing: 5px; margin-top: 15px; font-weight: bold; text-transform: uppercase; }
 
-        /* FOOTER CONTROLS */
-        .footer-tray {
-            position: absolute; bottom: 30px; left: 60px; display: flex; align-items: center; gap: 20px;
-        }
-        select {
-            background: #111; color: #fff; border: 1px solid #444; padding: 10px;
-            font-family: 'Courier New', monospace; font-size: 16px; width: 450px; cursor: pointer;
-        }
-        .id-stamp { color: #333; font-size: 12px; letter-spacing: 2px; }
+        /* ID PLATE */
+        .id-stamp { position: absolute; bottom: 35px; right: 60px; color: #222; font-size: 14px; letter-spacing: 3px; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="tv-chassis">
     <div class="crt-tube">
-        <video id="vid-player" controls autoplay loop>
-            <source src="https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925%20Alice%20Solves%20the%20Puzzle%20%28Walt%20Disney%29.mp4" type="video/mp4">
+        <video id="tv-player" controls autoplay loop>
+            <source src="https://archive.org/download/RecurringDinosaurInfestationFilms/1.Godzilla-KingOfTheMonsters1956.mp4" type="video/mp4">
         </video>
     </div>
 
@@ -73,33 +67,16 @@
         </div>
 
         <div class="dial-unit">
-            <div class="knob" style="width:90px; height:90px;" id="selector-knob" onclick="nextReel()"></div>
+            <div class="knob" style="width:100px; height:100px;" id="selector-knob" onclick="nextReel()"></div>
             <div class="label">Selector</div>
         </div>
     </div>
 
-    <div class="footer-tray">
-        <select id="master-index" onchange="tuneTo(this.value)">
-            <option value="">-- MASTER ARCHIVE INDEX --</option>
-            <optgroup label="ALICE COMEDIES (1924-1927)">
-                <option value="https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925%20Alice%20Solves%20the%20Puzzle%20%28Walt%20Disney%29.mp4">Alice Solves the Puzzle (1925)</option>
-                <option value="https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925-07-12%20Alice%20Wins%20the%20Derby%20%28Alice%29%20-%20Video%20Dailymotion.mp4">Alice Wins the Derby (1925)</option>
-                <option value="https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925-11-15%20Alice%20Rattled%20by%20Rats%20%28Alice%29%20-%20Video%20Dailymotion.mp4">Alice Rattled by Rats (1925)</option>
-                <option value="https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1926-01-01%20Alice%20on%20the%20Farm%20%28Alice%29%20-%20Video%20Dailymotion.mp4">Alice on the Farm (1926)</option>
-                <option value="https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/Walt%20Disney%27s%20Alice%20Comedies%20-%20Alice%27s%20Day%20at%20Sea%20.mp4">Alice's Day at Sea (1924)</option>
-                <option value="https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/Walt%20Disney%27s%20Alice%20Comedies%20-%20Alice%27s%20Spooky%20Adventure.mp4">Alice's Spooky Adventure (1924)</option>
-            </optgroup>
-            <optgroup label="MICKEY MOUSE (1928-1929)">
-                <option value="https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Steamboat%20Willie.mp4">Steamboat Willie (1928)</option>
-                <option value="https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Mickey%20Mouse%20-%20The%20Haunted%20House%201929%204k%20AI%20Enhanced%20Remastered%20Colorized.mp4">The Haunted House (1929) 4K</option>
-            </optgroup>
-        </select>
-        <div class="id-stamp">MR. CLINE | CLASSIC COLLECTION | LINCOLN, NE</div>
-    </div>
+    <div class="id-stamp">DIRECTOR: MR. CLINE | LINCOLN, NE</div>
 </div>
 
 <script>
-    // GENERATE NUMBERS 1-13 AROUND THE TUNER
+    // GENERATE 1-13 TUNER NUMBERS
     const tunerRing = document.getElementById('tuner-ring');
     for(let i=1; i<=13; i++) {
         const div = document.createElement('div');
@@ -109,34 +86,50 @@
         tunerRing.appendChild(div);
     }
 
-    // THE MASSIVE REEL LIST
+    // FULL GODZILLA ANTHOLOGY LIST (MP4 STREAMS)
     const archive = [
-        "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925%20Alice%20Solves%20the%20Puzzle%20%28Walt%20Disney%29.mp4",
-        "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925-07-12%20Alice%20Wins%20the%20Derby%20%28Alice%29%20-%20Video%20Dailymotion.mp4",
-        "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925-11-15%20Alice%20Rattled%20by%20Rats%20%28Alice%29%20-%20Video%20Dailymotion.mp4",
-        "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1926-01-01%20Alice%20on%20the%20Farm%20%28Alice%29%20-%20Video%20Dailymotion.mp4",
-        "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/Walt%20Disney%27s%20Alice%20Comedies%20-%20Alice%27s%20Day%20at%20Sea%20.mp4",
-        "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/Walt%20Disney%27s%20Alice%20Comedies%20-%20Alice%27s%20Spooky%20Adventure.mp4",
-        "https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Steamboat%20Willie.mp4",
-        "https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Mickey%20Mouse%20-%20The%20Haunted%20House%201929%204k%20AI%20Enhanced%20Remastered%20Colorized.mp4"
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/1.Godzilla-KingOfTheMonsters1956.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/2.GodzillaRaidsAgain1955.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/3.KingKongVsGodzilla1962.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/4.GhidorahTheThreeHeadedMonster1964.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/5.MothraVsGodzilla1964.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/6.GodzillaVsMonsterZero1965.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/7.GodzillaVsTheSeaMonster1966.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/8.SonOfGodzilla1967.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/9.DestroyAllMonsters1968.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/10.GodzillasRevenge1969.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/11.GodzillaVsTheSmogMonster1971.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/12.GodzillaVsGigan1972.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/13.GodzillaVsMegalon1973.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/14.GodzillaVsMechagodzilla1974.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/15.TerrorOfMechagodzilla1975.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/16.Godzilla1985.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/17.GodzillaVsBiollante1989.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/18.GodzillaVsKingGhidorah1991.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/19.GodzillaAndMothra-TheBattleForEarth1992.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/20.GodzillaVsMechagodzilla21993.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/21.GodzillaVsSpaceGodzilla1994.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/22.GodzillaVsDestroyah1995.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/24.Godzilla20001999.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/25.GodzillaVsMegaguirus2000.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/26.GodzillaMothraAndKingGhidorahGiantMonstersAllOutAttack2001.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/27.GodzillaAgainstMechagodzilla2002.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/28.Godzilla-TokyoS.o.s.2003.mp4",
+        "https://archive.org/download/RecurringDinosaurInfestationFilms/29.Godzilla-FinalWars2004.mp4"
+        "https://archive.org/download/GulliversTravels720p_652/GulliversTravels_512kb.mp4"
     ];
 
     let current = 0;
     let tunerDeg = 0;
     let selectorDeg = 0;
 
-    function tuneTo(url) {
-        if(!url) return;
-        const p = document.getElementById('vid-player');
-        p.src = url;
-        p.play();
-    }
-
     function nextReel() {
         selectorDeg += 30;
         document.getElementById('selector-knob').style.transform = `rotate(${selectorDeg}deg)`;
         current = (current + 1) % archive.length;
-        tuneTo(archive[current]);
+        const player = document.getElementById('tv-player');
+        player.src = archive[current];
+        player.play();
     }
 
     function clickTuner() {
