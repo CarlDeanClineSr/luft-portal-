@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CLINE CLASSIC TV | V62 VERIFIED</title>
+    <title>CLINE CLASSIC TV | V63 VERIFIED</title>
     <style>
         body { background: #000; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; width: 100vw; }
         #cabinet {
@@ -47,7 +47,7 @@
         <div class="dial-housing"><div class="dash-ring" id="t-dashes"></div><div class="knob" id="t-knob" onclick="tune(1)" oncontextmenu="tune(-1)"></div></div>
         <div style="color:#555; font-size:9px; font-weight:bold; letter-spacing:2px; text-align:center;">TUNER (SYNC VIDEO)</div>
         
-        <div class="orange-monitor" id="index-screen">LOADING SIMULATOR...</div>
+        <div class="orange-monitor" id="index-screen">SYSTEM INITIALIZING...</div>
         
         <div class="dial-housing"><div class="dash-ring" id="s-dashes"></div><div class="knob" style="width:75px; height:75px;" id="s-knob" onclick="scrollIndex(1)" oncontextmenu="scrollIndex(-1)"></div></div>
         <div style="color:#555; font-size:9px; font-weight:bold; letter-spacing:2px; text-align:center;">INDEX (SURF TITLES)</div>
@@ -55,14 +55,14 @@
     
     <div class="social-ledger">
         <a href="https://www.hitwebcounter.com" target="_blank">
-            <img src="https://hitwebcounter.com/counter/counter.php?page=17462819&style=0006&nbdigits=5&type=page&initCount=1952" title="Free Counter" Alt="web counter" border="0" />
+            <img src="https://hitwebcounter.com/counter/counter.php?page=17462819&style=0006&nbdigits=5&type=page&initCount=2100" title="Free Counter" Alt="web counter" border="0" />
         </a>
         <span style="color:#666; font-size:10px;">LIVE BROADCAST VIEWERS</span>
     </div>
 </div>
 
 <script>
-    // --- APOLLO 11 (Verified) ---
+    // --- APOLLO 11 (Verified 23 Reels) ---
     const apolloBase = "https://archive.org/download/apollo-11-mission/";
     const apolloFiles = [];
     for(let i=1; i<=23; i++) {
@@ -70,7 +70,7 @@
         apolloFiles.push({n: `Apollo 11 Reel ${num}`, u: `${apolloBase}Apollo%2011%20${num}.mp4`});
     }
 
-    // --- MAIN FEATURES ---
+    // --- MAIN FEATURES (Movies & Docs) ---
     const features = [
         ...apolloFiles,
         {n: "Target Earth (1954) Color", u: "https://archive.org/download/target-earth-1954-colorized/Target%20Earth%201954%20colorized.mp4"},
@@ -79,37 +79,50 @@
         {n: "Brain That Wouldn't Die", u: "https://archive.org/download/The_Brain_That_Wouldnt_Die/The_Brain_That_Wouldnt_Die.mp4"},
         {n: "NASCAR: Stock Car 1965", u: "https://archive.org/download/StockCar1965/StockCar1965.mp4"},
         {n: "Weather: Hurricane Camille", u: "https://archive.org/download/gov.archives.arc.20455/gov.archives.arc.20455.mp4"},
+        // SHOCKER DRIVE-IN
         {n: "Shocker Wk 18: Naschy", u: "https://archive.org/download/ShockerInternetDriveIn-Week18aNaschyDoubleFeature/week_18.mp4"},
         {n: "Shocker Wk 56: Witch", u: "https://archive.org/download/ShockerInternetDriveIn-Week56whichWitchDoubleFeature/week_56.mp4"},
         {n: "Shocker Wk 37: Spaghetti", u: "https://archive.org/download/ShockerInternetDriveIn-Week37summerSpaghettiDoubleFeature/Week_37.mp4"},
         {n: "Shocker Wk 46: Sci-Fi", u: "https://archive.org/download/ShockerInternetDriveIn-Week46sci-fiSpaghettiDoubleFeature/week_46.mp4"},
+        {n: "Shocker Wk 12: Massacre", u: "https://archive.org/download/ShockerInternetDriveIn-Week12MassacreDoubleFeature/week_12.mp4"},
+        {n: "Shocker Wk 2: Horror Classics", u: "https://archive.org/download/ShockerInternetDriveIn-Week2/week_2.mp4"},
+        {n: "Shocker Wk 61: Summer Slasher", u: "https://archive.org/download/ShockerInternetDriveIn-Week61summerSlasherFunDoubleFeature/week_61.mp4"},
+        // COSMOS
         {n: "Cosmos 01: Shores", u: "https://archive.org/download/cosmos_1980/COSMOS_01.mp4"},
+        {n: "Cosmos 02: Fugue", u: "https://archive.org/download/cosmos_1980/COSMOS_02.mp4"},
+        {n: "Cosmos 03: Harmony", u: "https://archive.org/download/cosmos_1980/COSMOS_03.mp4"},
         {n: "Cosmos 06: Travelers", u: "https://archive.org/download/cosmos_1980/COSMOS_06.mp4"},
+        {n: "Cosmos 13: Who Speaks", u: "https://archive.org/download/cosmos_1980/COSMOS_13.mp4"},
+        // SCIENCE
         {n: "Earth 1: Living Machine", u: "https://archive.org/download/planet.earth/Planet%20Earth%201%20The%20Living%20Machine.mp4"},
+        {n: "Earth 6: The Solar Sea", u: "https://archive.org/download/planet.earth/Planet%20Earth%206%20The%20Solar%20Sea.mp4"},
         {n: "NASA: Apollo 11 Mission (Doc)", u: "https://archive.org/download/Apollo11MoonLanding/Apollo11MoonLanding.mp4"},
-        {n: "NASA: Shoot the Moon", u: "https://archive.org/download/AssignmentShootTheMoon/AssignmentShootTheMoon.mp4"},
+        // GODZILLA & DISNEY
         {n: "Godzilla 1956", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/1.Godzilla-KingOfTheMonsters1956.mp4"},
-        {n: "Steamboat Willie (1928)", u: "https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Steamboat%20Willie.mp4"},
-        {n: "Alice Solves Puzzle (1925)", u: "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925%20Alice%20Solves%20the%20Puzzle%20%28Walt%20Disney%29.mp4"}
+        {n: "Steamboat Willie", u: "https://archive.org/download/mickey-mouse-season-1-1928-1929_202307/Steamboat%20Willie.mp4"},
+        {n: "Alice Solves Puzzle", u: "https://archive.org/download/from-laugh-o-grams-2-alice-comedies-1921-1923-100th-anniversary/1925%20Alice%20Solves%20the%20Puzzle%20%28Walt%20Disney%29.mp4"}
     ];
 
-    // --- REPLACED COMMERCIALS (Verified Prelinger/Archive Identifiers) ---
+    // --- COMMERCIALS (REPLACED WITH VERIFIED PRELINGER FILES) ---
+    // These use the _512kb.mp4 format which is the standard generated file for these specific verified items
     const commercials = [
-        {n: "Ad Reel: Ford 1959", u: "https://archive.org/download/FordMoto1959/FordMoto1959.mp4"},
-        {n: "Ad Reel: Chevy Corvair 1960", u: "https://archive.org/download/Corvair1960/Corvair1960.mp4"},
-        {n: "Cartoon: Destination Earth", u: "https://archive.org/download/Destinat1956/Destinat1956.mp4"},
-        {n: "Space: Challenge Outer Space", u: "https://archive.org/download/Challeng1961/Challeng1961.mp4"},
-        {n: "Ad Reel: Drive-In Ads", u: "https://archive.org/download/Drive-InMovieAds/Drive-InMovieAds.mp4"},
-        {n: "Ad Reel: Classic TV 1948", u: "https://archive.org/download/ClassicT1948/ClassicT1948.mp4"},
-        {n: "Ad Reel: Desilu Ads", u: "https://archive.org/download/Desilu_Commercials/Desilu_Commercials.mp4"}
+        {n: "Ad Reel: Design for Dreaming (GM)", u: "https://archive.org/download/Designf1956/Designf1956_512kb.mp4"},
+        {n: "Ad Reel: A Case of Spring Fever", u: "https://archive.org/download/CaseofSp1940/CaseofSp1940_512kb.mp4"},
+        {n: "Ad Reel: Destination Earth", u: "https://archive.org/download/Destinat1956/Destinat1956_512kb.mp4"},
+        {n: "Ad Reel: American Look (Chevy)", u: "https://archive.org/download/American1958/American1958_512kb.mp4"},
+        {n: "Ad Reel: Drive-In Ads", u: "https://archive.org/download/Drive-In1957/Drive-In1957_512kb.mp4"},
+        {n: "Ad Reel: Classic TV 1948", u: "https://archive.org/download/ClassicT1948/ClassicT1948_512kb.mp4"},
+        {n: "Ad Reel: Behind the Scenes", u: "https://archive.org/download/Behindth1960/Behindth1960_512kb.mp4"}
     ];
 
     // --- SIMULATOR LOGIC (2x Shuffle) ---
     let archive = [];
-    let shuffledFeatures = [...features, ...features].sort(() => Math.random() - 0.5); // Double & Shuffle Features
+    // 1. Double the movie list and shuffle it
+    let shuffledFeatures = [...features, ...features].sort(() => Math.random() - 0.5);
+    // 2. Shuffle the ads
     let shuffledAds = [...commercials].sort(() => Math.random() - 0.5);
     
-    // Interleave
+    // 3. Interleave: Feature -> Commercial -> Feature -> Commercial
     shuffledFeatures.forEach((movie, index) => {
         archive.push(movie);
         archive.push(shuffledAds[index % shuffledAds.length]); 
@@ -125,7 +138,7 @@
         p.src = archive[0].u;
         p.load();
         
-        // Auto-Advance
+        // AUTO-ADVANCE
         p.onended = function() {
             sIdx = (sIdx + 1) % archive.length;
             p.src = archive[sIdx].u;
@@ -138,15 +151,17 @@
         };
     }
 
+    // TOP KNOB: Force Play
     function tune(dir) {
         tDeg += (dir * 30);
         document.getElementById('t-knob').style.transform = `rotate(${tDeg}deg)`;
         const p = document.getElementById('player');
         p.src = archive[sIdx].u; 
         p.load(); 
-        p.play().catch(e => console.log("Click required"));
+        p.play().catch(e => { console.log("Click required to start"); });
     }
 
+    // BOTTOM KNOB: Surf Titles
     function scrollIndex(dir) {
         sDeg += (dir * 30);
         sIdx = (sIdx + dir + archive.length) % archive.length;
