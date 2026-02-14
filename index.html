@@ -5,7 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CLINE CLASSIC TV | MAN CAVE V99</title>
     <style>
-        body { background: #0a0a0a; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; width: 100vw; }
+        body { 
+            background: #0a0a0a; 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            width: 100vw; 
+        }
         #cabinet { 
             width: 96vw; 
             height: 92vh; 
@@ -52,8 +62,8 @@
         }
         .dial-housing { 
             position: relative; 
-            width: 110px; 
-            height: 140px; 
+            width: 120px; 
+            height: 160px; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
@@ -80,22 +90,23 @@
         }
         .number-ring { 
             position: absolute; 
-            width: 140px; 
-            height: 140px; 
-            top: -30px; 
-            left: -15px; 
+            width: 160px; 
+            height: 160px; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
             pointer-events: none; 
         }
         .number { 
             position: absolute; 
-            width: 24px; 
+            width: 28px; 
+            height: 28px; 
             text-align: center; 
-            font-size: 11px; 
+            line-height: 28px; 
+            font-size: 12px; 
             color: #eee; 
-            text-shadow: 0 0 4px #000; 
-            left: 50%; 
-            top: 50%; 
-            transform-origin: center; 
+            text-shadow: 0 0 5px #000; 
+            transform: translate(-50%, -50%); 
             pointer-events: none; 
         }
         .label { 
@@ -359,7 +370,7 @@
     }
 
     function tune(dir) {
-        tunerDeg += dir * 30; // 360 / 12 = 30 degrees per click
+        tunerDeg += dir * 30; // 360/12 = 30° per click
         document.getElementById('t-knob').style.transform = `rotate(${tunerDeg}deg)`;
         const cat = categories[currentCategoryIndex];
         currentVideoIndex = (currentVideoIndex + dir + cat.content.length) % cat.content.length;
@@ -367,7 +378,7 @@
     }
 
     function changeCategory(dir) {
-        categoryDeg += dir * 45; // 360 / 8 = 45 degrees per click
+        categoryDeg += dir * 45; // 360/8 = 45° per click
         document.getElementById('s-knob').style.transform = `rotate(${categoryDeg}deg)`;
         currentCategoryIndex = (currentCategoryIndex + dir + categories.length) % categories.length;
         currentVideoIndex = 0;
@@ -379,13 +390,25 @@
 
     function makeNumbers(id, count) {
         const ring = document.getElementById(id);
+        ring.innerHTML = ''; // clear any old numbers
+
+        const radius = 70; // distance from center to number center
         const step = 360 / count;
+
         for (let i = 0; i < count; i++) {
-            const angle = i * step;
+            const angle = i * step - 90; // start at top (12 o'clock)
+            const rad = angle * Math.PI / 180;
+
+            const x = radius * Math.cos(rad);
+            const y = radius * Math.sin(rad);
+
             const num = document.createElement('div');
             num.className = 'number';
-            num.style.transform = `rotate(${angle}deg) translateY(-58px) rotate(-${angle}deg)`;
+            num.style.left = `calc(50% + ${x}px)`;
+            num.style.top  = `calc(50% + ${y}px)`;
+            num.style.transform = `translate(-50%, -50%)`; // perfect centering
             num.innerText = i + 1;
+
             ring.appendChild(num);
         }
     }
