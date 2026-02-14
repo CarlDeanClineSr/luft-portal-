@@ -18,69 +18,63 @@
             font-family: 'Courier New', monospace;
         }
         #cabinet {
-            width: 96vw;
-            height: 92vh;
+            width: 98vw;
+            height: 94vh;
             background: linear-gradient(to bottom, #3d2914, #2b1d0e);
-            border: 20px solid #1a110a;
-            border-radius: 50px;
+            border: 25px solid #1a110a;
+            border-radius: 60px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: space-around;
             padding: 20px;
             box-sizing: border-box;
-            box-shadow: inset 0 0 120px #000, 0 40px 80px #000;
             position: relative;
+            box-shadow: inset 0 0 150px #000, 0 50px 100px #000;
         }
         .glass-tube {
-            width: 74%;
-            height: 94%;
+            width: 75%;
+            height: 90%;
             background: #000;
-            border-radius: 12%;
+            border-radius: 15%;
             overflow: hidden;
-            border: 16px solid #111;
+            border: 15px solid #111;
             position: relative;
             cursor: pointer;
         }
-        video, #audio-poster {
+        video {
             width: 100%;
             height: 100%;
             object-fit: contain;
             background: #000;
         }
-        #audio-poster {
-            display: none;
-            background: #111;
-            color: #fff;
-            font-size: 24px;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
         .side-panel {
-            width: 24%;
+            width: 22%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 30px;
-            padding: 20px;
+            gap: 40px;
+            padding-top: 60px;
         }
         .dial-housing {
             position: relative;
-            width: 110px;
-            height: 140px;
+            width: 120px;
+            height: 160px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: flex-start;
         }
         .knob {
             width: 90px;
             height: 90px;
-            background: #444;
+            background: #333;
             border: 6px solid #000;
             border-radius: 50%;
             cursor: pointer;
-            transition: transform 0.15s;
-            box-shadow: 0 6px 12px #000;
+            position: relative;
+            z-index: 10;
+            transition: transform 0.2s;
+            box-shadow: 0 8px 15px #000;
         }
         .knob::after {
             content: '';
@@ -88,69 +82,112 @@
             top: 8px;
             left: 50%;
             width: 5px;
-            height: 30px;
-            background: #eee;
+            height: 28px;
+            background: #fff;
             transform: translateX(-50%);
         }
         .dash-ring {
             position: absolute;
-            width: 130px;
-            height: 130px;
+            width: 140px;
+            height: 140px;
             pointer-events: none;
+            top: -25px;
         }
         .dash {
             position: absolute;
-            width: 130px;
+            width: 140px;
             height: 2px;
-            background: #555;
+            background: #444;
             transform-origin: center;
             top: 50%;
         }
-        .label, #cat-label {
-            margin-top: 12px;
+        .label {
+            color: #fff;
             font-size: 18px;
             font-weight: bold;
-            color: #fff;  /* white as requested */
-            text-shadow: 0 0 6px #000;
-            letter-spacing: 1px;
+            margin-top: 30px;
+            text-shadow: 0 0 8px #fff;
+            letter-spacing: 2px;
         }
-        #cat-label {
-            font-size: 24px;
-            margin-bottom: 20px;
+        .volume-container {
+            width: 100px;
+            height: 40px;
+            background: #2b1d0e;
+            border: 2px solid #531;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 10px #000;
+        }
+        .volume-slider {
+            width: 80px;
+            -webkit-appearance: none;
+            height: 6px;
+            background: linear-gradient(to right, #444, #ff6600);
+            outline: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #ff6600;
+            border-radius: 50%;
+            border: 2px solid #000;
+            box-shadow: 0 2px 6px #000;
+        }
+        .social-ledger {
+            position: absolute;
+            bottom: 25px;
+            right: 40px;
+            color: #444;
+            font-size: 12px;
         }
         .fs-toggle {
             position: absolute;
             top: 15px;
             left: 15px;
-            background: #222;
+            background: #111;
             color: #fff;
-            border: 2px solid #444;
-            padding: 8px 12px;
+            border: 1px solid #444;
+            padding: 10px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 10px;
+            z-index: 100;
             font-weight: bold;
             border-radius: 8px;
-            z-index: 100;
+        }
+        .version {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: #ff6600;
+            font-size: 10px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-<button class="fs-toggle" onclick="toggleFS()">FULL SCREEN</button>
+<button class="fs-toggle" onclick="toggleFS()">[ FULL SCREEN ]</button>
+<div class="version">V99</div>
 
 <div id="cabinet">
-    <div class="glass-tube" onclick="toggleFS()">
-        <video id="player" controls autoplay playsinline></video>
-        <div id="audio-poster">OLD TIME RADIO<br>AUDIO BROADCAST PLAYING</div>
+    <div class="glass-tube">
+        <video id="player" autoplay controls playsinline webkit-playsinline></video>
     </div>
 
     <div class="side-panel">
-        <div id="cat-label">catagory</div>
-
         <div class="dial-housing">
             <div class="dash-ring" id="t-dashes"></div>
             <div class="knob" id="t-knob" onclick="tune(1)" oncontextmenu="event.preventDefault(); tune(-1);"></div>
             <div class="label">TUNE</div>
+        </div>
+
+        <div class="volume-container">
+            <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider" id="volume-knob" oninput="player.volume = this.value">
         </div>
 
         <div class="dial-housing">
@@ -159,154 +196,130 @@
             <div class="label">CATEGORY</div>
         </div>
     </div>
+
+    <div class="social-ledger">
+        <a href="https://www.hitwebcounter.com" target="_blank">
+            <img src="https://hitwebcounter.com/counter/counter.php?page=17462819&style=0006&nbdigits=5&type=page&initCount=2600" border="0" />
+        </a>
+    </div>
 </div>
 
 <script>
-// ========== YOUR ORIGINAL CONTENT - RESTORED EXACTLY ==========
+    const carAds = [
+        {n: "1964 Ford Mustang", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_512kb.mp4"},
+        {n: "1965 Pontiac GTO Tiger", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Tiger_512kb.mp4"},
+        {n: "1965 Ford Mustang 2+2", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Ford_Mustang_-2plus2_512kb.mp4"},
+        {n: "1964 Oldsmobile Jetfire", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Oldsmobile_Jetfire_Turbo_Rocket_V-8_512kb.mp4"},
+        {n: "1963 Corvette Sting Ray", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Chevrolet_Corvette_Sting_Ray_512kb.mp4"},
+        {n: "1955 Ford", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Ford_512kb.mp4"},
+        {n: "1955 Chevrolet", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Chevrolet_B-W_512kb.mp4"},
+        {n: "1954 Chevy Corvette", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_Chevy_Corvette_512kb.mp4"}
+    ];
 
-const classic  = [
-    {n: "Popeye - Popeye Meets Sinbad", u: "https://archive.org/download/popeye_sindbad/Popeye_Sindbad.mp4"},
-    {n: "Betty Boop - Snow White (1933)", u: "https://archive.org/download/Betty_Boop_Snow_White/Betty_Boop_Snow_White_512kb.mp4"},
-    {n: "Superman - Mechanical Monsters", u: "https://archive.org/download/superman_the_mechanical_monsters/superman_the_mechanical_monsters_512kb.mp4"},
-    {n: "Felix the Cat - Felix in Hollywood", u: "https://archive.org/download/felix_in_hollywood/felix_in_hollywood_512kb.mp4"},
-    {n: "Popeye - Aladdin", u: "https://archive.org/download/Popeye_Aladdin/Popeye_Aladdin_512kb.mp4"},
-    {n: "Bosko - Congo Jazz (1930)", u: "https://archive.org/download/congo-jazz_202205/congo-jazz_202205.mp4"},
-    {n: "Mickey Mouse - Steamboat Willie", u: "https://archive.org/download/SteamboatWillie_201611/SteamboatWillie_201611.mp4"}
-];
+    const space = [
+        {n: "View From Space Reel 1", u: "https://archive.org/download/viewfromspace/viewfromspacereel1.mp4"},
+        {n: "View From Space Reel 2", u: "https://archive.org/download/viewfromspace/viewfromspacereel2.mp4"},
+        {n: "DOD Military Film", u: "https://archive.org/download/gov.dod.dimoc.30190/gov.dod.dimoc.30190_512kb.mp4"}
+    ];
 
-const tMovies = [
-    {n: "Night of the Living Dead", u: "https://archive.org/download/night_of_the_living_dead/Night_Living_Dead_1968.mp4"},
-    {n: "Plan 9 from Outer Space", u: "https://archive.org/download/Plan_9_from_Outer_Space_1959/Plan_9_from_Outer_Space_1959.mp4"},
-    {n: "Reefer Madness (1936)", u: "https://archive.org/download/ReeferMadness/Reefer_Madness_512kb.mp4"},
-    {n: "House on Haunted Hill", u: "https://archive.org/download/House_on_Haunted_Hill/House_on_Haunted_Hill_512kb.mp4"},
-    {n: "Carnival of Souls (1962)", u: "https://archive.org/download/CarnivalOfSouls/CarnivalOfSouls_512kb.mp4"},
-    {n: "The Little Shop of Horrors", u: "https://archive.org/download/TheLittleShopOfHorrors/TheLittleShopOfHorrors_512kb.mp4"}
-];
+    const sciFi = [
+        {n: "The Time Machine (1978)", u: "https://archive.org/download/the-time-machine-1978-time-travel-sci-fi/The%20Time%20Machine%20%281978%20Time%20Travel%20SciFi%29.mp4"},
+        {n: "Plan 9 from Outer Space", u: "https://archive.org/download/Plan9FromOuterSpace/Plan9FromOuterSpace_512kb.mp4"}
+    ];
 
-const oldTimeRadio = [
-    {n: "War of the Worlds (1938)", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-30WarOfTheWorlds.mp3", audio: true},
-    {n: "The Shadow - Death House", u: "https://archive.org/download/otr_theshadow/The%20Shadow%20-%20Death%20House%20Rescue.mp3", audio: true},
-    {n: "Suspense - Sorry Wrong Number", u: "https://archive.org/download/OTRR_Suspense_Singles/Suspense%20430520%20Sorry%20Wrong%20Number.mp3", audio: true},
-    {n: "Dragnet - Big Grandma", u: "https://archive.org/download/OTRR_Dragnet_Singles/Dragnet%20520612%20Big%20Grandma.mp3", audio: true},
-    {n: "Mercury Theatre - Dracula", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-11Dracula.mp3", audio: true}
-];
+    const classicTV = [
+        {n: "Superman - Mechanical Monsters", u: "https://archive.org/download/superman_the_mechanical_monsters/superman_the_mechanical_monsters_512kb.mp4"},
+        {n: "Superman Cartoon", u: "https://archive.org/download/Superman-1941/Cartoon-SupermanBLP-VCD.mp4"},
+        {n: "Popeye Meets Sindbad", u: "https://archive.org/download/popeye_sindbad/Popeye_Sindbad.mp4"}
+    ];
 
-const spaceAndScience = [
-    {n: "Apollo 11 Moon Landing", u: "https://archive.org/download/Apollo_11_Television_Coverage/Apollo_11_Moon_Landing.mp4"},
-    {n: "Cosmos - Carl Sagan Ep1", u: "https://archive.org/download/cosmos_1980/COSMOS_01.mp4"},
-    {n: "Powers of Ten (1977)", u: "https://archive.org/download/PowersOfTen/PowersOfTen.mp4"},
-    {n: "Solar System (1977)", u: "https://archive.org/download/solar_system_1977/solar_system_1977.mp4"},
-    {n: "Planet Earth - Living Machine", u: "https://archive.org/download/planet.earth/Planet%20Earth%201%20The%20Living%20Machine.mp4"}
-];
+    const hotRods = [
+        {n: "Wonderful World of Wheels", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"}
+    ];
 
-const vintageTV = [
-    {n: "Lone Ranger (1949)", u: "https://archive.org/download/lone_ranger_1949/Lone_Ranger_Enter_1949.mp4"},
-    {n: "Dragnet - Big Cast", u: "https://archive.org/download/Dragnet_520117_137_The_Big_Cast.mp4"},
-    {n: "Flash Gordon Rocketship", u: "https://archive.org/download/flash_gordon_rocketship/Flash_Gordon_Rocketship.mp4"},
-    {n: "Superman Serial (1948)", u: "https://archive.org/download/Superman1948Serial/Superman1948Serial.mp4"}
-];
+    const radioDramas = [
+        {n: "War of the Worlds", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-30WarOfTheWorlds.mp3"},
+        {n: "Dracula", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-11Dracula.mp3"},
+        {n: "Treasure Island", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-18TreasureIsland.mp3"}
+    ];
 
-const vintageWesterns = [
-    {n: "Tumbleweeds (1925)", u: "https://archive.org/download/tumbleweeds-1925/tumbleweeds-1925.mp4"},
-    {n: "The Virginian (1929)", u: "https://archive.org/download/the-virginian-sd/the-virginian-sd.mp4"},
-    {n: "Arizona Days (1928)", u: "https://archive.org/download/ArizonaDays/ArizonaDays.mp4"},
-    {n: "Range Feud (1931)", u: "https://archive.org/download/TheRangeFeud1931-BuckJonesAndJohnWayne/TheRangeFeud1931-BuckJonesAndJohnWayne.mp4"}
-];
+    const categories = [
+        {name: "CAR ADS", content: carAds},
+        {name: "SPACE", content: space},
+        {name: "SCI-FI", content: sciFi},
+        {name: "CLASSIC TV", content: classicTV},
+        {name: "HOT RODS", content: hotRods},
+        {name: "RADIO", content: radioDramas}
+    ];
 
-const vintageCommercials = [
-    {n: "1950s Car Commercials", u: "https://archive.org/download/1950sCarCommercials/1950sCarCommercials.mp4"},
-    {n: "1964 Ford Mustang Ad", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_512kb.mp4"},
-    {n: "Classic Beer Commercials", u: "https://archive.org/download/classic-beer-commercials/Classic%20Beer%20Commercials.mp4"},
-    {n: "Drive-In Intermission Ads", u: "https://archive.org/download/Drive-InMovieAds/Drive-InMovieAds.mp4"}
-];
+    let currentCategoryIndex = 0;
+    let currentVideoIndex = 0;
+    let tunerDeg = 0;
+    let categoryDeg = 0;
 
-const educational = [
-    {n: "Duck and Cover (1951)", u: "https://archive.org/download/DuckandC1951/DuckandC1951.mp4"},
-    {n: "A is for Atom (1953)", u: "https://archive.org/download/isforAto1953/isforAto1953.mp4"},
-    {n: "How to Build a Time Machine", u: "https://archive.org/download/0406_Trail_of_the_Rocket_00_09_29_00/0406_Trail_of_the_Rocket_00_09_29_00.mp4"}
-];
+    const player = document.getElementById('player');
 
-let currentCategoryIndex = 0;
-let currentVideoIndex = 0;
-let tunerDeg = 0;
-let categoryDeg = 0;
+    window.onload = () => {
+        makeDashes('t-dashes', 100);
+        makeDashes('s-dashes', 80);
+        loadAndPlay();
+    };
 
-const player = document.getElementById('player');
-const audioPoster = document.getElementById('audio-poster');
-const catLabel = document.getElementById('cat-label');
-
-window.onload = () => {
-    makeDashes('t-dashes', 100);
-    makeDashes('s-dashes', 80);
-    loadAndPlay();
-};
-
-function loadAndPlay() {
-    const cat = categories[currentCategoryIndex];
-    const item = cat.content[currentVideoIndex];
-    
-    if (!item) return;
-
-    catLabel.innerText = cat.name;
-    
-    if (item.audio) {
-        player.style.display = 'none';
-        audioPoster.style.display = 'flex';
-        player.muted = false;
-    } else {
-        player.style.display = 'block';
-        audioPoster.style.display = 'none';
+    function loadAndPlay() {
+        const cat = categories[currentCategoryIndex];
+        const video = cat.content[currentVideoIndex];
+        player.src = video.u;
+        player.load();
+        player.play().catch(e => console.log('Click screen to start'));
     }
 
-    player.src = item.u;
-    player.load();
-    player.play().catch(() => console.log('Click to start'));
-}
-
-function tune(dir) {
-    tunerDeg += dir * 30;
-    document.getElementById('t-knob').style.transform = `rotate(${tunerDeg}deg)`;
-    
-    const cat = categories[currentCategoryIndex];
-    currentVideoIndex = (currentVideoIndex + dir + cat.content.length) % cat.content.length;
-    
-    loadAndPlay();
-}
-
-function changeCategory(dir) {
-    categoryDeg += dir * 30;
-    document.getElementById('s-knob').style.transform = `rotate(${categoryDeg}deg)`;
-    
-    currentCategoryIndex = (currentCategoryIndex + dir + categories.length) % categories.length;
-    currentVideoIndex = 0;
-    
-    loadAndPlay();
-}
-
-player.addEventListener('ended', () => tune(1));
-player.addEventListener('error', () => {
-    console.log('Error - skipping');
-    setTimeout(() => tune(1), 1500);
-});
-
-function makeDashes(id, count) {
-    const ring = document.getElementById(id);
-    for (let i = 0; i < count; i++) {
-        const d = document.createElement('div');
-        d.className = 'dash';
-        d.style.transform = `rotate(${i * (360 / count)}deg)`;
-        ring.appendChild(d);
+    function tune(dir) {
+        tunerDeg += dir * 30;
+        document.getElementById('t-knob').style.transform = `rotate(${tunerDeg}deg)`;
+        
+        const cat = categories[currentCategoryIndex];
+        currentVideoIndex = (currentVideoIndex + dir + cat.content.length) % cat.content.length;
+        
+        loadAndPlay();
     }
-}
 
-function toggleFS() {
-    const cab = document.getElementById('cabinet');
-    if (!document.fullscreenElement) {
-        cab.requestFullscreen?.() || cab.webkitRequestFullscreen?.();
-    } else {
-        document.exitFullscreen?.() || document.webkitExitFullscreen?.();
+    function changeCategory(dir) {
+        categoryDeg += dir * 30;
+        document.getElementById('s-knob').style.transform = `rotate(${categoryDeg}deg)`;
+        
+        currentCategoryIndex = (currentCategoryIndex + dir + categories.length) % categories.length;
+        currentVideoIndex = 0;
+        
+        loadAndPlay();
     }
-}
+
+    player.addEventListener('ended', () => {
+        tune(1);
+    });
+
+    player.addEventListener('error', () => {
+        console.log('Video error, skipping...');
+        setTimeout(() => tune(1), 1000);
+    });
+
+    function makeDashes(id, count) {
+        const ring = document.getElementById(id);
+        for (let i = 0; i < count; i++) {
+            const d = document.createElement('div');
+            d.className = 'dash';
+            d.style.transform = `rotate(${i * (360 / count)}deg)`;
+            ring.appendChild(d);
+        }
+    }
+
+    function toggleFS() {
+        const c = document.getElementById('cabinet');
+        if (!document.fullscreenElement) {
+            c.requestFullscreen?.() || c.webkitRequestFullscreen?.();
+        } else {
+            document.exitFullscreen();
+        }
+    }
 </script>
 </body>
 </html>
