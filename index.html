@@ -82,17 +82,10 @@
             border: 8px solid #111; 
             border-radius: 6px; 
         }
-        .dial-row {
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
-            max-width: 400px;
-            margin: 10px 0;
-        }
         .dial-housing { 
             position: relative; 
             width: clamp(100px, 40vw, 140px); 
-            height: clamp(100px, 40vw, 140px); 
+            height: clamp(140px, 40vw, 180px); 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
@@ -122,8 +115,8 @@
         }
         .number-ring { 
             position: absolute; 
-            width: clamp(140px, 50vw, 180px); 
-            height: clamp(140px, 50vw, 180px); 
+            width: clamp(140px, 50vw, 200px); 
+            height: clamp(140px, 50vw, 200px); 
             top: 50%; 
             left: 50%; 
             transform: translate(-50%, -50%); 
@@ -131,11 +124,11 @@
         }
         .number { 
             position: absolute; 
-            width: 28px; 
-            height: 28px; 
+            width: clamp(26px, 6vw, 32px); 
+            height: clamp(26px, 6vw, 32px); 
             text-align: center; 
-            line-height: 28px; 
-            font-size: clamp(10px, 3vw, 12px); 
+            line-height: clamp(26px, 6vw, 32px); 
+            font-size: clamp(10px, 3vw, 13px); 
             color: #eee; 
             text-shadow: 0 0 5px #000; 
             transform: translate(-50%, -50%); 
@@ -200,6 +193,7 @@
         }
 
         @media (min-width: 769px) {
+            body { flex-direction: row; }
             #cabinet { 
                 flex-direction: row; 
                 padding: 50px 80px; 
@@ -224,14 +218,14 @@
                 border-width: 10px; 
             }
             .number-ring { 
-                width: 180px; 
-                height: 180px; 
+                width: 200px; 
+                height: 200px; 
             }
             .number { 
-                width: 28px; 
-                height: 28px; 
-                line-height: 28px; 
-                font-size: 12px; 
+                width: 32px; 
+                height: 32px; 
+                line-height: 32px; 
+                font-size: 13px; 
             }
         }
     </style>
@@ -268,7 +262,6 @@
 </div>
 
 <script>
-    // Your exact content lists (unchanged from your last paste)
     const A = [
         {n: "Wonderful World of Wheels", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"},
         {n: "Star Trek - Where No Man Has Gone Before", u: "https://archive.org/download/JimmyAndTheFederationGang/1x02-WhereNoManHasGoneBefore.mp4"},
@@ -278,7 +271,7 @@
     ];
     
     const B = [
-        {n: "1954 Chevy Corvette", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_Chevy_Corvette_512kb.mp4"}
+        {n: "1954 Chevy Corvette", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_Chevy_Corvette_512kb.mp4"},
         {n: "View From Space Reel 1", u: "https://archive.org/download/viewfromspace/viewfromspacereel1.mp4"},
         {n: "View From Space Reel 2", u: "https://archive.org/download/viewfromspace/viewfromspacereel2.mp4"},
         {n: "This Is Redstone Arsenal", u: "https://archive.org/download/16764thisisredstonearsenalvwr/16764%20This%20Is%20Redstone%20Arsenal_vwr.mp4"},
@@ -326,9 +319,10 @@
     const categories = [
         {name: "A", content: A},
         {name: "B", content: B},
-        {name: "D", content: C},
-        {name: "E", content: D},
-        {name: "F", content: E},
+        {name: "C", content: C},
+        {name: "D", content: D},
+        {name: "E", content: E},
+        {name: "F", content: F}
     ];
 
     let currentCategoryIndex = 0;
@@ -365,7 +359,7 @@
     }
 
     function tune(dir) {
-        tunerDeg += dir * 18;
+        tunerDeg += dir * 30;
         document.getElementById('t-knob').style.transform = `rotate(${tunerDeg}deg)`;
         const cat = categories[currentCategoryIndex];
         currentVideoIndex = (currentVideoIndex + dir + cat.content.length) % cat.content.length;
@@ -423,7 +417,6 @@
         }
     }
 
-    // Small analog clock (hands + marks only)
     function startClock() {
         const clock = document.getElementById('clock');
         clock.innerHTML = `
