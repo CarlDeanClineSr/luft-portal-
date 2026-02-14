@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boomer Classic TV and Audio| THE BOOMER Classic TV & Audio Player V99</title>
-    <style>        body { 
+    <title>CLINE CLASSIC TV | MAN CAVE V99</title>
+    <style>
+        body { 
             background: #0a0a0a; 
             margin: 0; 
             padding: 0; 
@@ -14,6 +15,7 @@
             justify-content: center; 
             height: 100vh; 
             width: 100vw; 
+            font-family: 'Courier New', Courier, monospace;
         }
         #cabinet { 
             width: 96vw; 
@@ -36,9 +38,23 @@
             box-shadow: inset 0 0 90px #000, 0 0 50px #000; 
             position: relative; 
         }
-        video, #audio-face { width: 100%; height: 100%; object-fit: contain; background: #000; }
-        #audio-face { display: none; font-size: 150px; align-items: center; justify-content: center; animation: bounce 0.8s infinite alternate; }
-        @keyframes bounce { from { transform: scale(0.94); } to { transform: scale(1.06); } }
+        video, #audio-face { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain; 
+            background: #000; 
+        }
+        #audio-face { 
+            display: none; 
+            font-size: 150px; 
+            align-items: center; 
+            justify-content: center; 
+            animation: bounce 0.8s infinite alternate; 
+        }
+        @keyframes bounce { 
+            from { transform: scale(0.94); } 
+            to { transform: scale(1.06); } 
+        }
         .right-panel { 
             width: 24%; 
             height: 100%; 
@@ -128,6 +144,7 @@
             display: flex; 
             align-items: center; 
             justify-content: center; 
+            margin-top: 15px;
         }
         .volume-slider { 
             width: 62px; 
@@ -199,12 +216,105 @@
 </div>
 
 <script>
-    // All your content is here (unchanged)
-    const carAds = [ /* your car ads */ ];
-    const space = [ /* your space */ ];
-    const sciFi = [ /* your sci-fi */ ];
-    const classicTV = [ /* your classic TV */ ];
-    const hotRods = [ /* your hot rods */ ];
+    const carAds = [
+        {n: "Star Trek - Tomorrow Is Yesterday", u: "https://archive.org/download/JimmyAndTheFederationGang/1x22-TomorrowIsYesterday.mp4"},
+        {n: "Wonderful World of Wheels", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"}
+        {n: "Star Trek - Where No Man Has Gone Before", u: "https://archive.org/download/JimmyAndTheFederationGang/1x02-WhereNoManHasGoneBefore.mp4"},
+        {n: "Star Trek - The Corbomite Maneuver", u: "https://archive.org/download/JimmyAndTheFederationGang/1x03-TheCorbomiteManeuver.mp4"},
+        {n: "Star Trek - Mudd's Women", u: "https://archive.org/download/JimmyAndTheFederationGang/1x04-MuddsWomen.mp4"},
+        {n: "Star Trek - The Galileo Seven", u: "https://archive.org/download/JimmyAndTheFederationGang/1x14-TheGalileoSeven.mp4"},
+        {n: "1964 Ford Mustang", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_512kb.mp4"},
+        {n: "1965 Pontiac GTO Tiger", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Tiger_512kb.mp4"},
+        {n: "1965 Ford Mustang 2+2", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Ford_Mustang_-2plus2_512kb.mp4"},
+        {n: "1964 Oldsmobile Jetfire", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Oldsmobile_Jetfire_Turbo_Rocket_V-8_512kb.mp4"},
+        {n: "1963 Corvette Sting Ray", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Chevrolet_Corvette_Sting_Ray_512kb.mp4"},
+        {n: "1955 Ford", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Ford_512kb.mp4"},
+        {n: "1955 Chevrolet", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Chevrolet_B-W_512kb.mp4"},
+        {n: "1954 Chevy Corvette", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_Chevy_Corvette_512kb.mp4"}
+    ];
+
+    const space = [
+        {n: "View From Space Reel 1", u: "https://archive.org/download/viewfromspace/viewfromspacereel1.mp4"},
+        {n: "View From Space Reel 2", u: "https://archive.org/download/viewfromspace/viewfromspacereel2.mp4"},
+        {n: "DOD Military Film", u: "https://archive.org/download/gov.dod.dimoc.30190/gov.dod.dimoc.30190_512kb.mp4"},
+        {n: "This Is Redstone Arsenal", u: "https://archive.org/download/16764thisisredstonearsenalvwr/16764%20This%20Is%20Redstone%20Arsenal_vwr.mp4"},
+        {n: "20 Years Of Strategic Air Command", u: "https://archive.org/download/2927420YearsOfStrategicAirCommandMos/29274%2020%20years%20Of%20Strategic%20Air%20Command_mos.mp4"},
+        {n: "AAF Combat Camera Units Weekly Digest pt 63", u: "https://archive.org/download/42124aafcombatcameraunitsweeklydigestpt63vwr/42124%20AAF%20Combat%20Camera%20Units%20Weekly%20Digest%20pt%2063_vwr.mp4"},
+        {n: "Normandy Invasion", u: "https://archive.org/download/87084NormandyInvasion/87084%20Normandy%20Invasion.mp4"},
+        {n: "NASA 1971 Aeronautics And Space Highlights", u: "https://archive.org/download/19194nasa1971aeronauticsandspacehighlightsvwr/19194%20NASA%201971%20Aeronautics%20And%20Space%20Highlights_vwr.mp4"},
+        {n: "NASA Highlights 1967", u: "https://archive.org/download/76474NASAHighlights1967/76474%20NASA%20Highlights%201967.mp4"},
+        {n: "Apollo Digest Saturn Second Stage", u: "https://archive.org/download/80004-apollo-digest-saturn-second-stage/80004%20Apollo%20Digest%20Saturn%20Second%20Stage.mp4"},
+        {n: "NASA Manned Space Flight Quarterly Report 11", u: "https://archive.org/download/68384-nasa-manned-space-flight-quaterly-report-11-vwr/68384%20NASA%20Manned%20Space%20Flight%20Quaterly%20Report%2011_vwr.mp4"},
+        {n: "NASA Manned Space Flight January 1964", u: "https://archive.org/download/xd-10044-nasa-manned-space-flight-january-1964-vwr/XD10044%2BNASA%2BManned%2BSpace%2BFlight%2BJanuary%2B1964_vwr.mp4"}
+    ];
+
+    const sciFi = [
+        {n: "Star Trek - Tomorrow Is Yesterday", u: "https://archive.org/download/JimmyAndTheFederationGang/1x22-TomorrowIsYesterday.mp4"},
+        {n: "Star Trek - Where No Man Has Gone Before", u: "https://archive.org/download/JimmyAndTheFederationGang/1x02-WhereNoManHasGoneBefore.mp4"},
+        {n: "Star Trek - The Corbomite Maneuver", u: "https://archive.org/download/JimmyAndTheFederationGang/1x03-TheCorbomiteManeuver.mp4"},
+        {n: "Star Trek - Mudd's Women", u: "https://archive.org/download/JimmyAndTheFederationGang/1x04-MuddsWomen.mp4"},
+        {n: "Star Trek - The Galileo Seven", u: "https://archive.org/download/JimmyAndTheFederationGang/1x14-TheGalileoSeven.mp4"},
+        {n: "The Time Machine (1978)", u: "https://archive.org/download/the-time-machine-1978-time-travel-sci-fi/The%20Time%20Machine%20%281978%20Time%20Travel%20SciFi%29.mp4"},
+        {n: "Plan 9 from Outer Space", u: "https://archive.org/download/Plan9FromOuterSpace/Plan9FromOuterSpace_512kb.mp4"},
+        {n: "NASA 1971 Aeronautics And Space Highlights", u: "https://archive.org/download/19194nasa1971aeronauticsandspacehighlightsvwr/19194%20NASA%201971%20Aeronautics%20And%20Space%20Highlights_vwr.mp4"},
+        {n: "Destroy All Monsters (1968)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/9.DestroyAllMonsters1968.mp4"},
+        {n: "Son of Godzilla (1967)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/8.SonOfGodzilla1967.mp4"},
+        {n: "Godzilla vs The Sea Monster (1966)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/7.GodzillaVsTheSeaMonster1966.mp4"},
+        {n: "Godzilla vs Monster Zero (1965)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/6.GodzillaVsMonsterZero1965.mp4"},
+        {n: "Mothra vs Godzilla (1964)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/5.MothraVsGodzilla1964.mp4"},
+        {n: "Ghidorah The Three Headed Monster (1964)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/4.GhidorahTheThreeHeadedMonster1964.mp4"},
+        {n: "King Kong vs Godzilla (1962)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/3.KingKongVsGodzilla1962.mp4"},
+        {n: "Godzilla Final Wars (2004)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/29.Godzilla-FinalWars2004.mp4"},
+        {n: "Godzilla Tokyo S.O.S. (2003)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/28.Godzilla-TokyoS.o.s.2003.mp4"},
+        {n: "Godzilla Against Mechagodzilla (2002)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/27.GodzillaAgainstMechagodzilla2002.mp4"},
+        {n: "Godzilla Mothra And King Ghidorah (2001)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/26.GodzillaMothraAndKingGhidorahGiantMonstersAllOutAttack2001.mp4"},
+        {n: "Godzilla vs Megaguirus (2000)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/25.GodzillaVsMegaguirus2000.mp4"},
+        {n: "Godzilla 2000 (1999)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/24.Godzilla20001999.mp4"},
+        {n: "Godzilla 1998", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/23.Godzilla1998.mp4"},
+        {n: "Godzilla vs Destroyah (1995)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/22.GodzillaVsDestroyah1995.mp4"},
+        {n: "Star Trek - Tomorrow Is Yesterday", u: "https://archive.org/download/JimmyAndTheFederationGang/1x22-TomorrowIsYesterday.mp4"},
+        {n: "Star Trek - Where No Man Has Gone Before", u: "https://archive.org/download/JimmyAndTheFederationGang/1x02-WhereNoManHasGoneBefore.mp4"},
+        {n: "Star Trek - The Corbomite Maneuver", u: "https://archive.org/download/JimmyAndTheFederationGang/1x03-TheCorbomiteManeuver.mp4"},
+        {n: "Star Trek - Mudd's Women", u: "https://archive.org/download/JimmyAndTheFederationGang/1x04-MuddsWomen.mp4"},
+        {n: "Star Trek - The Galileo Seven", u: "https://archive.org/download/JimmyAndTheFederationGang/1x14-TheGalileoSeven.mp4"},
+        {n: "Godzilla vs SpaceGodzilla (1994)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/21.GodzillaVsSpaceGodzilla1994.mp4"},
+        {n: "Godzilla vs Mechagodzilla II (1993)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/20.GodzillaVsMechagodzilla21993.mp4"},
+        {n: "Godzilla And Mothra The Battle For Earth (1992)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/19.GodzillaAndMothra-TheBattleForEarth1992.mp4"},
+        {n: "Godzilla vs King Ghidorah (1991)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/18.GodzillaVsKingGhidorah1991.mp4"},
+        {n: "Godzilla vs Biollante (1989)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/17.GodzillaVsBiollante1989.mp4"},
+        {n: "Godzilla 1985", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/16.Godzilla1985.mp4"},
+        {n: "Terror Of Mechagodzilla (1975)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/15.TerrorOfMechagodzilla1975.mp4"},
+        {n: "Godzilla vs Mechagodzilla (1974)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/14.GodzillaVsMechagodzilla1974.gif"},
+        {n: "Frankenstein (1931 Restored)", u: "https://archive.org/download/frankenstein-1931-restored-movie-720p-hd/frankenstein-1931-restored%20movie-720p-hd.mp4"},
+        {n: "Star Trek - Tomorrow Is Yesterday", u: "https://archive.org/download/JimmyAndTheFederationGang/1x22-TomorrowIsYesterday.mp4"},
+        {n: "Star Trek - Where No Man Has Gone Before", u: "https://archive.org/download/JimmyAndTheFederationGang/1x02-WhereNoManHasGoneBefore.mp4"},
+        {n: "Star Trek - The Corbomite Maneuver", u: "https://archive.org/download/JimmyAndTheFederationGang/1x03-TheCorbomiteManeuver.mp4"},
+        {n: "Star Trek - Mudd's Women", u: "https://archive.org/download/JimmyAndTheFederationGang/1x04-MuddsWomen.mp4"},
+        {n: "Star Trek - The Galileo Seven", u: "https://archive.org/download/JimmyAndTheFederationGang/1x14-TheGalileoSeven.mp4"},
+        {n: "Science Fiction Theater - Beyond", u: "https://dn720408.ca.archive.org/0/items/science-fiction-theatre/Science%20Fiction%20Theater%20S01%20E01%20Beyond_x264.ia.mp4"},
+        {n: "Science Fiction Theater - Y.O.R.D.", u: "https://archive.org/download/science-fiction-theatre/Science%20Fiction%20Theater%20S01%20E04%20Y.O.R.D._x264.mp4"},
+        {n: "Science Fiction Theater - No Food for Thought", u: "https://archive.org/download/science-fiction-theatre/Science%20Fiction%20Theater%20S01%20E06%20No%20Food%20for%20Thought_x264.mp4"},
+        {n: "Science Fiction Theater - The Mind Machine", u: "https://archive.org/download/science-fiction-theatre/Science%20Fiction%20Theater%20S02%20E10%20The%20Mind%20Machine_x264.mp4"},
+        {n: "Science Fiction Theater - Living Lights", u: "https://archive.org/download/science-fiction-theatre/Science%20Fiction%20Theater%20S02%20E17%20Living%20Lights_x264.mp4"},
+        {n: "Science Fiction Theater - Bullet Proof", u: "https://archive.org/download/science-fiction-theatre/Science%20Fiction%20Theater%20S02%20E06%20Bullet%20Proof_x264.mp4"},
+        {n: "Science Fiction Theater - The Man Who Didn't Know", u: "https://archive.org/download/science-fiction-theatre/Science%20Fiction%20Theater%20S02%20E13%20The%20Man%20Who%20Didnt%20Know_x264.mp4"},
+        {n: "Science Fiction Theater - The Last Barrier", u: "https://archive.org/download/science-fiction-theatre/Science%20Fiction%20Theater%20S02%20E28%20The%20Last%20Barrier_x264.mp4"}
+    ];
+
+    const classicTV = [
+        {n: "Superman - Mechanical Monsters", u: "https://archive.org/download/superman_the_mechanical_monsters/superman_the_mechanical_monsters_512kb.mp4"},
+        {n: "Superman Cartoon", u: "https://archive.org/download/Superman-1941/Cartoon-SupermanBLP-VCD.mp4"},
+        {n: "Popeye Meets Sindbad", u: "https://archive.org/download/popeye_sindbad/Popeye_Sindbad.mp4"},
+        {n: "Monty Python - Whither Canada?", u: "https://archive.org/download/mpfc-remastered_20210305_1553/01.%20Whither%20Canada%3F.mp4"},
+        {n: "Silly Symphonies - The Skeleton Dance (1929)", u: "https://archive.org/download/walt-disneys-silly-symphonies-the-complete-collection-1929-39/01%20-%20The%20Skeleton%20Dance%20%281929%29.mp4"},
+        {n: "Silly Symphonies - King Neptune", u: "https://archive.org/download/videoplayback-3_202106-walt-disney-king-neptune/videoplayback%20%283%29.mp4"}
+    ];
+
+    const hotRods = [
+        {n: "Wonderful World of Wheels", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"},
+        {n: "NASA 1971 Aeronautics And Space Highlights", u: "https://archive.org/download/19194nasa1971aeronauticsandspacehighlightsvwr/19194%20NASA%201971%20Aeronautics%20And%20Space%20Highlights_vwr.mp4"}, 
+    ];
+
     const radioDramas = [
         {n: "War of the Worlds", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-30WarOfTheWorlds.mp3", audio: true},
         {n: "Dracula", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-11Dracula.mp3", audio: true},
@@ -275,7 +385,7 @@
         const ring = document.getElementById(id);
         ring.innerHTML = '';
 
-        const radius = 62;   // <-- THIS IS THE KEY CHANGE - tight to the outer edge of the knob
+        const radius = 55; // tight to outer edge of knob (after border)
         const step = 360 / count;
 
         for (let i = 0; i < count; i++) {
@@ -298,8 +408,12 @@
 
     function toggleFS() {
         const c = document.getElementById('cabinet');
-        if (!document.fullscreenElement) c.requestFullscreen?.() || c.webkitRequestFullscreen?.();
-        else document.exitFullscreen();
+        if (!document.fullscreenElement) {
+            if (c.requestFullscreen) c.requestFullscreen();
+            else if (c.webkitRequestFullscreen) c.webkitRequestFullscreen();
+        } else {
+            document.exitFullscreen();
+        }
     }
 </script>
 </body>
