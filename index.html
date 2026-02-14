@@ -81,14 +81,7 @@
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-        }
-        .knob-container {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            justify-content: center; 
         }
         .knob { 
             width: 74px; 
@@ -98,53 +91,25 @@
             border-radius: 50%; 
             cursor: pointer; 
             box-shadow: 0 10px 25px #000; 
-            position: absolute; 
-            top: 60%; /* lowered 20% from center (50% → 60%) */
-            left: 50%; 
-            transform: translate(-50%, -50%); 
+            position: relative; 
         }
         .knob::after { 
             content: ''; 
             position: absolute; 
-            top: 19px; 
+            top: 50%; 
             left: 50%; 
             width: 4px; 
-            height: 18px; 
+            height: 28px; 
             background: #ddd; 
-            transform: translateX(-50%); 
-        }
-        .number-ring { 
-            position: absolute; 
-            width: 200px; 
-            height: 200px; 
-            top: 50%; 
-            left: 50%; 
             transform: translate(-50%, -50%); 
-            pointer-events: none; 
-        }
-        .number { 
-            position: absolute; 
-            width: 32px; 
-            height: 32px; 
-            text-align: center; 
-            line-height: 32px; 
-            font-size: 13px; 
-            color: #eee; 
-            text-shadow: 0 0 5px #000; 
-            transform: translate(-50%, -50%); 
-            pointer-events: none; 
+            transform-origin: center top; 
         }
         .label { 
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
+            margin-top: 10px; 
             color: #eee; 
-            font-size: 11px; 
+            font-size: 13px; 
             font-weight: bold; 
             text-shadow: 0 0 6px #000; 
-            pointer-events: none; 
-            z-index: 2; 
         }
         .volume-container { 
             width: 82px; 
@@ -187,7 +152,7 @@
         .version { 
             position: absolute; 
             top: 25px; 
-            right: 100px; 
+            right: 25px; 
             color: #ff6600; 
             font-size: 10px; 
             font-weight: bold; 
@@ -221,11 +186,8 @@
         <div class="speaker-grille"></div>
 
         <div class="dial-housing">
-            <div class="knob-container">
-                <div class="number-ring" id="t-numbers"></div>
-                <div class="knob" id="t-knob" onclick="tune(1)" oncontextmenu="event.preventDefault(); tune(-1);"></div>
-                <div class="label">TUNE</div>
-            </div>
+            <div class="knob" id="t-knob" onclick="tune(1)" oncontextmenu="event.preventDefault(); tune(-1);"></div>
+            <div class="label">TUNE</div>
         </div>
 
         <div class="volume-container">
@@ -233,17 +195,13 @@
         </div>
 
         <div class="dial-housing">
-            <div class="knob-container">
-                <div class="number-ring" id="s-numbers"></div>
-                <div class="knob" id="s-knob" onclick="changeCategory(1)" oncontextmenu="event.preventDefault(); changeCategory(-1);"></div>
-                <div class="label">CATEGORY</div>
-            </div>
+            <div class="knob" id="s-knob" onclick="changeCategory(1)" oncontextmenu="event.preventDefault(); changeCategory(-1);"></div>
+            <div class="label">CATEGORY</div>
         </div>
     </div>
 </div>
 
 <script>
-    // Your exact content lists (unchanged from your last paste)
     const carAds = [
         {n: "Star Trek - Tomorrow Is Yesterday", u: "https://archive.org/download/JimmyAndTheFederationGang/1x22-TomorrowIsYesterday.mp4"},
         {n: "Wonderful World of Wheels", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"},
@@ -347,8 +305,6 @@
     const audioFace = document.getElementById('audio-face');
 
     window.onload = () => {
-        makeNumbers('t-numbers', 12);
-        makeNumbers('s-numbers', 8);
         loadAndPlay();
         startClock();
     };
@@ -389,31 +345,6 @@
 
     player.addEventListener('ended', () => tune(1));
     player.addEventListener('error', () => { setTimeout(() => tune(1), 1000); });
-
-    function makeNumbers(id, count) {
-        const ring = document.getElementById(id);
-        ring.innerHTML = '';
-
-        const radius = 52; // tight to smaller knob edge
-        const step = 360 / count;
-
-        for (let i = 0; i < count; i++) {
-            const angle = i * step - 90;
-            const rad = angle * Math.PI / 180;
-
-            const x = radius * Math.cos(rad);
-            const y = radius * Math.sin(rad);
-
-            const num = document.createElement('div');
-            num.className = 'number';
-            num.style.left = `calc(50% + ${x}px)`;
-            num.style.top  = `calc(50% + ${y}px)`;
-            num.style.transform = `translate(-50%, -50%)`;
-            num.innerText = i + 1;
-
-            ring.appendChild(num);
-        }
-    }
 
     function toggleFS() {
         const elem = document.getElementById('cabinet');
