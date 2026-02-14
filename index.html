@@ -62,17 +62,17 @@
         }
         .dial-housing { 
             position: relative; 
-            width: 120px; 
-            height: 160px; 
+            width: 140px; 
+            height: 180px; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
         }
         .knob { 
-            width: 80px; 
-            height: 80px; 
+            width: 90px; 
+            height: 90px; 
             background: #1f1f1f; 
-            border: 10px solid #0f0f0f; 
+            border: 12px solid #0f0f0f; 
             border-radius: 50%; 
             cursor: pointer; 
             box-shadow: 0 10px 25px #000; 
@@ -81,17 +81,17 @@
         .knob::after { 
             content: ''; 
             position: absolute; 
-            top: 20px; 
+            top: 22px; 
             left: 50%; 
-            width: 4px;          /* reduced to ~1/8 original size */
-            height: 20px;        /* shorter too */
+            width: 4px;           /* very thin now */
+            height: 22px; 
             background: #ddd; 
             transform: translateX(-50%); 
         }
         .number-ring { 
             position: absolute; 
-            width: 180px;        /* larger ring for better centering & spacing */
-            height: 180px; 
+            width: 220px;         /* larger ring to clear knob + label */
+            height: 220px; 
             top: 50%; 
             left: 50%; 
             transform: translate(-50%, -50%); 
@@ -99,11 +99,11 @@
         }
         .number { 
             position: absolute; 
-            width: 28px; 
-            height: 28px; 
+            width: 32px; 
+            height: 32px; 
             text-align: center; 
-            line-height: 28px; 
-            font-size: 12px; 
+            line-height: 32px; 
+            font-size: 13px; 
             color: #eee; 
             text-shadow: 0 0 5px #000; 
             transform: translate(-50%, -50%); 
@@ -115,7 +115,7 @@
             left: 50%; 
             transform: translate(-50%, -50%); 
             color: #eee; 
-            font-size: 11px;        /* smaller to fit nicely inside dial */
+            font-size: 10px;      /* small enough to fit inside knob */
             font-weight: bold; 
             text-shadow: 0 0 6px #000; 
             pointer-events: none; 
@@ -184,7 +184,7 @@
         <div class="dial-housing">
             <div class="number-ring" id="t-numbers"></div>
             <div class="knob" id="t-knob" onclick="tune(1)" oncontextmenu="event.preventDefault(); tune(-1);"></div>
-            <div class="label">TUNE</div> <!-- now centered on knob -->
+            <div class="label">TUNE</div>
         </div>
 
         <div class="volume-container">
@@ -194,13 +194,13 @@
         <div class="dial-housing">
             <div class="number-ring" id="s-numbers"></div>
             <div class="knob" id="s-knob" onclick="changeCategory(1)" oncontextmenu="event.preventDefault(); changeCategory(-1);"></div>
-            <div class="label">CATEGORY</div> <!-- now centered on knob -->
+            <div class="label">CATEGORY</div>
         </div>
     </div>
 </div>
 
 <script>
-    // Your content arrays (all links restored)
+    // All your original content arrays are fully restored here
     const carAds = [
         {n: "1964 Ford Mustang", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_512kb.mp4"},
         {n: "1965 Pontiac GTO Tiger", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Tiger_512kb.mp4"},
@@ -397,11 +397,11 @@
         const ring = document.getElementById(id);
         ring.innerHTML = ''; // clear old numbers
 
-        const radius = 75; // distance from center to number (tuned for centering)
+        const radius = 85; // increased radius to push numbers further out (avoids label overlap)
         const step = 360 / count;
 
         for (let i = 0; i < count; i++) {
-            const angle = i * step - 90; // start at top
+            const angle = i * step - 90; // start at top (12 o'clock)
             const rad = angle * Math.PI / 180;
 
             const x = radius * Math.cos(rad);
