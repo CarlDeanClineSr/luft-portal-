@@ -6,24 +6,25 @@
     <title>CLINE CLASSIC TV | MAN CAVE V99</title>
     <style>
         body { background: #000; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; width: 100vw; font-family: 'Courier New', monospace; }
-        #cabinet { width: 98vw; height: 94vh; background: linear-gradient(to bottom, #3d2914, #2b1d0e); border: 25px solid #1a110a; border-radius: 60px; display: flex; align-items: center; justify-content: space-between; padding: 30px 90px; box-sizing: border-box; position: relative; box-shadow: inset 0 0 150px #000, 0 50px 100px #000; }
-        .glass-tube { width: 88%; height: 92%; background: #000; border-radius: 15%; overflow: hidden; border: 18px solid #111; position: relative; cursor: pointer; margin-right: 60px; box-shadow: inset 0 0 60px #000; }
+        #cabinet { width: 98vw; height: 94vh; background: linear-gradient(to bottom, #3d2914, #2b1d0e); border: 25px solid #1a110a; border-radius: 60px; display: flex; align-items: center; justify-content: space-between; padding: 30px 100px; box-sizing: border-box; position: relative; box-shadow: inset 0 0 150px #000, 0 50px 100px #000; }
+        .glass-tube { width: 88%; height: 92%; background: #000; border-radius: 15%; overflow: hidden; border: 18px solid #111; position: relative; cursor: pointer; margin-right: 70px; box-shadow: inset 0 0 60px #000; }
         video, #audio-face { width: 100%; height: 100%; object-fit: contain; background: #000; }
         #audio-face { display: none; font-size: 160px; align-items: center; justify-content: center; animation: bounce 0.9s infinite alternate; }
         @keyframes bounce { from { transform: scale(0.92); } to { transform: scale(1.08); } }
-        .side-panel { width: 10%; display: flex; flex-direction: column; align-items: center; gap: 25px; padding-top: 30px; }
+        .side-panel { width: 9%; display: flex; flex-direction: column; align-items: center; gap: 25px; padding-top: 30px; }
         .dial-housing { position: relative; width: 68px; height: 88px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
         .knob { width: 52px; height: 52px; background: #333; border: 5px solid #000; border-radius: 50%; cursor: pointer; position: relative; z-index: 10; transition: transform 0.2s; box-shadow: 0 6px 12px #000; }
         .knob::after { content: ''; position: absolute; top: 5px; left: 50%; width: 3px; height: 18px; background: #fff; transform: translateX(-50%); }
         .dash-ring { position: absolute; width: 88px; height: 88px; pointer-events: none; top: -8px; }
         .dash { position: absolute; width: 88px; height: 1.5px; background: #555; transform-origin: center; top: 50%; }
-        .label { color: #fff; font-size: 13px; font-weight: bold; margin-top: 28px; text-shadow: 0 0 6px #fff; letter-spacing: 1px; }
+        .label { color: #fff; font-size: 13px; font-weight: bold; margin-top: 32px; text-shadow: 0 0 6px #fff; letter-spacing: 1px; }
         .volume-container { width: 70px; height: 30px; background: #2b1d0e; border: 2px solid #531; border-radius: 20px; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 10px #000; }
         .volume-slider { width: 52px; -webkit-appearance: none; height: 4px; background: linear-gradient(to right, #444, #ff6600); outline: none; border-radius: 3px; cursor: pointer; }
         .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: #ff6600; border-radius: 50%; border: 2px solid #000; box-shadow: 0 2px 6px #000; }
         .social-ledger { position: absolute; bottom: 25px; right: 40px; color: #444; font-size: 12px; }
         .fs-toggle { position: absolute; top: 15px; left: 15px; background: #111; color: #fff; border: 1px solid #444; padding: 10px; cursor: pointer; font-size: 10px; z-index: 100; font-weight: bold; border-radius: 8px; }
         .version { position: absolute; top: 15px; right: 15px; color: #ff6600; font-size: 10px; font-weight: bold; }
+        .number { position: absolute; width: 18px; text-align: center; font-size: 9px; color: #fff; text-shadow: 0 0 4px #000; left: 50%; top: 50%; transform-origin: center; }
     </style>
 </head>
 <body>
@@ -213,8 +214,8 @@
     const audioFace = document.getElementById('audio-face');
 
     window.onload = () => {
-        makeDashes('t-dashes', 100);
-        makeDashes('s-dashes', 80);
+        makeDashes('t-dashes', 60);   // 60 positions for TUNE (1-60)
+        makeDashes('s-dashes', 8);    // 8 positions for CATEGORY (1-8)
         loadAndPlay();
     };
 
@@ -258,10 +259,22 @@
     function makeDashes(id, count) {
         const ring = document.getElementById(id);
         for (let i = 0; i < count; i++) {
+            const angle = i * (360 / count);
             const d = document.createElement('div');
             d.className = 'dash';
-            d.style.transform = `rotate(${i * (360 / count)}deg)`;
+            d.style.transform = `rotate(${angle}deg)`;
+            d.style.height = (i % 5 === 0) ? '4px' : '1px';   // thicker at every 5th (for numbers)
+            d.style.background = (i % 5 === 0) ? '#fff' : '#555';
             ring.appendChild(d);
+
+            // Number outside the marks
+            if (i % 5 === 0) {
+                const num = document.createElement('div');
+                num.className = 'number';
+                num.style.transform = `rotate(${angle}deg) translateY(-48px) rotate(-${angle}deg)`;
+                num.innerText = (i / 5) + 1;
+                ring.appendChild(num);
+            }
         }
     }
 
