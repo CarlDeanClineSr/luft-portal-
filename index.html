@@ -3,22 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CLINE CLASSIC TV | MAN CAVE V99 - MASSIVE ARCHIVE</title>
+    <title>CLINE CLASSIC TV | MAN CAVE V99</title>
     <style>
-        body { background: #000; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; width: 100vw; font-family: 'Courier New', monospace; color: #ff6600; }
-        #cabinet { width: 96vw; max-width: 1400px; height: 92vh; background: linear-gradient(to bottom, #3d2914, #2b1d0e); border: 20px solid #1a110a; border-radius: 50px; display: flex; align-items: center; justify-content: space-between; padding: 20px; box-sizing: border-box; box-shadow: inset 0 0 120px #000, 0 40px 80px #000; position: relative; }
-        .glass-tube { width: 74%; height: 94%; background: #000; border-radius: 12%; overflow: hidden; border: 16px solid #111; position: relative; cursor: pointer; }
-        video, #audio-poster { width: 100%; height: 100%; object-fit: contain; background: #000; }
-        #audio-poster { display: none; background: #111 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="50%" y="50%" font-size="20" text-anchor="middle" fill="%23666">OLD TIME RADIO - AUDIO ONLY</text></svg>') center/cover; color: #888; font-size: 24px; align-items: center; justify-content: center; }
-        .side-panel { width: 24%; display: flex; flex-direction: column; align-items: center; gap: 30px; padding: 20px; }
-        .dial-housing { position: relative; width: 110px; height: 140px; display: flex; flex-direction: column; align-items: center; }
-        .knob { width: 90px; height: 90px; background: #444; border: 6px solid #000; border-radius: 50%; cursor: pointer; transition: transform 0.15s; box-shadow: 0 6px 12px #000; }
-        .knob::after { content: ''; position: absolute; top: 8px; left: 50%; width: 5px; height: 30px; background: #eee; transform: translateX(-50%); }
-        .dash-ring { position: absolute; width: 130px; height: 130px; pointer-events: none; }
-        .dash { position: absolute; width: 130px; height: 2px; background: #555; transform-origin: center; top: 50%; }
-        .label { margin-top: 12px; font-size: 16px; font-weight: bold; text-shadow: 0 0 6px #ff6600; letter-spacing: 1px; }
-        #cat-label { font-size: 22px; font-weight: bold; text-shadow: 0 0 12px #ff6600; margin-bottom: 10px; text-align: center; }
-        .fs-toggle { position: absolute; top: 15px; left: 15px; background: #222; color: #ff6600; border: 2px solid #444; padding: 8px 12px; cursor: pointer; font-size: 12px; font-weight: bold; border-radius: 8px; z-index: 100; }
+        body {
+            background: #000;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100vw;
+            font-family: 'Courier New', monospace;
+        }
+        #cabinet {
+            width: 96vw;
+            height: 92vh;
+            background: linear-gradient(to bottom, #3d2914, #2b1d0e);
+            border: 20px solid #1a110a;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: inset 0 0 120px #000, 0 40px 80px #000;
+            position: relative;
+        }
+        .glass-tube {
+            width: 74%;
+            height: 94%;
+            background: #000;
+            border-radius: 12%;
+            overflow: hidden;
+            border: 16px solid #111;
+            position: relative;
+            cursor: pointer;
+        }
+        video, #audio-poster {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #000;
+        }
+        #audio-poster {
+            display: none;
+            background: #111;
+            color: #fff;
+            font-size: 24px;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .side-panel {
+            width: 24%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            padding: 20px;
+        }
+        .dial-housing {
+            position: relative;
+            width: 110px;
+            height: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .knob {
+            width: 90px;
+            height: 90px;
+            background: #444;
+            border: 6px solid #000;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.15s;
+            box-shadow: 0 6px 12px #000;
+        }
+        .knob::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            width: 5px;
+            height: 30px;
+            background: #eee;
+            transform: translateX(-50%);
+        }
+        .dash-ring {
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            pointer-events: none;
+        }
+        .dash {
+            position: absolute;
+            width: 130px;
+            height: 2px;
+            background: #555;
+            transform-origin: center;
+            top: 50%;
+        }
+        .label, #cat-label {
+            margin-top: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;  /* white as requested */
+            text-shadow: 0 0 6px #000;
+            letter-spacing: 1px;
+        }
+        #cat-label {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .fs-toggle {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #222;
+            color: #fff;
+            border: 2px solid #444;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 8px;
+            z-index: 100;
+        }
     </style>
 </head>
 <body>
@@ -28,11 +141,11 @@
 <div id="cabinet">
     <div class="glass-tube" onclick="toggleFS()">
         <video id="player" controls autoplay playsinline></video>
-        <div id="audio-poster">OLD TIME RADIO<br>AUDIO ONLY - ENJOY THE BROADCAST</div>
+        <div id="audio-poster">OLD TIME RADIO<br>AUDIO BROADCAST PLAYING</div>
     </div>
 
     <div class="side-panel">
-        <div id="cat-label">SELECT CHANNEL</div>
+        <div id="cat-label">catagory</div>
 
         <div class="dial-housing">
             <div class="dash-ring" id="t-dashes"></div>
@@ -49,116 +162,68 @@
 </div>
 
 <script>
-// ========== MASSIVE EXPANDED ARCHIVE - 200+ ITEMS FROM PUBLIC DOMAIN COLLECTIONS ==========
+// ========== YOUR ORIGINAL CONTENT - RESTORED EXACTLY ==========
 
-const classicCartoons = [
-    // Your originals + dozens from PD Cartoon Collection (Fleischer, UB Iwerks ComiColor, etc.)
+const classic  = [
     {n: "Popeye - Popeye Meets Sinbad", u: "https://archive.org/download/popeye_sindbad/Popeye_Sindbad.mp4"},
     {n: "Betty Boop - Snow White (1933)", u: "https://archive.org/download/Betty_Boop_Snow_White/Betty_Boop_Snow_White_512kb.mp4"},
     {n: "Superman - Mechanical Monsters", u: "https://archive.org/download/superman_the_mechanical_monsters/superman_the_mechanical_monsters_512kb.mp4"},
     {n: "Felix the Cat - Felix in Hollywood", u: "https://archive.org/download/felix_in_hollywood/felix_in_hollywood_512kb.mp4"},
     {n: "Popeye - Aladdin", u: "https://archive.org/download/Popeye_Aladdin/Popeye_Aladdin_512kb.mp4"},
     {n: "Bosko - Congo Jazz (1930)", u: "https://archive.org/download/congo-jazz_202205/congo-jazz_202205.mp4"},
-    {n: "Mickey Mouse - Steamboat Willie", u: "https://archive.org/download/SteamboatWillie_201611/SteamboatWillie_201611.mp4"},
-    // PD Collection additions
-    {n: "Brementown Musicians UB Iwerks ComiColor", u: "https://archive.org/download/pdcartooncollection/Brementown%20Musicians%20UB%20Iwerks%20ComiColor.mp4"},
-    {n: "Old Mother Hubbard ComiColor 1935", u: "https://archive.org/download/pdcartooncollection/COMICOLOR%20-%201935%20-%20_Old%20Mother%20Hubbard_.mp4"},
-    {n: "Simple Simon ComiColor", u: "https://archive.org/download/pdcartooncollection/ComiColor_%20Simple%20Simon.mp4"},
-    {n: "Dick Whittington's Cat UB Iwerks ComicColor", u: "https://archive.org/download/pdcartooncollection/Dick%20Whittington%27s%20Cat%20UB%20Iwerks%20ComicColor.mp4"},
-    {n: "Fleischer Little Lambkins 1940", u: "https://archive.org/download/pdcartooncollection/Fleischer%20Color%20Classic%20Little%20Lambkins%201940%20%28old%20free%20cartoon%20public%20domain%29.mp4"},
-    {n: "Somewhere in Dreamland Fleischer 1936", u: "https://archive.org/download/pdcartooncollection/Fleischer%20Color%20Classic%20Somewhere%20in%20Dreamland%201936%29%20%28old%20cartoon%20vintage%20public%20domain%29.mp4"},
-    {n: "Greedy Humpty Dumpty Fleischer 1936", u: "https://archive.org/download/pdcartooncollection/Fleischer%20cartoon%20Color%20Classic%20Greedy%20Humpty%20Dumpty%201936%20%28old%20cartoon%20vintage%20public%20domain%29.mp4"},
-    {n: "Hawaiian Birds Fleischer 1936", u: "https://archive.org/download/pdcartooncollection/Fleischer%20cartoon%20Color%20Classic%20Hawaiian%20Birds%201936%28old%20cartoons%20vintage%20public%20domain%29.mp4"},
-    {n: "The Little Stranger Fleischer 1936", u: "https://archive.org/download/pdcartooncollection/Fleischer%20cartoon%20Color%20Classic%20The%20Little%20Stranger%201936%20%28old%20free%20cartoons%20public%20domain%29.mp4"},
-    {n: "Gabby King for a Day Fleischer 1940", u: "https://archive.org/download/pdcartooncollection/Fleischer%20cartoon%20Gabby%20King%20for%20a%20Day%201940%28old%20free%20cartoon%20funny%20public%20domain%29.mp4"},
-    {n: "Humpty Dumpty 1935 ComiColor", u: "https://archive.org/download/pdcartooncollection/Humpty%20Dumpty%201935%20Comicolor%20Ub%20Iwerks%20cartoons.mp4"},
-    {n: "Jerky Turkey 1945", u: "https://archive.org/download/pdcartooncollection/Jerky%20Turkey%20Cartoon%201945%20Public%20Domain.mp4"},
-    {n: "Little Lulu Cad and Caddy", u: "https://archive.org/download/pdcartooncollection/Little%20Lulu%20Cad%20and%20Caddy%20-%20Old%20Cartoon%20from%20Public%20Domain.mp4"},
-    {n: "Once Upon a Time PD Cartoon", u: "https://archive.org/download/pdcartooncollection/Once%20Upon%20a%20Time%20Public%20Domain%20Cartoon.mp4"},
-    {n: "Summer vs Winter ComiColor 1935", u: "https://archive.org/download/pdcartooncollection/SUMMER%20VS%20WINTER%20Cartoon%20by%20ComiColor%20%281935%29.mp4"},
-    {n: "Skeleton Frolics 1937 UB Iwerks", u: "https://archive.org/download/pdcartooncollection/Skeleton%20Frolics%201937%20Ub%20Iwerks%5B1%5D.mp4"},
-    {n: "The Headless Horseman 1934", u: "https://archive.org/download/pdcartooncollection/The%20Headless%20Horseman%20%281934%29.mp4"},
-    {n: "The Little Red Hen 1934 ComiColor", u: "https://archive.org/download/pdcartooncollection/The%20Little%20Red%20Hen%201934%29%20Comicolor%20%28old%20free%20cartoons.mp4"},
-    {n: "The Three Bears 1935 ComiColor", u: "https://archive.org/download/pdcartooncollection/The%20Three%20Bears%201935%29%20Comicolor%20%28old%20free%20cartoons%20%29.mp4"},
-    {n: "Tom Thumb UB Iwerks 1936", u: "https://archive.org/download/pdcartooncollection/Tom%20Thumb%20%281936%29%20Ub%20Iwerks%20Cartoon.mp4"},
-    {n: "Jack and the Beanstalk UB Iwerks 1933", u: "https://archive.org/download/pdcartooncollection/UB%20Iwerks%20Jack%20and%20the%20Beanstalk%201933.mp4"},
-    {n: "Ali Baba ComiColor 1936", u: "https://archive.org/download/pdcartooncollection/Ub%20Iwerks%20cartoon%20Comicolor%20Ali%20Baba%201936%29%20%28old%20free%20cartoons%20public%20domain%29.mp4"},
-    {n: "Balloon Land ComiColor 1935", u: "https://archive.org/download/pdcartooncollection/Ub%20Iwerks%20cartoon%20Comicolor%20Balloon%20Land%201935%20old%20free%20cartoons%20public%20domain.mp4"},
-    {n: "Don Quixote ComiColor 1934", u: "https://archive.org/download/pdcartooncollection/Ub%20Iwerks%20cartoon%20Comicolor%20Don%20Quixote%201934%29%20%28old%20free%20cartoons%20public%20domain%29.mp4"},
-    // Add even more from the same collection as needed - there are hundreds
+    {n: "Mickey Mouse - Steamboat Willie", u: "https://archive.org/download/SteamboatWillie_201611/SteamboatWillie_201611.mp4"}
 ];
 
-const vintageCommercials = [
-    // Your originals + full 1949-1955 car ads list (30+ individual spots)
-    {n: "1950s Car Commercials Reel", u: "https://archive.org/download/1950sCarCommercials/1950sCarCommercials.mp4"},
-    {n: "1964 Ford Mustang Ad", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_512kb.mp4"},
-    {n: "Classic Beer Commercials", u: "https://archive.org/download/classic-beer-commercials/Classic%20Beer%20Commercials.mp4"},
-    {n: "Drive-In Intermission Ads", u: "https://archive.org/download/Drive-InMovieAds/Drive-InMovieAds.mp4"},
-    // 1949-1955 individual car ads
-    {n: "1949 Lincoln", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1949_Lincoln_512kb.mp4"},
-    {n: "1949 Mercury", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1949_Mercury_512kb.mp4"},
-    {n: "1950 Ford Floating on Air", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1950_Ford_Floating_on_air_512kb.mp4"},
-    {n: "1951 Kaiser Frazer Henry J", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1951_Kaiser_Frazer_Henry_J_512kb.mp4"},
-    {n: "1951 Nash Air Flyte", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1951_Nash_Air_Flyte_512kb.mp4"},
-    {n: "1952 Chevrolet", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1952_Chevrolet_512kb.mp4"},
-    {n: "1953 Dodge Texan", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1953_Dodge_Texan_512kb.mp4"},
-    {n: "1953 Ford Heavy Duty Dump Truck", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1953_Ford_Heavy_Duty_Dump_Truck_512kb.mp4"},
-    {n: "1953 Ford Pickup Truck", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1953_Ford_Pickup_Truck_512kb.mp4"},
-    {n: "1953 Oldsmobile 88 w Mel Torme", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1953_Oldsmobile_88_w_Mel_Torme_512kb.mp4"},
-    {n: "1954 Buick Special", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_Buick_Special_512kb.mp4"},
-    {n: "1954 Chevy Corvette", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_Chevy_Corvette_512kb.mp4"},
-    {n: "1954 DeSoto", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_DeSoto_512kb.mp4"},
-    {n: "1954 DeSoto Top Value Used Cars", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_DeSoto_Top_Value_Used_Cars_512kb.mp4"},
-    {n: "1954 DeSoto w Powerflyte Transmission", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_DeSoto_w_Powerflyte_Transmission_512kb.mp4"},
-    {n: "1954 Lincoln", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_Lincoln_512kb.mp4"},
-    {n: "1955 Buick Promo w Milton Berle", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Buick_Promo_Film_w_Milton_Berle_512kb.mp4"},
-    {n: "1955 Buick Special", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Buick_Special_512kb.mp4"},
-    {n: "1955 Chevrolet B-W", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Chevrolet_B-W_512kb.mp4"},
-    {n: "1955 DeSoto Love Letter", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_DeSoto_Love_Letter_-_corny_512kb.mp4"},
-    {n: "1955 DeSoto Styled For Tomorrow", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_DeSoto_Styled_For_Tomorrow_512kb.mp4"},
-    {n: "1955 DeSoto w George Fenneman", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_DeSoto_w_George_Fenneman_512kb.mp4"},
-    {n: "1955 Dodge 120 Seconds", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Dodge_120_seconds_512kb.mp4"},
-    {n: "1955 Dodge", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Dodge_512kb.mp4"},
-    {n: "1955 Ford", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Ford_512kb.mp4"},
-    {n: "1955 Ford Trucks", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Ford_Trucks_512kb.mp4"},
-    // Add more from 1961-1965 or other reels as needed
+const tMovies = [
+    {n: "Night of the Living Dead", u: "https://archive.org/download/night_of_the_living_dead/Night_Living_Dead_1968.mp4"},
+    {n: "Plan 9 from Outer Space", u: "https://archive.org/download/Plan_9_from_Outer_Space_1959/Plan_9_from_Outer_Space_1959.mp4"},
+    {n: "Reefer Madness (1936)", u: "https://archive.org/download/ReeferMadness/Reefer_Madness_512kb.mp4"},
+    {n: "House on Haunted Hill", u: "https://archive.org/download/House_on_Haunted_Hill/House_on_Haunted_Hill_512kb.mp4"},
+    {n: "Carnival of Souls (1962)", u: "https://archive.org/download/CarnivalOfSouls/CarnivalOfSouls_512kb.mp4"},
+    {n: "The Little Shop of Horrors", u: "https://archive.org/download/TheLittleShopOfHorrors/TheLittleShopOfHorrors_512kb.mp4"}
 ];
 
 const oldTimeRadio = [
-    // Your originals
     {n: "War of the Worlds (1938)", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-30WarOfTheWorlds.mp3", audio: true},
     {n: "The Shadow - Death House", u: "https://archive.org/download/otr_theshadow/The%20Shadow%20-%20Death%20House%20Rescue.mp3", audio: true},
     {n: "Suspense - Sorry Wrong Number", u: "https://archive.org/download/OTRR_Suspense_Singles/Suspense%20430520%20Sorry%20Wrong%20Number.mp3", audio: true},
     {n: "Dragnet - Big Grandma", u: "https://archive.org/download/OTRR_Dragnet_Singles/Dragnet%20520612%20Big%20Grandma.mp3", audio: true},
-    {n: "Mercury Theatre - Dracula", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-11Dracula.mp3", audio: true},
-    // More from Singles/Doubles collections (add patterns or specific ones)
-    {n: "You Are There - Thermopylae", u: "https://archive.org/download/you-are-there-1950-04-16-87-thermopolae/You_Are_There_1950-04-16_87_Thermopylae.mp3", audio: true},
-    {n: "Bob Hope Program - Constance Bennett", u: "https://archive.org/download/The_Bob_Hope_Program/380927_-_001_-_Constance_Bennett_1st_Pepsodent_Show.mp3", audio: true},
-    // Expand with full OTRR singles folders (T-Z, A-C, etc.) - thousands available; add filenames like https://archive.org/download/Singles_And_Doubles_Singles_T-Z/[episode].mp3
+    {n: "Mercury Theatre - Dracula", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-11Dracula.mp3", audio: true}
+];
+
+const spaceAndScience = [
+    {n: "Apollo 11 Moon Landing", u: "https://archive.org/download/Apollo_11_Television_Coverage/Apollo_11_Moon_Landing.mp4"},
+    {n: "Cosmos - Carl Sagan Ep1", u: "https://archive.org/download/cosmos_1980/COSMOS_01.mp4"},
+    {n: "Powers of Ten (1977)", u: "https://archive.org/download/PowersOfTen/PowersOfTen.mp4"},
+    {n: "Solar System (1977)", u: "https://archive.org/download/solar_system_1977/solar_system_1977.mp4"},
+    {n: "Planet Earth - Living Machine", u: "https://archive.org/download/planet.earth/Planet%20Earth%201%20The%20Living%20Machine.mp4"}
+];
+
+const vintageTV = [
+    {n: "Lone Ranger (1949)", u: "https://archive.org/download/lone_ranger_1949/Lone_Ranger_Enter_1949.mp4"},
+    {n: "Dragnet - Big Cast", u: "https://archive.org/download/Dragnet_520117_137_The_Big_Cast.mp4"},
+    {n: "Flash Gordon Rocketship", u: "https://archive.org/download/flash_gordon_rocketship/Flash_Gordon_Rocketship.mp4"},
+    {n: "Superman Serial (1948)", u: "https://archive.org/download/Superman1948Serial/Superman1948Serial.mp4"}
 ];
 
 const vintageWesterns = [
     {n: "Tumbleweeds (1925)", u: "https://archive.org/download/tumbleweeds-1925/tumbleweeds-1925.mp4"},
     {n: "The Virginian (1929)", u: "https://archive.org/download/the-virginian-sd/the-virginian-sd.mp4"},
     {n: "Arizona Days (1928)", u: "https://archive.org/download/ArizonaDays/ArizonaDays.mp4"},
-    {n: "Range Feud (1931) - Buck Jones & John Wayne", u: "https://archive.org/download/TheRangeFeud1931-BuckJonesAndJohnWayne/TheRangeFeud1931-BuckJonesAndJohnWayne.mp4"},
-    // Add more PD westerns (e.g., from public domain lists: Santa Fe Trail, etc.)
+    {n: "Range Feud (1931)", u: "https://archive.org/download/TheRangeFeud1931-BuckJonesAndJohnWayne/TheRangeFeud1931-BuckJonesAndJohnWayne.mp4"}
 ];
 
-const cultMovies = [ /* your originals - add PD full features as needed */ ];
-const spaceAndScience = [ /* your originals */ ];
-const vintageTV = [ /* your originals */ ];
-const educational = [ /* your originals */ ];
+const vintageCommercials = [
+    {n: "1950s Car Commercials", u: "https://archive.org/download/1950sCarCommercials/1950sCarCommercials.mp4"},
+    {n: "1964 Ford Mustang Ad", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_512kb.mp4"},
+    {n: "Classic Beer Commercials", u: "https://archive.org/download/classic-beer-commercials/Classic%20Beer%20Commercials.mp4"},
+    {n: "Drive-In Intermission Ads", u: "https://archive.org/download/Drive-InMovieAds/Drive-InMovieAds.mp4"}
+];
 
-const categories = [
-    {name: "🎨 CLASSIC CARTOONS (100+)", content: classicCartoons},
-    {name: "📢 VINTAGE COMMERCIALS (50+ Car Ads)", content: vintageCommercials},
-    {name: "📻 OLD TIME RADIO", content: oldTimeRadio},
-    {name: "🤠 VINTAGE WESTERNS", content: vintageWesterns},
-    {name: "👻 CULT MOVIES", content: cultMovies},
-    {name: "🚀 SPACE & SCIENCE", content: spaceAndScience},
-    {name: "📺 VINTAGE TV", content: vintageTV},
-    {name: "🎓 EDUCATIONAL", content: educational}
+const educational = [
+    {n: "Duck and Cover (1951)", u: "https://archive.org/download/DuckandC1951/DuckandC1951.mp4"},
+    {n: "A is for Atom (1953)", u: "https://archive.org/download/isforAto1953/isforAto1953.mp4"},
+    {n: "How to Build a Time Machine", u: "https://archive.org/download/0406_Trail_of_the_Rocket_00_09_29_00/0406_Trail_of_the_Rocket_00_09_29_00.mp4"}
 ];
 
 let currentCategoryIndex = 0;
@@ -195,7 +260,7 @@ function loadAndPlay() {
 
     player.src = item.u;
     player.load();
-    player.play().catch(() => console.log('Autoplay blocked - click to start'));
+    player.play().catch(() => console.log('Click to start'));
 }
 
 function tune(dir) {
@@ -220,7 +285,7 @@ function changeCategory(dir) {
 
 player.addEventListener('ended', () => tune(1));
 player.addEventListener('error', () => {
-    console.log('Media error - skipping');
+    console.log('Error - skipping');
     setTimeout(() => tune(1), 1500);
 });
 
