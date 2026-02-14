@@ -335,8 +335,8 @@
     const audioFace = document.getElementById('audio-face');
 
     window.onload = () => {
-        makeNumbers('t-numbers', 12, 'TUNE');
-        makeNumbers('s-numbers', 8, 'CATEGORY');
+        makeNumbers('t-numbers', 12);
+        makeNumbers('s-numbers', 8);
         loadAndPlay();
     };
 
@@ -359,7 +359,7 @@
     }
 
     function tune(dir) {
-        tunerDeg += dir * 30;
+        tunerDeg += dir * 30; // 360 / 12 = 30 degrees per click
         document.getElementById('t-knob').style.transform = `rotate(${tunerDeg}deg)`;
         const cat = categories[currentCategoryIndex];
         currentVideoIndex = (currentVideoIndex + dir + cat.content.length) % cat.content.length;
@@ -367,7 +367,7 @@
     }
 
     function changeCategory(dir) {
-        categoryDeg += dir * 45;  // 360/8 = 45 degrees per click
+        categoryDeg += dir * 45; // 360 / 8 = 45 degrees per click
         document.getElementById('s-knob').style.transform = `rotate(${categoryDeg}deg)`;
         currentCategoryIndex = (currentCategoryIndex + dir + categories.length) % categories.length;
         currentVideoIndex = 0;
@@ -377,7 +377,7 @@
     player.addEventListener('ended', () => tune(1));
     player.addEventListener('error', () => { setTimeout(() => tune(1), 1000); });
 
-    function makeNumbers(id, count, label) {
+    function makeNumbers(id, count) {
         const ring = document.getElementById(id);
         const step = 360 / count;
         for (let i = 0; i < count; i++) {
