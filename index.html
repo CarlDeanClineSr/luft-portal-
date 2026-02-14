@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CLINE CLASSIC TV | MAN CAVE V100</title>
+    <title>CLINE CLASSIC TV | MAN CAVE V101</title>
     <style>
         body {
             background: #000;
@@ -167,12 +167,22 @@
             font-size: 10px;
             font-weight: bold;
         }
+        .category-label {
+            position: absolute;
+            top: 60px;
+            right: 15px;
+            color: #ff6600;
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0 0 10px #000;
+        }
     </style>
 </head>
 <body>
 
 <button class="fs-toggle" onclick="toggleFS()">[ FULL SCREEN ]</button>
-<div class="version">V100</div>
+<div class="version">V101</div>
+<div class="category-label" id="cat-label">CRONKITE NEWS</div>
 
 <div id="cabinet">
     <div class="glass-tube">
@@ -205,104 +215,115 @@
 </div>
 
 <script>
-    // ========== VINTAGE SPACE & NASA (1950s-1970s) ==========
-    const vintageSpace = [
-        {n: "Destination Moon (1950)", u: "https://archive.org/download/DestinationMoon1950/DestinationMoon1950.mp4"},
-        {n: "V-2 Rocket Pictures 80-100 Miles Up (1950)", u: "https://archive.org/download/428-npc-983/428-npc-983.mp4"},
-        {n: "Rocketship X-M (1950)", u: "https://archive.org/download/rocketship-x-m-sci-fi-1950-lloyd-bridges-osa-massen-john-emery/rocketship-x-m-sci-fi-1950-lloyd-bridges-osa-massen-john-emery.mp4"},
-        {n: "Flight To Mars (1951)", u: "https://archive.org/download/flight-to-mars-1951/flight-to-mars-1951.mp4"},
-        {n: "Trail of the Rocket (1951)", u: "https://archive.org/download/0406_Trail_of_the_Rocket_00_09_29_00/0406_Trail_of_the_Rocket_00_09_29_00.mp4"},
-        {n: "When Worlds Collide (1951)", u: "https://archive.org/download/when-worlds-collide/when-worlds-collide.mp4"},
-        {n: "Radar Men From the Moon Ch 1 (1952)", u: "https://archive.org/download/radarmen1/radarmen1.mp4"},
-        {n: "Animals In Rocket Flight (1952)", u: "https://archive.org/download/gov.archives.arc.66372/gov.archives.arc.66372.mp4"},
-        {n: "A is for Atom (1953)", u: "https://archive.org/download/isforAto1953/isforAto1953.mp4"},
-        {n: "Spaceways 1953 Colorized", u: "https://archive.org/download/spaceways-1953/spaceways-1953.mp4"}
+    // ========== WALTER CRONKITE & CBS NEWS (1960s-1980s) ==========
+    const cronkite = [
+        {n: "CBS Evening News Sept 2, 1963", u: "https://archive.org/download/cbs-19630902-2/cbs-19630902-2.mp4"},
+        {n: "CBS Evening News Nov 18, 1964", u: "https://archive.org/download/cbs-19641118/cbs-19641118.mp4"},
+        {n: "CBS Evening News April 5, 1968", u: "https://archive.org/download/cbs-19680405/cbs-19680405.mp4"},
+        {n: "CBS Evening News May 22, 1970", u: "https://archive.org/download/cbs-19700522/cbs-19700522.mp4"},
+        {n: "Aug 8 1974 Nixon Resigns", u: "https://archive.org/download/aug-8-1974-cbs-evening-news/aug-8-1974-cbs-evening-news.mp4"},
+        {n: "CBS Evening News Nov 30, 1977", u: "https://archive.org/download/cbs-evening-news-nov.-30-1977/cbs-evening-news-nov.-30-1977.mp4"},
+        {n: "CBS Evening News May 29, 1979", u: "https://archive.org/download/cbs-19790529/cbs-19790529.mp4"},
+        {n: "CBS Evening News Mar 9, 1981", u: "https://archive.org/download/cbs-19810309/cbs-19810309.mp4"},
+        {n: "MTV Will Video Kill Radio Star 1982", u: "https://archive.org/download/will-video-kill-the-radio-star-1982-cbs-evening-news/will-video-kill-the-radio-star-1982-cbs-evening-news.mp4"},
+        {n: "CBS Evening News Oct 8, 1987", u: "https://archive.org/download/cbs-19871008/cbs-19871008.mp4"}
+    ];
+
+    // ========== APOLLO 11 MOON LANDING (1969) ==========
+    const moonLanding = [
+        {n: "Man on the Moon 1969", u: "https://archive.org/download/VAMBA011ManOnTheMoonSMALL/VAMBA011ManOnTheMoonSMALL.mp4"},
+        {n: "Apollo 11 Home Movie", u: "https://archive.org/download/97173_hm_apollo_11/97173_hm_apollo_11.mp4"},
+        {n: "View From Space", u: "https://archive.org/download/viewfromspace/viewfromspace.mp4"},
+        {n: "America On The Moon", u: "https://archive.org/download/america_on_the_moon-no_sound/america_on_the_moon-no_sound.mp4"}
+    ];
+
+    // ========== CARL SAGAN & COSMOS (1980) ==========
+    const carlSagan = [
+        {n: "Cosmos Ep 1 Shores of Cosmic Ocean", u: "https://archive.org/download/Cosmos-1980-S01E01-The-Shores-Of-The-Cosmic-Ocean-720p-by-Vaibhav-khade/Cosmos-1980-S01E01-The-Shores-Of-The-Cosmic-Ocean-720p-by-Vaibhav-khade.mp4"},
+        {n: "Cosmos Ep 2 One Voice In Cosmic Fugue", u: "https://archive.org/download/Cosmos-1980-S01E02-One-Voice-In-The-Cosmic-Fugue-720p-by-Vaibhav-khade/Cosmos-1980-S01E02-One-Voice-In-The-Cosmic-Fugue-720p-by-Vaibhav-khade.mp4"},
+        {n: "Cosmos Ep 3 Harmony Of The Worlds", u: "https://archive.org/download/Cosmos-1980-S01E03-Harmony-Of-The-Worlds-720p-by-Vaibhav-khade/Cosmos-1980-S01E03-Harmony-Of-The-Worlds-720p-by-Vaibhav-khade.mp4"},
+        {n: "Cosmos Complete Series", u: "https://archive.org/download/cosmos_1980/cosmos_1980.mp4"},
+        {n: "Cosmos Personal Voyage Full", u: "https://archive.org/download/Cosmos_Personal_Voyage/Cosmos_Personal_Voyage.mp4"}
+    ];
+
+    // ========== ART BELL COAST TO COAST (1990s) ==========
+    const artBell = [
+        {n: "1992 Area 51 Bob Lazar", u: "https://archive.org/download/19921212CoastToCoastAMWithArtBellArea51JohnLearBobLazar/19921212CoastToCoastAMWithArtBellArea51JohnLearBobLazar.mp4"},
+        {n: "1993 Philadelphia Experiment", u: "https://archive.org/download/19930620_CoasttoCoastAM_AlBielek/19930620_CoasttoCoastAM_AlBielek.mp4"},
+        {n: "1994 Richard C Hoagland Mars", u: "https://archive.org/download/1994-06-07-coast-to-coast-am-with-art-bell-richard-c.-hoagland-mars/1994-06-07-coast-to-coast-am-with-art-bell-richard-c.-hoagland-mars.mp4"},
+        {n: "1995 Zecharia Sitchin Sumerian Cosmology", u: "https://archive.org/download/1995-11-15-coast-to-coast-am-with-art-bell-sumerian-cosmology-zecharia-sitchin/1995-11-15-coast-to-coast-am-with-art-bell-sumerian-cosmology-zecharia-sitchin.mp4"},
+        {n: "2001 Dan Aykroyd NASA UFOs", u: "https://archive.org/download/2001-12-05-coast-to-coast-am-with-art-bell-the-case-for-nasa-ufos-david-sereda-dan-aykroyd/2001-12-05-coast-to-coast-am-with-art-bell-the-case-for-nasa-ufos-david-sereda-dan-aykroyd.mp4"},
+        {n: "Sept 11 2001 Live Coverage", u: "https://archive.org/download/coast-to-coast-am-late-night-talkradio-with-art-bell-from-september-11-2001/coast-to-coast-am-late-night-talkradio-with-art-bell-from-september-11-2001.mp4"}
+    ];
+
+    // ========== MYSTERY SCIENCE THEATER 3000 (1988-1999) ==========
+    const mst3k = [
+        {n: "MST3K Robot Monster", u: "https://archive.org/download/mst3k-robot-monster/mst3k-robot-monster.mp4"},
+        {n: "MST3K Godzilla vs Megalon", u: "https://archive.org/download/mystery-science-theater-3000-e-212-gdz-vs.-megn/mystery-science-theater-3000-e-212-gdz-vs.-megn.mp4"},
+        {n: "MST3K Bloodlust", u: "https://archive.org/download/mst-3-k-607-bloodlust-mystery-science-theater-3000/mst-3-k-607-bloodlust-mystery-science-theater-3000.mp4"},
+        {n: "MST3K Creeping Terror", u: "https://archive.org/download/the-creeping-terror/the-creeping-terror.mp4"},
+        {n: "MST3K Season Zero", u: "https://archive.org/download/mst3k-season-zero/mst3k-season-zero.mp4"}
     ];
 
     // ========== OLD TIME RADIO (1930s-1950s) ==========
-    const vintageRadio = [
+    const oldTimeRadio = [
         {n: "War of the Worlds 1938", u: "https://archive.org/download/WarOfTheWorlds1938RadioBroadcast256kbps/WarOfTheWorlds1938RadioBroadcast256kbps.mp4"},
         {n: "Orson Welles Mercury Theatre", u: "https://archive.org/download/mercury-theatre-on-the-air-orson-welles-1938-radio/mercury-theatre-on-the-air-orson-welles-1938-radio.mp4"},
-        {n: "The Lone Ranger Digital Remasters", u: "https://archive.org/download/The_Lone_Ranger_OTR_Remasters/The_Lone_Ranger_OTR_Remasters.mp4"},
-        {n: "The Green Hornet Radio Series", u: "https://archive.org/download/green_hornet_radio/green_hornet_radio.mp4"},
-        {n: "Lights Out Radio Show 1936-1947", u: "https://archive.org/download/lights-out-radio-show-1936-through-1947/lights-out-radio-show-1936-through-1947.mp4"},
-        {n: "Campbell Playhouse Christmas Carol 1938", u: "https://archive.org/download/the-campbell-playhouse-1938-12-23-otr-a-christmas-carol/the-campbell-playhouse-1938-12-23-otr-a-christmas-carol.mp4"}
+        {n: "The Shadow 1938-1947", u: "https://archive.org/download/the-shadow-06-january-5-1941-the-leopard-strikes/the-shadow-06-january-5-1941-the-leopard-strikes.mp4"},
+        {n: "Sherlock Holmes Radio Collection", u: "https://archive.org/download/sherlock-holmes-strange-singular-affairs-col-1/sherlock-holmes-strange-singular-affairs-col-1.mp4"},
+        {n: "Lights Out Horror Radio", u: "https://archive.org/download/lightsout410217specialtohollywood/lightsout410217specialtohollywood.mp4"}
     ];
 
-    // ========== VINTAGE WESTERNS (1920s-1960s) ==========
-    const vintageWesterns = [
-        {n: "Tumbleweeds (1925)", u: "https://archive.org/download/tumbleweeds-1925/tumbleweeds-1925.mp4"},
-        {n: "Arizona Days (1928)", u: "https://archive.org/download/ArizonaDays/ArizonaDays.mp4"},
-        {n: "The Virginian (1929)", u: "https://archive.org/download/the-virginian-sd/the-virginian-sd.mp4"},
-        {n: "The Oklahoma Cyclone (1930)", u: "https://archive.org/download/the-oklahoma-cyclone-1930/the-oklahoma-cyclone-1930.mp4"},
-        {n: "The Montana Kid (1931)", u: "https://archive.org/download/TheMontanaKid/TheMontanaKid.mp4"},
-        {n: "The Range Feud - Buck Jones & John Wayne (1931)", u: "https://archive.org/download/TheRangeFeud1931-BuckJonesAndJohnWayne/TheRangeFeud1931-BuckJonesAndJohnWayne.mp4"},
-        {n: "Broadway to Cheyenne (1932)", u: "https://archive.org/download/BroadwayToCheyenne_564/BroadwayToCheyenne_564.mp4"},
-        {n: "Cowboy Counsellor (1932)", u: "https://archive.org/download/cowboy_counsellor/cowboy_counsellor.mp4"}
+    // ========== NATURE SOUNDS FOR SLEEPING ==========
+    const natureSounds = [
+        {n: "Ultimate Thunderstorm", u: "https://archive.org/download/Environments2UltimateThunderstorm1979/Environments2UltimateThunderstorm1979.mp4"},
+        {n: "Country Thunderstorm", u: "https://archive.org/download/Enviornments11CountryThunderstorm/Enviornments11CountryThunderstorm.mp4"},
+        {n: "Gentle Rain In Pine Forest", u: "https://archive.org/download/Environments10GentleRainInAPineForestSideB/Environments10GentleRainInAPineForestSideB.mp4"},
+        {n: "Caribbean Lagoon", u: "https://archive.org/download/Environments9CaribbeanLagoon/Environments9CaribbeanLagoon.mp4"},
+        {n: "Night In The Country", u: "https://archive.org/download/Environments10NightInTheCountry/Environments10NightInTheCountry.mp4"}
     ];
 
-    // ========== VINTAGE CHRISTMAS (1940s-1970s) ==========
-    const vintageChristmas = [
-        {n: "Beyond Tomorrow (1940)", u: "https://archive.org/download/Beyond_Tomorrow/Beyond_Tomorrow.mp4"},
-        {n: "The Great Rupert (1950)", u: "https://archive.org/download/the-great-rupert_202601/the-great-rupert_202601.mp4"},
-        {n: "Mister Magoo's Christmas Carol (1962)", u: "https://archive.org/download/mister-magoos-christmas-carol-1962/mister-magoos-christmas-carol-1962.mp4"},
-        {n: "Rudolph The Red-Nosed Reindeer (1964)", u: "https://archive.org/download/RudolphTheRedNosedReindeer1964_201812/RudolphTheRedNosedReindeer1964_201812.mp4"},
-        {n: "A Charlie Brown Christmas (1965)", u: "https://archive.org/download/vlc-record-2025-12-25-14h52m16s-dvd____E__-/vlc-record-2025-12-25-14h52m16s-dvd____E__-.mp4"},
-        {n: "How The Grinch Stole Christmas (1966)", u: "https://archive.org/download/HowTheGrinchStoleChristmas_201812/HowTheGrinchStoleChristmas_201812.mp4"},
-        {n: "Frosty The Snowman (1969)", u: "https://archive.org/download/1969-frosty-the-snowman-christmas-movies-for-kids-animated-cartoons-for-children/1969-frosty-the-snowman-christmas-movies-for-kids-animated-cartoons-for-children.mp4"},
-        {n: "Santa Claus Is Comin' To Town (1970)", u: "https://archive.org/download/santa-claus-is-comin-to-town-abc-tv-recording/santa-claus-is-comin-to-town-abc-tv-recording.mp4"}
+    // ========== DRAG RACING (1950s-1970s) ==========
+    const dragRacing = [
+        {n: "Cool Hot Rod 1953", u: "https://archive.org/download/0751_Cool_Hot_Rod_15_29_22_00/0751_Cool_Hot_Rod_15_29_22_00.mp4"},
+        {n: "Universal Newsreel 1965", u: "https://archive.org/download/200-un-v38-r23_SD_2Mbps/200-un-v38-r23_SD_2Mbps.mp4"},
+        {n: "Universal Newsreel 1967", u: "https://archive.org/download/un-un-v40-r52_2Mbps/un-un-v40-r52_2Mbps.mp4"}
     ];
 
-    // ========== VINTAGE CARTOONS (1930s-1960s) ==========
-    const vintageCartoons = [
-        {n: "Dizzy Dishes (1930)", u: "https://archive.org/download/dizzy-dishes_1930/dizzy-dishes_1930.mp4"},
-        {n: "King of Jazz (1930)", u: "https://archive.org/download/KingofJazz1930/KingofJazz1930.mp4"},
-        {n: "Swing You Sinners (1930)", u: "https://archive.org/download/SwingYouSinners/SwingYouSinners.mp4"},
-        {n: "Flip The Frog - Fiddlesticks (1930)", u: "https://archive.org/download/FLIP_FROG-FIDDLESTICKS/FLIP_FROG-FIDDLESTICKS.mp4"},
-        {n: "Bosko - Box Car Blues (1930)", u: "https://archive.org/download/BoskoBoxCarBlues/BoskoBoxCarBlues.mp4"},
-        {n: "Congo Jazz (1930)", u: "https://archive.org/download/congo-jazz_202205/congo-jazz_202205.mp4"},
-        {n: "Arctic Antics (1930)", u: "https://archive.org/download/ArcticAntics/ArcticAntics.mp4"}
+    // ========== AIRPLANE & JET BUILDING ==========
+    const airplanes = [
+        {n: "Our Shrinking World 1946", u: "https://archive.org/download/0119_Our_Shrinking_World_E00960_09_22_46_18-0019/0119_Our_Shrinking_World_E00960_09_22_46_18-0019.mp4"},
+        {n: "A is for Atom 1953", u: "https://archive.org/download/isforAto1953/isforAto1953.mp4"},
+        {n: "American Engineer Part I 1956", u: "https://archive.org/download/American1956/American1956.mp4"},
+        {n: "DEW Line Story 1958", u: "https://archive.org/download/0575_DEW_Line_Story_20_01_02_00/0575_DEW_Line_Story_20_01_02_00.mp4"}
     ];
 
-    // ========== ANCIENT MYSTERIES & UFOs ==========
-    const ancientMysteries = [
-        {n: "Five Million Years To Earth (1967)", u: "https://archive.org/download/quatermassandthepit_202002/quatermassandthepit_202002.mp4"},
-        {n: "The Outer Space Connection (1975)", u: "https://archive.org/download/the-outer-space-connection-1975/the-outer-space-connection-1975.mp4"},
-        {n: "Is the Loch Ness Monster Real? (1976)", u: "https://archive.org/download/ilnmr-1976/ilnmr-1976.mp4"},
-        {n: "The Case of the Ancient Astronauts (1977)", u: "https://archive.org/download/NOVATheCaseOfTheAncientAstronauts/NOVATheCaseOfTheAncientAstronauts.mp4"},
-        {n: "Dark Secrets: Inside Bohemian Grove (2000)", u: "https://archive.org/download/DSIBG/DSIBG.mp4"}
+    // ========== CAR & HOT ROD BUILDING ==========
+    const carBuilding = [
+        {n: "A Car Is Born 1969", u: "https://archive.org/download/ACarisBorn/ACarisBorn.mp4"},
+        {n: "Classic Roadsters 1988", u: "https://archive.org/download/classic-roadsters-ltd-classic-collection-1988/classic-roadsters-ltd-classic-collection-1988.mp4"},
+        {n: "American Road Part I 1953", u: "https://archive.org/download/american_road_1/american_road_1.mp4"}
     ];
 
-    // ========== CAR COMMERCIALS (1949-1965) ==========
-    const carAds = [
-        {n: "1964 Ford Mustang", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_512kb.mp4"},
-        {n: "1965 Pontiac GTO Tiger", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Tiger_512kb.mp4"},
-        {n: "1965 Ford Mustang 2+2", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Ford_Mustang_-2plus2_512kb.mp4"},
-        {n: "1964 Oldsmobile Jetfire", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Oldsmobile_Jetfire_Turbo_Rocket_V-8_512kb.mp4"},
-        {n: "1963 Corvette Sting Ray", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1963_Chevrolet_Corvette_Sting_Ray_512kb.mp4"},
-        {n: "1955 Ford", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1955_Ford_512kb.mp4"},
-        {n: "1954 Chevy Corvette", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_Chevy_Corvette_512kb.mp4"}
-    ];
-
-    // ========== DRIVE-IN INTERMISSION ==========
-    const driveInAds = [
-        {n: "Drive In Intermission 12", u: "https://archive.org/download/DriveInIntermission12_201801/DriveInIntermission12_201801.mp4"},
-        {n: "Intermission 5 B&W", u: "https://archive.org/download/Intermission6bw/Intermission6bw.mp4"},
-        {n: "Drive-in Intermission 3", u: "https://archive.org/download/Drive-inIntermission3/Drive-inIntermission3.mp4"},
-        {n: "Snack Bar Animation", u: "https://archive.org/download/SnackBarAnimation/SnackBarAnimation.mp4"},
-        {n: "Hot Dog Ad NepCo", u: "https://archive.org/download/HotDog3NepCo/HotDog3NepCo.mp4"}
+    // ========== EINSTEIN DOCUMENTARIES ==========
+    const einstein = [
+        {n: "A Einstein NOVA 1979", u: "https://archive.org/download/NOVAAEinstein/NOVAAEinstein.mp4"},
+        {n: "The Finest Hours 1964", u: "https://archive.org/download/the-finest-hours-full-documentary-1964/the-finest-hours-full-documentary-1964.mp4"}
     ];
 
     // ========== CATEGORIES ==========
     const categories = [
-        {name: "SPACE & NASA", content: vintageSpace},
-        {name: "OLD TIME RADIO", content: vintageRadio},
-        {name: "WESTERNS", content: vintageWesterns},
-        {name: "CHRISTMAS", content: vintageChristmas},
-        {name: "CARTOONS", content: vintageCartoons},
-        {name: "ANCIENT MYSTERIES", content: ancientMysteries},
-        {name: "CAR ADS", content: carAds},
-        {name: "DRIVE-IN", content: driveInAds}
+        {name: "CRONKITE NEWS", content: cronkite},
+        {name: "MOON LANDING", content: moonLanding},
+        {name: "CARL SAGAN", content: carlSagan},
+        {name: "ART BELL", content: artBell},
+        {name: "MST3K", content: mst3k},
+        {name: "OLD TIME RADIO", content: oldTimeRadio},
+        {name: "NATURE SOUNDS", content: natureSounds},
+        {name: "DRAG RACING", content: dragRacing},
+        {name: "AIRPLANES", content: airplanes},
+        {name: "CAR BUILDING", content: carBuilding},
+        {name: "EINSTEIN", content: einstein}
     ];
 
     let currentCategoryIndex = 0;
@@ -311,6 +332,7 @@
     let categoryDeg = 0;
 
     const player = document.getElementById('player');
+    const catLabel = document.getElementById('cat-label');
 
     window.onload = () => {
         makeDashes('t-dashes', 100);
@@ -323,7 +345,8 @@
         const video = cat.content[currentVideoIndex];
         player.src = video.u;
         player.load();
-        player.play().catch(e => console.log('Click screen to start'));
+        player.play().catch(e => console.log('Click to start'));
+        catLabel.innerText = cat.name;
     }
 
     function tune(dir) {
