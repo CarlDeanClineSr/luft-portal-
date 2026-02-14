@@ -5,17 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CLINE CLASSIC TV | MAN CAVE V99</title>
     <style>
-        body { 
-            background: #0a0a0a; 
-            margin: 0; 
-            padding: 0; 
-            overflow: hidden; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100vh; 
-            width: 100vw; 
-        }
+        body { background: #0a0a0a; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; width: 100vw; }
         #cabinet { 
             width: 96vw; 
             height: 92vh; 
@@ -26,7 +16,6 @@
             display: flex; 
             padding: 50px 80px; 
             position: relative; 
-            overflow: hidden; 
         }
         .glass-tube { 
             width: 74%; 
@@ -38,23 +27,9 @@
             box-shadow: inset 0 0 90px #000, 0 0 50px #000; 
             position: relative; 
         }
-        video, #audio-face { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: contain; 
-            background: #000; 
-        }
-        #audio-face { 
-            display: none; 
-            font-size: 150px; 
-            align-items: center; 
-            justify-content: center; 
-            animation: bounce 0.8s infinite alternate; 
-        }
-        @keyframes bounce { 
-            from { transform: scale(0.94); } 
-            to { transform: scale(1.06); } 
-        }
+        video, #audio-face { width: 100%; height: 100%; object-fit: contain; background: #000; }
+        #audio-face { display: none; font-size: 150px; align-items: center; justify-content: center; animation: bounce 0.8s infinite alternate; }
+        @keyframes bounce { from { transform: scale(0.94); } to { transform: scale(1.06); } }
         .right-panel { 
             width: 24%; 
             height: 100%; 
@@ -77,14 +52,17 @@
         }
         .dial-housing { 
             position: relative; 
-            width: 92px; 
-            height: 112px; 
+            width: 110px; 
+            height: 140px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
         }
         .knob { 
-            width: 72px; 
-            height: 72px; 
+            width: 80px; 
+            height: 80px; 
             background: #1f1f1f; 
-            border: 9px solid #0f0f0f; 
+            border: 10px solid #0f0f0f; 
             border-radius: 50%; 
             cursor: pointer; 
             box-shadow: 0 10px 25px #000; 
@@ -93,36 +71,39 @@
         .knob::after { 
             content: ''; 
             position: absolute; 
-            top: 12px; 
+            top: 14px; 
             left: 50%; 
-            width: 7px; 
-            height: 30px; 
+            width: 8px; 
+            height: 34px; 
             background: #ddd; 
             transform: translateX(-50%); 
         }
-        .dash-ring { 
+        .number-ring { 
             position: absolute; 
-            width: 112px; 
-            height: 112px; 
-            top: -20px; 
-            left: -10px; 
+            width: 140px; 
+            height: 140px; 
+            top: -30px; 
+            left: -15px; 
             pointer-events: none; 
         }
-        .dash { 
+        .number { 
             position: absolute; 
-            width: 112px; 
-            height: 2px; 
-            background: #666; 
-            transform-origin: center; 
+            width: 24px; 
+            text-align: center; 
+            font-size: 11px; 
+            color: #eee; 
+            text-shadow: 0 0 4px #000; 
+            left: 50%; 
             top: 50%; 
+            transform-origin: center; 
+            pointer-events: none; 
         }
         .label { 
             color: #ddd; 
             font-size: 15px; 
             font-weight: bold; 
-            margin-top: 42px; 
+            margin-top: 10px; 
             text-shadow: 0 0 8px #000; 
-            text-align: center; 
         }
         .volume-container { 
             width: 82px; 
@@ -146,18 +127,6 @@
             background: #ccc; 
             border-radius: 50%; 
             border: 4px solid #111; 
-        }
-        .number { 
-            position: absolute; 
-            width: 18px; 
-            text-align: center; 
-            font-size: 8px; 
-            color: #eee; 
-            text-shadow: 0 0 4px #000; 
-            left: 50%; 
-            top: 50%; 
-            transform-origin: center; 
-            pointer-events: none; 
         }
         .fs-toggle { 
             position: absolute; 
@@ -198,7 +167,7 @@
         <div class="speaker-grille"></div>
 
         <div class="dial-housing">
-            <div class="dash-ring" id="t-dashes"></div>
+            <div class="number-ring" id="t-numbers"></div>
             <div class="knob" id="t-knob" onclick="tune(1)" oncontextmenu="event.preventDefault(); tune(-1);"></div>
             <div class="label">TUNE</div>
         </div>
@@ -208,7 +177,7 @@
         </div>
 
         <div class="dial-housing">
-            <div class="dash-ring" id="s-dashes"></div>
+            <div class="number-ring" id="s-numbers"></div>
             <div class="knob" id="s-knob" onclick="changeCategory(1)" oncontextmenu="event.preventDefault(); changeCategory(-1);"></div>
             <div class="label">CATEGORY</div>
         </div>
@@ -366,8 +335,8 @@
     const audioFace = document.getElementById('audio-face');
 
     window.onload = () => {
-        makeDashes('t-dashes', 60);
-        makeDashes('s-dashes', 8);
+        makeNumbers('t-numbers', 12, 'TUNE');
+        makeNumbers('s-numbers', 8, 'CATEGORY');
         loadAndPlay();
     };
 
@@ -398,7 +367,7 @@
     }
 
     function changeCategory(dir) {
-        categoryDeg += dir * 30;
+        categoryDeg += dir * 45;  // 360/8 = 45 degrees per click
         document.getElementById('s-knob').style.transform = `rotate(${categoryDeg}deg)`;
         currentCategoryIndex = (currentCategoryIndex + dir + categories.length) % categories.length;
         currentVideoIndex = 0;
@@ -408,17 +377,11 @@
     player.addEventListener('ended', () => tune(1));
     player.addEventListener('error', () => { setTimeout(() => tune(1), 1000); });
 
-    function makeDashes(id, count) {
+    function makeNumbers(id, count, label) {
         const ring = document.getElementById(id);
+        const step = 360 / count;
         for (let i = 0; i < count; i++) {
-            const angle = i * (360 / count);
-            const d = document.createElement('div');
-            d.className = 'dash';
-            d.style.transform = `rotate(${angle}deg)`;
-            d.style.height = (i % 5 === 0) ? '4px' : '1px';
-            d.style.background = (i % 5 === 0) ? '#fff' : '#555';
-            ring.appendChild(d);
-
+            const angle = i * step;
             const num = document.createElement('div');
             num.className = 'number';
             num.style.transform = `rotate(${angle}deg) translateY(-58px) rotate(-${angle}deg)`;
