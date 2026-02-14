@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CLINE CLASSIC TV | MAN CAVE V99</title>
     <style>
         body { 
@@ -10,28 +10,22 @@
             margin: 0; 
             padding: 0; 
             overflow: hidden; 
-            height: 100vh; 
-            width: 100vw; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            font-family: 'Courier New', Courier, monospace;
-            touch-action: manipulation; /* better touch response */
+            height: 100vh; 
+            width: 100vw; 
         }
         #cabinet { 
-            width: min(96vw, 1200px); 
-            height: min(92vh, 900px); 
-            max-width: 100%; 
-            max-height: 100%; 
+            width: 96vw; 
+            height: 92vh; 
             background: linear-gradient(#5c3f2a, #3a2a1f); 
-            border: clamp(18px, 4vw, 28px) solid #1f140d; 
+            border: 28px solid #1f140d; 
             border-radius: 28px; 
             box-shadow: 0 60px 100px #000, inset 0 0 140px #000; 
             display: flex; 
-            padding: clamp(30px, 6vw, 50px) clamp(40px, 8vw, 80px); 
+            padding: 50px 80px; 
             position: relative; 
-            overflow: hidden; 
-            box-sizing: border-box;
         }
         .glass-tube { 
             width: 74%; 
@@ -39,82 +33,65 @@
             background: #000; 
             border-radius: 14px; 
             overflow: hidden; 
-            border: clamp(14px, 3vw, 22px) solid #1c1c1c; 
+            border: 22px solid #1c1c1c; 
             box-shadow: inset 0 0 90px #000, 0 0 50px #000; 
             position: relative; 
         }
-        video, #audio-face { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: contain; 
-            background: #000; 
-        }
-        #audio-face { 
-            display: none; 
-            font-size: clamp(80px, 20vw, 150px); 
-            align-items: center; 
-            justify-content: center; 
-            animation: bounce 0.8s infinite alternate; 
-        }
-        @keyframes bounce { 
-            from { transform: scale(0.94); } 
-            to { transform: scale(1.06); } 
-        }
+        video, #audio-face { width: 100%; height: 100%; object-fit: contain; background: #000; }
+        #audio-face { display: none; font-size: 150px; align-items: center; justify-content: center; animation: bounce 0.8s infinite alternate; }
+        @keyframes bounce { from { transform: scale(0.94); } to { transform: scale(1.06); } }
         .right-panel { 
             width: 24%; 
             height: 100%; 
             background: linear-gradient(#4d4d4d, #2a2a2a); 
-            border: clamp(10px, 2vw, 14px) solid #111; 
+            border: 14px solid #111; 
             border-radius: 10px; 
-            padding: clamp(15px, 3vw, 25px); 
+            padding: 25px; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            gap: clamp(20px, 4vw, 35px); 
+            gap: 35px; 
             box-shadow: inset 0 0 40px #000; 
-            box-sizing: border-box;
         }
         .speaker-grille { 
             width: 100%; 
-            height: clamp(80px, 18vw, 130px); 
+            height: 130px; 
             background: repeating-linear-gradient(45deg, #222, #222 5px, #1a1a1a 5px, #1a1a1a 14px); 
             border: 8px solid #111; 
             border-radius: 6px; 
         }
         .dial-housing { 
             position: relative; 
-            width: clamp(100px, 20vw, 140px); 
-            height: clamp(140px, 28vw, 180px); 
+            width: 140px; 
+            height: 180px; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
         }
         .knob { 
-            width: clamp(70px, 16vw, 90px); 
-            height: clamp(70px, 16vw, 90px); 
+            width: 74px;               /* 18% smaller than 90px */
+            height: 74px; 
             background: #1f1f1f; 
-            border: clamp(8px, 2vw, 12px) solid #0f0f0f; 
+            border: 10px solid #0f0f0f; /* scaled down proportionally */
             border-radius: 50%; 
             cursor: pointer; 
             box-shadow: 0 10px 25px #000; 
             position: relative; 
-            touch-action: manipulation;
         }
         .knob::after { 
             content: ''; 
             position: absolute; 
-            top: 50%; 
+            top: 20px; 
             left: 50%; 
             width: 4px; 
-            height: 22px; 
+            height: 18px; 
             background: #ddd; 
-            transform: translate(-50%, -50%) rotate(90deg); /* horizontal pointer for better visibility */
-            transform-origin: center;
+            transform: translateX(-50%); 
         }
         .number-ring { 
             position: absolute; 
-            width: clamp(160px, 35vw, 220px); 
-            height: clamp(160px, 35vw, 220px); 
+            width: 200px; 
+            height: 200px; 
             top: 50%; 
             left: 50%; 
             transform: translate(-50%, -50%); 
@@ -122,11 +99,11 @@
         }
         .number { 
             position: absolute; 
-            width: clamp(26px, 6vw, 34px); 
-            height: clamp(26px, 6vw, 34px); 
+            width: 32px; 
+            height: 32px; 
             text-align: center; 
-            line-height: clamp(26px, 6vw, 34px); 
-            font-size: clamp(11px, 3vw, 13px); 
+            line-height: 32px; 
+            font-size: 13px; 
             color: #eee; 
             text-shadow: 0 0 5px #000; 
             transform: translate(-50%, -50%); 
@@ -138,14 +115,13 @@
             left: 50%; 
             transform: translate(-50%, -50%); 
             color: #eee; 
-            font-size: clamp(9px, 2vw, 11px); 
+            font-size: 11px; 
             font-weight: bold; 
             text-shadow: 0 0 6px #000; 
             pointer-events: none; 
-            z-index: 2; 
         }
         .volume-container { 
-            width: clamp(70px, 18vw, 82px); 
+            width: 82px; 
             height: 32px; 
             background: #222; 
             border: 5px solid #111; 
@@ -156,7 +132,7 @@
             margin-top: 15px;
         }
         .volume-slider { 
-            width: clamp(50px, 14vw, 62px); 
+            width: 62px; 
             height: 6px; 
             background: #444; 
             border-radius: 3px; 
@@ -167,71 +143,28 @@
             background: #ccc; 
             border-radius: 50%; 
             border: 4px solid #111; 
-            cursor: pointer;
         }
         .fs-toggle { 
             position: absolute; 
-            top: clamp(15px, 4vw, 25px); 
-            left: clamp(15px, 4vw, 25px); 
+            top: 25px; 
+            left: 25px; 
             background: #111; 
             color: #fff; 
             border: 1px solid #444; 
-            padding: clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px); 
+            padding: 10px; 
             cursor: pointer; 
-            font-size: clamp(9px, 2.5vw, 10px); 
+            font-size: 10px; 
             z-index: 100; 
             font-weight: bold; 
             border-radius: 8px; 
-            touch-action: manipulation;
         }
         .version { 
             position: absolute; 
-            top: clamp(15px, 4vw, 25px); 
-            right: clamp(15px, 4vw, 25px); 
+            top: 25px; 
+            right: 25px; 
             color: #ff6600; 
-            font-size: clamp(9px, 2.5vw, 10px); 
+            font-size: 10px; 
             font-weight: bold; 
-        }
-
-        @media (max-width: 768px) {
-            #cabinet { 
-                flex-direction: column; 
-                padding: 20px; 
-                height: 100vh; 
-                width: 100vw; 
-            }
-            .glass-tube { 
-                width: 100%; 
-                height: 60%; 
-            }
-            .right-panel { 
-                width: 100%; 
-                height: 40%; 
-                padding: 15px; 
-                gap: 20px; 
-            }
-            .dial-housing { 
-                width: 120px; 
-                height: 140px; 
-            }
-            .knob { 
-                width: 70px; 
-                height: 70px; 
-                border-width: 8px; 
-            }
-            .number-ring { 
-                width: 160px; 
-                height: 160px; 
-            }
-            .number { 
-                width: 26px; 
-                height: 26px; 
-                line-height: 26px; 
-                font-size: 11px; 
-            }
-            .label { 
-                font-size: 9px; 
-            }
         }
     </style>
 </head>
@@ -268,14 +201,7 @@
 </div>
 
 <script>
-    // Your exact content lists from last message (unchanged order)
     const carAds = [
-        {n: "Star Trek - Tomorrow Is Yesterday", u: "https://archive.org/download/JimmyAndTheFederationGang/1x22-TomorrowIsYesterday.mp4"},
-        {n: "Wonderful World of Wheels", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"},
-        {n: "Star Trek - Where No Man Has Gone Before", u: "https://archive.org/download/JimmyAndTheFederationGang/1x02-WhereNoManHasGoneBefore.mp4"},
-        {n: "Star Trek - The Corbomite Maneuver", u: "https://archive.org/download/JimmyAndTheFederationGang/1x03-TheCorbomiteManeuver.mp4"},
-        {n: "Star Trek - Mudd's Women", u: "https://archive.org/download/JimmyAndTheFederationGang/1x04-MuddsWomen.mp4"},
-        {n: "Star Trek - The Galileo Seven", u: "https://archive.org/download/JimmyAndTheFederationGang/1x14-TheGalileoSeven.mp4"},
         {n: "1964 Ford Mustang", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_512kb.mp4"},
         {n: "1965 Pontiac GTO Tiger", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Tiger_512kb.mp4"},
         {n: "1965 Ford Mustang 2+2", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Ford_Mustang_-2plus2_512kb.mp4"},
@@ -286,7 +212,91 @@
         {n: "1954 Chevy Corvette", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_Chevy_Corvette_512kb.mp4"}
     ];
 
-    // ... (the rest of your arrays: space, sciFi, classicTV, hotRods, radioDramas, categories) are unchanged from your last paste ...
+    const space = [
+        {n: "View From Space Reel 1", u: "https://archive.org/download/viewfromspace/viewfromspacereel1.mp4"},
+        {n: "View From Space Reel 2", u: "https://archive.org/download/viewfromspace/viewfromspacereel2.mp4"},
+        {n: "DOD Military Film", u: "https://archive.org/download/gov.dod.dimoc.30190/gov.dod.dimoc.30190_512kb.mp4"},
+        {n: "This Is Redstone Arsenal", u: "https://archive.org/download/16764thisisredstonearsenalvwr/16764%20This%20Is%20Redstone%20Arsenal_vwr.mp4"},
+        {n: "20 Years Of Strategic Air Command", u: "https://archive.org/download/2927420YearsOfStrategicAirCommandMos/29274%2020%20years%20Of%20Strategic%20Air%20Command_mos.mp4"},
+        {n: "AAF Combat Camera Units Weekly Digest pt 63", u: "https://archive.org/download/42124aafcombatcameraunitsweeklydigestpt63vwr/42124%20AAF%20Combat%20Camera%20Units%20Weekly%20Digest%20pt%2063_vwr.mp4"},
+        {n: "Normandy Invasion", u: "https://archive.org/download/87084NormandyInvasion/87084%20Normandy%20Invasion.mp4"},
+        {n: "NASA 1971 Aeronautics And Space Highlights", u: "https://archive.org/download/19194nasa1971aeronauticsandspacehighlightsvwr/19194%20NASA%201971%20Aeronautics%20And%20Space%20Highlights_vwr.mp4"},
+        {n: "NASA Highlights 1967", u: "https://archive.org/download/76474NASAHighlights1967/76474%20NASA%20Highlights%201967.mp4"},
+        {n: "Apollo Digest Saturn Second Stage", u: "https://archive.org/download/80004-apollo-digest-saturn-second-stage/80004%20Apollo%20Digest%20Saturn%20Second%20Stage.mp4"},
+        {n: "NASA Manned Space Flight Quarterly Report 11", u: "https://archive.org/download/68384-nasa-manned-space-flight-quaterly-report-11-vwr/68384%20NASA%20Manned%20Space%20Flight%20Quaterly%20Report%2011_vwr.mp4"},
+        {n: "NASA Manned Space Flight January 1964", u: "https://archive.org/download/xd-10044-nasa-manned-space-flight-january-1964-vwr/XD10044%2BNASA%2BManned%2BSpace%2BFlight%2BJanuary%2B1964_vwr.mp4"}
+    ];
+
+    const sciFi = [
+        {n: "The Time Machine (1978)", u: "https://archive.org/download/the-time-machine-1978-time-travel-sci-fi/The%20Time%20Machine%20%281978%20Time%20Travel%20SciFi%29.mp4"},
+        {n: "Plan 9 from Outer Space", u: "https://archive.org/download/Plan9FromOuterSpace/Plan9FromOuterSpace_512kb.mp4"},
+        {n: "Destroy All Monsters (1968)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/9.DestroyAllMonsters1968.mp4"},
+        {n: "Son of Godzilla (1967)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/8.SonOfGodzilla1967.mp4"},
+        {n: "Godzilla vs The Sea Monster (1966)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/7.GodzillaVsTheSeaMonster1966.mp4"},
+        {n: "Godzilla vs Monster Zero (1965)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/6.GodzillaVsMonsterZero1965.mp4"},
+        {n: "Mothra vs Godzilla (1964)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/5.MothraVsGodzilla1964.mp4"},
+        {n: "Ghidorah The Three Headed Monster (1964)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/4.GhidorahTheThreeHeadedMonster1964.mp4"},
+        {n: "King Kong vs Godzilla (1962)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/3.KingKongVsGodzilla1962.mp4"},
+        {n: "Godzilla Final Wars (2004)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/29.Godzilla-FinalWars2004.mp4"},
+        {n: "Godzilla Tokyo S.O.S. (2003)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/28.Godzilla-TokyoS.o.s.2003.mp4"},
+        {n: "Godzilla Against Mechagodzilla (2002)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/27.GodzillaAgainstMechagodzilla2002.mp4"},
+        {n: "Godzilla Mothra And King Ghidorah (2001)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/26.GodzillaMothraAndKingGhidorahGiantMonstersAllOutAttack2001.mp4"},
+        {n: "Godzilla vs Megaguirus (2000)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/25.GodzillaVsMegaguirus2000.mp4"},
+        {n: "Godzilla 2000 (1999)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/24.Godzilla20001999.mp4"},
+        {n: "Godzilla 1998", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/23.Godzilla1998.mp4"},
+        {n: "Godzilla vs Destroyah (1995)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/22.GodzillaVsDestroyah1995.mp4"},
+        {n: "Godzilla vs SpaceGodzilla (1994)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/21.GodzillaVsSpaceGodzilla1994.mp4"},
+        {n: "Godzilla vs Mechagodzilla II (1993)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/20.GodzillaVsMechagodzilla21993.mp4"},
+        {n: "Godzilla And Mothra The Battle For Earth (1992)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/19.GodzillaAndMothra-TheBattleForEarth1992.mp4"},
+        {n: "Godzilla vs King Ghidorah (1991)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/18.GodzillaVsKingGhidorah1991.mp4"},
+        {n: "Godzilla vs Biollante (1989)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/17.GodzillaVsBiollante1989.mp4"},
+        {n: "Godzilla 1985", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/16.Godzilla1985.mp4"},
+        {n: "Terror Of Mechagodzilla (1975)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/15.TerrorOfMechagodzilla1975.mp4"},
+        {n: "Godzilla vs Mechagodzilla (1974)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/14.GodzillaVsMechagodzilla1974.gif"},
+        {n: "Frankenstein (1931 Restored)", u: "https://archive.org/download/frankenstein-1931-restored-movie-720p-hd/frankenstein-1931-restored%20movie-720p-hd.mp4"},
+        {n: "Star Trek - Tomorrow Is Yesterday", u: "https://archive.org/download/JimmyAndTheFederationGang/1x22-TomorrowIsYesterday.mp4"},
+        {n: "Star Trek - Where No Man Has Gone Before", u: "https://archive.org/download/JimmyAndTheFederationGang/1x02-WhereNoManHasGoneBefore.mp4"},
+        {n: "Star Trek - The Corbomite Maneuver", u: "https://archive.org/download/JimmyAndTheFederationGang/1x03-TheCorbomiteManeuver.mp4"},
+        {n: "Star Trek - Mudd's Women", u: "https://archive.org/download/JimmyAndTheFederationGang/1x04-MuddsWomen.mp4"},
+        {n: "Star Trek - The Galileo Seven", u: "https://archive.org/download/JimmyAndTheFederationGang/1x14-TheGalileoSeven.mp4"},
+        {n: "Science Fiction Theater - Beyond", u: "https://dn720408.ca.archive.org/0/items/science-fiction-theatre/Science%20Fiction%20Theater%20S01%20E01%20Beyond_x264.ia.mp4"},
+        {n: "Science Fiction Theater - Y.O.R.D.", u: "https://archive.org/download/science-fiction-theatre/Science%20Fiction%20Theater%20S01%20E04%20Y.O.R.D._x264.mp4"},
+        {n: "Science Fiction Theater - No Food for Thought", u: "https://archive.org/download/science-fiction-theatre/Science%20Fiction%20Theater%20S01%20E06%20No%20Food%20for%20Thought_x264.mp4"},
+        {n: "Science Fiction Theater - The Mind Machine", u: "https://archive.org/download/science-fiction-theatre/Science%20Fiction%20Theater%20S02%20E10%20The%20Mind%20Machine_x264.mp4"},
+        {n: "Science Fiction Theater - Living Lights", u: "https://archive.org/download/science-fiction-theatre/Science%20Fiction%20Theater%20S02%20E17%20Living%20Lights_x264.mp4"},
+        {n: "Science Fiction Theater - Bullet Proof", u: "https://archive.org/download/science-fiction-theatre/Science%20Fiction%20Theater%20S02%20E06%20Bullet%20Proof_x264.mp4"},
+        {n: "Science Fiction Theater - The Man Who Didn't Know", u: "https://archive.org/download/science-fiction-theatre/Science%20Fiction%20Theater%20S02%20E13%20The%20Man%20Who%20Didnt%20Know_x264.mp4"},
+        {n: "Science Fiction Theater - The Last Barrier", u: "https://archive.org/download/science-fiction-theatre/Science%20Fiction%20Theater%20S02%20E28%20The%20Last%20Barrier_x264.mp4"}
+    ];
+
+    const classicTV = [
+        {n: "Superman - Mechanical Monsters", u: "https://archive.org/download/superman_the_mechanical_monsters/superman_the_mechanical_monsters_512kb.mp4"},
+        {n: "Superman Cartoon", u: "https://archive.org/download/Superman-1941/Cartoon-SupermanBLP-VCD.mp4"},
+        {n: "Popeye Meets Sindbad", u: "https://archive.org/download/popeye_sindbad/Popeye_Sindbad.mp4"},
+        {n: "Monty Python - Whither Canada?", u: "https://archive.org/download/mpfc-remastered_20210305_1553/01.%20Whither%20Canada%3F.mp4"},
+        {n: "Silly Symphonies - The Skeleton Dance (1929)", u: "https://archive.org/download/walt-disneys-silly-symphonies-the-complete-collection-1929-39/01%20-%20The%20Skeleton%20Dance%20%281929%29.mp4"},
+        {n: "Silly Symphonies - King Neptune", u: "https://archive.org/download/videoplayback-3_202106-walt-disney-king-neptune/videoplayback%20%283%29.mp4"}
+    ];
+
+    const hotRods = [
+        {n: "Wonderful World of Wheels", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"},
+        {n: "NASA 1971 Aeronautics And Space Highlights", u: "https://archive.org/download/19194nasa1971aeronauticsandspacehighlightsvwr/19194%20NASA%201971%20Aeronautics%20And%20Space%20Highlights_vwr.mp4"}
+    ];
+
+    const radioDramas = [
+        {n: "War of the Worlds", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-30WarOfTheWorlds.mp3", audio: true},
+        {n: "Dracula", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-11Dracula.mp3", audio: true},
+        {n: "Treasure Island", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-18TreasureIsland.mp3", audio: true}
+    ];
+
+    const categories = [
+        {name: "CAR ADS", content: carAds},
+        {name: "SPACE", content: space},
+        {name: "SCI-FI", content: sciFi},
+        {name: "CLASSIC TV", content: classicTV},
+        {name: "HOT RODS", content: hotRods},
+        {name: "RADIO", content: radioDramas}
+    ];
 
     let currentCategoryIndex = 0;
     let currentVideoIndex = 0;
@@ -343,7 +353,7 @@
         const ring = document.getElementById(id);
         ring.innerHTML = '';
 
-        const radius = clamp(48, 55, 62); // responsive radius
+        const radius = 58; // tuned to sit tight on the smaller knob's outer edge
         const step = 360 / count;
 
         for (let i = 0; i < count; i++) {
@@ -377,11 +387,6 @@
             else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
             else if (document.msExitFullscreen) document.msExitFullscreen();
         }
-    }
-
-    // Responsive clamp helper (for radius on different screens)
-    function clamp(min, val, max) {
-        return Math.min(Math.max(min, val), max);
     }
 </script>
 </body>
