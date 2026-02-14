@@ -81,17 +81,17 @@
         .knob::after { 
             content: ''; 
             position: absolute; 
-            top: 14px; 
+            top: 20px; 
             left: 50%; 
-            width: 8px; 
-            height: 34px; 
+            width: 4px;          /* reduced to ~1/8 original size */
+            height: 20px;        /* shorter too */
             background: #ddd; 
             transform: translateX(-50%); 
         }
         .number-ring { 
             position: absolute; 
-            width: 160px; 
-            height: 160px; 
+            width: 180px;        /* larger ring for better centering & spacing */
+            height: 180px; 
             top: 50%; 
             left: 50%; 
             transform: translate(-50%, -50%); 
@@ -110,11 +110,15 @@
             pointer-events: none; 
         }
         .label { 
-            color: #ddd; 
-            font-size: 15px; 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            color: #eee; 
+            font-size: 11px;        /* smaller to fit nicely inside dial */
             font-weight: bold; 
-            margin-top: 10px; 
-            text-shadow: 0 0 8px #000; 
+            text-shadow: 0 0 6px #000; 
+            pointer-events: none; 
         }
         .volume-container { 
             width: 82px; 
@@ -180,7 +184,7 @@
         <div class="dial-housing">
             <div class="number-ring" id="t-numbers"></div>
             <div class="knob" id="t-knob" onclick="tune(1)" oncontextmenu="event.preventDefault(); tune(-1);"></div>
-            <div class="label">TUNE</div>
+            <div class="label">TUNE</div> <!-- now centered on knob -->
         </div>
 
         <div class="volume-container">
@@ -190,12 +194,13 @@
         <div class="dial-housing">
             <div class="number-ring" id="s-numbers"></div>
             <div class="knob" id="s-knob" onclick="changeCategory(1)" oncontextmenu="event.preventDefault(); changeCategory(-1);"></div>
-            <div class="label">CATEGORY</div>
+            <div class="label">CATEGORY</div> <!-- now centered on knob -->
         </div>
     </div>
 </div>
 
 <script>
+    // Your content arrays (all links restored)
     const carAds = [
         {n: "1964 Ford Mustang", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_512kb.mp4"},
         {n: "1965 Pontiac GTO Tiger", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Tiger_512kb.mp4"},
@@ -390,13 +395,13 @@
 
     function makeNumbers(id, count) {
         const ring = document.getElementById(id);
-        ring.innerHTML = ''; // clear any old numbers
+        ring.innerHTML = ''; // clear old numbers
 
-        const radius = 70; // distance from center to number center
+        const radius = 75; // distance from center to number (tuned for centering)
         const step = 360 / count;
 
         for (let i = 0; i < count; i++) {
-            const angle = i * step - 90; // start at top (12 o'clock)
+            const angle = i * step - 90; // start at top
             const rad = angle * Math.PI / 180;
 
             const x = radius * Math.cos(rad);
