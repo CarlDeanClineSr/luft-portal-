@@ -81,17 +81,17 @@
         .knob::after { 
             content: ''; 
             position: absolute; 
-            top: 22px; 
+            top: 24px; 
             left: 50%; 
-            width: 4px;           /* very thin now */
+            width: 4px; 
             height: 22px; 
             background: #ddd; 
             transform: translateX(-50%); 
         }
         .number-ring { 
             position: absolute; 
-            width: 220px;         /* larger ring to clear knob + label */
-            height: 220px; 
+            width: 240px;          /* expanded to give numbers breathing room */
+            height: 240px; 
             top: 50%; 
             left: 50%; 
             transform: translate(-50%, -50%); 
@@ -99,10 +99,10 @@
         }
         .number { 
             position: absolute; 
-            width: 32px; 
-            height: 32px; 
+            width: 34px; 
+            height: 34px; 
             text-align: center; 
-            line-height: 32px; 
+            line-height: 34px; 
             font-size: 13px; 
             color: #eee; 
             text-shadow: 0 0 5px #000; 
@@ -115,7 +115,7 @@
             left: 50%; 
             transform: translate(-50%, -50%); 
             color: #eee; 
-            font-size: 10px;      /* small enough to fit inside knob */
+            font-size: 11px; 
             font-weight: bold; 
             text-shadow: 0 0 6px #000; 
             pointer-events: none; 
@@ -200,7 +200,7 @@
 </div>
 
 <script>
-    // All your original content arrays are fully restored here
+    // All your content arrays are fully intact
     const carAds = [
         {n: "1964 Ford Mustang", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_512kb.mp4"},
         {n: "1965 Pontiac GTO Tiger", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Tiger_512kb.mp4"},
@@ -375,7 +375,7 @@
     }
 
     function tune(dir) {
-        tunerDeg += dir * 30; // 360/12 = 30° per click
+        tunerDeg += dir * 30;
         document.getElementById('t-knob').style.transform = `rotate(${tunerDeg}deg)`;
         const cat = categories[currentCategoryIndex];
         currentVideoIndex = (currentVideoIndex + dir + cat.content.length) % cat.content.length;
@@ -383,7 +383,7 @@
     }
 
     function changeCategory(dir) {
-        categoryDeg += dir * 45; // 360/8 = 45° per click
+        categoryDeg += dir * 45;
         document.getElementById('s-knob').style.transform = `rotate(${categoryDeg}deg)`;
         currentCategoryIndex = (currentCategoryIndex + dir + categories.length) % categories.length;
         currentVideoIndex = 0;
@@ -395,13 +395,13 @@
 
     function makeNumbers(id, count) {
         const ring = document.getElementById(id);
-        ring.innerHTML = ''; // clear old numbers
+        ring.innerHTML = '';
 
-        const radius = 85; // increased radius to push numbers further out (avoids label overlap)
+        const radius = 95;  // pushed further out to clear knob + label completely
         const step = 360 / count;
 
         for (let i = 0; i < count; i++) {
-            const angle = i * step - 90; // start at top (12 o'clock)
+            const angle = i * step - 90; // top starts at 12 o'clock
             const rad = angle * Math.PI / 180;
 
             const x = radius * Math.cos(rad);
@@ -411,7 +411,7 @@
             num.className = 'number';
             num.style.left = `calc(50% + ${x}px)`;
             num.style.top  = `calc(50% + ${y}px)`;
-            num.style.transform = `translate(-50%, -50%)`; // perfect centering
+            num.style.transform = `translate(-50%, -50%)`; // dead-center alignment
             num.innerText = i + 1;
 
             ring.appendChild(num);
