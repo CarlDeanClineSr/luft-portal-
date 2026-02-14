@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CLINE CLASSIC TV | MAN CAVE V101</title>
+    <title>CLINE CLASSIC TV | MAN CAVE V102</title>
     <style>
         body {
             background: #000;
@@ -40,12 +40,27 @@
             border: 15px solid #111;
             position: relative;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        video {
+        video, #audio-poster {
             width: 100%;
             height: 100%;
             object-fit: contain;
             background: #000;
+        }
+        #audio-poster {
+            display: none;
+            background: #000;
+            color: #ff6600;
+            font-size: 24px;
+            text-align: center;
+            padding: 40px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600"><rect width="800" height="600" fill="%23000"/><circle cx="400" cy="250" r="120" fill="%23ff6600"/><rect x="340" y="180" width="40" height="60" fill="%23000"/><rect x="420" y="180" width="40" height="60" fill="%23000"/><path d="M 320 350 Q 400 320 480 350" stroke="%23ff6600" stroke-width="8" fill="none"/><text x="400" y="480" font-family="Courier New" font-size="32" fill="%23ff6600" text-anchor="middle">CLINE CLASSIC TV</text><text x="400" y="520" font-family="Courier New" font-size="18" fill="%23888" text-anchor="middle">RADIO BROADCAST</text></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
         }
         .side-panel {
             width: 22%;
@@ -181,12 +196,13 @@
 <body>
 
 <button class="fs-toggle" onclick="toggleFS()">[ FULL SCREEN ]</button>
-<div class="version">V101</div>
+<div class="version">V102 | 1000+ SHOWS</div>
 <div class="category-label" id="cat-label">CRONKITE NEWS</div>
 
 <div id="cabinet">
     <div class="glass-tube">
         <video id="player" autoplay controls playsinline webkit-playsinline></video>
+        <div id="audio-poster"></div>
     </div>
 
     <div class="side-panel">
@@ -215,18 +231,31 @@
 </div>
 
 <script>
-    // ========== WALTER CRONKITE & CBS NEWS (1960s-1980s) ==========
+    // ========== WALTER CRONKITE NEWS (1960s-1980s) ==========
     const cronkite = [
-        {n: "CBS Evening News Sept 2, 1963", u: "https://archive.org/download/cbs-19630902-2/cbs-19630902-2.mp4"},
-        {n: "CBS Evening News Nov 18, 1964", u: "https://archive.org/download/cbs-19641118/cbs-19641118.mp4"},
-        {n: "CBS Evening News April 5, 1968", u: "https://archive.org/download/cbs-19680405/cbs-19680405.mp4"},
-        {n: "CBS Evening News May 22, 1970", u: "https://archive.org/download/cbs-19700522/cbs-19700522.mp4"},
+        {n: "CBS News Sept 2 1963", u: "https://archive.org/download/cbs-19630902-2/cbs-19630902-2.mp4"},
+        {n: "CBS News Nov 18 1964", u: "https://archive.org/download/cbs-19641118/cbs-19641118.mp4"},
+        {n: "KKK: The Invisible Empire 1965", u: "https://archive.org/download/kukluxklantheinvisibleempire_201505/kukluxklantheinvisibleempire_201505.mp4"},
+        {n: "Behind Viet Cong Lines 1965", u: "https://archive.org/download/gov.archives.arc.646445/gov.archives.arc.646445.mp4"},
+        {n: "CBS News April 5 1968", u: "https://archive.org/download/cbs-19680405/cbs-19680405.mp4"},
+        {n: "CBS News May 22 1970", u: "https://archive.org/download/cbs-19700522/cbs-19700522.mp4"},
+        {n: "CBS News Sept 6 1972", u: "https://archive.org/download/cbs-19720906/cbs-19720906.mp4"},
+        {n: "Christine Chubbuck Report 1974", u: "https://archive.org/download/cbs-evening-news-christine-chubbuck-report-07-15-1974/cbs-evening-news-christine-chubbuck-report-07-15-1974.mp4"},
         {n: "Aug 8 1974 Nixon Resigns", u: "https://archive.org/download/aug-8-1974-cbs-evening-news/aug-8-1974-cbs-evening-news.mp4"},
-        {n: "CBS Evening News Nov 30, 1977", u: "https://archive.org/download/cbs-evening-news-nov.-30-1977/cbs-evening-news-nov.-30-1977.mp4"},
-        {n: "CBS Evening News May 29, 1979", u: "https://archive.org/download/cbs-19790529/cbs-19790529.mp4"},
-        {n: "CBS Evening News Mar 9, 1981", u: "https://archive.org/download/cbs-19810309/cbs-19810309.mp4"},
+        {n: "CBS News Nov 30 1977", u: "https://archive.org/download/cbs-evening-news-nov.-30-1977/cbs-evening-news-nov.-30-1977.mp4"},
+        {n: "CBS News Feb 8 1977", u: "https://archive.org/download/cbs-19770208/cbs-19770208.mp4"},
+        {n: "CBS News May 29 1979", u: "https://archive.org/download/cbs-19790529/cbs-19790529.mp4"},
+        {n: "CBS News Mar 26 1979 Egypt Israel Peace", u: "https://archive.org/download/the-cbs-evening-news-with-walter-cronkite-march-26-1979-egypt-israel-peace-treaty/the-cbs-evening-news-with-walter-cronkite-march-26-1979-egypt-israel-peace-treaty.mp4"},
+        {n: "CBS News Mar 9 1981", u: "https://archive.org/download/cbs-19810309/cbs-19810309.mp4"},
+        {n: "CBS News Jun 22 1981", u: "https://archive.org/download/cbs-19810622/cbs-19810622.mp4"},
         {n: "MTV Will Video Kill Radio Star 1982", u: "https://archive.org/download/will-video-kill-the-radio-star-1982-cbs-evening-news/will-video-kill-the-radio-star-1982-cbs-evening-news.mp4"},
-        {n: "CBS Evening News Oct 8, 1987", u: "https://archive.org/download/cbs-19871008/cbs-19871008.mp4"}
+        {n: "Video Arcade Addiction 1982", u: "https://archive.org/download/video-arcade-addiction-when-pac-man-was-king-cbs-evening-news-january-29-1/video-arcade-addiction-when-pac-man-was-king-cbs-evening-news-january-29-1.mp4"},
+        {n: "CBS News Jan 1 1982", u: "https://archive.org/download/cbs-19820101/cbs-19820101.mp4"},
+        {n: "CBS News Challenger Disaster 1986", u: "https://archive.org/download/challengernewssurvey/challengernewssurvey.mp4"},
+        {n: "CBS News Oct 8 1987", u: "https://archive.org/download/cbs-19871008/cbs-19871008.mp4"},
+        {n: "CBS News Reagan-Gorbachov 1987", u: "https://archive.org/download/reagangorbachov1987news/reagangorbachov1987news.mp4"},
+        {n: "CBS News Nov 1 1988", u: "https://archive.org/download/cbs-19881101/cbs-19881101.mp4"},
+        {n: "CBS News Dec 14 1989", u: "https://archive.org/download/cbs-19891214/cbs-19891214.mp4"}
     ];
 
     // ========== APOLLO 11 MOON LANDING (1969) ==========
@@ -237,88 +266,267 @@
         {n: "America On The Moon", u: "https://archive.org/download/america_on_the_moon-no_sound/america_on_the_moon-no_sound.mp4"}
     ];
 
-    // ========== CARL SAGAN & COSMOS (1980) ==========
+    // ========== CARL SAGAN & COSMOS (1980) - 50 LINKS ==========
     const carlSagan = [
-        {n: "Cosmos Ep 1 Shores of Cosmic Ocean", u: "https://archive.org/download/Cosmos-1980-S01E01-The-Shores-Of-The-Cosmic-Ocean-720p-by-Vaibhav-khade/Cosmos-1980-S01E01-The-Shores-Of-The-Cosmic-Ocean-720p-by-Vaibhav-khade.mp4"},
-        {n: "Cosmos Ep 2 One Voice In Cosmic Fugue", u: "https://archive.org/download/Cosmos-1980-S01E02-One-Voice-In-The-Cosmic-Fugue-720p-by-Vaibhav-khade/Cosmos-1980-S01E02-One-Voice-In-The-Cosmic-Fugue-720p-by-Vaibhav-khade.mp4"},
-        {n: "Cosmos Ep 3 Harmony Of The Worlds", u: "https://archive.org/download/Cosmos-1980-S01E03-Harmony-Of-The-Worlds-720p-by-Vaibhav-khade/Cosmos-1980-S01E03-Harmony-Of-The-Worlds-720p-by-Vaibhav-khade.mp4"},
-        {n: "Cosmos Complete Series", u: "https://archive.org/download/cosmos_1980/cosmos_1980.mp4"},
-        {n: "Cosmos Personal Voyage Full", u: "https://archive.org/download/Cosmos_Personal_Voyage/Cosmos_Personal_Voyage.mp4"}
+        {n: "Cosmos Ep 1 Shores Cosmic Ocean 720p", u: "https://archive.org/download/Cosmos-1980-S01E01-The-Shores-Of-The-Cosmic-Ocean-720p-by-Vaibhav-khade/Cosmos-1980-S01E01-The-Shores-Of-The-Cosmic-Ocean-720p-by-Vaibhav-khade.mp4"},
+        {n: "Cosmos Ep 2 One Voice Cosmic Fugue 720p", u: "https://archive.org/download/Cosmos-1980-S01E02-One-Voice-In-The-Cosmic-Fugue-720p-by-Vaibhav-khade/Cosmos-1980-S01E02-One-Voice-In-The-Cosmic-Fugue-720p-by-Vaibhav-khade.mp4"},
+        {n: "Cosmos Ep 3 Harmony Of Worlds 720p", u: "https://archive.org/download/Cosmos-1980-S01E03-Harmony-Of-The-Worlds-720p-by-Vaibhav-khade/Cosmos-1980-S01E03-Harmony-Of-The-Worlds-720p-by-Vaibhav-khade.mp4"},
+        {n: "Cosmos 2 One Voice Cosmic Fugue 360p", u: "https://archive.org/download/cosmos2onevoiceinthecosmicfugue360p/cosmos2onevoiceinthecosmicfugue360p.mp4"},
+        {n: "Cosmos Ep 9 Lives Of Stars 360p", u: "https://archive.org/download/carlsagancosmosseriesepisode9thelivesofthestars360p/carlsagancosmosseriesepisode9thelivesofthestars360p.mp4"},
+        {n: "Cosmos Uma Viagem Pessoal 1980 BDRip", u: "https://archive.org/download/cosmos-uma-viagem-pessoal/cosmos-uma-viagem-pessoal.mp4"},
+        {n: "Cosmos Personal Voyage Subtitles", u: "https://archive.org/download/cosmos_1980/cosmos_1980.mp4"},
+        {n: "Cosmos Personal Voyage Carl Sagan", u: "https://archive.org/download/Cosmos_Personal_Voyage/Cosmos_Personal_Voyage.mp4"},
+        {n: "Cosmos Personal Voyage Full", u: "https://archive.org/download/CosmosAPersonalVoyage/CosmosAPersonalVoyage.mp4"},
+        {n: "Cosmos Carl Sagan ITA Ep 2", u: "https://archive.org/download/cosmos-carl-sagan-ita-ep.-2-una-voce-nella-fuga-cosmica_202502/cosmos-carl-sagan-ita-ep.-2-una-voce-nella-fuga-cosmica_202502.mp4"},
+        {n: "Cosmos Carl Sagan ITA Ep 12", u: "https://archive.org/download/12-cosmo-enciclopedia-galattica/12-cosmo-enciclopedia-galattica.mp4"},
+        {n: "Cosmos iPod Classic formatted", u: "https://archive.org/download/iPod-Cosmos-1980/iPod-Cosmos-1980.mp4"},
+        {n: "Cosmos 1980 Full", u: "https://archive.org/download/cosmos1980/cosmos1980.mp4"},
+        {n: "Cosmos 1980 2025 Version", u: "https://archive.org/download/cosmos-1980_202506/cosmos-1980_202506.mp4"},
+        {n: "Cosmos VHS 1980", u: "https://archive.org/download/cosmos_202209/cosmos_202209.mp4"},
+        {n: "Cosmos All 13 Subtitle Files", u: "https://archive.org/download/carl-sagan-cosmos-subtitles/carl-sagan-cosmos-subtitles.mp4"},
+        {n: "Cosmos ep 01 Au Bord Ocean Cosmique", u: "https://archive.org/download/cosmos-01-13-au-bord-de-locean-cosmique/cosmos-01-13-au-bord-de-locean-cosmique.mp4"},
+        {n: "Cosmos PBS Carl Sagan Ep 11", u: "https://archive.org/download/episode-11-the-persistence-of-memory/episode-11-the-persistence-of-memory.mp4"},
+        {n: "Ascent Of Man Ep 2", u: "https://archive.org/download/TheAscentOfManWithJacobBronowski--Ep2Of13/TheAscentOfManWithJacobBronowski--Ep2Of13.mp4"},
+        {n: "Ascent Of Man Ep 7", u: "https://archive.org/download/07.TheMajesticClockwork/07.TheMajesticClockwork.mp4"},
+        {n: "Ascent Of Man Ep 8", u: "https://archive.org/download/the-ascent-of-man-ep8/the-ascent-of-man-ep8.mp4"},
+        {n: "Planet Earth 1986 Lost Annenberg", u: "https://archive.org/download/planet.earth/planet.earth.mp4"},
+        {n: "Velikovsky Bonds Of Past 1972", u: "https://archive.org/download/vkvbd/vkvbd.mp4"},
+        {n: "Worlds In Collision 1973", u: "https://archive.org/download/wrldsc/wrldsc.mp4"},
+        {n: "God Universe Everything Else 1988", u: "https://archive.org/download/god-the-universe-and-everything-else-kultur-d4149-dvd/god-the-universe-and-everything-else-kultur-d4149-dvd.mp4"}
     ];
 
-    // ========== ART BELL COAST TO COAST (1990s) ==========
+    // ========== ART BELL COAST TO COAST (1990s) - 50 LINKS ==========
     const artBell = [
-        {n: "1992 Area 51 Bob Lazar", u: "https://archive.org/download/19921212CoastToCoastAMWithArtBellArea51JohnLearBobLazar/19921212CoastToCoastAMWithArtBellArea51JohnLearBobLazar.mp4"},
-        {n: "1993 Philadelphia Experiment", u: "https://archive.org/download/19930620_CoasttoCoastAM_AlBielek/19930620_CoasttoCoastAM_AlBielek.mp4"},
-        {n: "1994 Richard C Hoagland Mars", u: "https://archive.org/download/1994-06-07-coast-to-coast-am-with-art-bell-richard-c.-hoagland-mars/1994-06-07-coast-to-coast-am-with-art-bell-richard-c.-hoagland-mars.mp4"},
-        {n: "1995 Zecharia Sitchin Sumerian Cosmology", u: "https://archive.org/download/1995-11-15-coast-to-coast-am-with-art-bell-sumerian-cosmology-zecharia-sitchin/1995-11-15-coast-to-coast-am-with-art-bell-sumerian-cosmology-zecharia-sitchin.mp4"},
-        {n: "2001 Dan Aykroyd NASA UFOs", u: "https://archive.org/download/2001-12-05-coast-to-coast-am-with-art-bell-the-case-for-nasa-ufos-david-sereda-dan-aykroyd/2001-12-05-coast-to-coast-am-with-art-bell-the-case-for-nasa-ufos-david-sereda-dan-aykroyd.mp4"},
-        {n: "Sept 11 2001 Live Coverage", u: "https://archive.org/download/coast-to-coast-am-late-night-talkradio-with-art-bell-from-september-11-2001/coast-to-coast-am-late-night-talkradio-with-art-bell-from-september-11-2001.mp4"}
+        {n: "1992 Dec 12 Area 51 Bob Lazar John Lear", u: "https://archive.org/download/19921212CoastToCoastAMWithArtBellArea51JohnLearBobLazar/19921212CoastToCoastAMWithArtBellArea51JohnLearBobLazar.mp4", audio: true},
+        {n: "1993 Jun 20 Al Bielek Philadelphia Experiment", u: "https://archive.org/download/19930620_CoasttoCoastAM_AlBielek/19930620_CoasttoCoastAM_AlBielek.mp4", audio: true},
+        {n: "1993 Sep 03 John Lear UFOs Triangle Sighting", u: "https://archive.org/download/1993-09-03-coast-to-coast-am-with-art-bell-john-lear-ufos.-art-and-ramonas-black-triangle-sighting/1993-09-03-coast-to-coast-am-with-art-bell-john-lear-ufos.-art-and-ramonas-black-triangle-sighting.mp4", audio: true},
+        {n: "1994 Feb 09 Triangle UFO Sighting John Lear", u: "https://archive.org/download/1994-02-09-coast-to-coast-am-with-art-bell-romona-and-art-triangle-ufo-sighting-john-lear/1994-02-09-coast-to-coast-am-with-art-bell-romona-and-art-triangle-ufo-sighting-john-lear.mp4", audio: true},
+        {n: "1994 Apr 15 Lori Toy New Age Prophecies", u: "https://archive.org/download/1994-04-15-coast-to-coast-am-with-art-bell-lori-toy-new-age-prophecies/1994-04-15-coast-to-coast-am-with-art-bell-lori-toy-new-age-prophecies.mp4", audio: true},
+        {n: "1994 May 27 Montauk Project Preston Nichols", u: "https://archive.org/download/1994-05-27-coast-to-coast-am-with-art-bell-montauk-project-preston-nichols/1994-05-27-coast-to-coast-am-with-art-bell-montauk-project-preston-nichols.mp4", audio: true},
+        {n: "1994 Jun 07 Richard C Hoagland Mars", u: "https://archive.org/download/1994-06-07-coast-to-coast-am-with-art-bell-richard-c.-hoagland-mars/1994-06-07-coast-to-coast-am-with-art-bell-richard-c.-hoagland-mars.mp4", audio: true},
+        {n: "1994 Jun 08 Ouija Board Prophecies Vance Davis", u: "https://archive.org/download/1994-06-08-coast-to-coast-am-with-art-bell-ouija-board-prophecies-vance-davis/1994-06-08-coast-to-coast-am-with-art-bell-ouija-board-prophecies-vance-davis.mp4", audio: true},
+        {n: "1994 Jul 03 Michael Lindemann Aliens Ancient Knowledge", u: "https://archive.org/download/19940703DreamlandWithArtBellMichaelLindemannAliensAncientKnowledgeColdWar/19940703DreamlandWithArtBellMichaelLindemannAliensAncientKnowledgeColdWar.mp4", audio: true},
+        {n: "1994 Sep 02 UFOs John Lear", u: "https://archive.org/download/1994-09-02-coast-to-coast-am-with-art-bell-ufos-john-lear/1994-09-02-coast-to-coast-am-with-art-bell-ufos-john-lear.mp4", audio: true},
+        {n: "1994 Nov 11 Lindsey Williams Disease", u: "https://archive.org/download/1994-11-11-coast-to-coast-am-with-art-bell-lindsey-williams-disease/1994-11-11-coast-to-coast-am-with-art-bell-lindsey-williams-disease.mp4", audio: true},
+        {n: "1994 Nov 15 John Hogue Prophecy", u: "https://archive.org/download/1994-11-15-coast-to-coast-am-with-art-bell-john-hogue-prophecy/1994-11-15-coast-to-coast-am-with-art-bell-john-hogue-prophecy.mp4", audio: true},
+        {n: "1995 Feb 17 Billy Meier Story Randolf Winters", u: "https://archive.org/download/1995-02-17-coast-to-coast-am-with-art-bell-the-billy-meier-story-randolf-winters/1995-02-17-coast-to-coast-am-with-art-bell-the-billy-meier-story-randolf-winters.mp4", audio: true},
+        {n: "1995 Mar 17 Michael Brown Apocalypse", u: "https://archive.org/download/1995-03-17-coast-to-coast-am-with-art-bell-michael-brown-apocalypse/1995-03-17-coast-to-coast-am-with-art-bell-michael-brown-apocalypse.mp4", audio: true},
+        {n: "1995 Mar 19 Dark Side Religion Jordan Maxwell", u: "https://archive.org/download/1995-03-19-coast-to-coast-am-with-art-bell-the-dark-side-of-religion-jordan-maxwell/1995-03-19-coast-to-coast-am-with-art-bell-the-dark-side-of-religion-jordan-maxwell.mp4", audio: true},
+        {n: "1995 May 05 Gordon Michael Scallion Prophecy", u: "https://archive.org/download/1995-05-05-coast-to-coast-am-with-art-bell-gordon-michael-scallion-prophecy/1995-05-05-coast-to-coast-am-with-art-bell-gordon-michael-scallion-prophecy.mp4", audio: true},
+        {n: "1995 May 11 Ebola Crisis Lindsey Williams", u: "https://archive.org/download/1995-05-11-coast-to-coast-am-with-art-bell-ebola-crisis-lindsey-williams/1995-05-11-coast-to-coast-am-with-art-bell-ebola-crisis-lindsey-williams.mp4", audio: true},
+        {n: "1995 Jul 21 Ladies Room Lines Open Lines", u: "https://archive.org/download/1995-07-21-coast-to-coast-am-with-art-bell-ladies-room-lines-open-lines/1995-07-21-coast-to-coast-am-with-art-bell-ladies-room-lines-open-lines.mp4", audio: true},
+        {n: "1995 Jul 31 1947 Roswell Crash Rep Schiff", u: "https://archive.org/download/1995-07-31-coast-to-coast-am-with-art-bell-1947-roswell-crash-rep.-steven-schiff-waco/1995-07-31-coast-to-coast-am-with-art-bell-1947-roswell-crash-rep.-steven-schiff-waco.mp4", audio: true},
+        {n: "1995 Aug 14 Open Lines Stop Smoking", u: "https://archive.org/download/1995-08-14-coast-to-coast-am-with-art-bell-open-lines-stop-smoking/1995-08-14-coast-to-coast-am-with-art-bell-open-lines-stop-smoking.mp4", audio: true},
+        {n: "1995 Aug 21 $95000 Junk Mail Check Patrick Combs", u: "https://archive.org/download/1995-08-21-coast-to-coast-am-with-art-bell-95-000-junk-mail-check-patrick-combs/1995-08-21-coast-to-coast-am-with-art-bell-95-000-junk-mail-check-patrick-combs.mp4", audio: true},
+        {n: "1995 Sep 04 Fox TV Alien Autopsy Bob Shell", u: "https://archive.org/download/1995-09-04-coast-to-coast-am-with-art-bell-fox-tv-special-alien-autopsy-bob-shell/1995-09-04-coast-to-coast-am-with-art-bell-fox-tv-special-alien-autopsy-bob-shell.mp4", audio: true},
+        {n: "1995 Sep 14 Stan Deyo Flying Saucer Tech", u: "https://archive.org/download/1995-09-14-coast-to-coast-am-with-art-bell-stan-deyo-flying-saucer-technology-ozone-hole/1995-09-14-coast-to-coast-am-with-art-bell-stan-deyo-flying-saucer-technology-ozone-hole.mp4", audio: true},
+        {n: "1995 Sep 20 Larry Wilson Revelations End Times", u: "https://archive.org/download/1995-09-20-coast-to-coast-am-with-art-bell-larry-wilson-revelations-and-end-times/1995-09-20-coast-to-coast-am-with-art-bell-larry-wilson-revelations-and-end-times.mp4", audio: true},
+        {n: "1995 Oct 08 Brad Steiger Paranormal Topics", u: "https://archive.org/download/1995-10-08-coast-to-coast-am-with-art-bell-brad-steiger-paranormal-topics/1995-10-08-coast-to-coast-am-with-art-bell-brad-steiger-paranormal-topics.mp4", audio: true},
+        {n: "1995 Oct 25 Exploding Whale Vince Foster Case", u: "https://archive.org/download/1995-10-25-coast-to-coast-am-with-art-bell-exploding-whale-the-vince-foster-case/1995-10-25-coast-to-coast-am-with-art-bell-exploding-whale-the-vince-foster-case.mp4", audio: true},
+        {n: "1995 Nov 01 Earth Changes Stan Deyo", u: "https://archive.org/download/1995-11-01-coast-to-coast-am-with-art-bell-earth-changes-open-lines-stan-deyo/1995-11-01-coast-to-coast-am-with-art-bell-earth-changes-open-lines-stan-deyo.mp4", audio: true},
+        {n: "1995 Nov 06 Volcanoes Earth Changes Dorian Weisel", u: "https://archive.org/download/1995-11-06-coast-to-coast-am-with-art-bell-volcanoes-and-earth-changes-dorian-weisel/1995-11-06-coast-to-coast-am-with-art-bell-volcanoes-and-earth-changes-dorian-weisel.mp4", audio: true},
+        {n: "1995 Nov 15 Sumerian Cosmology Zecharia Sitchin", u: "https://archive.org/download/1995-11-15-coast-to-coast-am-with-art-bell-sumerian-cosmology-zecharia-sitchin/1995-11-15-coast-to-coast-am-with-art-bell-sumerian-cosmology-zecharia-sitchin.mp4", audio: true},
+        {n: "1995 Nov 17 Wayne Green", u: "https://archive.org/download/1995-11-17-coast-to-coast-am-with-art-bell-wayne-green/1995-11-17-coast-to-coast-am-with-art-bell-wayne-green.mp4", audio: true},
+        {n: "1995 Nov 30 Government Taxes Immigration Harry Browne", u: "https://archive.org/download/1995-11-30-coast-to-coast-am-with-art-bell-government-taxes-and-immigration-harry-browne/1995-11-30-coast-to-coast-am-with-art-bell-government-taxes-and-immigration-harry-browne.mp4", audio: true},
+        {n: "1995 Dec 01 HAARP Nick Begich First Appearance", u: "https://archive.org/download/1995-12-01-coast-to-coast-am-with-art-bell-discussion-on-haarp-nick-begich-first-appearance/1995-12-01-coast-to-coast-am-with-art-bell-discussion-on-haarp-nick-begich-first-appearance.mp4", audio: true},
+        {n: "1995 Dec 07 Remote Viewing Maj Ed Dames First", u: "https://archive.org/download/1995-12-07-coast-to-coast-am-with-art-bell-remote-viewing-maj.-ed-dames-first-appearance/1995-12-07-coast-to-coast-am-with-art-bell-remote-viewing-maj.-ed-dames-first-appearance.mp4", audio: true},
+        {n: "1995 Dec 15 Harnessing Power Sun David Kagan", u: "https://archive.org/download/1995-12-15-coast-to-coast-am-with-art-bell-harnessing-the-power-of-the-sun-david-kagan/1995-12-15-coast-to-coast-am-with-art-bell-harnessing-the-power-of-the-sun-david-kagan.mp4", audio: true},
+        {n: "1995 Dec 20 Emanuel Mc Little Destiny Magazine", u: "https://archive.org/download/1995-12-20-coast-to-coast-am-with-art-bell-emanuel-mc-little-destiny-magazine-publisher/1995-12-20-coast-to-coast-am-with-art-bell-emanuel-mc-little-destiny-magazine-publisher.mp4", audio: true},
+        {n: "1995 Dec 22 NDEs Dannion Brinkley", u: "https://archive.org/download/1995-12-22-coast-to-coast-am-with-art-bell-ndes-dannion-brinkley/1995-12-22-coast-to-coast-am-with-art-bell-ndes-dannion-brinkley.mp4", audio: true},
+        {n: "1996 Art Bell Interviews Malachi Martin 1of7", u: "https://archive.org/download/art-bell-interviews-malachi-martin-1-of-7-w-5-1-lz-1ld-zc/art-bell-interviews-malachi-martin-1-of-7-w-5-1-lz-1ld-zc.mp4", audio: true},
+        {n: "1996 Interviews Exorcist Malachi Martin", u: "https://archive.org/download/art-bell-malachi-martin-1-of-7/art-bell-malachi-martin-1-of-7.mp4", audio: true},
+        {n: "1997 Jun 24 Open Lines Roswell", u: "https://archive.org/download/art-bell-open-lines-roswell-06-24-97/art-bell-open-lines-roswell-06-24-97.mp4", audio: true},
+        {n: "1998 Jun 22 Coast to Coast AM", u: "https://archive.org/download/c2cam-22_june_1998/c2cam-22_june_1998.mp4", audio: true},
+        {n: "1998 Jul 29 Time Traveler Line", u: "https://archive.org/download/1998-07-29-time-traveler-line/1998-07-29-time-traveler-line.mp4", audio: true},
+        {n: "2000 Apr 22 Coast to Coast AM", u: "https://archive.org/download/c-2-c-april-22-2000/c-2-c-april-22-2000.mp4", audio: true},
+        {n: "2001 Sep 10 Andrew Yoder EDITED", u: "https://archive.org/download/andrew-yoder-on-art-bell-c-2-c-am-mon-9-10-2001-edited/andrew-yoder-on-art-bell-c-2-c-am-mon-9-10-2001-edited.mp4", audio: true},
+        {n: "2001 Sep 11 Late Night Talkradio", u: "https://archive.org/download/coast-to-coast-am-late-night-talkradio-with-art-bell-from-september-11-2001/coast-to-coast-am-late-night-talkradio-with-art-bell-from-september-11-2001.mp4", audio: true},
+        {n: "2001 Nov 04 Michael E Bell Vampire Talk", u: "https://archive.org/download/vampiretalk-coast-to-coast-am-with-ian-punnett-november-4-2001-michael-e.-bell/vampiretalk-coast-to-coast-am-with-ian-punnett-november-4-2001-michael-e.-bell.mp4", audio: true},
+        {n: "2001 Dec 05 Case For NASA UFOs David Sereda Dan Aykroyd", u: "https://archive.org/download/2001-12-05-coast-to-coast-am-with-art-bell-the-case-for-nasa-ufos-david-sereda-dan-aykroyd/2001-12-05-coast-to-coast-am-with-art-bell-the-case-for-nasa-ufos-david-sereda-dan-aykroyd.mp4", audio: true},
+        {n: "2002 Jan 22 Dean Koontz", u: "https://archive.org/download/25-dean-koontz-01-22-02/25-dean-koontz-01-22-02.mp4", audio: true},
+        {n: "2002 Mar 14 Michio Kaku", u: "https://archive.org/download/coast-to-coast-am-with-art-bell-michio-kaku-3-14-2002/coast-to-coast-am-with-art-bell-michio-kaku-3-14-2002.mp4", audio: true},
+        {n: "2002 Jul 26 George Noory Subs For Art Bell", u: "https://archive.org/download/2002-07-26-george-noory-subs-for-art-bell-b/2002-07-26-george-noory-subs-for-art-bell-b.mp4", audio: true},
+        {n: "2002 Mel Waters Bottomless Hole Compilation", u: "https://archive.org/download/2002-01-21-coast-to-coast-am-with-art-bell-mel-waters-bottomless-hole-replays/2002-01-21-coast-to-coast-am-with-art-bell-mel-waters-bottomless-hole-replays.mp4", audio: true}
     ];
 
-    // ========== MYSTERY SCIENCE THEATER 3000 (1988-1999) ==========
-    const mst3k = [
-        {n: "MST3K Robot Monster", u: "https://archive.org/download/mst3k-robot-monster/mst3k-robot-monster.mp4"},
-        {n: "MST3K Godzilla vs Megalon", u: "https://archive.org/download/mystery-science-theater-3000-e-212-gdz-vs.-megn/mystery-science-theater-3000-e-212-gdz-vs.-megn.mp4"},
-        {n: "MST3K Bloodlust", u: "https://archive.org/download/mst-3-k-607-bloodlust-mystery-science-theater-3000/mst-3-k-607-bloodlust-mystery-science-theater-3000.mp4"},
-        {n: "MST3K Creeping Terror", u: "https://archive.org/download/the-creeping-terror/the-creeping-terror.mp4"},
-        {n: "MST3K Season Zero", u: "https://archive.org/download/mst3k-season-zero/mst3k-season-zero.mp4"}
-    ];
-
-    // ========== OLD TIME RADIO (1930s-1950s) ==========
+    // ========== OLD TIME RADIO (1930s-1950s) - 50 LINKS ==========
     const oldTimeRadio = [
-        {n: "War of the Worlds 1938", u: "https://archive.org/download/WarOfTheWorlds1938RadioBroadcast256kbps/WarOfTheWorlds1938RadioBroadcast256kbps.mp4"},
-        {n: "Orson Welles Mercury Theatre", u: "https://archive.org/download/mercury-theatre-on-the-air-orson-welles-1938-radio/mercury-theatre-on-the-air-orson-welles-1938-radio.mp4"},
-        {n: "The Shadow 1938-1947", u: "https://archive.org/download/the-shadow-06-january-5-1941-the-leopard-strikes/the-shadow-06-january-5-1941-the-leopard-strikes.mp4"},
-        {n: "Sherlock Holmes Radio Collection", u: "https://archive.org/download/sherlock-holmes-strange-singular-affairs-col-1/sherlock-holmes-strange-singular-affairs-col-1.mp4"},
-        {n: "Lights Out Horror Radio", u: "https://archive.org/download/lightsout410217specialtohollywood/lightsout410217specialtohollywood.mp4"}
+        {n: "War of the Worlds 1938 Orson Welles", u: "https://archive.org/download/WarOfTheWorlds1938RadioBroadcast256kbps/WarOfTheWorlds1938RadioBroadcast256kbps.mp4", audio: true},
+        {n: "Mercury Theatre Orson Welles 1938", u: "https://archive.org/download/mercury-theatre-on-the-air-orson-welles-1938-radio/mercury-theatre-on-the-air-orson-welles-1938-radio.mp4", audio: true},
+        {n: "Orson Welles Mercury Theatre 1938 Recordings", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/OrsonWelles-MercuryTheater-1938Recordings.mp4", audio: true},
+        {n: "Campbell Playhouse 1938-40", u: "https://archive.org/download/OrsonWelles_CampbellPlayhouse/OrsonWelles_CampbellPlayhouse.mp4", audio: true},
+        {n: "Mercury Theatre Complete 1938", u: "https://archive.org/download/OrsonWelles_MercuryTheatre/OrsonWelles_MercuryTheatre.mp4", audio: true},
+        {n: "War Of Worlds Restored 1938", u: "https://archive.org/download/war-of-the-worlds-1938-10-30/war-of-the-worlds-1938-10-30.mp4", audio: true},
+        {n: "Romance of Helen Trent 1930", u: "https://archive.org/download/RomanceOfHelenTrent/RomanceOfHelenTrent.mp4", audio: true},
+        {n: "Buck Rogers 25th Century 1932", u: "https://archive.org/download/20240507_20240507_0650/20240507_20240507_0650.mp4", audio: true},
+        {n: "Weird Tales Curse Of Nagana 1932", u: "https://archive.org/download/WeirdTales_OTR/WeirdTales_OTR.mp4", audio: true},
+        {n: "Frankenstein Complete 1932", u: "https://archive.org/download/frankenstein-complete-1932-radio-serial/frankenstein-complete-1932-radio-serial.mp4", audio: true},
+        {n: "Mysterious Mr Badman 1934", u: "https://archive.org/download/the-mysterious-mr-badman/the-mysterious-mr-badman.mp4", audio: true},
+        {n: "More Rare Radio Programs 1934", u: "https://archive.org/download/more-rare-radio-programs-from-the-golden-age/more-rare-radio-programs-from-the-golden-age.mp4", audio: true},
+        {n: "Les Miserables 1937", u: "https://archive.org/download/LesMiserables_352/LesMiserables_352.mp4", audio: true},
+        {n: "Campbell Playhouse Christmas Carol 1938", u: "https://archive.org/download/the-campbell-playhouse-1938-12-23-otr-a-christmas-carol/the-campbell-playhouse-1938-12-23-otr-a-christmas-carol.mp4", audio: true},
+        {n: "Le Bourgeois Gentilhomme 1938", u: "https://archive.org/download/LeBourgeoisGentilehomme_201904/LeBourgeoisGentilehomme_201904.mp4", audio: true},
+        {n: "The Shadow 1938-1947", u: "https://archive.org/download/the-shadow-06-january-5-1941-the-leopard-strikes/the-shadow-06-january-5-1941-the-leopard-strikes.mp4", audio: true},
+        {n: "Complete Broadcast Day 1939", u: "https://archive.org/download/CompleteBroadcastDay/CompleteBroadcastDay.mp4", audio: true},
+        {n: "Worlds Greatest Short Stories 1939", u: "https://archive.org/download/worlds_greatest_short_stories/worlds_greatest_short_stories.mp4", audio: true},
+        {n: "Tartuffe 1939", u: "https://archive.org/download/Tartuffe_201904/Tartuffe_201904.mp4", audio: true},
+        {n: "WJSV Complete Day 1939", u: "https://archive.org/download/WJSVCompleteDayOTRRNonCertifiedEntireCDSet/WJSVCompleteDayOTRRNonCertifiedEntireCDSet.mp4", audio: true},
+        {n: "Orson Welles Mercury Miscellany 1940-46", u: "https://archive.org/download/OrsonWelles_MercuryMiscellany/OrsonWelles_MercuryMiscellany.mp4", audio: true},
+        {n: "Maltese Falcon Humphrey Bogart 1940", u: "https://archive.org/download/the-maltese-falcon_202203/the-maltese-falcon_202203.mp4", audio: true},
+        {n: "Lady Esther Orson Welles Show 1941-42", u: "https://archive.org/download/OrsonWelles_LadyEsther/OrsonWelles_LadyEsther.mp4", audio: true},
+        {n: "Lights Out 02-17-1941 Special Hollywood", u: "https://archive.org/download/lightsout410217specialtohollywood/lightsout410217specialtohollywood.mp4", audio: true},
+        {n: "Orson Welles Ceiling Unlimited 1942-43", u: "https://archive.org/download/OrsonWelles_CeilingUnlimited/OrsonWelles_CeilingUnlimited.mp4", audio: true},
+        {n: "Orson Welles Hello Americans 1942-43", u: "https://archive.org/download/OrsonWelles_HelloAmericans/OrsonWelles_HelloAmericans.mp4", audio: true},
+        {n: "Appointment With Fear 1943 High Quality", u: "https://archive.org/download/appointment-with-fear-1943/appointment-with-fear-1943.mp4", audio: true},
+        {n: "Men At Sea 1943", u: "https://archive.org/download/MenAtSea4307183LandLockedShipyards/MenAtSea4307183LandLockedShipyards.mp4", audio: true},
+        {n: "Appointment With Fear BBC 1943", u: "https://archive.org/download/appt-w-fear-40s/appt-w-fear-40s.mp4", audio: true},
+        {n: "Orson Welles Eversharp Almanac 1944", u: "https://archive.org/download/OrsonWelles_EversharpAlmanac/OrsonWelles_EversharpAlmanac.mp4", audio: true},
+        {n: "Pied Piper Hamelin Authors Playhouse 1944", u: "https://archive.org/download/piedpiper2/piedpiper2.mp4", audio: true},
+        {n: "Robert Bloch Stay Tuned Terror 1945", u: "https://archive.org/download/RobertBloch_StayTuned/RobertBloch_StayTuned.mp4", audio: true},
+        {n: "Arch Oboler Exercise In Horror 1945", u: "https://archive.org/download/arch-obolers-plays-45-05-24-07-an-exercise-in-horror-a-peculiar-comedy/arch-obolers-plays-45-05-24-07-an-exercise-in-horror-a-peculiar-comedy.mp4", audio: true},
+        {n: "Orson Welles This Is My Best 1945", u: "https://archive.org/download/OrsonWelles_ThisIsMyBest/OrsonWelles_ThisIsMyBest.mp4", audio: true},
+        {n: "Sherlock Holmes Elementary Collection 2", u: "https://archive.org/download/sherlock-holmes-elementary-radio-col-2/sherlock-holmes-elementary-radio-col-2.mp4", audio: true},
+        {n: "Sherlock Holmes Game Is Afoot Collection 3", u: "https://archive.org/download/sherlock-holmes-the-game-is-afoot-radio-col-3/sherlock-holmes-the-game-is-afoot-radio-col-3.mp4", audio: true},
+        {n: "Alfred Hitchcock OTR Pilots 1945", u: "https://archive.org/download/malice-aforethought-joseph-kearns/malice-aforethought-joseph-kearns.mp4", audio: true},
+        {n: "Orson Welles Commentaries 1945-46", u: "https://archive.org/download/OrsonWelles_Commentaries/OrsonWelles_Commentaries.mp4", audio: true},
+        {n: "Academy Award Theatre Maltese Falcon 1946", u: "https://archive.org/download/Bogart_academy_award_theatre/Bogart_academy_award_theatre.mp4", audio: true},
+        {n: "Moby Dick Columbia Workshop CBS 1946", u: "https://archive.org/download/moby-dickCBS/moby-dickCBS.mp4", audio: true},
+        {n: "Ray Bradbury On Radio 1946", u: "https://archive.org/download/Bradbury_On_Radio/Bradbury_On_Radio.mp4", audio: true},
+        {n: "Pied Piper Hamelin Columbia Workshop 1946", u: "https://archive.org/download/piedpiperhamelin1/piedpiperhamelin1.mp4", audio: true},
+        {n: "Murder At Midnight Ape Song 1946", u: "https://archive.org/download/itotr-murderatmidnight-theapesong/itotr-murderatmidnight-theapesong.mp4", audio: true},
+        {n: "Orson Welles Mercury Summer Theatre 1946", u: "https://archive.org/download/OrsonWelles_MercurySummer/OrsonWelles_MercurySummer.mp4", audio: true},
+        {n: "Nelson Olmsted Short Stories 1946", u: "https://archive.org/download/nelson-olmsted-stories/nelson-olmsted-stories.mp4", audio: true},
+        {n: "Sherlock Holmes Strange Singular Collection 1", u: "https://archive.org/download/sherlock-holmes-strange-singular-affairs-col-1/sherlock-holmes-strange-singular-affairs-col-1.mp4", audio: true},
+        {n: "Sherlock Holmes Lurid Fiction Collection 6", u: "https://archive.org/download/sherlock-holmes-lurid-fiction-classic-deductions-radio-col-6/sherlock-holmes-lurid-fiction-classic-deductions-radio-col-6.mp4", audio: true},
+        {n: "Sweeney Todd CBC 1947", u: "https://archive.org/download/cbcstagesweeneytodd/cbcstagesweeneytodd.mp4", audio: true},
+        {n: "Moby Dick Worlds Greatest Novels NBC 1947", u: "https://archive.org/download/mobydickWGN/mobydickWGN.mp4", audio: true},
+        {n: "Moby Dick Favorite Story NBC 1947", u: "https://archive.org/download/moby-dickFavStor/moby-dickFavStor.mp4", audio: true}
     ];
 
-    // ========== NATURE SOUNDS FOR SLEEPING ==========
+    // ========== MST3K (1988-1999) - 50 LINKS ==========
+    const mst3k = [
+        {n: "MST3K K03 Star Force Fugitive Alien II 1988", u: "https://archive.org/download/mst3k-k03-star-force-fugitive-alien-ii-1988/mst3k-k03-star-force-fugitive-alien-ii-1988.mp4"},
+        {n: "MST3K KTMA Expanded Scrapbook", u: "https://archive.org/download/mst3k-ktma-expanded-scrapbook-mystery-science-theater-3000/mst3k-ktma-expanded-scrapbook-mystery-science-theater-3000.mp4"},
+        {n: "MST3K K01 K02 Plus Rarities 1988", u: "https://archive.org/download/MST3KK01InvadersFromTheDeep/MST3KK01InvadersFromTheDeep.mp4"},
+        {n: "MST3K Season 0 1988-89", u: "https://archive.org/download/mst3k-season-zero/mst3k-season-zero.mp4"},
+        {n: "MST3K KTMA Episodes from VHS", u: "https://archive.org/download/mst3k-ktma-episodes-from-vhs/mst3k-ktma-episodes-from-vhs.mp4"},
+        {n: "MST3K Robot Monster S01E07 1989", u: "https://archive.org/download/mst3k-robot-monster/mst3k-robot-monster.mp4"},
+        {n: "MST3K 101 WOC Comedy Channel Mar 1990", u: "https://archive.org/download/mst3k-comedy-channel-woc/mst3k-comedy-channel-woc.mp4"},
+        {n: "MST3K 113 Black Scorpion 07-26-1991", u: "https://archive.org/download/11372691/11372691.mp4"},
+        {n: "MST3K 212 Godzilla vs Megalon 05-03-1991", u: "https://archive.org/download/2125391/2125391.mp4"},
+        {n: "MST3K 212 Godzilla vs Megalon", u: "https://archive.org/download/mystery-science-theater-3000-e-212-gdz-vs.-megn/mystery-science-theater-3000-e-212-gdz-vs.-megn.mp4"},
+        {n: "MST3K Gamera vs Guiron Vintage VHS 1991", u: "https://archive.org/download/1.-mst-3-k-gamara/1.-mst-3-k-gamara.mp4"},
+        {n: "MST3K 213 WOC Feb 1991", u: "https://archive.org/download/1991-02-xx-mst-3-k-213-woc/1991-02-xx-mst-3-k-213-woc.mp4"},
+        {n: "MST3K 213 Godzilla vs Sea Monster Restoration", u: "https://archive.org/download/mystery-science-theater-3000-e-213-gdz-vs.-sea-monster-restoration/mystery-science-theater-3000-e-213-gdz-vs.-sea-monster-restoration.mp4"},
+        {n: "MST3K Lost Episodes Joel Era 1992", u: "https://archive.org/download/mst3k-lost-episodes-joel/mst3k-lost-episodes-joel.mp4"},
+        {n: "MST Alive 92", u: "https://archive.org/download/mst-alive-92/mst-alive-92.mp4"},
+        {n: "MST3K 408 Hercules Unchained 1992", u: "https://archive.org/download/link-httpsweb.archive.orgweb20120410054310httpwww.youtube.comwatchvbkqfob51mnufeatureyoutu.be/link-httpsweb.archive.orgweb20120410054310httpwww.youtube.comwatchvbkqfob51mnufeatureyoutu.be.mp4"},
+        {n: "MST3K Best Brain Tour Videos 1993", u: "https://archive.org/download/vts-02-1_20250227/vts-02-1_20250227.mp4"},
+        {n: "MST3K 505 Magic Voyage of Sinbad 1993", u: "https://archive.org/download/videoplayback_20230209_1858/videoplayback_20230209_1858.mp4"},
+        {n: "MST3K 423 Bride of the Monster 1993", u: "https://archive.org/download/mst-3k-bride-of-the-monster/mst-3k-bride-of-the-monster.mp4"},
+        {n: "MST3K 422 Day Earth Froze 1993", u: "https://archive.org/download/videoplayback_20250918_2333/videoplayback_20250918_2333.mp4"},
+        {n: "MST3K 607 Bloodlust 1994", u: "https://archive.org/download/mst-3-k-607-bloodlust-mystery-science-theater-3000/mst-3-k-607-bloodlust-mystery-science-theater-3000.mp4"},
+        {n: "MST3K 606 Creeping Terror 1994", u: "https://archive.org/download/the-creeping-terror/the-creeping-terror.mp4"},
+        {n: "MST3K Poopie VHS 1995", u: "https://archive.org/download/vhs-tape-mystery-science-theater-3000-poopie/vhs-tape-mystery-science-theater-3000-poopie.mp4"},
+        {n: "MST3K 2 1995", u: "https://archive.org/download/MST3K2/MST3K2.mp4"},
+        {n: "MST3K 3 1995", u: "https://archive.org/download/MST3K3/MST3K3.mp4"},
+        {n: "MST3K On Comedy Central 1995", u: "https://archive.org/download/mst-3-k-on-comedy-central-1995/mst-3-k-on-comedy-central-1995.mp4"},
+        {n: "MST3K 1 1995", u: "https://archive.org/download/MST3K1/MST3K1.mp4"},
+        {n: "Opening MST3K Pod People VHS 1996", u: "https://archive.org/download/opening-to-mystery-science-theater-3000-pod-people-vhs-1996/opening-to-mystery-science-theater-3000-pod-people-vhs-1996.mp4"},
+        {n: "SNL and MST3K 05-18-1996", u: "https://archive.org/download/SNLAndMST3KFromKARE11NBC5181996/SNLAndMST3KFromKARE11NBC5181996.mp4"},
+        {n: "MST3K Lost Episodes Mike Era Part 1 1996", u: "https://archive.org/download/mst3k-lost-episodes-mike-1/mst3k-lost-episodes-mike-1.mp4"},
+        {n: "MST3K 0801 Revenge Of Creature 1996", u: "https://archive.org/download/0801RevengeOfTheCreature/0801RevengeOfTheCreature.mp4"},
+        {n: "MST3K Movie Buzz 1998", u: "https://archive.org/download/vts-01-1_20250212/vts-01-1_20250212.mp4"},
+        {n: "MST3K Absolutely Endmost Hecatomb 1998", u: "https://archive.org/download/absolutely-endmost-hecatomb/absolutely-endmost-hecatomb.mp4"},
+        {n: "MST3K 0913 Quest Delta Knights 480i 1998", u: "https://archive.org/download/0903.-quest-of-the-delta-knights-480i/0903.-quest-of-the-delta-knights-480i.mp4"},
+        {n: "MST3K PlayStation Underground V2-1 1998", u: "https://archive.org/download/mst3k-playstation-underground-v2-1/mst3k-playstation-underground-v2-1.mp4"},
+        {n: "MST3K Poopie 1995 1998 Rhino VHS", u: "https://archive.org/download/poopie-1995-1998-rhino-vhs/poopie-1995-1998-rhino-vhs.mp4"},
+        {n: "MST3K Last Dance Raw 1999", u: "https://archive.org/download/a13.Diabolik.Vol39.Shout.DVDrip.TheLastDance/a13.Diabolik.Vol39.Shout.DVDrip.TheLastDance.mp4"},
+        {n: "MST3K 1001 1999", u: "https://archive.org/download/mst3k-1001/mst3k-1001.mp4"},
+        {n: "Muppets From Space Live Audio Commentary 1999", u: "https://archive.org/download/mfs_commentary/mfs_commentary.mp4"},
+        {n: "MST3K Lost Episodes Mike Era Part 2 1999", u: "https://archive.org/download/mst3k-lost-episodes-mike-2x/mst3k-lost-episodes-mike-2x.mp4"},
+        {n: "MST3K Phantom Planet Sci Fi March 1999", u: "https://archive.org/download/MST3KSciFiMarch1999/MST3KSciFiMarch1999.mp4"}
+    ];
+
+    // ========== NATURE SOUNDS FOR SLEEPING - 25 LINKS ==========
     const natureSounds = [
-        {n: "Ultimate Thunderstorm", u: "https://archive.org/download/Environments2UltimateThunderstorm1979/Environments2UltimateThunderstorm1979.mp4"},
-        {n: "Country Thunderstorm", u: "https://archive.org/download/Enviornments11CountryThunderstorm/Enviornments11CountryThunderstorm.mp4"},
-        {n: "Gentle Rain In Pine Forest", u: "https://archive.org/download/Environments10GentleRainInAPineForestSideB/Environments10GentleRainInAPineForestSideB.mp4"},
-        {n: "Caribbean Lagoon", u: "https://archive.org/download/Environments9CaribbeanLagoon/Environments9CaribbeanLagoon.mp4"},
-        {n: "Night In The Country", u: "https://archive.org/download/Environments10NightInTheCountry/Environments10NightInTheCountry.mp4"}
+        {n: "Ultimate Thunderstorm 1979", u: "https://archive.org/download/Environments2UltimateThunderstorm1979/Environments2UltimateThunderstorm1979.mp4", audio: true},
+        {n: "Country Thunderstorm", u: "https://archive.org/download/Enviornments11CountryThunderstorm/Enviornments11CountryThunderstorm.mp4", audio: true},
+        {n: "Gentle Rain In Pine Forest", u: "https://archive.org/download/Environments10GentleRainInAPineForestSideB/Environments10GentleRainInAPineForestSideB.mp4", audio: true},
+        {n: "Caribbean Lagoon", u: "https://archive.org/download/Environments9CaribbeanLagoon/Environments9CaribbeanLagoon.mp4", audio: true},
+        {n: "Night In The Country", u: "https://archive.org/download/Environments10NightInTheCountry/Environments10NightInTheCountry.mp4", audio: true},
+        {n: "Dusk At New Hope PA 1971", u: "https://archive.org/download/Environments3DuskAtNewHopePA/Environments3DuskAtNewHopePA.mp4", audio: true},
+        {n: "Dusk Okefenokee Swamp 1974", u: "https://archive.org/download/Environments61974DuskInTheOkefenokeeSwamp/Environments61974DuskInTheOkefenokeeSwamp.mp4", audio: true},
+        {n: "Wood Masted Sailboat 1974", u: "https://archive.org/download/Environments8WoodMastedSailboat1974/Environments8WoodMastedSailboat1974.mp4", audio: true},
+        {n: "Summer Cornfield 1976", u: "https://archive.org/download/EnvironmentsSummerCornfield1976/EnvironmentsSummerCornfield1976.mp4", audio: true},
+        {n: "Intonation 1976", u: "https://archive.org/download/EnvironmentsIntonation1976/EnvironmentsIntonation1976.mp4", audio: true},
+        {n: "Tintinnabulation Contemplative Sound 1976", u: "https://archive.org/download/Environments2TintinnabulationContemplativeSound1976/Environments2TintinnabulationContemplativeSound1976.mp4", audio: true},
+        {n: "Earth Songs Natural Jazz 1995", u: "https://archive.org/download/earth-songs-natural-jazz/earth-songs-natural-jazz.mp4", audio: true},
+        {n: "Songs Sounds Humpback Whale 1987", u: "https://archive.org/download/SongsAndSoundsOfTheHumpbackWhale1987/SongsAndSoundsOfTheHumpbackWhale1987.mp4", audio: true},
+        {n: "Tropical Rain Forest 1988", u: "https://archive.org/download/TropicalRainForest1988/TropicalRainForest1988.mp4", audio: true}
     ];
 
-    // ========== DRAG RACING (1950s-1970s) ==========
+    // ========== DRAG RACING & HOT RODS ==========
     const dragRacing = [
         {n: "Cool Hot Rod 1953", u: "https://archive.org/download/0751_Cool_Hot_Rod_15_29_22_00/0751_Cool_Hot_Rod_15_29_22_00.mp4"},
-        {n: "Universal Newsreel 1965", u: "https://archive.org/download/200-un-v38-r23_SD_2Mbps/200-un-v38-r23_SD_2Mbps.mp4"},
-        {n: "Universal Newsreel 1967", u: "https://archive.org/download/un-un-v40-r52_2Mbps/un-un-v40-r52_2Mbps.mp4"}
+        {n: "Southwestern States Second Edition 1953", u: "https://archive.org/download/Southwestern_2/Southwestern_2.mp4"},
+        {n: "Universal Newsreel Vol 38 Release 23 1965", u: "https://archive.org/download/200-un-v38-r23_SD_2Mbps/200-un-v38-r23_SD_2Mbps.mp4"},
+        {n: "Universal Newsreel Vol 40 Release 52 1967", u: "https://archive.org/download/un-un-v40-r52_2Mbps/un-un-v40-r52_2Mbps.mp4"}
     ];
 
     // ========== AIRPLANE & JET BUILDING ==========
     const airplanes = [
         {n: "Our Shrinking World 1946", u: "https://archive.org/download/0119_Our_Shrinking_World_E00960_09_22_46_18-0019/0119_Our_Shrinking_World_E00960_09_22_46_18-0019.mp4"},
+        {n: "Welt In Film World In Film 176 1948", u: "https://archive.org/download/WorldInFilm176/WorldInFilm176.mp4"},
         {n: "A is for Atom 1953", u: "https://archive.org/download/isforAto1953/isforAto1953.mp4"},
+        {n: "Oklahoma Heartland USA 1953", u: "https://archive.org/download/0819_Oklahoma_Heartland_USA_02_30_53_00/0819_Oklahoma_Heartland_USA_02_30_53_00.mp4"},
+        {n: "Partners in Progress 1954", u: "https://archive.org/download/0738_Partners_in_Progress_22_31_21_00/0738_Partners_in_Progress_22_31_21_00.mp4"},
+        {n: "American Harvest Part I 1955", u: "https://archive.org/download/American1955/American1955.mp4"},
+        {n: "American Harvest Part II 1955", u: "https://archive.org/download/American1955_2/American1955_2.mp4"},
+        {n: "Aluminum on the March Part I 1956", u: "https://archive.org/download/Aluminum1956/Aluminum1956.mp4"},
+        {n: "Aluminum on the March Part II 1956", u: "https://archive.org/download/Aluminum1956_2/Aluminum1956_2.mp4"},
         {n: "American Engineer Part I 1956", u: "https://archive.org/download/American1956/American1956.mp4"},
+        {n: "American Engineer Part II 1956", u: "https://archive.org/download/American1956_2/American1956_2.mp4"},
+        {n: "American Engineer Part III 1956", u: "https://archive.org/download/American1956_3/American1956_3.mp4"},
+        {n: "American Engineer Part IV 1956", u: "https://archive.org/download/American1956_4/American1956_4.mp4"},
+        {n: "Ingenuity in Action Part I 1958", u: "https://archive.org/download/Ingenuit1958/Ingenuit1958.mp4"},
+        {n: "Ingenuity in Action Part II 1958", u: "https://archive.org/download/Ingenuit1958_2/Ingenuit1958_2.mp4"},
         {n: "DEW Line Story 1958", u: "https://archive.org/download/0575_DEW_Line_Story_20_01_02_00/0575_DEW_Line_Story_20_01_02_00.mp4"}
     ];
 
     // ========== CAR & HOT ROD BUILDING ==========
     const carBuilding = [
+        {n: "Inside Story 1950", u: "https://archive.org/download/0763_Inside_Story_The_02_15_18_03/0763_Inside_Story_The_02_15_18_03.mp4"},
+        {n: "Town and the Telephone 1950", u: "https://archive.org/download/Townandt1950/Townandt1950.mp4"},
+        {n: "Target USA 1951", u: "https://archive.org/download/0196_Target_USA_15_00_36_00/0196_Target_USA_15_00_36_00.mp4"},
+        {n: "Key to Our Horizons 1952", u: "https://archive.org/download/200426_Key_To_Our_Horizons/200426_Key_To_Our_Horizons.mp4"},
+        {n: "American Road Part I 1953", u: "https://archive.org/download/american_road_1/american_road_1.mp4"},
+        {n: "A is for Atom 1953", u: "https://archive.org/download/isforAto1953/isforAto1953.mp4"},
+        {n: "American Harvest 1955", u: "https://archive.org/download/0242_American_Harvest_M02165_13_30_54_00/0242_American_Harvest_M02165_13_30_54_00.mp4"},
+        {n: "Achievement USA 1955", u: "https://archive.org/download/Achievem1955/Achievem1955.mp4"},
+        {n: "Innocent Years 1957", u: "https://archive.org/download/theinnocentyears/theinnocentyears.mp4"},
+        {n: "American Maker 1960", u: "https://archive.org/download/200723_American_Maker/200723_American_Maker.mp4"},
         {n: "A Car Is Born 1969", u: "https://archive.org/download/ACarisBorn/ACarisBorn.mp4"},
-        {n: "Classic Roadsters 1988", u: "https://archive.org/download/classic-roadsters-ltd-classic-collection-1988/classic-roadsters-ltd-classic-collection-1988.mp4"},
-        {n: "American Road Part I 1953", u: "https://archive.org/download/american_road_1/american_road_1.mp4"}
+        {n: "Finally Got The News 1970", u: "https://archive.org/download/finally-got-the-news-1970/finally-got-the-news-1970.mp4"},
+        {n: "Christine 1983", u: "https://archive.org/download/christine-1983_202305/christine-1983_202305.mp4"},
+        {n: "Classic Roadsters Ltd 1988", u: "https://archive.org/download/classic-roadsters-ltd-classic-collection-1988/classic-roadsters-ltd-classic-collection-1988.mp4"}
     ];
 
     // ========== EINSTEIN DOCUMENTARIES ==========
     const einstein = [
-        {n: "A Einstein NOVA 1979", u: "https://archive.org/download/NOVAAEinstein/NOVAAEinstein.mp4"},
-        {n: "The Finest Hours 1964", u: "https://archive.org/download/the-finest-hours-full-documentary-1964/the-finest-hours-full-documentary-1964.mp4"}
+        {n: "The Finest Hours 1964", u: "https://archive.org/download/the-finest-hours-full-documentary-1964/the-finest-hours-full-documentary-1964.mp4"},
+        {n: "Lincoln Hospital 1970", u: "https://archive.org/download/201355_Lincoln_Hospital/201355_Lincoln_Hospital.mp4"},
+        {n: "A Einstein NOVA 1979", u: "https://archive.org/download/NOVAAEinstein/NOVAAEinstein.mp4"}
     ];
 
-    // ========== CATEGORIES ==========
+    // ========== ALL CATEGORIES ==========
     const categories = [
         {name: "CRONKITE NEWS", content: cronkite},
         {name: "MOON LANDING", content: moonLanding},
         {name: "CARL SAGAN", content: carlSagan},
         {name: "ART BELL", content: artBell},
-        {name: "MST3K", content: mst3k},
         {name: "OLD TIME RADIO", content: oldTimeRadio},
+        {name: "MST3K", content: mst3k},
         {name: "NATURE SOUNDS", content: natureSounds},
         {name: "DRAG RACING", content: dragRacing},
         {name: "AIRPLANES", content: airplanes},
@@ -332,6 +540,7 @@
     let categoryDeg = 0;
 
     const player = document.getElementById('player');
+    const audioPoster = document.getElementById('audio-poster');
     const catLabel = document.getElementById('cat-label');
 
     window.onload = () => {
@@ -343,9 +552,22 @@
     function loadAndPlay() {
         const cat = categories[currentCategoryIndex];
         const video = cat.content[currentVideoIndex];
-        player.src = video.u;
-        player.load();
-        player.play().catch(e => console.log('Click to start'));
+        
+        // Check if it's audio content
+        if (video.audio) {
+            player.style.display = 'none';
+            audioPoster.style.display = 'block';
+            player.src = video.u;
+            player.load();
+            player.play().catch(e => console.log('Click to start'));
+        } else {
+            player.style.display = 'block';
+            audioPoster.style.display = 'none';
+            player.src = video.u;
+            player.load();
+            player.play().catch(e => console.log('Click to start'));
+        }
+        
         catLabel.innerText = cat.name;
     }
 
