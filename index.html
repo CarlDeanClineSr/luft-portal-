@@ -6,18 +6,18 @@
     <title>CLINE CLASSIC TV | MAN CAVE V99</title>
     <style>
         body { background: #000; margin: 0; padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; height: 100vh; width: 100vw; font-family: 'Courier New', monospace; }
-        #cabinet { width: 98vw; height: 94vh; background: linear-gradient(to bottom, #3d2914, #2b1d0e); border: 25px solid #1a110a; border-radius: 60px; display: flex; align-items: center; justify-content: space-between; padding: 30px 70px; box-sizing: border-box; position: relative; box-shadow: inset 0 0 150px #000, 0 50px 100px #000; }
-        .glass-tube { width: 85%; height: 92%; background: #000; border-radius: 15%; overflow: hidden; border: 18px solid #111; position: relative; cursor: pointer; margin-right: 40px; box-shadow: inset 0 0 60px #000; }
+        #cabinet { width: 98vw; height: 94vh; background: linear-gradient(to bottom, #3d2914, #2b1d0e); border: 25px solid #1a110a; border-radius: 60px; display: flex; align-items: center; justify-content: space-between; padding: 30px 90px; box-sizing: border-box; position: relative; box-shadow: inset 0 0 150px #000, 0 50px 100px #000; }
+        .glass-tube { width: 88%; height: 92%; background: #000; border-radius: 15%; overflow: hidden; border: 18px solid #111; position: relative; cursor: pointer; margin-right: 60px; box-shadow: inset 0 0 60px #000; }
         video, #audio-face { width: 100%; height: 100%; object-fit: contain; background: #000; }
         #audio-face { display: none; font-size: 160px; align-items: center; justify-content: center; animation: bounce 0.9s infinite alternate; }
         @keyframes bounce { from { transform: scale(0.92); } to { transform: scale(1.08); } }
-        .side-panel { width: 13%; display: flex; flex-direction: column; align-items: center; gap: 25px; padding-top: 30px; }
+        .side-panel { width: 10%; display: flex; flex-direction: column; align-items: center; gap: 25px; padding-top: 30px; }
         .dial-housing { position: relative; width: 68px; height: 88px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; }
         .knob { width: 52px; height: 52px; background: #333; border: 5px solid #000; border-radius: 50%; cursor: pointer; position: relative; z-index: 10; transition: transform 0.2s; box-shadow: 0 6px 12px #000; }
         .knob::after { content: ''; position: absolute; top: 5px; left: 50%; width: 3px; height: 18px; background: #fff; transform: translateX(-50%); }
         .dash-ring { position: absolute; width: 88px; height: 88px; pointer-events: none; top: -8px; }
         .dash { position: absolute; width: 88px; height: 1.5px; background: #555; transform-origin: center; top: 50%; }
-        .label { color: #fff; font-size: 13px; font-weight: bold; margin-top: 8px; text-shadow: 0 0 6px #fff; letter-spacing: 1px; }
+        .label { color: #fff; font-size: 13px; font-weight: bold; margin-top: 28px; text-shadow: 0 0 6px #fff; letter-spacing: 1px; }
         .volume-container { width: 70px; height: 30px; background: #2b1d0e; border: 2px solid #531; border-radius: 20px; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 10px #000; }
         .volume-slider { width: 52px; -webkit-appearance: none; height: 4px; background: linear-gradient(to right, #444, #ff6600); outline: none; border-radius: 3px; cursor: pointer; }
         .volume-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: #ff6600; border-radius: 50%; border: 2px solid #000; box-shadow: 0 2px 6px #000; }
@@ -192,27 +192,7 @@
     const radioDramas = [
         {n: "War of the Worlds", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-30WarOfTheWorlds.mp3", audio: true},
         {n: "Dracula", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-11Dracula.mp3", audio: true},
-        {n: "Treasure Island", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-18TreasureIsland.mp3", audio: true},
-        {n: "20 Short SF Stories 01", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_01_various_128kb.mp3", audio: true},
-        {n: "20 Short SF Stories 02", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_02_various_128kb.mp3", audio: true},
-        {n: "20 Short SF Stories 03", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_03_various_128kb.mp3", audio: true},
-        {n: "20 Short SF Stories 04", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_04_various_128kb.mp3", audio: true},
-        {n: "20 Short SF Stories 05", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_05_various_128kb.mp3", audio: true},
-        {n: "20 Short SF Stories 06", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_06_various_128kb.mp3", audio: true},
-        {n: "20 Short SF Stories 07", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_07_various_128kb.mp3", audio: true},
-        {n: "20 Short SF Stories 08", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_08_various_128kb.mp3", audio: true},
-        {n: "20 Short SF Stories 09", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_09_various_128kb.mp3", audio: true},
-        {n: "20 Short SF Stories 10", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_10_various_128kb.mp3", audio: true},
-        {n: "20 Short SF Stories 11", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_11_various_128kb.mp3", audio: true},
-        {n: "20 Short SF Stories 12", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_12_various_128kb.mp3", audio: true},
-        {n: "20 Short SF Stories 13", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_13_various_128kb.mp3", audio: true},
-        {n: "20 Short SF Stories 14", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_14_various_128kb.mp3", audio: true},
-        {n: "20 Short SF Stories 15", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_15_various_128kb.mp3", audio: true},
-        {n: "20 Short SF Stories 16", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_16_various_128kb.mp3", audio: true},
-        {n: "20 Short SF Stories 17", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_17_various_128kb.mp3", audio: true},
-        {n: "20 Short SF Stories 18", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_18_various_128kb.mp3", audio: true},
-        {n: "20 Short SF Stories 19", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_19_various_128kb.mp3", audio: true},
-        {n: "20 Short SF Stories 20", u: "https://archive.org/details/20shortsfstories_1908_librivox/20shortsfstories_20_various_128kb.mp3", audio: true}
+        {n: "Treasure Island", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-18TreasureIsland.mp3", audio: true}
     ];
 
     const categories = [
