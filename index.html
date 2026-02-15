@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>CLINE CLASSIC TV | MAN CAVE V100</title>
+    <style>
+        body { 
+            background: #0a0a0a; 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+            height: 100vh; 
+            width: 100vw; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            font-family: 'Courier New', Courier, monospace;
+        }
+        #cabinet { 
+            width: min(96vw, 1200px); 
+            height: min(92vh, 900px); 
+            max-width: 100%; 
+            max-height: 100%; 
+            background: linear-gradient(#5c3f2a, #3a2a1f); 
+            border: clamp(18px, 4vw, 28px) solid #1f140d; 
+            border-radius: 28px; 
+            box-shadow: 0 60px 100px #000, inset 0 0 140px #000; 
+            display: flex; 
+            flex-direction: column; 
+            padding: clamp(20px, 5vw, 50px) clamp(30px, 6vw, 80px); 
+            position: relative; 
+            overflow: hidden; 
+            box-sizing: border-box;
+        }
+        .glass-tube { 
+            width: 100%; 
+            height: clamp(50%, 60vh, 70%); 
+            background: #000; 
+            border-radius: 14px; 
+            overflow: hidden; 
+            border: clamp(14px, 3vw, 22px) solid #1c1c1c; 
+            box-shadow: inset 0 0 90px #000, 0 0 50px #000; 
+            margin-bottom: 20px;
+        }
+        video, #audio-face { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain; 
+            background: #000; 
+        }
+        #audio-face { 
+            display: none; 
+            font-size: clamp(80px, 20vw, 150px); 
+            align-items: center; 
+            justify-content: center; 
+            animation: bounce 0.8s infinite alternate; 
+        }
+        @keyframes bounce { 
+            from { transform: scale(0.94); } 
+            to { transform: scale(1.06); } 
+        }
+        .right-panel { 
+            width: 100%; 
+            height: auto; 
+            background: linear-gradient(#4d4d4d, #2a2a2a); 
+            border: clamp(10px, 2vw, 14px) solid #111; 
+            border-radius: 10px; 
+            padding: clamp(15px, 4vw, 25px); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: clamp(15px, 4vw, 25px); 
+            box-shadow: inset 0 0 40px #000; 
+            box-sizing: border-box;
+        }
+        .speaker-grille { 
+            width: 100%; 
+            height: clamp(80px, 18vw, 130px); 
+            background: repeating-linear-gradient(45deg, #222, #222 5px, #1a1a1a 5px, #1a1a1a 14px); 
+            border: 8px solid #111; 
+            border-radius: 6px; 
+        }
+        .dial-housing { 
+            position: relative; 
+            width: clamp(100px, 40vw, 140px); 
+            height: clamp(140px, 40vw, 180px); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+        }
+        .knob { 
+            width: clamp(60px, 22vw, 74px); 
+            height: clamp(60px, 22vw, 74px); 
+            background: #1f1f1f; 
+            border: clamp(8px, 3vw, 10px) solid #0f0f0f; 
+            border-radius: 50%; 
+            cursor: pointer; 
+            box-shadow: 0 8px 20px #000; 
+            position: relative; 
+            touch-action: manipulation;
+        }
+        .knob::after { 
+            content: ''; 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            width: 4px; 
+            height: 28px; 
+            background: #ddd; 
+            transform: translate(-50%, -50%); 
+            transform-origin: center top;
+        }
+        .number-ring { 
+            position: absolute; 
+            width: clamp(140px, 50vw, 200px); 
+            height: clamp(140px, 50vw, 200px); 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            pointer-events: none; 
+        }
+        .number { 
+            position: absolute; 
+            width: clamp(26px, 6vw, 32px); 
+            height: clamp(26px, 6vw, 32px); 
+            text-align: center; 
+            line-height: clamp(26px, 6vw, 32px); 
+            font-size: clamp(10px, 3vw, 13px); 
+            color: #eee; 
+            text-shadow: 0 0 5px #000; 
+            transform: translate(-50%, -50%); 
+            pointer-events: none; 
+        }
+        .volume-container { 
+            width: clamp(70px, 25vw, 82px); 
+            height: 32px; 
+            background: #222; 
+            border: 5px solid #111; 
+            border-radius: 20px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin: 10px auto;
+        }
+        .volume-slider { 
+            width: clamp(50px, 20vw, 62px); 
+            height: 6px; 
+            background: #444; 
+            border-radius: 3px; 
+        }
+        .volume-slider::-webkit-slider-thumb { 
+            width: 22px; 
+            height: 22px; 
+            background: #ccc; 
+            border-radius: 50%; 
+            border: 4px solid #111; 
+        }
+        .fs-toggle { 
+            position: absolute; 
+            top: clamp(15px, 4vw, 25px); 
+            left: clamp(15px, 4vw, 25px); 
+            background: #111; 
+            color: #fff; 
+            border: 1px solid #444; 
+            padding: clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px); 
+            cursor: pointer; 
+            font-size: clamp(9px, 2.5vw, 10px); 
+            z-index: 100; 
+            font-weight: bold; 
+            border-radius: 8px; 
+        }
+        .version { 
+            position: absolute; 
+            top: clamp(15px, 4vw, 25px); 
+            right: clamp(15px, 4vw, 25px); 
+            color: #ff6600; 
+            font-size: clamp(9px, 2.5vw, 10px); 
+            font-weight: bold; 
+        }
+        #clock {
+            position: absolute;
+            top: clamp(15px, 4vw, 25px);
+            right: clamp(85px, 20vw, 100px);
+            width: clamp(50px, 15vw, 60px);
+            height: clamp(50px, 15vw, 60px);
+            border: 4px solid #ddd;
+            border-radius: 50%;
+            background: #111;
+            box-shadow: 0 0 10px #000;
+        }
+
+        @media (min-width: 769px) {
+            body { flex-direction: row; }
+            #cabinet { 
+                flex-direction: row; 
+                padding: 50px 80px; 
+            }
+            .glass-tube { 
+                width: 74%; 
+                height: 100%; 
+                margin-bottom: 0;
+            }
+            .right-panel { 
+                width: 24%; 
+                height: 100%; 
+                margin-left: 20px;
+            }
+            .dial-housing { 
+                width: 140px; 
+                height: 180px; 
+            }
+            .knob { 
+                width: 74px; 
+                height: 74px; 
+                border-width: 10px; 
+            }
+            .number-ring { 
+                width: 200px; 
+                height: 200px; 
+            }
+            .number { 
+                width: 32px; 
+                height: 32px; 
+                line-height: 32px; 
+                font-size: 13px; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+<button class="fs-toggle" onclick="toggleFS()">[ FULL SCREEN ]</button>
+<div class="version">V100</div>
+<div id="clock"></div>
+
+<div id="cabinet">
+    <div class="glass-tube">
+        <video id="player" autoplay controls playsinline webkit-playsinline></video>
+        <div id="audio-face">😊</div>
+    </div>
+
+    <div class="right-panel">
+        <div class="speaker-grille"></div>
+
+        <div class="dial-housing">
+            <div class="number-ring" id="t-numbers"></div>
+            <div class="knob" id="t-knob" onclick="tune(1)" oncontextmenu="event.preventDefault(); tune(-1);"></div>
+        </div>
+
+        <div class="volume-container">
+            <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider" id="volume-knob" oninput="player.volume = this.value">
+        </div>
+
+        <div class="dial-housing">
+            <div class="number-ring" id="s-numbers"></div>
+            <div class="knob" id="s-knob" onclick="changeCategory(1)" oncontextmenu="event.preventDefault(); changeCategory(-1);"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Your existing categories (unchanged)
+    const A = [
+        {n: "Wonderful World of Wheels", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"},
+        {n: "Star Trek - Where No Man Has Gone Before", u: "https://archive.org/download/JimmyAndTheFederationGang/1x02-WhereNoManHasGoneBefore.mp4"},
+        {n: "Star Trek - The Corbomite Maneuver", u: "https://archive.org/download/JimmyAndTheFederationGang/1x03-TheCorbomiteManeuver.mp4"},
+        {n: "Star Trek - Mudd's Women", u: "https://archive.org/download/JimmyAndTheFederationGang/1x04-MuddsWomen.mp4"},
+        {n: "Star Trek - The Galileo Seven", u: "https://archive.org/download/JimmyAndTheFederationGang/1x14-TheGalileoSeven.mp4"},
+    ];
+    
+    const B = [
+        {n: "1954 Chevy Corvette", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_Chevy_Corvette_512kb.mp4"},
+        {n: "View From Space Reel 1", u: "https://archive.org/download/viewfromspace/viewfromspacereel1.mp4"},
+        {n: "View From Space Reel 2", u: "https://archive.org/download/viewfromspace/viewfromspacereel2.mp4"},
+        {n: "This Is Redstone Arsenal", u: "https://archive.org/download/16764thisisredstonearsenalvwr/16764%20This%20Is%20Redstone%20Arsenal_vwr.mp4"},
+        {n: "20 Years Of Strategic Air Command", u: "https://archive.org/download/2927420YearsOfStrategicAirCommandMos/29274%2020%20years%20Of%20Strategic%20Air%20Command_mos.mp4"},
+        {n: "AAF Combat Camera Units Weekly Digest pt 63", u: "https://archive.org/download/42124aafcombatcameraunitsweeklydigestpt63vwr/42124%20AAF%20Combat%20Camera%20Units%20Weekly%20Digest%20pt%2063_vwr.mp4"},
+        {n: "Normandy Invasion", u: "https://archive.org/download/87084NormandyInvasion/87084%20Normandy%20Invasion.mp4"},
+        {n: "NASA 1971 Aeronautics And Space Highlights", u: "https://archive.org/download/19194nasa1971aeronauticsandspacehighlightsvwr/19194%20NASA%201971%20Aeronautics%20And%20Space%20Highlights_vwr.mp4"},
+        {n: "NASA Highlights 1967", u: "https://archive.org/download/76474NASAHighlights1967/76474%20NASA%20Highlights%201967.mp4"},
+        {n: "Apollo Digest Saturn Second Stage", u: "https://archive.org/download/80004-apollo-digest-saturn-second-stage/80004%20Apollo%20Digest%20Saturn%20Second%20Stage.mp4"},
+        {n: "NASA Manned Space Flight Quarterly Report 11", u: "https://archive.org/download/68384-nasa-manned-space-flight-quaterly-report-11-vwr/68384%20NASA%20Manned%20Space%20Flight%20Quaterly%20Report%2011_vwr.mp4"},
+        {n: "NASA Manned Space Flight January 1964", u: "https://archive.org/download/xd-10044-nasa-manned-space-flight-january-1964-vwr/XD10044%2BNASA%2BManned%2BSpace%2BFlight%2BJanuary%2B1964_vwr.mp4"}
+    ];
+
+    const C = [
+        {n: "The Time Machine (1978)", u: "https://archive.org/download/the-time-machine-1978-time-travel-sci-fi/The%20Time%20Machine%20%281978%20Time%20Travel%20SciFi%29.mp4"},
+        {n: "Plan 9 from Outer Space", u: "https://archive.org/download/Plan9FromOuterSpace/Plan9FromOuterSpace_512kb.mp4"},
+        {n: "NASA 1971 Aeronautics And Space Highlights", u: "https://archive.org/download/19194nasa1971aeronauticsandspacehighlightsvwr/19194%20NASA%201971%20Aeronautics%20And%20Space%20Highlights_vwr.mp4"},
+        {n: "Destroy All Monsters (1968)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/9.DestroyAllMonsters1968.mp4"},
+        {n: "Son of Godzilla (1967)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/8.SonOfGodzilla1967.mp4"},
+        {n: "Godzilla vs The Sea Monster (1966)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/7.GodzillaVsTheSeaMonster1966.mp4"},
+        {n: "Godzilla vs Monster Zero (1965)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/6.GodzillaVsMonsterZero1965.mp4"},
+        {n: "Mothra vs Godzilla (1964)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/5.MothraVsGodzilla1964.mp4"},
+        {n: "Ghidorah The Three Headed Monster (1964)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/4.GhidorahTheThreeHeadedMonster1964.mp4"},
+        {n: "Godzilla 1985", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/16.Godzilla1985.mp4"},
+        {n: "Terror Of Mechagodzilla (1975)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/15.TerrorOfMechagodzilla1975.mp4"},
+        {n: "Godzilla vs Mechagodzilla (1974)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/14.GodzillaVsMechagodzilla1974.gif"}
+    ];
+
+    const D = [
+        {n: "Monty Python - Whither Canada?", u: "https://archive.org/download/mpfc-remastered_20210305_1553/01.%20Whither%20Canada%3F.mp4"},
+        {n: "Silly Symphonies - The Skeleton Dance (1929)", u: "https://archive.org/download/walt-disneys-silly-symphonies-the-complete-collection-1929-39/01%20-%20The%20Skeleton%20Dance%20%281929%29.mp4"},
+        {n: "Silly Symphonies - King Neptune", u: "https://archive.org/download/videoplayback-3_202106-walt-disney-king-neptune/videoplayback%20%283%29.mp4"}
+    ];
+
+    const E = [
+        {n: "Wonderful World of Wheels", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"},
+    ];
+
+    const F = [
+        {n: "War of the Worlds", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-30WarOfTheWorlds.mp3", audio: true},
+        {n: "Dracula", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-11Dracula.mp3", audio: true},
+        {n: "Treasure Island", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-18TreasureIsland.mp3", audio: true}
+    ];
+
+    // New category with ALL your latest links (movies first, no particular order inside)
+    const GOLD_SILVER = [
+        {n: "Silver Trail, The", u: "https://archive.org/download/the_silver_trail/the_silver_trail.mp4"},
+        {n: "Pot o Gold", u: "https://archive.org/download/pot_o_gold/pot_o_gold.mp4"},
+        {n: "Ghost-Town Gold", u: "https://archive.org/download/three_mesquiteers/three_mesquiteers.mp4"},
+        {n: "Silver Spurs", u: "https://archive.org/download/silver_spurs/silver_spurs.mp4"},
+        {n: "Black Gold", u: "https://archive.org/download/Black_Gold/BlackGold.mp4"},
+        {n: "White Wonder", u: "https://archive.org/download/WhiteWon1958/WhiteWon1958_edit.mp4"},
+        {n: "Silver_Fleet_The", u: "https://archive.org/download/Silver_Fleet_The/Silver_Fleet_The_.mp4"},
+        {n: "South Dakota Saga (Part I)", u: "https://archive.org/download/SouthDak1940/SouthDak1940_edit.mp4"},
+        {n: "1955 commercial for Old Gold filter cigarettes", u: "https://archive.org/download/1955CommercialForOldGoldFilterCigarettes/oldgold1955livecommercial.mp4"},
+        {n: "South Dakota Saga (Part II)", u: "https://archive.org/download/SouthDak1940_2/SouthDak1940_2_edit.mp4"},
+        {n: "Long John Silver  (1954)", u: "https://archive.org/download/LongJohnSilver1954/Long John Silver (1954).mp4"},
+        {n: "Gold", u: "https://archive.org/download/Gold-1932/Gold.mp4"},
+        {n: "Desert Gold", u: "https://archive.org/download/DesertGold/DesertGold.mp4"},
+        {n: "Ten for Gold", u: "https://archive.org/download/gov.archives.arc.614503/gov.archives.arc.614503.mp4"},
+        {n: "The Silver Horde", u: "https://archive.org/download/SilverHorde1930/The_Silver_Horde_1930.mp4"},
+        {n: "Alaskas Silver Millions (Part I)", u: "https://archive.org/download/AlaskasS1936/AlaskasS1936_edit.mp4"},
+        {n: "Colonel March - Silver Curtain", u: "https://archive.org/download/Colonel_March_Silver_Curtain/Colonel_March_Silver_Curtain.mp4"},
+        {n: "Alaskas Silver Millions (Part II)", u: "https://archive.org/download/AlaskasS1936_2/AlaskasS1936_2_edit.mp4"},
+        {n: "Island of the sunken gold / De brandende vulkaan", u: "https://archive.org/download/Island_of_the-sunken_gold/De_brandende_vulkaan_episode_1_to_5_512kb.mp4"},
+        {n: "Bill Sprague Collection : DOO WOP GOLD", u: "https://archive.org/download/BillSporagueCollectionDOOWOPGOLD/Doo Wop Gold Vol 1.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: The Disney Dream Factory: 1933-1938 (Laserdisc)", u: "https://archive.org/download/257AS/The Disney Dream Factory.mp4"},
+        {n: "Acapulco Gold(1976)", u: "https://archive.org/download/acapulco.-gold.-1976.1080p.-blu-ray.-h-264.-aac-rarbg/Acapulco.Gold.1976.1080p.BluRay.H264.AAC-RARBG.ia.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition - Minnie (1984 VHS)", u: "https://archive.org/download/wdcc-lge-minnie-vhsrip/WDCC.LGE.Minnie.VHSRip.mp4"},
+        {n: "Iron Country: Iron Ore and Minnesotas Future", u: "https://archive.org/download/IronCoun1952/IronCoun1952_edit.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: The World According to Goofy (Laserdisc)", u: "https://archive.org/download/256AS/The World According to Goofy.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: How the Best Was Won: 1933-1960 (Laserdisc)", u: "https://archive.org/download/259AS/How the Best Was Won.mp4"},
+        {n: "Flower Angel (Harmony Gold English dub of Hana no Ko Lunlun) 1985 HD Remastered", u: "https://archive.org/download/flowerangel1985_201912/Flower Angel (Harmony Gold) DVD.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: Donalds Bee Pictures (Laserdisc)", u: "https://archive.org/download/255AS/Donald's Bee Pictures (1st pressing).mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: Life with Mickey! (Laserdisc)", u: "https://archive.org/download/260AS/Life with Mickey!.mp4"},
+        {n: "Railway with a Heart of Gold", u: "https://archive.org/download/railway_with_a_heart_of_gold_1965/railway_with_a_heart_of_gold_1965_512kb.mp4"},
+        {n: "Appalachia: Rich Land, Poor People", u: "https://archive.org/download/appalachiarichlandpoorpeople/appalachiarichlandpoorpeople/appalachiarichlandpoorpeoplereel2.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: An Officer and a Duck (Laserdisc)", u: "https://archive.org/download/258AS/An Officer and a Duck.mp4"},
+        {n: "The Leprechauns Christmas Gold (1981)", u: "https://archive.org/download/1981theleprechaunschristmasgold/1981 - The Leprechaun's Christmas Gold.mp4"},
+        {n: "Black Shadows on a Silver Screen", u: "https://archive.org/download/blackshadowsonasilverscreenreel2/blackshadowsonasilverscreenreel2.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: From Pluto with Love (Laserdisc)", u: "https://archive.org/download/261AS/From Pluto with Love.mp4"},
+        {n: "Christmas In Appalachia, 1965", u: "https://archive.org/download/ChristmasInAppalachia1965/Christmas In Appalachia 1965.mp4"},
+        {n: "The Adventures of Long John Silver - Episode 1: The Necklace", u: "https://archive.org/download/TheAdventuresOfLongJohnSilver-Episode1theNecklace/TheAdventuresOfLongJohnSilver-TheNecklace-limou3okxka.mp4"},
+        {n: "Gold Diggers Of 1933 (1933) 1080p", u: "https://archive.org/download/gold-diggers-of-1933.1933.1080p/Gold.Diggers.Of.1933.1933.1080p.BluRay.x264.DTS-FGT.mp4"},
+        {n: "How Green Was My Valley (1941)", u: "https://archive.org/download/HowGreenWasMyValley1941_201812/How Green was My Valley (1941).mp4"},
+        {n: "Coal Miner, The", u: "https://archive.org/download/coal_miner/coal_miner_512kb.mp4"},
+    ];
+
+    const categories = [
+        {name: "A", content: A},
+        {name: "B", content: B},
+        {name: "C", content: C},
+        {name: "D", content: D},
+        {name: "E", content: E},
+        {name: "F", content: F},
+        {name: "GOLD & SILVER", content: GOLD_SILVER}
+    ];
+
+    let currentCategoryIndex = 0;
+    let currentVideoIndex = 0;
+    let tunerDeg = 0;
+    let categoryDeg = 0;
+
+    const player = document.getElementById('player');
+    const audioFace = document.getElementById('audio-face');
+
+    window.onload = () => {
+        makeNumbers('t-numbers', 12);
+        makeNumbers('s-numbers', 8);
+        loadAndPlay();
+        startClock();
+    };
+
+    function loadAndPlay() {
+        const cat = categories[currentCategoryIndex];
+        const item = cat.content[currentVideoIndex];
+
+        player.src = item.u;
+        player.load();
+
+        if (item.audio) {
+            player.style.display = 'none';
+            audioFace.style.display = 'flex';
+        } else {
+            player.style.display = 'block';
+            audioFace.style.display = 'none';
+        }
+
+        player.play().catch(() => {});
+    }
+
+    function tune(dir) {
+        tunerDeg += dir * 30;
+        document.getElementById('t-knob').style.transform = `rotate(${tunerDeg}deg)`;
+        const cat = categories[currentCategoryIndex];
+        currentVideoIndex = (currentVideoIndex + dir + cat.content.length) % cat.content.length;
+        loadAndPlay();
+    }
+
+    function changeCategory(dir) {
+        categoryDeg += dir * 45;
+        document.getElementById('s-knob').style.transform = `rotate(${categoryDeg}deg)`;
+        currentCategoryIndex = (currentCategoryIndex + dir + categories.length) % categories.length;
+        currentVideoIndex = 0;
+        loadAndPlay();
+    }
+
+    player.addEventListener('ended', () => tune(1));
+    player.addEventListener('error', () => { setTimeout(() => tune(1), 1000); });
+
+    function makeNumbers(id, count) {
+        const ring = document.getElementById(id);
+        ring.innerHTML = '';
+
+        const radius = 52; // tight circle around knob
+        const step = 360 / count;
+
+        for (let i = 0; i < count; i++) {
+            const angle = i * step - 90;
+            const rad = angle * Math.PI / 180;
+
+            const x = radius * Math.cos(rad);
+            const y = radius * Math.sin(rad);
+
+            const num = document.createElement('div');
+            num.className = 'number';
+            num.style.left = `calc(50% + ${x}px)`;
+            num.style.top  = `calc(50% + ${y}px)`;
+            num.style.transform = `translate(-50%, -50%)`;
+            num.innerText = i + 1;
+
+            ring.appendChild(num);
+        }
+    }
+
+    function toggleFS() {
+        const elem = document.getElementById('cabinet');
+        if (!document.fullscreenElement) {
+            if (elem.requestFullscreen) elem.requestFullscreen();
+            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+            else if (elem.mozRequestFullScreen) elem.mozRequestFullScreen();
+            else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+        } else {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+            else if (document.msExitFullscreen) document.msExitFullscreen();
+        }
+    }
+
+    function startClock() {
+        const clock = document.getElementById('clock');
+        clock.innerHTML = `
+            <div style="position:absolute;top:50%;left:50%;width:4px;height:24px;background:#ddd;transform-origin:50% 100%;border-radius:2px;" id="hour"></div>
+            <div style="position:absolute;top:50%;left:50%;width:3px;height:30px;background:#ddd;transform-origin:50% 100%;border-radius:2px;" id="minute"></div>
+            <div style="position:absolute;top:50%;left:50%;width:2px;height:32px;background:#ff6600;transform-origin:50% 100%;border-radius:2px;" id="second"></div>
+        `;
+        const hourHand = document.getElementById('hour');
+        const minuteHand = document.getElementById('minute');
+        const secondHand = document.getElementById('second');
+
+        setInterval(() => {
+            const now = new Date();
+            const seconds = now.getSeconds();
+            const minutes = now.getMinutes();
+            const hours = now.getHours() % 12;
+
+            const secondDeg = (seconds * 6);
+            const minuteDeg = (minutes * 6) + (seconds * 0.1);
+            const hourDeg = (hours * 30) + (minutes * 0.5);
+
+            secondHand.style.transform = `translate(-50%, -100%) rotate(${secondDeg}deg)`;
+            minuteHand.style.transform = `translate(-50%, -100%) rotate(${minuteDeg}deg)`;
+            hourHand.style.transform = `translate(-50%, -100%) rotate(${hourDeg}deg)`;
+        }, 1000);
+    }
+</script>
+</body>
+</html>
