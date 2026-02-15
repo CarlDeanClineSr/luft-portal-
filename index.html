@@ -77,31 +77,37 @@
         }
         .title-grille { 
             width: 100%; 
-            min-height: clamp(38px, 9vw, 58px); 
+            height: clamp(42px, 10vw, 58px);          /* fixed height — never changes */
             background: repeating-linear-gradient(45deg, #222, #222 5px, #1a1a1a 5px, #1a1a1a 14px); 
             border: 8px solid #111; 
             border-radius: 6px; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            padding: 0 12px; 
+            padding: 0 10px; 
             box-sizing: border-box;
+            overflow: hidden;                         /* clips the marquee if needed */
         }
         #title-display {
-            color: #fff;
-            font-size: clamp(14px, 3.8vw, 22px);
+            color: #ddd;
+            font-size: clamp(13px, 3.2vw, 16px);     /* smaller & fixed size */
             font-weight: bold;
             text-transform: uppercase;
-            text-shadow: 1px 1px 3px #000, 0 0 8px #444;
-            text-align: center;
-            padding: 8px 12px;
-            background: rgba(0,0,0,0.65);
-            border-radius: 6px;
+            text-shadow: 1px 1px 2px #000;
+            white-space: nowrap;                      /* prevents wrapping */
+            overflow: hidden;
+            text-overflow: clip;                      /* no ellipsis — we use marquee */
             width: 100%;
+            padding: 0 12px;
             box-sizing: border-box;
-            line-height: 1.35;
-            overflow-wrap: break-word;
-            hyphens: auto;
+            animation: marquee 18s linear infinite;   /* smooth scroll for long titles */
+        }
+        #title-display:hover {
+            animation-play-state: paused;             /* pause on hover/tap for reading */
+        }
+        @keyframes marquee {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
         }
         .dial-housing { 
             position: relative; 
@@ -223,10 +229,11 @@
                 height: clamp(140px, 38vw, 180px); 
             }
             .title-grille {
-                min-height: 54px;
+                height: 54px;                /* fixed desktop height */
             }
             #title-display {
-                font-size: clamp(16px, 2vw, 20px);
+                font-size: 16px;             /* fixed desktop font */
+                animation-duration: 22s;     /* slightly slower on bigger screens */
             }
         }
     </style>
@@ -555,7 +562,7 @@
         player.load();
         
         if (titleDisp) {
-            titleDisp.innerText = item.n.trim();
+            titleDisp.innerText = item.n.trim() + '   ';   // extra space helps seamless loop
         }
 
         if (item.audio) {
