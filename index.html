@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>CLINE CLASSIC TV | FINAL</title>
+    <title>CLINE CLASSIC TV | MAN CAVE V148</title>
     <style>
         body { 
             background: #0a0a0a; 
@@ -243,7 +243,7 @@
 <body>
 
 <button class="fs-toggle" onclick="toggleFS()">[ FULL SCREEN ]</button>
-<div class="version">V144</div>
+<div class="version">V148</div>
 
 <div id="cabinet">
     <div class="glass-tube">
@@ -332,17 +332,6 @@
 
     // --- DIAL C: UFOs, ANCIENT MYSTERIES & HIGH STRANGENESS ---
     const C = [
-        {n: "Thanks For The Memories (Bob Hope Special)", u: "https://archive.org/download/Bob_Hope_Thanks_For_The_Memories/Bob_Hope_Special.mp4"},
-        {n: "The Bing Crosby Show", u: "https://archive.org/download/TheBingCrosbyShow/The Bing Crosby Show.mp4"},
-        {n: "Robin and the 7 Hoods (1964)", u: "https://archive.org/download/robin-and-the-seven-hoods/Robin_and_the_Seven_Hoods.mp4"},
-        {n: "1968 Bing Crosby Christmas Show", u: "https://archive.org/download/Videoplayback2.mp4/videoplayback (2).ogv"},
-        {n: "ABC Sports 1984 Summer Olympics Bid Presentation - 1979", u: "https://archive.org/download/abc-1984-l.-a.-olympics-bid-tape/ABC 1984 L.A. Olympics Bid Tape.mp4"},
-        {n: "Cantinflas Pepe (1961) Español Latino", u: "https://archive.org/download/3721069398668/3721069398668.mp4"},
-        {n: "DVD Transfer 215 (Super Bowl XI; VHS Rip of Original Broadcast)", u: "https://archive.org/download/dvd-transfer-215/Title 5 (Super Bowl XI - VHS rip - Recorded from KGW-TV 8).ia.mp4"},
-        {n: "Penn State Blue Band, Orange Bowl, 1969. [motion picture]", u: "https://archive.org/download/pennstatebluebandorangebowl1969/pennstatebluebandorangebowl1969.mp4"},
-        {u: "https://archive.org/download/pennstatebluebandorangebowl1969/pennstatebluebandorangebowl1969.mp4"},
-        {n: "Football Game 1972: #5 Nebraska vs #4 Oklahoma Highlights", u: "https://archive.org/download/1972-oklahoma-at-nebraska/Nebraska Football vs Oklahoma Nov 23,1972 -- Full Game ABC.mp4"},
-        {n: "Football Game 1972: #9 Nebraska vs #12 Notre Dame Highlights | 1973 Orange Bowl", u: "https://archive.org/download/1973-orange-bowl/1973 Orange Bowl.mp4"},
         {n: "Chariots of the Gods", u: "https://archive.org/download/chariots-of-the-gods_202407/Chariots of the Gods.ia.mp4"},
         {n: "The Outer Space Connection (1975)", u: "https://archive.org/download/the-outer-space-connection-1975/The Outer Space Connection 1975.ia.mp4"},
         {n: "In Search Of... Ancient Astronauts", u: "https://archive.org/download/insearchofancientastronautsreel1/insearchofancientastronautsreel1.mp4"},
@@ -440,7 +429,7 @@
         {n: "How Green Was My Valley", u: "https://archive.org/download/HowGreenWasMyValley1941_201812/How Green was My Valley (1941).mp4"}
     ];
 
-    // --- DIAL G: RADIO & AUDIO ---
+    // --- DIAL G: ANTIQUE AUDIO (Wax, Wire & Shellac) ---
     const G = [
         {n: "When The Levee Breaks", u: "https://archive.org/download/Kansas_Joe_Memphis_Minnie-When_Levee_Breaks/Kansas_Joe_and_Memphis_Minnie-When_the_Levee_Breaks.mp3", audio: true},
         {n: "One Dime Blues", u: "https://archive.org/download/Blind_Lemon_Jefferson_One_Dime_Blues/Blind_Lemon_Jefferson_One_Dime_Blues_vbr.mp3", audio: true},
@@ -491,14 +480,87 @@
         {n: "Viola McCoy - Git Goin", u: "https://archive.org/download/Viola_McCoy-Git_Goin/McCoy_Viola-Git_Goin_vbr.mp3", audio: true},
         {n: "Jelly Roll Morton, Giants of Jazz - 3...", u: "https://archive.org/download/morton-jelly-roll-1923-39-giants-of-jazz-side-a-blp-cr-06/Morton, Jelly Roll (1923-39) - Giants of Jazz side D (BLP)-cr-04.mp3", audio: true},
         {n: "Washington Post March - Edison Band", u: "https://archive.org/download/edison_washington_post/edison_washington_post.mp3", audio: true},
-        {n: "Ole Miss Rag", u: "https://archive.org/download/OleMissRag/W.c.Handy-oleMissRag_1917.mp3", audio: true},
-        {n: "War of the Worlds", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-30WarOfTheWorlds.mp3", audio: true},
-        {n: "Dracula", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-11Dracula.mp3", audio: true},
-        {n: "Treasure Island", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-18TreasureIsland.mp3", audio: true},
-        {n: "The Hitch-hiker", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater46-06-21TheHitch-hiker.mp3", audio: true},
-        {n: "Sherlock Holmes", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-09-25TheImmortalSherlockHolmes.mp3", audio: true},
-        {n: "Beatles Hoax Radio", u: "https://archive.org/download/beatles-hoax-wkbwbroadcast/BeatlesHoaxWKBWBroadcast.ia.mp4"},
-        {n: "AM Radio Broadcast 1963", u: "https://archive.org/download/am-radio-broadcast-feb-1-1963_202108/AM Radio Broadcast (Feb,1,1963).mp4"}
+        {n: "Ole Miss Rag", u: "https://archive.org/download/OleMissRag/W.c.Handy-oleMissRag_1917.mp3", audio: true}
+    ];
+
+    // --- DIAL H: FARSCAPE (SEASON 1) ---
+    const H = [
+        {n: "Farscape S01E01 Premiere", u: "https://archive.org/download/farscape-s-01/Farscape S01E01 Premiere.mp4"},
+        {n: "Farscape S01E02 Exodus from Genesis", u: "https://archive.org/download/farscape-s-01/Farscape S01E02 Exodus from Genesis.mp4"},
+        {n: "Farscape S01E03 Back and Back and Back to the Future", u: "https://archive.org/download/farscape-s-01/Farscape S01E03 Back and Back and Back to the Future.mp4"},
+        {n: "Farscape S01E04 Throne for a Loss", u: "https://archive.org/download/farscape-s-01/Farscape S01E04 Throne for a Loss.mp4"},
+        {n: "Farscape S01E05 PK Tech Girl", u: "https://archive.org/download/farscape-s-01/Farscape S01E05 PK Tech Girl.mp4"},
+        {n: "Farscape S01E06 Thank God it's Friday, Again.", u: "https://archive.org/download/farscape-s-01/Farscape S01E06 Thank God it's Friday, Again..mp4"},
+        {n: "Farscape S01E07 I, E.T.", u: "https://archive.org/download/farscape-s-01/Farscape S01E07 I, E.T..mp4"},
+        {n: "Farscape S01E08 That Old Black Magic", u: "https://archive.org/download/farscape-s-01/Farscape S01E08 That Old Black Magic.mp4"},
+        {n: "Farscape S01E09 DNA Mad Scientist", u: "https://archive.org/download/farscape-s-01/Farscape S01E09 DNA Mad Scientist.mp4"},
+        {n: "Farscape S01E10 They've Got a Secret", u: "https://archive.org/download/farscape-s-01/Farscape S01E10 They've Got a Secret.mp4"},
+        {n: "Farscape S01E11 Till the Blood Runs Clear", u: "https://archive.org/download/farscape-s-01/Farscape S01E11 Till the Blood Runs Clear.mp4"},
+        {n: "Farscape S01E12 The Flax", u: "https://archive.org/download/farscape-s-01/Farscape S01E12 The Flax.mp4"},
+        {n: "Farscape S01E13 Rhapsody in Blue", u: "https://archive.org/download/farscape-s-01/Farscape S01E13 Rhapsody in Blue.mp4"},
+        {n: "Farscape S01E14 Jeremiah Crichton", u: "https://archive.org/download/farscape-s-01/Farscape S01E14 Jeremiah Crichton.mp4"},
+        {n: "Farscape S01E15 Durka Returns", u: "https://archive.org/download/farscape-s-01/Farscape S01E15 Durka Returns.mp4"},
+        {n: "Farscape S01E16 A Human Reaction", u: "https://archive.org/download/farscape-s-01/Farscape S01E16 A Human Reaction.mp4"},
+        {n: "Farscape S01E17 Through the Looking Glass", u: "https://archive.org/download/farscape-s-01/Farscape S01E17 Through the Looking Glass.mp4"},
+        {n: "Farscape S01E18 A Bug's Life", u: "https://archive.org/download/farscape-s-01/Farscape S01E18 A Bug's Life.mp4"},
+        {n: "Farscape S01E19 Nerve (1)", u: "https://archive.org/download/farscape-s-01/Farscape S01E19 Nerve (1).mp4"},
+        {n: "Farscape S01E20 The Hidden Memory (2)", u: "https://archive.org/download/farscape-s-01/Farscape S01E20 The Hidden Memory (2).mp4"},
+        {n: "Farscape S01E21 Bone to be Wild", u: "https://archive.org/download/farscape-s-01/Farscape S01E21 Bone to be Wild.mp4"},
+        {n: "Farscape S01E22 Family Ties", u: "https://archive.org/download/farscape-s-01/Farscape S01E22 Family Ties.mp4"}
+    ];
+
+    // --- DIAL I: WORLD WAR II NEWSREELS ---
+    const I = [
+        {n: "News Parade: Bombing of Pearl Harbor", u: "https://archive.org/download/NewsPara1942/NewsPara1942_edit.mp4"},
+        {n: "News Parade of 1945", u: "https://archive.org/download/news_parade_of_1945/news_parade_of_1945_edit.mp4"},
+        {n: "Newsreel: 82nd Airborne Victory Parade 5th Ave., NYC, 1/12/1946", u: "https://archive.org/download/ADC-9948/ADC-9948.mp4"},
+        {n: "Newsreels: News Of The Day 1943", u: "https://archive.org/download/NewsOfTheDay1943/NewsOfTheDay1943.mp4"},
+        {n: "Feuertaufe (Baptism Of Fire)", u: "https://archive.org/download/Feuertaufe/Feuertaufe.mp4"},
+        {n: "1942 Captured Japanese Newsreel: Pearl Harbor, Hong Kong", u: "https://archive.org/download/NPC-10134/NPC-10134.mp4"},
+        {n: "German Newsreel (1942)", u: "https://archive.org/download/GermanNewsreel1942/Die Deutsche Wochenschau (567 - 30 - 1941).mp4"},
+        {n: "August 14, 1945 Newsreel V-J Day", u: "https://archive.org/download/August141945NewsreelV-jDay/August141945NewsreelV-jDay.mp4"},
+        {n: "The German Army In Action 1944", u: "https://archive.org/download/BPR-915/BPR-0915 The German Army In Action 1944.mp4"},
+        {n: "French newsreel,  Actualités Derniére Edition, Dieppe Raid", u: "https://archive.org/download/NPC-3908/428-npc-3908 Dieppe Raid 07-01-1949.mp4"},
+        {n: "News Parade of the Year 1942", u: "https://archive.org/download/NewsParadeOfTheYear1942/NewsParadeOfTheYear1942.mp4"},
+        {n: "War Dept. Military IntelIigence Film, Nazi Newsreels", u: "https://archive.org/download/Newsreels/Newsreels.mp4"},
+        {n: "Filmavisen 25.08.1941", u: "https://archive.org/download/Filmavisen_1941_08_25/Filmavisen_1941_25_08_1941.mkv"},
+        {n: "August 29, 1945 Newsreel - Major Boyington Is Found Alive", u: "https://archive.org/download/August291945Newsreel-MajorBoyingtonIsFoundAlive/45_08_29_Newsreel_Major_Boyington_Is_Found_Alive.mp4"},
+        {n: "May/June 1945 Newseel: Norway Liberated; Berlin Declaration; Britain Takes Rangoon; UNRAA; Eisenhower Reviews Parades", u: "https://archive.org/download/ARC-39067/ARC-39067.mp4"},
+        {n: "Japanese Newsreel: Review Of WWII In Pacific On Its 1st Anniversary", u: "https://archive.org/download/ReviewOfWWIIInPacific/428-npc-15462ReviewOfWwIiInPacificOnIts1stAnniversary1940.mp4"},
+        {n: "1944 Newsreel: D-Day!", u: "https://archive.org/download/ARC-39013/ARC-39013.mp4"},
+        {n: "Filmavisen 11.08.1941", u: "https://archive.org/download/Filmavisen_1941_08_11/Filmavisen_1941_11_08_1941.mkv"},
+        {n: "Nazi Film: German Occupation Of France And Belgium, 1940", u: "https://archive.org/download/NPC-16746/428-npc-16746GermanOccupationOfFranceAndBelgium1940.mp4"},
+        {n: "December 1944 Newsreel: Battle of the Bulge; Bastogne; Army Railroads", u: "https://archive.org/download/ARC-39153/ARC-39153.mp4"},
+        {n: "Giornale Luce No 2: Fascist Italy Newsreel", u: "https://archive.org/download/NPC-10398/428-npc-10398_Giornale_Luce_No_2_has_sound_Inspection_of_hospital_super-microscope_Russian_front_and_home_front_1943.mp4"},
+        {n: "News of day No.60 (June 27, 1941)", u: "https://archive.org/download/NewsOfDayNo.60june271941/Novosti_dnya_No.6027.06.41.ogv"},
+        {n: "U.S. Bombers Blast Japanese Bases – 1942", u: "https://archive.org/download/ARC-38911/US Bombers Blast Jap Bases Etc 1942.mp4"},
+        {n: "September 10, 1945 Newsreel - Nation Welcomes Hero Of Corregidor", u: "https://archive.org/download/September101945Newsreel-NationWelcomesHeroOfCorregidor/45_09_10_Newsreel_Nation_Welcomes_Hero_Of_Corregidor.mp4"},
+        {n: "Combat Bulletin #20:  Flying Bomb Sites, etc., 1944", u: "https://archive.org/download/CB-20-1944/CB-20 Combat Bulletin 20 1944.mp4"},
+        {n: "News of day No.1-2 (1943, January)", u: "https://archive.org/download/NewsOfDayNo.1-21943January/Novosti_dnya_No.1-2Yanvar_1943.ogv"},
+        {n: "Newsreel July 1943: Pacific Theater; 7th Army In Italy; FDR", u: "https://archive.org/download/ARC-38969/ARC-38969.mp4"},
+        {n: "News Review Number Two: The War 1941-1944", u: "https://archive.org/download/NewsReviewNumberTwoTheWar19411944/NewsReviewNumberTwo-TheWar1941-1944.mp4"},
+        {n: "News of day No.13 (1945, at May)", u: "https://archive.org/download/NewsOfDayNo.131945AtMay/Novosti_dnya_No.13May_1945.ogv"},
+        {n: "News of day from January, 1942", u: "https://archive.org/download/NewsOfDayFromJanuary1942/Novosti_dnya_Yanvar_1942.ogv"},
+        {n: "News of day (1943, at Spring)", u: "https://archive.org/download/NewsOfDay1943AtSpring/Novosti_dnya_Vesna_1943.ogv"},
+        {n: "Newsreel: U.S. Army Tests V-2 Rockets, 06/24/1946", u: "https://archive.org/download/ADC-10039/ADC-10039.mp4"},
+        {n: "Nazi Film: Germans Capture Dieppe", u: "https://archive.org/download/NPC-2104/428-npc-2104 Germans Capture Dieppe.mp4"},
+        {n: "Combat Bulletin #26, 1944", u: "https://archive.org/download/CB-26/CB-26 Combat Bulletin 26 1944.mp4"},
+        {n: "Die Deutsche Wochenschau Nr 688", u: "https://archive.org/download/NPC-7141/NPC-7141.mp4"},
+        {n: "News of day (1944, at Autumn)", u: "https://archive.org/download/NewsOfDay1944AtAutumn/Novosti_dnya_Osen_1944.ogv"},
+        {n: "Captured Nazi Film: Ploesti, Roumania, 09/1944", u: "https://archive.org/download/ADC-10492/ADC-10492.mp4"},
+        {n: "Giornale Luce #340, 1943", u: "https://archive.org/download/NPC-10589/NPC-10589.mp4"},
+        {n: "Nazi Newsreel Die Deutsche Wochenschau: Defense Of Cassino, Monte Cassino Abbey + Russian Front", u: "https://archive.org/download/NPC-4187/NPC-4187.mp4"},
+        {n: "New Blitz Hits London, London, England; 9th U.S. Army On The Offensive, Linnich, Germany, Ca.1941 - Ca.1945", u: "https://archive.org/download/ADC-1702/111-ADC-1702 New Blitz Hits London London England - 9th US Army On The Offensive Linnich Germany ca1941 - ca1945.mp4"},
+        {n: "News of day No.104 (November 6, 1941)", u: "https://archive.org/download/NewsOfDayNo.104november61941/Novosti_dnya_No.10406.11.41.ogv"},
+        {n: "News of day No.29 (June, 1944)", u: "https://archive.org/download/NewsOfDayNo.29june1944/Novosti_dnya_No.29Iyun_1944.ogv"},
+        {n: "Japanese Sign Final Surrender, 1945", u: "https://archive.org/download/JapaneseSignFinalSurrender1945/Japanese Sign Final Surrender 1945.mp4"},
+        {n: "September 11, 1945 Newsreel - Japans Warlord Brought To Justice", u: "https://archive.org/download/September111945Newsreel-JapansWarlordBroughtToJustice/September111945Newsreel-JapansWarlordBroughtToJustice.mp4"},
+        {n: "U.S. War Department Military Intelligence Film MID-2580", u: "https://archive.org/download/MID-2580/267.mp4"},
+        {n: "Imperial Japanese Newsreel: Japan Conquers Singapore", u: "https://archive.org/download/NPC-9208/NPC-9208.mp4"},
+        {n: "News of day No.103 (November 2, 1941)", u: "https://archive.org/download/NewsOfDayNo.103november21941/Novosti_dnya_No.10302.11.41.ogv"},
+        {n: "News of day No.79 (1942, November)", u: "https://archive.org/download/NewsOfDayNo.791942November/Novosti_dnya_No.7911.42.ogv"},
+        {n: "Combat Bulletin #22: Operations In France etc.", u: "https://archive.org/download/CB-22/CB-22 Combat Bulletin 22 1944.mp4"},
+        {n: "Combat Bulletin #48: Air Support On Western Front Etc, 1945", u: "https://archive.org/download/CB-48/CB-48 Combat Bulletin 48 Air Support On Western Front Etc 1945.mp4"}
     ];
 
     const categories = [
@@ -508,7 +570,9 @@
         {name: "D", content: D},
         {name: "E", content: E},
         {name: "F", content: F},
-        {name: "G", content: G}
+        {name: "G", content: G},
+        {name: "H", content: H},
+        {name: "I", content: I}
     ];
 
     let currentCategoryIndex = 0;
@@ -533,8 +597,9 @@
 
     window.onload = () => {
         makeNumbers('t-numbers', 12);
-        makeNumbers('s-numbers', 8);
+        makeNumbers('s-numbers', 9);
         loadAndPlay();
+        startClock();
     };
 
     function loadAndPlay() {
@@ -616,6 +681,33 @@
             else if (elem.mozCancelFullScreen) elem.mozCancelFullScreen();
             else if (elem.msExitFullscreen) elem.msExitFullscreen();
         }
+    }
+
+    function startClock() {
+        const clock = document.getElementById('clock');
+        clock.innerHTML = `
+            <div style="position:absolute;top:50%;left:50%;width:4px;height:24px;background:#ddd;transform-origin:50% 100%;border-radius:2px;" id="hour"></div>
+            <div style="position:absolute;top:50%;left:50%;width:3px;height:30px;background:#ddd;transform-origin:50% 100%;border-radius:2px;" id="minute"></div>
+            <div style="position:absolute;top:50%;left:50%;width:2px;height:32px;background:#ff6600;transform-origin:50% 100%;border-radius:2px;" id="second"></div>
+        `;
+        const hourHand = document.getElementById('hour');
+        const minuteHand = document.getElementById('minute');
+        const secondHand = document.getElementById('second');
+
+        setInterval(() => {
+            const now = new Date();
+            const seconds = now.getSeconds();
+            const minutes = now.getMinutes();
+            const hours = now.getHours() % 12;
+
+            const secondDeg = (seconds * 6);
+            const minuteDeg = (minutes * 6) + (seconds * 0.1);
+            const hourDeg = (hours * 30) + (minutes * 0.5);
+
+            secondHand.style.transform = `translate(-50%, -100%) rotate(${secondDeg}deg)`;
+            minuteHand.style.transform = `translate(-50%, -100%) rotate(${minuteDeg}deg)`;
+            hourHand.style.transform = `translate(-50%, -100%) rotate(${hourDeg}deg)`;
+        }, 1000);
     }
 </script>
 </body>
