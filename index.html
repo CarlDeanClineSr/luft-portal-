@@ -263,6 +263,16 @@
 
 <script>
     const A = [
+        {n: "The Silver Masked Man (1954) english subtitles", u: "https://archive.org/download/00-the-silver-masked-man-1954/00_The_Silver_Masked_Man_1954.ia.mp4"},
+        {n: "Yo fui un Cavernícola Adolescente", u: "https://archive.org/download/04-teenage-caveman/04 Teenage Caveman.mp4"},
+        {n: "Rocketship XM (Wade Williams version - from VHS)", u: "https://archive.org/download/1950-rocketship-x-m-wade-williams-revamped-version-from-vhs/1950 - Rocketship X-M (Wade Williams revamped version - from VHS).mp4"},
+        {n: "Tom Corbett Space Cadet 1955", u: "https://archive.org/download/1955-tom-corbett-deep-space-project-360p/Tom Corbett Mail ship.mp4"},
+        {n: "1958 Varan The Unbelievable", u: "https://archive.org/download/1958-varan-the-unbelievable/(1958) Varan the Unbelieveable/1958 - Varan The Unbelievable.mp4"},
+        {n: "A Trip To The Moon", u: "https://archive.org/download/ATripToTheMoonEnglishSubs/A Trip To The Moon- English Subs.mp4"},
+        {n: "Abbott and Costello Go To Mars trailer", u: "https://archive.org/download/Abbott_and_Costello_Go_To_Mars_trailer/Abbott_and_Costello_Go_To_Mars_trailer.mp4"},
+        {n: "Abbott and Costello Meet Dr. Jekyll and Mr. Hyde trailer", u: "https://archive.org/download/Abbott_and_Costello_Meet_Dr.Jekyll_Mr.Hyde_trailer/Abbott_and_Costello_Meet_Dr.Jekyll_Mr.Hyde_trailer.mp4"},
+        {n: "Abbott and Costello Meet the Invisible Man trailer", u: "https://archive.org/download/Abbott_and_Costello_Meet_the_Invisible_Man_trailer/Abbott_and_Costello_Meet_the_Invisible_Man_trailer.mp4"},
+        {n: "The Atomic Kid", u: "https://archive.org/download/AnKidAdamhach/FormatFactoryAnKidAdamhach.mp4"},
         {n: "Star Trek - Where No Man Has Gone Before", u: "https://archive.org/download/JimmyAndTheFederationGang/1x02-WhereNoManHasGoneBefore.mp4"},
         {n: "Star Trek - The Corbomite Maneuver", u: "https://archive.org/download/JimmyAndTheFederationGang/1x03-TheCorbomiteManeuver.mp4"},
         {n: "Star Trek - Mudd's Women", u: "https://archive.org/download/JimmyAndTheFederationGang/1x04-MuddsWomen.mp4"},
@@ -309,7 +319,30 @@
     const F = [
         {n: "War of the Worlds", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-30WarOfTheWorlds.mp3", audio: true},
         {n: "Dracula", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-11Dracula.mp3", audio: true},
-        {n: "Treasure Island", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-18TreasureIsland.mp3", audio: true}
+        {n: "Treasure Island", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-18TreasureIsland.mp3", audio: true},
+        n: "880000Mercurytheater88-00-00Mercurytheaterremembered", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/880000MercuryTheater88-00-00mercuryTheaterRemembered.mp3"},
+        {n: "Mercurytheater38-07-11Dracula", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-11Dracula.mp3"},
+        {n: "Mercurytheater38-07-18Treasureisland", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-18TreasureIsland.mp3"},
+        {n: "Mercurytheater38-07-25Ataleoftwocities", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-25ATaleOfTwoCities.mp3"},
+        {n: "Mercurytheater38-08-01Thethirtyninesteps", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-08-01TheThirtyNineSteps.mp3"},
+        {n: "Mercurytheater38-08-15Abrahamlincoln", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-08-15AbrahamLincoln.mp3"},
+        {n: "Mercurytheater38-08-22Theaffairsofanatole", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-08-22TheAffairsOfAnatole.mp3"},
+        {n: "Mercurytheater38-08-29Thecountofmontecristo", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-08-29TheCountOfMonteCristo.mp3"},
+        {n: "Mercurytheater38-09-05Themanwhowasthursday", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-09-05TheManWhoWasThursday.mp3"},
+        {n: "Mercurytheater38-09-11Juliusceasar", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-09-11JuliusCeasar.mp3"},
+        {n: "Mercurytheater38-09-25Theimmortalsherlockholmes", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-09-25TheImmortalSherlockHolmes.mp3"},
+        {n: "Mercurytheater38-10-09Hellonice", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-09HellOnIce.mp3"},
+        {n: "Mercurytheater38-10-16Seventeen", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-16Seventeen.mp3"},
+        {n: "Mercurytheater38-10-23Aroundtheworldin80Days", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-23AroundTheWorldIn80Days.mp3"},
+        {n: "Mercurytheater38-10-30Waroftheworlds", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-30WarOfTheWorlds.mp3"},
+        {n: "Mercurytheater38-11-062Completestories", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-11-062CompleteStories.mp3"},
+        {n: "Mercurytheater38-11-13Apassengertobali", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-11-13APassengerToBali.mp3"},
+        {n: "Mercurytheater38-11-20Pickwickpapers", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-11-20PickwickPapers.mp3"},
+        {n: "Mercurytheater46-06-21Thehitch-Hiker", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater46-06-21TheHitch-hiker.mp3"},
+        {n: "Mercurytheater46-07-12Thesearchforhenryleferre", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater46-07-12TheSearchForHenryLeFerre.mp3"},
+        {n: "Mercurytheater38-08-08Threeshortstoriesimafooltheopenwindowandmylittleboy", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/Mercurytheater38-08-08ThreeShortStoriesImAFoolTheOpenWindowAndMyLittleBoy.mp3"},
+        {n: "Mercurytheater38-11-06Heartofdarknesslifewithfather", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/Mercurytheater38-11-06HeartOfDarknessLifeWithFather.mp3"},
+];
     ];
 
     const categories = [
