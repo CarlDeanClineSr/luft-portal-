@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>CLINE CLASSIC TV | MAN CAVE V140</title>
+    <title>CLINE CLASSIC TV | FINAL</title>
     <style>
         body { 
             background: #0a0a0a; 
@@ -85,7 +85,7 @@
             align-items: center; 
             justify-content: flex-start; 
             padding: 0 12px; 
-            box-sizing: border-box;
+            box-sizing: border-box; 
             overflow: hidden;
             position: relative;
         }
@@ -243,7 +243,7 @@
 <body>
 
 <button class="fs-toggle" onclick="toggleFS()">[ FULL SCREEN ]</button>
-<div class="version">V140</div>
+<div class="version">V144</div>
 
 <div id="cabinet">
     <div class="glass-tube">
@@ -278,7 +278,7 @@
         {n: "Track Freaks", u: "https://archive.org/download/trackfreaksiivhs/Track Freaks I.mp4"},
         {n: "Nitro Funny Cars", u: "https://archive.org/download/nitro-funny-cars/Nitro Funny Cars.ia.mp4"},
         {n: "1/4 Mile Crashes - 1993", u: "https://archive.org/download/1-4-mile-crashes-1993/1 4 Mile Crashes  1993.mp4"},
-        {n: "VHS Rip - Rock n Racing (Main Event Video) 1989", u: "https://archive.org/download/vhs-rip-rock-n-racing-main-event-video-approx-1989/VHS Rip - Rock n' Racing (Main Event Video) (Approx 1989).ia.mp4"},
+        {n: "VHS Rip - Rock n Racing (1989)", u: "https://archive.org/download/vhs-rip-rock-n-racing-main-event-video-approx-1989/VHS Rip - Rock n' Racing (Main Event Video) (Approx 1989).ia.mp4"},
         {n: "Pro Jet", u: "https://archive.org/download/projetvhstape/Pro Jet.mp4"},
         {n: "The Mod Squad - Drag Racing Underground", u: "https://archive.org/download/the-mod-squad-drag-racing-underground-1995/The Mod Squad - Drag Racing Underground (1995).mkv"},
         {n: "Nitro Warriors Drag Racing", u: "https://archive.org/download/nitro-warriors-drag-racing-vhs-copy/Nitro Warriors Drag Racing VHS Copy.ia.mp4"},
@@ -330,20 +330,28 @@
         {n: "Strategic Air Command 20 Years", u: "https://archive.org/download/2927420YearsOfStrategicAirCommandMos/29274%2020%20years%20Of%20Strategic%20Air%20Command_mos.mp4"}
     ];
 
-    // --- DIAL C: UFOs, UAP & MYSTERIES ---
+    // --- DIAL C: UFOs, ANCIENT MYSTERIES & HIGH STRANGENESS ---
     const C = [
+        {n: "Chariots of the Gods", u: "https://archive.org/download/chariots-of-the-gods_202407/Chariots of the Gods.ia.mp4"},
+        {n: "The Outer Space Connection (1975)", u: "https://archive.org/download/the-outer-space-connection-1975/The Outer Space Connection 1975.ia.mp4"},
+        {n: "In Search Of... Ancient Astronauts", u: "https://archive.org/download/insearchofancientastronautsreel1/insearchofancientastronautsreel1.mp4"},
+        {n: "In Search Of... Ancient Mysteries", u: "https://archive.org/download/insearchofancientmysteriesreel1/insearchofancientmysteriesreel1.mp4"},
+        {n: "In Search Of... Dracula", u: "https://archive.org/download/in-search-of-dracula/In Search of Dracula.avi"},
+        {n: "In Search Of... Noahs Ark", u: "https://archive.org/download/in-search-of-noahs-ark-1976/In Search of Noah's Ark 1976.ia.mp4"},
+        {n: "In Search Of... The Money Pit Mystery", u: "https://archive.org/download/in-search-of-s-03-e-16-the-money-pit-mystery/In Search Of S03E16 The Money Pit Mystery.mp4"},
+        {n: "In Search Of... Cryogenics", u: "https://archive.org/download/In-Search-Of-complete-series/In Search Of.../Season 3/S03E06 - Cryogenics.ia.mp4"},
+        {n: "In Search Of... Future Life", u: "https://archive.org/download/in-search-of-s-6-e-14-future-life/In Search Of S6E14 Future Life.mp4"},
+        {n: "In Search Of... The Coming Ice Age", u: "https://archive.org/download/In_Search_of_S02E23_The_Coming_Ice_Age/1978 MAY In Search of... The Coming Ice Age.mp4"},
+        {n: "The Case of the Ancient Astronauts (Nova)", u: "https://archive.org/download/NOVATheCaseOfTheAncientAstronauts/NOVA.S05E09.The.Case.of.the.Ancient.Astronauts.1978.VHSRip.AAC2.0.x264-rattera.ia.mp4"},
+        {n: "Overlords Of The UFO (1976)", u: "https://archive.org/download/OverlordsOfTheUFO1976_201610/Overlords of the UFO - 1976.mp4"},
         {n: "UFO (Complete Series Ep 24)", u: "https://archive.org/download/UFO.complete/UFO.24.Reflections In The Water.avi"},
         {n: "Project UFO (1978 Series)", u: "https://archive.org/download/project-ufo-complete-series-1978/Project UFO S01E08 - The Desert Springs Incident.mp4"},
-        {n: "In Search Of... (Leonard Nimoy)", u: "https://archive.org/download/In-Search-Of-complete-series/In Search Of.../Season 3/S03E06 - Cryogenics.ia.mp4"},
-        {n: "In Search of Ancient Astronauts", u: "https://archive.org/download/insearchofancientastronautsreel1/insearchofancientastronautsreel1.mp4"},
-        {n: "Overlords Of The UFO (1976)", u: "https://archive.org/download/OverlordsOfTheUFO1976_201610/Overlords of the UFO - 1976.mp4"},
         {n: "The UFO Incident (1975)", u: "https://archive.org/download/the-ufo-incident-1975-tv/The UFO Incident (1975-TV).mp4"},
         {n: "Bob Lazar & Area 51", u: "https://archive.org/download/BobLazarAndArea51TechnologyUFODocumentary/Bob Lazar and Area 51 Technology [UFO Documentary].mp4"},
         {n: "Project Blue Book: Alien Interview", u: "https://archive.org/download/youtube-QTYsigxhjic/QTYsigxhjic.mp4"},
         {n: "NASA UFO Footages", u: "https://archive.org/download/NASAfootages/UFOs.avi"},
         {n: "Turkey UFO 2008 (Kumburgaz)", u: "https://archive.org/download/youtube-zVdeM99mkMs/zVdeM99mkMs.mp4"},
         {n: "UFO Phenomenon 1995 (VHS)", u: "https://archive.org/download/TheVistaGroup-UFOPhenomenon/UFO Phenomenon VHS • 60 FPS 1995.ia.mp4"},
-        {n: "Citizen Hearing on Disclosure 2013", u: "https://archive.org/download/citizen-hearing-on-ufo-disclosure-all-videos-2013/S09 - UFOs - Associated Phenomena.mp4"},
         {n: "Lanesville TV - UFO", u: "https://archive.org/download/lanesville_tv_ufo/lanesville_tv_ufo.ogv"},
         {n: "Flying Saucer Daffy (1958)", u: "https://archive.org/download/187.FlyingSaucerDaffy1958LarryMoeJoe/187 Flying Saucer Daffy.avi"},
         {n: "The Search For The Flying Saucer", u: "https://archive.org/download/Tales_Of_Tomorrow_-_The_Search_For_The_Flying_Saucer/TOT_The_Search_For_The_Flying_Saucer.avi"},
@@ -466,7 +474,6 @@
         makeNumbers('t-numbers', 12);
         makeNumbers('s-numbers', 8);
         loadAndPlay();
-        startClock();
     };
 
     function loadAndPlay() {
