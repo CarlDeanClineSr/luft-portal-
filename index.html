@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>CLINE CLASSIC TV | MAN CAVE V141</title>
+    <title>CLINE CLASSIC TV | MAN CAVE V140</title>
     <style>
         body { 
             background: #0a0a0a; 
@@ -85,32 +85,32 @@
             align-items: center; 
             justify-content: flex-start; 
             padding: 0 12px; 
-            box-sizing: border-box; 
-            overflow: hidden; 
-            position: relative; 
+            box-sizing: border-box;
+            overflow: hidden;
+            position: relative;
         }
-        #title-display { 
-            color: #e0e0e0; 
-            font-size: clamp(13px, 3.2vw, 16px); 
-            font-weight: bold; 
-            text-transform: uppercase; 
-            text-shadow: 0 0 6px #444, 1px 1px 2px #000; 
-            white-space: nowrap; 
-            overflow: hidden; 
-            width: 100%; 
-            padding: 0 40px 0 0; 
-            box-sizing: border-box; 
-            will-change: transform; 
+        #title-display {
+            color: #e0e0e0;
+            font-size: clamp(13px, 3.2vw, 16px);
+            font-weight: bold;
+            text-transform: uppercase;
+            text-shadow: 0 0 6px #444, 1px 1px 2px #000;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
+            padding: 0 40px 0 0;
+            box-sizing: border-box;
+            will-change: transform;
         }
-        #title-display.scroller-active { 
-            animation: marquee 32s linear infinite; 
+        #title-display.scroller-active {
+            animation: marquee 32s linear infinite;
         }
-        #title-display:hover, #title-display:active { 
-            animation-play-state: paused; 
+        #title-display:hover, #title-display:active {
+            animation-play-state: paused;
         }
-        @keyframes marquee { 
-            0% { transform: translateX(0); } 
-            100% { transform: translateX(-100%); } 
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
         }
         .dial-housing { 
             position: relative; 
@@ -119,7 +119,7 @@
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            justify-content: center; 
+            justify-content: center;
         }
         .knob { 
             width: clamp(60px, 22vw, 74px); 
@@ -130,7 +130,7 @@
             cursor: pointer; 
             box-shadow: 0 8px 20px #000; 
             position: relative; 
-            touch-action: manipulation; 
+            touch-action: manipulation;
         }
         .knob::after { 
             content: ''; 
@@ -141,7 +141,7 @@
             height: 28px; 
             background: #ddd; 
             transform: translate(-50%, -50%); 
-            transform-origin: center top; 
+            transform-origin: center top;
         }
         .number-ring { 
             position: absolute; 
@@ -173,7 +173,7 @@
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            margin: 6px auto 0; 
+            margin: 6px auto 0;
         }
         .volume-slider { 
             width: clamp(50px, 20vw, 62px); 
@@ -211,51 +211,39 @@
             font-size: clamp(9px, 2.5vw, 10px); 
             font-weight: bold; 
         }
-        #clock { 
-            position: absolute; 
-            top: clamp(15px, 4vw, 25px); 
-            right: clamp(85px, 20vw, 100px); 
-            width: clamp(50px, 15vw, 60px); 
-            height: clamp(50px, 15vw, 60px); 
-            border: 4px solid #ddd; 
-            border-radius: 50%; 
-            background: #111; 
-            box-shadow: 0 0 10px #000; 
-        }
 
-        @media (min-width: 769px) { 
-            body { flex-direction: row; } 
+        @media (min-width: 769px) {
+            body { flex-direction: row; }
             #cabinet { 
                 flex-direction: row; 
                 padding: 50px 80px; 
-            } 
+            }
             .glass-tube { 
                 width: 74%; 
                 height: 100%; 
-                margin-bottom: 0; 
-            } 
+                margin-bottom: 0;
+            }
             .right-panel { 
                 width: 24%; 
                 height: 100%; 
-                margin-left: 20px; 
-            } 
+                margin-left: 20px;
+            }
             .dial-housing { 
                 height: clamp(140px, 38vw, 180px); 
-            } 
-            .title-grille { 
-                height: 56px; 
-            } 
-            #title-display { 
-                font-size: 16px; 
-            } 
+            }
+            .title-grille {
+                height: 56px;
+            }
+            #title-display {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
 
 <button class="fs-toggle" onclick="toggleFS()">[ FULL SCREEN ]</button>
-<div class="version">V141</div>
-<div id="clock"></div>
+<div class="version">V140</div>
 
 <div id="cabinet">
     <div class="glass-tube">
@@ -290,7 +278,7 @@
         {n: "Track Freaks", u: "https://archive.org/download/trackfreaksiivhs/Track Freaks I.mp4"},
         {n: "Nitro Funny Cars", u: "https://archive.org/download/nitro-funny-cars/Nitro Funny Cars.ia.mp4"},
         {n: "1/4 Mile Crashes - 1993", u: "https://archive.org/download/1-4-mile-crashes-1993/1 4 Mile Crashes  1993.mp4"},
-        {n: "VHS Rip - Rock n Racing (1989)", u: "https://archive.org/download/vhs-rip-rock-n-racing-main-event-video-approx-1989/VHS Rip - Rock n' Racing (Main Event Video) (Approx 1989).ia.mp4"},
+        {n: "VHS Rip - Rock n Racing (Main Event Video) 1989", u: "https://archive.org/download/vhs-rip-rock-n-racing-main-event-video-approx-1989/VHS Rip - Rock n' Racing (Main Event Video) (Approx 1989).ia.mp4"},
         {n: "Pro Jet", u: "https://archive.org/download/projetvhstape/Pro Jet.mp4"},
         {n: "The Mod Squad - Drag Racing Underground", u: "https://archive.org/download/the-mod-squad-drag-racing-underground-1995/The Mod Squad - Drag Racing Underground (1995).mkv"},
         {n: "Nitro Warriors Drag Racing", u: "https://archive.org/download/nitro-warriors-drag-racing-vhs-copy/Nitro Warriors Drag Racing VHS Copy.ia.mp4"},
@@ -342,28 +330,20 @@
         {n: "Strategic Air Command 20 Years", u: "https://archive.org/download/2927420YearsOfStrategicAirCommandMos/29274%2020%20years%20Of%20Strategic%20Air%20Command_mos.mp4"}
     ];
 
-    // --- DIAL C: UFOs, ANCIENT MYSTERIES & HIGH STRANGENESS ---
+    // --- DIAL C: UFOs, UAP & MYSTERIES ---
     const C = [
-        {n: "Chariots of the Gods", u: "https://archive.org/download/chariots-of-the-gods_202407/Chariots of the Gods.ia.mp4"},
-        {n: "The Outer Space Connection (1975)", u: "https://archive.org/download/the-outer-space-connection-1975/The Outer Space Connection 1975.ia.mp4"},
-        {n: "In Search Of... Ancient Astronauts", u: "https://archive.org/download/insearchofancientastronautsreel1/insearchofancientastronautsreel1.mp4"},
-        {n: "In Search Of... Ancient Mysteries", u: "https://archive.org/download/insearchofancientmysteriesreel1/insearchofancientmysteriesreel1.mp4"},
-        {n: "In Search Of... Dracula", u: "https://archive.org/download/in-search-of-dracula/In Search of Dracula.avi"},
-        {n: "In Search Of... Noahs Ark", u: "https://archive.org/download/in-search-of-noahs-ark-1976/In Search of Noah's Ark 1976.ia.mp4"},
-        {n: "In Search Of... The Money Pit Mystery", u: "https://archive.org/download/in-search-of-s-03-e-16-the-money-pit-mystery/In Search Of S03E16 The Money Pit Mystery.mp4"},
-        {n: "In Search Of... Cryogenics", u: "https://archive.org/download/In-Search-Of-complete-series/In Search Of.../Season 3/S03E06 - Cryogenics.ia.mp4"},
-        {n: "In Search Of... Future Life", u: "https://archive.org/download/in-search-of-s-6-e-14-future-life/In Search Of S6E14 Future Life.mp4"},
-        {n: "In Search Of... The Coming Ice Age", u: "https://archive.org/download/In_Search_of_S02E23_The_Coming_Ice_Age/1978 MAY In Search of... The Coming Ice Age.mp4"},
-        {n: "The Case of the Ancient Astronauts (Nova)", u: "https://archive.org/download/NOVATheCaseOfTheAncientAstronauts/NOVA.S05E09.The.Case.of.the.Ancient.Astronauts.1978.VHSRip.AAC2.0.x264-rattera.ia.mp4"},
-        {n: "Overlords Of The UFO (1976)", u: "https://archive.org/download/OverlordsOfTheUFO1976_201610/Overlords of the UFO - 1976.mp4"},
         {n: "UFO (Complete Series Ep 24)", u: "https://archive.org/download/UFO.complete/UFO.24.Reflections In The Water.avi"},
         {n: "Project UFO (1978 Series)", u: "https://archive.org/download/project-ufo-complete-series-1978/Project UFO S01E08 - The Desert Springs Incident.mp4"},
+        {n: "In Search Of... (Leonard Nimoy)", u: "https://archive.org/download/In-Search-Of-complete-series/In Search Of.../Season 3/S03E06 - Cryogenics.ia.mp4"},
+        {n: "In Search of Ancient Astronauts", u: "https://archive.org/download/insearchofancientastronautsreel1/insearchofancientastronautsreel1.mp4"},
+        {n: "Overlords Of The UFO (1976)", u: "https://archive.org/download/OverlordsOfTheUFO1976_201610/Overlords of the UFO - 1976.mp4"},
         {n: "The UFO Incident (1975)", u: "https://archive.org/download/the-ufo-incident-1975-tv/The UFO Incident (1975-TV).mp4"},
         {n: "Bob Lazar & Area 51", u: "https://archive.org/download/BobLazarAndArea51TechnologyUFODocumentary/Bob Lazar and Area 51 Technology [UFO Documentary].mp4"},
         {n: "Project Blue Book: Alien Interview", u: "https://archive.org/download/youtube-QTYsigxhjic/QTYsigxhjic.mp4"},
         {n: "NASA UFO Footages", u: "https://archive.org/download/NASAfootages/UFOs.avi"},
         {n: "Turkey UFO 2008 (Kumburgaz)", u: "https://archive.org/download/youtube-zVdeM99mkMs/zVdeM99mkMs.mp4"},
         {n: "UFO Phenomenon 1995 (VHS)", u: "https://archive.org/download/TheVistaGroup-UFOPhenomenon/UFO Phenomenon VHS • 60 FPS 1995.ia.mp4"},
+        {n: "Citizen Hearing on Disclosure 2013", u: "https://archive.org/download/citizen-hearing-on-ufo-disclosure-all-videos-2013/S09 - UFOs - Associated Phenomena.mp4"},
         {n: "Lanesville TV - UFO", u: "https://archive.org/download/lanesville_tv_ufo/lanesville_tv_ufo.ogv"},
         {n: "Flying Saucer Daffy (1958)", u: "https://archive.org/download/187.FlyingSaucerDaffy1958LarryMoeJoe/187 Flying Saucer Daffy.avi"},
         {n: "The Search For The Flying Saucer", u: "https://archive.org/download/Tales_Of_Tomorrow_-_The_Search_For_The_Flying_Saucer/TOT_The_Search_For_The_Flying_Saucer.avi"},
@@ -568,33 +548,6 @@
             else if (elem.mozCancelFullScreen) elem.mozCancelFullScreen();
             else if (elem.msExitFullscreen) elem.msExitFullscreen();
         }
-    }
-
-    function startClock() {
-        const clock = document.getElementById('clock');
-        clock.innerHTML = `
-            <div style="position:absolute;top:50%;left:50%;width:4px;height:24px;background:#ddd;transform-origin:50% 100%;border-radius:2px;" id="hour"></div>
-            <div style="position:absolute;top:50%;left:50%;width:3px;height:30px;background:#ddd;transform-origin:50% 100%;border-radius:2px;" id="minute"></div>
-            <div style="position:absolute;top:50%;left:50%;width:2px;height:32px;background:#ff6600;transform-origin:50% 100%;border-radius:2px;" id="second"></div>
-        `;
-        const hourHand = document.getElementById('hour');
-        const minuteHand = document.getElementById('minute');
-        const secondHand = document.getElementById('second');
-
-        setInterval(() => {
-            const now = new Date();
-            const seconds = now.getSeconds();
-            const minutes = now.getMinutes();
-            const hours = now.getHours() % 12;
-
-            const secondDeg = (seconds * 6);
-            const minuteDeg = (minutes * 6) + (seconds * 0.1);
-            const hourDeg = (hours * 30) + (minutes * 0.5);
-
-            secondHand.style.transform = `translate(-50%, -100%) rotate(${secondDeg}deg)`;
-            minuteHand.style.transform = `translate(-50%, -100%) rotate(${minuteDeg}deg)`;
-            hourHand.style.transform = `translate(-50%, -100%) rotate(${hourDeg}deg)`;
-        }, 1000);
     }
 </script>
 </body>
