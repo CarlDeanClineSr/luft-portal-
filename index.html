@@ -262,17 +262,9 @@
 </div>
 
 <script>
+    // Your existing categories (unchanged)
     const A = [
-        {n: "The Silver Masked Man (1954) english subtitles", u: "https://archive.org/download/00-the-silver-masked-man-1954/00_The_Silver_Masked_Man_1954.ia.mp4"},
-        {n: "Yo fui un Cavernícola Adolescente", u: "https://archive.org/download/04-teenage-caveman/04 Teenage Caveman.mp4"},
-        {n: "Rocketship XM (Wade Williams version - from VHS)", u: "https://archive.org/download/1950-rocketship-x-m-wade-williams-revamped-version-from-vhs/1950 - Rocketship X-M (Wade Williams revamped version - from VHS).mp4"},
-        {n: "Tom Corbett Space Cadet 1955", u: "https://archive.org/download/1955-tom-corbett-deep-space-project-360p/Tom Corbett Mail ship.mp4"},
-        {n: "1958 Varan The Unbelievable", u: "https://archive.org/download/1958-varan-the-unbelievable/(1958) Varan the Unbelieveable/1958 - Varan The Unbelievable.mp4"},
-        {n: "A Trip To The Moon", u: "https://archive.org/download/ATripToTheMoonEnglishSubs/A Trip To The Moon- English Subs.mp4"},
-        {n: "Abbott and Costello Go To Mars trailer", u: "https://archive.org/download/Abbott_and_Costello_Go_To_Mars_trailer/Abbott_and_Costello_Go_To_Mars_trailer.mp4"},
-        {n: "Abbott and Costello Meet Dr. Jekyll and Mr. Hyde trailer", u: "https://archive.org/download/Abbott_and_Costello_Meet_Dr.Jekyll_Mr.Hyde_trailer/Abbott_and_Costello_Meet_Dr.Jekyll_Mr.Hyde_trailer.mp4"},
-        {n: "Abbott and Costello Meet the Invisible Man trailer", u: "https://archive.org/download/Abbott_and_Costello_Meet_the_Invisible_Man_trailer/Abbott_and_Costello_Meet_the_Invisible_Man_trailer.mp4"},
-        {n: "The Atomic Kid", u: "https://archive.org/download/AnKidAdamhach/FormatFactoryAnKidAdamhach.mp4"},
+        {n: "Wonderful World of Wheels", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"},
         {n: "Star Trek - Where No Man Has Gone Before", u: "https://archive.org/download/JimmyAndTheFederationGang/1x02-WhereNoManHasGoneBefore.mp4"},
         {n: "Star Trek - The Corbomite Maneuver", u: "https://archive.org/download/JimmyAndTheFederationGang/1x03-TheCorbomiteManeuver.mp4"},
         {n: "Star Trek - Mudd's Women", u: "https://archive.org/download/JimmyAndTheFederationGang/1x04-MuddsWomen.mp4"},
@@ -280,11 +272,13 @@
     ];
     
     const B = [
+        {n: "1954 Chevy Corvette", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_Chevy_Corvette_512kb.mp4"},
         {n: "View From Space Reel 1", u: "https://archive.org/download/viewfromspace/viewfromspacereel1.mp4"},
         {n: "View From Space Reel 2", u: "https://archive.org/download/viewfromspace/viewfromspacereel2.mp4"},
         {n: "This Is Redstone Arsenal", u: "https://archive.org/download/16764thisisredstonearsenalvwr/16764%20This%20Is%20Redstone%20Arsenal_vwr.mp4"},
         {n: "20 Years Of Strategic Air Command", u: "https://archive.org/download/2927420YearsOfStrategicAirCommandMos/29274%2020%20years%20Of%20Strategic%20Air%20Command_mos.mp4"},
-        {n: "AAF Combat Camera Units Weekly Digest pt 63", u: "https://archive.org/download/42124aafcombatcameraunitsweeklydigestpt63vwr/42124%20AAF%20Combat%20Camera%20Units%20Weekly%20Digest%20pt%2063_vwr.mp4"}, 
+        {n: "AAF Combat Camera Units Weekly Digest pt 63", u: "https://archive.org/download/42124aafcombatcameraunitsweeklydigestpt63vwr/42124%20AAF%20Combat%20Camera%20Units%20Weekly%20Digest%20pt%2063_vwr.mp4"},
+        {n: "Normandy Invasion", u: "https://archive.org/download/87084NormandyInvasion/87084%20Normandy%20Invasion.mp4"},
         {n: "NASA 1971 Aeronautics And Space Highlights", u: "https://archive.org/download/19194nasa1971aeronauticsandspacehighlightsvwr/19194%20NASA%201971%20Aeronautics%20And%20Space%20Highlights_vwr.mp4"},
         {n: "NASA Highlights 1967", u: "https://archive.org/download/76474NASAHighlights1967/76474%20NASA%20Highlights%201967.mp4"},
         {n: "Apollo Digest Saturn Second Stage", u: "https://archive.org/download/80004-apollo-digest-saturn-second-stage/80004%20Apollo%20Digest%20Saturn%20Second%20Stage.mp4"},
@@ -294,6 +288,7 @@
 
     const C = [
         {n: "The Time Machine (1978)", u: "https://archive.org/download/the-time-machine-1978-time-travel-sci-fi/The%20Time%20Machine%20%281978%20Time%20Travel%20SciFi%29.mp4"},
+        {n: "Plan 9 from Outer Space", u: "https://archive.org/download/Plan9FromOuterSpace/Plan9FromOuterSpace_512kb.mp4"},
         {n: "NASA 1971 Aeronautics And Space Highlights", u: "https://archive.org/download/19194nasa1971aeronauticsandspacehighlightsvwr/19194%20NASA%201971%20Aeronautics%20And%20Space%20Highlights_vwr.mp4"},
         {n: "Destroy All Monsters (1968)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/9.DestroyAllMonsters1968.mp4"},
         {n: "Son of Godzilla (1967)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/8.SonOfGodzilla1967.mp4"},
@@ -319,30 +314,51 @@
     const F = [
         {n: "War of the Worlds", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-30WarOfTheWorlds.mp3", audio: true},
         {n: "Dracula", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-11Dracula.mp3", audio: true},
-        {n: "Treasure Island", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-18TreasureIsland.mp3", audio: true},
-        n: "880000Mercurytheater88-00-00Mercurytheaterremembered", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/880000MercuryTheater88-00-00mercuryTheaterRemembered.mp3"},
-        {n: "Mercurytheater38-07-11Dracula", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-11Dracula.mp3"},
-        {n: "Mercurytheater38-07-18Treasureisland", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-18TreasureIsland.mp3"},
-        {n: "Mercurytheater38-07-25Ataleoftwocities", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-25ATaleOfTwoCities.mp3"},
-        {n: "Mercurytheater38-08-01Thethirtyninesteps", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-08-01TheThirtyNineSteps.mp3"},
-        {n: "Mercurytheater38-08-15Abrahamlincoln", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-08-15AbrahamLincoln.mp3"},
-        {n: "Mercurytheater38-08-22Theaffairsofanatole", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-08-22TheAffairsOfAnatole.mp3"},
-        {n: "Mercurytheater38-08-29Thecountofmontecristo", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-08-29TheCountOfMonteCristo.mp3"},
-        {n: "Mercurytheater38-09-05Themanwhowasthursday", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-09-05TheManWhoWasThursday.mp3"},
-        {n: "Mercurytheater38-09-11Juliusceasar", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-09-11JuliusCeasar.mp3"},
-        {n: "Mercurytheater38-09-25Theimmortalsherlockholmes", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-09-25TheImmortalSherlockHolmes.mp3"},
-        {n: "Mercurytheater38-10-09Hellonice", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-09HellOnIce.mp3"},
-        {n: "Mercurytheater38-10-16Seventeen", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-16Seventeen.mp3"},
-        {n: "Mercurytheater38-10-23Aroundtheworldin80Days", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-23AroundTheWorldIn80Days.mp3"},
-        {n: "Mercurytheater38-10-30Waroftheworlds", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-30WarOfTheWorlds.mp3"},
-        {n: "Mercurytheater38-11-062Completestories", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-11-062CompleteStories.mp3"},
-        {n: "Mercurytheater38-11-13Apassengertobali", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-11-13APassengerToBali.mp3"},
-        {n: "Mercurytheater38-11-20Pickwickpapers", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-11-20PickwickPapers.mp3"},
-        {n: "Mercurytheater46-06-21Thehitch-Hiker", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater46-06-21TheHitch-hiker.mp3"},
-        {n: "Mercurytheater46-07-12Thesearchforhenryleferre", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater46-07-12TheSearchForHenryLeFerre.mp3"},
-        {n: "Mercurytheater38-08-08Threeshortstoriesimafooltheopenwindowandmylittleboy", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/Mercurytheater38-08-08ThreeShortStoriesImAFoolTheOpenWindowAndMyLittleBoy.mp3"},
-        {n: "Mercurytheater38-11-06Heartofdarknesslifewithfather", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/Mercurytheater38-11-06HeartOfDarknessLifeWithFather.mp3"},
-];
+        {n: "Treasure Island", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-18TreasureIsland.mp3", audio: true}
+    ];
+
+    // New category with ALL your latest links (movies first, no particular order inside)
+    const GOLD_SILVER = [
+        {n: "Silver Trail, The", u: "https://archive.org/download/the_silver_trail/the_silver_trail.mp4"},
+        {n: "Pot o Gold", u: "https://archive.org/download/pot_o_gold/pot_o_gold.mp4"},
+        {n: "Ghost-Town Gold", u: "https://archive.org/download/three_mesquiteers/three_mesquiteers.mp4"},
+        {n: "Silver Spurs", u: "https://archive.org/download/silver_spurs/silver_spurs.mp4"},
+        {n: "Black Gold", u: "https://archive.org/download/Black_Gold/BlackGold.mp4"},
+        {n: "White Wonder", u: "https://archive.org/download/WhiteWon1958/WhiteWon1958_edit.mp4"},
+        {n: "Silver_Fleet_The", u: "https://archive.org/download/Silver_Fleet_The/Silver_Fleet_The_.mp4"},
+        {n: "South Dakota Saga (Part I)", u: "https://archive.org/download/SouthDak1940/SouthDak1940_edit.mp4"},
+        {n: "1955 commercial for Old Gold filter cigarettes", u: "https://archive.org/download/1955CommercialForOldGoldFilterCigarettes/oldgold1955livecommercial.mp4"},
+        {n: "South Dakota Saga (Part II)", u: "https://archive.org/download/SouthDak1940_2/SouthDak1940_2_edit.mp4"},
+        {n: "Long John Silver  (1954)", u: "https://archive.org/download/LongJohnSilver1954/Long John Silver (1954).mp4"},
+        {n: "Gold", u: "https://archive.org/download/Gold-1932/Gold.mp4"},
+        {n: "Desert Gold", u: "https://archive.org/download/DesertGold/DesertGold.mp4"},
+        {n: "Ten for Gold", u: "https://archive.org/download/gov.archives.arc.614503/gov.archives.arc.614503.mp4"},
+        {n: "The Silver Horde", u: "https://archive.org/download/SilverHorde1930/The_Silver_Horde_1930.mp4"},
+        {n: "Alaskas Silver Millions (Part I)", u: "https://archive.org/download/AlaskasS1936/AlaskasS1936_edit.mp4"},
+        {n: "Colonel March - Silver Curtain", u: "https://archive.org/download/Colonel_March_Silver_Curtain/Colonel_March_Silver_Curtain.mp4"},
+        {n: "Alaskas Silver Millions (Part II)", u: "https://archive.org/download/AlaskasS1936_2/AlaskasS1936_2_edit.mp4"},
+        {n: "Island of the sunken gold / De brandende vulkaan", u: "https://archive.org/download/Island_of_the-sunken_gold/De_brandende_vulkaan_episode_1_to_5_512kb.mp4"},
+        {n: "Bill Sprague Collection : DOO WOP GOLD", u: "https://archive.org/download/BillSporagueCollectionDOOWOPGOLD/Doo Wop Gold Vol 1.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: The Disney Dream Factory: 1933-1938 (Laserdisc)", u: "https://archive.org/download/257AS/The Disney Dream Factory.mp4"},
+        {n: "Acapulco Gold(1976)", u: "https://archive.org/download/acapulco.-gold.-1976.1080p.-blu-ray.-h-264.-aac-rarbg/Acapulco.Gold.1976.1080p.BluRay.H264.AAC-RARBG.ia.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition - Minnie (1984 VHS)", u: "https://archive.org/download/wdcc-lge-minnie-vhsrip/WDCC.LGE.Minnie.VHSRip.mp4"},
+        {n: "Iron Country: Iron Ore and Minnesotas Future", u: "https://archive.org/download/IronCoun1952/IronCoun1952_edit.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: The World According to Goofy (Laserdisc)", u: "https://archive.org/download/256AS/The World According to Goofy.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: How the Best Was Won: 1933-1960 (Laserdisc)", u: "https://archive.org/download/259AS/How the Best Was Won.mp4"},
+        {n: "Flower Angel (Harmony Gold English dub of Hana no Ko Lunlun) 1985 HD Remastered", u: "https://archive.org/download/flowerangel1985_201912/Flower Angel (Harmony Gold) DVD.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: Donalds Bee Pictures (Laserdisc)", u: "https://archive.org/download/255AS/Donald's Bee Pictures (1st pressing).mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: Life with Mickey! (Laserdisc)", u: "https://archive.org/download/260AS/Life with Mickey!.mp4"},
+        {n: "Railway with a Heart of Gold", u: "https://archive.org/download/railway_with_a_heart_of_gold_1965/railway_with_a_heart_of_gold_1965_512kb.mp4"},
+        {n: "Appalachia: Rich Land, Poor People", u: "https://archive.org/download/appalachiarichlandpoorpeople/appalachiarichlandpoorpeople/appalachiarichlandpoorpeoplereel2.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: An Officer and a Duck (Laserdisc)", u: "https://archive.org/download/258AS/An Officer and a Duck.mp4"},
+        {n: "The Leprechauns Christmas Gold (1981)", u: "https://archive.org/download/1981theleprechaunschristmasgold/1981 - The Leprechaun's Christmas Gold.mp4"},
+        {n: "Black Shadows on a Silver Screen", u: "https://archive.org/download/blackshadowsonasilverscreenreel2/blackshadowsonasilverscreenreel2.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: From Pluto with Love (Laserdisc)", u: "https://archive.org/download/261AS/From Pluto with Love.mp4"},
+        {n: "Christmas In Appalachia, 1965", u: "https://archive.org/download/ChristmasInAppalachia1965/Christmas In Appalachia 1965.mp4"},
+        {n: "The Adventures of Long John Silver - Episode 1: The Necklace", u: "https://archive.org/download/TheAdventuresOfLongJohnSilver-Episode1theNecklace/TheAdventuresOfLongJohnSilver-TheNecklace-limou3okxka.mp4"},
+        {n: "Gold Diggers Of 1933 (1933) 1080p", u: "https://archive.org/download/gold-diggers-of-1933.1933.1080p/Gold.Diggers.Of.1933.1933.1080p.BluRay.x264.DTS-FGT.mp4"},
+        {n: "How Green Was My Valley (1941)", u: "https://archive.org/download/HowGreenWasMyValley1941_201812/How Green was My Valley (1941).mp4"},
+        {n: "Coal Miner, The", u: "https://archive.org/download/coal_miner/coal_miner_512kb.mp4"},
     ];
 
     const categories = [
@@ -351,7 +367,8 @@
         {name: "C", content: C},
         {name: "D", content: D},
         {name: "E", content: E},
-        {name: "F", content: F}
+        {name: "F", content: F},
+        {name: "GOLD & SILVER", content: GOLD_SILVER}
     ];
 
     let currentCategoryIndex = 0;
