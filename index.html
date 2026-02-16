@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>CLINE CLASSIC TV | MAN CAVE V148</title>
+    <title>CLINE CLASSIC TV | MAN CAVE V151</title>
     <style>
         body { 
             background: #0a0a0a; 
@@ -243,7 +243,7 @@
 <body>
 
 <button class="fs-toggle" onclick="toggleFS()">[ FULL SCREEN ]</button>
-<div class="version">V148</div>
+<div class="version">V151</div>
 
 <div id="cabinet">
     <div class="glass-tube">
@@ -563,6 +563,60 @@
         {n: "Combat Bulletin #48: Air Support On Western Front Etc, 1945", u: "https://archive.org/download/CB-48/CB-48 Combat Bulletin 48 Air Support On Western Front Etc 1945.mp4"}
     ];
 
+    // --- DIAL J: SCIENCE (NOVA, HORIZON, PBS) ---
+    const J = [
+        {n: "PBS Nova Documentaries", u: "https://archive.org/download/pbsnovadocs/Mark Twain by Ken Burns 1 of 2.mp4"},
+        {n: "Islam Empire Of Faith (Complete Part 1, 2 and 3) - PBS Documentary", u: "https://archive.org/download/IslamEmpireOfFaithCompletePart12And3-PBSDocumentary/Islam Empire of Faith - The Messenger - Part 1.ogv"},
+        {n: "PBS Content (Nova Episodes, Documentaries)", u: "https://archive.org/download/nova-pbs-documentaries/NOVA/NOVA S43 EP15 School Of The Future - Spanish Version.mp4"},
+        {n: "The KGB, the Computer and Me", u: "https://archive.org/download/The_KGB_The_Computer_and_Me_1990/The_KGB_The_Computer_and_Me_1990.mp4"},
+        {n: "The Civil War Episode 5 The Universe of Battle PBS 1990 Tape", u: "https://archive.org/download/The_Civil_War_Episode_5_The_Universe_of_Battle_PBS_1990_Tape/The Civil War Episode 5 The Universe of Battle PBS 1990 Tape.mkv"},
+        {n: "Eyes On The Prize (PBS)", u: "https://archive.org/download/20221119_20221119_0723/Eyes On The Prize - (Part 11) Ain't Gonna Shuffle No More 1964–1972.ia.mp4"},
+        {n: "Michio Kaku: Physics of the Impossible", u: "https://archive.org/download/MichioKakuPhysicsOfTheImpossible/4140-2008_04_30_512kb.mp4"},
+        {n: "Secrets of Making Money", u: "https://archive.org/download/SecretsofMakingMoney/NOVA.S23E14.Secrets.of.Making.Money.1996.VHSRip.AAC2.0.x264-rattera.mp4"},
+        {n: "PBS Documentary on Haymarket Martyrs and the Origins of International Workers Day", u: "https://archive.org/download/Haymarket-Documentary/Haymarket.mp4"},
+        {n: "Muhammad Legacy Of A Prophet (PBS)", u: "https://archive.org/download/prophet-muhammed/Muhammad Legacy of a Prophet.avi"},
+        {n: "Terror in Space", u: "https://archive.org/download/TerrorinSpace/NOVA.S25E15.Terror.in.Space.1998.VHSRip.AAC2.0.x264-krokkers.mp4"},
+        {n: "The Gulf War", u: "https://archive.org/download/TheGulfWar/Frontline.S14E01.The.Gulf.War.(1).1996.VHSRip.AAC2.0.x264-rattera.mp4"},
+        {n: "NOVA Stephen Hawkings Universe Volume 1 The Big Bang 1997 PBS Home Video", u: "https://archive.org/download/NOVA_Stephen_Hawkings_Universe_Volume_1_The_Big_Bang_1997_PBS_Home_Video/NOVA Stephen Hawkings Universe Volume 1 The Big Bang 1997 PBS Home Video.mp4"},
+        {n: "Of Science And Scientists ★🥅  Educational Films from Harvard, in the 1950s", u: "https://archive.org/download/of-science-and-scientists/Of Science And Scientists 17 Light - Waves Or Bullets.mp4"},
+        {n: "Time Travel", u: "https://archive.org/download/NOVATimeTravel/NOVA.S26E12.Time.Travel.1999.VHSRip.AAC2.0.x264-rattera.mp4"},
+        {n: "NOVA- The Miracle of Life (S10E12)", u: "https://archive.org/download/NOVATheMiracleOfLifeS10E12/NOVA-The-Miracle-of-Life-_S10E12_.mp4"},
+        {n: "A. Einstein", u: "https://archive.org/download/NOVAAEinstein/NOVA.S06E09.A.Einstein.VHSRip.AAC2.0.x264-RATTERA.mp4"},
+        {n: "Resolution on Saturn", u: "https://archive.org/download/ResolutononSaturn/NOVA.S08E10.Resolution.on.Saturn.1981.VHSRip.AAC2.0.x264-astro.mp4"},
+        {n: "Behind the Mask : The IRA and Sinn Fein", u: "https://archive.org/download/BehindtheMaskTheIRAandSinnFein/Frontline.S15E16.Behind.the.Mask.The.IRA.and.Sinn.Fein.1997.VHSRip.AAC2.0.x264-rattera.mp4"},
+        {n: "Lost City of Arabia", u: "https://archive.org/download/LostCityofArabia/NOVA.S23E12.Lost.City.of.Arabia.1996.VHSRip.AAC2.0.x264-rattera.mp4"},
+        {n: "Escape! : Because Accidents Happen", u: "https://archive.org/download/EscapeBecauseAccidentsHappen/NOVA.S26E07.Escape.Because.Accidents.Happen.(4).Abandon.Ship.1999.VHSRip.AAC2.0.x264-rattera.mp4"},
+        {n: "The Brain with David Eagleman ★ PBS Documentary Series with Subtitles and MKV", u: "https://archive.org/download/the_brain/01_what_is_reality.mp4"},
+        {n: "Supersonic Spies", u: "https://archive.org/download/SupersonicSpies/NOVA.S25E03.Supersonic.Spies.1998.VHSRip.AAC2.0.x264-rattera.mp4"},
+        {n: "The Man Who Loved Numbers", u: "https://archive.org/download/TheManWhoLovedNumbers/NOVA.S15E09.The.Man.Who.Loved.Numbers.1988.VHSRip.AAC2.0.x264-astro.mp4"},
+        {n: "Ice Mummies", u: "https://archive.org/download/IceMummies/NOVA.S25E18.Ice.Mummies.Return.of.the.Iceman.1998.VHSRip.AAC2.0.x264-rattera.mp4"},
+        {n: "DOCU To The Moon On NOVA ( 1999, PBS)", u: "https://archive.org/download/docutothemoononnova1999pbs/DOCU - To The Moon on NOVA (1999, PBS)/DOCU - To The Moon on NOVA (1999, PBS).mkv"},
+        {n: "Spy Machines", u: "https://archive.org/download/SpyMachines/NOVA.S14E14.Spy.Machines.1987.VHSRip.AAC2.0.x264-astro.mp4"},
+        {n: "The Best Mind Since Einstein", u: "https://archive.org/download/TheBestMindSinceEinstein/NOVA.S20E19.The.Best.Mind.Since.Einstein.1993.DVDRip.DD2.0.x264-astro.mkv"},
+        {n: "The Race for the Double Helix", u: "https://archive.org/download/TheRacefortheDoubleHelix/Horizon.S10E31.The.Race.for.the.Double.Helix.1974.640x480.MP3-BTN.avi"},
+        {n: "The Fabric of the Cosmos ★  PBS Science Exploration Mini-Series", u: "https://archive.org/download/fabric-cosmos/Fabric Cosmos 2 The Illusion of Time.mp4"},
+        {n: "In the Path of a Killer Volcano", u: "https://archive.org/download/InthePathofaKillerVolcano/NOVA.S20E05.In.the.Path.of.a.Killer.Volcano.1993.VHSRip.AAC2.0.x264-rattera.ia.mp4"},
+        {n: "PBS Nova Why Planes Crash (1987)", u: "https://archive.org/download/nova-why-planes-crash/Nova - Why Planes Crash.avi"},
+        {n: "The Real Life of Ronald Reagan", u: "https://archive.org/download/TheRealLifeofRonaldReagan/Frontline.S07E01.The.Real.Life.of.Ronald.Reagan.1989.VHSRip.AAC2.0.x264-rattera.mp4"},
+        {n: "Martha Speaks, Sid the Science Kid, and Super WHY! on PBS (September 11, 2008)", u: "https://archive.org/download/MarthaSidSuperWhy/StorageLabs TinyUDF Volume5.mp4"},
+        {n: "Voyage of Doom", u: "https://archive.org/download/VoyageofDoom/NOVA.S26E16.Voyage.of.Doom.1998.VHSRip.AAC2.0.x264-rattera.mp4"},
+        {n: "NOVA Wonders ★ PBS Science Mini-Series", u: "https://archive.org/download/nova-wonders/NOVA Wonders 6 What is Universe made of.mp4"},
+        {n: "Curse of T. Rex", u: "https://archive.org/download/CurseofTRex/NOVA.S24E09.Curse.of.T.Rex.1997.VHSRip.AAC2.0.x264-rattera.mp4"},
+        {n: "Nova", u: "https://archive.org/download/nova_collection/Nova 2015-09-16 Dawn of Humanity (120 min).mp4"},
+        {n: "A Science Odyssey  ★ Lost PBS Science History Series", u: "https://archive.org/download/a-science-odyssey/A Science Odyssey 02 Mysteries Of The Universe.mp4"},
+        {n: "Broken Minds", u: "https://archive.org/download/BrokenMinds/Frontline.S08E24.Broken.Minds.1990.VHSRip.AAC2.0.x264-rattera.mp4"},
+        {n: "PBS TR: The Story of Theodore Roosevelt", u: "https://archive.org/download/american-experience-tr-the-story-of-theodore-roosevelt-episode-1-the-long-campaign/American Experience TR The Story of Theodore Roosevelt Episode 1 The Long Campaign.mp4"},
+        {n: "The Red Planet", u: "https://archive.org/download/TheRedPlanet/NOVA.S04E14.The.Red.Planet.1977.VHSRip.AAC2.0.x264-astro.mp4"},
+        {n: "The Blimp is Back!", u: "https://archive.org/download/TheBlimpisBack/NOVA.S17E14.The.Blimp.is.Back.1990.VHSRip.AAC2.0.x264-rattera.mp4"},
+        {n: "Dirty Bomb", u: "https://archive.org/download/DirtyBomb/NOVA.S30E07.Dirty.Bomb.2003.VHSRip.AAC2.0.x264-rattera.mp4"},
+        {n: "The Planets", u: "https://archive.org/download/NOVAThePlanets/Horizon.S12E07.The.Planets.1975.VHSrip.x264.AAC-RATTERA.mp4"},
+        {n: "Hunt for Alien Worlds", u: "https://archive.org/download/HuntforAlienWorlds/NOVA.S24E08.Hunt.for.Alien.Worlds.1997.VHSRip.AAC2.0.x264-astro.mp4"},
+        {n: "Neanderthals on Trial", u: "https://archive.org/download/NeanderthalsonTrial/NOVA.S29E02.Neanderthals.on.Trial.2002.VHSRip.AAC2.0.x264-rattera.mp4"},
+        {n: "The genius that was China", u: "https://archive.org/download/TheGeniusThatWasChina/NOVA.S17E08.The.Genius.That.Was.China.The.Threat.From.Japan.1990.VHSRip.AAC2.0.x264-astro.mp4"},
+        {n: "PBS Carrier", u: "https://archive.org/download/pbs-carrier/#2 Controlled Chaos.avi"},
+        {n: "Rush Limbaughs America", u: "https://archive.org/download/RushLimbaughsAmerica/Frontline.S13E06.Rush.Limbaughs.America.1995.VHSRip.AAC2.0.x264-rattera.mp4"}
+    ];
+
     const categories = [
         {name: "A", content: A},
         {name: "B", content: B},
@@ -572,7 +626,8 @@
         {name: "F", content: F},
         {name: "G", content: G},
         {name: "H", content: H},
-        {name: "I", content: I}
+        {name: "I", content: I},
+        {name: "J", content: J}
     ];
 
     let currentCategoryIndex = 0;
@@ -597,9 +652,8 @@
 
     window.onload = () => {
         makeNumbers('t-numbers', 12);
-        makeNumbers('s-numbers', 9);
+        makeNumbers('s-numbers', 10);
         loadAndPlay();
-        startClock();
     };
 
     function loadAndPlay() {
@@ -681,33 +735,6 @@
             else if (elem.mozCancelFullScreen) elem.mozCancelFullScreen();
             else if (elem.msExitFullscreen) elem.msExitFullscreen();
         }
-    }
-
-    function startClock() {
-        const clock = document.getElementById('clock');
-        clock.innerHTML = `
-            <div style="position:absolute;top:50%;left:50%;width:4px;height:24px;background:#ddd;transform-origin:50% 100%;border-radius:2px;" id="hour"></div>
-            <div style="position:absolute;top:50%;left:50%;width:3px;height:30px;background:#ddd;transform-origin:50% 100%;border-radius:2px;" id="minute"></div>
-            <div style="position:absolute;top:50%;left:50%;width:2px;height:32px;background:#ff6600;transform-origin:50% 100%;border-radius:2px;" id="second"></div>
-        `;
-        const hourHand = document.getElementById('hour');
-        const minuteHand = document.getElementById('minute');
-        const secondHand = document.getElementById('second');
-
-        setInterval(() => {
-            const now = new Date();
-            const seconds = now.getSeconds();
-            const minutes = now.getMinutes();
-            const hours = now.getHours() % 12;
-
-            const secondDeg = (seconds * 6);
-            const minuteDeg = (minutes * 6) + (seconds * 0.1);
-            const hourDeg = (hours * 30) + (minutes * 0.5);
-
-            secondHand.style.transform = `translate(-50%, -100%) rotate(${secondDeg}deg)`;
-            minuteHand.style.transform = `translate(-50%, -100%) rotate(${minuteDeg}deg)`;
-            hourHand.style.transform = `translate(-50%, -100%) rotate(${hourDeg}deg)`;
-        }, 1000);
     }
 </script>
 </body>
