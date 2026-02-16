@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>CLINE CLASSIC TV | MAN CAVE V152</title>
+    <title>CLINE CLASSIC TV | MAN CAVE V158</title>
     <style>
         body { 
             background: #0a0a0a; 
@@ -152,6 +152,18 @@
             transform: translate(-50%, -50%); 
             pointer-events: none; 
         }
+        /* Style for the ticks on the top knob */
+        .tick {
+            position: absolute;
+            width: 2px;
+            height: 8px;
+            background: #777;
+            top: 50%;
+            left: 50%;
+            transform-origin: center center;
+            opacity: 0.8;
+        }
+        /* Style for the numbers on the bottom knob */
         .number { 
             position: absolute; 
             width: clamp(26px, 6vw, 32px); 
@@ -243,7 +255,7 @@
 <body>
 
 <button class="fs-toggle" onclick="toggleFS()">[ FULL SCREEN ]</button>
-<div class="version">V152</div>
+<div class="version">V158</div>
 
 <div id="cabinet">
     <div class="glass-tube">
@@ -257,7 +269,7 @@
         </div>
 
         <div class="dial-housing">
-            <div class="number-ring" id="t-numbers"></div>
+            <div class="number-ring" id="t-ring"></div>
             <div class="knob" id="t-knob" onclick="tune(1)" oncontextmenu="event.preventDefault(); tune(-1);"></div>
         </div>
 
@@ -266,15 +278,112 @@
         </div>
 
         <div class="dial-housing">
-            <div class="number-ring" id="s-numbers"></div>
+            <div class="number-ring" id="s-ring"></div>
             <div class="knob" id="s-knob" onclick="changeCategory(1)" oncontextmenu="event.preventDefault(); changeCategory(-1);"></div>
         </div>
     </div>
 </div>
 
 <script>
-    // --- DIAL A: CARS, DRAG RACING & SPEED ---
+    // --- A: ASTRO (SPACE & NASA) ---
     const A = [
+        {n: "Apollo 11 Onboard Film", u: "https://archive.org/download/Apollo1116mmOnboardFilm/apollo11_6_1.mp4"},
+        {n: "Flight of Apollo 11 (Eagle Has Landed)", u: "https://archive.org/download/flight_of_apollo_11/flight_of_apollo_11_512kb.mp4"},
+        {n: "Apollo 13: Houston, Weve Got A Problem", u: "https://archive.org/download/HoustonWeveGotAProblem/Apollo_13_Houston_We_Have_A_Problem.ogv"},
+        {n: "Apollo 15: Mountains Of The Moon", u: "https://archive.org/download/IntheMountainsOfTheMoonApollo15/Apollo_15_In_The_Mountains_Of_The_Moon.ogv"},
+        {n: "Apollo 8: Go For TLI", u: "https://archive.org/download/Apollo_8_-_Go_For_TLI/Apollo_8_-_Go_For_TLI_512kb.mp4"},
+        {n: "Apollo 9: Three To Make Ready", u: "https://archive.org/download/Apollo_9__Three_To_Make_Ready/Apollo_9_Three_To_Make_Ready_512kb.mp4"},
+        {n: "Apollo Digest Saturn Second Stage", u: "https://archive.org/download/80004-apollo-digest-saturn-second-stage/80004%20Apollo%20Digest%20Saturn%20Second%20Stage.mp4"},
+        {n: "View From Space", u: "https://archive.org/download/viewfromspace/viewfromspacereel1.mp4"},
+        {n: "NASA 1971 Highlights", u: "https://archive.org/download/19194nasa1971aeronauticsandspacehighlightsvwr/19194%20NASA%201971%20Aeronautics%20And%20Space%20Highlights_vwr.mp4"},
+        {n: "NASA Highlights 1967", u: "https://archive.org/download/76474NASAHighlights1967/76474%20NASA%20Highlights%201967.mp4"},
+        {n: "NASA Highlights 1965", u: "https://archive.org/download/highlights_1965_1/highlights_1965_1_edit.mp4"},
+        {n: "Redstone Arsenal", u: "https://archive.org/download/16764thisisredstonearsenalvwr/16764%20This%20Is%20Redstone%20Arsenal_vwr.mp4"},
+        {n: "Gemini XI", u: "https://archive.org/download/gemini_xi/gemini_xi.mp4"},
+        {n: "Gemini IV Four Days", u: "https://archive.org/download/four_days_of_gemini_4/four_days_of_gemini_4.mp4"},
+        {n: "Gemini X: A Quick Look", u: "https://archive.org/download/gemini_x_a_quick_look/gemini_x_a_quick_look.mp4"},
+        {n: "Mercury Redstone 1 Launch", u: "https://archive.org/download/project_mercury_mr-1_launch/project_mercury_mr-1_launch.mp4"},
+        {n: "The John Glenn Story", u: "https://archive.org/download/TheJohnGlennStory/The_John_Glenn_Story.avi"},
+        {n: "Our Solar System", u: "https://archive.org/download/our_solar_system/our_solar_system.mp4"},
+        {n: "Skylab: Gyroscopes in Space", u: "https://archive.org/download/skylab_gyroscopes_in_space/skylab_gyroscopes_in_space.mp4"},
+        {n: "Challenger Investigation", u: "https://archive.org/download/ChallengerAccidentandInvestigation/Challenger_Disaster_and_Investigation_512kb.mp4"},
+        {n: "Strategic Air Command 20 Years", u: "https://archive.org/download/2927420YearsOfStrategicAirCommandMos/29274%2020%20years%20Of%20Strategic%20Air%20Command_mos.mp4"},
+        {n: "The Time of Apollo", u: "https://archive.org/download/TheTimeOfApollo/The Time of Apollo.mp4"},
+        {n: "A Trip To The Planets", u: "https://archive.org/download/ATripToThePlanets-SilentWithAddedSound/ATripToThePlanets-desktop_512kb.mp4"},
+        {n: "Terror in Space", u: "https://archive.org/download/TerrorinSpace/NOVA.S25E15.Terror.in.Space.1998.VHSRip.AAC2.0.x264-krokkers.mp4"},
+        {n: "The Planets by PBS", u: "https://archive.org/download/the_planets_pbs/the_planets_4_saturn.mp4"},
+        {n: "NOVA Stephen Hawkings Universe Volume 1 The Big Bang 1997 PBS Home Video", u: "https://archive.org/download/NOVA_Stephen_Hawkings_Universe_Volume_1_The_Big_Bang_1997_PBS_Home_Video/NOVA Stephen Hawkings Universe Volume 1 The Big Bang 1997 PBS Home Video.mp4"},
+        {n: "MAN IN SPACE TODAY TOMORROW AND TITAN III", u: "https://archive.org/download/30482ManIntoSpacePart1/30482 Man Into Space part 1.mp4"},
+        {n: "Apollo 17: On The Shoulders Of Giants", u: "https://archive.org/download/Apollo17OnTheShouldersOfGiants/Apollo 17 - On the Shoulders of Giants.mp4"}
+    ];
+
+    // --- B: B-MOVIES & FEATURES ---
+    const B = [
+        {n: "The Time Machine (1978)", u: "https://archive.org/download/the-time-machine-1978-time-travel-sci-fi/The%20Time%20Machine%20%281978%20Time%20Travel%20SciFi%29.mp4"},
+        {n: "Plan 9 from Outer Space", u: "https://archive.org/download/Plan9FromOuterSpace/Plan9FromOuterSpace_512kb.mp4"},
+        {n: "Godzilla 1985", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/16.Godzilla1985.mp4"},
+        {n: "Destroy All Monsters (1968)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/9.DestroyAllMonsters1968.mp4"},
+        {n: "Mothra vs Godzilla (1964)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/5.MothraVsGodzilla1964.mp4"},
+        {n: "Son of Godzilla (1967)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/8.SonOfGodzilla1967.mp4"},
+        {n: "Terror Of Mechagodzilla (1975)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/15.TerrorOfMechagodzilla1975.mp4"},
+        {n: "Invisible Man (1933)", u: "https://archive.org/download/invisible-man-1933/Invisible Man 1933.mp4"},
+        {n: "Night of the Living Dead (Colorized)", u: "https://archive.org/download/night-of-the-living-dead-colorized-1968/Night Of The Living Dead (Colorized, 1968).ia.mp4"},
+        {n: "The Graduate (1967)", u: "https://archive.org/download/the-graduate-1967_202301/The Graduate (1967).mp4"},
+        {n: "Deep Red (1975)", u: "https://archive.org/download/DeepRed1975/DeepRed.mp4"},
+        {n: "Monty Python Holy Grail", u: "https://archive.org/download/9convert.com-monty-python-and-the-holy-grail-1974-1080p/9convert.com - Monty Python and the Holy Grail 1974  1080p.mp4"},
+        {n: "Beatles: Let It Be", u: "https://archive.org/download/Let_It_Be_1970_film/The Beatles - Let It Be (Deluxe 35mm Widescreen Stereo Edition)2.mp4"},
+        {n: "Magical Mystery Tour", u: "https://archive.org/download/magical-mystery-tour_202106/Magical Mystery Tour.mkv"},
+        {n: "The Saint (2017)", u: "https://archive.org/download/2017-the-saint-movie-1080p-spanish-or-english/(2017) -------- The Saint -- movie  (1080p, Spanish or English).mp4"},
+        {n: "Legend Of Sleepy Hollow (1980)", u: "https://archive.org/download/the-legend-of-sleepy-hollow-1980-family-mystery-adventure-tv-movie/The Legend of Sleepy Hollow (1980, Family, Mystery, Adventure, TV movie).mp4"},
+        {n: "Day the Earth Stood Still (1951)", u: "https://archive.org/download/day-the-earth-stood-still-1951/Day%20the%20Earth%20Stood%20Still%201951.mp4"},
+        {n: "Alexander The Great (1997)", u: "https://archive.org/download/alexander-the-great-1997-part-1/Alexander The Great (1997) Part 1.mp4"},
+        {n: "Cleopatra (Complete Series)", u: "https://archive.org/download/cleopatra-mini-series-1999/Cleopatra - Mini-Series 1999.mp4"},
+        {n: "Fall of The Roman Empire", u: "https://archive.org/download/the-fall-of-the-roman-empire-hollywood-movie-sophia-loren-stephen-boyd/The Fall of the Roman Empire - Hollywood Movie - Sophia Loren, Stephen Boyd.mp4"},
+        {n: "Julius Caesar 2002", u: "https://archive.org/download/julius-caesar-2002/julius caesar 2002.mp4"}
+    ];
+
+    // --- C: CARTOONS ---
+    const C = [
+        {n: "Popeye for President", u: "https://archive.org/download/Popeye_forPresident/Popeye_forPresident_512kb.mp4"},
+        {n: "Popeye: Private Eye", u: "https://archive.org/download/popeye_private_eye_popeye/popeye_private_eye_popeye_512kb.mp4"},
+        {n: "Popeye: Big Bad Sinbad", u: "https://archive.org/download/popeye_big_bad_sinbad/popeye_big_bad_sinbad_512kb.mp4"},
+        {n: "Popeye Meets Aladdin", u: "https://archive.org/download/Popeye_the_Sailor_Meets_Aladdin_and_His_Wonderful Lamp/Popeye_-_Aladdin_and_His_Wonderful_Lamp_512kb.mp4"},
+        {n: "Superman: Magnetic Telescope", u: "https://archive.org/download/Superman_The_Magnetic_Telescope/Superman_The_Magnetic_Telescope_512kb.mp4"},
+        {n: "Betty Boop: Musical Mountaineers", u: "https://archive.org/download/bb_musical_mountaineers/bb_musical_mountaineers_512kb.mp4"},
+        {n: "Pink Panther: Olympinks", u: "https://archive.org/download/ThePinkPanther-cartoons/The Pink Panther in -OLYMPINKS!.mp4"},
+        {n: "Pink Panther: Pink Stamps", u: "https://archive.org/download/the-pink-panther-cartoon-collection/003 We Give Pink Stamps (Feb 12, 1965).ia.mp4"},
+        {n: "Casper: Good Boos Tonight", u: "https://archive.org/download/noveltoon_casper_tfg_theres_good_boos_tonight/noveltoon_casper_tfg_theres_good_boos_tonight_512kb.mp4"},
+        {n: "Gullivers Travels", u: "https://archive.org/download/GulliversTravels720p_652/GulliversTravels.mp4"},
+        {n: "The Friendly Ghost", u: "https://archive.org/download/TheFriendlyGhost/TheFriendlyGhost_512kb.mp4"},
+        {n: "Horton Hatches the Egg", u: "https://archive.org/download/the-1000-looney-tunes-merrie-melodies/1942/s1942e11 - Horton Hatches the Egg.mp4"},
+        {n: "Peter Pan (1953)", u: "https://archive.org/download/peterpan1953capturedfromthe1990classicsvhs/Peter Pan (1953) [captured from the 1990 Classics VHS].mp4"},
+        {n: "Skeleton Dance (Silly Symphony)", u: "https://archive.org/download/walt-disneys-silly-symphonies-the-complete-collection-1929-39/01%20-%20The%20Skeleton%20Dance%20%281929%29.mp4"},
+        {n: "How The Grinch Stole Christmas", u: "https://archive.org/download/HowTheGrinchStoleChristmas_201812/How the Grinch Stole Christmas.mp4"},
+        {n: "Beatles Cartoon 1965", u: "https://archive.org/download/the-beatles-cartoon_2023/The Beatles S02E06 - All My Loving Day Tripper.mp4"},
+        {n: "Reading Rainbow", u: "https://archive.org/download/ReadingRainbowTVSeries/Reading.Rainbow.S01E10.The.Gift.of.the.Sacred.Dog.480p.AMZN.WEB-DL.DD.2.0.x264-RTN.mp4"}
+    ];
+
+    // --- D: WESTERNS ---
+    const D = [
+        {n: "Pot o Gold", u: "https://archive.org/download/pot_o_gold/pot_o_gold.mp4"},
+        {n: "Silver Trail", u: "https://archive.org/download/the_silver_trail/the_silver_trail.mp4"},
+        {n: "Silver Spurs", u: "https://archive.org/download/silver_spurs/silver_spurs.mp4"},
+        {n: "Black Gold", u: "https://archive.org/download/Black_Gold/BlackGold.mp4"},
+        {n: "The Silver Horde", u: "https://archive.org/download/SilverHorde1930/The_Silver_Horde_1930.mp4"},
+        {n: "Gold (1932)", u: "https://archive.org/download/Gold-1932/Gold.mp4"},
+        {n: "Desert Gold", u: "https://archive.org/download/DesertGold/DesertGold.mp4"},
+        {n: "Long John Silver", u: "https://archive.org/download/LongJohnSilver1954/Long John Silver (1954).mp4"},
+        {n: "Rio Lobo (John Wayne)", u: "https://archive.org/download/rio-lobo-1970-john-wayne-western-civil-war/Rio Lobo (1970 John Wayne Western Civil War).mp4"},
+        {n: "Lone Ranger", u: "https://archive.org/download/LegionOfOldTimers1949/LegionOfOldTimers1949.mp4"},
+        {n: "Range Rider", u: "https://archive.org/download/RangeRiderOutlawTerritory/Range Rider - Outlaw Territory.mp4"},
+        {n: "Bonanza: Emperor Norton", u: "https://archive.org/download/TheEmperorNortonBonanza1966/The_Emperor_Norton_Bonanza_1966.mp4"},
+        {n: "Coal Miner", u: "https://archive.org/download/coal_miner/coal_miner_512kb.mp4"},
+        {n: "Gold Diggers of 1933", u: "https://archive.org/download/gold-diggers-of-1933.1933.1080p/Gold.Diggers.Of.1933.1933.1080p.BluRay.x264.DTS-FGT.mp4"},
+        {n: "How Green Was My Valley", u: "https://archive.org/download/HowGreenWasMyValley1941_201812/How Green was My Valley (1941).mp4"}
+    ];
+
+    // --- E: WHATEVER (CARS/RACING) ---
+    const E = [
         {n: "Track Freaks", u: "https://archive.org/download/trackfreaksiivhs/Track Freaks I.mp4"},
         {n: "Nitro Funny Cars", u: "https://archive.org/download/nitro-funny-cars/Nitro Funny Cars.ia.mp4"},
         {n: "1/4 Mile Crashes - 1993", u: "https://archive.org/download/1-4-mile-crashes-1993/1 4 Mile Crashes  1993.mp4"},
@@ -305,36 +414,13 @@
         {n: "Pink Pistons", u: "https://archive.org/download/pink-pistons-s-01-ep-16/Pink Pistons S01Ep16.mp4"}
     ];
 
-    // --- DIAL B: SPACE & APOLLO ---
-    const B = [
-        {n: "Apollo 11 Onboard Film", u: "https://archive.org/download/Apollo1116mmOnboardFilm/apollo11_6_1.mp4"},
-        {n: "Flight of Apollo 11 (Eagle Has Landed)", u: "https://archive.org/download/flight_of_apollo_11/flight_of_apollo_11_512kb.mp4"},
-        {n: "Apollo 13: Houston, Weve Got A Problem", u: "https://archive.org/download/HoustonWeveGotAProblem/Apollo_13_Houston_We_Have_A_Problem.ogv"},
-        {n: "Apollo 15: Mountains Of The Moon", u: "https://archive.org/download/IntheMountainsOfTheMoonApollo15/Apollo_15_In_The_Mountains_Of_The_Moon.ogv"},
-        {n: "Apollo 8: Go For TLI", u: "https://archive.org/download/Apollo_8_-_Go_For_TLI/Apollo_8_-_Go_For_TLI_512kb.mp4"},
-        {n: "Apollo 9: Three To Make Ready", u: "https://archive.org/download/Apollo_9__Three_To_Make_Ready/Apollo_9_Three_To_Make_Ready_512kb.mp4"},
-        {n: "Apollo Digest Saturn Second Stage", u: "https://archive.org/download/80004-apollo-digest-saturn-second-stage/80004%20Apollo%20Digest%20Saturn%20Second%20Stage.mp4"},
-        {n: "View From Space", u: "https://archive.org/download/viewfromspace/viewfromspacereel1.mp4"},
-        {n: "NASA 1971 Highlights", u: "https://archive.org/download/19194nasa1971aeronauticsandspacehighlightsvwr/19194%20NASA%201971%20Aeronautics%20And%20Space%20Highlights_vwr.mp4"},
-        {n: "NASA Highlights 1967", u: "https://archive.org/download/76474NASAHighlights1967/76474%20NASA%20Highlights%201967.mp4"},
-        {n: "NASA Highlights 1965", u: "https://archive.org/download/highlights_1965_1/highlights_1965_1_edit.mp4"},
-        {n: "Redstone Arsenal", u: "https://archive.org/download/16764thisisredstonearsenalvwr/16764%20This%20Is%20Redstone%20Arsenal_vwr.mp4"},
-        {n: "Gemini XI", u: "https://archive.org/download/gemini_xi/gemini_xi.mp4"},
-        {n: "Gemini IV Four Days", u: "https://archive.org/download/four_days_of_gemini_4/four_days_of_gemini_4.mp4"},
-        {n: "Gemini X: A Quick Look", u: "https://archive.org/download/gemini_x_a_quick_look/gemini_x_a_quick_look.mp4"},
-        {n: "Mercury Redstone 1 Launch", u: "https://archive.org/download/project_mercury_mr-1_launch/project_mercury_mr-1_launch.mp4"},
-        {n: "Our Solar System", u: "https://archive.org/download/our_solar_system/our_solar_system.mp4"},
-        {n: "Skylab: Gyroscopes in Space", u: "https://archive.org/download/skylab_gyroscopes_in_space/skylab_gyroscopes_in_space.mp4"},
-        {n: "Challenger Investigation", u: "https://archive.org/download/ChallengerAccidentandInvestigation/Challenger_Disaster_and_Investigation_512kb.mp4"},
-        {n: "Strategic Air Command 20 Years", u: "https://archive.org/download/2927420YearsOfStrategicAirCommandMos/29274%2020%20years%20Of%20Strategic%20Air%20Command_mos.mp4"}
-    ];
-
-    // --- DIAL C: UFOs, ANCIENT MYSTERIES & HIGH STRANGENESS ---
-    const C = [
+    // --- F: FUNKY (UFOs) ---
+    const F = [
         {n: "Chariots of the Gods", u: "https://archive.org/download/chariots-of-the-gods_202407/Chariots of the Gods.ia.mp4"},
         {n: "The Outer Space Connection (1975)", u: "https://archive.org/download/the-outer-space-connection-1975/The Outer Space Connection 1975.ia.mp4"},
         {n: "In Search Of... Ancient Astronauts", u: "https://archive.org/download/insearchofancientastronautsreel1/insearchofancientastronautsreel1.mp4"},
         {n: "In Search Of... Ancient Mysteries", u: "https://archive.org/download/insearchofancientmysteriesreel1/insearchofancientmysteriesreel1.mp4"},
+        {n: "In Search Of... Dracula", u: "https://archive.org/download/in-search-of-dracula/In Search of Dracula.avi"},
         {n: "In Search Of... Noahs Ark", u: "https://archive.org/download/in-search-of-noahs-ark-1976/In Search of Noah's Ark 1976.ia.mp4"},
         {n: "In Search Of... The Money Pit Mystery", u: "https://archive.org/download/in-search-of-s-03-e-16-the-money-pit-mystery/In Search Of S03E16 The Money Pit Mystery.mp4"},
         {n: "In Search Of... Cryogenics", u: "https://archive.org/download/In-Search-Of-complete-series/In Search Of.../Season 3/S03E06 - Cryogenics.ia.mp4"},
@@ -342,13 +428,17 @@
         {n: "In Search Of... The Coming Ice Age", u: "https://archive.org/download/In_Search_of_S02E23_The_Coming_Ice_Age/1978 MAY In Search of... The Coming Ice Age.mp4"},
         {n: "The Case of the Ancient Astronauts (Nova)", u: "https://archive.org/download/NOVATheCaseOfTheAncientAstronauts/NOVA.S05E09.The.Case.of.the.Ancient.Astronauts.1978.VHSRip.AAC2.0.x264-rattera.ia.mp4"},
         {n: "Overlords Of The UFO (1976)", u: "https://archive.org/download/OverlordsOfTheUFO1976_201610/Overlords of the UFO - 1976.mp4"},
+        {n: "UFO (Complete Series Ep 24)", u: "https://archive.org/download/UFO.complete/UFO.24.Reflections In The Water.avi"},
         {n: "Project UFO (1978 Series)", u: "https://archive.org/download/project-ufo-complete-series-1978/Project UFO S01E08 - The Desert Springs Incident.mp4"},
         {n: "The UFO Incident (1975)", u: "https://archive.org/download/the-ufo-incident-1975-tv/The UFO Incident (1975-TV).mp4"},
         {n: "Bob Lazar & Area 51", u: "https://archive.org/download/BobLazarAndArea51TechnologyUFODocumentary/Bob Lazar and Area 51 Technology [UFO Documentary].mp4"},
         {n: "Project Blue Book: Alien Interview", u: "https://archive.org/download/youtube-QTYsigxhjic/QTYsigxhjic.mp4"},
+        {n: "NASA UFO Footages", u: "https://archive.org/download/NASAfootages/UFOs.avi"},
         {n: "Turkey UFO 2008 (Kumburgaz)", u: "https://archive.org/download/youtube-zVdeM99mkMs/zVdeM99mkMs.mp4"},
         {n: "UFO Phenomenon 1995 (VHS)", u: "https://archive.org/download/TheVistaGroup-UFOPhenomenon/UFO Phenomenon VHS • 60 FPS 1995.ia.mp4"},
+        {n: "Lanesville TV - UFO", u: "https://archive.org/download/lanesville_tv_ufo/lanesville_tv_ufo.ogv"},
         {n: "Flying Saucer Daffy (1958)", u: "https://archive.org/download/187.FlyingSaucerDaffy1958LarryMoeJoe/187 Flying Saucer Daffy.avi"},
+        {n: "The Search For The Flying Saucer", u: "https://archive.org/download/Tales_Of_Tomorrow_-_The_Search_For_The_Flying_Saucer/TOT_The_Search_For_The_Flying_Saucer.avi"},
         {n: "UAP Over Washington (2024)", u: "https://archive.org/download/uap-worldwide-incursions-starting-december2024/12.2.2024 Uap's Over Washington At Sunset.mp4"},
         {n: "Invasion UFO (1980)", u: "https://archive.org/download/invasionufo1980/Invasion UFO (1980).mp4"},
         {n: "Extraterrestrial", u: "https://archive.org/download/Extraterrestrial/Extraterrestrial.mp4"},
@@ -358,72 +448,7 @@
         {n: "Mystery of Stonehenge", u: "https://archive.org/download/themysteryofstonehenge/themysteryofstonehenge/themysteryofstonehengereel2.mp4"}
     ];
 
-    // --- DIAL D: FEATURE FILMS & NATURE DOCS ---
-    const D = [
-        {n: "The Living Planet: Earth Build", u: "https://archive.org/download/living-planet/living_planet_01_the_building_of_the_earth.mp4"},
-        {n: "The Living Planet: Jungle", u: "https://archive.org/download/living-planet/living_planet_04_jungle.mp4"},
-        {n: "The Living Planet: Sky Above", u: "https://archive.org/download/living-planet/living_planet_07_the_sky_above.mp4"},
-        {n: "The Living Planet: Open Ocean", u: "https://archive.org/download/living-planet/living_planet_11_the_open_ocean.mp4"},
-        {n: "Day the Earth Stood Still (1951)", u: "https://archive.org/download/day-the-earth-stood-still-1951/Day%20the%20Earth%20Stood%20Still%201951.mp4"},
-        {n: "The Time Machine (1978)", u: "https://archive.org/download/the-time-machine-1978-time-travel-sci-fi/The%20Time%20Machine%20%281978%20Time%20Travel%20SciFi%29.mp4"},
-        {n: "Plan 9 from Outer Space", u: "https://archive.org/download/Plan9FromOuterSpace/Plan9FromOuterSpace_512kb.mp4"},
-        {n: "Godzilla 1985", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/16.Godzilla1985.mp4"},
-        {n: "Destroy All Monsters (1968)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/9.DestroyAllMonsters1968.mp4"},
-        {n: "Mothra vs Godzilla (1964)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/5.MothraVsGodzilla1964.mp4"},
-        {n: "Son of Godzilla (1967)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/8.SonOfGodzilla1967.mp4"},
-        {n: "Terror Of Mechagodzilla (1975)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/15.TerrorOfMechagodzilla1975.mp4"},
-        {n: "Invisible Man (1933)", u: "https://archive.org/download/invisible-man-1933/Invisible Man 1933.mp4"},
-        {n: "Night of the Living Dead (Colorized)", u: "https://archive.org/download/night-of-the-living-dead-colorized-1968/Night Of The Living Dead (Colorized, 1968).ia.mp4"},
-        {n: "The Graduate (1967)", u: "https://archive.org/download/the-graduate-1967_202301/The Graduate (1967).mp4"},
-        {n: "Deep Red (1975)", u: "https://archive.org/download/DeepRed1975/DeepRed.mp4"},
-        {n: "Monty Python Holy Grail", u: "https://archive.org/download/9convert.com-monty-python-and-the-holy-grail-1974-1080p/9convert.com - Monty Python and the Holy Grail 1974  1080p.mp4"},
-        {n: "Beatles: Let It Be", u: "https://archive.org/download/Let_It_Be_1970_film/The Beatles - Let It Be (Deluxe 35mm Widescreen Stereo Edition)2.mp4"},
-        {n: "Magical Mystery Tour", u: "https://archive.org/download/magical-mystery-tour_202106/Magical Mystery Tour.mkv"},
-        {n: "The Saint (2017)", u: "https://archive.org/download/2017-the-saint-movie-1080p-spanish-or-english/(2017) -------- The Saint -- movie  (1080p, Spanish or English).mp4"},
-        {n: "Legend Of Sleepy Hollow (1980)", u: "https://archive.org/download/the-legend-of-sleepy-hollow-1980-family-mystery-adventure-tv-movie/The Legend of Sleepy Hollow (1980, Family, Mystery, Adventure, TV movie).mp4"}
-    ];
-
-    // --- DIAL E: CLASSIC CARTOONS ---
-    const E = [
-        {n: "Popeye for President", u: "https://archive.org/download/Popeye_forPresident/Popeye_forPresident_512kb.mp4"},
-        {n: "Popeye: Private Eye", u: "https://archive.org/download/popeye_private_eye_popeye/popeye_private_eye_popeye_512kb.mp4"},
-        {n: "Popeye: Big Bad Sinbad", u: "https://archive.org/download/popeye_big_bad_sinbad/popeye_big_bad_sinbad_512kb.mp4"},
-        {n: "Popeye Meets Aladdin", u: "https://archive.org/download/Popeye_the_Sailor_Meets_Aladdin_and_His_Wonderful Lamp/Popeye_-_Aladdin_and_His_Wonderful_Lamp_512kb.mp4"},
-        {n: "Superman: Magnetic Telescope", u: "https://archive.org/download/Superman_The_Magnetic_Telescope/Superman_The_Magnetic_Telescope_512kb.mp4"},
-        {n: "Betty Boop: Musical Mountaineers", u: "https://archive.org/download/bb_musical_mountaineers/bb_musical_mountaineers_512kb.mp4"},
-        {n: "Pink Panther: Olympinks", u: "https://archive.org/download/ThePinkPanther-cartoons/The Pink Panther in -OLYMPINKS!.mp4"},
-        {n: "Pink Panther: Pink Stamps", u: "https://archive.org/download/the-pink-panther-cartoon-collection/003 We Give Pink Stamps (Feb 12, 1965).ia.mp4"},
-        {n: "Casper: Good Boos Tonight", u: "https://archive.org/download/noveltoon_casper_tfg_theres_good_boos_tonight/noveltoon_casper_tfg_theres_good_boos_tonight_512kb.mp4"},
-        {n: "Gullivers Travels", u: "https://archive.org/download/GulliversTravels720p_652/GulliversTravels.mp4"},
-        {n: "The Friendly Ghost", u: "https://archive.org/download/TheFriendlyGhost/TheFriendlyGhost_512kb.mp4"},
-        {n: "Horton Hatches the Egg", u: "https://archive.org/download/the-1000-looney-tunes-merrie-melodies/1942/s1942e11 - Horton Hatches the Egg.mp4"},
-        {n: "Peter Pan (1953)", u: "https://archive.org/download/peterpan1953capturedfromthe1990classicsvhs/Peter Pan (1953) [captured from the 1990 Classics VHS].mp4"},
-        {n: "Skeleton Dance (Silly Symphony)", u: "https://archive.org/download/walt-disneys-silly-symphonies-the-complete-collection-1929-39/01%20-%20The%20Skeleton%20Dance%20%281929%29.mp4"},
-        {n: "How The Grinch Stole Christmas", u: "https://archive.org/download/HowTheGrinchStoleChristmas_201812/How the Grinch Stole Christmas.mp4"},
-        {n: "Beatles Cartoon 1965", u: "https://archive.org/download/the-beatles-cartoon_2023/The Beatles S02E06 - All My Loving Day Tripper.mp4"},
-        {n: "Reading Rainbow", u: "https://archive.org/download/ReadingRainbowTVSeries/Reading.Rainbow.S01E10.The.Gift.of.the.Sacred.Dog.480p.AMZN.WEB-DL.DD.2.0.x264-RTN.mp4"}
-    ];
-
-    // --- DIAL F: GOLD, SILVER & WESTERNS ---
-    const F = [
-        {n: "Pot o Gold", u: "https://archive.org/download/pot_o_gold/pot_o_gold.mp4"},
-        {n: "Silver Trail", u: "https://archive.org/download/the_silver_trail/the_silver_trail.mp4"},
-        {n: "Silver Spurs", u: "https://archive.org/download/silver_spurs/silver_spurs.mp4"},
-        {n: "Black Gold", u: "https://archive.org/download/Black_Gold/BlackGold.mp4"},
-        {n: "The Silver Horde", u: "https://archive.org/download/SilverHorde1930/The_Silver_Horde_1930.mp4"},
-        {n: "Gold (1932)", u: "https://archive.org/download/Gold-1932/Gold.mp4"},
-        {n: "Desert Gold", u: "https://archive.org/download/DesertGold/DesertGold.mp4"},
-        {n: "Long John Silver", u: "https://archive.org/download/LongJohnSilver1954/Long John Silver (1954).mp4"},
-        {n: "Rio Lobo (John Wayne)", u: "https://archive.org/download/rio-lobo-1970-john-wayne-western-civil-war/Rio Lobo (1970 John Wayne Western Civil War).mp4"},
-        {n: "Lone Ranger", u: "https://archive.org/download/LegionOfOldTimers1949/LegionOfOldTimers1949.mp4"},
-        {n: "Range Rider", u: "https://archive.org/download/RangeRiderOutlawTerritory/Range Rider - Outlaw Territory.mp4"},
-        {n: "Bonanza: Emperor Norton", u: "https://archive.org/download/TheEmperorNortonBonanza1966/The_Emperor_Norton_Bonanza_1966.mp4"},
-        {n: "Coal Miner", u: "https://archive.org/download/coal_miner/coal_miner_512kb.mp4"},
-        {n: "Gold Diggers of 1933", u: "https://archive.org/download/gold-diggers-of-1933.1933.1080p/Gold.Diggers.Of.1933.1933.1080p.BluRay.x264.DTS-FGT.mp4"},
-        {n: "How Green Was My Valley", u: "https://archive.org/download/HowGreenWasMyValley1941_201812/How Green was My Valley (1941).mp4"}
-    ];
-
-    // --- DIAL G: FARSCAPE (SEASON 1) ---
+    // --- G: GOOD STUFF (FARSCAPE) ---
     const G = [
         {n: "Farscape S01E01 Premiere", u: "https://archive.org/download/farscape-s-01/Farscape S01E01 Premiere.mp4"},
         {n: "Farscape S01E02 Exodus from Genesis", u: "https://archive.org/download/farscape-s-01/Farscape S01E02 Exodus from Genesis.mp4"},
@@ -449,7 +474,7 @@
         {n: "Farscape S01E22 Family Ties", u: "https://archive.org/download/farscape-s-01/Farscape S01E22 Family Ties.mp4"}
     ];
 
-    // --- DIAL H: WORLD WAR II NEWSREELS ---
+    // --- H: WW2 NEWSREELS ---
     const H = [
         {n: "News Parade: Bombing of Pearl Harbor", u: "https://archive.org/download/NewsPara1942/NewsPara1942_edit.mp4"},
         {n: "News Parade of 1945", u: "https://archive.org/download/news_parade_of_1945/news_parade_of_1945_edit.mp4"},
@@ -491,7 +516,7 @@
         {n: "Combat Bulletin #48: Air Support On Western Front Etc, 1945", u: "https://archive.org/download/CB-48/CB-48 Combat Bulletin 48 Air Support On Western Front Etc 1945.mp4"}
     ];
 
-    // --- DIAL I: SCIENCE (NOVA, HORIZON, PBS) ---
+    // --- I: SCIENCE (NOVA) ---
     const I = [
         {n: "PBS Nova Documentaries", u: "https://archive.org/download/pbsnovadocs/Mark Twain by Ken Burns 1 of 2.mp4"},
         {n: "PBS Content (Nova Episodes, Documentaries)", u: "https://archive.org/download/nova-pbs-documentaries/NOVA/NOVA S43 EP15 School Of The Future - Spanish Version.mp4"},
@@ -544,7 +569,7 @@
         {n: "PBS Nova - Why Planes Burn (1988)", u: "https://archive.org/download/nova-why-planes-burn/Nova - Why Planes Burn.mp4"}
     ];
 
-    // --- DIAL J: SPACE & ASTRONOMY DOCS ---
+    // --- J: DEEP SPACE ---
     const J = [
         {n: "The Time of Apollo", u: "https://archive.org/download/TheTimeOfApollo/The Time of Apollo.mp4"},
         {n: "Alexander The Great (1997)", u: "https://archive.org/download/alexander-the-great-1997-part-1/Alexander The Great (1997) Part 1.mp4"},
@@ -604,8 +629,8 @@
     }
 
     window.onload = () => {
-        makeNumbers('t-numbers', 12);
-        makeNumbers('s-numbers', 10);
+        makeTicks('t-ring', 100);  // 100 ticks for the top knob
+        makeNumbers('s-ring', 10); // 10 numbers for the bottom knob
         loadAndPlay();
     };
 
@@ -632,7 +657,8 @@
     }
 
     function tune(dir) {
-        tunerDeg += dir * 30;
+        // 100 clicks per rotation = 360 / 100 = 3.6 degrees per click
+        tunerDeg += dir * 3.6;
         document.getElementById('t-knob').style.transform = `rotate(${tunerDeg}deg)`;
         const cat = categories[currentCategoryIndex];
         currentVideoIndex = (currentVideoIndex + dir + cat.content.length) % cat.content.length;
@@ -640,7 +666,7 @@
     }
 
     function changeCategory(dir) {
-        categoryDeg += dir * 45;
+        categoryDeg += dir * 36; // 360 / 10 categories = 36 degrees
         document.getElementById('s-knob').style.transform = `rotate(${categoryDeg}deg)`;
         currentCategoryIndex = (currentCategoryIndex + dir + categories.length) % categories.length;
         currentVideoIndex = 0;
@@ -650,27 +676,41 @@
     player.addEventListener('ended', () => tune(1));
     player.addEventListener('error', () => { setTimeout(() => tune(1), 1500); });
 
+    // Function to create small lines (ticks) for the top knob
+    function makeTicks(id, count) {
+        const ring = document.getElementById(id);
+        ring.innerHTML = '';
+        const radius = 52;
+        const step = 360 / count;
+
+        for (let i = 0; i < count; i++) {
+            const angle = i * step;
+            const tick = document.createElement('div');
+            tick.className = 'tick';
+            // Translate out to radius, then rotate
+            tick.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-${radius}px)`;
+            ring.appendChild(tick);
+        }
+    }
+
+    // Function to create numbers for the bottom knob
     function makeNumbers(id, count) {
         const ring = document.getElementById(id);
         ring.innerHTML = '';
-
         const radius = 52;
         const step = 360 / count;
 
         for (let i = 0; i < count; i++) {
             const angle = i * step - 90;
             const rad = angle * Math.PI / 180;
-
             const x = radius * Math.cos(rad);
             const y = radius * Math.sin(rad);
-
             const num = document.createElement('div');
             num.className = 'number';
             num.style.left = `calc(50% + ${x}px)`;
             num.style.top = `calc(50% + ${y}px)`;
             num.style.transform = `translate(-50%, -50%)`;
             num.innerText = i + 1;
-
             ring.appendChild(num);
         }
     }
