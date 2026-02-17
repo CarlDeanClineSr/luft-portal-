@@ -1,5 +1,6 @@
-# IMPERIAL ARK ARCHIVE
-*
-!IMPERIAL_ARK/
-!.github/
-!.gitignore
+# Ignore only logs and temp files
+*.log
+*.tmp
+__pycache__/
+node_modules/
+.DS_Store
