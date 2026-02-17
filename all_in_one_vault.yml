@@ -1,0 +1,32 @@
+name: All-In-One Vault Narrator
+
+on:
+  schedule:
+    - cron: '22 * * * *'  # Every hour at :22
+  workflow_dispatch:
+
+jobs:
+  vault-run:
+    runs-on:  ubuntu-latest
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with: 
+          python-version: '3.12'
+
+      - name: Install deps
+        run: pip install requests pandas numpy
+
+      - name: Run All-In-One Script
+        run: python all_in_one_vault.py
+
+      - name: Commit Results
+        run:  |
+          git config user.name " Engine"
+          git config user.email "engine@.local"
+          git add LATEST_VAULT_STATUS.md data/cme_heartbeat_log_2025_12.csv || echo "No data changes"
+          git commit -m "vault: all-in-one narration $(date -u +%Y-%m-%d-%H:%M)" || echo "Nothing to commit"
+          git push origin main || echo "No push needed"

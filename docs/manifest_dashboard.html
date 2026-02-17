@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUFT Portal - Capsule Manifest Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f7fafc;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .stat-card .number {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .stat-card .label {
+            font-size: 0.9em;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .legend-badge {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+            border: 1px solid;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background: #2d3748;
+            color: white;
+        }
+        
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        tbody tr {
+            border-bottom: 1px solid #e2e8f0;
+            transition: background-color 0.2s;
+        }
+        
+        tbody tr:hover {
+            background: #f7fafc;
+        }
+        
+        td {
+            padding: 15px;
+            font-size: 0.95em;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+            border: 1px solid;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 8px;
+            background: #e2e8f0;
+            color: #2d3748;
+            border-radius: 3px;
+            font-size: 0.8em;
+        }
+        
+        .footer {
+            padding: 20px 30px;
+            background: #f7fafc;
+            border-top: 2px solid #e2e8f0;
+            text-align: center;
+            color: #718096;
+            font-size: 0.9em;
+        }
+        
+        .capsule-id {
+            font-family: "Courier New", monospace;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .filepath {
+            font-family: "Courier New", monospace;
+            font-size: 0.85em;
+            color: #718096;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            th, td {
+                padding: 10px;
+                font-size: 0.85em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 LUFT Portal</h1>
+            <p>Capsule Manifest Dashboard — Live Status View</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="number">15</div>
+                <div class="label">Total Capsules</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">1</div>
+                <div class="label">Active</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">3</div>
+                <div class="label">Draft</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">4</div>
+                <div class="label">Authors</div>
+            </div>
+            <div class="stat-card">
+                <div class="number">50</div>
+                <div class="label">Total Tags</div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="legend">
+                <strong style="margin-right: 10px;">Legend:</strong>
+                <div class="legend-item">
+                    <span class="legend-badge" style="background-color: #d4edda; border-color: #c3e6cb; color: #155724;">
+                        Active
+                    </span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-badge" style="background-color: #d1f2eb; border-color: #c3e6cb; color: #0d6832;">
+                        Adopted
+                    </span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-badge" style="background-color: #cfe2ff; border-color: #b6d4fe; color: #084298;">
+                        Final
+                    </span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-badge" style="background-color: #fff3cd; border-color: #ffeaa7; color: #856404;">
+                        Draft
+                    </span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-badge" style="background-color: #d1ecf1; border-color: #bee5eb; color: #0c5460;">
+                        Archived
+                    </span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-badge" style="background-color: #f8d7da; border-color: #f5c6cb; color: #721c24;">
+                        Deprecated
+                    </span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-badge" style="background-color: #e2e3e5; border-color: #d6d8db; color: #383d41;">
+                        Experimental
+                    </span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-badge" style="background-color: #f3e5f5; border-color: #e1bee7; color: #6a1b9a;">
+                        Template
+                    </span>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>ID</th>
+                            <th>Title</th>
+                            <th>Version</th>
+                            <th>Date</th>
+                            <th>Author</th>
+                            <th>Tags</th>
+                            <th>Source</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span class="status-badge" style="background-color: #d4edda; border-color: #c3e6cb; color: #155724;">
+                                    Active
+                                </span>
+                            </td>
+                            <td><span class="capsule-id">goes-event-audit-2025-11-22T13:41:00Z</span></td>
+                            <td><strong>GOES Geostationary Particle &amp; Magnetics Audit — 2025-11-22T13:41:00Z</strong></td>
+                            <td>1.0.0</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <div class="tags">
+                                    <span class="tag">LUFT</span>
+                                    <span class="tag">GOES</span>
+                                    <span class="tag">geomag</span>
+                                    <span class="tag">particle</span>
+                                    <span class="tag">event</span>
+                                    <span class="tag">+1 more</span>
+                                </div>
+                            </td>
+                            <td><span class="filepath">capsules/GOES_EVENT_AUDIT_2025-11-22T134100.md</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="status-badge" style="background-color: #cfe2ff; border-color: #b6d4fe; color: #084298;">
+                                    Final
+                                </span>
+                            </td>
+                            <td><span class="capsule-id">CAPSULE_OBSERVER_NOTE_2025-03</span></td>
+                            <td><strong>Observer’s Note — LUFT Architecture Sufficient to Stand</strong></td>
+                            <td>1.0.0</td>
+                            <td></td>
+                            <td>Carl Dean Cline Sr.</td>
+                            <td>
+                                <div class="tags">
+                                    <span class="tag">LUFT</span>
+                                    <span class="tag">observer_note</span>
+                                    <span class="tag">architecture</span>
+                                    <span class="tag">audit</span>
+                                </div>
+                            </td>
+                            <td><span class="filepath">capsules/CAPSULE_OBSERVER_NOTE_2025-03.md</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="status-badge" style="background-color: #d1f2eb; border-color: #c3e6cb; color: #0d6832;">
+                                    Adopted
+                                </span>
+                            </td>
+                            <td><span class="capsule-id">CAPSULE_HEARTBEAT_SPECTRUM</span></td>
+                            <td><strong>Heartbeat Spectrum &amp; Rolling Fit — χ and Boundary Recoil Stability</strong></td>
+                            <td>1.0.0</td>
+                            <td>2025-12-05</td>
+                            <td>Carl Dean Cline Sr.</td>
+                            <td>
+                                <div class="tags">
+                                    <span class="tag">heartbeat</span>
+                                    <span class="tag">spectrum</span>
+                                    <span class="tag">rolling_fit</span>
+                                    <span class="tag">boundary_recoil</span>
+                                    <span class="tag">unified_modulation</span>
+                                </div>
+                            </td>
+                            <td><span class="filepath">capsules/CAPSULE_HEARTBEAT_SPECTRUM.md</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="status-badge" style="background-color: #d1f2eb; border-color: #c3e6cb; color: #0d6832;">
+                                    Adopted
+                                </span>
+                            </td>
+                            <td><span class="capsule-id">CAPSULE_METHODS_HEARTBEAT</span></td>
+                            <td><strong>Methods — LUFT Heartbeat, Boundary Recoil, and Spectrum</strong></td>
+                            <td>1.0.0</td>
+                            <td>2025-12-05</td>
+                            <td>Carl Dean Cline Sr.</td>
+                            <td>
+                                <div class="tags">
+                                    <span class="tag">heartbeat</span>
+                                    <span class="tag">methods</span>
+                                    <span class="tag">boundary_recoil</span>
+                                    <span class="tag">spectrum</span>
+                                    <span class="tag">cme</span>
+                                </div>
+                            </td>
+                            <td><span class="filepath">capsules/CAPSULE_METHODS_HEARTBEAT.md</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="status-badge" style="background-color: #d1f2eb; border-color: #c3e6cb; color: #0d6832;">
+                                    Adopted
+                                </span>
+                            </td>
+                            <td><span class="capsule-id">CAPSULE_PUBLIC_STORY</span></td>
+                            <td><strong>Public Story Blurbs — LUFT Heartbeat &amp; Boundary Recoil</strong></td>
+                            <td>1.0.0</td>
+                            <td>2025-12-05</td>
+                            <td>Carl Dean Cline Sr.</td>
+                            <td>
+                                <div class="tags">
+                                    <span class="tag">public_story</span>
+                                    <span class="tag">heartbeat</span>
+                                    <span class="tag">boundary_recoil</span>
+                                    <span class="tag">unified_fields</span>
+                                    <span class="tag">outreach</span>
+                                </div>
+                            </td>
+                            <td><span class="filepath">capsules/CAPSULE_PUBLIC_STORY.md</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="status-badge" style="background-color: #d1f2eb; border-color: #c3e6cb; color: #0d6832;">
+                                    Adopted
+                                </span>
+                            </td>
+                            <td><span class="capsule-id">CAPSULE_REPLICATION_CHALLENGE_2025</span></td>
+                            <td><strong>Replication Challenge — Heartbeat &amp; Boundary Recoil Law</strong></td>
+                            <td>1.0.0</td>
+                            <td>2025-12-05</td>
+                            <td>Carl Dean Cline Sr.</td>
+                            <td>
+                                <div class="tags">
+                                    <span class="tag">replication</span>
+                                    <span class="tag">challenge</span>
+                                    <span class="tag">heartbeat</span>
+                                    <span class="tag">boundary_recoil</span>
+                                    <span class="tag">open_science</span>
+                                </div>
+                            </td>
+                            <td><span class="filepath">capsules/CAPSULE_REPLICATION_CHALLENGE_2025.md</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="status-badge" style="background-color: #d1f2eb; border-color: #c3e6cb; color: #0d6832;">
+                                    Adopted
+                                </span>
+                            </td>
+                            <td><span class="capsule-id">CAPSULE_AUDIT_LEGACY</span></td>
+                            <td><strong>Audit Legacy — Preservation of Heartbeat, Ratchet, Recovery in the LUFT Ledger</strong></td>
+                            <td>1.0.0</td>
+                            <td>2025-12-04</td>
+                            <td>Carl Dean Cline Sr.</td>
+                            <td>
+                                <div class="tags">
+                                    <span class="tag">legacy</span>
+                                    <span class="tag">audit</span>
+                                    <span class="tag">ledger</span>
+                                    <span class="tag">universal_modulation</span>
+                                    <span class="tag">events</span>
+                                </div>
+                            </td>
+                            <td><span class="filepath">capsules/capsules/CAPSULE_AUDIT_LEGACY.md</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="status-badge" style="background-color: #d1f2eb; border-color: #c3e6cb; color: #0d6832;">
+                                    Adopted
+                                </span>
+                            </td>
+                            <td><span class="capsule-id">CAPSULE_EVENT_INDEX</span></td>
+                            <td><strong>Event Index — Heartbeat, Ratchet, Recovery, Flare Pipeline</strong></td>
+                            <td>1.0.0</td>
+                            <td>2025-12-04</td>
+                            <td>Carl Dean Cline Sr.</td>
+                            <td>
+                                <div class="tags">
+                                    <span class="tag">event_index</span>
+                                    <span class="tag">heartbeat</span>
+                                    <span class="tag">ratchet</span>
+                                    <span class="tag">recovery</span>
+                                    <span class="tag">flare_pipeline</span>
+                                </div>
+                            </td>
+                            <td><span class="filepath">capsules/CAPSULE_EVENT_INDEX.md</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="status-badge" style="background-color: #d1f2eb; border-color: #c3e6cb; color: #0d6832;">
+                                    Adopted
+                                </span>
+                            </td>
+                            <td><span class="capsule-id">CAPSULE_EVENT_RATCHET</span></td>
+                            <td><strong>Event Ratchet — χ Rise and Lock-In of the Universal Modulation</strong></td>
+                            <td>1.0.0</td>
+                            <td>2025-12-04</td>
+                            <td>Carl Dean Cline Sr.</td>
+                            <td>
+                                <div class="tags">
+                                    <span class="tag">event</span>
+                                    <span class="tag">ratchet</span>
+                                    <span class="tag">universal_modulation</span>
+                                    <span class="tag">solar_wind</span>
+                                    <span class="tag">cme_heartbeat</span>
+                                </div>
+                            </td>
+                            <td><span class="filepath">capsules/capsules/CAPSULE_EVENT_RATCHET.md</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="status-badge" style="background-color: #d1f2eb; border-color: #c3e6cb; color: #0d6832;">
+                                    Adopted
+                                </span>
+                            </td>
+                            <td><span class="capsule-id">CAPSULE_EVENT_RECOVERY</span></td>
+                            <td><strong>Event Recovery — Exhale Phase After Ratchet/Heartbeat Lock-In</strong></td>
+                            <td>1.0.0</td>
+                            <td>2025-12-04</td>
+                            <td>Carl Dean Cline Sr.</td>
+                            <td>
+                                <div class="tags">
+                                    <span class="tag">event</span>
+                                    <span class="tag">recovery</span>
+                                    <span class="tag">exhale</span>
+                                    <span class="tag">solar_wind</span>
+                                    <span class="tag">cme_heartbeat</span>
+                                </div>
+                            </td>
+                            <td><span class="filepath">capsules/CAPSULE_EVENT_RECOVERY.md</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="status-badge" style="background-color: #d1f2eb; border-color: #c3e6cb; color: #0d6832;">
+                                    Adopted
+                                </span>
+                            </td>
+                            <td><span class="capsule-id">CAPSULE_UNIVERSAL_MODULATION_055</span></td>
+                            <td><strong>Universal Modulation χ ≈ 0.055, Ω ≈ 10⁻⁴ Hz — Planck–Einstein Foam Heartbeat</strong></td>
+                            <td>1.0.0</td>
+                            <td>2025-12-04</td>
+                            <td>Carl Dean Cline Sr.</td>
+                            <td>
+                                <div class="tags">
+                                    <span class="tag">universal_modulation</span>
+                                    <span class="tag">cosmic_heartbeat</span>
+                                    <span class="tag">foam</span>
+                                    <span class="tag">lattice</span>
+                                    <span class="tag">chi_0055</span>
+                                </div>
+                            </td>
+                            <td><span class="filepath">capsules/CAPSULE_UNIVERSAL_MODULATION_055.md</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="status-badge" style="background-color: #fff3cd; border-color: #ffeaa7; color: #856404;">
+                                    Draft
+                                </span>
+                            </td>
+                            <td><span class="capsule-id">EXAMPLE_MANIFEST_001</span></td>
+                            <td><strong>Example Manifest - Template</strong></td>
+                            <td>1.0.0</td>
+                            <td>2025-12-16</td>
+                            <td>LUFT System</td>
+                            <td>
+                                <div class="tags">
+                                    <span class="tag">example</span>
+                                    <span class="tag">template</span>
+                                    <span class="tag">documentation</span>
+                                </div>
+                            </td>
+                            <td><span class="filepath">capsules/manifest.yaml</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="status-badge" style="background-color: #fff3cd; border-color: #ffeaa7; color: #856404;">
+                                    Draft
+                                </span>
+                            </td>
+                            <td><span class="capsule-id">CAPSULE_HEARTBEAT_CATALOG_2025</span></td>
+                            <td><strong>Heartbeat &amp; Boundary Recoil Catalog — November–December 2025</strong></td>
+                            <td>1.0.0</td>
+                            <td>2025-12-05</td>
+                            <td>Carl Dean Cline Sr.</td>
+                            <td>
+                                <div class="tags">
+                                    <span class="tag">heartbeat</span>
+                                    <span class="tag">cme</span>
+                                    <span class="tag">catalog</span>
+                                    <span class="tag">boundary_recoil</span>
+                                    <span class="tag">spectrum</span>
+                                    <span class="tag">+2 more</span>
+                                </div>
+                            </td>
+                            <td><span class="filepath">capsules/CAPSULE_HEARTBEAT_CATALOG_2025.md</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="status-badge" style="background-color: #fff3cd; border-color: #ffeaa7; color: #856404;">
+                                    Draft
+                                </span>
+                            </td>
+                            <td><span class="capsule-id">CAPSULE_FLARE_FOAM_PIPELINE</span></td>
+                            <td><strong>X5.1 Solar Flare Foam Pipeline (LUFT Flare-Induced Void Amplification)</strong></td>
+                            <td>1.0.0</td>
+                            <td></td>
+                            <td>Carl Dean Cline Sr.</td>
+                            <td>
+                                <div class="tags">
+                                    <span class="tag">LUFT</span>
+                                    <span class="tag">lattice</span>
+                                    <span class="tag">foam</span>
+                                    <span class="tag">solar_flare</span>
+                                    <span class="tag">CME</span>
+                                    <span class="tag">+4 more</span>
+                                </div>
+                            </td>
+                            <td><span class="filepath">capsules/CAPSULE_FLARE_FOAM_PIPELINE.md</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="status-badge" style="background-color: #f3e5f5; border-color: #e1bee7; color: #6a1b9a;">
+                                    Template
+                                </span>
+                            </td>
+                            <td><span class="capsule-id">CAPSULE_REPLICATION_RESULT_TEMPLATE</span></td>
+                            <td><strong>Replication Result — Heartbeat &amp; Boundary Recoil (Template)</strong></td>
+                            <td>1.0.0</td>
+                            <td>2025-12-05</td>
+                            <td>Your Name Here</td>
+                            <td>
+                                <div class="tags">
+                                    <span class="tag">replication</span>
+                                    <span class="tag">result</span>
+                                    <span class="tag">heartbeat</span>
+                                    <span class="tag">boundary_recoil</span>
+                                    <span class="tag">open_science</span>
+                                </div>
+                            </td>
+                            <td><span class="filepath">capsules/CAPSULE_REPLICATION_RESULT_TEMPLATE.md</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Generated at 2026-02-14 06:29 UTC by LUFT Portal Dashboard Generator</p>
+            <p>Source: docs/manifest_master_index.yaml | Total Capsules: 15</p>
+        </div>
+    </div>
+</body>
+</html>

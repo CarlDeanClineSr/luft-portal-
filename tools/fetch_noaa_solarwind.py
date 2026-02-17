@@ -1,47 +1,41 @@
-from __future__ import annotations
+#!/usr/bin/env python3
+"""
+Fetch NOAA SWPC solar wind plasma and magnetic field 7-day JSON feeds,
+convert to CSV with headers, save with UTC timestamped filenames.
+"""
 
-import csv
+import requests
+import pandas as pd
 from datetime import datetime, timezone
 from pathlib import Path
 
-import requests
+PLASMA_URL = "https://services.swpc.noaa.gov/products/solar-wind/plasma-7-day.json"
+MAG_URL    = "https://services.swpc.noaa.gov/products/solar-wind/mag-7-day.json"
 
-BASE = "https://services.swpc.noaa.gov/products/solar-wind"
 OUTPUT_DIR = Path("data/noaa_solarwind")
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
+def fetch_json_to_csv(url: str, name: str) -> Path:
+    r = requests.get(url, timeout=30)
+    r.raise_for_status()
+    data = r.json()
 
-def fetch_json_table(name: str) -> list[list[str]]:
-    url = f"{BASE}/{name}.json"
-    response = requests.get(url, timeout=30)
-    response.raise_for_status()
-    data = response.json()
-    if not isinstance(data, list) or len(data) < 2:
-        raise ValueError(f"Unexpected data shape from {url}")
-    return data
+    # First row contains column names; subsequent rows are data
+    header = data[0]
+    rows = data[1:]
 
+    df = pd.DataFrame(rows, columns=header)
 
-def write_csv(table: list[list[str]], output: Path) -> None:
-    output.parent.mkdir(parents=True, exist_ok=True)
-    with output.open("w", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        writer.writerows(table)
+    # Normalize timestamp column to ISO8601 if present
+    if "time_tag" in df.columns:
+        df["time_tag"] = pd.to_datetime(df["time_tag"], utc=True, errors="coerce")
 
-
-def main() -> None:
-    ts = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
-
-    mag = fetch_json_table("mag-1-day")
-    plasma = fetch_json_table("plasma-1-day")
-
-    mag_path = OUTPUT_DIR / f"noaa_mag_{ts}.csv"
-    plasma_path = OUTPUT_DIR / f"noaa_plasma_{ts}.csv"
-
-    write_csv(mag, mag_path)
-    write_csv(plasma, plasma_path)
-
-    print(f"Wrote {mag_path}")
-    print(f"Wrote {plasma_path}")
-
+    timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    out_path = OUTPUT_DIR / f"{name}_{timestamp}.csv"
+    df.to_csv(out_path, index=False)
+    print(f"[OK] Saved {name}: {out_path}")
+    return out_path
 
 if __name__ == "__main__":
-    main()
+    fetch_json_to_csv(PLASMA_URL, "noaa_plasma")
+    fetch_json_to_csv(MAG_URL,    "noaa_mag")

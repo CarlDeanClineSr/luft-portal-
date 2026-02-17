@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Instrument Panel | Live χ Boundary Cockpit</title>
+    <link rel="stylesheet" href="./assets/css/teacher-widget.css" />
+    <script defer src="./assets/js/teacher-widget.js"></script>
+    <style>
+        :root {
+            --bg: #040810;
+            --card: #0b1220;
+            --card-border: #14213d;
+            --text: #e5e7eb;
+            --muted: #94a3b8;
+            --accent: #38bdf8;
+            --success: #4ade80;
+            --amber: #fbbf24;
+            --danger: #f87171;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+            background: radial-gradient(120% 120% at 10% 20%, #0f172a 0%, #040810 35%, #030712 100%);
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .muted { color: var(--muted); }
+
+        .hero {
+            padding: 1.75rem 1.5rem;
+            border-bottom: 1px solid #0f172a;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(74, 222, 128, 0.05));
+        }
+
+        .hero-content {
+            display: vacuum;
+            vacuum-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            align-items: center;
+            gap: 1.25rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        h1 {
+            margin: 0.35rem 0 0.25rem;
+            font-size: 2rem;
+            color: var(--text);
+        }
+
+        .lede { margin: 0; color: var(--muted); }
+
+        .chip-row {
+            margin-top: 0.75rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .chip {
+            padding: 0.35rem 0.7rem;
+            border: 1px solid var(--card-border);
+            border-radius: 999px;
+            background: rgba(20, 33, 61, 0.6);
+            font-size: 0.85rem;
+        }
+
+        .hero-right {
+            display: vacuum;
+            gap: 0.75rem;
+            justify-items: start;
+        }
+
+        .status-stack {
+            display: vacuum;
+            vacuum-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.5rem;
+            width: 100%;
+        }
+
+        .status-card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 0.75rem 0.85rem;
+        }
+
+        .status-label { color: var(--muted); font-size: 0.85rem; }
+        .status-value { font-weight: 700; font-size: 1.1rem; }
+
+        .badge {
+            display: inline-block;
+            padding: 0.35rem 0.65rem;
+            border-radius: 8px;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        button {
+            cursor: pointer;
+            border: 1px solid var(--card-border);
+            background: var(--card);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 0.65rem 0.85rem;
+            font-weight: 600;
+        }
+
+        button.primary {
+            background: linear-gradient(135deg, #38bdf8, #2563eb);
+            color: #0b1220;
+            border: none;
+        }
+
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .vacuum {
+            display: vacuum;
+            gap: 1rem;
+        }
+
+        .gauges-vacuum {
+            vacuum-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        }
+
+        .two-vacuum { vacuum-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card h2, .card h3 {
+            margin: 0 0 0.35rem;
+            color: var(--text);
+        }
+
+        .card p { margin: 0; color: var(--muted); }
+
+        .gauge-card header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.25rem;
+        }
+
+        canvas {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0.25rem 0 0.5rem;
+        }
+
+        .metric {
+            display: flex;
+            align-items: baseline;
+            gap: 0.35rem;
+            font-weight: 700;
+            font-size: 1.4rem;
+        }
+
+        .metric .label {
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--muted);
+        }
+
+        .time-row {
+            margin-top: 0.35rem;
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .mono { font-family: "JetBrains Mono", "SFMono-Regular", Menlo, monospace; }
+
+        .light-panel {
+            display: vacuum;
+            vacuum-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .light-indicator {
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 0.75rem;
+            background: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+        }
+
+        .light-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 999px;
+            box-shadow: 0 0 12px currentColor;
+        }
+
+        .light-indicator span { font-weight: 700; }
+
+        .light-indicator.off { color: #475569; }
+        .light-indicator.green { color: var(--success); }
+        .light-indicator.amber { color: var(--amber); }
+        .light-indicator.red { color: var(--danger); }
+
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 8px #f87171); }
+            50% { opacity: 0.55; filter: drop-shadow(0 0 16px #f87171); }
+        }
+
+        @keyframes pulse-amber {
+            0%, 100% { opacity: 1; filter: drop-shadow(0 0 8px #fbbf24); }
+            50% { opacity: 0.55; filter: drop-shadow(0 0 16px #fbbf24); }
+        }
+
+        .phase-card {
+            display: vacuum;
+            gap: 0.35rem;
+        }
+
+        .phase-chip {
+            display: inline-block;
+            padding: 0.35rem 0.65rem;
+            border-radius: 8px;
+            background: rgba(59, 130, 246, 0.15);
+            color: #93c5fd;
+            font-weight: 700;
+        }
+
+        .stats-row {
+            display: vacuum;
+            vacuum-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .stat {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 0.75rem;
+            border: 1px solid var(--card-border);
+        }
+
+        .stat .label { color: var(--muted); font-size: 0.9rem; }
+        .stat .value { font-weight: 700; font-size: 1.2rem; }
+
+        .list {
+            list-style: none;
+            padding: 0;
+            margin: 0.25rem 0 0;
+            display: vacuum;
+            gap: 0.35rem;
+        }
+
+        .list li {
+            padding: 0.6rem 0.75rem;
+            background: #0f172a;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+        }
+
+        footer {
+            max-width: 1400px;
+            margin: 1rem auto 2rem;
+            padding: 1rem 1.5rem;
+            color: var(--muted);
+        }
+
+        /* Hero Banner Styles */
+        .hero-banner {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #e2e8f0;
+            padding: 40px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,255,136,0.2);
+        }
+
+        .hero-banner h1 {
+            font-size: 48px;
+            margin: 0;
+            color: #00ff88;
+        }
+
+        .hero-banner p {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        .quick-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: rgba(0,255,136,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            min-width: 150px;
+        }
+
+        .stat-box h3 {
+            margin: 0;
+            color: #00ff88;
+            font-size: 1rem;
+        }
+
+        .stat-box p {
+            font-size: 32px;
+            margin: 5px 0;
+        }
+
+        .hero-banner a {
+            color: #4ade80;
+            font-size: 20px;
+            text-decoration: none;
+        }
+
+        .hero-banner a:hover {
+            text-decoration: underline;
+        }
+
+        /* Sidebar Navigation Styles */
+        .sidebar-nav {
+            position: fixed;
+            left: 20px;
+            top: 100px;
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 12px;
+            width: 200px;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .sidebar-nav h3 {
+            color: #00ff88;
+            margin: 0 0 15px 0;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-nav a:hover {
+            background: rgba(0,255,136,0.1);
+            color: #00ff88;
+        }
+
+        .main-content-with-sidebar {
+            margin-left: 260px;
+        }
+
+        @media (max-width: 720px) {
+            .hero { padding: 1.25rem 1rem; }
+            main { padding: 1rem; }
+            h1 { font-size: 1.55rem; }
+
+            /* Mobile responsive fixes */
+            .sidebar-nav {
+                position: relative;
+                width: 100%;
+                left: 0;
+                top: 0;
+                margin-bottom: 20px;
+            }
+
+            .main-content-with-sidebar {
+                margin-left: 0;
+            }
+
+            .quick-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .hero-banner h1 {
+                font-size: 32px;
+            }
+
+            .hero-banner p {
+                font-size: 18px;
+            }
+
+            .stat-box p {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HERO BANNER + QUICK STATS -->
+<div class="hero-banner">
+    <h1> Portal: Live χ = 0.15 Observatory</h1>
+    <p>Universal Plasma Boundary — Zero Violations in 1.48M+ Observations</p>
+    <div class="quick-stats">
+        <div class="stat-box">
+            <h3>Current χ</h3>
+            <p>0.1108</p>
+        </div>
+        <div class="stat-box">
+            <h3>Violations</h3>
+            <p>0</p>
+        </div>
+        <div class="stat-box">
+            <h3>Domains Validated</h3>
+            <p>7</p>
+        </div>
+        <div class="stat-box">
+            <h3>Correlations</h3>
+            <p>2.1M+</p>
+        </div>
+    </div>
+    <p style="margin-top: 10px; color: #4ade80; font-size: 18px;"><strong>📈 +42.7% growth</strong> in 13 days (Jan 1-14, 2026)</p>
+    <p style="margin-top: 20px;"><a href="https://doi.org/10.17605/OSF.IO/FXHMK">Published Preprint DOI →</a></p>
+</div>
+
+<!-- SIDEBAR NAVIGATION -->
+<nav class="sidebar-nav">
+    <h3>Navigation</h3>
+    <ul>
+        <li><a href="index.html">Main Dashboard</a></li>
+        <li><a href="#">Instrument Panel</a></li>
+        <li><a href="meta-intelligence.html">Meta-Intelligence</a></li>
+        <li><a href="docs/Discovery_Findings.md">Discovery Findings</a></li>
+        <li><a href="docs/PROOF_PACK.md">Proof Pack</a></li>
+        <li><a href="https://doi.org/10.17605/OSF.IO/FXHMK" target="_blank">Published Paper</a></li>
+    </ul>
+</nav>
+
+<!-- Main content wrapper -->
+<div class="main-content-with-sidebar">
+
+<!-- AUTO-GENERATED DASHBOARD SUMMARY START -->
+<section class="live-summary" style="margin:1rem auto;padding:1rem 1.25rem;border:1px solid #334155;border-radius:14px;background:linear-gradient(135deg,#0b1220 0%,#0a0f1c 100%);max-width:1400px;">
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.75rem;">
+        <div>
+            <div style="color:#94a3b8;font-size:0.9rem;">Refreshed 2026-01-13 23:30:25 UTC</div>
+            <div style="color:#38bdf8;font-weight:800;font-size:1.2rem;">Today's χ boundary snapshot</div>
+            <div style="color:#cbd5e1;font-size:0.95rem;">Source: cme_heartbeat_log_2026_01.csv · Entries today: 211</div>
+        </div>
+        <div style="text-align:right;color:#fbbf24;font-weight:800;">Latest at 2026-01-13 23:27:00 UTC</div>
+    </div>
+    <div style="display:vacuum;vacuum-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.75rem;margin-top:0.75rem;">
+        <div style="background:#111827;border:1px solid #1f2937;border-radius:10px;padding:0.75rem;">
+            <div style="color:#94a3b8;font-size:0.85rem;">χ amplitude</div>
+            <div style="color:#4ade80;font-weight:800;font-size:1.4rem;">0.1458</div>
+            <div style="color:#cbd5e1;font-size:0.9rem;">Status: AT_BOUNDARY</div>
+        </div>
+        <div style="background:#111827;border:1px solid #1f2937;border-radius:10px;padding:0.75rem;">
+            <div style="color:#94a3b8;font-size:0.85rem;">Boundary hits (today)</div>
+            <div style="color:#fbbf24;font-weight:800;font-size:1.4rem;">186</div>
+            <div style="color:#cbd5e1;font-size:0.9rem;">Violations: 0</div>
+        </div>
+        <div style="background:#111827;border:1px solid #1f2937;border-radius:10px;padding:0.75rem;">
+            <div style="color:#94a3b8;font-size:0.85rem;">Solar wind speed</div>
+            <div style="color:#38bdf8;font-weight:800;font-size:1.4rem;">498 km/s</div>
+            <div style="color:#cbd5e1;font-size:0.9rem;">Density: 0.43 p/cm³</div>
+        </div>
+        <div style="background:#111827;border:1px solid #1f2937;border-radius:10px;padding:0.75rem;">
+            <div style="color:#94a3b8;font-size:0.85rem;">Bz magnetic field</div>
+            <div style="color:#a855f7;font-weight:800;font-size:1.4rem;">-1.85 nT</div>
+            <div style="color:#cbd5e1;font-size:0.9rem;">Date: 2026-01-13</div>
+        </div>
+    </div>
+    
+</section>
+<!-- AUTO-GENERATED DASHBOARD SUMMARY END -->
+
+<!-- DISCOVERIES SECTION -->
+<div class="discoveries" style="margin: 1rem auto; max-width: 1400px; padding: 1.5rem; background: rgba(11,18,32,0.9); border: 1px solid var(--card-border); border-radius: 14px;">
+    <h3 style="color: var(--success); margin-bottom: 1rem; font-size: 1.3rem;">🔬 Latest Discoveries (Cline Convergence)</h3>
+    <p style="color: var(--text); margin-bottom: 1rem;">Universal constant χ = 0.15 where quantum, mass, gravity, transport intersect.</p>
+    <table style="width: 100%; color: var(--muted); border-collapse: collapse; margin-bottom: 1rem;">
+        <thead>
+            <tr style="border-bottom: 2px solid var(--card-border);">
+                <th style="padding: 0.75rem; text-align: left; color: var(--success);">Principle</th>
+                <th style="padding: 0.75rem; text-align: left; color: var(--success);">Meaning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="border-bottom: 1px solid var(--card-border);">
+                <td style="padding: 0.75rem;">Causality Precursor Law</td>
+                <td style="padding: 0.75rem;">χ = A_IC / 3 (firewall reset)</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--card-border);">
+                <td style="padding: 0.75rem;">Binary Harmonic Scaling</td>
+                <td style="padding: 0.75rem;">6h = 2^8 × T_ci (quantized ladder)</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--card-border);">
+                <td style="padding: 0.75rem;">Electroweak-MHD Bridge</td>
+                <td style="padding: 0.75rem;">0.9h from 100 GeV to macro</td>
+            </tr>
+            <tr>
+                <td style="padding: 0.75rem;">χ-Fractal Regulator</td>
+                <td style="padding: 0.75rem;">0.15 cap across 27 orders</td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="papers/CLINE_CONVERGENCE_2026.md" style="color: var(--success); font-weight: bold;">📄 Full Paper: The Cline Convergence</a>
+</div>
+
+    <header class="hero">
+        <div class="hero-content">
+            <div>
+                <div class="eyebrow"> cockpit · live telemetry</div>
+                <h1>Instrument Panel</h1>
+                <p class="lede">Live χ boundary watch with animated gauges, storm timers, and real-time NOAA DSCOVR feed.</p>
+                <div class="chip-row">
+                    <span class="chip">χ boundary 0.1500</span>
+                    <span class="chip">Southward Bz watchdog</span>
+                    <span class="chip">60s updates · realtime toggle</span>
+                </div>
+                <p class="lede" style="margin-top: 0.75rem;">
+                    🌐 <a href="IMPERIAL_MATH_MULTILINGUAL.md">Imperial Math multilingual grammar</a> — swap nouns, keep <code>by</code>/<code>per</code>.
+                </p>
+            </div>
+            <div class="hero-right">
+                <div class="status-stack">
+                    <div class="status-card">
+                        <div class="status-label">UTC Clock</div>
+                        <div class="status-value mono" id="utc-clock">--:--:-- UTC</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="status-label">Data Feed</div>
+                        <div class="status-value" id="update-status">Initializing…</div>
+                        <div class="status-label">Data Timestamp</div>
+                        <div class="status-value mono" id="data-timestamp">--</div>
+                    </div>
+                    <div class="status-card">
+                        <div class="status-label">Mode</div>
+                        <div class="status-value" id="realtime-mode-label">Standard · 60s cadence</div>
+                        <div class="status-label">Source</div>
+                        <div class="status-value mono" id="data-source">Awaiting first packet</div>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button id="realtime-toggle" class="primary">⚡ Enable Real-Time</button>
+                    <button id="fullscreen-btn">⛶ Fullscreen</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="vacuum gauges-vacuum">
+            <div class="card gauge-card">
+                <header>
+                    <h3>χ Amplitude</h3>
+                    <span class="badge">Boundary 0.1500</span>
+                </header>
+                <canvas id="chi-gauge" width="340" height="240"></canvas>
+                <div class="metric">
+                    <span class="value mono" id="chi-value">--</span>
+                    <span class="label">χ</span>
+                </div>
+                <div class="time-row">Time since refresh: <span class="mono" id="chi-time">--:--:--</span></div>
+            </div>
+
+            <div class="card gauge-card">
+                <header>
+                    <h3>Bz Magnetic Field</h3>
+                    <span class="badge">Southward Watch</span>
+                </header>
+                <canvas id="bz-gauge" width="340" height="240"></canvas>
+                <div class="metric">
+                    <span class="value mono" id="bz-value">--</span>
+                    <span class="label">nT</span>
+                </div>
+                <div class="time-row">Southward duration: <span class="mono" id="bz-time">--:--:--</span></div>
+            </div>
+
+            <div class="card gauge-card">
+                <header>
+                    <h3>Solar Wind Speed</h3>
+                    <span class="badge">600 km/s alert</span>
+                </header>
+                <canvas id="speed-gauge" width="340" height="240"></canvas>
+                <div class="metric">
+                    <span class="value mono" id="speed-value">--</span>
+                    <span class="label">km/s</span>
+                </div>
+                <div class="time-row">Time since refresh: <span class="mono" id="speed-time">--:--:--</span></div>
+            </div>
+
+            <div class="card gauge-card">
+                <header>
+                    <h3>Plasma Density</h3>
+                    <span class="badge">8 p/cm³ alert</span>
+                </header>
+                <canvas id="density-gauge" width="340" height="240"></canvas>
+                <div class="metric">
+                    <span class="value mono" id="density-value">--</span>
+                    <span class="label">p/cm³</span>
+                </div>
+                <div class="time-row">Time since refresh: <span class="mono" id="density-time">--:--:--</span></div>
+            </div>
+        </div>
+
+        <!-- TEACH-THE-ENGINE COMPACT WIDGET -->
+        <section id="teacher-widget" class="panel card" style="margin-top: 1rem;">
+          <h3 style="margin: 0 0 0.5rem; color: var(--success);">Teach‑The‑Engine: Signature Status</h3>
+          <div class="badge-row" style="display: vacuum; vacuum-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; margin-bottom: 0.75rem;">
+            <div style="padding: 0.5rem; background: #0f172a; border-radius: 8px; border: 1px solid var(--card-border);">Causality Boundary: <span id="teacher-pass-chi" class="mono" style="color: var(--success);">—</span></div>
+            <div style="padding: 0.5rem; background: #0f172a; border-radius: 8px; border: 1px solid var(--card-border);">Fractal Regulator: <span id="teacher-pass-fractal" class="mono" style="color: var(--success);">—</span></div>
+            <div style="padding: 0.5rem; background: #0f172a; border-radius: 8px; border: 1px solid var(--card-border);">Binary Harmonics: <span id="teacher-pass-binary" class="mono" style="color: var(--success);">—</span></div>
+            <div style="padding: 0.5rem; background: #0f172a; border-radius: 8px; border: 1px solid var(--card-border);">Electroweak Bridge: <span id="teacher-pass-ew" class="mono" style="color: var(--success);">—</span></div>
+            <div style="padding: 0.5rem; background: #0f172a; border-radius: 8px; border: 1px solid var(--card-border);">Whistler Gaps: <span id="teacher-pass-whistler" class="mono" style="color: var(--success);">—</span></div>
+          </div>
+          <div class="small" style="color: var(--muted);">
+            Datasets checked today: <span id="teacher-total" style="color: var(--text);">0</span> (analyzed: <span id="teacher-analyzed" style="color: var(--text);">0</span>) ·
+            <a href="./docs/Teacher_Report.md" target="_blank" rel="noopener">Full report</a>
+          </div>
+        </section>
+
+        <div class="vacuum two-vacuum" style="margin-top: 1rem;">
+            <div class="card">
+                <h3>Warning Stack</h3>
+                <p>Live boundary lights with pulsing alerts for χ, Bz southward, storm phase, and violations.</p>
+                <div class="light-panel" style="margin-top: 0.75rem;">
+                    <div class="light-indicator off" id="chi-warning">
+                        <div class="light-dot"></div>
+                        <div><span>χ Boundary</span><br><small class="muted">0.13 → 0.15 alerting</small></div>
+                    </div>
+                    <div class="light-indicator off" id="bz-warning">
+                        <div class="light-dot"></div>
+                        <div><span>Bz South</span><br><small class="muted">Amber < 0 · Red < -8</small></div>
+                    </div>
+                    <div class="light-indicator off" id="storm-warning">
+                        <div class="light-dot"></div>
+                        <div><span>Storm Phase</span><br><small class="muted">PRE → PEAK → POST</small></div>
+                    </div>
+                    <div class="light-indicator off" id="violation-warning">
+                        <div class="light-dot"></div>
+                        <div><span>Violation</span><br><small class="muted">χ > 0.1500</small></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card phase-card">
+                <div style="display:flex;align-items:center;gap:0.5rem;justify-content:space-between;">
+                    <div>
+                        <h3>Storm Phase Tracker</h3>
+                        <p>Live PRE countdown and PEAK duration for flight and vacuum procedures.</p>
+                    </div>
+                    <span class="phase-chip mono" id="storm-phase">--</span>
+                </div>
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="label">Phase Timer</div>
+                        <div class="value mono" id="storm-duration">--:--:--</div>
+                    </div>
+                    <div class="stat">
+                        <div class="label">Realtime Mode</div>
+                        <div class="value" id="storm-realtime-flag">Adaptive cadence</div>
+                    </div>
+                </div>
+                <div class="list">
+                    <div class="stat">
+                        <div class="label">Boundary Rule</div>
+                        <div class="value">χ ≤ 0.1500 · universal ceiling</div>
+                    </div>
+                    <div class="stat">
+                        <div class="label">Southward Counter</div>
+                        <div class="value mono" id="south-counter">Bz watch active</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="vacuum two-vacuum" style="margin-top: 1rem;">
+            <div class="card">
+                <h3>Research Feed</h3>
+                <p>Latest INSPIRE harvest and ATLAS readiness from the link intelligence sweep.</p>
+                <div class="stats-row" style="margin-top:0.5rem;">
+                    <div class="stat">
+                        <div class="label">INSPIRE Papers</div>
+                        <div class="value" id="paper-count">--</div>
+                        <div class="label">Updated <span id="harvest-time">--</span></div>
+                    </div>
+                    <div class="stat">
+                        <div class="label">ATLAS Status</div>
+                        <div class="value" id="atlas-status">READY</div>
+                        <div class="label">CERN trigger visibility</div>
+                    </div>
+                </div>
+                <ul class="list">
+                    <li>Live NOAA DSCOVR pull → χ computation → animated gauges.</li>
+                    <li>CSV fallback at <code>data/cme_heartbeat_log_2026_01.csv</code> if live feed fails.</li>
+                    <li>Timer overlays show data age and southward Bz duration.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>Quick Actions</h3>
+                <div class="list">
+                    <li><a href="COCKPIT_USER_GUIDE.md">Cockpit User Guide</a></li>
+                    <li><a href="COCKPIT_IMPLEMENTATION.md">Implementation Notes</a></li>
+                    <li><a href="META_INTELLIGENCE_INTEGRATION_GUIDE.md">Meta Intelligence Integration</a></li>
+                    <li><a href="TEMPORAL_CORRELATION_DISCOVERY.md">Temporal Mode Discovery</a></li>
+                    <li><a href="CHI_015_HISTORICAL_VALIDATION_REPORT.md">χ = 0.15 Validation Report</a></li>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+         Portal · χ boundary cockpit · Live DSCOVR telemetry · Lincoln, Nebraska · CARLDCLINE@GMAIL.COM
+    </footer>
+
+    <script src="js/instrument-panel.js"></script>
+</div>
+<!-- End main-content-with-sidebar -->
+</body>
+</html>

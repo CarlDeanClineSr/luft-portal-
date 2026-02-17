@@ -1,0 +1,35 @@
+name: Auto-Append Baseline Watch
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Daily 06:00 UTC
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  append:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install deps
+        run: pip install requests pandas
+
+      - name: Run append script
+        run: python scripts/auto_append_baseline_watch.py
+
+      - name: Commit append if changed
+        run: |
+          git config user.name "Auto-Ledger"
+          git config user.email "ledger@.portal"
+          git add capsules/2025_dec_batch/CAPSULE_DECEMBER_BASELINE_SHIFT_WATCH_001.md
+          if ! git diff --staged --quiet; then
+            git commit -m "AUTO-APPEND: Daily χ floor — Dec 2025 [skip ci]"
+            git push origin HEAD:main
+          fi

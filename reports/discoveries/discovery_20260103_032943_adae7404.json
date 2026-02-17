@@ -1,0 +1,28 @@
+{
+  "id": "discovery_20260103_032943_adae7404",
+  "type": "correlation_analysis",
+  "title": "Beta vs Chi Correlation Analysis",
+  "summary": "Analysis of 316 data points shows weak correlation (r=0.029) between plasma beta and chi amplitude. Most data clustered at low beta (<0.1), chi remains near 0.15 boundary.",
+  "status": "preliminary",
+  "created_at": "2026-01-03T03:29:43.560514+00:00",
+  "updated_at": "2026-01-03T03:29:43.560520+00:00",
+  "input_files": [
+    "plots/beta_chi_results.csv",
+    "plots/beta_chi_scatter.png"
+  ],
+  "metadata": {
+    "sample_size": 316,
+    "correlation": 0.029,
+    "confidence": 0.95,
+    "mean_beta": 0.011,
+    "mean_chi": 0.139
+  },
+  "quality_gates": {
+    "passed": false,
+    "failures": [
+      "|Correlation| 0.029 < 0.3"
+    ]
+  },
+  "validated_by": null,
+  "validation_notes": null
+}

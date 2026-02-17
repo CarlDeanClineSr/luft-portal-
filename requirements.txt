@@ -1,0 +1,47 @@
+#  Portal - Python Dependencies
+# This file lists all Python packages required by the scripts and workflows
+# Install with: pip install -r requirements.txt
+# Python 3.11/3.12 compatible versions
+
+# Core dependencies for star scanner (minimal set - no pyasassn blocker)
+requests>=2.31.0
+pandas>=2.2.0
+numpy>=1.26.0
+
+# Extended scientific stack (optional - for other workflows)
+scipy>=1.13.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# Utilities
+beautifulsoup4>=4.12.0
+feedparser>=6.0.10
+PyYAML>=6.0
+python-frontmatter>=1.1.0
+
+# Space physics / CDAWeb / CDF
+cdasws>=1.8.0
+cdflib>=1.3.0
+xarray>=2024.6.0
+
+# SPEDAS Python bridge (requires <3.12); pinned for future compatibility
+# Note: Current PSP validation uses cdasws instead for better Python 3.11 support
+pyspedas>=2.0.5
+
+# Plotting backend for pyspedas (latest on PyPI is 1.7.28; there is NO 1.8.x)
+# Note: Current PSP validation uses matplotlib/seaborn directly
+pytplot>=1.7.28
+
+# Network analysis for link intelligence
+networkx>=3.3
+python-dateutil>=2.9.0
+
+# NOTE: pyasassn removed - it forces old pyarrow 4.0.1 which requires NumPy 1.19.4 (incompatible with Python 3.11+)
+# The star relay scanner accesses ASAS-SN data directly via HTTP/CSV, no wrapper needed
+
+# Astronomy tools for coordinate lookups
+astroquery>=0.4.6
+astropy>=5.3.0
+
+# PDF generation
+reportlab>=4.0.0

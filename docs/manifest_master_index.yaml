@@ -1,0 +1,238 @@
+metadata:
+  generated_at: '2026-02-14T06:29:09.944899Z'
+  generator: capsule_index_job.py
+  total_capsules: 15
+  version: 1.0.0
+statistics:
+  by_status:
+    active: 1
+    draft: 3
+    adopted: 9
+    template: 1
+    final: 1
+  by_author:
+    unknown: 1
+    LUFT System: 1
+    Carl Dean Cline Sr.: 12
+    Your Name Here: 1
+  total_tags: 50
+capsules:
+- id: goes-event-audit-2025-11-22T13:41:00Z
+  title: GOES Geostationary Particle & Magnetics Audit — 2025-11-22T13:41:00Z
+  status: active
+  version: 1.0.0
+  date: ''
+  author: ''
+  tags:
+  - LUFT
+  - GOES
+  - geomag
+  - particle
+  - event
+  - harvester
+  description: ''
+  filepath: capsules/GOES_EVENT_AUDIT_2025-11-22T134100.md
+- id: EXAMPLE_MANIFEST_001
+  title: Example Manifest - Template
+  status: draft
+  version: 1.0.0
+  date: '2025-12-16'
+  author: LUFT System
+  tags:
+  - example
+  - template
+  - documentation
+  description: 'This is an example manifest file that demonstrates the format and
+    structure
+
+    for LUFT capsule manifests. Copy this template to create new manifests.
+
+    '
+  filepath: capsules/manifest.yaml
+- id: CAPSULE_HEARTBEAT_CATALOG_2025
+  title: Heartbeat & Boundary Recoil Catalog — November–December 2025
+  status: draft
+  version: 1.0.0
+  date: '2025-12-05'
+  author: Carl Dean Cline Sr.
+  tags:
+  - heartbeat
+  - cme
+  - catalog
+  - boundary_recoil
+  - spectrum
+  - november
+  - december
+  description: ''
+  filepath: capsules/CAPSULE_HEARTBEAT_CATALOG_2025.md
+- id: CAPSULE_FLARE_FOAM_PIPELINE
+  title: X5.1 Solar Flare Foam Pipeline (LUFT Flare-Induced Void Amplification)
+  status: draft
+  version: 1.0.0
+  date: ''
+  author: Carl Dean Cline Sr.
+  tags:
+  - LUFT
+  - lattice
+  - foam
+  - solar_flare
+  - CME
+  - hierarchy
+  - JJ_auditor
+  - proton_storm
+  - pipeline
+  description: ''
+  filepath: capsules/CAPSULE_FLARE_FOAM_PIPELINE.md
+- id: CAPSULE_HEARTBEAT_SPECTRUM
+  title: Heartbeat Spectrum & Rolling Fit — χ and Boundary Recoil Stability
+  status: adopted
+  version: 1.0.0
+  date: '2025-12-05'
+  author: Carl Dean Cline Sr.
+  tags:
+  - heartbeat
+  - spectrum
+  - rolling_fit
+  - boundary_recoil
+  - unified_modulation
+  description: ''
+  filepath: capsules/CAPSULE_HEARTBEAT_SPECTRUM.md
+- id: CAPSULE_METHODS_HEARTBEAT
+  title: Methods — LUFT Heartbeat, Boundary Recoil, and Spectrum
+  status: adopted
+  version: 1.0.0
+  date: '2025-12-05'
+  author: Carl Dean Cline Sr.
+  tags:
+  - heartbeat
+  - methods
+  - boundary_recoil
+  - spectrum
+  - cme
+  description: ''
+  filepath: capsules/CAPSULE_METHODS_HEARTBEAT.md
+- id: CAPSULE_PUBLIC_STORY
+  title: Public Story Blurbs — LUFT Heartbeat & Boundary Recoil
+  status: adopted
+  version: 1.0.0
+  date: '2025-12-05'
+  author: Carl Dean Cline Sr.
+  tags:
+  - public_story
+  - heartbeat
+  - boundary_recoil
+  - unified_fields
+  - outreach
+  description: ''
+  filepath: capsules/CAPSULE_PUBLIC_STORY.md
+- id: CAPSULE_REPLICATION_CHALLENGE_2025
+  title: Replication Challenge — Heartbeat & Boundary Recoil Law
+  status: adopted
+  version: 1.0.0
+  date: '2025-12-05'
+  author: Carl Dean Cline Sr.
+  tags:
+  - replication
+  - challenge
+  - heartbeat
+  - boundary_recoil
+  - open_science
+  description: ''
+  filepath: capsules/CAPSULE_REPLICATION_CHALLENGE_2025.md
+- id: CAPSULE_AUDIT_LEGACY
+  title: Audit Legacy — Preservation of Heartbeat, Ratchet, Recovery in the LUFT Ledger
+  status: adopted
+  version: 1.0.0
+  date: '2025-12-04'
+  author: Carl Dean Cline Sr.
+  tags:
+  - legacy
+  - audit
+  - ledger
+  - universal_modulation
+  - events
+  description: ''
+  filepath: capsules/capsules/CAPSULE_AUDIT_LEGACY.md
+- id: CAPSULE_EVENT_INDEX
+  title: Event Index — Heartbeat, Ratchet, Recovery, Flare Pipeline
+  status: adopted
+  version: 1.0.0
+  date: '2025-12-04'
+  author: Carl Dean Cline Sr.
+  tags:
+  - event_index
+  - heartbeat
+  - ratchet
+  - recovery
+  - flare_pipeline
+  description: ''
+  filepath: capsules/CAPSULE_EVENT_INDEX.md
+- id: CAPSULE_EVENT_RATCHET
+  title: Event Ratchet — χ Rise and Lock-In of the Universal Modulation
+  status: adopted
+  version: 1.0.0
+  date: '2025-12-04'
+  author: Carl Dean Cline Sr.
+  tags:
+  - event
+  - ratchet
+  - universal_modulation
+  - solar_wind
+  - cme_heartbeat
+  description: ''
+  filepath: capsules/capsules/CAPSULE_EVENT_RATCHET.md
+- id: CAPSULE_EVENT_RECOVERY
+  title: Event Recovery — Exhale Phase After Ratchet/Heartbeat Lock-In
+  status: adopted
+  version: 1.0.0
+  date: '2025-12-04'
+  author: Carl Dean Cline Sr.
+  tags:
+  - event
+  - recovery
+  - exhale
+  - solar_wind
+  - cme_heartbeat
+  description: ''
+  filepath: capsules/CAPSULE_EVENT_RECOVERY.md
+- id: CAPSULE_UNIVERSAL_MODULATION_055
+  title: Universal Modulation χ ≈ 0.055, Ω ≈ 10⁻⁴ Hz — Planck–Einstein Foam Heartbeat
+  status: adopted
+  version: 1.0.0
+  date: '2025-12-04'
+  author: Carl Dean Cline Sr.
+  tags:
+  - universal_modulation
+  - cosmic_heartbeat
+  - foam
+  - lattice
+  - chi_0055
+  description: ''
+  filepath: capsules/CAPSULE_UNIVERSAL_MODULATION_055.md
+- id: CAPSULE_REPLICATION_RESULT_TEMPLATE
+  title: Replication Result — Heartbeat & Boundary Recoil (Template)
+  status: template
+  version: 1.0.0
+  date: '2025-12-05'
+  author: Your Name Here
+  tags:
+  - replication
+  - result
+  - heartbeat
+  - boundary_recoil
+  - open_science
+  description: ''
+  filepath: capsules/CAPSULE_REPLICATION_RESULT_TEMPLATE.md
+- id: CAPSULE_OBSERVER_NOTE_2025-03
+  title: Observer’s Note — LUFT Architecture Sufficient to Stand
+  status: final
+  version: 1.0.0
+  date: ''
+  author: Carl Dean Cline Sr.
+  tags:
+  - LUFT
+  - observer_note
+  - architecture
+  - audit
+  description: ''
+  filepath: capsules/CAPSULE_OBSERVER_NOTE_2025-03.md

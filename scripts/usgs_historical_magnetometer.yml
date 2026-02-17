@@ -1,0 +1,39 @@
+# usgs_historical_magnetometer.yml
+name: USGS Historical Magnetometer Data
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_year:
+        required: true
+        default: '1945'
+      end_year:
+        required: true
+        default: '1992'
+      station:
+        required: true
+        default: 'BOU'  # Boulder, CO
+
+jobs:
+  retrieve_historical:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download USGS data for station
+        run: |
+          python scripts/usgs_historical_download.py \
+            --station ${{ github.event.inputs.station }} \
+            --start ${{ github.event.inputs.start_year }} \
+            --end ${{ github.event.inputs.end_year }} \
+            --output data/usgs_historical_${{ github.event.inputs.station }}.csv
+          
+      - name: Calculate chi from historical data
+        run: |
+          python scripts/calculate_chi_historical.py \
+            --input data/usgs_historical_${{ github.event.inputs.station }}.csv \
+            --output data/chi_historical_${{ github.event.inputs.station }}.csv
+          
+      - name: Commit to repository
+        run: |
+          git add data/
+          git commit -m "Historical magnetometer data for ${{ github.event.inputs.station }}"
+          git push

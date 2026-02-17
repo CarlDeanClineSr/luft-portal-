@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temporal Correlation Dashboard -  Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #e0e0e0;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #1a0a0a 0%, #0a1a1a 100%);
+            border: 3px solid #fbbf24;
+            border-radius: 16px;
+        }
+        
+        .header h1 {
+            color: #fbbf24;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header .subtitle {
+            color: #4da3ff;
+            font-size: 1.2rem;
+        }
+        
+        .stats-vacuum {
+            display: vacuum;
+            vacuum-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: #1a1a1a;
+            border: 2px solid #4da3ff;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fbbf24;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #b0b0b0;
+            font-size: 1rem;
+        }
+        
+        .correlation-table {
+            width: 100%;
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+        
+        .correlation-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .correlation-table th {
+            background: #2a2a2a;
+            color: #4da3ff;
+            padding: 1rem;
+            text-align: left;
+            font-weight: bold;
+        }
+        
+        .correlation-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        
+        .correlation-table tr:hover {
+            background: #2a2a2a;
+        }
+        
+        .phase-immediate { background: rgba(77, 163, 255, 0.1); }
+        .phase-rising { background: rgba(77, 163, 255, 0.1); }
+        .phase-peak { background: rgba(248, 113, 113, 0.2); font-weight: bold; }
+        .phase-storm { background: rgba(251, 191, 36, 0.1); }
+        .phase-recovery { background: rgba(74, 222, 128, 0.1); }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        
+        .badge-high { background: #f87171; color: white; }
+        .badge-moderate { background: #fbbf24; color: black; }
+        .badge-low { background: #4ade80; color: black; }
+        
+        .validation-box {
+            background: #001a1a;
+            border: 3px solid #4ade80;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .validation-box h2 {
+            color: #4ade80;
+            margin-bottom: 1rem;
+        }
+        
+        .charts-vacuum {
+            display: vacuum;
+            vacuum-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .chart-container {
+            background: #1a1a1a;
+            border: 2px solid #4da3ff;
+            border-radius: 12px;
+            padding: 1rem;
+        }
+        
+        .chart-container img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        
+        .chart-title {
+            color: #4da3ff;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .charts-vacuum {
+                vacuum-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- AUTO-GENERATED DASHBOARD SUMMARY START -->
+<section class="live-summary" style="margin:1rem auto;padding:1rem 1.25rem;border:1px solid #334155;border-radius:14px;background:linear-gradient(135deg,#0b1220 0%,#0a0f1c 100%);max-width:1400px;">
+    <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0.75rem;">
+        <div>
+            <div style="color:#94a3b8;font-size:0.9rem;">Refreshed 2026-01-13 23:30:25 UTC</div>
+            <div style="color:#38bdf8;font-weight:800;font-size:1.2rem;">Today's χ boundary snapshot</div>
+            <div style="color:#cbd5e1;font-size:0.95rem;">Source: cme_heartbeat_log_2026_01.csv · Entries today: 211</div>
+        </div>
+        <div style="text-align:right;color:#fbbf24;font-weight:800;">Latest at 2026-01-13 23:27:00 UTC</div>
+    </div>
+    <div style="display:vacuum;vacuum-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.75rem;margin-top:0.75rem;">
+        <div style="background:#111827;border:1px solid #1f2937;border-radius:10px;padding:0.75rem;">
+            <div style="color:#94a3b8;font-size:0.85rem;">χ amplitude</div>
+            <div style="color:#4ade80;font-weight:800;font-size:1.4rem;">0.1458</div>
+            <div style="color:#cbd5e1;font-size:0.9rem;">Status: AT_BOUNDARY</div>
+        </div>
+        <div style="background:#111827;border:1px solid #1f2937;border-radius:10px;padding:0.75rem;">
+            <div style="color:#94a3b8;font-size:0.85rem;">Boundary hits (today)</div>
+            <div style="color:#fbbf24;font-weight:800;font-size:1.4rem;">186</div>
+            <div style="color:#cbd5e1;font-size:0.9rem;">Violations: 0</div>
+        </div>
+        <div style="background:#111827;border:1px solid #1f2937;border-radius:10px;padding:0.75rem;">
+            <div style="color:#94a3b8;font-size:0.85rem;">Solar wind speed</div>
+            <div style="color:#38bdf8;font-weight:800;font-size:1.4rem;">498 km/s</div>
+            <div style="color:#cbd5e1;font-size:0.9rem;">Density: 0.43 p/cm³</div>
+        </div>
+        <div style="background:#111827;border:1px solid #1f2937;border-radius:10px;padding:0.75rem;">
+            <div style="color:#94a3b8;font-size:0.85rem;">Bz magnetic field</div>
+            <div style="color:#a855f7;font-weight:800;font-size:1.4rem;">-1.85 nT</div>
+            <div style="color:#cbd5e1;font-size:0.9rem;">Date: 2026-01-13</div>
+        </div>
+    </div>
+    
+        <div style="margin-top:0.6rem;padding:0.75rem;border:1px solid #334155;border-radius:10px;background:#0b1220;">
+            <div style="color:#a855f7;font-weight:700;margin-bottom:0.35rem;">Meta-Intelligence Latest</div>
+            <pre style="margin:0;color:#e2e8f0;font-family:'JetBrains Mono', monospace;white-space:pre-wrap;"># 🌟  META-INTELLIGENCE LATEST SUMMARY
+**Generated:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+This is the latest meta-intelligence analysis combining:
+- ✅ Temporal Correlation Detection
+- ✅ Cross-Source Anomaly Detection
+- ✅ Missing Link Intelligence
+- ✅ Citation Validation
+---</pre>
+        </div>
+        
+</section>
+<!-- AUTO-GENERATED DASHBOARD SUMMARY END -->
+
+<!-- DISCOVERIES SECTION -->
+<div class="discoveries" style="margin: 1rem auto; max-width: 1400px; padding: 1.5rem; background: #1a1a1a; border: 2px solid #fbbf24; border-radius: 12px;">
+    <h3 style="color: #4ade80; margin-bottom: 1rem; font-size: 1.3rem;">🔬 Latest Discoveries (Cline Convergence)</h3>
+    <p style="color: #e0e0e0; margin-bottom: 1rem;">Universal constant χ = 0.15 where quantum, mass, gravity, transport intersect.</p>
+    <table style="width: 100%; color: #b0b0b0; border-collapse: collapse; margin-bottom: 1rem;">
+        <thead>
+            <tr style="border-bottom: 2px solid #333;">
+                <th style="padding: 0.75rem; text-align: left; color: #4ade80;">Principle</th>
+                <th style="padding: 0.75rem; text-align: left; color: #4ade80;">Meaning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr style="border-bottom: 1px solid #2a2a2a;">
+                <td style="padding: 0.75rem;">Causality Precursor Law</td>
+                <td style="padding: 0.75rem;">χ = A_IC / 3 (firewall reset)</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #2a2a2a;">
+                <td style="padding: 0.75rem;">Binary Harmonic Scaling</td>
+                <td style="padding: 0.75rem;">6h = 2^8 × T_ci (quantized ladder)</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #2a2a2a;">
+                <td style="padding: 0.75rem;">Electroweak-MHD Bridge</td>
+                <td style="padding: 0.75rem;">0.9h from 100 GeV to macro</td>
+            </tr>
+            <tr>
+                <td style="padding: 0.75rem;">χ-Fractal Regulator</td>
+                <td style="padding: 0.75rem;">0.15 cap across 27 orders</td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="papers/CLINE_CONVERGENCE_2026.md" style="color: #4ade80; font-weight: bold;">📄 Full Paper: The Cline Convergence</a>
+</div>
+
+    <div class="header">
+        <h1>🔮 Temporal Correlation Dashboard</h1>
+        <div class="subtitle">13 Response Modes • 2.1M Matches • 95%+ Confidence</div>
+        <div style="color: #4ade80; margin-top: 0.5rem; font-weight: bold;">📈 +42.7% growth in 13 days (629,598 new matches)</div>
+        <div style="color: #9ca3af; margin-top: 0.5rem;">Generated: 2026-01-14 00:00:00 UTC</div>
+    </div>
+    
+    <div class="stats-vacuum">
+        <div class="stat-card">
+            <div class="stat-value">2,104,524</div>
+            <div class="stat-label">Total Correlation Matches</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">13</div>
+            <div class="stat-label">Temporal Response Modes</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">24h</div>
+            <div class="stat-label">Peak Correlation (212K matches)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">95%+</div>
+            <div class="stat-label">Confidence Level</div>
+        </div>
+    </div>
+    
+    <div class="validation-box">
+        <h2>✅ December 28, 2025 Event Validation</h2>
+        <p><strong>NOAA Detection:</strong> 2025-12-28 09:38:00 UTC</p>
+        <p><strong>χ Response:</strong> 2025-12-28 15:37:02 UTC</p>
+        <p><strong>Actual Delay:</strong> 5.98 hours</p>
+        <p><strong>Matched Correlation:</strong> #6h delay (134,692 historical matches)</p>
+        <p><strong>Status:</strong> <span style="color: #4ade80; font-weight: bold;">✅ VALIDATED</span></p>
+        <p style="margin-top: 1rem;"><em>First propagation delay</em></p>
+    </div>
+    
+    <div class="correlation-table">
+        <h2 style="color: #4da3ff; padding: 1rem; background: #2a2a2a;">13 Temporal Correlation Modes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Delay</th>
+                    <th>Description</th>
+                    <th>Storm Phase</th>
+                    <th>Matches</th>
+                    <th>Confidence</th>
+                    <th>Warning Level</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr class="phase-immediate">
+                    <td><strong>0h</strong></td>
+                    <td>IMMEDIATE response - χ reacts instantly</td>
+                    <td>First perturbation</td>
+                    <td>139,914</td>
+                    <td>91.8%</td>
+                    <td><span class="badge badge-low">LOW</span></td>
+                </tr>
+
+                <tr class="phase-immediate">
+                    <td><strong>6h</strong></td>
+                    <td>First propagation delay</td>
+                    <td>Early warning</td>
+                    <td>134,692</td>
+                    <td>91.5%</td>
+                    <td><span class="badge badge-low">LOW</span></td>
+                </tr>
+
+                <tr class="phase-rising">
+                    <td><strong>12h</strong></td>
+                    <td>Secondary wave arrival</td>
+                    <td>χ begins rising</td>
+                    <td>146,860</td>
+                    <td>92.1%</td>
+                    <td><span class="badge badge-low">LOW</span></td>
+                </tr>
+
+                <tr class="phase-rising">
+                    <td><strong>18h</strong></td>
+                    <td>PEAK CORRELATION</td>
+                    <td>χ approaching threshold</td>
+                    <td>176,651</td>
+                    <td>93.6%</td>
+                    <td><span class="badge badge-moderate">MODERATE</span></td>
+                </tr>
+
+                <tr class="phase-peak">
+                    <td><strong>24h</strong></td>
+                    <td>STRONGEST SIGNAL - Solar wind arrival</td>
+                    <td>PEAK IMPACT</td>
+                    <td>212,466</td>
+                    <td>95.0%</td>
+                    <td><span class="badge badge-high">HIGH</span></td>
+                </tr>
+
+                <tr class="phase-storm">
+                    <td><strong>30h</strong></td>
+                    <td>Sustained elevated response</td>
+                    <td>Sustained activity</td>
+                    <td>194,165</td>
+                    <td>94.4%</td>
+                    <td><span class="badge badge-moderate">MODERATE</span></td>
+                </tr>
+
+                <tr class="phase-storm">
+                    <td><strong>36h</strong></td>
+                    <td>Classic solar wind travel time (L1→Earth)</td>
+                    <td>Main storm onset</td>
+                    <td>112,127</td>
+                    <td>90.4%</td>
+                    <td><span class="badge badge-moderate">MODERATE</span></td>
+                </tr>
+
+                <tr class="phase-storm">
+                    <td><strong>42h</strong></td>
+                    <td>Extended geomagnetic response</td>
+                    <td>Storm progression</td>
+                    <td>112,528</td>
+                    <td>90.5%</td>
+                    <td><span class="badge badge-moderate">MODERATE</span></td>
+                </tr>
+
+                <tr class="phase-storm">
+                    <td><strong>48h</strong></td>
+                    <td>Storm main phase</td>
+                    <td>Maximum disturbance</td>
+                    <td>175,131</td>
+                    <td>93.5%</td>
+                    <td><span class="badge badge-moderate">MODERATE</span></td>
+                </tr>
+
+                <tr class="phase-recovery">
+                    <td><strong>54h</strong></td>
+                    <td>Recovery phase begins</td>
+                    <td>Early recovery</td>
+                    <td>173,835</td>
+                    <td>93.4%</td>
+                    <td><span class="badge badge-low">LOW</span></td>
+                </tr>
+
+                <tr class="phase-recovery">
+                    <td><strong>60h</strong></td>
+                    <td>Late recovery</td>
+                    <td>Recovery continues</td>
+                    <td>126,828</td>
+                    <td>91.2%</td>
+                    <td><span class="badge badge-low">LOW</span></td>
+                </tr>
+
+                <tr class="phase-recovery">
+                    <td><strong>66h</strong></td>
+                    <td>Final decay</td>
+                    <td>Late recovery</td>
+                    <td>102,214</td>
+                    <td>90.0%</td>
+                    <td><span class="badge badge-low">LOW</span></td>
+                </tr>
+
+                <tr class="phase-recovery">
+                    <td><strong>72h</strong></td>
+                    <td>Return to baseline</td>
+                    <td>Baseline restoration</td>
+                    <td>158,313</td>
+                    <td>92.7%</td>
+                    <td><span class="badge badge-low">LOW</span></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+    
+    <h2 style="color: #4da3ff; margin-bottom: 1rem; font-size: 1.8rem;">📊 Visualizations</h2>
+    
+    <div class="charts-vacuum">
+        <div class="chart-container">
+            <div class="chart-title">Correlation Modes Bar Chart</div>
+            <img src="charts/temporal_correlations/correlation_modes_barchart.png" alt="Correlation Modes">
+        </div>
+        
+        <div class="chart-container">
+            <div class="chart-title">Response Timeline</div>
+            <img src="charts/temporal_correlations/correlation_timeline.png" alt="Timeline">
+        </div>
+        
+        <div class="chart-container">
+            <div class="chart-title">Phase Distribution</div>
+            <img src="charts/temporal_correlations/phase_distribution.png" alt="Phase Distribution">
+        </div>
+        
+        <div class="chart-container">
+            <div class="chart-title">December 28 Validation</div>
+            <img src="charts/temporal_correlations/dec28_validation.png" alt="Validation">
+        </div>
+    </div>
+    
+    <div style="background: #1a1a1a; border: 2px solid #4da3ff; border-radius: 12px; padding: 2rem; margin-top: 2rem; text-align: center;">
+        <h3 style="color: #4da3ff; margin-bottom: 1rem;">🔗 Resources</h3>
+        <p>
+            <a href="index.html" style="color: #4da3ff; margin: 0 1rem;">Main Portal</a> |
+            <a href="instrument-panel.html" style="color: #4da3ff; margin: 0 1rem;">Cockpit View</a> |
+            <a href="TEMPORAL_CORRELATION_DISCOVERY.md" style="color: #4da3ff; margin: 0 1rem;">Full Report</a>
+        </p>
+        <p style="margin-top: 1rem; color: #9ca3af;">
+             Portal • Carl Dean Cline Sr. • Lincoln, Nebraska
+        </p>
+    </div>
+</body>
+</html>

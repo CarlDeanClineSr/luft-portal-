@@ -1,0 +1,706 @@
+#  External Data Sources Registry
+# ====================================
+# 
+# Comprehensive catalog of 43+ major scientific data sources for the  Portal
+# Link Intelligence Network. This registry maps the entire scientific data ecosystem
+# that  monitors and integrates.
+#
+# Author: Carl Dean Cline Sr.
+# Created: December 2025
+# Location: Lincoln, Nebraska, USA
+#
+# Mission: Build connections between  and the global scientific community
+
+metadata:
+  version: "1.0"
+  created: "2025-12-31"
+  author: "Carl Dean Cline Sr."
+  description: "Registry of major scientific data sources for  Portal integration"
+  total_sources: 43
+
+# ==============================================================================
+# TIER 1: NASA & US SPACE AGENCIES (10 sources)
+# ==============================================================================
+
+nasa_space_agencies:
+  category: "NASA & US Space Agencies"
+  tier: 1
+  priority: "IMMEDIATE"
+  sources:
+    - name: "NASA DSCOVR"
+      description: "Deep Space Climate Observatory - Solar wind L1 data"
+      urls:
+        - "https://www.ngdc.noaa.gov/dscovr/"
+        - "https://services.swpc.noaa.gov/products/solar-wind/"
+        - "https://www.spaceappschallenge.org/"
+      data_types:
+        - "solar_wind"
+        - "magnetic_field"
+        - "plasma_parameters"
+      update_frequency: "5-minute"
+      api_available: true
+      status: "active"
+
+    - name: "NASA MAVEN"
+      description: "Mars Atmosphere and Volatile Evolution - Mars atmosphere data"
+      urls:
+        - "https://pds-ppi.igpp.ucla.edu/search/"
+        - "https://lasp.colorado.edu/maven/sdc/public/"
+      data_types:
+        - "mars_magnetic_field"
+        - "mars_atmosphere"
+        - "solar_wind_mars"
+      update_frequency: "daily"
+      api_available: true
+      status: "active"
+
+    - name: "NASA Parker Solar Probe"
+      description: "Closest approach to the Sun - extreme solar environment data"
+      urls:
+        - "https://parkersolarprobe.jhuapl.edu/"
+        - "https://spdf.gsfc.nasa.gov/pub/data/psp/"
+      data_types:
+        - "solar_magnetic_field"
+        - "solar_wind_close"
+        - "plasma_waves"
+      update_frequency: "mission_dependent"
+      api_available: true
+      status: "active"
+
+    - name: "NASA JWST"
+      description: "James Webb Space Telescope - Deep space observations"
+      urls:
+        - "https://www.stsci.edu/jwst"
+        - "https://mast.stsci.edu/portal/Mashup/Clients/Mast/Portal.html"
+      data_types:
+        - "infrared_imaging"
+        - "spectroscopy"
+        - "deep_field"
+      update_frequency: "continuous"
+      api_available: true
+      status: "active"
+
+    - name: "NASA Mars Rovers"
+      description: "Curiosity and Perseverance - Mars surface data"
+      urls:
+        - "https://mars.nasa.gov/mars2020/"
+        - "https://pds-imaging.jpl.nasa.gov/"
+      data_types:
+        - "mars_surface"
+        - "atmospheric_data"
+        - "imagery"
+      update_frequency: "daily"
+      api_available: true
+      status: "active"
+
+    - name: "NASA ACE"
+      description: "Advanced Composition Explorer - Solar wind monitoring"
+      urls:
+        - "https://www.srl.caltech.edu/ACE/"
+        - "https://www.swpc.noaa.gov/products/ace-real-time-solar-wind"
+      data_types:
+        - "solar_wind"
+        - "cosmic_rays"
+        - "particle_composition"
+      update_frequency: "realtime"
+      api_available: true
+      status: "active"
+
+    - name: "NASA OMNI"
+      description: "Combined space weather database"
+      urls:
+        - "https://omniweb.gsfc.nasa.gov/"
+        - "https://cdaweb.gsfc.nasa.gov/"
+      data_types:
+        - "combined_solar_wind"
+        - "geomagnetic_indices"
+        - "historical_data"
+      update_frequency: "hourly"
+      api_available: true
+      status: "active"
+
+    - name: "NASA SOHO"
+      description: "Solar and Heliospheric Observatory"
+      urls:
+        - "https://soho.nascom.nasa.gov/"
+        - "https://soho.nascom.nasa.gov/data/data.html"
+      data_types:
+        - "solar_imaging"
+        - "corona_observation"
+        - "solar_wind"
+      update_frequency: "realtime"
+      api_available: true
+      status: "active"
+
+    - name: "NASA SDO"
+      description: "Solar Dynamics Observatory"
+      urls:
+        - "https://sdo.gsfc.nasa.gov/"
+        - "https://sdo.gsfc.nasa.gov/data/"
+      data_types:
+        - "solar_imaging"
+        - "magnetic_field_maps"
+        - "solar_dynamics"
+      update_frequency: "continuous"
+      api_available: true
+      status: "active"
+
+    - name: "NASA Hubble Space Telescope"
+      description: "Iconic space telescope - optical and UV observations"
+      urls:
+        - "https://hubblesite.org/"
+        - "https://archive.stsci.edu/hst/"
+      data_types:
+        - "optical_imaging"
+        - "spectroscopy"
+        - "historical_archive"
+      update_frequency: "continuous"
+      api_available: true
+      status: "active"
+
+    - name: "NASA Voyager 2"
+      description: "Voyager 2 Interstellar Mission - Heliosheath and interstellar medium data"
+      urls:
+        - "https://cdaweb.gsfc.nasa.gov/index.html/"
+        - "https://voyager.jpl.nasa.gov/"
+        - "https://spdf.gsfc.nasa.gov/pub/data/voyager/voyager2/"
+      data_types:
+        - "heliosheath_magnetic_field"
+        - "interstellar_plasma"
+        - "cosmic_rays"
+        - "termination_shock"
+      update_frequency: "archived"
+      api_available: true
+      status: "active"
+      notes: |
+        Critical for χ = 0.15 boundary validation. Heliosheath data (2007-2012)
+        provides a radically different plasma regime (B ~ 0.1 nT vs Earth's 5 nT)
+        to test universality of the boundary. Dataset ID: VOYAGER2_48SEC_MAG
+
+# ==============================================================================
+# TIER 2: NOAA & USGS (4 sources)
+# ==============================================================================
+
+noaa_usgs:
+  category: "NOAA & USGS"
+  tier: 2
+  priority: "HIGH"
+  sources:
+    - name: "NOAA SWPC"
+      description: "Space Weather Prediction Center"
+      urls:
+        - "https://www.swpc.noaa.gov/"
+        - "https://services.swpc.noaa.gov/"
+      data_types:
+        - "space_weather_forecasts"
+        - "solar_flares"
+        - "geomagnetic_storms"
+      update_frequency: "realtime"
+      api_available: true
+      status: "active"
+
+    - name: "NOAA GOES Satellites"
+      description: "Geostationary Operational Environmental Satellites"
+      urls:
+        - "https://www.ngdc.noaa.gov/stp/satellite/goes/"
+        - "https://www.swpc.noaa.gov/products/goes-magnetometer"
+      data_types:
+        - "magnetometer"
+        - "x-ray_flux"
+        - "particle_flux"
+      update_frequency: "1-minute"
+      api_available: true
+      status: "active"
+
+    - name: "USGS Magnetometer Network"
+      description: "Ground-based magnetometer stations"
+      urls:
+        - "https://geomag.usgs.gov/"
+        - "https://www.usgs.gov/programs/geomagnetism"
+      data_types:
+        - "ground_magnetic_field"
+        - "geomagnetic_activity"
+        - "station_network"
+      update_frequency: "1-second"
+      api_available: true
+      status: "active"
+
+    - name: "NOAA NCEI"
+      description: "National Centers for Environmental Information"
+      urls:
+        - "https://www.ncei.noaa.gov/"
+        - "https://www.ncei.noaa.gov/products/space-weather"
+      data_types:
+        - "historical_space_weather"
+        - "climate_data"
+        - "geophysical_data"
+      update_frequency: "archived"
+      api_available: true
+      status: "active"
+
+# ==============================================================================
+# TIER 3: SPACEX & COMMERCIAL (1 source)
+# ==============================================================================
+
+commercial:
+  category: "Commercial Space"
+  tier: 3
+  priority: "MEDIUM"
+  sources:
+    - name: "SpaceX Starlink"
+      description: "Satellite constellation - potential telemetry data"
+      urls:
+        - "https://www.starlink.com/"
+        - "https://api.starlink.com/"
+      data_types:
+        - "satellite_positions"
+        - "constellation_data"
+        - "coverage_maps"
+      update_frequency: "varies"
+      api_available: "limited"
+      status: "active"
+
+# ==============================================================================
+# TIER 4: CERN & PARTICLE PHYSICS (4 sources)
+# ==============================================================================
+
+cern_particle_physics:
+  category: "CERN & Particle Physics"
+  tier: 4
+  priority: "HIGH"
+  sources:
+    - name: "CERN LHC Data"
+      description: "Large Hadron Collider open data"
+      urls:
+        - "https://opendata.cern.ch/"
+        - "https://home.cern/science/accelerators/large-hadron-collider"
+      data_types:
+        - "collision_events"
+        - "particle_physics"
+        - "detector_data"
+      update_frequency: "released"
+      api_available: true
+      status: "active"
+
+    - name: "CERN ATLAS Experiment"
+      description: "A Toroidal LHC ApparatuS"
+      urls:
+        - "https://atlas.cern/"
+        - "https://twiki.cern.ch/twiki/bin/view/AtlasPublic/"
+      data_types:
+        - "high_energy_physics"
+        - "particle_collisions"
+        - "higgs_boson"
+      update_frequency: "released"
+      api_available: true
+      status: "active"
+
+    - name: "CERN CMS Experiment"
+      description: "Compact Muon Solenoid"
+      urls:
+        - "https://cms.cern/"
+        - "https://twiki.cern.ch/twiki/bin/view/CMSPublic/"
+      data_types:
+        - "particle_detection"
+        - "magnetic_field_extreme"
+        - "collision_analysis"
+      update_frequency: "released"
+      api_available: true
+      status: "active"
+
+    - name: "INSPIRE-HEP"
+      description: "High Energy Physics literature database"
+      urls:
+        - "https://inspirehep.net/"
+        - "https://inspirehep.net/api"
+      data_types:
+        - "publications"
+        - "preprints"
+        - "citations"
+      update_frequency: "daily"
+      api_available: true
+      status: "active"
+
+# ==============================================================================
+# TIER 5: CHINESE SPACE/SCIENCE PROGRAMS (6 sources)
+# ==============================================================================
+
+chinese_programs:
+  category: "Chinese Space & Science"
+  tier: 5
+  priority: "MEDIUM"
+  sources:
+    - name: "FAST Telescope"
+      description: "Five-hundred-meter Aperture Spherical Telescope"
+      urls:
+        - "http://fast.bao.ac.cn/"
+        - "https://nadc.china-vo.org/res/r101279/"
+      data_types:
+        - "radio_astronomy"
+        - "pulsar_data"
+        - "fast_transients"
+      update_frequency: "released"
+      api_available: "limited"
+      status: "active"
+
+    - name: "CNSA"
+      description: "China National Space Administration"
+      urls:
+        - "http://www.cnsa.gov.cn/english/"
+      data_types:
+        - "mission_updates"
+        - "space_program"
+        - "announcements"
+      update_frequency: "irregular"
+      api_available: false
+      status: "active"
+
+    - name: "Tianwen Mars Mission"
+      description: "Chinese Mars exploration"
+      urls:
+        - "http://www.cnsa.gov.cn/"
+      data_types:
+        - "mars_data"
+        - "rover_data"
+        - "orbiter_data"
+      update_frequency: "released"
+      api_available: "limited"
+      status: "active"
+
+    - name: "Chang'e Lunar Missions"
+      description: "Chinese lunar exploration program"
+      urls:
+        - "https://moon.bao.ac.cn/"
+        - "http://www.cnsa.gov.cn/"
+      data_types:
+        - "lunar_data"
+        - "surface_samples"
+        - "orbiter_data"
+      update_frequency: "released"
+      api_available: "limited"
+      status: "active"
+
+    - name: "Tiangong Space Station"
+      description: "Chinese Space Station"
+      urls:
+        - "http://www.cmse.gov.cn/"
+        - "http://www.cnsa.gov.cn/"
+      data_types:
+        - "station_operations"
+        - "experiments"
+        - "crew_activities"
+      update_frequency: "released"
+      api_available: "limited"
+      status: "active"
+
+    - name: "CSES"
+      description: "China Seismo-Electromagnetic Satellite"
+      urls:
+        - "http://www.leos.ac.cn/"
+      data_types:
+        - "space_weather"
+        - "electromagnetic_data"
+        - "seismic_precursors"
+      update_frequency: "released"
+      api_available: "limited"
+      status: "active"
+
+# ==============================================================================
+# TIER 6: EUROPEAN & INTERNATIONAL (5 sources)
+# ==============================================================================
+
+european_international:
+  category: "European & International"
+  tier: 6
+  priority: "HIGH"
+  sources:
+    - name: "ESA"
+      description: "European Space Agency"
+      urls:
+        - "https://www.esa.int/"
+        - "https://www.cosmos.esa.int/"
+      data_types:
+        - "mission_data"
+        - "earth_observation"
+        - "space_science"
+      update_frequency: "continuous"
+      api_available: true
+      status: "active"
+
+    - name: "ESA Solar Orbiter"
+      description: "Close-up study of the Sun"
+      urls:
+        - "https://soar.esac.esa.int/soar/"
+        - "https://www.esa.int/Science_Exploration/Space_Science/Solar_Orbiter"
+      data_types:
+        - "solar_data"
+        - "heliosphere"
+        - "solar_wind"
+      update_frequency: "released"
+      api_available: true
+      status: "active"
+
+    - name: "ESA Gaia Mission"
+      description: "Stellar mapping and astrometry"
+      urls:
+        - "https://www.cosmos.esa.int/gaia"
+        - "https://gea.esac.esa.int/archive/"
+      data_types:
+        - "stellar_positions"
+        - "parallax"
+        - "proper_motions"
+      update_frequency: "data_releases"
+      api_available: true
+      status: "active"
+
+    - name: "JAXA"
+      description: "Japan Aerospace Exploration Agency"
+      urls:
+        - "https://global.jaxa.jp/"
+        - "https://www.jaxa.jp/projects/"
+      data_types:
+        - "mission_data"
+        - "earth_observation"
+        - "asteroid_samples"
+      update_frequency: "varies"
+      api_available: "limited"
+      status: "active"
+
+    - name: "ISRO"
+      description: "Indian Space Research Organisation"
+      urls:
+        - "https://www.isro.gov.in/"
+      data_types:
+        - "mission_data"
+        - "lunar_data"
+        - "earth_observation"
+      update_frequency: "varies"
+      api_available: "limited"
+      status: "active"
+
+# ==============================================================================
+# TIER 7: GROUND-BASED OBSERVATORIES (5 sources)
+# ==============================================================================
+
+observatories:
+  category: "Ground-Based Observatories"
+  tier: 7
+  priority: "MEDIUM"
+  sources:
+    - name: "Event Horizon Telescope"
+      description: "Global VLBI array - black hole imaging"
+      urls:
+        - "https://eventhorizontelescope.org/"
+        - "https://eventhorizontelescope.org/for-astronomers/data"
+      data_types:
+        - "black_hole_images"
+        - "vlbi_data"
+        - "m87_data"
+      update_frequency: "released"
+      api_available: true
+      status: "active"
+
+    - name: "LIGO"
+      description: "Laser Interferometer Gravitational-Wave Observatory"
+      urls:
+        - "https://www.ligo.org/"
+        - "https://www.gw-openscience.org/"
+      data_types:
+        - "gravitational_waves"
+        - "merger_events"
+        - "detector_data"
+      update_frequency: "event_based"
+      api_available: true
+      status: "active"
+
+    - name: "Arecibo Observatory"
+      description: "Historical radio telescope data (now collapsed)"
+      urls:
+        - "http://www.naic.edu/"
+      data_types:
+        - "historical_radio"
+        - "pulsar_data"
+        - "planetary_radar"
+      update_frequency: "archived"
+      api_available: "limited"
+      status: "archived"
+
+    - name: "Very Large Array"
+      description: "Radio telescope array in New Mexico"
+      urls:
+        - "https://public.nrao.edu/telescopes/vla/"
+        - "https://data.nrao.edu/"
+      data_types:
+        - "radio_astronomy"
+        - "interferometry"
+        - "sky_surveys"
+      update_frequency: "continuous"
+      api_available: true
+      status: "active"
+
+    - name: "ALMA"
+      description: "Atacama Large Millimeter Array"
+      urls:
+        - "https://www.almaobservatory.org/"
+        - "https://almascience.eso.org/aq/"
+      data_types:
+        - "millimeter_astronomy"
+        - "molecular_clouds"
+        - "high_altitude"
+      update_frequency: "continuous"
+      api_available: true
+      status: "active"
+
+# ==============================================================================
+# TIER 8: AMATEUR & OPEN SCIENCE (3 sources)
+# ==============================================================================
+
+amateur_open_science:
+  category: "Amateur & Open Science"
+  tier: 8
+  priority: "LOW"
+  sources:
+    - name: "Breakthrough Listen"
+      description: "SETI search for extraterrestrial intelligence"
+      urls:
+        - "https://breakthroughinitiatives.org/initiative/1"
+        - "https://seti.berkeley.edu/listen/"
+      data_types:
+        - "radio_seti"
+        - "technosignatures"
+        - "sky_surveys"
+      update_frequency: "continuous"
+      api_available: true
+      status: "active"
+
+    - name: "Zooniverse"
+      description: "Citizen science platform"
+      urls:
+        - "https://www.zooniverse.org/"
+        - "https://www.zooniverse.org/projects"
+      data_types:
+        - "citizen_science"
+        - "classification"
+        - "multiple_domains"
+      update_frequency: "continuous"
+      api_available: true
+      status: "active"
+
+    - name: "Space Weather Live"
+      description: "Community space weather monitoring"
+      urls:
+        - "https://www.spaceweatherlive.com/"
+        - "https://www.spaceweatherlive.com/en/archive.html"
+      data_types:
+        - "space_weather"
+        - "aurora_reports"
+        - "solar_activity"
+      update_frequency: "realtime"
+      api_available: true
+      status: "active"
+
+# ==============================================================================
+# TIER 9: SCIENTIFIC ARCHIVES & DATABASES (5 sources)
+# ==============================================================================
+
+archives_databases:
+  category: "Scientific Archives & Databases"
+  tier: 9
+  priority: "HIGH"
+  sources:
+    - name: "arXiv"
+      description: "Physics and astronomy preprints"
+      urls:
+        - "https://arxiv.org/"
+        - "https://arxiv.org/help/api"
+      data_types:
+        - "preprints"
+        - "papers"
+        - "astro-ph"
+      update_frequency: "daily"
+      api_available: true
+      status: "active"
+
+    - name: "NASA ADS"
+      description: "Astrophysics Data System"
+      urls:
+        - "https://ui.adsabs.harvard.edu/"
+        - "https://ui.adsabs.harvard.edu/help/api/"
+      data_types:
+        - "publications"
+        - "abstracts"
+        - "citations"
+      update_frequency: "daily"
+      api_available: true
+      status: "active"
+
+    - name: "VizieR"
+      description: "Astronomical catalogs database"
+      urls:
+        - "https://vizier.u-strasbg.fr/"
+        - "https://vizier.u-strasbg.fr/vizier/vizHelp/"
+      data_types:
+        - "catalogs"
+        - "astronomical_tables"
+        - "datasets"
+      update_frequency: "continuous"
+      api_available: true
+      status: "active"
+
+    - name: "SIMBAD"
+      description: "Stellar database"
+      urls:
+        - "http://simbad.u-strasbg.fr/simbad/"
+        - "http://simbad.u-strasbg.fr/simbad/sim-help"
+      data_types:
+        - "stellar_data"
+        - "object_identifiers"
+        - "measurements"
+      update_frequency: "continuous"
+      api_available: true
+      status: "active"
+
+    - name: "NED"
+      description: "NASA/IPAC Extragalactic Database"
+      urls:
+        - "https://ned.ipac.caltech.edu/"
+        - "https://ned.ipac.caltech.edu/help"
+      data_types:
+        - "galaxies"
+        - "extragalactic_objects"
+        - "redshifts"
+      update_frequency: "continuous"
+      api_available: true
+      status: "active"
+
+# ==============================================================================
+# SUMMARY STATISTICS
+# ==============================================================================
+
+summary:
+  total_sources: 44
+  by_tier:
+    tier_1_nasa: 11
+    tier_2_noaa_usgs: 4
+    tier_3_commercial: 1
+    tier_4_cern: 4
+    tier_5_chinese: 6
+    tier_6_european: 5
+    tier_7_observatories: 5
+    tier_8_amateur: 3
+    tier_9_archives: 5
+  
+  by_status:
+    active: 43
+    archived: 1
+  
+  with_api:
+    full_api: 36
+    limited_api: 7
+    no_api: 1
+  
+  priority:
+    immediate: 11
+    high: 13
+    medium: 17
+    low: 3

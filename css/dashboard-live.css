@@ -1,0 +1,1148 @@
+/* LUFT Portal - Live Dashboard Styles */
+/* Animations and visual effects for real-time operations display */
+
+/* ========================================
+   LIVE DATA STREAM TABLE
+   ======================================== */
+#live-data-stream {
+    background-color: #1a1a1a;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 1200px;
+    border-radius: 8px;
+    border-left: 4px solid #4da3ff;
+}
+
+#live-data-stream h3 {
+    color: #4da3ff;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.data-table-scroll {
+    overflow-x: auto;
+    margin: 1rem 0;
+}
+
+#recent-data {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #0a0a0a;
+}
+
+#recent-data thead {
+    background-color: #2a2a2a;
+    position: sticky;
+    top: 0;
+}
+
+#recent-data th {
+    padding: 1rem;
+    text-align: left;
+    color: #4da3ff;
+    font-weight: bold;
+    border-bottom: 2px solid #4da3ff;
+}
+
+#recent-data td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+#recent-data tr:hover {
+    background-color: #1a1a1a;
+}
+
+/* Fade-in animation for new data rows */
+.data-row-new {
+    animation: fade-in 0.5s ease-in;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        background: #ffffcc33;
+    }
+    to {
+        opacity: 1;
+        background: transparent;
+    }
+}
+
+.update-indicator {
+    margin-top: 1rem;
+    color: #b0b0b0;
+    font-size: 0.9rem;
+}
+
+#last-update-time {
+    color: #4da3ff;
+    font-weight: bold;
+}
+
+/* ========================================
+   CHI AMPLITUDE GAUGE
+   ======================================== */
+.chi-gauge {
+    background-color: #1a1a1a;
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    border-left: 4px solid #4ade80;
+}
+
+.chi-gauge h3 {
+    color: #4ade80;
+    margin-bottom: 1rem;
+}
+
+#chi-meter {
+    display: block;
+    margin: 1rem auto;
+}
+
+.gauge-value {
+    margin: 1rem 0;
+}
+
+#current-chi {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #4ade80;
+    display: block;
+}
+
+.gauge-label {
+    display: block;
+    color: #b0b0b0;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.boundary-indicator {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #2a2a2a;
+    border-radius: 6px;
+}
+
+#boundary-status {
+    font-size: 1.5rem;
+    animation: pulse-light 2s infinite;
+}
+
+@keyframes pulse-light {
+    0%, 100% {
+        opacity: 1;
+        filter: drop-shadow(0 0 5px currentColor);
+    }
+    50% {
+        opacity: 0.7;
+        filter: drop-shadow(0 0 20px currentColor);
+    }
+}
+
+/* ========================================
+   CHI HISTORY CHART
+   ======================================== */
+.chi-history {
+    background-color: #1a1a1a;
+    padding: 2rem;
+    margin: 2rem auto;
+    border-radius: 8px;
+    border-left: 4px solid #4da3ff;
+}
+
+.chi-history h3 {
+    color: #4da3ff;
+    margin-bottom: 1rem;
+}
+
+#chi-chart {
+    max-width: 100%;
+    height: 300px !important;
+}
+
+/* ========================================
+   FFT SPECTRUM SECTION
+   ======================================== */
+.fft-section {
+    background-color: #1a1a1a;
+    padding: 2rem;
+    margin: 2rem auto;
+    border-radius: 8px;
+    border-left: 4px solid #fbbf24;
+}
+
+.fft-section h3 {
+    color: #fbbf24;
+    margin-bottom: 1rem;
+}
+
+.status-box {
+    background-color: #2a2a2a;
+    padding: 1.5rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+}
+
+.status-box div {
+    margin: 0.5rem 0;
+}
+
+#fft-status {
+    color: #fbbf24;
+    font-weight: bold;
+}
+
+#symmetry-error {
+    color: #f87171;
+    font-weight: bold;
+}
+
+#fft-spectrum {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin: 1rem 0;
+}
+
+.fft-result {
+    background-color: #2a2a2a;
+    padding: 1rem;
+    border-radius: 6px;
+    margin-top: 1rem;
+}
+
+/* ========================================
+   LIVE STATISTICS
+   ======================================== */
+.live-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.stat-box {
+    background-color: #1a1a1a;
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    border-left: 4px solid #4da3ff;
+}
+
+.stat-value {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #4da3ff;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.stat-value.updated {
+    transform: scale(1.1);
+    color: #4ade80;
+}
+
+.stat-label {
+    font-size: 1.1rem;
+    color: #b0b0b0;
+    margin-bottom: 0.5rem;
+}
+
+.stat-change {
+    font-size: 0.9rem;
+    color: #4ade80;
+    margin-top: 0.5rem;
+}
+
+.stat-count {
+    font-size: 0.9rem;
+    color: #9ca3af;
+    margin-top: 0.5rem;
+}
+
+/* ========================================
+   SYSTEM STATUS INDICATORS
+   ======================================== */
+.system-status {
+    background-color: #1a1a1a;
+    padding: 2rem;
+    margin: 2rem auto;
+    border-radius: 8px;
+    border-left: 4px solid #4ade80;
+}
+
+.system-status h3 {
+    color: #4ade80;
+    margin-bottom: 1.5rem;
+}
+
+.status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: #2a2a2a;
+    padding: 1rem;
+    border-radius: 6px;
+}
+
+.status-light {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.status-light.green {
+    background: #4ade80;
+    animation: pulse-green 2s infinite;
+}
+
+.status-light.yellow {
+    background: #fbbf24;
+    animation: pulse-yellow 2s infinite;
+}
+
+.status-light.orange {
+    background: #fb923c;
+    animation: pulse-orange 2s infinite;
+}
+
+.status-light.red {
+    background: #f87171;
+    animation: pulse-red 2s infinite;
+}
+
+@keyframes pulse-green {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 5px #4ade80;
+    }
+    50% {
+        opacity: 0.7;
+        box-shadow: 0 0 20px #4ade80;
+    }
+}
+
+@keyframes pulse-yellow {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 5px #fbbf24;
+    }
+    50% {
+        opacity: 0.7;
+        box-shadow: 0 0 20px #fbbf24;
+    }
+}
+
+@keyframes pulse-orange {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 5px #fb923c;
+    }
+    50% {
+        opacity: 0.7;
+        box-shadow: 0 0 20px #fb923c;
+    }
+}
+
+@keyframes pulse-red {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 5px #f87171;
+    }
+    50% {
+        opacity: 0.7;
+        box-shadow: 0 0 20px #f87171;
+    }
+}
+
+.status-name {
+    font-weight: bold;
+    color: #e0e0e0;
+}
+
+.status-detail {
+    font-size: 0.9rem;
+    color: #b0b0b0;
+}
+
+/* ========================================
+   ENGINE ACTIVITY FEED
+   ======================================== */
+.activity-feed {
+    background-color: #1a1a1a;
+    padding: 2rem;
+    margin: 2rem auto;
+    border-radius: 8px;
+    border-left: 4px solid #4da3ff;
+}
+
+.activity-feed h3 {
+    color: #4da3ff;
+    margin-bottom: 1rem;
+}
+
+#activity-log {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.activity-item {
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    background-color: #2a2a2a;
+    border-radius: 4px;
+    display: flex;
+    gap: 1rem;
+    animation: slide-in 0.3s ease-out;
+}
+
+@keyframes slide-in {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.activity-time {
+    color: #4da3ff;
+    font-weight: bold;
+    font-family: monospace;
+    min-width: 80px;
+}
+
+.activity-msg {
+    color: #e0e0e0;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+@media (max-width: 768px) {
+    .live-stats,
+    .status-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .data-table-scroll {
+        font-size: 0.85rem;
+    }
+    
+    #recent-data th,
+    #recent-data td {
+        padding: 0.5rem;
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+    }
+    
+    #chi-meter {
+        width: 250px;
+        height: 150px;
+    }
+}
+
+/* ========================================
+   CHI STATUS PANEL
+   ======================================== */
+.chi-status-panel {
+    background-color: #1a1a1a;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 1200px;
+    border-radius: 8px;
+    border-left: 4px solid #4da3ff;
+}
+
+.chi-status-panel h2 {
+    color: #4da3ff;
+    margin-bottom: 1.5rem;
+}
+
+.current-status-display {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background-color: #2a2a2a;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.status-light {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.status-light.below {
+    background: #00ff00;
+    box-shadow: 0 0 20px #00ff00;
+    animation: pulse-green 2s infinite;
+}
+
+.status-light.at-boundary {
+    background: #ffaa00;
+    box-shadow: 0 0 20px #ffaa00;
+    animation: pulse-orange 2s infinite;
+}
+
+.status-light.violation {
+    background: #ff0000;
+    box-shadow: 0 0 20px #ff0000;
+    animation: pulse-red 1s infinite;
+}
+
+.status-text {
+    flex: 1;
+}
+
+.status-label {
+    font-size: 0.9rem;
+    color: #b0b0b0;
+    margin-bottom: 0.3rem;
+}
+
+.status-value {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #4ade80;
+}
+
+.current-chi-value,
+.storm-phase-display {
+    background-color: #2a2a2a;
+    padding: 1.5rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.chi-label,
+.phase-label {
+    font-size: 0.9rem;
+    color: #b0b0b0;
+    margin-bottom: 0.5rem;
+}
+
+.chi-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #4da3ff;
+    margin: 0.5rem 0;
+}
+
+.chi-boundary {
+    font-size: 0.85rem;
+    color: #f87171;
+    margin-top: 0.5rem;
+}
+
+.phase-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fbbf24;
+    margin-top: 0.5rem;
+}
+
+/* ========================================
+   CHI DISTRIBUTION PANEL
+   ======================================== */
+.chi-distribution {
+    background-color: #1a1a1a;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 1200px;
+    border-radius: 8px;
+    border-left: 4px solid #4ade80;
+}
+
+.chi-distribution h3 {
+    color: #4ade80;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.distribution-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.status-stat {
+    background-color: #2a2a2a;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.status-stat.below {
+    border-left: 4px solid #4ade80;
+}
+
+.status-stat.at-boundary {
+    border-left: 4px solid #fbbf24;
+}
+
+.status-stat.violation {
+    border-left: 4px solid #f87171;
+}
+
+.stat-label {
+    font-size: 1rem;
+    color: #e0e0e0;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #4da3ff;
+    margin: 0.5rem 0;
+}
+
+.stat-percent {
+    font-size: 1.8rem;
+    color: #4ade80;
+    margin-bottom: 1rem;
+}
+
+.stat-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #0a0a0a;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    transition: width 0.5s ease;
+}
+
+.bar-fill.below {
+    background: linear-gradient(90deg, #4ade80, #22c55e);
+}
+
+.bar-fill.at-boundary {
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+}
+
+.bar-fill.violation {
+    background: linear-gradient(90deg, #f87171, #ef4444);
+}
+
+.validation-message {
+    background-color: #2a2a2a;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #4ade80;
+    margin-top: 1.5rem;
+}
+
+.validation-message strong {
+    color: #4ade80;
+}
+
+/* ========================================
+   CHI STATUS TIMELINE
+   ======================================== */
+.chi-status-timeline {
+    background-color: #1a1a1a;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 1200px;
+    border-radius: 8px;
+    border-left: 4px solid #4da3ff;
+}
+
+.chi-status-timeline h3 {
+    color: #4da3ff;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.timeline-container {
+    overflow-x: auto;
+    margin: 1rem 0;
+}
+
+.status-timeline-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #0a0a0a;
+}
+
+.status-timeline-table thead {
+    background-color: #2a2a2a;
+    position: sticky;
+    top: 0;
+}
+
+.status-timeline-table th {
+    padding: 1rem;
+    text-align: left;
+    color: #4da3ff;
+    font-weight: bold;
+    border-bottom: 2px solid #4da3ff;
+}
+
+.status-timeline-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.status-timeline-table tr.status-row.below {
+    background-color: rgba(74, 222, 128, 0.05);
+}
+
+.status-timeline-table tr.status-row.at-boundary {
+    background-color: rgba(251, 191, 36, 0.05);
+}
+
+.status-timeline-table tr.status-row.violation {
+    background-color: rgba(248, 113, 113, 0.1);
+}
+
+.status-timeline-table tr:hover {
+    background-color: #1a1a1a;
+}
+
+.chi-value {
+    font-weight: bold;
+    color: #4da3ff;
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 0.85em;
+    display: inline-block;
+}
+
+.status-badge.below {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-badge.at-boundary {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-badge.violation {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* ========================================
+   STORM PHASE CORRELATION
+   ======================================== */
+.storm-phase-correlation {
+    background-color: #1a1a1a;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 1200px;
+    border-radius: 8px;
+    border-left: 4px solid #fbbf24;
+}
+
+.storm-phase-correlation h3 {
+    color: #fbbf24;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.phase-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.phase-box {
+    background-color: #2a2a2a;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #4da3ff;
+}
+
+.phase-box h4 {
+    color: #4da3ff;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.phase-box div {
+    margin: 0.5rem 0;
+    color: #e0e0e0;
+}
+
+.phase-box span {
+    color: #4ade80;
+    font-weight: bold;
+}
+
+.phase-insight {
+    background-color: #2a2a2a;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #fbbf24;
+}
+
+.phase-insight strong {
+    color: #fbbf24;
+}
+
+#phase-insight-text {
+    color: #e0e0e0;
+}
+
+/* ========================================
+   SCROLLBAR STYLING
+   ======================================== */
+#activity-log::-webkit-scrollbar,
+.data-table-scroll::-webkit-scrollbar,
+.timeline-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+#activity-log::-webkit-scrollbar-track,
+.data-table-scroll::-webkit-scrollbar-track,
+.timeline-container::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+#activity-log::-webkit-scrollbar-thumb,
+.data-table-scroll::-webkit-scrollbar-thumb,
+.timeline-container::-webkit-scrollbar-thumb {
+    background: #4da3ff;
+    border-radius: 4px;
+}
+
+#activity-log::-webkit-scrollbar-thumb:hover,
+.data-table-scroll::-webkit-scrollbar-thumb:hover,
+.timeline-container::-webkit-scrollbar-thumb:hover {
+    background: #7db9ff;
+}
+
+/* ========================================
+   MULTI-ENVIRONMENT VALIDATION
+   ======================================== */
+.multi-env-validation {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem auto;
+    max-width: 1200px;
+}
+
+.multi-env-validation h2 {
+    color: white;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.validation-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.95;
+}
+
+.validation-table {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.validation-table td,
+.validation-table th {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.validation-table th {
+    background: rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.validation-table tr:last-child td {
+    border-bottom: none;
+}
+
+.validation-table small {
+    opacity: 0.8;
+    font-size: 0.85rem;
+}
+
+.badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    display: inline-block;
+}
+
+.badge-green {
+    background: #10b981;
+    color: white;
+}
+
+.badge-yellow {
+    background: #f59e0b;
+    color: white;
+}
+
+.badge-blue {
+    background: #3b82f6;
+    color: white;
+}
+
+.validation-summary {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 1.05rem;
+}
+
+.validation-summary strong {
+    color: white;
+}
+
+/* ========================================
+   MARS AND CERN PANELS
+   ======================================== */
+.mars-panel,
+.cern-panel {
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem auto;
+    max-width: 1200px;
+    background: #f9fafb;
+}
+
+.mars-panel h3,
+.cern-panel h3 {
+    color: #4da3ff;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.mars-panel .status-grid,
+.cern-panel .status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.mars-panel .status-item,
+.cern-panel .status-item {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #4da3ff;
+    text-align: center;
+}
+
+.status-label {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+}
+
+.status-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin: 0.5rem 0;
+}
+
+.status-detail {
+    font-size: 0.85rem;
+    color: #9ca3af;
+}
+
+.mars-data,
+.cern-data {
+    margin: 1.5rem 0;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.mars-data h4,
+.cern-data h4 {
+    color: #4da3ff;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #e5e7eb;
+    color: #1f2937;
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table td:nth-child(odd) {
+    font-weight: 600;
+    color: #4b5563;
+    width: 30%;
+}
+
+.data-table td:nth-child(even) {
+    color: #4da3ff;
+    font-weight: bold;
+}
+
+.comparison-note {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #fef3c7;
+    border-left: 4px solid #f59e0b;
+    border-radius: 4px;
+    color: #92400e;
+}
+
+.comparison-note strong {
+    color: #78350f;
+}
+
+/* ========================================
+   DATA SOURCES PANEL
+   ======================================== */
+.data-sources {
+    background-color: #1a1a1a;
+    padding: 2rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+    border-left: 4px solid #4da3ff;
+}
+
+.data-sources h2 {
+    color: #4da3ff;
+    margin-bottom: 1.5rem;
+}
+
+.source-category {
+    margin-bottom: 2rem;
+}
+
+.source-category h3 {
+    color: #4ade80;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.source-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.source-item {
+    background-color: #2a2a2a;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    text-align: center;
+    border-left: 3px solid #4ade80;
+}
+
+.source-item.active {
+    border-left-color: #4ade80;
+    color: #4ade80;
+}
+
+.source-item.collecting {
+    border-left-color: #3b82f6;
+    color: #3b82f6;
+}
+
+.source-summary {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: #2a2a2a;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.source-summary strong {
+    color: #4da3ff;
+}
+
+.source-summary span {
+    color: #4ade80;
+    font-weight: bold;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN FOR NEW SECTIONS
+   ======================================== */
+@media (max-width: 768px) {
+    .validation-table {
+        font-size: 0.85rem;
+    }
+    
+    .validation-table td,
+    .validation-table th {
+        padding: 0.5rem;
+    }
+    
+    .mars-panel .status-grid,
+    .cern-panel .status-grid,
+    .source-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .mars-panel,
+    .cern-panel {
+        padding: 1rem;
+    }
+    
+    .multi-env-validation {
+        padding: 1rem;
+    }
+}
+

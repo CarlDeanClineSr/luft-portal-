@@ -1,0 +1,219 @@
+/* Discovery Widget Styles */
+
+#discovery-widget {
+  background: #1a1f3a;
+  border: 1px solid #2a2f4a;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem auto;
+  max-width: 1400px;
+}
+
+.discovery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #334155;
+}
+
+.discovery-title-main {
+  color: #00ff88;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.discovery-stats {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.discovery-stat-item {
+  text-align: center;
+}
+
+.discovery-stat-label {
+  color: #94a3b8;
+  font-size: 0.8rem;
+  display: block;
+}
+
+.discovery-stat-value {
+  color: #00ff88;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Discovery Cards */
+.discovery-card {
+  background: #0a0e1a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.discovery-card:last-child {
+  margin-bottom: 0;
+}
+
+.discovery-card .discovery-title {
+  color: #00ff88;
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.discovery-card .discovery-desc {
+  color: #e2e8f0;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.6;
+}
+
+.discovery-card .discovery-sig {
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  margin: 0 0 0.5rem 0;
+  font-style: italic;
+}
+
+.discovery-card .discovery-sig strong {
+  color: #fbbf24;
+  font-style: normal;
+}
+
+.discovery-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #1f2937;
+}
+
+.discovery-metric {
+  font-size: 0.85rem;
+}
+
+.discovery-metric .metric-label {
+  color: #94a3b8;
+}
+
+.discovery-metric .metric-value {
+  color: #4ade80;
+  font-weight: bold;
+}
+
+/* Signature Table */
+.signature-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.signature-table th,
+.signature-table td {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #1f2937;
+}
+
+.signature-table th {
+  color: #00ff88;
+  font-weight: bold;
+  background: #0a0e1a;
+}
+
+.signature-table td {
+  color: #e2e8f0;
+}
+
+.signature-table td.centered {
+  text-align: center;
+}
+
+.signature-table td.pass {
+  color: #00ff88;
+  font-weight: bold;
+}
+
+.signature-table td.warn {
+  color: #fbbf24;
+  font-weight: bold;
+}
+
+.signature-table td.fail {
+  color: #ef4444;
+  font-weight: bold;
+}
+
+/* History */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  background: #0a0e1a;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.history-date {
+  color: #94a3b8;
+}
+
+.history-stat {
+  color: #4ade80;
+}
+
+.no-history {
+  color: #64748b;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+/* Section Layout */
+.discovery-sections {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.discovery-section {
+  background: #0b1220;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.discovery-section-title {
+  color: #00ff88;
+  font-size: 1rem;
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #334155;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .discovery-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .discovery-stats {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .discovery-sections {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,37 @@
+name: Imperial Watch (Hourly)
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Runs every hour
+  workflow_dispatch:      # Allows you to click "Run Now" manually
+
+jobs:
+  imperial-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write    # Grants permission to save the .md report
+
+    steps:
+      - name: Checkout Lattice
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Ingest DSCOVR Data
+        run: |
+          # This pulls the raw JSON you need for the logger
+          curl -s https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json > dscovr_raw.json
+
+      - name: Run Imperial Logger
+        run: python3 imperial_logger.py
+
+      - name: Commit Imperial Event Log
+        run: |
+          git config --global user.name "Imperial-Bot"
+          git config --global user.email "bot@unifiedphysics.org"
+          git add measurements/events/*.md
+          git commit -m "⚡ Imperial Regulator: Harmonic Mode Update" || echo "No harmonic shift detected"
+          git push
