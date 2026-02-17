@@ -10,9 +10,22 @@ if [[ -z "$pathspec_string" ]]; then
 fi
 
 read -r -a pathspecs <<< "$pathspec_string"
-if ! git add -- "${pathspecs[@]}"; then
-  echo "Warning: git add failed for pathspec(s): $pathspec_string"
+shopt -s nullglob
+expanded_paths=()
+for pathspec in "${pathspecs[@]}"; do
+  matches=( $pathspec )
+  if [[ ${#matches[@]} -gt 0 ]]; then
+    expanded_paths+=("${matches[@]}")
+  fi
+done
+shopt -u nullglob
+
+if [[ ${#expanded_paths[@]} -eq 0 ]]; then
+  echo "No files matched: $pathspec_string"
+  exit 0
 fi
+
+git add -- "${expanded_paths[@]}"
 
 if git diff --cached --quiet; then
   echo "No changes detected for: $pathspec_string"

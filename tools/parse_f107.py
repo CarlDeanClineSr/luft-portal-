@@ -15,6 +15,7 @@ def main() -> None:
     response = requests.get(F107_URL, timeout=30)
     response.raise_for_status()
     values = response.json()
+    fetched_at = datetime.now(timezone.utc)
 
     if not isinstance(values, list) or not values:
         raise ValueError("Unexpected F10.7 response format")
@@ -29,7 +30,7 @@ def main() -> None:
 
     report = (
         "# Latest NOAA F10.7\n\n"
-        f"Fetched: {datetime.now(timezone.utc).isoformat()}\n\n"
+        f"Fetched: {fetched_at.isoformat()}\n\n"
         "```json\n"
         f"{latest_json}\n"
         "```\n"
