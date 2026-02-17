@@ -1,92 +1,46 @@
----
 name: Engine Status Report
-
-# Quote 'on' to satisfy YAML linters that treat 'on' as a truthy keyword
-"on":
-  schedule:
-    - cron: "*/10 * * * *"  # Every 10 minutes - continuous engine status monitoring
-  workflow_dispatch:
-
+'on':
+  workflow_dispatch: null
 permissions:
-  contents: write  # needed to push report files back to the repo
-
+  contents: write
 jobs:
   engine-report:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install dependencies
-        run: |
-          pip install numpy
-          if [ -f requirements.txt ]; then
-            pip install -r requirements.txt
-          fi
-
-      - name: Fetch fresh space weather data
-        run: |
-          echo "📡 Fetching fresh data for engine status report..."
-          
-          # Fetch plasma data
-          curl --fail --silent --show-error -o data/ace_plasma_latest.json \
-            "https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json" || true
-          
-          # Fetch magnetic field data
-          curl --fail --silent --show-error -o data/ace_mag_latest.json \
-            "https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json" || true
-          
-          # Update heartbeat log with fresh data
-          python scripts/cme_heartbeat_logger.py \
-            --plasma data/ace_plasma_latest.json \
-            --mag data/ace_mag_latest.json || echo "⚠️ Heartbeat update skipped"
-        continue-on-error: true
-
-      - name: Run LUFT Portal Engine Status Script
-        run: |
-          # Adjust these paths to the actual script location(s)
-          if [ -f scripts/space_weather_rapid_report.py ]; then
-            python scripts/space_weather_rapid_report.py
-          elif [ -f space_weather_rapid_report.py ]; then
-            python space_weather_rapid_report.py
-          else
-            echo "space_weather_rapid_report.py not found" >&2
-            exit 1
-          fi
-
-      - name: Commit and push markdown reports
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-          # Stage markdown reports and updated data files
-          git add "*.md" "reports/**/*.md" "data/cme_heartbeat_log_*.csv" || true
-
-          # No changes? Exit cleanly
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-            exit 0
-          fi
-
-          # Short commit message to satisfy line-length lint
-          git commit -m "Engine report with fresh data $(date -u +'%F %T UTC')"
-          git pull --rebase origin main --autostash
-          git push
-
-  # If you want to call a reusable workflow, ensure the target has:
-  # on:
-  #   workflow_call:
-  # Then you can uncomment this job.
-  # update-dashboards:
-  #   needs: engine-report
-  #   uses: ./.github/workflows/update_dashboards.yml
-  #   secrets: inherit
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    - name: Install dependencies
+      run: "pip install numpy\nif [ -f requirements.txt ]; then\n  pip install -r\
+        \ requirements.txt\nfi\n"
+    - name: Fetch fresh space weather data
+      run: "echo \"\U0001F4E1 Fetching fresh data for engine status report...\"\n\n\
+        # Fetch plasma data\ncurl --fail --silent --show-error -o data/ace_plasma_latest.json\
+        \ \\\n  \"https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json\"\
+        \ || true\n\n# Fetch magnetic field data\ncurl --fail --silent --show-error\
+        \ -o data/ace_mag_latest.json \\\n  \"https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json\"\
+        \ || true\n\n# Update heartbeat log with fresh data\npython scripts/cme_heartbeat_logger.py\
+        \ \\\n  --plasma data/ace_plasma_latest.json \\\n  --mag data/ace_mag_latest.json\
+        \ || echo \"⚠️ Heartbeat update skipped\"\n"
+      continue-on-error: true
+    - name: Run LUFT Portal Engine Status Script
+      run: "# Adjust these paths to the actual script location(s)\nif [ -f scripts/space_weather_rapid_report.py\
+        \ ]; then\n  python scripts/space_weather_rapid_report.py\nelif [ -f space_weather_rapid_report.py\
+        \ ]; then\n  python space_weather_rapid_report.py\nelse\n  echo \"space_weather_rapid_report.py\
+        \ not found\" >&2\n  exit 1\nfi\n"
+    - name: Commit and push markdown reports
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: "git config --global user.name \"github-actions[bot]\"\ngit config --global\
+        \ user.email \"github-actions[bot]@users.noreply.github.com\"\n\n# Stage markdown\
+        \ reports and updated data files\ngit add \"*.md\" \"reports/**/*.md\" \"\
+        data/cme_heartbeat_log_*.csv\" || true\n\n# No changes? Exit cleanly\nif git\
+        \ diff --cached --quiet; then\n  echo \"No changes to commit\"\n  exit 0\n\
+        fi\n\n# Short commit message to satisfy line-length lint\ngit commit -m \"\
+        Engine report with fresh data $(date -u +'%F %T UTC')\"\ngit pull --rebase\
+        \ origin main --autostash\ngit push\n"

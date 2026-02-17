@@ -1,11 +1,7 @@
 name: NASA Daily Data Harvest (4:20 PM ET)
 
 on:
-  schedule:
-    # 4:20 PM Eastern = 9:20 PM UTC (standard time) or 8:20 PM UTC (daylight time)
-    # Using 9:20 PM UTC to catch evening data updates
-    - cron: '20 21 * * *'  # 9:20 PM UTC = 4:20 PM ET
-  workflow_dispatch:  # Manual trigger option
+  workflow_dispatch:
 
 jobs:
   harvest_all_nasa_missions:

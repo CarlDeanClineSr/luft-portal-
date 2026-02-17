@@ -1,14 +1,7 @@
 name: Capsule Index Job - Master Manifest & Dashboard
 
 on:
-  schedule:
-    - cron: "15 6 * * *"   # Daily at 06:15 UTC (avoids conflicts)
-  workflow_dispatch:       # Manual trigger
-  push:
-    paths:
-      - "capsules/**"
-      - "scripts/capsule_index_job.py"
-      - "scripts/generate_dashboard.py"
+  workflow_dispatch:
 
 concurrency:
   group: capsule-index

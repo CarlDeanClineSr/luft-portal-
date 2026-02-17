@@ -1,12 +1,6 @@
 name: LUFT Heartbeat Plot Update
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "data/cme_heartbeat_log_*.csv"
-      - "scripts/plot_cme_heartbeat_2025_12.py"
   workflow_dispatch:
 
 jobs:

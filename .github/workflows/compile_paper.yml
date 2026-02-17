@@ -1,11 +1,7 @@
 name: Compile Discovery Paper
 
 on:
-  push:
-    paths:
-      - 'papers/**.tex'   # Triggers when you edit the LaTeX
-      - '.github/workflows/compile_paper.yml' # Triggers when you save this file
-  workflow_dispatch:       # Allows manual button click
+  workflow_dispatch:
 
 jobs:
   build_latex:

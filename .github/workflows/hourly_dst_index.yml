@@ -1,9 +1,7 @@
 name: Hourly DST Lattice Index
 
 on:
-  schedule:
-    - cron: '5,35 * * * *'  # Every 30 minutes at :05 and :35 - DST index updates
-  workflow_dispatch:      # Allows you to click "Run" manually
+  workflow_dispatch:
 
 jobs:
   dst-monitor:
