@@ -29,7 +29,10 @@ jobs:
               git push
             else
               git revert --abort || true
-              FLOOD_PARENT=$(git rev-parse "${FLOOD_COMMIT}^1")
+              FLOOD_PARENT=$(git rev-parse "${FLOOD_COMMIT}^1") || {
+                echo "Failed to find parent commit for $FLOOD_COMMIT"
+                exit 1
+              }
               mapfile -t FLOOD_PATHS < <(git diff --name-only "$FLOOD_PARENT" "$FLOOD_COMMIT")
               if [ ${#FLOOD_PATHS[@]} -eq 0 ]; then
                 echo "No changed paths found in FLOOD commit"
