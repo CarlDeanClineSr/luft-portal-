@@ -212,7 +212,7 @@ Monitor these workflows specifically for continued issues:
 
 ### Data Preservation
 **✅ CONFIRMED:** All collected data preserved and untouched:
-- `data/` folder - NO changes made (36 subdirectories intact)
+- `data/` folder - NO changes made (34 subdirectories intact)
 - `IMPERIAL_ARK/` - NO changes made (if exists)
 - All CSV, JSON, TXT data files - Completely preserved
 - `index.html` - User's TV site untouched
