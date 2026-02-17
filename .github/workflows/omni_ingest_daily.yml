@@ -1,9 +1,7 @@
 name: Daily OMNIWeb Data Ingest & Merge
 
 on:
-  schedule: 
-    - cron: '0 12 * * *'  # Daily at 12:00 UTC - Restored to automatic operation
-  workflow_dispatch:  # Manual trigger support
+  workflow_dispatch:
 
 jobs:
   ingest:

@@ -1,11 +1,6 @@
 name: Build Papers (PDF)
 
 on:
-  push:
-    paths:
-      - 'papers/**.md'
-      - 'papers/**.tex'
-      - 'tools/build_paper_pdf.sh'
   workflow_dispatch:
 
 permissions:

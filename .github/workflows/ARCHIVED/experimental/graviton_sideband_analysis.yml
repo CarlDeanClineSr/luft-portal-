@@ -33,4 +33,4 @@ jobs:
           git diff --quiet && git diff --staged --quiet || git commit -m "data:  graviton sideband FFT analysis $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
           git push
         env:
-          GITHUB_TOKEN: ${{ secrets. GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

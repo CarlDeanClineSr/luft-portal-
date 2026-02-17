@@ -1,12 +1,6 @@
 name: Physicist Note — PDF Render
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "notes/PHYSICIST_NOTE_HEARTBEAT.md"
-      - "results/cme_heartbeat_2025_12_chi_pdyn.png"
   workflow_dispatch:
 
 jobs:

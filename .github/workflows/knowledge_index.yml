@@ -1,9 +1,7 @@
 name: Knowledge Index - Auto-Update Repository Index
 
 on:
-  schedule:
-    - cron: "15 12 * * *"   # Daily at 12:15 UTC (06:15 CST / 07:15 CDT)
-  workflow_dispatch:        # Manual trigger
+  workflow_dispatch:
 
 concurrency:
   group: knowledge-index

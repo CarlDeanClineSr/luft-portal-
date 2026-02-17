@@ -1,8 +1,6 @@
 name: INSPIRE Paper Harvest
 
-on: 
-  schedule:
-    - cron: '0 0 * * *'  # Daily at midnight UTC (changed from weekly)
+on:
   workflow_dispatch:
 
 jobs:

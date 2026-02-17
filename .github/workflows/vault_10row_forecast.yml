@@ -1,8 +1,6 @@
 name: Hourly Vault 10-Row Forecast Update
 
 on:
-  schedule:
-    - cron: '10,25,40,55 * * * *'  # Every 15 minutes - continuous vault forecast updates
   workflow_dispatch:
 
 jobs:
