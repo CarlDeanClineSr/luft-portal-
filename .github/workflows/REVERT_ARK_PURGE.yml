@@ -25,8 +25,44 @@ jobs:
             git config user.name "Recovery Bot"
             git config user.email "recovery@luft.local"
             
-            git revert $FLOOD_COMMIT --no-edit
-            git push
+            if git revert "$FLOOD_COMMIT" --no-edit; then
+              git push
+            else
+              git revert --abort || true
+              FLOOD_PARENT=$(git rev-parse "${FLOOD_COMMIT}^1") || {
+                echo "Failed to find parent commit for $FLOOD_COMMIT"
+                exit 1
+              }
+              mapfile -t FLOOD_PATHS < <(git diff --name-only "$FLOOD_PARENT" "$FLOOD_COMMIT")
+              if [ ${#FLOOD_PATHS[@]} -eq 0 ]; then
+                echo "No changed paths found in FLOOD commit"
+                exit 1
+              fi
+              RESTORE_PATHS=()
+              REMOVE_PATHS=()
+              for path in "${FLOOD_PATHS[@]}"; do
+                if [ -z "$path" ]; then
+                  continue
+                fi
+                if git cat-file -e "$FLOOD_PARENT:$path" 2>/dev/null; then
+                  RESTORE_PATHS+=("$path")
+                else
+                  REMOVE_PATHS+=("$path")
+                fi
+              done
+              if [ ${#RESTORE_PATHS[@]} -gt 0 ]; then
+                git restore --source "$FLOOD_PARENT" --staged --worktree -- "${RESTORE_PATHS[@]}"
+              fi
+              if [ ${#REMOVE_PATHS[@]} -gt 0 ]; then
+                git rm -f --ignore-unmatch -- "${REMOVE_PATHS[@]}"
+              fi
+              if git diff --cached --quiet; then
+                echo "No restoration changes detected (already restored)."
+                exit 0
+              fi
+              git commit -m "RESTORE: Recover files from pre-FLOOD snapshot"
+              git push
+            fi
             
             echo "=== REVERT COMPLETE ==="
             echo "Your files should be restored now"
