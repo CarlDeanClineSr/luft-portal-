@@ -10,7 +10,9 @@ if [[ -z "$pathspec_string" ]]; then
 fi
 
 read -r -a pathspecs <<< "$pathspec_string"
-git add -- "${pathspecs[@]}" || true
+if ! git add -- "${pathspecs[@]}"; then
+  echo "Warning: git add failed for pathspec(s): $pathspec_string"
+fi
 
 if git diff --cached --quiet; then
   echo "No changes detected for: $pathspec_string"

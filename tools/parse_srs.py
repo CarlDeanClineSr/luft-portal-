@@ -14,8 +14,9 @@ def main() -> None:
     response = requests.get(SRS_URL, timeout=30)
     response.raise_for_status()
     body = response.text.strip()
+    fetched_at = datetime.now(timezone.utc)
 
-    ts = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    ts = fetched_at.strftime("%Y%m%d_%H%M%S")
     PARSED_DIR.mkdir(parents=True, exist_ok=True)
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
 
@@ -24,7 +25,7 @@ def main() -> None:
 
     REPORT_PATH.write_text(
         "# Latest NOAA SRS\n\n"
-        f"Fetched: {datetime.now(timezone.utc).isoformat()}\n\n"
+        f"Fetched: {fetched_at.isoformat()}\n\n"
         "```text\n"
         f"{body}\n"
         "```\n",
