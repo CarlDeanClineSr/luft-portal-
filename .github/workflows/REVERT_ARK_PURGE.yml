@@ -1,0 +1,38 @@
+name: REVERT ARK PURGE - Restore All Files
+
+on:
+  workflow_dispatch:
+
+jobs:
+  revert:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Revert the ARK purge commit
+        run: |
+          # Find the "FLOOD" commit
+          FLOOD_COMMIT=$(git log --all --grep="THE FLOOD" --format="%H" | head -1)
+          
+          if [ -n "$FLOOD_COMMIT" ]; then
+            echo "Found ARK purge commit: $FLOOD_COMMIT"
+            echo "Reverting it now..."
+            
+            git config user.name "Recovery Bot"
+            git config user.email "recovery@luft.local"
+            
+            git revert $FLOOD_COMMIT --no-edit
+            git push
+            
+            echo "=== REVERT COMPLETE ==="
+            echo "Your files should be restored now"
+          else
+            echo "Could not find the FLOOD commit"
+            exit 1
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
