@@ -1,0 +1,178 @@
+# χ = 0.15 Universal Plasma Boundary Directive
+# Defines operational physics constants and detection criteria
+
+capsule:  CAPSULE_CHI_015_ENGINE_INTEGRATION_v1.md
+status: active
+priority: critical
+version: 1.0
+date_effective: 2025-12-28
+
+# Scope: Which engine components use this directive
+applies_to:
+  - chi_analysis
+  - solar_wind_audit
+  - magnetosphere_monitoring
+  - cme_heartbeat_logger
+  - dashboard_chi_refresh
+  - vault_narrator
+  - fft_sideband_detector
+  - rebound_pipeline
+
+# Core Physics Constants
+physics: 
+  chi_cap:  0.15                    # Universal boundary value
+  mechanism: glow_to_filament      # Physical interpretation
+  tolerance: 0.01                  # Boundary width
+  chi_min: 0.145                   # Lower boundary
+  chi_max: 0.155                   # Upper boundary
+  
+  # AM-Graviton coupling (future)
+  am_graviton_coupling: true
+  sideband_symmetry_threshold: 0.05
+
+# Detection Thresholds
+thresholds:
+  chi_boundary:  0.15
+  chi_tolerance: 0.01
+  attractor_threshold: 0.50        # >50% at boundary = attractor state
+  violation_alert:  0.155           # Alert if exceeded
+  violation_tolerance: 0.01        # Max acceptable violation rate
+
+# Classification Logic
+classification:
+  BELOW: 
+    condition: "chi < 0.145"
+    interpretation: "Glow mode, suboptimal coupling"
+    alert_level: none
+    
+  AT_BOUNDARY:
+    condition: "0.145 <= chi <= 0.155"
+    interpretation: "Attractor state, optimal coupling"
+    alert_level: info
+    
+  VIOLATION: 
+    condition: "chi > 0.155"
+    interpretation: "Filamentary breakdown detected"
+    alert_level: warning
+    
+  UNKNOWN: 
+    condition: "chi is NaN or invalid"
+    interpretation: "Data quality issue"
+    alert_level: error
+
+# Detection Criteria
+detection:
+  chi_at_boundary: 
+    formula: "(chi >= 0.145) AND (chi <= 0.155)"
+    output: boolean
+    
+  chi_violation: 
+    formula: "chi > 0.155"
+    output: boolean
+    
+  attractor_state:
+    formula: "(count_at_boundary / total_count) > 0.50"
+    output: boolean
+    
+  am_graviton_signature:
+    formula: "(chi_cap_present) AND (sideband_detected) AND (symmetry_error < 0.05)"
+    output: boolean
+    requires: 
+      - chi_cap_present
+      - fft_analysis
+      - sideband_symmetry
+
+# Alert Triggers
+alerts:
+  attractor_confirmed:
+    condition: "boundary_fraction > 0.50"
+    message: "✅ ATTRACTOR STATE CONFIRMED - System at optimal coupling"
+    action: report_to_narrator
+    priority: info
+    
+  violation_detected: 
+    condition: "chi_violation_count > 0"
+    message: "⚠️ χ VIOLATION DETECTED - Investigating filamentary breakdown"
+    action:  investigate_data_quality
+    priority: warning
+    
+  persistent_violations:
+    condition: "violation_fraction > 0.01"
+    message: "🚨 PERSISTENT VIOLATIONS - Physics anomaly investigation required"
+    action: physics_review
+    priority: critical
+
+# Data Products
+data_products:
+  enhanced_csv: 
+    columns:
+      - chi_amplitude
+      - chi_at_boundary
+      - chi_violation
+      - chi_status
+    format: CSV
+    
+  boundary_tracking: 
+    format: JSONL
+    append_only: true
+    fields:
+      - timestamp
+      - total_observations
+      - at_boundary_count
+      - at_boundary_pct
+      - violations_count
+      - violations_pct
+      - status
+    
+  dashboard_section:
+    enabled: true
+    real_time: true
+    metrics:
+      - boundary_occupation_pct
+      - violation_count
+      - attractor_state_indicator
+
+# Validation
+validation:
+  historical_dataset:  "December 2-27, 2025"
+  expected_boundary_fraction: 0.536
+  expected_violation_rate: 0.000
+  tolerance:  0.025  # Within 2.5%
+  status: CONFIRMED
+
+# Future Enhancements
+future: 
+  am_graviton_detection:
+    enabled: false  # Set to true when FFT sideband detector ready
+    requires:
+      - fft_analysis_module
+      - sideband_symmetry_calculator
+      
+  magnetosphere_mapping:
+    enabled: true
+    dataset: "USGS magnetometer network"
+    start_date: "2025-12-27"
+    end_date: "2026-01-03"
+    
+  tokamak_application:
+    enabled: false  # Future integration with fusion data
+    
+# Metadata
+metadata:
+  discoverer: "Carl Dean Cline Sr."
+  discovery_date: "2025-12-02 to 2025-12-27"
+  discovery_dataset: "DSCOVR L1 solar wind"
+  discovery_size: 12000
+  laboratory_confirmations: 
+    - name: "MPD Thruster"
+      date: "2025-10-27"
+      result: "46% thrust gain at χ ≈ 0.15"
+    - name: "Helicon Discharge"
+      date: "2025-10-30"
+      result: "Wave mode transitions at χ ≈ 0.15"
+    - name: "RF Plasma Sheath"
+      date: "2025-10-27"
+      result: "Confinement boundaries"
+    - name: "ArF Excimer Laser"
+      date:  "2025-10-31"
+      result: "Glow-filament transition, 90% efficiency loss above χ = 0.15"

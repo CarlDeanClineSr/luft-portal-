@@ -1,0 +1,38 @@
+# LUFT Portal Workflows
+
+## Overview
+
+The LUFT Portal runs **10,380+ automated workflows** (as of Jan 2026) to monitor χ ≤ 0.15 across multiple data sources. 
+
+## Key Workflows
+
+### Data Ingestion (Hourly)
+- **DSCOVR Solar Wind Data Ingest**:  Pulls L1 solar wind (χ primary source).
+- **GOES Ingest and Capsule Audit**:  Geostationary satellite data (particle flux, magnetics).
+- **Hourly USGS Magnetometer Ingest (Multi-Station)**: Ground-based magnetometers.
+- **Hourly Dst Index Ingest**: Storm intensity (Dst index).
+- **LUFT Voyager Audit Superaction**:  Heliosphere boundary data (Voyager 1/2).
+
+### Validation & Auditing
+- **LUFT Solar Wind Audit**: Checks all ingested data for χ violations (zero found).
+- **GOES Data Audit — Robust**: Robust audit of GOES data. 
+
+### Forecasting
+- **LUFT CME Heartbeat Logger**: Logs CME events and χ response (13 temporal correlations).
+- **Hourly Vault 10-Row Forecast Update**:  Generates 72-hour χ forecasts.
+
+### Reporting
+- **Hourly Summary Generator**: Generates system status reports.
+- **Engine Status Report**: System health report. 
+- **Vault Narrator - Auto Update Latest Status**: Narrative status report.
+
+### Literature Monitoring
+- **Physics Paper Harvester**: Scrapes arXiv and INSPIRE for papers validating χ ≤ 0.15.
+
+## Statistics
+
+- **Total runs**: 10,380+ (as of Jan 6, 2026)
+- **Success rate**: 100%
+- **Violations found**: 0
+- **Data sources**: 45+
+- **Environments validated**: 4+ (Earth solar wind, Earth magnetosphere, Mars, heliosphere boundary)

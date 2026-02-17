@@ -1,0 +1,36 @@
+:Data_list: RTST-today.txt
+:Created: 2025 Dec 20 2300 UTC
+# Prepared by the U.S. Dept. of Commerce, NOAA, Space Weather Prediction Center.
+# Please send comments and suggestions to swpc.webmaster@noaa.gov
+#
+# Label: Hap = 3 hour Planetary A Geomagnetic index updated hourly.
+# Label: int.ap = Integral of Planetary Ap Geomagnetic index over the previous 33 values
+# Label: +70 = Correction factor at 70N Geomagnetic latitude
+# Label: +50 = Correction factor at 50N Geomagnetic latitude
+# Label: +30 = Correction factor at 30N Geomagnetic latitude
+# Label: -30 = Correction factor at 30S Geomagnetic latitude
+# Label: -50 = Correction factor at 50S Geomagnetic latitude
+# Label: -70 = Correction factor at 70S Geomagnetic latitude
+# Source: Hap is from USAF Hourly Magnetometer Analysis Report
+# Missing Data: linearly interpolated: 0 = not interpolated
+#
+#    STORM Time Empirical Ionospheric Correction Model
+#
+# UTC  Hap int.ap  +70  +50  +30  -30  -50  -70  interpolated
+#------------------------------------------------------------
+   0    7  119.9  1.00 1.00 1.00 1.00 1.00 1.00       1
+   1    7  117.2  1.00 1.00 1.00 1.00 1.00 1.00       1
+   2    7  106.2  1.00 1.00 1.00 1.00 1.00 1.00       0
+   3    7  112.7  1.00 1.00 1.00 1.00 1.00 1.00       1
+   4    5  111.1  1.00 1.00 1.00 1.00 1.00 1.00       1
+   5    4  102.7  1.00 1.00 1.00 1.00 1.00 1.00       0
+   6    3  105.1  1.00 1.00 1.00 1.00 1.00 1.00       1
+   7    3  101.6  1.00 1.00 1.00 1.00 1.00 1.00       1
+   8    4   95.8  1.00 1.00 1.00 1.00 1.00 1.00       0
+   9    5   98.9  1.00 1.00 1.00 1.00 1.00 1.00       1
+  10    5  100.0  1.00 1.00 1.00 1.00 1.00 1.00       1
+  11    5   94.6  1.00 1.00 1.00 1.00 1.00 1.00       0
+  12    5   99.4  1.00 1.00 1.00 1.00 1.00 1.00       1
+  13    5   97.0  1.00 1.00 1.00 1.00 1.00 1.00       1
+  14    5   88.2  1.00 1.00 1.00 1.00 1.00 1.00       0
+  15    6   93.0  1.00 1.00 1.00 1.00 1.00 1.00       1

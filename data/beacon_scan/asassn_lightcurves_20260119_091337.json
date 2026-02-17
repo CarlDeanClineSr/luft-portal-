@@ -1,0 +1,23 @@
+{
+  "query_time": "2026-01-19T09:13:37.399470+00:00",
+  "method": "ASAS-SN Sky Patrol via skypatrol (fully automated)",
+  "search_radius_arcsec": 10.0,
+  "note": "This contains complete time-series light curve data for any queried stars.",
+  "targets_queried": 1,
+  "successful_queries": 0,
+  "failed_queries": 1,
+  "results": {
+    "NSVS 2354429 Test": {
+      "coordinates": {
+        "ra": 240.25563,
+        "dec": 27.611,
+        "name": "NSVS 2354429 Test",
+        "note": "Custom target from command line"
+      },
+      "light_curve": null,
+      "error": "Query failed or no data",
+      "query_time": "2026-01-19T09:13:37.399183+00:00",
+      "status": "FAILED"
+    }
+  }
+}

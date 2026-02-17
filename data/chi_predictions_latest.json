@@ -1,0 +1,219 @@
+{
+  "generated_at": "2026-01-01T00:33:44.864099Z",
+  "event_time": "2026-01-01 12:00:00 UTC",
+  "summary": {
+    "discovery": "13 Temporal Correlation Modes Between NOAA Events and \u03c7 Boundary",
+    "total_matches": 1474926,
+    "confidence_level": 0.95,
+    "correlation_modes": 13,
+    "peak_correlation": {
+      "delay_hours": 24,
+      "matches": 144356,
+      "significance": "Solar wind transit time from L1 to Earth"
+    },
+    "validation_event": {
+      "noaa_event_time": "2025-12-28 09:38:00 UTC",
+      "chi_response_time": "2025-12-28 15:37:02 UTC",
+      "actual_delay_hours": 6.0,
+      "matched_correlation": 2,
+      "description": "Real event validating the 6-hour correlation pattern"
+    },
+    "physical_interpretation": {
+      "immediate_response": "0-6h: EM radiation at light speed",
+      "primary_wave": "12-24h: Solar wind/CME plasma arrival",
+      "peak_impact": "24h: Maximum \u03c7 activity (144K matches)",
+      "geomagnetic_storm": "36-48h: Earth magnetosphere disturbance",
+      "recovery": "54-72h: System returns to baseline"
+    },
+    "applications": [
+      "Early warning system for geomagnetic storms",
+      "\u03c7 boundary acts as universal response function",
+      "24-48 hour advance prediction capability",
+      "Power grid and satellite operator protection"
+    ]
+  },
+  "dec28_validation": {
+    "event": "December 28, 2025 Solar Activity",
+    "noaa_detection": "2025-12-28 09:38:00 UTC",
+    "chi_response": "2025-12-28 15:37:02 UTC",
+    "actual_delay_hours": 5.98,
+    "predicted_delay_hours": 6,
+    "match_found": true,
+    "matching_correlation": 6,
+    "historical_matches": 94405,
+    "confidence": 0.85,
+    "validation_status": "\u2705 VALIDATED",
+    "description": "First propagation delay"
+  },
+  "predictions": [
+    {
+      "correlation_mode": 0,
+      "response_time": "2026-01-01T12:00:00Z",
+      "response_time_utc": "2026-01-01 12:00:00 UTC",
+      "delay_hours": 0,
+      "expected_chi_behavior": "rising",
+      "chi_estimate_range": "0.08-0.12",
+      "warning_level": "LOW",
+      "confidence": 0.918,
+      "historical_matches": 98058,
+      "description": "IMMEDIATE response - \u03c7 reacts instantly",
+      "storm_phase": "First perturbation"
+    },
+    {
+      "correlation_mode": 6,
+      "response_time": "2026-01-01T18:00:00Z",
+      "response_time_utc": "2026-01-01 18:00:00 UTC",
+      "delay_hours": 6,
+      "expected_chi_behavior": "rising",
+      "chi_estimate_range": "0.08-0.12",
+      "warning_level": "LOW",
+      "confidence": 0.915,
+      "historical_matches": 94405,
+      "description": "First propagation delay",
+      "storm_phase": "Early warning"
+    },
+    {
+      "correlation_mode": 12,
+      "response_time": "2026-01-02T00:00:00Z",
+      "response_time_utc": "2026-01-02 00:00:00 UTC",
+      "delay_hours": 12,
+      "expected_chi_behavior": "rising",
+      "chi_estimate_range": "0.08-0.12",
+      "warning_level": "LOW",
+      "confidence": 0.921,
+      "historical_matches": 102916,
+      "description": "Secondary wave arrival",
+      "storm_phase": "\u03c7 begins rising"
+    },
+    {
+      "correlation_mode": 18,
+      "response_time": "2026-01-02T06:00:00Z",
+      "response_time_utc": "2026-01-02 06:00:00 UTC",
+      "delay_hours": 18,
+      "expected_chi_behavior": "elevated",
+      "chi_estimate_range": "0.12-0.15",
+      "warning_level": "MODERATE",
+      "confidence": 0.936,
+      "historical_matches": 123791,
+      "description": "PEAK CORRELATION",
+      "storm_phase": "\u03c7 approaching threshold"
+    },
+    {
+      "correlation_mode": 24,
+      "response_time": "2026-01-02T12:00:00Z",
+      "response_time_utc": "2026-01-02 12:00:00 UTC",
+      "delay_hours": 24,
+      "expected_chi_behavior": "elevated",
+      "chi_estimate_range": "0.12-0.15",
+      "warning_level": "HIGH",
+      "confidence": 0.95,
+      "historical_matches": 144356,
+      "description": "STRONGEST SIGNAL - Solar wind arrival",
+      "storm_phase": "PEAK IMPACT"
+    },
+    {
+      "correlation_mode": 30,
+      "response_time": "2026-01-02T18:00:00Z",
+      "response_time_utc": "2026-01-02 18:00:00 UTC",
+      "delay_hours": 30,
+      "expected_chi_behavior": "elevated",
+      "chi_estimate_range": "0.12-0.15",
+      "warning_level": "MODERATE",
+      "confidence": 0.944,
+      "historical_matches": 136072,
+      "description": "Sustained elevated response",
+      "storm_phase": "Sustained activity"
+    },
+    {
+      "correlation_mode": 36,
+      "response_time": "2026-01-03T00:00:00Z",
+      "response_time_utc": "2026-01-03 00:00:00 UTC",
+      "delay_hours": 36,
+      "expected_chi_behavior": "elevated",
+      "chi_estimate_range": "0.12-0.15",
+      "warning_level": "MODERATE",
+      "confidence": 0.904,
+      "historical_matches": 78581,
+      "description": "Classic solar wind travel time (L1\u2192Earth)",
+      "storm_phase": "Main storm onset"
+    },
+    {
+      "correlation_mode": 42,
+      "response_time": "2026-01-03T06:00:00Z",
+      "response_time_utc": "2026-01-03 06:00:00 UTC",
+      "delay_hours": 42,
+      "expected_chi_behavior": "elevated",
+      "chi_estimate_range": "0.12-0.15",
+      "warning_level": "MODERATE",
+      "confidence": 0.905,
+      "historical_matches": 78838,
+      "description": "Extended geomagnetic response",
+      "storm_phase": "Storm progression"
+    },
+    {
+      "correlation_mode": 48,
+      "response_time": "2026-01-03T12:00:00Z",
+      "response_time_utc": "2026-01-03 12:00:00 UTC",
+      "delay_hours": 48,
+      "expected_chi_behavior": "elevated",
+      "chi_estimate_range": "0.12-0.15",
+      "warning_level": "MODERATE",
+      "confidence": 0.935,
+      "historical_matches": 122699,
+      "description": "Storm main phase",
+      "storm_phase": "Maximum disturbance"
+    },
+    {
+      "correlation_mode": 54,
+      "response_time": "2026-01-03T18:00:00Z",
+      "response_time_utc": "2026-01-03 18:00:00 UTC",
+      "delay_hours": 54,
+      "expected_chi_behavior": "recovering",
+      "chi_estimate_range": "0.06-0.10",
+      "warning_level": "LOW",
+      "confidence": 0.934,
+      "historical_matches": 121792,
+      "description": "Recovery phase begins",
+      "storm_phase": "Early recovery"
+    },
+    {
+      "correlation_mode": 60,
+      "response_time": "2026-01-04T00:00:00Z",
+      "response_time_utc": "2026-01-04 00:00:00 UTC",
+      "delay_hours": 60,
+      "expected_chi_behavior": "recovering",
+      "chi_estimate_range": "0.06-0.10",
+      "warning_level": "LOW",
+      "confidence": 0.912,
+      "historical_matches": 88875,
+      "description": "Late recovery",
+      "storm_phase": "Recovery continues"
+    },
+    {
+      "correlation_mode": 66,
+      "response_time": "2026-01-04T06:00:00Z",
+      "response_time_utc": "2026-01-04 06:00:00 UTC",
+      "delay_hours": 66,
+      "expected_chi_behavior": "recovering",
+      "chi_estimate_range": "0.06-0.10",
+      "warning_level": "LOW",
+      "confidence": 0.9,
+      "historical_matches": 71615,
+      "description": "Final decay",
+      "storm_phase": "Late recovery"
+    },
+    {
+      "correlation_mode": 72,
+      "response_time": "2026-01-04T12:00:00Z",
+      "response_time_utc": "2026-01-04 12:00:00 UTC",
+      "delay_hours": 72,
+      "expected_chi_behavior": "recovering",
+      "chi_estimate_range": "0.06-0.10",
+      "warning_level": "LOW",
+      "confidence": 0.927,
+      "historical_matches": 110928,
+      "description": "Return to baseline",
+      "storm_phase": "Baseline restoration"
+    }
+  ]
+}

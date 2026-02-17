@@ -1,0 +1,79 @@
+import os
+import sys
+import requests
+import uproot
+import awkward as ak
+import numpy as np
+
+# --- PHYSICS CONSTANTS ---
+CHI_LIMIT = 0.15
+COLLISION_ENERGY = 8000.0  # 8 TeV
+PRESSURE_LIMIT = CHI_LIMIT * COLLISION_ENERGY  # 1200 GeV
+
+# --- REAL DATA TARGETS (FROM YOUR JSON) ---
+TARGETS = [
+    {
+        "filename": "DataEgamma.root",
+        "url": "https://opendata.cern.ch/eos/opendata/atlas/OutreachDatasets/2016-07-29/Data/DataEgamma.root",
+        "desc": "ATLAS REAL DATA: 7.9 Million Events (Egamma)"
+    },
+    {
+        "filename": "DataMuons.root",
+        "url": "https://opendata.cern.ch/eos/opendata/atlas/OutreachDatasets/2016-07-29/Data/DataMuons.root",
+        "desc": "ATLAS REAL DATA: 7.0 Million Events (Muons)"
+    }
+]
+
+def download_file(target):
+    if os.path.exists(target["filename"]):
+        print(f"FOUND: {target['filename']}")
+        return
+        
+    print(f"DOWNLOADING: {target['filename']}...")
+    with requests.get(target["url"], stream=True) as r:
+        r.raise_for_status()
+        with open(target["filename"], 'wb') as f:
+            for chunk in r.iter_content(chunk_size=8192):
+                f.write(chunk)
+    print("DOWNLOAD COMPLETE.")
+
+def analyze_data(target):
+    print(f"\nScanning {target['desc']}...")
+    try:
+        # Open file
+        file = uproot.open(target["filename"])
+        tree = file["mini"]  # ATLAS Naming convention usually 'mini'
+        
+        # Get Transverse Momentum (Pressure)
+        # Note: ATLAS data usually stores pT in MeV, need to convert to GeV
+        if "lep_pt" in tree.keys():
+            pt = tree["lep_pt"].array() / 1000.0 # Convert MeV to GeV
+        elif "photon_pt" in tree.keys():
+            pt = tree["photon_pt"].array() / 1000.0
+        else:
+            print("ERROR: Could not find pT column.")
+            return
+
+        # Flatten array to get single list of all pressures
+        all_pressures = ak.flatten(pt).to_numpy()
+        max_p = np.max(all_pressures)
+        
+        print(f"-> MAX DETECTED PRESSURE: {max_p:.4f} GeV")
+        print(f"-> VACUUM LIMIT (0.15):   {PRESSURE_LIMIT:.4f} GeV")
+        
+        if max_p <= PRESSURE_LIMIT:
+            print("-> RESULT: PASSED. Vacuum held the line.")
+        else:
+            print(f"-> RESULT: SPIKE DETECTED. ({max_p} > {PRESSURE_LIMIT})")
+
+    except Exception as e:
+        print(f"READ ERROR: {e}")
+
+def main():
+    print(f"--- STARTING AUDIT: 8 TeV COLLISION DATA ---")
+    for t in TARGETS:
+        download_file(t)
+        analyze_data(t)
+
+if __name__ == "__main__":
+    main()
