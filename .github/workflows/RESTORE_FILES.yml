@@ -1,0 +1,39 @@
+name: RESTORE FILES - Fix .gitignore
+
+on:
+  workflow_dispatch:  # Manual trigger only
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Fix .gitignore to restore file visibility
+        run: |
+          cat > .gitignore << 'EOF'
+          # Ignore only logs and temp files
+          *.log
+          *.tmp
+          __pycache__/
+          node_modules/
+          .DS_Store
+          EOF
+      
+      - name: Commit and push fixed .gitignore
+        run: |
+          git config user.name "File Restoration Bot"
+          git config user.email "restore@luft.local"
+          git add .gitignore
+          git commit -m "RESTORE: Fixed .gitignore - files now visible again"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Verification
+        run: |
+          echo "=== FILES NOW VISIBLE ==="
+          echo "Your repo should show all files again in about 30 seconds."
+          echo "Refresh: https://github.com/CarlDeanClineSr/luft-portal-"
