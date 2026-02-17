@@ -1,6 +1,8 @@
 name: Engine Status Report
-'on':
-  workflow_dispatch: null
+
+on:
+  workflow_dispatch:
+
 permissions:
   contents: write
 jobs:
