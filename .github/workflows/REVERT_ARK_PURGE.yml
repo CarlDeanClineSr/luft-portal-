@@ -16,7 +16,7 @@ jobs:
       - name: Revert the ARK purge commit
         run: |
           # Find the "FLOOD" commit
-          FLOOD_COMMIT=$(git log --grep="THE FLOOD" --format="%H" | head -1)
+          FLOOD_COMMIT=$(git log --all --grep="THE FLOOD" --format="%H" | head -1)
           
           if [ -n "$FLOOD_COMMIT" ]; then
             echo "Found ARK purge commit: $FLOOD_COMMIT"
@@ -29,13 +29,30 @@ jobs:
               git push
             else
               git revert --abort || true
-              FLOOD_PARENT=$(git rev-parse "${FLOOD_COMMIT}^")
+              FLOOD_PARENT=$(git rev-parse "${FLOOD_COMMIT}^1")
               mapfile -t FLOOD_PATHS < <(git diff --name-only "$FLOOD_PARENT" "$FLOOD_COMMIT")
               if [ ${#FLOOD_PATHS[@]} -eq 0 ]; then
                 echo "No changed paths found in FLOOD commit"
                 exit 1
               fi
-              git restore --source "$FLOOD_PARENT" --staged --worktree -- "${FLOOD_PATHS[@]}"
+              RESTORE_PATHS=()
+              REMOVE_PATHS=()
+              for path in "${FLOOD_PATHS[@]}"; do
+                if [ -z "$path" ]; then
+                  continue
+                fi
+                if git cat-file -e "$FLOOD_PARENT:$path" 2>/dev/null; then
+                  RESTORE_PATHS+=("$path")
+                else
+                  REMOVE_PATHS+=("$path")
+                fi
+              done
+              if [ ${#RESTORE_PATHS[@]} -gt 0 ]; then
+                git restore --source "$FLOOD_PARENT" --staged --worktree -- "${RESTORE_PATHS[@]}"
+              fi
+              if [ ${#REMOVE_PATHS[@]} -gt 0 ]; then
+                git rm -f --ignore-unmatch -- "${REMOVE_PATHS[@]}"
+              fi
               if git diff --cached --quiet; then
                 echo "No restoration changes detected (already restored)."
                 exit 0
