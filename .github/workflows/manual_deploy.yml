@@ -5,14 +5,7 @@ on:
     - cron: '*/15 * * * *'
   # 2. Allows you to push the button manually if needed
   workflow_dispatch:
-  # 3. Only triggers on code changes, IGNORING the 500GB data folders
-  push:
-    branches: [main]
-    paths-ignore:
-      - 'data/**'
-      - 'logs/**'
-      - 'results/**'
-      - 'capsules/**'
+  # 3. REMOVED - no automatic push trigger
 
 # THE TRAFFIC CONTROLLER: 
 # Only 1 website build allowed at a time. 
@@ -46,7 +39,6 @@ jobs:
       - name: Upload Website Only (Ignoring the 500GB Vault)
         uses: actions/upload-pages-artifact@v3
         with:
-          # This only picks up index.html, preventing the 1GB fail.
           path: '.'
 
       - name: Deploy to GitHub Pages
