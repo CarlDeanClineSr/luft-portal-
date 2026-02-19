@@ -19,10 +19,21 @@ jobs:
 
       - name: Fetch PSP data
         run: |
-          curl --fail --silent --show-error --retry 3 \
-            -o data/psp/psp_daily.json \
-            https://sscweb.gsfc.nasa.gov/WS/sscr/2/locations/psp/$(date -u +%Y%m%d),$(date -u +%Y%m%d)/json || \
-          echo '{"status":"unavailable"}' > data/psp/psp_daily.json
+          TODAY=$(date -u +%Y%m%d)
+          API_URL="https://sscweb.gsfc.nasa.gov/WS/sscr/2/locations/psp/${TODAY},${TODAY}/json"
+          
+          echo "Fetching: $API_URL"
+          
+          if curl --fail --silent --show-error --retry 3 -o data/psp/psp_daily.json "$API_URL"; then
+            echo "✓ Data fetched successfully"
+          else
+            echo "⚠ Failed, trying yesterday..."
+            YESTERDAY=$(date -u -d "yesterday" +%Y%m%d)
+            curl --fail --silent --show-error --retry 3 \
+              -o data/psp/psp_daily.json \
+              "https://sscweb.gsfc.nasa.gov/WS/sscr/2/locations/psp/${YESTERDAY},${YESTERDAY}/json" || \
+            echo '{"status":"unavailable","date":"'$TODAY'"}' > data/psp/psp_daily.json
+          fi
 
       - name: Commit
         run: |
