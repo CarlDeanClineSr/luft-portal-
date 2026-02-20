@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>CLINE CLASSIC TV | MAN CAVE V163</title>
+    <title>CLINE CLASSIC TV | MASTER V138</title>
     <style>
         body { 
             background: #0a0a0a; 
@@ -23,8 +23,8 @@
             height: min(92vh, 900px); 
             max-width: 100%; 
             max-height: 100%; 
-            background: #0f0f0f;
-            border: clamp(18px, 4vw, 28px) solid #0a0a0a;
+            background: linear-gradient(#5c3f2a, #3a2a1f); 
+            border: clamp(18px, 4vw, 28px) solid #1f140d; 
             border-radius: 28px; 
             box-shadow: 0 60px 100px #000, inset 0 0 140px #000; 
             display: flex; 
@@ -43,16 +43,23 @@
             border: clamp(14px, 3vw, 22px) solid #1c1c1c; 
             box-shadow: inset 0 0 90px #000, 0 0 50px #000; 
             margin-bottom: clamp(12px, 3vw, 24px);
-            display: flex;
-            align-items: center; 
-            justify-content: center;
         }
-        video { 
+        video, #audio-face { 
             width: 100%; 
             height: 100%; 
             object-fit: contain; 
             background: #000; 
-            display: block; 
+        }
+        #audio-face { 
+            display: none; 
+            font-size: clamp(80px, 20vw, 150px); 
+            align-items: center; 
+            justify-content: center; 
+            animation: bounce 0.8s infinite alternate; 
+        }
+        @keyframes bounce { 
+            from { transform: scale(0.94); } 
+            to { transform: scale(1.06); } 
         }
         .right-panel { 
             width: 100%; 
@@ -78,7 +85,7 @@
             align-items: center; 
             justify-content: flex-start; 
             padding: 0 12px; 
-            box-sizing: border-box; 
+            box-sizing: border-box;
             overflow: hidden;
             position: relative;
         }
@@ -95,14 +102,15 @@
             box-sizing: border-box;
             will-change: transform;
         }
+        /* 10% faster scrolling speed (from 32s to 28.8s) */
         #title-display.scroller-active {
-            animation: marquee 32s linear infinite;
+            animation: marquee 28.8s linear infinite;
         }
         #title-display:hover, #title-display:active {
             animation-play-state: paused;
         }
         @keyframes marquee {
-            0% { transform: translateX(0); }
+            0%   { transform: translateX(0); }
             100% { transform: translateX(-100%); }
         }
         .dial-housing { 
@@ -144,16 +152,6 @@
             left: 50%; 
             transform: translate(-50%, -50%); 
             pointer-events: none; 
-        }
-        .tick {
-            position: absolute;
-            width: 2px;
-            height: 8px;
-            background: #777;
-            top: 50%;
-            left: 50%;
-            transform-origin: center center;
-            opacity: 0.8;
         }
         .number { 
             position: absolute; 
@@ -206,14 +204,6 @@
             font-weight: bold; 
             border-radius: 8px; 
         }
-        .version { 
-            position: absolute; 
-            top: clamp(15px, 4vw, 25px); 
-            right: clamp(15px, 4vw, 25px); 
-            color: #ff6600; 
-            font-size: clamp(9px, 2.5vw, 10px); 
-            font-weight: bold; 
-        }
 
         @media (min-width: 769px) {
             body { flex-direction: row; }
@@ -246,11 +236,11 @@
 <body>
 
 <button class="fs-toggle" onclick="toggleFS()">[ FULL SCREEN ]</button>
-<div class="version">V163</div>
 
 <div id="cabinet">
     <div class="glass-tube">
-        <video id="player" autoplay controls playsinline webkit-playsinline></video>
+        <video id="player" autoplay playsinline webkit-playsinline></video>
+        <div id="audio-face">😊</div>
     </div>
 
     <div class="right-panel">
@@ -259,7 +249,7 @@
         </div>
 
         <div class="dial-housing">
-            <div class="number-ring" id="t-ring"></div>
+            <div class="number-ring" id="t-numbers"></div>
             <div class="knob" id="t-knob" onclick="tune(1)" oncontextmenu="event.preventDefault(); tune(-1);"></div>
         </div>
 
@@ -268,7 +258,7 @@
         </div>
 
         <div class="dial-housing">
-            <div class="number-ring" id="s-ring"></div>
+            <div class="number-ring" id="s-numbers"></div>
             <div class="knob" id="s-knob" onclick="changeCategory(1)" oncontextmenu="event.preventDefault(); changeCategory(-1);"></div>
         </div>
     </div>
@@ -276,799 +266,268 @@
 
 <script>
     const A = [
-        {n: "Pink Panther: Olympinks", u: "https://archive.org/download/ThePinkPanther-cartoons/The Pink Panther in -OLYMPINKS!.mp4"},
-        {n: "A. Einstein", u: "https://archive.org/download/NOVAAEinstein/NOVA.S06E09.A.Einstein.VHSRip.AAC2.0.x264-RATTERA.mp4"},
-        {n: "View From Space", u: "https://archive.org/download/viewfromspace/viewfromspacereel1.mp4"},
-        {n: "Road Runner & Wile E Coyote 1965 (1965)", u: "https://archive.org/download/RoadRunnerWileECoyoteRoadrunnerAGoGo1965/RoadRunnerWileECoyoteRoadrunnerAGoGo1965.mp4"},
-        {n: "Road Runner segments on the Electric Company (mid 1970s) (1974)", u: "https://archive.org/download/roadrunnerelectric/roadrunnerelectric.mp4"},
-        {n: "Merrie Melodies - Run, Run, Sweet Road Runner (1965) (1965)", u: "https://archive.org/download/merrie-melodies-run-run-sweet-road-runner-1965/merrie-melodies-run-run-sweet-road-runner-1965.mp4"},
-        {n: "Gone In 60 Seconds ( 1974) Hot Rod Nerd Remaster (1974)", u: "https://archive.org/download/gone-in-60-seconds-1974-hot-rod-nerd-remaster/gone-in-60-seconds-1974-hot-rod-nerd-remaster.mp4"},
-        {n: "Seapower from Plymouth Rock to Polaris (1975)", u: "https://archive.org/download/330-dvic-24974/330-dvic-24974.mp4"},
-        {n: "Road Runner 1966 (1966)", u: "https://archive.org/download/road-runner-1966-68-s-01-e-22-going-going-gosh.-share-reactor/road-runner-1966-68-s-01-e-22-going-going-gosh.-share-reactor.mp4"},
-        {n: "1974 Dodge Monaco & Plymouth Duster Commercial Electronics Of Chrysler Corporation (1974)", u: "https://archive.org/download/1974-dodge-monaco-plymouth-duster-commercial-electronics-of-chrysler-corporation/1974-dodge-monaco-plymouth-duster-commercial-electronics-of-chrysler-corporation.mp4"},
-        {n: "1972 Plymouth Gold Duster Commercial Arthur Godfrey BETTER QUALITY (1972)", u: "https://archive.org/download/1972-plymouth-gold-duster-commercial-arthur-godfrey-better-quality/1972-plymouth-gold-duster-commercial-arthur-godfrey-better-quality.mp4"},
-        {n: "The Case of the Ancient Astronauts (Nova)", u: "https://archive.org/download/NOVATheCaseOfTheAncientAstronauts/NOVA.S05E09.The.Case.of.the.Ancient.Astronauts.1978.VHSRip.AAC2.0.x264-rattera.ia.mp4"},
-        {n: "Invisible Man (1933)", u: "https://archive.org/download/invisible-man-1933/Invisible Man 1933.mp4"},
-        {n: "NASA 1971 Highlights", u: "https://archive.org/download/19194nasa1971aeronauticsandspacehighlightsvwr/19194%20NASA%201971%20Aeronautics%20And%20Space%20Highlights_vwr.mp4"},
-        {n: "In Search Of... Ancient Mysteries", u: "https://archive.org/download/insearchofancientmysteriesreel1/insearchofancientmysteriesreel1.mp4"},
-        {n: "NASA Highlights 1965", u: "https://archive.org/download/highlights_1965_1/highlights_1965_1_edit.mp4"},
-        {n: "Redstone Arsenal", u: "https://archive.org/download/16764thisisredstonearsenalvwr/16764%20This%20Is%20Redstone%20Arsenal_vwr.mp4"},
-        {n: "Gemini XI", u: "https://archive.org/download/gemini_xi/gemini_xi.mp4"},
-        {n: "Gemini IV Four Days", u: "https://archive.org/download/four_days_of_gemini_4/four_days_of_gemini_4.mp4"},
-        {n: "Gemini X: A Quick Look", u: "https://archive.org/download/gemini_x_a_quick_look/gemini_x_a_quick_look.mp4"},
-        {n: "Mercury Redstone 1 Launch", u: "https://archive.org/download/project_mercury_mr-1_launch/project_mercury_mr-1_launch.mp4"},
-        {n: "Our Solar System", u: "https://archive.org/download/our_solar_system/our_solar_system.mp4"},
-        {n: "Skylab: Gyroscopes in Space", u: "https://archive.org/download/skylab_gyroscopes_in_space/skylab_gyroscopes_in_space.mp4"},
-        {n: "Challenger Investigation", u: "https://archive.org/download/ChallengerAccidentandInvestigation/Challenger_Disaster_and_Investigation_512kb.mp4"},
-        {n: "Strategic Air Command 20 Years", u: "https://archive.org/download/2927420YearsOfStrategicAirCommandMos/29274%2020%20years%20Of%20Strategic%20Air%20Command_mos.mp4"},
-        {n: "The Time of Apollo", u: "https://archive.org/download/TheTimeOfApollo/The Time of Apollo.mp4"},
-        {n: "A Trip To The Planets", u: "https://archive.org/download/ATripToThePlanets-SilentWithAddedSound/ATripToThePlanets-desktop_512kb.mp4"},
-        {n: "Terror in Space", u: "https://archive.org/download/TerrorinSpace/NOVA.S25E15.Terror.in.Space.1998.VHSRip.AAC2.0.x264-krokkers.mp4"},
-        {n: "The Planets by PBS", u: "https://archive.org/download/the_planets_pbs/the_planets_4_saturn.mp4"},
-        {n: "NOVA Stephen Hawkings Universe Volume 1 The Big Bang 1997 PBS Home Video", u: "https://archive.org/download/NOVA_Stephen_Hawkings_Universe_Volume_1_The_Big_Bang_1997_PBS_Home_Video/NOVA Stephen Hawkings Universe Volume 1 The Big Bang 1997 PBS Home Video.mp4"},
-        {n: "MAN IN SPACE TODAY TOMORROW AND TITAN III", u: "https://archive.org/download/30482ManIntoSpacePart1/30482 Man Into Space part 1.mp4"},
-        {n: "Apollo 17: On The Shoulders Of Giants", u: "https://archive.org/download/Apollo17OnTheShouldersOfGiants/Apollo 17 - On the Shoulders of Giants.mp4"},
-        {n: "Pirates of the Caribbean: The Curse of the Black Pearl (2003) | Behind the Scenes + Outtakes", u: "https://archive.org/download/youtube-_yLdlQsD09o/_yLdlQsD09o.mp4"},
-        {n: "Episode of Treasure Hunt (50s TV) (Classic Television)", u: "https://archive.org/download/Treasure_Hunt/Treasure_Hunt.ia.mp4"},
-        {n: "Horns Of Satan - The Wahabbi and Saudi Families are All JEWISH", u: "https://archive.org/download/SaudiHornsOfSatan/Sirah - The story of Banu Qaynuqa - (Qaynuqa Tribes - Jews of Medina) - يهود المدين.ogv"},
-        {n: "The Federal Reserve, Rothschild, and Vatican Banking Cartels", u: "https://archive.org/download/TheFederalReserveRothschildAndVaticanBankingCartels-ForbiddenHistory/TheFederalReserveRothschildAndVaticanBankingCartels-ForbiddenHistory.mp4"},
-        {n: "American Gold Rush of 1849 (Documentary)", u: "https://archive.org/download/AmericanGoldRushHistoryDocumentary/American Gold Rush History Documentary.ogv"},
-        {n: "BBC Panorama Murdochs TV Pirates", u: "https://archive.org/download/MurdochsTVPirates/Panorama.S60E11.Murdochs.TV.Pirates.HDTV.x26.mp4"},
-        {n: "Boohbah - Treasure Chest (US Version) PBS KIDS Recreation", u: "https://archive.org/download/vid-1625907997309/VID-1625907997309.ia.mp4"},
-        {n: "Oklahoma City - What Really Happened?", u: "https://archive.org/download/OklahomaCity-WhatReallyHappened/OklahomaCity-WhatReallyHappened.mp4"},
-        {n: "A Rather English Marriage (1998 +++++ BBC Drama)", u: "https://archive.org/download/a-rather-english-marriage-1998-bbc-drama/A Rather English Marriage (1998 ++++ + BBC Drama).mp4"},
-        {n: "Black Water Gold (1970) adventure Ricardo Montalban", u: "https://archive.org/download/blackwatergold/blackwatergold.ogv"},
-        {n: "Unknown Chaplin: 3 -- Hidden Treasure", u: "https://archive.org/download/unknowchaplin3hiddentreasurereel1/unknowchaplin3hiddentreasurereel1.mp4"},
-        {n: "Lets Go! Anpanman: Bulbuls Big Treasure Hunt Adventure", u: "https://archive.org/download/bulbuls-big-treasure-hunt-adventure/劇_-_版「それいけ！アンパンマン　ブルブルの宝探し大冒険！」-freedownloadvideo.net.mp4"},
-        {n: "Road to World Government - G. Edward Griffin", u: "https://archive.org/download/RoadToWorldGovernment-G.EdwardGriffin/G.EdwardGriffin-RoadToWorldGovernment.mp4"},
-        {n: "TREASURE ISLAND FULL Audio Book By Robert Louis Stevenson Adventure Pirate Fiction", u: "https://archive.org/download/TREASUREISLANDFULLAudioBookByRobertLouisStevensonAdventurePirateFiction/TREASURE ISLAND - FULL AudioBook by Robert Louis Stevenson - Adventure - Pirate Fiction.ogv"},
-        {n: "Steal This Film Part 1", u: "https://archive.org/download/StealThisFilmPart1/StealThisFilmPart1.mp4"},
-        {n: "Projector: The Pirates! In An Adventure with Scientists!", u: "https://archive.org/download/bliptv-20131014-161455-BMB-ProjectorThePiratesInAnAdventureWithScientistsAKAThePi886/bliptv-20131014-161455-BMB-ProjectorThePiratesInAnAdventureWithScientistsAKAThePi886.mp4"},
-        {n: "Gold 1974 Adventure/Thriller", u: "https://archive.org/download/gold-1974_202407/Gold 1974.mp4"},
-        {n: "Mega Drive Longplay [250] Tiny Toon Adventure", u: "https://archive.org/download/Mega_Drive_Longplay_248_Tiny_Toon_Adventures_Busters_Hidden_Treasure/Mega_Drive_Longplay_248_Tiny_Toon_Adventures_Busters_Hidden_Treasure.mkv"},
-        {n: "Gold Fever", u: "https://archive.org/download/AEGoldFever/American.Experience.S09E11.Gold.Fever.mp4"},
-        {n: "River Monsters Season 1 - 9 Reupload", u: "https://archive.org/download/river-monsters-season-1-9-reupload/river-monsters-season-1-9-reupload.mp4"},
-        {n: "Gabby Goes Fishing", u: "https://archive.org/download/Gabby_Goes_Fishing_1941/Gabby_Goes_Fishing_1941.mp4"},
-        {n: "Fishing Fish", u: "https://archive.org/download/fishing-fish/fishing-fish.mp4"},
-        {n: "Afk Fishing", u: "https://archive.org/download/afkfishing/afkfishing.mp4"},
-        {n: "Out of The Inkwell: Fishing", u: "https://archive.org/download/OutOfTheInkwellFishing/OutOfTheInkwellFishing.mp4"},
-        {n: "My Hero - The Fishing Story", u: "https://archive.org/download/MyHero-FishingStory/MyHero-FishingStory.mp4"},
-        {n: "Charles Clover on the catastrophic impact of fishing", u: "https://archive.org/download/linktv_earth20080110/linktv_earth20080110.mp4"},
-        {n: "Donalds Gone Gooey Fishing", u: "https://archive.org/download/donalds-gone-gooey-fishing/donalds-gone-gooey-fishing.mp4"},
-        {n: "Film of trawler Aberdeen Distribtor", u: "https://archive.org/download/ABDMS019000.3/ABDMS019000.3.mp4"},
-        {n: "Fishing With Some Nude Russian Teens", u: "https://archive.org/download/fishing-with-some-nude-russian-teens/fishing-with-some-nude-russian-teens.mp4"},
-        {n: "Top 6 Banished Maps and Seeds for Fishing!", u: "https://archive.org/download/top6banishedmapsandseedsforfishing/top6banishedmapsandseedsforfishing.mp4"},
-        {n: "The Funniest Fishing Videos Compilation", u: "https://archive.org/download/funny-fishing-videos-compilation/funny-fishing-videos-compilation.mp4"},
-        {n: "The Animated Beatles - Fishing Skit (4/4) English", u: "https://archive.org/download/beatles-seg-1/beatles-seg-1.mp4"},
-        {n: "SEGA BASS FISHING", u: "https://archive.org/download/008912/008912.mp4"},
-        {n: "[Home Movies: Fishing, 1954]", u: "https://archive.org/download/6125_HM_Fishing_1954_01_01_04_00/6125_HM_Fishing_1954_01_01_04_00.mp4"},
-        {n: "Top 60 Saltwater Fishing Tips", u: "https://archive.org/download/CherylShumanTop60SaltwaterFishingTips/CherylShumanTop60SaltwaterFishingTips.mp4"},
-        {n: "Oswald: Going Fishing", u: "https://archive.org/download/oswald-going-fishing-21-jan-2009-full-episode-bob-channel-airing/oswald-going-fishing-21-jan-2009-full-episode-bob-channel-airing.mp4"},
-        {n: "PB&J Otter 04 - Fishing Contest", u: "https://archive.org/download/PBJOtter04FishingContestSleepingBeagle/PBJOtter04FishingContestSleepingBeagle.mp4"},
-        {n: "Fishing in phuket south", u: "https://archive.org/download/fischen/fischen.mp4"},
-        {n: "Primary Year C Quarter 3 Episode 1 - Going Fishing", u: "https://archive.org/download/PrimaryYearCQuarter3Episode1GoingFishing/PrimaryYearCQuarter3Episode1GoingFishing.mp4"},
-        {n: "Home Movie: 97246: Fishing at Monmouth Lake", u: "https://archive.org/download/97246_hm_fishing_at_monmouth_lake_and_klamath_falls_home_at_south_gate_calif/97246_hm_fishing_at_monmouth_lake_and_klamath_falls_home_at_south_gate_calif.mp4"},
-        {n: "SEGA MARINE FISHING", u: "https://archive.org/download/016896/016896.mp4"},
-        {n: "Japanese Relocation: Part Of The Japanese Fishing Fleet", u: "https://archive.org/download/CEP0372/CEP0372.mp4"},
-        {n: "Summer Fishing", u: "https://archive.org/download/Summer_Fishing_Trip_2005/Summer_Fishing_Trip_2005.mp4"},
-        {n: "Nina And The Neurons Go Inventing Dirty Dishes Fishing", u: "https://archive.org/download/nina-and-the-neurons-go-inventing-dirty-dishes-fishing-and-painting/nina-and-the-neurons-go-inventing-dirty-dishes-fishing-and-painting.mp4"},
-        {n: "[Home Movies: Medicus Collection: Mens Fishing Trip]", u: "https://archive.org/download/0368_HM_Medicus_Collection_Mens_Fishing_Trip_22_31_37_00/0368_HM_Medicus_Collection_Mens_Fishing_Trip_22_31_37_00.mp4"},
-        {n: "Home Movie: 98321: Fishing", u: "https://archive.org/download/HMFishing98321/HMFishing98321.mp4"},
-        {n: "Home Movie: 97185: Hunting and Fishing", u: "https://archive.org/download/97185_hm_hunting_and_fishing/97185_hm_hunting_and_fishing.mp4"},
-        {n: "Campfire Tales - The River Monsters", u: "https://archive.org/download/IMB_River_Monsters_IA/IMB_River_Monsters_IA.mp4"},
-        {n: "Thomas Goes Fishing (UK VHS)", u: "https://archive.org/download/4c.-thomas-goes-fishing-uk-vhs-split-track-stereo-1993/4c.-thomas-goes-fishing-uk-vhs-split-track-stereo-1993.mp4"},
-        {n: "[Home Movies: Sport fishing off Fire Island]", u: "https://archive.org/download/6267HMSportFishingOffFireIsland01195805/6267HMSportFishingOffFireIsland01195805.mp4"},
-        {n: "[Home Movies: Tarpon Fishing]", u: "https://archive.org/download/6307_HM_Tarpon_Fishing_01_00_54_10/6307_HM_Tarpon_Fishing_01_00_54_10.mp4"},
-        {n: "Nina And The Neurons Go Inventing Near And Far Fishing", u: "https://archive.org/download/nina-and-the-neurons-go-inventing-near-and-far-fishing-and-hay/nina-and-the-neurons-go-inventing-near-and-far-fishing-and-hay.mp4"},
-        {n: "Alaska Fishing Documentaries", u: "https://archive.org/download/AlaskaFishingDocumentaries/AlaskaFishingDocumentaries.mp4"},
-        {n: "Fishing around the South Pole", u: "https://archive.org/download/Antonwithagen-FishingAroundTheSouthPole605/Antonwithagen-FishingAroundTheSouthPole605.mp4"},
-        {n: "Fishing Vagabonds", u: "https://archive.org/download/0351_Fishing_Vagabonds_05_17_31_00/0351_Fishing_Vagabonds_05_17_31_00.mp4"},
-        {n: "Primary Year A Quarter 1 Episode 10 - Gone Fishing", u: "https://archive.org/download/primaryyearaquarter1episode10gonefishing/primaryyearaquarter1episode10gonefishing.mp4"},
-        {n: "After the Tsunami: Sri Lankan Fishing", u: "https://archive.org/download/richardsAftertheTsunamiSriLankanFishing/richardsAftertheTsunamiSriLankanFishing.mp4"},
-        {n: "Matto Grosso Fishing", u: "https://archive.org/download/upenn-f16-0503_Matto_Grosso_Fishing/upenn-f16-0503_Matto_Grosso_Fishing.mp4"},
-        {n: "Will the Fishing Have to Stop?", u: "https://archive.org/download/willthefishinghavetostop/willthefishinghavetostop.mp4"},
-        {n: "PokéPark: Fishing Rally DS", u: "https://archive.org/download/youtube-cZO8gi5bR90/youtube-cZO8gi5bR90.mp4"},
-        {n: "3 Fishing Videos", u: "https://archive.org/download/3FishingVideos/3FishingVideos.mp4"},
-        {n: "pingu-s01e05-pingu-goes-fishing", u: "https://archive.org/download/pingu-s01e05-pingu-goes-fishing/pingu-s01e05-pingu-goes-fishing.mp4"},
-        {n: "Ellwood F. Hoffmann - 1931 KK Fishing", u: "https://archive.org/download/1931KKFishingOurGardenNewYearsParade/1931KKFishingOurGardenNewYearsParade.mp4"},
-        {n: "Hunting and Fishing in the Outdoors with Uncle Jack", u: "https://archive.org/download/AnthonyPassalacquaHuntingandFishingintheOutdoorswithUncleJack/AnthonyPassalacquaHuntingandFishingintheOutdoorswithUncleJack.mp4"},
-        {n: "ice fishing", u: "https://archive.org/download/ice_fishing_3/ice_fishing_3.mp4"},
-        {n: "Home Movie: 97244: Family Activities and Fishing", u: "https://archive.org/download/97244_hm_family_activities_and_fishing/97244_hm_family_activities_and_fishing.mp4"},
-        {n: "Deep Sea Fishing", u: "https://archive.org/download/DeepSeaFishing/DeepSeaFishing.mp4"},
-        {n: "Home Movie: 97062: Fishing Pictures", u: "https://archive.org/download/97062_hm_fishing_pictures/97062_hm_fishing_pictures.mp4"},
-        {n: "Fishing Boat in fog", u: "https://archive.org/download/FishingBoatInFog/FishingBoatInFog.mp4"},
-        {n: "Blue’s Big Treasure: A Musical Adventure!", u: "https://archive.org/download/blues-big-treasure-hunt/My Movie 259.mp4"},
-        {n: "NES Quattro Adventure: Treasure Island Dizzy", u: "https://archive.org/download/NesQuattroAdventureTreasureIslandDizzyusa100ByGoofydylan8In/quattroadventure-treasureislanddizzy-tas-100-goofydylan8_10bit444.ogv"},
-        {n: "Honey I shrunk the kids TV Show", u: "https://archive.org/download/honey-i-shrunk-the-kids-tv-show-season-1-episode-8-honey-theyre-after-me-lucky-charms/Honey, I Shrunk the Kids(Episode 8)-xHdKwAKRfxE.mp4"},
-        {n: "BBS Documentary Interview: Midwest Pirates Guild", u: "https://archive.org/download/20040125-bbs-612/612 Interviews - Tape 2.avi"},
-        {n: "The History Of Fox Kids Part 1", u: "https://archive.org/download/youtube-Xazv-GTMWQY/The_History_Of_Fox_Kids_Part_1-Xazv-GTMWQY.mp4"},
-        {n: "Hitlers Gold", u: "https://archive.org/download/hitlers-gold/202109061463313.mkv"},
-        {n: "Skateboardings First Ever Gold Medalist", u: "https://archive.org/download/skateboardings-first-ever-gold-medalist-a-yuto-documentary/Skateboarding's First Ever Gold Medalist (A Yuto Documentary).mp4"},
-        {n: "TPB AFK: The Pirate Bay Away From Keyboard", u: "https://archive.org/download/tpb-afk-the-pirate-bay-away-from-keyboard-480-p-english-subs/TPB-AFK-The-Pirate-Bay-Away-From-Keyboard-480P-English-Subs.mp4"},
-        {n: "Treasure Fleet The Adventures of Zheng He", u: "https://archive.org/download/youtube-YlenBcv4aYE/YlenBcv4aYE.ia.mp4"},
-        {n: "Freedom Force International: An Idea Whose Time Has Come", u: "https://archive.org/download/FreedomForceInternationalAnIdeaWhoseTimeHasCome-G.EdwardGriffin/AnIdeaWhoseTimeHasCome-G.EdwardGriffin-FreedomForceInternational-Fulllow.mp4"},
-        {n: "Captain Kidd (1945 Colourized)", u: "https://archive.org/download/captain-kidd-1945-sea-adventure-classic-colourized/Captain Kidd (1945  +++++ Sea, Adventure, Classic, Colourized).mp4"},
-        {n: "PROSPECTING FOR PLACER GOLD 1849", u: "https://archive.org/download/64444PlacerGoldVwr/64444+Placer+Gold_vwr.mp4"},
-        {n: "Walt Disney Pictures Logo History", u: "https://archive.org/download/youtube-wEfZCYlwoTU/wEfZCYlwoTU.mp4"},
-        {n: "BBC World News : BBCAMERICA", u: "https://archive.org/download/BBCAMERICA_20150311_130000_BBC_World_News/BBCAMERICA_20150311_130000_BBC_World_News.mp4"},
-        {n: "Tut: The Boy King (1978)", u: "https://archive.org/download/tut78/Tut, The Boy King (1978).mp4"},
-        {n: "Untold Stories of US History Part 2", u: "https://archive.org/download/UntoldStoriesOfUsHistoryPart2-MarkTaylor-canfield/UntoldStoriesOfUsHistory-Part2.mp4"},
-        {n: "BBC World News : BBCAMERICA (April 10)", u: "https://archive.org/download/BBCAMERICA_20150410_130000_BBC_World_News/BBCAMERICA_20150410_130000_BBC_World_News.mp4"},
-        {n: "South Mainland of Nova Scotia", u: "https://archive.org/download/SouthMainlandOfNovaScotia/Southern-mainland-of-novaScotia.ogv"},
-        {n: "Captain Kidd (1945)", u: "https://archive.org/download/captain-kidd-1945_202502/Captain Kidd (1945).ia.mp4"},
-        {n: "Bright Sun Films Abandoned", u: "https://archive.org/download/abandoned-episode-006-nickelodeon-studios/Abandoned Episode 026 - Disney's Westcot.ia.mp4"},
-        {n: "1960s TRUE ADVENTURE TV SHOW DIVING FOR TREASURE", u: "https://archive.org/download/22974TrueAdventureScubaDiving/22974 True Adventure Scuba Diving.mp4"}
+        // Added Classic Engineering/Auto Links
+        {n: "Around the Corner - How a Differential Works (1937)", u: "https://archive.org/download/AroundTh1937/AroundTh1937_512kb.mp4"},
+        {n: "Spinning Levers - How Transmissions Work (1937)", u: "https://archive.org/download/Spinning1937/Spinning1937_512kb.mp4"},
+        // Original Links
+        {n: "43: The Richard Petty Story", u: "https://archive.org/download/43TheRichardPettyStory_201301/43TheRichardPettyStory.mp4"},
+        {n: "Ingenuity in Action (Part II)", u: "https://archive.org/download/Ingenuit1958_2/Ingenuit1958_2_edit.mp4"},
+        {n: "Ingenuity in Action (Part I)", u: "https://archive.org/download/Ingenuit1958/Ingenuit1958_edit.mp4"},
+        {n: "The Hospital", u: "https://archive.org/download/thehospital/thehospital.mp4"},
+        {n: "25 Years Ago, 1960/05/19", u: "https://archive.org/download/1960-05-19_25_years_ago/1960-05-19_25_years_ago.mp4"},
+        {n: "The Blob I/II", u: "https://archive.org/download/the-blob-iii-19581972/1. The Blob (1958).mp4"},
+        {n: "Catastrophe 1977", u: "https://archive.org/download/catastrophe-1977/Catastrophe 1977.mp4"},
+        {n: "Scenes from the Altamont Speedway Free Festival 1969", u: "https://archive.org/download/KCRASP025ALTAMONT/KCRA Daily Reel December 6 1969 ALTAMONT.mp4"},
+        {n: "ALCF Leonard Wood Sizemore Home Movies Clip 9716", u: "https://archive.org/download/ALCFLeonardWoodSizemoreHomeMoviesClip9716/ALCF_LeonardWoodSizemore_HomeMovies_Clip9716.mp4"},
+        {n: "Dominican Truce. Cease-Fire Brings Calm To Island, 1965/05/06", u: "https://archive.org/download/1965-05-06_Dominican_Truce/1965-05-06_Dominican_Truce.mp4"},
+        {n: "ROLLING STONES, Altamont Festival, documentary", u: "https://archive.org/download/rolling-stones-altamont-part-1/ROLLING STONES, Altamont Part 2.mp4"},
+        {n: "On Any Sunday (1971)", u: "https://archive.org/download/on-any-sunday-1971-1080p/On.Any.Sunday.1971.1080p.WEBRip.x265-RARBG.mp4"},
+        {n: "David Hall Story, The", u: "https://archive.org/download/0423_David_Hall_Story_The_E00834_00_22_40_00/0423_David_Hall_Story_The_E00834_00_22_40_00.mp4"},
+        {n: "Greased Lightning (1977) - Upscaled 1080p", u: "https://archive.org/download/greased-lightning-1977/Greased Lightning (1977).mp4"},
+        {n: "WONDERFUL WORLD OF WHEELS  1960s AUTOMOBILES   SPORTS CARS & CUSTOMS  BIG DADDY ROTH  68014", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"},
+        {n: "Ghost of Dragstrip Hollow [1959] - Trailer", u: "https://archive.org/download/sinema-trailer_ghost-of-dragstrip-hollow/Ghost of Dragstrip Hollow 1959 trailer (480p_30fps_H264-128kbit_AAC).mp4"},
+        {n: "Fireball 500 [1966] - Trailer", u: "https://archive.org/download/sinema-trailer_fireball-500/Fireball 500 (1966) Official Trailer - Frankie Avalon Movie HD (720p_30fps_H264-192kbit_AAC).mp4"},
+        {n: "California 500 at Ontario Motor Speedway, 1972", u: "https://archive.org/download/con_000051/con_000051_access.HD.mp4"},
+        {n: "The Grim Reaper (1976)", u: "https://archive.org/download/the-grim-reaper-1976/The Grim Reaper (1976).mp4"},
+        {n: "Rolling Stones at Altamont (Home Movie)", u: "https://archive.org/download/rolling-stones-at-altamont-home-movie/service-mbrs-ntscrm-02628023-02628023.mp4"},
+        {n: "Pit Stop [1969] - Trailer", u: "https://archive.org/download/sinema-trailer_pit-stop/Pit Stop (480p_25fps_H264-128kbit_AAC).mp4"},
+        {n: "Trailer for Speedway", u: "https://archive.org/download/trailer-for-speedway/Trailer for Speedway.mp4"},
+        {n: "Speed Racer (1967-68) aka Mahha GoGoGo", u: "https://archive.org/download/speed-racer-tv/03 Challenge of the Masked Racer 1.mp4"},
+        {n: "Reel 685", u: "https://archive.org/download/WMARReel685/WMARReel685.mp4"},
+        {n: "Commercials & Beaver On TV", u: "https://archive.org/download/commercials-beaver-on-tv/Walt The Man Behind The Myth &  Commercials.mp4"},
+        {n: "California 500 at Ontario Motor Speedway, 1970", u: "https://archive.org/download/con_000050/con_000050_access.HD.mp4"},
+        {n: "Miller High Life 500 at Ontario Motor Speedway", u: "https://archive.org/download/con_000052/con_000052_access.HD.mp4"},
+        {n: "KNTV Channel 11 News Reels May 26, 1969", u: "https://archive.org/download/casjhsj_000241/casjhsj_000241_r01_access.HD.mp4"},
+        {n: "KNTV Channel 11 News Reels May 16, 1969", u: "https://archive.org/download/casjhsj_000234/casjhsj_000234_r02_access.HD.mp4"},
+        {n: "Programa di dragrace vol. 1 - Koral Tabak", u: "https://archive.org/download/ana-dig-da-silva-19/ANA-DIG-DaSilva-19.mp4"},
+        {n: "CAN AM Racing 1971 LIVE From Watkins Glen", u: "https://archive.org/download/can-am-racing-1971-live-from-watkins-glen/CAN-AM Racing 1971 - LIVE from Watkins Glen.mp4"},
+        {n: "KNTV Channel 11 News Reels May 29, 1969", u: "https://archive.org/download/casjhsj_000245/casjhsj_000245_r01_access.HD.mp4"},
+        {n: "Programa di dragrace vol. 2", u: "https://archive.org/download/ana-dig-da-silva-20/ANA-DIG-DaSilva-20.mp4"},
+        {n: "KNTV Channel 11 News Reels April 24, 1966", u: "https://archive.org/download/casjhsj_000512/casjhsj_000512_r02_access.HD.mp4"},
+        {n: "KNTV Channel 11 News Reels May 13, 1969", u: "https://archive.org/download/casjhsj_000232/casjhsj_000232_r03_access.HD.mp4"},
+        {n: "Spiegel van Nederland (62712)", u: "https://archive.org/download/62712_1411108732_s01_Spiegel_van_Nederland_62712/62712_1411108732_s01_Spiegel_van_Nederland_62712.mp4"},
+        {n: "KNTV Channel 11 News Reels May 2, 1969", u: "https://archive.org/download/casjhsj_000226/casjhsj_000226_r05_access.HD.mp4"},
+        {n: "KNTV Channel 11 News Reels May 23, 1969", u: "https://archive.org/download/casjhsj_000233/casjhsj_000233_r02_access.HD.mp4"},
+        {n: "Australian Movie Magazine #7321", u: "https://archive.org/download/7321_20210301/7321.mp4"},
+        {n: "KNTV Channel 11 News Broadcast (circa May 21, 1976)", u: "https://archive.org/download/hsj1983-68-1716A/hsj1983-68-1716A.mp4"},
+        {n: "KNTV Channel 11 News Reels September 16, 1966", u: "https://archive.org/download/casjhsj_000629/casjhsj_000629_r01_access.HD.mp4"},
+        {n: "Pink Pistons", u: "https://archive.org/download/pink-pistons-s-01-ep-16/Pink Pistons S01Ep16.mp4"},
+        {n: "1970 Southern 500", u: "https://archive.org/download/1970-southern-500/1970 Southern 500.mp4"},
+        {n: "KNTV Channel 11 News Reels November 3, 1966", u: "https://archive.org/download/casjhsj_000676/casjhsj_000676_r04_access.HD.mp4"},
+        {n: "e_history_StreamRoot_DH_0159_19580408_01", u: "https://archive.org/download/e_history_StreamRoot_DH_0159_19580408_01/e_history_StreamRoot_DH_0159_19580408_01.mp4"},
+        {n: "e_history_StreamRoot_DH_0167_19580610_01", u: "https://archive.org/download/e_history_StreamRoot_DH_0167_19580610_01/e_history_StreamRoot_DH_0167_19580610_01.mp4"},
+        {n: "e_history_StreamRoot_DH_0155_19580311_01", u: "https://archive.org/download/e_history_StreamRoot_DH_0155_19580311_01/e_history_StreamRoot_DH_0155_19580311_01.mp4"},
+        {n: "KCRA-TV Daily News Reel: October 26, 1976 #4", u: "https://archive.org/download/kcra-news-10-26-1976-4_20240801/KCRA DAILY NEWS REEL 10_26_1976 reel 4 HD.mp4"},
+        {n: "e_history_StreamRoot_DH_0166_19580603_01", u: "https://archive.org/download/e_history_StreamRoot_DH_0166_19580603_01/e_history_StreamRoot_DH_0166_19580603_01.mp4"},
+        {n: "Wonderful World of Wheels", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"},
+        {n: "Star Trek - Where No Man Has Gone Before", u: "https://archive.org/download/JimmyAndTheFederationGang/1x02-WhereNoManHasGoneBefore.mp4"},
+        {n: "Star Trek - The Corbomite Maneuver", u: "https://archive.org/download/JimmyAndTheFederationGang/1x03-TheCorbomiteManeuver.mp4"},
+        {n: "Star Trek - Mudd's Women", u: "https://archive.org/download/JimmyAndTheFederationGang/1x04-MuddsWomen.mp4"},
+        {n: "Star Trek - The Galileo Seven", u: "https://archive.org/download/JimmyAndTheFederationGang/1x14-TheGalileoSeven.mp4"},
+        {n: "Popeye for President", u: "https://archive.org/download/Popeye_forPresident/Popeye_forPresident_512kb.mp4"},
+        {n: "Patriotic Popeye", u: "https://archive.org/download/popeye_patriotic_popeye/popeye_patriotic_popeye_512kb.mp4"},
+        {n: "Private Eye Popeye", u: "https://archive.org/download/popeye_private_eye_popeye/popeye_private_eye_popeye_512kb.mp4"},
+        {n: "Shuteye Popeye", u: "https://archive.org/download/popeye_shuteye_popeye/popeye_shuteye_popeye_512kb.mp4"},
+        {n: "Popeye: I Dont Scare", u: "https://archive.org/download/popeye_i_dont_scare/popeye_i_dont_scare_512kb.mp4"},
+        {n: "Popeye the Sailor: Nearlyweds", u: "https://archive.org/download/Popeye_Nearlyweds/Popeye_Nearlyweds_512kb.mp4"},
+        {n: "Modern Guide to Health", u: "https://archive.org/download/modern_guide_to_health_TNA/modern_guide_to_health_TNA_512kb.mp4"},
+        {n: "Popeye: Taxi-Turvy", u: "https://archive.org/download/popeye_taxi-turvey/popeye_taxi-turvey_512kb.mp4"},
+        {n: "Popeye The Sailor: Big Bad Sinbad", u: "https://archive.org/download/popeye_big_bad_sinbad/popeye_big_bad_sinbad_512kb.mp4"},
+        {n: "Alvin & The Chipmunks 1983 Complete Series + Bonus", u: "https://archive.org/download/1983-alvin-and-the-chipmunks-complete/Chipmunks S07E11b Princess and the Pig Custom English Restoration with Subtitles.mp4"},
+        {n: "How The Grinch Stole Christmas", u: "https://archive.org/download/HowTheGrinchStoleChristmas_201812/How the Grinch Stole Christmas.mp4"},
+        {n: "Noveltoon: Caspar The Friendly Ghost in Theres Good Boos Tonight", u: "https://archive.org/download/noveltoon_casper_tfg_theres_good_boos_tonight/noveltoon_casper_tfg_theres_good_boos_tonight_512kb.mp4"},
+        {n: "The Pink Panther (cartoons)", u: "https://archive.org/download/ThePinkPanther-cartoons/The Pink Panther in -OLYMPINKS!.mp4"},
+        {n: "Noveltoon: Tarts and Flowers", u: "https://archive.org/download/noveltoon_tarts_and_flowers/noveltoon_tarts_and_flowers_512kb.mp4"},
+        {n: "Gullivers Travels [720p]", u: "https://archive.org/download/GulliversTravels720p_652/GulliversTravels.mp4"},
+        {n: "Gabby: Alls Well", u: "https://archive.org/download/gabby_alls_well/gabby_alls_well_512kb.mp4"},
+        {n: "Hectors Hectic Life", u: "https://archive.org/download/hectors_hectic_life/hectors_hectic_life_512kb.mp4"},
+        {n: "Reading Rainbow - TV Series (1983)", u: "https://archive.org/download/ReadingRainbowTVSeries/Reading.Rainbow.S01E10.The.Gift.of.the.Sacred.Dog.480p.AMZN.WEB-DL.DD.2.0.x264-RTN.mp4"},
+        {n: "Snow Foolin", u: "https://archive.org/download/SnowFoolin/ClaCinOnl_an_SnowFoolin_512kb.mp4"},
+        {n: "Popeye the Sailor Meets Aladdin and His Wonderful Lamp", u: "https://archive.org/download/Popeye_the_Sailor_Meets_Aladdin_and_His_Wonderful_Lamp/Popeye_-_Aladdin_and_His_Wonderful_Lamp_512kb.mp4"},
+        {n: "Noveltoon: The Stupidstitious Cat", u: "https://archive.org/download/noveltoon_the_stupidstitious_cat/noveltoon_the_stupidstitious_cat_512kb.mp4"},
+        {n: "Popeye: Bride and Gloom", u: "https://archive.org/download/Popeye_BrideandGloom/Popeye_BrideandGloom_512kb.mp4"},
+        {n: "The Friendly Ghost", u: "https://archive.org/download/TheFriendlyGhost/TheFriendlyGhost_512kb.mp4"},
+        {n: "Cheese Burglar featuring Herman", u: "https://archive.org/download/Herman_CheeseBurglar/Herman_CheeseBurglar_512kb.mp4"},
+        {n: "Hep Cat Symphony", u: "https://archive.org/download/HepCatSymphony/HepCatSymphony_512kb.mp4"},
+        {n: "Superman The Magnetic Telescope", u: "https://archive.org/download/Superman_The_Magnetic_Telescope/Superman_The_Magnetic_Telescope_512kb.mp4"},
+        {n: "The Pink Panther Cartoon Collection", u: "https://archive.org/download/the-pink-panther-cartoon-collection/003 We Give Pink Stamps (Feb 12, 1965).ia.mp4"},
+        {n: "Betty Boop: Musical Mountaineers", u: "https://archive.org/download/bb_musical_mountaineers/bb_musical_mountaineers_512kb.mp4"},
+        {n: "Tarzoon, Shame Of The Jungle [1975]", u: "https://archive.org/download/Tarzoon1975/Shame.of.the.Jungle.1975.mp4"},
+        {n: "Little Lulu: Bargain Counter Attack", u: "https://archive.org/download/little_lulu_bargain_counter_attack/little_lulu_bargain_counter_attack_512kb.mp4"},
+        {n: "Little Audrey In Butterscotch and Soda", u: "https://archive.org/download/LittleAudreyInbutterscotchAndSoda1948/ButterscotchAndSoda_512kb.mp4"},
+        {n: "All The Beatles Cartoon", u: "https://archive.org/download/thebeatlescartoon_201910/01-A hard day's night - I want to hold your hand.mp4"},
+        {n: "Do It! Yasujis Pornorama (1971) (nsfw)", u: "https://archive.org/download/pornorama/pornorama.mp4"},
+        {n: "Scrub Me Mama With A Boogie Beat", u: "https://archive.org/download/ScrubMeMamaWithABoogieBeat/ScrubMeMamaWithABoogieBeat.mp4"},
+        {n: "Nu Pogodi- Complete Era", u: "https://archive.org/download/nu-pogodi-complete/Season 1/Episode 15.ia.mp4"},
+        {n: "Peter Pan (1953) [captured from the 1990 Walt Disney Classics VHS]", u: "https://archive.org/download/peterpan1953capturedfromthe1990classicsvhs/Peter Pan (1953) [captured from the 1990 Classics VHS].mp4"},
+        {n: "A Kockásfülű Nyúl (The Rabbit With Checkered Ears)", u: "https://archive.org/download/a-kockasfulu-nyul/A kockásfülű nyúl - Süt a nap (21. rész).mp4"},
+        {n: "Il Nano E La Strega", u: "https://archive.org/download/Gibba1974IlNanoELaStrega_201902/[Gibba, 1974] Il nano e la strega.mp4"},
+        {n: "The 1000 Looney Tunes & Merrie Melodies", u: "https://archive.org/download/the-1000-looney-tunes-merrie-melodies/1942/s1942e11 - Horton Hatches the Egg.mp4"},
     ];
-
+    
     const B = [
-        {n: "Day the Earth Stood Still (1951)", u: "https://archive.org/download/day-the-earth-stood-still-1951/Day%20the%20Earth%20Stood%20Still%201951.mp4"},
-        {n: "Godzilla 1985", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/16.Godzilla1985.mp4"},
-        {n: "Superman: Magnetic Telescope", u: "https://archive.org/download/Superman_The_Magnetic_Telescope/Superman_The_Magnetic_Telescope_512kb.mp4"},
-        {n: "The Time Machine (1978)", u: "https://archive.org/download/the-time-machine-1978-time-travel-sci-fi/The%20Time%20Machine%20%281978%20Time%20Travel%20SciFi%29.mp4"},
-        {n: "Alexander The Great (1997)", u: "https://archive.org/download/alexander-the-great-1997-part-1/Alexander The Great (1997) Part 1.mp4"},
-        {n: "Godzilla 1985", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/16.Godzilla1985.mp4"},
-        {n: "Destroy All Monsters (1968)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/9.DestroyAllMonsters1968.mp4"},
-        {n: "Mothra vs Godzilla (1964)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/5.MothraVsGodzilla1964.mp4"},
-        {n: "Son of Godzilla (1967)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/8.SonOfGodzilla1967.mp4"},
-        {n: "Terror Of Mechagodzilla (1975)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/15.TerrorOfMechagodzilla1975.mp4"},
-        {n: "Invisible Man (1933)", u: "https://archive.org/download/invisible-man-1933/Invisible Man 1933.mp4"},
-        {n: "Night of the Living Dead (Colorized)", u: "https://archive.org/download/night-of-the-living-dead-colorized-1968/Night Of The Living Dead (Colorized, 1968).ia.mp4"},
-        {n: "The Graduate (1967)", u: "https://archive.org/download/the-graduate-1967_202301/The Graduate (1967).mp4"},
-        {n: "Deep Red (1975)", u: "https://archive.org/download/DeepRed1975/DeepRed.mp4"},
-        {n: "Monty Python Holy Grail", u: "https://archive.org/download/9convert.com-monty-python-and-the-holy-grail-1974-1080p/9convert.com - Monty Python and the Holy Grail 1974 1080p.mp4"},
-        {n: "Beatles: Let It Be", u: "https://archive.org/download/Let_It_Be_1970_film/The Beatles - Let It Be (Deluxe 35mm Widescreen Stereo Edition)2.mp4"},
-        {n: "Magical Mystery Tour", u: "https://archive.org/download/magical-mystery-tour_202106/Magical Mystery Tour.mkv"},
-        {n: "The Saint (2017)", u: "https://archive.org/download/2017-the-saint-movie-1080p-spanish-or-english/(2017) -------- The Saint -- movie (1080p, Spanish or English).mp4"},
-        {n: "Legend Of Sleepy Hollow (1980)", u: "https://archive.org/download/the-legend-of-sleepy-hollow-1980-family-mystery-adventure-tv-movie/The Legend of Sleepy Hollow (1980, Family, Mystery, Adventure, TV movie).mp4"},
-        {n: "Day the Earth Stood Still (1951)", u: "https://archive.org/download/day-the-earth-stood-still-1951/Day%20the%20Earth%20Stood%20Still%201951.mp4"},
-        {n: "Alexander The Great (1997)", u: "https://archive.org/download/alexander-the-great-1997-part-1/Alexander The Great (1997) Part 1.mp4"},
-        {n: "Cleopatra (Complete Series)", u: "https://archive.org/download/cleopatra-mini-series-1999/Cleopatra - Mini-Series 1999.mp4"},
-        {n: "Fall of The Roman Empire", u: "https://archive.org/download/the-fall-of-the-roman-empire-hollywood-movie-sophia-loren-stephen-boyd/The Fall of the Roman Empire - Hollywood Movie - Sophia Loren, Stephen Boyd.mp4"},
-        {n: "Julius Caesar 2002", u: "https://archive.org/download/julius-caesar-2002/julius caesar 2002.mp4"}
+        {n: "How The Grinch Stole Christmas", u: "https://archive.org/download/HowTheGrinchStoleChristmas_201812/How the Grinch Stole Christmas.mp4"},
+        {n: "The Snow Queen (Animation)", u: "https://archive.org/download/the_snow_queen_1959_animation/snow_queen_us_version.mp4"},
+        {n: "Date with the Angels - 1950s Family Sitcom - Christmas Episode", u: "https://archive.org/download/DateWithTheAngels-1950sFamilySitcom-ChristmasEpisode/DateWithTheAngels-Christmas.mp4"},
+        {n: "The Year Without A Santa Claus (1974)", u: "https://archive.org/download/the-year-without-a-santa-claus-1974_202203/The Year Without a Santa Claus (1974).mp4"},
+        {n: "A Charlie Brown Christmas 1965 (Original Print) color corrected", u: "https://archive.org/download/you-cut-20231030-080602598/YouCut_20231030_080602598.mp4"},
+        {n: "Twas the Night Before Christmas", u: "https://archive.org/download/twas-the-night-before-christmas-1974-full-movie-freedownloadvideo.net/twas-the-night-before-christmas-1974-full-movie-freedownloadvideo.net.mp4"},
+        {n: "A Christmas Tree (Animation)", u: "https://archive.org/download/a_christmas_tree_1959_russian_animation/a_christmas_tree_1959_512kb.mp4"},
+        {n: "East German Propaganda and Advertising Film", u: "https://archive.org/download/East_German_Advertising_1958/East_German_Advertising_1958_512kb.mp4"},
+        {n: "A Dolls House (1973 Christmas, Drama, Romance)", u: "https://archive.org/download/a-dolls-house-1973-christmas-drama-romance/A Doll's House (1973 Christmas, Drama, Romance).mp4"},
+        {n: "The Candle Maker", u: "https://archive.org/download/TheCandleMaker/ClaCinOnl_an_TheCandleMaker.mp4"},
+        {n: "A Ghost Story for Christmas (1971 - 78, 2005 - 13, 18 -) Complete Series inc. Whistle and Ill Come to You (1968)", u: "https://archive.org/download/a-ghost-story-for-christmas-1971/A Ghost Story for Christmas (1971 - 78, 2005 - 13, 18 -)/17 Lot No. 249 (2023).mp4"},
+        {n: "Your Hit Parade - Christmas Eve Show 1955", u: "https://archive.org/download/YourHitParade-ChristmasEveShow1955/YourHitParade-ChristmasEveShow1955.mp4"},
+        {n: "A Charlie Brown Christmas Original Version", u: "https://archive.org/download/a-charlie-brown-christmas-original-version/A Charlie Brown Christmas Remastered (Sort of).mp4"},
+        {n: "The Glasco Family - The Wichita Years (8mm)", u: "https://archive.org/download/The_Glasco_Family_8mm_Movies/The_Glasco_Family_8mm_Movies_512kb.mp4"},
+        {n: "Mister Magoos Christmas Carol (1962)", u: "https://archive.org/download/mister-magoos-christmas-carol-1962/Mister Magoos Christmas Carol 1962.mp4"},
+        {n: "Santa Claus (1959)", u: "https://archive.org/download/santa-claus-1959/SantaClaus1959.mp4"},
+        {n: "The Bob Hope Show, Christmas In Vietnam", u: "https://archive.org/download/ChristmasInVietnam/1968-12-22 - 1968-12-28 Operation Holly Bob Hope USO Christmas Show color no sound.mp4"},
+        {n: "Captain Gallant of the Foreign Legion: S1E36, The Boy Who Found Christmas (DVD Quality)", u: "https://archive.org/download/Captain-Gallant_S1E36_The-Boy-Who-Found-Christmas/Captain-Gallant_S1E36_The-Boy-Who-Found-Christmas.mp4"},
+        {n: "A Very Merry Cricket (1973)", u: "https://archive.org/download/a-very-merry-cricket/a very merry cricket.mp4"},
+        {n: "[Home Movies: Texas Travels and Televised Moon Walk]", u: "https://archive.org/download/6270HMTexasTravelsAndTelevisedMoonWalk01181613/6270_HM_Texas_Travels_and_Televised_Moon_Walk_01_18_16_13.mp4"},
+        {n: "Full VHS Tape: The Bear Who Slept Who Christmas (1973) - FAMILY HOME ENTERTAINMENT (1984)", u: "https://archive.org/download/the-bear-who-slept-who-christmas-1973-family-home-entertainment-1984/The Bear Who Slept Who Christmas (1973) - FAMILY HOME ENTERTAINMENT (1984).mp4"},
+        {n: "Christmas In Appalachia, 1965", u: "https://archive.org/download/ChristmasInAppalachia1965/Christmas In Appalachia 1965.mp4"},
+        {n: "A Charles Dickens Christmas (Mr Pickwicks Christmas)", u: "https://archive.org/download/MrPickwicksChristmas/MrPickwicksChristmas.mp4"},
+        {n: "HomeMovie01-01", u: "https://archive.org/download/Home_Movie_01_01/HomeMovie0101_512kb.mp4"},
+        {n: "Santa Claus Conquers The Martians ( 1964) HD VERSION", u: "https://archive.org/download/y-2-mate.is-santa-claus-conquers-the-martians-1964-adventure-comedy-sci-fi-chris/Y2Mate.is - Santa Claus Conquers the Martians (1964) Adventure, Comedy, Sci-Fi, Christmas Movie-L4SZyeUGSM4-1080p-1639926880939.ia.mp4"},
+        {n: "The Christmas Visitor", u: "https://archive.org/download/TheChristmasVisitor/ClaCinOnl_an_TheChristmasVisitor.mp4"},
+        {n: "Ozzie and Harriet - Christmas Tree Lot in 3D", u: "https://archive.org/download/Ozzie-Harriet_Christmas-Tree-Lot_3D/OZZIEANDHARRIET_3D.mp4"},
+        {n: "Santa Claus (1959)", u: "https://archive.org/download/y-2-mate.is-santa-claus-1959-pelicula-completa-espanol-jr-2-j-2-h-7f-gd-y-480p-1638504949281/Y2Mate.is - Santa Claus 1959 Pelicula Completa Español-Jr2J2H7fGdY-480p-1638504949281.ia.mp4"},
+        {n: "Christmas Cracker", u: "https://archive.org/download/christmascracker_201705/christmascracker_201705.mp4"},
+        {n: "1971 The Homecoming; The Waltons Christmas Movie", u: "https://archive.org/download/the-waltons-christmas-movie-the-homecoming-ty-for-sharing-morris-pattison-this-is-a-classic/The Walton's Christmas Movie ''The Homecoming'' (Ty for sharing, Morris Pattison - this is a CLASSIC!!).mp4"},
+        {n: "Lassie A Christmas Story (1958 Film Noir Christmas Special)", u: "https://archive.org/download/lassie-a-christmas-story-1959-film-noir-christmas-special/Lassie A Christmas Story (1959 Film Noir Christmas Special).mp4"},
+        {n: "1969 Frosty The Snowman ( Christmas Movies For Kids Animated Cartoons For Children)", u: "https://archive.org/download/1969-frosty-the-snowman-christmas-movies-for-kids-animated-cartoons-for-children/2011 (STEVE AND MAGGIE) Holiday Songs and Stories for Kids - MORE from Steve and Maggie Best Christmas.mp4"},
+        {n: "Carol For Another Christmas", u: "https://archive.org/download/carol-for-another-christmas-1964/Carol for Another Christmas.mp4"},
+        {n: "How the Grinch Stole Christmas.", u: "https://archive.org/download/how.-the.-grinch.-stole.-christmas.-1966.1080-p.-bluray.-x-265.10-bit.-dd.-2.0-frankencode-1/How.The.Grinch.Stole.Christmas.1966.1080P.Bluray.X265.10Bit.Dd.2.0-Frankencode-1.ia.mp4"},
+        {n: "1959 commercial for Timex watches (Ad 3)", u: "https://archive.org/download/1959CommercialForTimexWatchesad3/Timex1959Ad3.mp4"},
+        {n: "Kmart In Store Music Christmas 1974", u: "https://archive.org/download/KmartInStoreMusicChristmas1974/Kmart In-Store Music- Christmas 1974.mp4"},
+        {n: "Christmas Visitor", u: "https://archive.org/download/christmasvisitor_20170601/christmasvisitor_20170601.mp4"},
+        {n: "A Christmas Story", u: "https://archive.org/download/a.-christmas.-story.-dvdrip.x-264-tooncore/A.Christmas.Story.DVDRip.x264-Tooncore.mp4"},
+        {n: "The Fat Albert and the Cosby Kids Collection.", u: "https://archive.org/download/het-hey-hey/The Fat Albert (2004).mp4"},
+        {n: "Christmas in Appalachia", u: "https://archive.org/download/christmasinappalachia/christmasinappalachia/christmasinappalachia.mp4"},
+        {n: "1954 Chevy Corvette", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_Chevy_Corvette_512kb.mp4"},
+        {n: "View From Space Reel 1", u: "https://archive.org/download/viewfromspace/viewfromspacereel1.mp4"},
+        {n: "View From Space Reel 2", u: "https://archive.org/download/viewfromspace/viewfromspacereel2.mp4"},
+        {n: "This Is Redstone Arsenal", u: "https://archive.org/download/16764thisisredstonearsenalvwr/16764%20This%20Is%20Redstone%20Arsenal_vwr.mp4"},
+        {n: "20 Years Of Strategic Air Command", u: "https://archive.org/download/2927420YearsOfStrategicAirCommandMos/29274%2020%20years%20Of%20Strategic%20Air%20Command_mos.mp4"},
+        {n: "AAF Combat Camera Units Weekly Digest pt 63", u: "https://archive.org/download/42124aafcombatcameraunitsweeklydigestpt63vwr/42124%20AAF%20Combat%20Camera%20Units%20Weekly%20Digest%20pt%2063_vwr.mp4"},
+        {n: "Normandy Invasion", u: "https://archive.org/download/87084NormandyInvasion/87084%20Normandy%20Invasion.mp4"},
+        {n: "NASA 1971 Aeronautics And Space Highlights", u: "https://archive.org/download/19194nasa1971aeronauticsandspacehighlightsvwr/19194%20NASA%201971%20Aeronautics%20And%20Space%20Highlights_vwr.mp4"},
+        {n: "NASA Highlights 1967", u: "https://archive.org/download/76474NASAHighlights1967/76474%20NASA%20Highlights%201967.mp4"},
+        {n: "Apollo Digest Saturn Second Stage", u: "https://archive.org/download/80004-apollo-digest-saturn-second-stage/80004%20Apollo%20Digest%20Saturn%20Second%20Stage.mp4"},
+        {n: "NASA Manned Space Flight Quarterly Report 11", u: "https://archive.org/download/68384-nasa-manned-space-flight-quaterly-report-11-vwr/68384%20NASA%20Manned%20Space%20Flight%20Quaterly%20Report%2011_vwr.mp4"},
+        {n: "NASA Manned Space Flight January 1964", u: "https://archive.org/download/xd-10044-nasa-manned-space-flight-january-1964-vwr/XD10044%2BNASA%2BManned%2BSpace%2BFlight%2BJanuary%2B1964_vwr.mp4"}
     ];
 
     const C = [
-        {n: "Popeye for President", u: "https://archive.org/download/Popeye_forPresident/Popeye_forPresident_512kb.mp4"},
-        {n: "CBS RADIO MYSTERY THEATER", u: "https://archive.org/download/CBSRMT/CBSRMT_740113__44m18s__Cold_Storage.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater 74 01 29 E 0024 The Man Who Heard Voices", u: "https://archive.org/download/cbs-radio-mystery-theater-74-01-29-e-0024-the-man-who-heard-voices/1974/CBS Radio Mystery Theater 74-01-29 e0024 The Man Who Heard Voices.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater 74 01 29 E 0024 The Man Who Heard Voices", u: "https://archive.org/download/cbs-radio-mystery-theater-74-01-29-e-0024-the-man-who-heard-voices_202512/1974/CBS Radio Mystery Theater 74-01-29 e0024 The Man Who Heard Voices.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater - Ken Long/JC Collection", u: "https://archive.org/download/cbsrmt-ken-long-jc-collection/CBSRMT - 750404 0251 Roses Are For Funerals vbr kb2_jc.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater - David Oxford’s Best of Available Collection", u: "https://archive.org/download/cbsrmt-david-oxford-boa-collection/CBSRMT-800521-1087-A-Private-Demon-(AFRTS)-(256-44)-{BoA}.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater - Ken Long/JL Collection", u: "https://archive.org/download/cbsrmt-ken-long-jl-collection/CBSRMT - 790402 0967 Voyage To Intrastar_jl.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater - Select Ad-Free Episodes", u: "https://archive.org/download/cbsrmt-nrl-ad-free-collection/0058 740609 Sea Of Troubles WOR (no ads).mp3", audio: true},
-        {n: "CBS Radio Mystery Theater - Select Vinyl Transfers", u: "https://archive.org/download/cbsrmt-vinyl-afrts/CBSRMT-810513-1197-Diogenes-Inc_afrts.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater - Ken Long/DLG Collection", u: "https://archive.org/download/cbsrmt-ken-long-dlg-collection/CBSRMT - 750326 0245 Death Is a Dream.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater 75 01 31 E 0216 The Disembodied Voice", u: "https://archive.org/download/cbs-radio-mystery-theater-75-01-31-e-0216-the-disembodied-voice/1975/CBS Radio Mystery Theater 75-01-31 e0216 The Disembodied Voice.mp3", audio: true},
-        {n: "[CBS RADIO MYSTERY THEATER 1976 - PAGE 1]", u: "https://archive.org/download/CBSRMTCBSRADIOMYSTERYTHEATER1976/0572_The_Mark_of_Cain_761227.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater 76 08 05 E 0504 Lovers And Killers", u: "https://archive.org/download/cbs-radio-mystery-theater-76-08-05-e-0504-lovers-and-killers/1976/CBS Radio Mystery Theater 76-08-05 e0504 Lovers and Killers.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater 77 03 25 E 0623 A Study In Scarlet", u: "https://archive.org/download/cbs-radio-mystery-theater-77-03-25-e-0623-a-study-in-scarlet/1977/CBS Radio Mystery Theater 77-03-25 e0623 A Study in Scarlet.mp3", audio: true},
-        {n: "CBS RADIO MYSTERY THEATER 1978-PAGE 1", u: "https://archive.org/download/CBSRMTCBSRADIOMYSTERYTHEATER1978PAGE1/0769_The_Forgetful_Ghost_012378.mp3", audio: true},
-        {n: "A Christmas Carol  CBS Radio Mystery Theater", u: "https://archive.org/download/AChristmasCarolCbsRadioMysteryTheater/Cbsrmt7512240402AChristmasCarol_wbbm_rec12_24_78.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater 1979-WBBM", u: "https://archive.org/download/CBSRadioMysteryTheater1979WBBM/Cbsrmt7903260965EnemyFromSpace_wbbm_repaired.mp3", audio: true},
-        {n: "[CBS RADIO MYSTERY THEATER 1980-PAGE 1]", u: "https://archive.org/download/CBSRMTCBSRADIOMYSTERYTHEATER1980/1044_Revenge_Is_Not_Sweet_800102.mp3", audio: true},
-        {n: "[CBS RADIO MYSTERY THEATER 1980-PAGE 2]", u: "https://archive.org/download/CBSRMTCBSRADIOMYSTERYTHEATER1980_0/1057_The_Deserter_800206.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater 81 03 18 E 1173 Pretty Polly", u: "https://archive.org/download/cbs-radio-mystery-theater-81-03-18-e-1173-pretty-polly/1981/CBS Radio Mystery Theater 81-03-18 e1173 Pretty Polly.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater 82 07 02 E 1346 Bring Back My Body", u: "https://archive.org/download/cbs-radio-mystery-theater-82-07-02-e-1346-bring-back-my-body/1982/CBS Radio Mystery Theater 82-07-02 e1346 Bring Back My Body.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater Episode Upgrades", u: "https://archive.org/download/CBSRMTKf/CBSRMT - 740521 0095 The Longest Knife_kf.mp3", audio: true},
-        {n: "The CBS Radio Mystery Theater - Familiar Ghost", u: "https://archive.org/download/qjk0esrv9q372mrxhy6mtoniznigwg4hpqju4zj2/apkceeipylclfaz-Adventures_Of_Frank_Race_-_The_Darling_Debutante5-08-49.MP3", audio: true},
-        {n: "Boxcars711 Sunday Matinee - CBS Radio Mystery Theater Lamps Of The Devil", u: "https://archive.org/download/kiuh4ord6so01gaazijtcxupfozizkxlh3jyfvwm/ezg3n4zzljc44ju-CBS_Radio_Mystery_Theater_-_Lamps_Of_The_Devil_11-20-75.mp3", audio: true},
-        {n: "Boxcars711 Old Time Radio Pod - CBS Radio Mystery Theater The House On Chimney Pot", u: "https://archive.org/download/un5wmtktx6aopfl9mtw1x0cnnpq6gsjvagaqh4eh/ezg3n4zzljc44ju-CBS_Radio_Mystery_Theater_-_The_House_On_Chimney_Pot_La_3-28-78.mp3", audio: true},
-        {n: "Boxcars711 Saturday Matinee -  CBS Radio Mystery Theater Murder To Perfection", u: "https://archive.org/download/7dlu374mqkxtcw0h5zacamlee017uvmpvhmmknev/ezg3n4zzljc44ju-CBSRMT_-_Murder_To_Perfection_9-30-74.mp3", audio: true},
-        {n: "Boxcars711 Sunday Matinee - CBS Radio Mystery Theater Afraid To Live", u: "https://archive.org/download/x80kzx8q5czdusvnzpdpnktest12vgs8jqjnutum/ezg3n4zzljc44ju-CBS_Radio_Mystery_Theater_-_Afraid_To_Live_Afraid_To_Die_4-23-75.mp3", audio: true},
-        {n: "Boxcars711 Saturday Matinee One - The CBS Radio Mystery Theater Courtyard Of Death", u: "https://archive.org/download/ktpd4rwlrshti12a77kqxwt3eqhtd2juc6gd5c7r/ezg3n4zzljc44ju-CBS_Radio_Mystery_Theater_-_Courtyard_Of_Death_11-26-74.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater In The Dark (1-08-81)", u: "https://archive.org/download/iumzjhvfggtuf8f9eoyfgibocn6dnrovkvz7yzd7/ezg3n4zzljc44ju-CBS_Radio_Mystery_Theater_-_In_The_Dark_1-08-81.mp3", audio: true},
-        {n: "The CBS Radio Mystery Theater The Tenth Life (2-02-77)", u: "https://archive.org/download/oxuq5nilba579ifv5aicdnk7otjjybxterdt7mqm/ezg3n4zzljc44ju-CBS_Radio_Mystery_Theater_-_The_Tenth_Life_2-02-77.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater Give The Devil His Due (12-23-74)", u: "https://archive.org/download/4ejilwz9qhy3nrught7mvxlvsxc7btr2bwt8hy2t/ezg3n4zzljc44ju-CBS_Radio_Mystery_Theater_-_Give_The_Devil_His_Due_12-23-74.mp3", audio: true},
-        {n: "The CBS Radio Mystery Theater Secret Chamber (11-5-76)", u: "https://archive.org/download/y5aqq1y9cuuxnqillmigpif9ta8baofhhcxdrwz8/ezg3n4zzljc44ju-CBSRMT_-_Secret_Chamber_11-5-76.mp3", audio: true},
-        {n: "The CBS Radio Mystery Theater The Meteorite (4-11-77)", u: "https://archive.org/download/qajhab2evyahude30gbbvzzategck2ifqcvz1n17/ezg3n4zzljc44ju-CBS_Radio_Mystery_Theater_-_The_Meteorite_4-11-77.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater The Haunted Mill (11-08-77)", u: "https://archive.org/download/ivfam3jgma0nlfygpkywj758bvfayjfdah0r2qic/vavunnjvx0phwud-CBS_Radio_Mystery_Theater_-_The_Haunted_Mill_11-08-77.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater The Man Who Heard Voices (1-29-74)", u: "https://archive.org/download/duq7gm9wb2dkcmafzm8djxfuy7fyanqdc9hwi3n9/vavunnjvx0phwud-CBSRMT_-_The_Man_Who_Heard_Voices_1-29-74.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater Nobody Dies (12-09-76)", u: "https://archive.org/download/edemsiieqlnz0ufgieuhfvr5y59qu9o7wrm23exv/n3zqcq4yzurcy7z-CBSRMT_-_Nobody_Dies_12-09-76.mp3", audio: true},
-        {n: "The CBS Radio Mystery Theater Death Rides A Stallion (01-14-74)", u: "https://archive.org/download/5lbfo0qw57j8wgdv3c0b2wicrvaqecupd7juwvjg/n3zqcq4yzurcy7z-CBSRMT_-_Death_Rides_A_Stallion_01-14-74.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater - The Flowers Of Death (1-24-75)", u: "https://archive.org/download/1op37yg52dcq0hlf6crx45541c8jhxhbuvbemadp/n3zqcq4yzurcy7z-Candid_Microphone_Double_Feature_1947.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater - The Deadliest Favor (08-26-74)", u: "https://archive.org/download/vgylo72qpaeq4vmf5km9towfjbvfmrkw4wkb6eu6/CBSRMT-_The_Deadliest_Favor_08-26-74.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater - Death Is Blue (03-31-77)", u: "https://archive.org/download/yg9ti4s08qezrp62hgocoy7h4lvsyuolcnmwyutm/apkceeipylclfaz-Crime_Classics_-_Madeline_Smith_Maid_Or_Murderess_01-20-54.MP3", audio: true},
-        {n: "CBS Radio Mystery Theater - Absolute Zero (10-28-76)", u: "https://archive.org/download/aocyk6h26vmmffuhir8qmfq533hxg0myqf00efib/CBSRMT_-_Absolute_Zero_10-28-76.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater - Witches Almanac (05-26-75)", u: "https://archive.org/download/ms62dnp209hpaetmbhhgcamglonrrvmoan4xt6nx/Arch_Oboler_Plays_-_The_Ivory_Tower_7-08-39.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater - The Oblong Box (01-08-75)", u: "https://archive.org/download/0nn1tmql0yj1pd1c88wzevv7fpwqx03rp2qp41ds/Confession_-_Leo_J_Fowler_Case_08-30-53.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater - The Island On Silvertree Lake", u: "https://archive.org/download/4wiwqdkghgnlhjrmti9cmd06pdb4whjcolascoxr/Nightfall_-_The_Stone_Ship_10-03-80.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater - A Message From Space", u: "https://archive.org/download/sgs2rldel2a1odnvm4psefsiqaw1ycv3zkb4vqpx/apkceeipylclfaz-CBSRMT_-_A_Message_From_Space_02-28-78.MP3", audio: true},
-        {n: "CBS Radio Mystery Theater - You Can Die Again", u: "https://archive.org/download/vdrvqazbrixkrqtrnqclbjqbvkni4kaax6njmzo7/Box_13_-_The_Haunted_Artist_12-12-48.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater-The Thomas Jefferson Defense", u: "https://archive.org/download/3stxeruo7xggagcq0ytm6mcfpghqg1nes9n1pwyo/CBSRadioMysteryTheater-TheThomasJeffersonDefense7-2-98.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater-The Unbearable Reflection", u: "https://archive.org/download/hj5suc4fo91tselgy9kmyk9pqmw89hwdvbk3czoc/CBSRadioMysteryTheater-TheUnbearableReflection7-7-98.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater-The Elixir Of Death", u: "https://archive.org/download/dlinpa5xxcatz803kqpy3gmzgixibrumjj4vodrl/CBSRadioMysteryTheater-TheElixirOfDeath1-14-76a.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater The Many Names Of Death", u: "https://archive.org/download/q93zcipslvfax7tyrquzbbom7lopgkw80yeq7n3p/CBSRadioMysteryTheaterTheManyNamesOfDeath1-5-75.mp3", audio: true},
-        {n: "Halloween Spooktacular 2017 - CBS Radio Mystery Theater", u: "https://archive.org/download/CBSRadioMysteryTheaterAHorrorStory12111978/CBSRadioMysteryTheaterAHorrorStory12-11-1978.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater - Black Widow", u: "https://archive.org/download/0joc4iwh7mviagvog45ziuntlp892uwdq0wvsbjq/CBSRadioMysteryTheaterBlackWidow4-29-75.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater - Taken For Granite", u: "https://archive.org/download/ykmt0c4ppfiah5fk1refygcw0zpoo1ngahowstbk/CBSTakenForGranite5-8-75.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater: All episodes written by Elspeth Eric", u: "https://archive.org/download/197402090034TheDeadlyHour/1974-02-09 - 0034 - The Deadly Hour.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater: all Fielden Farrington stories", u: "https://archive.org/download/197510160363StayOutOfDutchmansWoods/1975-10-16 - 0363 - Stay Out Of Dutchman's Woods.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater - stories featuring Ann Sheppard", u: "https://archive.org/download/197602090428TheHorrorOfDeadLake/1976-02-09 - 0428 - The Horror Of Dead Lake.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater - all appearances by Fred Gwynne", u: "https://archive.org/download/197701240590LicenseToKill/1977-01-24 - 0590 - License To Kill.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater: All stories by Henry Slesar", u: "https://archive.org/download/197505160275TheRiseAndFallOfTheFourthReich/1975-05-16 - 0275 - The Rise And Fall Of The Fourth Reich.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-03-31_(0626)_Death Is Blue", u: "https://archive.org/download/0j9xtrlhcmqmsla2zvlqj8n6jzmdzdam6xxqsczn/173pe2apcvwzuqb-stream.mp30j9xtrlhcmqmsla2zvlqj8n6jzmdzdam6xxqsczn.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-02-25_(0607)_Legend Of Phoenix Hill", u: "https://archive.org/download/0pvtzcsrlkprpjhdm8qibmpbipyucudni6wgytjg/173pe2apcvwzuqb-stream.mp30pvtzcsrlkprpjhdm8qibmpbipyucudni6wgytjg.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-07-05_(0677)_Hexed", u: "https://archive.org/download/21ctnnpqdlj9mvrvhxktikvqjck342mhqvpwnc0s/173pe2apcvwzuqb-stream.mp321ctnnpqdlj9mvrvhxktikvqjck342mhqvpwnc0s.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-08-08_(0692)_Hope Springs Eternal", u: "https://archive.org/download/23dx5duzxmpvjh75hgwlxie3pxx20swffcjvkuz4/173pe2apcvwzuqb-stream.mp323dx5duzxmpvjh75hgwlxie3pxx20swffcjvkuz4.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-04-29_(0643)_Wuthering Heights", u: "https://archive.org/download/25osw5xtxfvsrnqqiho6vj6q0fhvixng4g56axyi/173pe2apcvwzuqb-stream.mp325osw5xtxfvsrnqqiho6vj6q0fhvixng4g56axyi.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-04-14_(0634)_The Phantom House", u: "https://archive.org/download/2cxrjans60vadsfdeaqmzi13etjevzqyihcfjo7g/173pe2apcvwzuqb-stream.mp32cxrjans60vadsfdeaqmzi13etjevzqyihcfjo7g.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-05-19_(0650)_A Matter Of Customs", u: "https://archive.org/download/2fn5moahtnwofe2nwfpyvvr0vwfgihivdzl4efhc/173pe2apcvwzuqb-stream.mp32fn5moahtnwofe2nwfpyvvr0vwfgihivdzl4efhc.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-03-24_(0622)_The Gift Of Doom", u: "https://archive.org/download/3jzlpa9kf1kye5kd2wkwdhrlj7lxpmhtwvanwbme/173pe2apcvwzuqb-stream.mp33jzlpa9kf1kye5kd2wkwdhrlj7lxpmhtwvanwbme.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-08-19_(0697)_The Instrument", u: "https://archive.org/download/3ycal4dpayalemlkh1wzmjbzel2azkqatsvg8gsz/173pe2apcvwzuqb-stream.mp33ycal4dpayalemlkh1wzmjbzel2azkqatsvg8gsz.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-03-14_(0616)_Look Backward Sometimes", u: "https://archive.org/download/4jsbewkhc4tryx57on2ykped94frhhimlqvxsocv/173pe2apcvwzuqb-stream.mp34jsbewkhc4tryx57on2ykped94frhhimlqvxsocv.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-04-08_(0631)_Blood, Thunder And A Woman In Green", u: "https://archive.org/download/4mjjlrlste5hfoonxenkxpmjbtmbsa4sb9mmpkgq/173pe2apcvwzuqb-stream.mp34mjjlrlste5hfoonxenkxpmjbtmbsa4sb9mmpkgq.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-06-13_(0664)_First Woman In Space", u: "https://archive.org/download/4nqw75lgh4bykytvswyd536tfiko3rpyusbzq7ul/173pe2apcvwzuqb-stream.mp34nqw75lgh4bykytvswyd536tfiko3rpyusbzq7ul.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-05-06_(0647)_Bottom Of The World", u: "https://archive.org/download/4p00jcmkmuhmwpmjts4k29nmfm6xh0iqostpzvpe/173pe2apcvwzuqb-stream.mp34p00jcmkmuhmwpmjts4k29nmfm6xh0iqostpzvpe.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-06-28_(0673)_The Adventure Of The Speckled Band", u: "https://archive.org/download/5iiaxuw2hi9s59c9tftlb9t4ji1prdy33vhgqk58/173pe2apcvwzuqb-stream.mp35iiaxuw2hi9s59c9tftlb9t4ji1prdy33vhgqk58.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-07-11_(0680)_A Scandal In Bohemia", u: "https://archive.org/download/5m1rsdwnm889kqpa1bewsbbmfb2pfuepuxglxpfm/173pe2apcvwzuqb-stream.mp35m1rsdwnm889kqpa1bewsbbmfb2pfuepuxglxpfm.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-04-22_(0639)_The Prisoner Of Zenda", u: "https://archive.org/download/5odxzlpk7czfqgkduq5gmj2u5kkzqdeqyrdmynsp/173pe2apcvwzuqb-stream.mp35odxzlpk7czfqgkduq5gmj2u5kkzqdeqyrdmynsp.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-06-27_(0672)_Come Fill My Cup", u: "https://archive.org/download/5zeae5b40c3doqbmdbb9dpnmasdlh0o2bpsvhbsl/173pe2apcvwzuqb-stream.mp35zeae5b40c3doqbmdbb9dpnmasdlh0o2bpsvhbsl.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-02-18_(0603)_A Heart Of Gold", u: "https://archive.org/download/6jqbyyohixzy3iscqs8k8vxndrwvtgkk442gcdwv/173pe2apcvwzuqb-stream.mp36jqbyyohixzy3iscqs8k8vxndrwvtgkk442gcdwv.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-07-07_(0678)_A Stranger Among Us", u: "https://archive.org/download/71b5y1mxinrhogqhqn5tzyef9jhlpfgvy6juftks/173pe2apcvwzuqb-stream.mp371b5y1mxinrhogqhqn5tzyef9jhlpfgvy6juftks.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-08-24_(0699)_The Adventures Of Don Quixote", u: "https://archive.org/download/78opniglpflgxp4xtsdse66qpjfgaydebsy8zwvr/173pe2apcvwzuqb-stream.mp378opniglpflgxp4xtsdse66qpjfgaydebsy8zwvr.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-07-18_(0684)_The Bisara Of Pooree", u: "https://archive.org/download/7fd1p44hwjogvkhts9zxp6lslshii9yhjmdy0ct6/173pe2apcvwzuqb-stream.mp37fd1p44hwjogvkhts9zxp6lslshii9yhjmdy0ct6.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-03-01_(0609)_The Hound Of The Baskervilles", u: "https://archive.org/download/7milkeqfyk6h7yqray2dudoy1d0zoeclud0t3px6/173pe2apcvwzuqb-stream.mp37milkeqfyk6h7yqray2dudoy1d0zoeclud0t3px6.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-03-17_(0618)_Jobo", u: "https://archive.org/download/7zzkomrozcfbnyedadsnyljjtzxgalf1bk6yqbq9/173pe2apcvwzuqb-stream.mp37zzkomrozcfbnyedadsnyljjtzxgalf1bk6yqbq9.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-05-03_(0645)_The Luck Sisters", u: "https://archive.org/download/84tirgmcwffygjmj33xhik1hjaiy8weorybcgdre/173pe2apcvwzuqb-stream.mp384tirgmcwffygjmj33xhik1hjaiy8weorybcgdre.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-06-06_(0660)_The Blood Red Wine", u: "https://archive.org/download/9ckvzzfirwt9ynqgr9wqasusvqq8m2aizmmyzugm/173pe2apcvwzuqb-stream.mp39ckvzzfirwt9ynqgr9wqasusvqq8m2aizmmyzugm.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-06-03_(0659)_The Two-Dollar Murders", u: "https://archive.org/download/9eizihnprxkfjws3zheuior8zhdlrd1gns9vlhly/173pe2apcvwzuqb-stream.mp39eizihnprxkfjws3zheuior8zhdlrd1gns9vlhly.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-04-25_(0640)_Bound East For Haiti", u: "https://archive.org/download/9kgdmgycaceu7r7bngwde9gvgtfbv5rsqzm6nzqi/173pe2apcvwzuqb-stream.mp39kgdmgycaceu7r7bngwde9gvgtfbv5rsqzm6nzqi.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-08-10_(0693)_Case Closed", u: "https://archive.org/download/aasr3u2qptkt3dzsnmedq58auidz1d4lddz369th/173pe2apcvwzuqb-stream.mp3aasr3u2qptkt3dzsnmedq58auidz1d4lddz369th.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-03-03_(0610)_The Overcoat", u: "https://archive.org/download/ansgaqcau3apk95go8m4dniwffnujikvdygpe0lq/173pe2apcvwzuqb-stream.mp3ansgaqcau3apk95go8m4dniwffnujikvdygpe0lq.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-05-27_(0655)_Guilty Secret", u: "https://archive.org/download/aq1g34s2aturrlc5opgivvmakg5hqdyvvbfts7ec/173pe2apcvwzuqb-stream.mp3aq1g34s2aturrlc5opgivvmakg5hqdyvvbfts7ec.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-03-18_(0619)_Little Green Death", u: "https://archive.org/download/bdodzepm762aqvnxq5ezqdqu9lfjkmopcjwiqj8m/173pe2apcvwzuqb-stream.mp3bdodzepm762aqvnxq5ezqdqu9lfjkmopcjwiqj8m.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-07-19_(0685)_The Mysterious Island", u: "https://archive.org/download/blsifl1ify56n339exsjvaq7gfu699vhvdk9o0jb/173pe2apcvwzuqb-stream.mp3blsifl1ify56n339exsjvaq7gfu699vhvdk9o0jb.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-06-16_(0666)_Little Lucys Lethal Libation", u: "https://archive.org/download/bvnpopsxeeinevqj8o2887g6jm15kmvzx2nt8qt3/173pe2apcvwzuqb-stream.mp3bvnpopsxeeinevqj8o2887g6jm15kmvzx2nt8qt3.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-06-23_(0670)_The Red Circle", u: "https://archive.org/download/bwnbmqmfqo6l8ytpzfjxs9b02dttcaakexcloyw9/173pe2apcvwzuqb-stream.mp3bwnbmqmfqo6l8ytpzfjxs9b02dttcaakexcloyw9.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-04-01_(0627)_You Bet Your Life", u: "https://archive.org/download/c610fn7ui7ewjf70hbf1bfiikvwtxtll3yfwe23p/173pe2apcvwzuqb-stream.mp3c610fn7ui7ewjf70hbf1bfiikvwtxtll3yfwe23p.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-06-28_(0673)_The Adventure Of The Speckled Band", u: "https://archive.org/download/cdmaly5wlqnapcbwgg7ja0v8yfz3d5tmy4mixvsk/173pe2apcvwzuqb-stream.mp3cdmaly5wlqnapcbwgg7ja0v8yfz3d5tmy4mixvsk.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-06-30_(0674)_Dead Men Do Tell Tales", u: "https://archive.org/download/cjuta3p6p3ylyfef97zlm6hryoyoqx9zdhav06zi/173pe2apcvwzuqb-stream.mp3cjuta3p6p3ylyfef97zlm6hryoyoqx9zdhav06zi.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-06-17_(0667)_Two Motives For Murder", u: "https://archive.org/download/d1lmombrgdumazjyyt0loyiaucv0ep3hdfezyida/173pe2apcvwzuqb-stream.mp3d1lmombrgdumazjyyt0loyiaucv0ep3hdfezyida.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-08-29_(0701)_To Be A Rose", u: "https://archive.org/download/dgzgd4hqjiu34tte47idk2xtm6ae1lw0my6ogj0y/173pe2apcvwzuqb-stream.mp3dgzgd4hqjiu34tte47idk2xtm6ae1lw0my6ogj0y.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-04-28_(0642)_The Second Chance Lady", u: "https://archive.org/download/dphkvew971vem4whw19rxoqa4egyhdr6p7qz9ubc/173pe2apcvwzuqb-stream.mp3dphkvew971vem4whw19rxoqa4egyhdr6p7qz9ubc.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-03-21_(0620)_The Eighth Deadly Sin", u: "https://archive.org/download/dsjp2ijtalplyixxc9hpklvxuwcc8k3rmahtrf5u/173pe2apcvwzuqb-stream.mp3dsjp2ijtalplyixxc9hpklvxuwcc8k3rmahtrf5u.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-04-04_(0628)_So Shall Ye Reap", u: "https://archive.org/download/dupddmtrw8audn7vlcvrn7qbkkpcnkrivnwxf8bo/173pe2apcvwzuqb-stream.mp3dupddmtrw8audn7vlcvrn7qbkkpcnkrivnwxf8bo.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-06-20_(0668)_The Birthmark", u: "https://archive.org/download/e8sr4rj6gv721drct7o1y1isbrdfth9l6oxqfu9m/173pe2apcvwzuqb-stream.mp3e8sr4rj6gv721drct7o1y1isbrdfth9l6oxqfu9m.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-06-10_(0663)_The Night We Died", u: "https://archive.org/download/elbwazcx94kdukuub9dglyxuozyojqfjoyuck8j0/173pe2apcvwzuqb-stream.mp3elbwazcx94kdukuub9dglyxuozyojqfjoyuck8j0.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-08-15_(0695)_The Together Place", u: "https://archive.org/download/fxrdvtyjaphki4ienv2gpo1mdstb0w5temzm1j1u/173pe2apcvwzuqb-stream.mp3fxrdvtyjaphki4ienv2gpo1mdstb0w5temzm1j1u.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-08-26_(0700)_Area Thirteen", u: "https://archive.org/download/givf6ibfbcspg2tptglhq3npdsqgw1e9bguogpet/173pe2apcvwzuqb-stream.mp3givf6ibfbcspg2tptglhq3npdsqgw1e9bguogpet.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-07-25_(0688)_The Adventure Of The Blue Carbuncle", u: "https://archive.org/download/gnmnwpwfvo4pxfvdvsv4qvxstgqkwgk5ns1bzmb9/173pe2apcvwzuqb-stream.mp3gnmnwpwfvo4pxfvdvsv4qvxstgqkwgk5ns1bzmb9.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-06-02_(0658)_A God Named Smith", u: "https://archive.org/download/gyc3yaq6gkwlzfgegee2lsoqlr0gj54ayai4xysr/173pe2apcvwzuqb-stream.mp3gyc3yaq6gkwlzfgegee2lsoqlr0gj54ayai4xysr.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-05-30_(0656)_The Silent Witness", u: "https://archive.org/download/hf9m4yfeudcewdtnljxaye8uyrxwcqxgofieytg5/173pe2apcvwzuqb-stream.mp3hf9m4yfeudcewdtnljxaye8uyrxwcqxgofieytg5.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-04-05_(0629)_The Sensitive", u: "https://archive.org/download/hnioe2cke7yc3ximtauekxpm7p9du3922m4q1v3s/173pe2apcvwzuqb-stream.mp3hnioe2cke7yc3ximtauekxpm7p9du3922m4q1v3s.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-02-22_(0605)_Jane Eyre", u: "https://archive.org/download/i2acas14ojezifj0qqfrxjfosovlsajhp5dk2fql/173pe2apcvwzuqb-stream.mp3i2acas14ojezifj0qqfrxjfosovlsajhp5dk2fql.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-03-28_(0624)_The Warriors From Loanda", u: "https://archive.org/download/irg8f1mv8pw02zg01rx6f7swt6qk1fzojtcabyza/173pe2apcvwzuqb-stream.mp3irg8f1mv8pw02zg01rx6f7swt6qk1fzojtcabyza.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-06-24_(0671)_Fan Mail", u: "https://archive.org/download/irhepmj1s74wu0525iawkslhf41dy9tfsujsrc5p/173pe2apcvwzuqb-stream.mp3irhepmj1s74wu0525iawkslhf41dy9tfsujsrc5p.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-07-22_(0687)_The Secret Of The Aztecs", u: "https://archive.org/download/itylp2e0627xmeifpzlqi9o8bye9nyxvks223bq5/173pe2apcvwzuqb-stream.mp3itylp2e0627xmeifpzlqi9o8bye9nyxvks223bq5.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-02-24_(0606)_Last Judgement", u: "https://archive.org/download/jcdy35qfpufnrlbamo7ao2dryuy8tetgwurkqmqz/173pe2apcvwzuqb-stream.mp3jcdy35qfpufnrlbamo7ao2dryuy8tetgwurkqmqz.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-04-11_(0632)_The Meteorite", u: "https://archive.org/download/jw08xfvjviysevigitdxxdtsztqanwgmdg68soeg/173pe2apcvwzuqb-stream.mp3jw08xfvjviysevigitdxxdtsztqanwgmdg68soeg.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-03-11_(0615)_Till Death Do Us Part", u: "https://archive.org/download/kxd1dxwiucwjfalqsbactvyzlt7atuflwoeziyaa/173pe2apcvwzuqb-stream.mp3kxd1dxwiucwjfalqsbactvyzlt7atuflwoeziyaa.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-04-07_(0630)_The High Priest", u: "https://archive.org/download/lbtclwathcbs1yhamr0tzygf0puwjcipeptb4eza/173pe2apcvwzuqb-stream.mp3lbtclwathcbs1yhamr0tzygf0puwjcipeptb4eza.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-07-26_(0689)_The Rockets Red Glare", u: "https://archive.org/download/mca62wqgesagj8vf3wynnagoornr1zuhr53ij7wc/173pe2apcvwzuqb-stream.mp3mca62wqgesagj8vf3wynnagoornr1zuhr53ij7wc.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-04-12_(0633)_Man-Sized In Marble", u: "https://archive.org/download/midhchpjm9ggq7oxswwoem6lmphqg0uw5fx45yj4/173pe2apcvwzuqb-stream.mp3midhchpjm9ggq7oxswwoem6lmphqg0uw5fx45yj4.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-07-08_(0679)_The Gift", u: "https://archive.org/download/mkywipk502u8nbd6ee9b4wgsmwc1p7ik9culfybd/173pe2apcvwzuqb-stream.mp3mkywipk502u8nbd6ee9b4wgsmwc1p7ik9culfybd.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-03-29_(0625)_The Coldest Killer", u: "https://archive.org/download/nlybaxqht896ambltprzthlb1fnahowxjhuztfmd/173pe2apcvwzuqb-stream.mp3nlybaxqht896ambltprzthlb1fnahowxjhuztfmd.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-07-15_(0683)_The Kingdom Below", u: "https://archive.org/download/nn53rkmzknblhqbiaisvnzxg5rcskkbbun6oziwp/173pe2apcvwzuqb-stream.mp3nn53rkmzknblhqbiaisvnzxg5rcskkbbun6oziwp.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-04-21_(0638)_Come Away Death", u: "https://archive.org/download/nrrorck131cskrrtsriuhembanulmtu9whgcjp8o/173pe2apcvwzuqb-stream.mp3nrrorck131cskrrtsriuhembanulmtu9whgcjp8o.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-03-10_(0614)_The Pleading Voice", u: "https://archive.org/download/ntngw30wc8djeyamq4ypstjakzgziciqyn1h6fy0/173pe2apcvwzuqb-stream.mp3ntngw30wc8djeyamq4ypstjakzgziciqyn1h6fy0.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-06-21_(0669)_Tomorrow Cloudy And Cold", u: "https://archive.org/download/oaetb5zwar7yh6onukliiumve3bdmezs4yltzf38/173pe2apcvwzuqb-stream.mp3oaetb5zwar7yh6onukliiumve3bdmezs4yltzf38.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-05-02_(0644)_Much Too Much", u: "https://archive.org/download/og4njpdsxebyomveltktpc1aoh44pvug0o1vknbp/173pe2apcvwzuqb-stream.mp3og4njpdsxebyomveltktpc1aoh44pvug0o1vknbp.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-05-31_(0657)_The Boscombe Pool Mystery", u: "https://archive.org/download/pfgyppniwzt2ulyz98vpfx08jd0j6xtw2j52fhfr/173pe2apcvwzuqb-stream.mp3pfgyppniwzt2ulyz98vpfx08jd0j6xtw2j52fhfr.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-06-09_(0662)_Dialogue With Death", u: "https://archive.org/download/qiywzwhfrnculmjufmilvd9fgpdqaghgbuurqt6k/173pe2apcvwzuqb-stream.mp3qiywzwhfrnculmjufmilvd9fgpdqaghgbuurqt6k.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-05-23_(0652)_The Briefcase Blunder", u: "https://archive.org/download/qkal5lrkzfniyvfzgu45sgkvrd3hpnojepn5hzwp/173pe2apcvwzuqb-stream.mp3qkal5lrkzfniyvfzgu45sgkvrd3hpnojepn5hzwp.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-03-08_(0613)_The Sign Of The Four", u: "https://archive.org/download/qm9fbxvavhem1up1wjtgsx5eomrqexle9fwicmkw/173pe2apcvwzuqb-stream.mp3qm9fbxvavhem1up1wjtgsx5eomrqexle9fwicmkw.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-07-12_(0681)_The Colonel Chabert", u: "https://archive.org/download/qpbt8em86ipkiljycgeouzobu3gfbboplphxt4pf/173pe2apcvwzuqb-stream.mp3qpbt8em86ipkiljycgeouzobu3gfbboplphxt4pf.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-07-04_(0676)_Boomerang", u: "https://archive.org/download/qwmp7r7x8kvturntremic97bgn432uhuibrfcesq/173pe2apcvwzuqb-stream.mp3qwmp7r7x8kvturntremic97bgn432uhuibrfcesq.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-03-25_(0623)_A Study In Scarlet", u: "https://archive.org/download/qwu3s5v0egeqm52zu8w8rukbp2d5iavava5pj5jn/173pe2apcvwzuqb-stream.mp3qwu3s5v0egeqm52zu8w8rukbp2d5iavava5pj5jn.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-06-07_(0661)_The Curse Of Conscience", u: "https://archive.org/download/rgfeg0goh0xtmfizksi031sgtcu4bkiblgszthae/173pe2apcvwzuqb-stream.mp3rgfeg0goh0xtmfizksi031sgtcu4bkiblgszthae.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-03-07_(0612)_Beyond The Barrier", u: "https://archive.org/download/rqzqsyopeg9qanlmyhr4m1nu1nsxsvizbluunu8v/173pe2apcvwzuqb-stream.mp3rqzqsyopeg9qanlmyhr4m1nu1nsxsvizbluunu8v.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-04-15_(0635)_Borderline Case", u: "https://archive.org/download/rzqvfqgllxqydpmdgjr1zjn8kk9d7qrs4f22w7cl/173pe2apcvwzuqb-stream.mp3rzqvfqgllxqydpmdgjr1zjn8kk9d7qrs4f22w7cl.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-08-17_(0696)_In The Fog", u: "https://archive.org/download/s1nb2ncwjpe1bamroxkrg5h1papcqgtznzxete1z/173pe2apcvwzuqb-stream.mp3s1nb2ncwjpe1bamroxkrg5h1papcqgtznzxete1z.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-07-21_(0686)_Rendezvous With Death", u: "https://archive.org/download/sdligucrqomyslrrkcuemqzbaxaretxdfmdnn9t0/173pe2apcvwzuqb-stream.mp3sdligucrqomyslrrkcuemqzbaxaretxdfmdnn9t0.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-03-22_(0621)_The Imposter", u: "https://archive.org/download/sywfml4uolquozuotnhm1qmhdzhfnfaq4z3odgu6/173pe2apcvwzuqb-stream.mp3sywfml4uolquozuotnhm1qmhdzhfnfaq4z3odgu6.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-04-26_(0641)_The Adventure Of The Red-Headed League", u: "https://archive.org/download/ts7gbl4fvw1h6ffplfghjw83izu380tgevsqclfj/173pe2apcvwzuqb-stream.mp3ts7gbl4fvw1h6ffplfghjw83izu380tgevsqclfj.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-08-12_(0694)_For Want Of A Nail", u: "https://archive.org/download/ua4mw1kcod4ygjaju3bcyssadixikzhuepa5g2ta/173pe2apcvwzuqb-stream.mp3ua4mw1kcod4ygjaju3bcyssadixikzhuepa5g2ta.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-05-17_(0649)_The Childs Cats Paw", u: "https://archive.org/download/ugqeop8aqsdkpcsmlajmuqj0pggjpf03xhgk4zgt/173pe2apcvwzuqb-stream.mp3ugqeop8aqsdkpcsmlajmuqj0pggjpf03xhgk4zgt.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-07-01_(0675)_Revenge", u: "https://archive.org/download/uvtahqez5pt8r0ejlmwczy6igcssxal9ywxniemw/173pe2apcvwzuqb-stream.mp3uvtahqez5pt8r0ejlmwczy6igcssxal9ywxniemw.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-08-22_(0698)_Return To Pompeii", u: "https://archive.org/download/v0rok7hvseoabhkrvbs1j2moochakl6zap6dkccj/173pe2apcvwzuqb-stream.mp3v0rok7hvseoabhkrvbs1j2moochakl6zap6dkccj.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-05-26_(0654)_The Countess", u: "https://archive.org/download/vdqdfgmea5dnc2awjh6bcmvl97cwda3xlfr3sacu/173pe2apcvwzuqb-stream.mp3vdqdfgmea5dnc2awjh6bcmvl97cwda3xlfr3sacu.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-05-16_(0648)_Mayerling Revisited", u: "https://archive.org/download/vfrxty2v8wwdjunqh3cqwswhx59wg9qcrx52bxmp/173pe2apcvwzuqb-stream.mp3vfrxty2v8wwdjunqh3cqwswhx59wg9qcrx52bxmp.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-07-28_(0690)_The Secret Of Laurels", u: "https://archive.org/download/vmuflmpg7t15x2kgs0ezkwetbg3vem3wcozhgolr/173pe2apcvwzuqb-stream.mp3vmuflmpg7t15x2kgs0ezkwetbg3vem3wcozhgolr.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-02-21_(0604)_Orient Express", u: "https://archive.org/download/vnfiuqzifd6khbllzxwcemwbaqcy2uzktwodcdhj/173pe2apcvwzuqb-stream.mp3vnfiuqzifd6khbllzxwcemwbaqcy2uzktwodcdhj.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-02-28_(0608)_The Light That Failed", u: "https://archive.org/download/vob2vzgniaxfikumyeaboaovxrr8iyspfe5ibwko/173pe2apcvwzuqb-stream.mp3vob2vzgniaxfikumyeaboaovxrr8iyspfe5ibwko.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-03-15_(0617)_The Shining Man", u: "https://archive.org/download/wdzomb9udcgf2a8airpnxyezgka9ydsqy9ro5pcr/173pe2apcvwzuqb-stream.mp3wdzomb9udcgf2a8airpnxyezgka9ydsqy9ro5pcr.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-03-04_(0611)_Answer Me", u: "https://archive.org/download/wuxmurcnopyyhxjthijldfstkfmrf0gq81sdzolt/173pe2apcvwzuqb-stream.mp3wuxmurcnopyyhxjthijldfstkfmrf0gq81sdzolt.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-06-14_(0665)_Murder One", u: "https://archive.org/download/x1ecrizzahqxcpehhjeazekb8zv8zrlznqmnzi4w/173pe2apcvwzuqb-stream.mp3x1ecrizzahqxcpehhjeazekb8zv8zrlznqmnzi4w.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-04-19_(0637)_The Book Of Abaca", u: "https://archive.org/download/xg86zusytwfvhqxojet4sog0la4hhysmlt6bdiar/173pe2apcvwzuqb-stream.mp3xg86zusytwfvhqxojet4sog0la4hhysmlt6bdiar.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-07-14_(0682)_A Matter Of Conscience", u: "https://archive.org/download/xjzisrcfjdhtnohmbivkljfzaeepdxtt3aqbu4qm/173pe2apcvwzuqb-stream.mp3xjzisrcfjdhtnohmbivkljfzaeepdxtt3aqbu4qm.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-05-20_(0651)_Wine Women And Murder", u: "https://archive.org/download/xsqnf3mjkrvzi0bpjhkmt7ncljyjjy4wfl930pqt/173pe2apcvwzuqb-stream.mp3xsqnf3mjkrvzi0bpjhkmt7ncljyjjy4wfl930pqt.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-05-05_(0646)_Reunion Fever", u: "https://archive.org/download/xxqjt1yfgwagzaaoaotq9ycktz32npzzg0g4rxt5/173pe2apcvwzuqb-stream.mp3xxqjt1yfgwagzaaoaotq9ycktz32npzzg0g4rxt5.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-07-29_(0691)_The Thousand And First Door", u: "https://archive.org/download/ypnytm9phfgw6b8lnzi66xc3av1fxqk1li2fbc4n/173pe2apcvwzuqb-stream.mp3ypnytm9phfgw6b8lnzi66xc3av1fxqk1li2fbc4n.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-05-24_(0653)_Transmutations Inc", u: "https://archive.org/download/yqy4waehvtqknujqqvrekxhsakhyx7yw14ssvnlz/173pe2apcvwzuqb-stream.mp3yqy4waehvtqknujqqvrekxhsakhyx7yw14ssvnlz.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-04-18_(0636)_A House Divided", u: "https://archive.org/download/yuinxjpbhl0fytwycfavejcgytmw1lofwmyruh9z/173pe2apcvwzuqb-stream.mp3yuinxjpbhl0fytwycfavejcgytmw1lofwmyruh9z.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-10-03_(0719)_Mother Knows Best", u: "https://archive.org/download/2tscxsbsjoxega1g3ars1vqzi9sosccttb9aidi8/173pe2apcvwzuqb-stream.mp32tscxsbsjoxega1g3ars1vqzi9sosccttb9aidi8.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-11-11_(0739)_We Meet Again", u: "https://archive.org/download/87borehwsm8jdkjvqhbekhp2lrgvfazy7jmngo66/173pe2apcvwzuqb-stream.mp387borehwsm8jdkjvqhbekhp2lrgvfazy7jmngo66.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-10-31_(0732)_Trial By Fire", u: "https://archive.org/download/98opgn9qwixsqt3qxr1bk83auvrlxckf6rmkdpxg/173pe2apcvwzuqb-stream.mp398opgn9qwixsqt3qxr1bk83auvrlxckf6rmkdpxg.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-11-15_(0741)_A Point Of Time", u: "https://archive.org/download/a8ug6vdcghwynx2jbmvtrssnwm0crwvhyyer6oqp/173pe2apcvwzuqb-stream.mp3a8ug6vdcghwynx2jbmvtrssnwm0crwvhyyer6oqp.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-10-07_(0721)_The Adventure Of The Beryl Coronet", u: "https://archive.org/download/bkoflrdh5a4bz1vju63tmhquqlzzu67bulhxspij/173pe2apcvwzuqb-stream.mp3bkoflrdh5a4bz1vju63tmhquqlzzu67bulhxspij.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-10-14_(0724)_The People Of Sissora", u: "https://archive.org/download/dhfordtdv40dmdo4er0f8kql1c6oyszopdwlgilq/173pe2apcvwzuqb-stream.mp3dhfordtdv40dmdo4er0f8kql1c6oyszopdwlgilq.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-10-24_(0728)_Trial For Murder", u: "https://archive.org/download/e4njav2i57ruqbvd41kvov5lldbhox361y9nrpq1/173pe2apcvwzuqb-stream.mp3e4njav2i57ruqbvd41kvov5lldbhox361y9nrpq1.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-10-05_(0720)_The Sea Nymph", u: "https://archive.org/download/emlqlf2bukffy8qelewwuyqw72jszpgzx0dimp4g/173pe2apcvwzuqb-stream.mp3emlqlf2bukffy8qelewwuyqw72jszpgzx0dimp4g.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-09-13_(0708)_The Way To A Dusty Death", u: "https://archive.org/download/evewny2jk2mtgf8u3fimwzicuph3b03fygaxwizv/173pe2apcvwzuqb-stream.mp3evewny2jk2mtgf8u3fimwzicuph3b03fygaxwizv.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-10-17_(0725)_Return Engagement", u: "https://archive.org/download/fiut0neqqroli9nmqojqp5kspsaekbwekduyyzmk/173pe2apcvwzuqb-stream.mp3fiut0neqqroli9nmqojqp5kspsaekbwekduyyzmk.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-10-21_(0727)_Sorry To Let You Go", u: "https://archive.org/download/i9fispq0qbtiqr3c08ebmwfm84vzzjadplyaziuy/173pe2apcvwzuqb-stream.mp3i9fispq0qbtiqr3c08ebmwfm84vzzjadplyaziuy.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-09-23_(0714)_The Burning Whirlwind", u: "https://archive.org/download/iqlauey5vndeifoioqoactxks7qmbiwitydhyrsz/173pe2apcvwzuqb-stream.mp3iqlauey5vndeifoioqoactxks7qmbiwitydhyrsz.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-11-01_(0733)_Last Train Out", u: "https://archive.org/download/kkstzcausa1pmblkewzqdqnhtuio3k5kixso23ym/173pe2apcvwzuqb-stream.mp3kkstzcausa1pmblkewzqdqnhtuio3k5kixso23ym.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-09-27_(0716)_The Wintering Place", u: "https://archive.org/download/krtrxdzde5p1sl4nzhrhfqes74xnovjhc6a2ic2e/173pe2apcvwzuqb-stream.mp3krtrxdzde5p1sl4nzhrhfqes74xnovjhc6a2ic2e.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-09-15_(0709)_Passport To Freedom", u: "https://archive.org/download/lkytbksrjhb1uwutgvazqqolpwf85xokllbo8ewn/173pe2apcvwzuqb-stream.mp3lkytbksrjhb1uwutgvazqqolpwf85xokllbo8ewn.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-09-22_(0713)_The Plan", u: "https://archive.org/download/lslk7audrh5j9kigejhba1bf7xgm6ihdx1q195qm/173pe2apcvwzuqb-stream.mp3lslk7audrh5j9kigejhba1bf7xgm6ihdx1q195qm.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-08-31_(0702)_The Reunion", u: "https://archive.org/download/n1yjsbkvj0yla2ud32n15ukrgsvqdz54hsdrhjp2/173pe2apcvwzuqb-stream.mp3n1yjsbkvj0yla2ud32n15ukrgsvqdz54hsdrhjp2.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-09-09_(0706)_The Woman In The Green Dress", u: "https://archive.org/download/ochruzuqcylfnqgc69fkixmrg1orgmmdcuqfjvpt/173pe2apcvwzuqb-stream.mp3ochruzuqcylfnqgc69fkixmrg1orgmmdcuqfjvpt.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-09-29_(0717)_The Solitary", u: "https://archive.org/download/olr1pdmmpypzr7qzifrgtzysirphj38cji9dlwry/173pe2apcvwzuqb-stream.mp3olr1pdmmpypzr7qzifrgtzysirphj38cji9dlwry.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-10-27_(0730)_The House By The Seine", u: "https://archive.org/download/ovtlytvsoplyinygq7ggnc3m3loprlryds5i6a7b/173pe2apcvwzuqb-stream.mp3ovtlytvsoplyinygq7ggnc3m3loprlryds5i6a7b.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-10-25_(0729)_Just To Keep Busy", u: "https://archive.org/download/plwwg11lqodmgepa70tqeby5lb5hqtoa3u59wikg/173pe2apcvwzuqb-stream.mp3plwwg11lqodmgepa70tqeby5lb5hqtoa3u59wikg.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-09-02_(0703)_Olive Darling And Morton Dear", u: "https://archive.org/download/pq3wq5mjmhrb1ugeffcxahwsrhkesijtw2nptbyc/173pe2apcvwzuqb-stream.mp3pq3wq5mjmhrb1ugeffcxahwsrhkesijtw2nptbyc.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-11-07_(0736)_The Therapeutic Cat", u: "https://archive.org/download/qnuyy1t3sovwbykevkqtrf8vt6wosup0bfvbz5pe/173pe2apcvwzuqb-stream.mp3qnuyy1t3sovwbykevkqtrf8vt6wosup0bfvbz5pe.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-11-14_(0740)_The Gloria Scott", u: "https://archive.org/download/r8xory0ynlggbekt03hdvj7cro3z1tbkfmzlcblc/173pe2apcvwzuqb-stream.mp3r8xory0ynlggbekt03hdvj7cro3z1tbkfmzlcblc.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-09-12_(0707)_First Childhood", u: "https://archive.org/download/sfye8lmguvjtxfobvsmjid1hknq8wply887u8wzu/173pe2apcvwzuqb-stream.mp3sfye8lmguvjtxfobvsmjid1hknq8wply887u8wzu.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-09-26_(0715)_The Guy De Maupassant Murders", u: "https://archive.org/download/sz34ruhxs8pppnuxvw2mascwfzsr1jt1ytsitwd1/173pe2apcvwzuqb-stream.mp3sz34ruhxs8pppnuxvw2mascwfzsr1jt1ytsitwd1.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-09-30_(0718)_Trilby", u: "https://archive.org/download/tlfaw1yfnnajjjdpxepnhksgmgtirs8h2zxlsdh5/173pe2apcvwzuqb-stream.mp3tlfaw1yfnnajjjdpxepnhksgmgtirs8h2zxlsdh5.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-10-12_(0723)_The Case Of The Chateau-Margaux", u: "https://archive.org/download/u0ed9k77q7yjsshri4g1bqubav6nchtsa5e1zshf/173pe2apcvwzuqb-stream.mp3u0ed9k77q7yjsshri4g1bqubav6nchtsa5e1zshf.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-09-05_(0704)_The Waiting Room", u: "https://archive.org/download/ufqhvses15qv4udo7dbag5h3jxharcit96couye2/173pe2apcvwzuqb-stream.mp3ufqhvses15qv4udo7dbag5h3jxharcit96couye2.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-09-07_(0705)_Silent Shock", u: "https://archive.org/download/up64w8ghjpnvuz67b1npttsxfamefqywntvpebda/173pe2apcvwzuqb-stream.mp3up64w8ghjpnvuz67b1npttsxfamefqywntvpebda.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-10-28_(0731)_A Question Of Identity", u: "https://archive.org/download/v1uj36fyglv9nvz8kxfsvebmrcu1dkfm3f0zwra7/173pe2apcvwzuqb-stream.mp3v1uj36fyglv9nvz8kxfsvebmrcu1dkfm3f0zwra7.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-11-04_(0735)_The Final Judgement", u: "https://archive.org/download/vzahinxm6tgsfecylemv93xkzzcmw2d8hjuqi8ns/173pe2apcvwzuqb-stream.mp3vzahinxm6tgsfecylemv93xkzzcmw2d8hjuqi8ns.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-10-10_(0722)_The Actress", u: "https://archive.org/download/wpuksf6itdqta3jdinpgglj61lbxrwoscoglbcxc/173pe2apcvwzuqb-stream.mp3wpuksf6itdqta3jdinpgglj61lbxrwoscoglbcxc.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-09-16_(0710)_Death On Project X", u: "https://archive.org/download/wqm9mcqk7xuf4rddppjd7yt6nwoam8gs1oqtrlpr/173pe2apcvwzuqb-stream.mp3wqm9mcqk7xuf4rddppjd7yt6nwoam8gs1oqtrlpr.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-11-08_(0737)_The Haunted Mill", u: "https://archive.org/download/wziss99n9hydww1wpa4vzi7v9mean3eb8zgzto9d/173pe2apcvwzuqb-stream.mp3wziss99n9hydww1wpa4vzi7v9mean3eb8zgzto9d.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-11-10_(0738)_A Tale Of Two Worlds", u: "https://archive.org/download/xhqcf8qfy5eemil0uxx9avgnp45xswdqamvm8dmf/173pe2apcvwzuqb-stream.mp3xhqcf8qfy5eemil0uxx9avgnp45xswdqamvm8dmf.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-10-19_(0726)_The Island On Silver Tree Lake", u: "https://archive.org/download/yyeewthhswlizforjgljfvtdfsefjtwzacswrgwx/173pe2apcvwzuqb-stream.mp3yyeewthhswlizforjgljfvtdfsefjtwzacswrgwx.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-11-03_(0734)_Land Of The Living Dead", u: "https://archive.org/download/z9x9xo0mcixdn1gvvqk9qmdvimwtc3cksw5vq1zt/173pe2apcvwzuqb-stream.mp3z9x9xo0mcixdn1gvvqk9qmdvimwtc3cksw5vq1zt.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-09-19_(0711)_The Wind And The Flame", u: "https://archive.org/download/zc8utt8a3knfby5bshksgktuqbedjkzbskpqajbb/173pe2apcvwzuqb-stream.mp3zc8utt8a3knfby5bshksgktuqbedjkzbskpqajbb.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-03-03_(0792)_The Assassin", u: "https://archive.org/download/1tatdpdsqvwyalrfzuhcat0zv2cwsjdll75wibkc/173pe2apcvwzuqb-stream.mp31tatdpdsqvwyalrfzuhcat0zv2cwsjdll75wibkc.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-03-06_(0793)_The House And The Brain", u: "https://archive.org/download/1xrmpds3g0twaxwl5xqozkfjuvtsipokeeafpnw2/173pe2apcvwzuqb-stream.mp31xrmpds3g0twaxwl5xqozkfjuvtsipokeeafpnw2.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-02-09_(0779)_All Unregistered Aliens", u: "https://archive.org/download/2c2jziedg8i1qaegijrmcgozzzlvlan9byivclp8/173pe2apcvwzuqb-stream.mp32c2jziedg8i1qaegijrmcgozzzlvlan9byivclp8.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-12-26_(0759)_The Ghosts Of Yesterday", u: "https://archive.org/download/2cpvqhwxekalu05e2tl8upqcdynbmbblmqwu8kkm/173pe2apcvwzuqb-stream.mp32cpvqhwxekalu05e2tl8upqcdynbmbblmqwu8kkm.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-04-27_(0823)_The Queen Of Palmyra", u: "https://archive.org/download/2zb8cw7fnq7y8inrko5pmlrjhvytmfkoniitpceb/173pe2apcvwzuqb-stream.mp32zb8cw7fnq7y8inrko5pmlrjhvytmfkoniitpceb.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-02-17_(0784)_The Church Of Hell", u: "https://archive.org/download/4adyyut50g7qq2vcqjzcnsuebxmkd3cyl3ufvtps/173pe2apcvwzuqb-stream.mp34adyyut50g7qq2vcqjzcnsuebxmkd3cyl3ufvtps.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-04-11_(0814)_Blackmail", u: "https://archive.org/download/4lhejyosu9w2hdbmppmb4dfgurbmkxidcbqmaj4z/173pe2apcvwzuqb-stream.mp34lhejyosu9w2hdbmppmb4dfgurbmkxidcbqmaj4z.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-03-30_(0807)_Big City Blues", u: "https://archive.org/download/4nkbhiorhh1k6tppsyzwbwqf1ln7voxzfm8vmlwn/173pe2apcvwzuqb-stream.mp34nkbhiorhh1k6tppsyzwbwqf1ln7voxzfm8vmlwn.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-12-07_(0751)_Fire And Ice", u: "https://archive.org/download/5ngzjk4ps2furaa2php513zjbu6ccuc4ehjrvsqs/173pe2apcvwzuqb-stream.mp35ngzjk4ps2furaa2php513zjbu6ccuc4ehjrvsqs.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-02-24_(0788)_Loser Take All", u: "https://archive.org/download/61vy8jzlwuryftbcgmndm7ekazrgx5aya7wn7k7f/173pe2apcvwzuqb-stream.mp361vy8jzlwuryftbcgmndm7ekazrgx5aya7wn7k7f.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-01-04_(0763)_Family Album", u: "https://archive.org/download/67miq10r16nsgryd10j0wiokhkqpmnczhwccr6i2/173pe2apcvwzuqb-stream.mp367miq10r16nsgryd10j0wiokhkqpmnczhwccr6i2.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-02-27_(0789)_Second Sight", u: "https://archive.org/download/8kkegxdlzvzn1vbk2hqywyizegu5vnpxq40pskwo/173pe2apcvwzuqb-stream.mp38kkegxdlzvzn1vbk2hqywyizegu5vnpxq40pskwo.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-04-24_(0821)_The Grandee Of Terra Loco", u: "https://archive.org/download/9biw2khhz5hsgpjj8uv06wyt3wbu1qaiecnjylzg/173pe2apcvwzuqb-stream.mp39biw2khhz5hsgpjj8uv06wyt3wbu1qaiecnjylzg.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-02-03_(0776)_The Postmistress Of Laurel Run", u: "https://archive.org/download/9rylmpc9sns0cjhupdownjpkzzmedn32uqi08tna/173pe2apcvwzuqb-stream.mp39rylmpc9sns0cjhupdownjpkzzmedn32uqi08tna.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-12-14_(0754)_The Death Shot", u: "https://archive.org/download/9ticncpdbmxsof6ngq9xr5i7dzivrlkjaq8ul0dl/173pe2apcvwzuqb-stream.mp39ticncpdbmxsof6ngq9xr5i7dzivrlkjaq8ul0dl.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-12-16_(0755)_The Ghost With A Knife", u: "https://archive.org/download/9y11jz8guaknqviqkndrzfffhlp5tco0cfj5cumd/173pe2apcvwzuqb-stream.mp39y11jz8guaknqviqkndrzfffhlp5tco0cfj5cumd.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-05-04_(0827)_Journey To Somewhere", u: "https://archive.org/download/abdz06etwoywieiaujx8lwpfpe4kzsgjiquvvykn/173pe2apcvwzuqb-stream.mp3abdz06etwoywieiaujx8lwpfpe4kzsgjiquvvykn.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-11-17_(0742)_Hunted Down", u: "https://archive.org/download/bmno5fgxdgnrbsruqmfgkn8yd99j52epa3bvkw9w/173pe2apcvwzuqb-stream.mp3bmno5fgxdgnrbsruqmfgkn8yd99j52epa3bvkw9w.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-03-16_(0799)_The Time Fold", u: "https://archive.org/download/ct2idrsebohffucxj1nhvexpicvmjdjlh7pygtcc/173pe2apcvwzuqb-stream.mp3ct2idrsebohffucxj1nhvexpicvmjdjlh7pygtcc.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-11-23_(0745)_The Pinkerton Method", u: "https://archive.org/download/cvn0s51n5o07oh6tjha1gsjzzggtifkgabyl9itz/173pe2apcvwzuqb-stream.mp3cvn0s51n5o07oh6tjha1gsjzzggtifkgabyl9itz.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-12-02_(0749)_Neatness Counts", u: "https://archive.org/download/cyiduuwrx8pola8g641xbtxbndagqlbtawdwy6rx/173pe2apcvwzuqb-stream.mp3cyiduuwrx8pola8g641xbtxbndagqlbtawdwy6rx.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-12-05_(0750)_The Lost Tomorrows", u: "https://archive.org/download/d1vwubhgsrotew8puas6far60vmkbnqgiihmnpwv/173pe2apcvwzuqb-stream.mp3d1vwubhgsrotew8puas6far60vmkbnqgiihmnpwv.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-02-02_(0775)_Dont Look Back", u: "https://archive.org/download/dml47otvdcpmcuv4lmbj37iojbyx9e8rwzdhkyei/173pe2apcvwzuqb-stream.mp3dml47otvdcpmcuv4lmbj37iojbyx9e8rwzdhkyei.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-01-17_(0766)_A Model Murderer", u: "https://archive.org/download/dozg4dqihs9o45rlpo8cspwicgg4oajwykhpec9f/173pe2apcvwzuqb-stream.mp3dozg4dqihs9o45rlpo8cspwicgg4oajwykhpec9f.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-01-31_(0774)_The Ice Palace", u: "https://archive.org/download/eb0jgaixmdarbzc5r0arbnpixkvkjh6vkztoaelb/173pe2apcvwzuqb-stream.mp3eb0jgaixmdarbzc5r0arbnpixkvkjh6vkztoaelb.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-02-10_(0780)_Reflected Terror", u: "https://archive.org/download/elz47cq1j4patxdzwix6u8b7gelghx5cfjiwvmlo/173pe2apcvwzuqb-stream.mp3elz47cq1j4patxdzwix6u8b7gelghx5cfjiwvmlo.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-05-01_(0825)_A Drink With Dionysius", u: "https://archive.org/download/erackrf7srkh5fiqzg5rxzzwzg2hrvpuxgfe641x/173pe2apcvwzuqb-stream.mp3erackrf7srkh5fiqzg5rxzzwzg2hrvpuxgfe641x.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-05-02_(0826)_The Figure In The Moonlight", u: "https://archive.org/download/f0bobqcccm4xo97yhk9cdqrpefxwmjeveq7kwi4u/173pe2apcvwzuqb-stream.mp3f0bobqcccm4xo97yhk9cdqrpefxwmjeveq7kwi4u.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-04-06_(0811)_A Tragedy Of Error", u: "https://archive.org/download/fjyrx8aoo9igmvkdvbcoeb0oulv6p9riasspe2ja/173pe2apcvwzuqb-stream.mp3fjyrx8aoo9igmvkdvbcoeb0oulv6p9riasspe2ja.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-03-09_(0795)_The Instant Millionaires", u: "https://archive.org/download/fm4eeqwmzjy09kvqf9tftc5v0m9j3zcnrkkd27hz/173pe2apcvwzuqb-stream.mp3fm4eeqwmzjy09kvqf9tftc5v0m9j3zcnrkkd27hz.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-02-14_(0782)_Revenge Is Sweet", u: "https://archive.org/download/g2o1rrgfecoasrihua3khys5vb9v9vftjuqwakuu/173pe2apcvwzuqb-stream.mp3g2o1rrgfecoasrihua3khys5vb9v9vftjuqwakuu.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-03-27_(0805)_The Pretend Person", u: "https://archive.org/download/g78cj4dolbiujkv3p5qtqeyiiokv85wtzsfxxphy/173pe2apcvwzuqb-stream.mp3g78cj4dolbiujkv3p5qtqeyiiokv85wtzsfxxphy.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-04-07_(0812)_The Parasite", u: "https://archive.org/download/gc0nird32y9gj0sgsg6ol01tdmwes0j8k0gjbf5t/173pe2apcvwzuqb-stream.mp3gc0nird32y9gj0sgsg6ol01tdmwes0j8k0gjbf5t.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-03-23_(0803)_The Judas Kiss", u: "https://archive.org/download/gjfzudbdrzzoe4bh3fzn1pgg3jnggg7vu57om9md/173pe2apcvwzuqb-stream.mp3gjfzudbdrzzoe4bh3fzn1pgg3jnggg7vu57om9md.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-03-10_(0796)_Who Is George Williams", u: "https://archive.org/download/hx9v7o7k3cxp9h500x9uuy9vlmo2bk2donzmzkgg/173pe2apcvwzuqb-stream.mp3hx9v7o7k3cxp9h500x9uuy9vlmo2bk2donzmzkgg.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-03-13_(0797)_The Wheel Of Life", u: "https://archive.org/download/ieov9227axppwkueqq64kzma5bf2qpiiaauqccdf/173pe2apcvwzuqb-stream.mp3ieov9227axppwkueqq64kzma5bf2qpiiaauqccdf.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-01-16_(0765)_In Another Place", u: "https://archive.org/download/ieyovyyacvslk1xvk0dp2vzt7jk8p14elcmd486h/173pe2apcvwzuqb-stream.mp3ieyovyyacvslk1xvk0dp2vzt7jk8p14elcmd486h.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-11-18_(0743)_A Grain Of Salt", u: "https://archive.org/download/ihxpxn0dj5bu17eleqxkw1gthqpiy9vdxwq8jjhk/173pe2apcvwzuqb-stream.mp3ihxpxn0dj5bu17eleqxkw1gthqpiy9vdxwq8jjhk.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-01-13_(0764)_The Laughing Maiden", u: "https://archive.org/download/itvbpqpe0aurjfbjcxm4boglrdwccs06tfipqwb0/173pe2apcvwzuqb-stream.mp3itvbpqpe0aurjfbjcxm4boglrdwccs06tfipqwb0.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-04-04_(0810)_Delusion Of Reprieve", u: "https://archive.org/download/jkwvjoqjnqxlvhhz64txgzqon5bolzppbh33oqot/173pe2apcvwzuqb-stream.mp3jkwvjoqjnqxlvhhz64txgzqon5bolzppbh33oqot.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-04-03_(0809)_Fortunes Favorite", u: "https://archive.org/download/jld0thn2hrgommb0w5lrzlyq2hv6omvdsnx0l9ol/173pe2apcvwzuqb-stream.mp3jld0thn2hrgommb0w5lrzlyq2hv6omvdsnx0l9ol.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-02-23_(0787)_Vanishing Lady", u: "https://archive.org/download/joz9w0yehes5gwcb08ramxqpmajibqqod0yqu0wi/173pe2apcvwzuqb-stream.mp3joz9w0yehes5gwcb08ramxqpmajibqqod0yqu0wi.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-02-16_(0783)_Something In The Air", u: "https://archive.org/download/k5ivilpch1taidhuk7dmur3zp1byp5nyfwsyz5fg/173pe2apcvwzuqb-stream.mp3k5ivilpch1taidhuk7dmur3zp1byp5nyfwsyz5fg.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-01-19_(0767)_Sophia And The Pilgrim", u: "https://archive.org/download/lrktbabk0budrlnu1uiwqy0g9qbtntouz5wfmj5r/173pe2apcvwzuqb-stream.mp3lrktbabk0budrlnu1uiwqy0g9qbtntouz5wfmj5r.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-01-02_(0762)_Peter Peter Pumpkin Eater", u: "https://archive.org/download/mj7uzpysstp71ps25vardi3hbaathtygbrffjrgx/173pe2apcvwzuqb-stream.mp3mj7uzpysstp71ps25vardi3hbaathtygbrffjrgx.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-04-14_(0816)_Chapter Of Errors", u: "https://archive.org/download/mvb2rv79uhqr0itrwhm46wibnaf5hnjn6m6kcf0q/173pe2apcvwzuqb-stream.mp3mvb2rv79uhqr0itrwhm46wibnaf5hnjn6m6kcf0q.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-12-28_(0760)_The Missouri Kid", u: "https://archive.org/download/mzhmhb68gvmdch2cejowoavv9olcnaksillrgzjz/173pe2apcvwzuqb-stream.mp3mzhmhb68gvmdch2cejowoavv9olcnaksillrgzjz.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-02-20_(0785)_Angel From England", u: "https://archive.org/download/nogd3sovafivlxdwwyabvdgvalxwp1mmnmeehljt/173pe2apcvwzuqb-stream.mp3nogd3sovafivlxdwwyabvdgvalxwp1mmnmeehljt.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-01-27_(0772)_The Defectors", u: "https://archive.org/download/o0d3h02fxzkd4tl5o4blkpn3rzgo9iy4iq5qvdzy/173pe2apcvwzuqb-stream.mp3o0d3h02fxzkd4tl5o4blkpn3rzgo9iy4iq5qvdzy.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-11-28_(0747)_The Man Is Missing", u: "https://archive.org/download/oexgvprhbmweluljekztzv7nasfemxmdasto6yyk/173pe2apcvwzuqb-stream.mp3oexgvprhbmweluljekztzv7nasfemxmdasto6yyk.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-03-07_(0794)_The Red Scarf", u: "https://archive.org/download/oyfzwshzftiv3ixgrkunwslin6zjjptqwyxoyuyx/173pe2apcvwzuqb-stream.mp3oyfzwshzftiv3ixgrkunwslin6zjjptqwyxoyuyx.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-04-13_(0815)_The Shriek Of The Mandrake", u: "https://archive.org/download/p2ovx5gbarg9evbdsqjdlc5uihuhv1ay66dlw3hm/173pe2apcvwzuqb-stream.mp3p2ovx5gbarg9evbdsqjdlc5uihuhv1ay66dlw3hm.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-04-17_(0817)_Murder At Troytes Hill", u: "https://archive.org/download/p3miutdklkrawvwsgqpbbcxq5bqysf6xgjm9tqyv/173pe2apcvwzuqb-stream.mp3p3miutdklkrawvwsgqpbbcxq5bqysf6xgjm9tqyv.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-12-23_(0758)_The Witching Well", u: "https://archive.org/download/prvdwvxzqjmtnpr5icj23engedpjdcxy9jhfgjxo/173pe2apcvwzuqb-stream.mp3prvdwvxzqjmtnpr5icj23engedpjdcxy9jhfgjxo.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-11-25_(0746)_Indian Giver", u: "https://archive.org/download/q5kqagwpbfgzngbgcaym5rx9t0oykll25vqi9js5/173pe2apcvwzuqb-stream.mp3q5kqagwpbfgzngbgcaym5rx9t0oykll25vqi9js5.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-03-28_(0806)_The Ghost In The Well", u: "https://archive.org/download/qno4jnnjsxvqzdceqz0nu6ggm4v378uilew4lxzk/173pe2apcvwzuqb-stream.mp3qno4jnnjsxvqzdceqz0nu6ggm4v378uilew4lxzk.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-12-19_(0756)_Brothers Of The Angle", u: "https://archive.org/download/qp32imonznvlp2pkzdmk5txxdcbzysiv80r3tobd/173pe2apcvwzuqb-stream.mp3qp32imonznvlp2pkzdmk5txxdcbzysiv80r3tobd.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-04-25_(0822)_International Dateline", u: "https://archive.org/download/qwg7fpnazfk5h6kb72vjzcbgnaxwaqgepbxvqnb5/173pe2apcvwzuqb-stream.mp3qwg7fpnazfk5h6kb72vjzcbgnaxwaqgepbxvqnb5.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-04-21_(0820)_Bet With The Angels", u: "https://archive.org/download/rllb9dexq3oxhtdd4bkzvdaeslwnwqjgquasbkyp/173pe2apcvwzuqb-stream.mp3rllb9dexq3oxhtdd4bkzvdaeslwnwqjgquasbkyp.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-01-26_(0771)_The Safety Match", u: "https://archive.org/download/rsfmwxktwrccqsvgvqbmnifkbqkwbaxvwbujws3l/173pe2apcvwzuqb-stream.mp3rsfmwxktwrccqsvgvqbmnifkbqkwbaxvwbujws3l.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-04-10_(0813)_Childish Laughter", u: "https://archive.org/download/s8ugifttamduzmfwa8nqczirimcxd9dakvzt0ldb/173pe2apcvwzuqb-stream.mp3s8ugifttamduzmfwa8nqczirimcxd9dakvzt0ldb.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-03-31_(0808)_Shark Bait", u: "https://archive.org/download/sy5fnef51gkyxi8xy5tkrio42xnoiqleujsz2s3m/173pe2apcvwzuqb-stream.mp3sy5fnef51gkyxi8xy5tkrio42xnoiqleujsz2s3m.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-03-20_(0801)_All Things Are Possible", u: "https://archive.org/download/uoav9ljxjbkpodfnj2lnjbog8meja8tlsrlj5t7a/173pe2apcvwzuqb-stream.mp3uoav9ljxjbkpodfnj2lnjbog8meja8tlsrlj5t7a.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-04-20_(0819)_The Avocado Jungle", u: "https://archive.org/download/vbpqhzitusr7yj68xd1cdpp9z2g6jaefk1f5vrd1/173pe2apcvwzuqb-stream.mp3vbpqhzitusr7yj68xd1cdpp9z2g6jaefk1f5vrd1.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-01-20_(0768)_The Enchanted Child", u: "https://archive.org/download/vnwfwwioivnxlszphjtm4swrcsovxii6fro3a8bi/173pe2apcvwzuqb-stream.mp3vnwfwwioivnxlszphjtm4swrcsovxii6fro3a8bi.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-03-21_(0802)_The Golden Amulet", u: "https://archive.org/download/voyshnopbhqsbf6m7sm6lvaxlscq6oicya8bixgv/173pe2apcvwzuqb-stream.mp3voyshnopbhqsbf6m7sm6lvaxlscq6oicya8bixgv.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-02-07_(0778)_Dr Heideggers Experiment", u: "https://archive.org/download/vpevioferaizaxhzmy31rtdbsn1ncpsdfm1sspfb/173pe2apcvwzuqb-stream.mp3vpevioferaizaxhzmy31rtdbsn1ncpsdfm1sspfb.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-12-30_(0761)_The Ninth Volume", u: "https://archive.org/download/vr71prwutjjo61vrplb5fucie5jqp5ftgt4aqagy/173pe2apcvwzuqb-stream.mp3vr71prwutjjo61vrplb5fucie5jqp5ftgt4aqagy.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-02-06_(0777)_The Talking Women", u: "https://archive.org/download/vsqycrhfn32xf5d6to7m2xpnidfmggbd5sgccjbz/173pe2apcvwzuqb-stream.mp3vsqycrhfn32xf5d6to7m2xpnidfmggbd5sgccjbz.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-11-30_(0748)_The Teddy Bear", u: "https://archive.org/download/w9rxcixkw0vgg49kw8rqkx9o9s9w8cwmappwmj2s/173pe2apcvwzuqb-stream.mp3w9rxcixkw0vgg49kw8rqkx9o9s9w8cwmappwmj2s.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-02-21_(0786)_A Phantom Yesterday", u: "https://archive.org/download/wh3in6dpfwuu2m64nbcbbumltmbnkjinxlnoqz4o/173pe2apcvwzuqb-stream.mp3wh3in6dpfwuu2m64nbcbbumltmbnkjinxlnoqz4o.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-03-02_(0791)_You Tell Me Your Dreams", u: "https://archive.org/download/whpbiog3miwbff4tqniaydnqby7zohg0buvdp7ml/173pe2apcvwzuqb-stream.mp3whpbiog3miwbff4tqniaydnqby7zohg0buvdp7ml.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-04-28_(0824)_The House On Chimney Pot Lane", u: "https://archive.org/download/wl075x9ibtjmossw2sueytjmhca0byjbcea0u6h1/173pe2apcvwzuqb-stream.mp3wl075x9ibtjmossw2sueytjmhca0byjbcea0u6h1.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-02-13_(0781)_Night Eyes", u: "https://archive.org/download/wnu9kpybip6svcvrjj3abczgr7fj2mwhcsjh2j1m/173pe2apcvwzuqb-stream.mp3wnu9kpybip6svcvrjj3abczgr7fj2mwhcsjh2j1m.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-12-21_(0757)_The Big Ten-Cent Hustle", u: "https://archive.org/download/wwije2e0ng9coyhnl0j7k7cju6xuc3kgqett4ufg/173pe2apcvwzuqb-stream.mp3wwije2e0ng9coyhnl0j7k7cju6xuc3kgqett4ufg.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-03-17_(0800)_Identified Flying Objects", u: "https://archive.org/download/xccakjw3ciqw0v19fcihq4o5omuj5igr2jv9p2lx/173pe2apcvwzuqb-stream.mp3xccakjw3ciqw0v19fcihq4o5omuj5igr2jv9p2lx.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-04-18_(0818)_Uncle Louis", u: "https://archive.org/download/xkjum3wribxksrfjrckaxfx2qupdfjyld7gc4wlp/173pe2apcvwzuqb-stream.mp3xkjum3wribxksrfjrckaxfx2qupdfjyld7gc4wlp.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-03-24_(0804)_Wise Child", u: "https://archive.org/download/xoqmguzlhhajpybknbc7uzoofhosxxp5ap6k4vgb/173pe2apcvwzuqb-stream.mp3xoqmguzlhhajpybknbc7uzoofhosxxp5ap6k4vgb.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-03-14_(0798)_The Impossible Is True", u: "https://archive.org/download/xp506uq7ebqjja8bwbd3ahfktcmtgvniilcoxlau/173pe2apcvwzuqb-stream.mp3xp506uq7ebqjja8bwbd3ahfktcmtgvniilcoxlau.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-02-28_(0790)_A Message From Space", u: "https://archive.org/download/xumqkpqdronkyar3ccbaruqlxamte4xmcy6lseyc/173pe2apcvwzuqb-stream.mp3xumqkpqdronkyar3ccbaruqlxamte4xmcy6lseyc.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-01-30_(0773)_Yesterdays Giant", u: "https://archive.org/download/y622ununxfi7vyj8tsg2o2cmzn5g4wksrqkr3yee/173pe2apcvwzuqb-stream.mp3y622ununxfi7vyj8tsg2o2cmzn5g4wksrqkr3yee.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-01-24_(0770)_The Ranee Of Rajputana", u: "https://archive.org/download/ydnog9f2ptwjyu8vl6ihkm0frmpnxna2obflt7zl/173pe2apcvwzuqb-stream.mp3ydnog9f2ptwjyu8vl6ihkm0frmpnxna2obflt7zl.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-12-12_(0753)_The Ten Million Dollar Heist", u: "https://archive.org/download/ykmi1hwneax63xgoxnwphfkjrhobpee1r99fsezj/173pe2apcvwzuqb-stream.mp3ykmi1hwneax63xgoxnwphfkjrhobpee1r99fsezj.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-11-21_(0744)_She", u: "https://archive.org/download/yzghxih143yu4khakqenul6efmy9dguluq573m7e/173pe2apcvwzuqb-stream.mp3yzghxih143yu4khakqenul6efmy9dguluq573m7e.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-01-23_(0769)_The Forgetful Ghost", u: "https://archive.org/download/zahlkhiuterpeejhmv33jxsspzjusnfwvexekefq/173pe2apcvwzuqb-stream.mp3zahlkhiuterpeejhmv33jxsspzjusnfwvexekefq.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_77-12-09_(0752)_This Time Around", u: "https://archive.org/download/zdrvpb8fibg6tgir4dgbmyzsdwpg0ho4btbpf6ui/173pe2apcvwzuqb-stream.mp3zdrvpb8fibg6tgir4dgbmyzsdwpg0ho4btbpf6ui.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-07-14_(0864)_The Hanging Judge", u: "https://archive.org/download/0dp2wdwde03lrvsbmhvcfiszhmep5nenf7a0uv9r/173pe2apcvwzuqb-stream.mp30dp2wdwde03lrvsbmhvcfiszhmep5nenf7a0uv9r.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-05-09_(0830)_Room 418", u: "https://archive.org/download/2fwupd5zyjlzsioxjtzebxicm3zefjmaci3bheow/173pe2apcvwzuqb-stream.mp32fwupd5zyjlzsioxjtzebxicm3zefjmaci3bheow.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-05-25_(0839)_The Spy And The Traitor", u: "https://archive.org/download/34aodr8rkbnxzpk3fjh4flzydyzmc453nbfkifnh/173pe2apcvwzuqb-stream.mp334aodr8rkbnxzpk3fjh4flzydyzmc453nbfkifnh.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-05-11_(0831)_The Guilt Of The Innocent", u: "https://archive.org/download/8kvnrtaqtmopyogmccxqcmwmjjij81gnf7zp677o/173pe2apcvwzuqb-stream.mp38kvnrtaqtmopyogmccxqcmwmjjij81gnf7zp677o.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-05-19_(0836)_The Hundred Dollar Difference", u: "https://archive.org/download/abo5clipyvnrqcvnizv6qd55rjeugyubhdjqpisy/173pe2apcvwzuqb-stream.mp3abo5clipyvnrqcvnizv6qd55rjeugyubhdjqpisy.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-06-08_(0847)_Death Spell", u: "https://archive.org/download/agaxywgqqm3afhrqe8nxqpe35giihldrlmroh16c/173pe2apcvwzuqb-stream.mp3agaxywgqqm3afhrqe8nxqpe35giihldrlmroh16c.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-06-30_(0857)_The Good Times Express", u: "https://archive.org/download/awc6ek9xixelq0x6ongrwejjifm0xkcrxtzorlci/173pe2apcvwzuqb-stream.mp3awc6ek9xixelq0x6ongrwejjifm0xkcrxtzorlci.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-05-12_(0832)_The Secret Of Shen-Si", u: "https://archive.org/download/bynmwxmaechvq1xfwkcuuvbyq4dr5lzu4zw7rnmd/173pe2apcvwzuqb-stream.mp3bynmwxmaechvq1xfwkcuuvbyq4dr5lzu4zw7rnmd.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-05-22_(0837)_The Girl He Left Behind", u: "https://archive.org/download/clool6f55k9i9jpduhsmi6kut05pepzgzyxiuory/173pe2apcvwzuqb-stream.mp3clool6f55k9i9jpduhsmi6kut05pepzgzyxiuory.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-05-30_(0842)_The Bittersweet Honeymoon", u: "https://archive.org/download/crkeovyxunrypcy4phmnvhk15fadj8xx2ldmfhka/173pe2apcvwzuqb-stream.mp3crkeovyxunrypcy4phmnvhk15fadj8xx2ldmfhka.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-05-15_(0833)_Edmund Orme", u: "https://archive.org/download/duldowzgiebqqu8x0vmr9zsyjai48zyixka4zxn0/173pe2apcvwzuqb-stream.mp3duldowzgiebqqu8x0vmr9zsyjai48zyixka4zxn0.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-07-03_(0858)_King Bankrobber", u: "https://archive.org/download/h7inhdu430aolmkkb4tbrvyvscw3mn9pfjhy1o8v/173pe2apcvwzuqb-stream.mp3h7inhdu430aolmkkb4tbrvyvscw3mn9pfjhy1o8v.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-06-12_(0849)_Alias Mr Aladdin", u: "https://archive.org/download/hgw3wpoe7pr1i5h1spmy6txuf4ftiewasd93bvnx/173pe2apcvwzuqb-stream.mp3hgw3wpoe7pr1i5h1spmy6txuf4ftiewasd93bvnx.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-06-09_(0848)_A Long Way From Home", u: "https://archive.org/download/hilblxcbclurelha1jjbquw2scu4qb9ldezjvbbg/173pe2apcvwzuqb-stream.mp3hilblxcbclurelha1jjbquw2scu4qb9ldezjvbbg.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-07-21_(0868)_The Locked Trunk", u: "https://archive.org/download/hph0canj2dyywnrcod4oslb01azmsjwp7hmbnrdp/173pe2apcvwzuqb-stream.mp3hph0canj2dyywnrcod4oslb01azmsjwp7hmbnrdp.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-07-11_(0862)_Guardian Angel", u: "https://archive.org/download/hrteet4mkkwp4tq0cfydvp5nuwd0kezmumy7sdft/173pe2apcvwzuqb-stream.mp3hrteet4mkkwp4tq0cfydvp5nuwd0kezmumy7sdft.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-06-02_(0844)_Diamond Cut Diamond", u: "https://archive.org/download/humdgb7c6ftbswbrnwtvlzx9micajxu9t3qesapd/173pe2apcvwzuqb-stream.mp3humdgb7c6ftbswbrnwtvlzx9micajxu9t3qesapd.mp3", audio: true},
-        {n: "CBS Radio Mystery Theater_78-05-26_(0840)_Arctic Encounter", u: "https://archive.org/download/iedrkhqzpq5yy5hampvbqxs0hug8rd3qjw72bfvp/173pe2apcvwzuqb-stream.mp3iedrkhqzpq5yy5hampvbqxs0hug8rd3qjw72bfvp.mp3", audio: true}
+        // Added Classic Radio & Physics docs
+        {n: "Principles of Electricity (1945)", u: "https://archive.org/download/Principl1945/Principl1945_512kb.mp4"},
+        {n: "Basic Telephony (1949)", u: "https://archive.org/download/BasicTel1949/BasicTel1949_512kb.mp4"},
+        // Original Links
+        {n: "Beatles Hoax WKBW AM Radio Broadcast 1960s", u: "https://archive.org/download/beatles-hoax-wkbwbroadcast/BeatlesHoaxWKBWBroadcast.ia.mp4"},
+        {n: "AM Radio Program (July 29,1967)", u: "https://archive.org/download/radio-program-july-29-1967/Radio Program (July-29-1967).mp4"},
+        {n: "AM Radio Broadcast (Feb, 1, 1963)", u: "https://archive.org/download/am-radio-broadcast-feb-1-1963_202108/AM Radio Broadcast (Feb,1,1963).mp4"},
+        {n: "Original AM Radio (February 1965)", u: "https://archive.org/download/original-am-radio-february-1965/Original AM Radio (February 1965).ia.mp4"},
+        {n: "AM Radio News (1-17-1972)", u: "https://archive.org/download/radio-news-1-17-1972/Radio News (1-17-1972).mp4"},
+        {n: "The Time Machine (1978)", u: "https://archive.org/download/the-time-machine-1978-time-travel-sci-fi/The%20Time%20Machine%20%281978%20Time%20Travel%20SciFi%29.mp4"},
+        {n: "Plan 9 from Outer Space", u: "https://archive.org/download/Plan9FromOuterSpace/Plan9FromOuterSpace_512kb.mp4"},
+        {n: "NASA 1971 Aeronautics And Space Highlights", u: "https://archive.org/download/19194nasa1971aeronauticsandspacehighlightsvwr/19194%20NASA%201971%20Aeronautics%20And%20Space%20Highlights_vwr.mp4"},
+        {n: "Destroy All Monsters (1968)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/9.DestroyAllMonsters1968.mp4"},
+        {n: "Son of Godzilla (1967)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/8.SonOfGodzilla1967.mp4"},
+        {n: "Godzilla vs The Sea Monster (1966)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/7.GodzillaVsTheSeaMonster1966.mp4"},
+        {n: "Godzilla vs Monster Zero (1965)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/6.GodzillaVsMonsterZero1965.mp4"},
+        {n: "Mothra vs Godzilla (1964)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/5.MothraVsGodzilla1964.mp4"},
+        {n: "Ghidorah The Three Headed Monster (1964)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/4.GhidorahTheThreeHeadedMonster1964.mp4"},
+        {n: "Godzilla 1985", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/16.Godzilla1985.mp4"},
+        {n: "Terror Of Mechagodzilla (1975)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/15.TerrorOfMechagodzilla1975.mp4"},
+        {n: "Godzilla vs Mechagodzilla (1974)", u: "https://archive.org/download/RecurringDinosaurInfestationFilms/14.GodzillaVsMechagodzilla1974.gif"}
     ];
 
     const D = [
-        {n: "Pot o Gold", u: "https://archive.org/download/pot_o_gold/pot_o_gold.mp4"},
-        {n: "Silver Trail", u: "https://archive.org/download/the_silver_trail/the_silver_trail.mp4"},
-        {n: "Silver Spurs", u: "https://archive.org/download/silver_spurs/silver_spurs.mp4"},
-        {n: "Black Gold", u: "https://archive.org/download/Black_Gold/BlackGold.mp4"},
-        {n: "The Silver Horde", u: "https://archive.org/download/SilverHorde1930/The_Silver_Horde_1930.mp4"},
-        {n: "Gold (1932)", u: "https://archive.org/download/Gold-1932/Gold.mp4"},
-        {n: "Desert Gold", u: "https://archive.org/download/DesertGold/DesertGold.mp4"},
-        {n: "Long John Silver", u: "https://archive.org/download/LongJohnSilver1954/Long John Silver (1954).mp4"},
-        {n: "Rio Lobo (John Wayne)", u: "https://archive.org/download/rio-lobo-1970-john-wayne-western-civil-war/Rio Lobo (1970 John Wayne Western Civil War).mp4"},
-        {n: "Lone Ranger", u: "https://archive.org/download/LegionOfOldTimers1949/LegionOfOldTimers1949.mp4"},
-        {n: "Range Rider", u: "https://archive.org/download/RangeRiderOutlawTerritory/Range Rider - Outlaw Territory.mp4"},
-        {n: "Bonanza: Emperor Norton", u: "https://archive.org/download/TheEmperorNortonBonanza1966/The_Emperor_Norton_Bonanza_1966.mp4"},
-        {n: "Coal Miner", u: "https://archive.org/download/coal_miner/coal_miner_512kb.mp4"},
-        {n: "Gold Diggers of 1933", u: "https://archive.org/download/gold-diggers-of-1933.1933.1080p/Gold.Diggers.Of.1933.1933.1080p.BluRay.x264.DTS-FGT.mp4"},
-        {n: "How Green Was My Valley", u: "https://archive.org/download/HowGreenWasMyValley1941_201812/How Green was My Valley (1941).mp4"},
-        {n: "The Amazing Adventure", u: "https://archive.org/download/amazing_adventure/amazing_adventuarchive.mp4"},
-        {n: "Africa Speaks", u: "https://archive.org/download/africa_speaks/africa_speaks.mp4"},
-        {n: "Adventure Island", u: "https://archive.org/download/AdventureIsland/AdventureIsland.avi"},
-        {n: "Digimon Adventure (2020) - The Complete Collection", u: "https://archive.org/download/digimon-adventure-2020-the-complete-collection/[Judas] Digimon Adventure - S01E65.mkv"},
-        {n: "Digimon Adventure 1999 - Season 1 - Japanese with English Subtitles", u: "https://archive.org/download/digimon-adventure-1999-jpn-sub/DigimonAdventure-Episode-02.mp4"},
-        {n: "Sonic Adventure DX (GCN) - Super Sonic 0:01:54 with death abuse - Andres Montalbetti", u: "https://archive.org/download/SonicAdventureDX_SuperSonic_154/SonicAdventureDX_SuperSonic_154_HQ.avi"},
-        {n: "Adventure Prof (Walter Veith)", u: "https://archive.org/download/adventure-prof/The_Earth_Between_Light_and_Darkness-The_Rebellion-Walter_Veith_and_Henry_Strober.ia.mp4"},
-        {n: "Zelda II: The Adventure of Link (NES) - New Game + 0:46:54 - Marc J. Dziezynski", u: "https://archive.org/download/Zelda2_SS_NewGamePlus_4654/Zelda2_SS_NewGamePlus_4654_HQ.avi"},
-        {n: "Digimon Adventure (2020): The Complete Collection (English dub)", u: "https://archive.org/download/digimon-adventure-2020-english-dub-studiopolis-toei-animation/Digimon Adventure__S01E05_(Dub) THE HOLY DIGIMON.mkv"},
-        {n: "Blues Clues 4x22 Meet Joe Scrapbook Adventure (Noggin Airing)", u: "https://archive.org/download/blues-clues-4x-22-meet-joe-scrapbook-adventure-noggin-airing/Blue's Clues - 4x22 - Meet Joe Scrapbook Adventure (Noggin Airing).mp4"},
-        {n: "Sonic Adventure DX (GCN) - Single-segment as Amy 0:10:36- Dan Zurad", u: "https://archive.org/download/SonicAdventureDX_SS_Amy_1036/SonicAdventureDX_SS_Amy_1036_IQ.avi"},
-        {n: "The Wiggles: Magical Adventure! (A Wiggly Movie) 2007 Warner Home Video DVD Rip", u: "https://archive.org/download/MAGICALADVENTURENTSCTitle2/MAGICALADVENTURE_NTSC_Title2.mp4"},
-        {n: "Zathura A Space Adventure.2005.720p.bluray.x 264", u: "https://archive.org/download/zathura-a-space-adventure-.-2005.720p.bluray.x-264.aac-etrg/Zathura A Space Adventure .2005.720p.bluray.x264.aac-etrg.mp4"},
-        {n: "Sonic Adventure DX (GCN) - Single-segment as Tails 0:18:19 - Andres Montalbetti", u: "https://archive.org/download/SonicAdventureDX_SS_Tails_1819/SonicAdventureDX_SS_Tails_1819_HQ.avi"},
-        {n: "Digimon Adventure - The Complete Collection (Filipino-English dub)", u: "https://archive.org/download/digimon-adventure-the-complete-collection-filipino-english-dub/Digimon Adventure Episode 51 - The Last Dark Master Piermon (Filipino English) (10-bit) (SD BDRip) Alt 2 (50% reduced once).avi"},
-        {n: "The Adventure of the Speckled Band", u: "https://archive.org/download/TheAdventuresOfTheSpeckledBand/SpeckledBand.mp4"},
-        {n: "JoJos Bizarre Adventure OVA (English Dub)", u: "https://archive.org/download/jojova_202107/EP.3.v0.720p.mp4"},
-        {n: "Buzz Lightyear of Star Command: The Adventure Begins", u: "https://archive.org/download/TAB_BLoSC/Buzz Lightyear-of-Star Command - The Adventure Begins.mp4"},
-        {n: "Jane Eyre (Charlotte Bronte)", u: "https://archive.org/download/jane-eyre-2006-ep-3/Jane Eyre 2006 EP3.mp4"},
-        {n: "Raggedy Ann & Andy: A Musical Adventure 1977 35mm Ultra HD", u: "https://archive.org/download/raggedyannandy1977hd/Raggedy Ann Andy 1977 UHD 2.mp4"},
-        {n: "Poohs Grand Adventure-The Search for Christopher Robin (1998 LaserDisc)", u: "https://archive.org/download/poohs-grand-adventure-1998-laserdisc/Pooh's Grand Adventure (Side 1).avi"},
-        {n: "Launchpad: History, Benefits, and Safety of Radioisotope Power Systems", u: "https://archive.org/download/NASALaunchpad_HistoryBenefitsAndSafety_HD/NASALaunchpad_HistoryBenefitsAndSafety_Web4x3_H264.mp4"},
-        {n: "Sonic Adventure DX (GCN) - Single-segment as E-102 gamma 0:10:02 - Andres Montalbetti", u: "https://archive.org/download/SonicAdventureDX_SS_E102_1002/SonicAdventureDX_SS_E102_1002_HQ.avi"},
-        {n: "Blues Clues: Meet Joe Scrapbook Adventure", u: "https://archive.org/download/meet-joe-scrapbook-adventure/Meet Joe Scrapbook Adventure.ia.mp4"},
-        {n: "Digimon Adventure (1999) (Disney XD - Asian-English dub)", u: "https://archive.org/download/digimon-adventure-1999-disney-xd-asian-english-dub/Digimon Adventure (1999).avi"},
-        {n: "Jojos Bizarre Adventure: Phantom Blood Movie Collection", u: "https://archive.org/download/jojosbizarreadventurephantombloodmoviecollection/2004 Preview/Notelu's 2004 Preview Restoration.mp4"},
-        {n: "War Cinema II", u: "https://archive.org/download/uboatwolfpacks/The Train 1964.mp4"},
-        {n: "War Cinema III", u: "https://archive.org/download/surrenderofgermanuboats1945/Gangway (1937).mp4"},
-        {n: "The Secret Land", u: "https://archive.org/download/TheSecretLand/TheSecretLand.mp4"},
-        {n: "Digimon Adventure Español Latino (ETC TV Rip)", u: "https://archive.org/download/digimon-adventure-espanol-latino-etc-tv-rip-2017/Digimon Adventure [Episodio 16] Español Latino (ETC TV).mp4"},
-        {n: "Digimon Adventure 01 and Zero Two - The Filipino-English dub (OUTDATED)", u: "https://archive.org/download/digimon-adventure-01-and-02-filipino-english-dub/Adventure 31&32.mpg.ia.mp4"},
-        {n: "Jojos Bizarre Adventure (1993) (English Dub)", u: "https://archive.org/download/jjba93/Jojo's Bizarre Adventure (1993).ia.mp4"},
-        {n: "Little Big Adventure 2: Twinsens Odyssey (PC) - 1:21:29 - Daniel Burns", u: "https://archive.org/download/LittleBigAdventure2_12129/LittleBigAdventure2_12129_HQ_part7.avi"},
-        {n: "Pirates of the Caribbean: The Curse of the Black Pearl (2003) | Behind the Scenes + Outtakes", u: "https://archive.org/download/youtube-_yLdlQsD09o/_yLdlQsD09o.mp4"},
-        {n: "As Far As My Feet Will Carry Me (German WW 2 Film) English Subs", u: "https://archive.org/download/asfarasmyfeetwillcarrymegermanww2filmenglishsubs/As Far As My Feet Will Carry Me (German WW2 Film) English Subs).mp4"},
-        {n: "The Chipmunk Adventure - Full Frame Preservation V1.0", u: "https://archive.org/download/the-chipmunk-adventure-full-frame-preservation-1.0/The Chipmunk Adventure - Full-Frame Preservation 1.0.mkv"},
-        {n: "Flash Gordon: The Greatest Adventure Of All (1982)", u: "https://archive.org/download/flash-gordon-the-greatest-adventure-of-all-1979/Flash Gordon The Greatest Adventure of All (1979).ia.mp4"},
-        {n: "Timmy The Tooth: Rainy Day Adventure", u: "https://archive.org/download/rainy-day-adventure/Rainy Day Adventure.mp4"},
-        {n: "Digimon Adventure: Our War Game! (2000) (Disney Channel - Asian-English dub)", u: "https://archive.org/download/digimon-adventure-our-war-game-2000-disney-xd-asian-english-dub/Digimon Movie 2 Resynk DUB Blu-ray (3 Year Nostalgic Version) (Half 1 of 2).avi"},
-        {n: "Garfields Halloween Adventure and Its the Great Pumpkin, Charlie Brown (CBS WOC)", u: "https://archive.org/download/halloween-cartoons-1985/Halloween Cartoons 1985.mp4"},
-        {n: "Barneys Great Adventure (1998) (Rare Widescreen Version)", u: "https://archive.org/download/barneys-great-adventure_20220120/Barney's Great Adventure (1998) [True Widescreen & HD] (1080p).mp4"},
-        {n: "The Amazing Adventure", u: "https://archive.org/download/TheAmazingAdventure/TheAmazingAdventurePresentedByMoviePowder.avi"},
-        {n: "Doraemon Movie 19: Nobitas Great Adventure In The South Seas English Dub", u: "https://archive.org/download/doraemon-movie-19-nobitas-great-adventure-in-the-south-seas-english-disney-xd-as/Doraemon movie 19 - Nobita's Great Adventure in the South Seas - English Disney XD Asia dub [v2][ATTKC][5E576D15].mkv"},
-        {n: "Jay Jay The Jet Plane: Jay Jays Butterfly Adventure (US)", u: "https://archive.org/download/jay-jay-the-jet-plane-jay-jays-butterfly-adventure-us/Jay Jay the Jet Plane_ Jay Jay's Butterfly Adventure (US).mp4"},
-        {n: "Bill And Teds Excellent Adventure", u: "https://archive.org/download/bill-and-teds-excellent-adventure_202103/algo/John Wick.mkv"},
-        {n: "Sonic Adventure DX (GCN) - Single-segment as Sonic 0:34:33 - Francis LeBlanc", u: "https://archive.org/download/SonicAdventureDX_SS_Sonic_3433/SonicAdventureDX_SS_Sonic_3433_IQ.mp4"},
-        {n: "The Wiggles, Magical Adventure! Plus Wiggle Time (UK DVD 2005)", u: "https://archive.org/download/the-wiggles-magical-adventure-wiggle-time-uk-dvd-2005/The Wiggles, Magical Adventure! + Wiggle Time (UK DVD 2005).ia.mp4"},
-        {n: "Digimon Adventure Zero Two: Hurricane Touchdown!! The Golden Digimentals (2000) (Disney XD - Asian-English dub) (Beta Tests with Japanese Audio in Cuts)", u: "https://archive.org/download/digimon-adventure-zero-two-hurricane-touchdown-the-golden-digimentals-2000-disne/02 Digimon - OVA1 - M03 - Beta Test With Japan Audio In Cuts [DVD][Yukina Fushida-XD][Half 1].avi"},
-        {n: "The Wiggles Magical Adventure A Wiggly Movie (Full 2003 HIT Entertainment VHS)", u: "https://archive.org/download/the-wiggles-magical-adventure-a-wiggly-movie/The Wiggles Magical Adventure A Wiggly Movie.mp4"},
-        {n: "Digimon Adventure Zero Two: The Complete Collection (2000-01, Filipino-English dub)", u: "https://archive.org/download/digimon-zero-two-filipino-english-toei-animation/Digimon Adventure Zero Two E05 (Filipino-English).mp4"},
-        {n: "Superbook: A Giant Adventure (2015) (DVD ISO Download)", u: "https://archive.org/download/superbook-106-n/SUPERBOOK_106_N.mp4"},
-        {n: "Africa Speaks iPod version", u: "https://archive.org/download/africa_speaks_ipod/africa_speaks.mp4"},
-        {n: "Best Action Movies Adventure, War, Action Movies Full Length English [ Hd 1080 ]", u: "https://archive.org/download/BestActionMoviesAdventureWarActionMoviesFullLengthEnglishHd1080/Action Crime Movies2017 Hollywood ✦ Best Action Movies 2017 Full Length English ✦ War Movies 2017.mp4"},
-        {n: "Flash Gordon The Greatest Adventure of All (1979)", u: "https://archive.org/download/youtube-f6YhSjRiVio/Flash_Gordon_The_Greatest_Adventure_of_All_1979-f6YhSjRiVio.mp4"},
-        {n: "Sonic Adventure DX (GCN) - Single-segment as Sonic 0:46:11 - Mychal Jefferson", u: "https://archive.org/download/SonicAdventureDX_SS_Sonic_4611/SonicAdventureDX_SS_Sonic_4611_HQ.avi"},
-        {n: "Sonic Adventure DX (GCN) - Single-segment as Tails 0:21:18 - Mychal Jefferson", u: "https://archive.org/download/SonicAdventureDX_SS_Tails_2118/SonicAdventureDX_SS_Tails_2118_HQ.avi"},
-        {n: "Digimon Adventure 02 Español Latino (ETC TV Rip)", u: "https://archive.org/download/digimon-adventure-02-espanol-latino-etc-tv-rip-2017/Digimon Adventure 02 [Episodio 50] Español Latino (Final).mkv"},
-        {n: "The Lost World 1925, Fantasy Adventure, Full Film, High Quality", u: "https://archive.org/download/TheLostWorld1925FantasyAdventureFullFilmHighQuality/The Lost World _ 1925, fantasy adventure, full film, high quality.mp4"},
-        {n: "The Wiggles: Magical Adventure! A Wiggly Movie (2003 VHS)", u: "https://archive.org/download/magical-adventure-awiggly-movie/MagicalAdventureAWigglyMovie.mp4"},
-        {n: "Alien Planet | Discovery Channel (2005)", u: "https://archive.org/download/discovery-channel-alien-planet-2005/726604.mp4"},
-        {n: "The Land Before Time 2 The Great Valley Adventure 1994 Animation movies for kids", u: "https://archive.org/download/the-land-before-time-2-the-great-valley-adventure-1994-animation-movies-for-kids/The Land Before Time 2 The Great Valley Adventure 1994 Animation movies for kids.ia.mp4"},
-        {n: "Zelda II - The Adventure of Link (NES) - Single-segment 1:17:15 - Chip Vogel", u: "https://archive.org/download/Zelda2_SS_11715/Zelda2_SS_11715_HQ.mp4"},
-        {n: "Raggedy Ann & Andy: A Musical Adventure 1977 The Little Island 1958", u: "https://archive.org/download/raggedy-ann-and-andy-a-musical-adventure/VIDEO_TS/VTS_02_1.mp4"},
-        {n: "Flash Gordon The Greatest Adventure Of All", u: "https://archive.org/download/FlashGordonTheGreatestAdventureOfAll1979/FlashGordonTheGreatestAdventureOfAll1979.mp4"},
-        {n: "Jennys Odd Adventure — All Parts", u: "https://archive.org/download/jennys-odd-adventure-all-parts/Jenny's_Odd_Adventure_Part_5.ia.mp4"},
-        {n: "Barneys Adventure Bus (2004 DVD) (DVD ISO)", u: "https://archive.org/download/barneys-adventure-bus/ADVENTURE_BUS.mp4"},
-        {n: "Sound It Out Loud: A Musical Adventure in Reading! Phonics 1", u: "https://archive.org/download/sounditoutloudphonics2/Analog_20200313_0510.mp4"},
-        {n: "Tickety Toc: The Complete Chime Time Adventure Series! (2017 DVD Rips)", u: "https://archive.org/download/ticketytocAllEpisodes/Dancing Time.ia.mp4"},
-        {n: "Barney - Adventure Bus (DVD)", u: "https://archive.org/download/adventurebus/Barney Online.ia.mp4"},
-        {n: "Battle for Iwo Jima (1945) COLOR", u: "https://archive.org/download/thetrueglory1945restored/The True Glory, 1945 (restored).mp4"},
-        {n: "Lure of the Islands (1942)", u: "https://archive.org/download/lureoftheislands1942robertlowery/Lure of the Islands (1942) Robert Lowery.mp4"},
-        {n: "Little Big Adventure (PC) - 1:19:14 - Per Normann", u: "https://archive.org/download/LittleBigAdventure_11914/LittleBigAdventure_11914_HQ_part2.mp4"},
-        {n: "Doraemon the Movie: Nobitas New Great Adventure into the Underworld - The Seven Magicians (2007) - Dora-ta-no Sub", u: "https://archive.org/download/doraemon-movie-into-the-magic-planet-2007_202406/27 [ghie-lhanx.com] Doraemon Movie Into The Magic Planet 2007.mkv.mp4"},
-        {n: "Lady and the Tramp II: Scamps Adventure (2001)", u: "https://archive.org/download/lady-and-the-tramp-ii-scamps-adventure-2001/lady-and-the-tramp-2-scamp-s-adventure-hd-720p.mp4"},
-        {n: "Persuasion (Jane Austen) Masterpiece Theatre", u: "https://archive.org/download/PersuasionJaneAustenPart2/Persuasion (Jane Austen) Part 1.mp4"},
-        {n: "The Legend Of Sleepy Hollow (1980, Family, Mystery, Adventure, TV Movie)", u: "https://archive.org/download/the-legend-of-sleepy-hollow-1980-family-mystery-adventure-tv-movie/The Legend of Sleepy Hollow (1980, Family, Mystery, Adventure, TV movie).mp4"},
-        {n: "0001: JoJos Bizarre Adventure OVA (1993) - Digibois Aniwatch", u: "https://archive.org/download/digibois_aniwatch_0001/digibois_aniwatch_0001.ogv"},
-        {n: "New Action Movies 2017 New Adventure Movies 2017 English Subtitles HD", u: "https://archive.org/download/NewActionMovies2017NewAdventureMovies2017EnglishSubtitlesHD/New Action Movies 2017 _ New Adventure movies 2017 English Subtitles_HD.mp4"},
-        {n: "Bill And Teds Excellent Adventure", u: "https://archive.org/download/bill-and-teds-excellent-adventure/algo/Bill And Teds Excellent Adventure.mkv"},
-        {n: "Olafs Frozen Adventure", u: "https://archive.org/download/olafs-frozen-adventure_202404/Olafs.Frozen.Adventure.2017.1080p.BluRay.x264.AAC-[YTS.MX].mp4"},
-        {n: "Garfields Halloween Adventure AKA Garfield in Disguise (1985 TV Special)", u: "https://archive.org/download/garfieldshalloweenadventure_201911/Garfield's Halloween Adventure.avi"},
-        {n: "The Greatest Adventure - Stories from the Bible - Noahs Ark", u: "https://archive.org/download/storiesfromthebible_noahsark/Greatest Adventure, The -  Stories from the Bible - Noah's Ark (Hanna-Barbera Productions, Inc.)(1987).mkv"},
-        {n: "Crime And Punishment (1980) John Hurt", u: "https://archive.org/download/CrimeAndPunishmentPart3/Crime and Punishment - Part 3.ogv"},
-        {n: "Thomas & Friends: The Adventure Begins", u: "https://archive.org/download/the-adventure-begins_202402/The Adventure Begins.mp4"},
-        {n: "Abraham Lincoln (Documentary)", u: "https://archive.org/download/AbrahamLincoln_201901/Abraham Lincoln.ogv"},
-        {n: "Barneys Great Adventure: The Movie (DVD ISO)", u: "https://archive.org/download/barneys-great-adventure_202406/BARNEY.mp4"}
+        {n: "Pink Flamingos (1972)", u: "https://archive.org/download/pinkflamingos1972_202211/Pink Flamingos (1972).mp4"},
+        {n: "Deep Red", u: "https://archive.org/download/DeepRed1975/DeepRed.mp4"},
+        {n: "The Beatles Let It Be (Original 35mm Widescreen Theatre Print - Stereo Audio)", u: "https://archive.org/download/Let_It_Be_1970_film/The Beatles - Let It Be (Deluxe 35mm Widescreen Stereo Edition)2.mp4"},
+        {n: "Grave of the Vampire", u: "https://archive.org/download/GraveOfTheVampire/GraveOfTheVampirePresentedByMoviePowder.mp4"},
+        {n: "Nightmare Castle", u: "https://archive.org/download/NightmareCastle/MoviePowderPresentsNightmareCastle.mp4"},
+        {n: "The Brain That Wouldnt Die", u: "https://archive.org/download/TheBrainThatWouldntDie_165/TheBrainThatWouldNotDie1962.mp4"},
+        {n: "Gangster Story", u: "https://archive.org/download/GangsterStory/GangsterStoryPresentedByMoviePowder.mp4"},
+        {n: "Help! - The Beatles Movie", u: "https://archive.org/download/help_20201109/Help!.mp4"},
+        {n: "Messiah of Evil", u: "https://archive.org/download/MessiahofEvil_avi/Messiah_of_Evil.mp4"},
+        {n: "Zontar the Thing from Venus (Restored)", u: "https://archive.org/download/ZontarTheThingFromVenusrestored/Zontarrestored.mp4"},
+        {n: "Horror Express (HD)", u: "https://archive.org/download/HorrorExpress_201303/Horror Express.mp4"},
+        {n: "Seconds (1966)", u: "https://archive.org/download/seconds.-1966.1080p.-blu-ray.-h-264.-aac-rarbg/Seconds.1966.1080p.BluRay.H264.AAC-RARBG.ia.mp4"},
+        {n: "Woman of the Lake (1966)", u: "https://archive.org/download/woman.of.the.-lake.-1966.-dvdrip.-onna.no.-mizuumi.-yoshishige.-yoshida/Woman.of.the.Lake.1966.DVDRip.Onna.no.Mizuumi.Yoshishige.Yoshida.mp4"},
+        {n: "Christina Lindberg In ( 1973) Movie", u: "https://archive.org/download/christina-lindberg-in-1973-movie/Christina Lindberg in (1973) movie.mp4"},
+        {n: "Monty Python And The Holy Grail 1974 1080p", u: "https://archive.org/download/9convert.com-monty-python-and-the-holy-grail-1974-1080p/9convert.com - Monty Python and the Holy Grail 1974  1080p.mp4"},
+        {n: "The Saint: TV Series & Movies Archive", u: "https://archive.org/download/2017-the-saint-movie-1080p-spanish-or-english/(2017) -------- The Saint -- movie  (1080p, Spanish or English).mp4"},
+        {n: "A Hard Days Night Original Version (1964)", u: "https://archive.org/download/aharddaysnightmovie/1964.8.11 A Hard Day's Night.mp4"},
+        {n: "Une vierge chez les morts-vivants", u: "https://archive.org/download/a-virgin-among-the-living-dead/A Virgin Among the Living Dead.mp4"},
+        {n: "Monty Python - Whither Canada?", u: "https://archive.org/download/mpfc-remastered_20210305_1553/01.%20Whither%20Canada%3F.mp4"},
+        {n: "Silly Symphonies - The Skeleton Dance (1929)", u: "https://archive.org/download/walt-disneys-silly-symphonies-the-complete-collection-1929-39/01%20-%20The%20Skeleton%20Dance%20%281929%29.mp4"},
+        {n: "Silly Symphonies - King Neptune", u: "https://archive.org/download/videoplayback-3_202106-walt-disney-king-neptune/videoplayback%20%283%29.mp4"}
     ];
 
     const E = [
-        {n: "Nitro Funny Cars", u: "https://archive.org/download/nitro-funny-cars/Nitro Funny Cars.ia.mp4"},
-        {n: "1/4 Mile Crashes - 1993", u: "https://archive.org/download/1-4-mile-crashes-1993/1 4 Mile Crashes 1993.mp4"},
-        {n: "VHS Rip - Rock n Racing (1989)", u: "https://archive.org/download/vhs-rip-rock-n-racing-main-event-video-approx-1989/VHS Rip - Rock n' Racing (Main Event Video) (Approx 1989).ia.mp4"},
-        {n: "Pro Jet", u: "https://archive.org/download/projetvhstape/Pro Jet.mp4"},
-        {n: "IHRA Quarter Mile Crashes Vol. 1", u: "https://archive.org/download/ihra-presents-quarter-mile-crashes-vol.-1/IHRA Presents Quarter Mile Crashes Vol. 1.mp4"},
-        {n: "1990 Daytona 500 Full Race", u: "https://archive.org/download/01-1990-daytona-500-full-broadcast/01 1990 Daytona 500 Cope vs. Earnhardt and the filming of Days of Thunder Classic Full Race Replay.ia.mp4"},
-        {n: "1985 Daytona 500", u: "https://archive.org/download/1985-daytona-500/1985 Daytona 500.mp4"},
-        {n: "1983 Daytona 500", u: "https://archive.org/download/1983-daytona-500-partial-tas-tv-20-02-1983/1983 Daytona 500 (partial, TasTV, 20-02-1983).mp4"},
-        {n: "1984 Daytona 500", u: "https://archive.org/download/1984-daytona-500-with-commercials/1984 Daytona 500 - with commercials.ia.mp4"},
-        {n: "1970 Southern 500", u: "https://archive.org/download/1970-southern-500/1970 Southern 500.mp4"},
-        {n: "1986 Indianapolis 500", u: "https://archive.org/download/1986-indianapolis-500-full-race-original-saturday-coverage/1986 Indianapolis 500 - FULL RACE ORIGINAL SATURDAY COVERAGE.mp4"},
-        {n: "Greased Lightning (1977)", u: "https://archive.org/download/greased-lightning-1977/Greased Lightning (1977).mp4"},
-        {n: "43: The Richard Petty Story", u: "https://archive.org/download/43TheRichardPettyStory_201301/43TheRichardPettyStory.mp4"},
         {n: "Wonderful World of Wheels", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"},
-        {n: "CAN AM Racing 1971 Watkins Glen", u: "https://archive.org/download/can-am-racing-1971-live-from-watkins-glen/CAN-AM Racing 1971 - LIVE from Watkins Glen.mp4"},
-        {n: "Miller High Life 500 at Ontario", u: "https://archive.org/download/con_000052/con_000052_access.HD.mp4"},
-        {n: "Ghost of Dragstrip Hollow (1959)", u: "https://archive.org/download/sinema-trailer_ghost-of-dragstrip-hollow/Ghost of Dragstrip Hollow 1959 trailer (480p_30fps_H264-128kbit_AAC).mp4"},
-        {n: "Fireball 500 (1966)", u: "https://archive.org/download/sinema-trailer_fireball-500/Fireball 500 (1966) Official Trailer - Frankie Avalon Movie HD (720p_30fps_H264-192kbit_AAC).mp4"},
-        {n: "Speed Racer: Masked Racer", u: "https://archive.org/download/speed-racer-tv/03 Challenge of the Masked Racer 1.mp4"},
-        {n: "1965 Pontiac GTO Commercial", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1965_Pontiac_GTO_Tiger_512kb.mp4"},
-        {n: "1964 Mustang Commercial", u: "https://archive.org/download/Car_Commericals_1961-1965/Commercial_-_1964_Ford_Mustang_512kb.mp4"},
-        {n: "1954 Corvette Commercial", u: "https://archive.org/download/Car_Commericals_1949-1955/Commercial_-_1954_Chevy_Corvette.mp4"},
-        {n: "Ingenuity in Action I", u: "https://archive.org/download/Ingenuit1958/Ingenuit1958_edit.mp4"},
-        {n: "Ingenuity in Action II", u: "https://archive.org/download/Ingenuit1958_2/Ingenuit1958_2_edit.mp4"},
-        {n: "Pink Pistons", u: "https://archive.org/download/pink-pistons-s-01-ep-16/Pink Pistons S01Ep16.mp4"},
-        {n: "Christine", u: "https://archive.org/download/christine-1983_202305/christine-1983_202305.mp4"},
-        {n: "Christine (Turner)", u: "https://archive.org/download/turner_video_1208/turner_video_1208.mp4"},
-        {n: "1959 commercial for the 1960 Plymouth (ad 2)", u: "https://archive.org/download/1959For1960PlymouthAd2/1959For1960PlymouthAd2.mp4"},
-        {n: "1959 commercial for the 1960 Plymouth", u: "https://archive.org/download/1959For1960PlymouthAd1/1959For1960PlymouthAd1.mp4"},
-        {n: "2012 Mecum Auction: 1969 Plymouth Road Runner", u: "https://archive.org/download/2012MecumFallPremierAuction1969PlymouthRoadRunnerRestoMod/2012MecumFallPremierAuction1969PlymouthRoadRunnerRestoMod.mp4"},
-        {n: "NCAP 00010 Crash Compatibility", u: "https://archive.org/download/Ncap00010DevelopmentOfATestMethodologyForEvaluatingCrashCompatibility/Ncap00010DevelopmentOfATestMethodologyForEvaluatingCrashCompatibility.mp4"},
-        {n: "1967 13", u: "https://archive.org/download/1967-13/1967-13.mp4"},
-        {n: "1968 7", u: "https://archive.org/download/1968-7/1968-7.mp4"},
-        {n: "1961 THIS TOWN SURE HAS CHANGED", u: "https://archive.org/download/88604ThisTownSureHasChanged/88604ThisTownSureHasChanged.mp4"},
-        {n: "1959 commercial for 1960 Plymouth (ad 3)", u: "https://archive.org/download/1959-commercial-for-1960-plymouth-ad-3/1959-commercial-for-1960-plymouth-ad-3.mp4"},
-        {n: "Throttle Steering a MOPAR: ft. Jay Leno", u: "https://archive.org/download/throttle-steering_mopar/throttle-steering_mopar.mp4"},
-        {n: "Oaks car show; 1950s Plymouth Fury", u: "https://archive.org/download/bctvpa-Oaks_car_show_1950_s_auto_racing_1950_s_Plymouth_Fury_4-5-11/bctvpa-Oaks_car_show_1950_s_auto_racing_1950_s_Plymouth_Fury_4-5-11.mp4"},
-        {n: "Christine: Retold (GTA V)", u: "https://archive.org/download/chirstine-retold-a-retelling-of-christine-in-gta-v/chirstine-retold-a-retelling-of-christine-in-gta-v.mp4"},
-        {n: "EMERGENCY DRIVING 1974 POLICE TRAINING", u: "https://archive.org/download/NK41IctkmsSDx91bXhBENZuSnNs0kY/NK41IctkmsSDx91bXhBENZuSnNs0kY.mp4"},
-        {n: "Car Chases in The Three Fantastic Supermen", u: "https://archive.org/download/i-fantastici-3-supermen-1967/i-fantastici-3-supermen-1967.mp4"},
-        {n: "NCAP 00012 Crash Compatibility", u: "https://archive.org/download/Ncap00012DevelopmentOfATestMethodologyForEvaluatingCrashCompatibility/Ncap00012DevelopmentOfATestMethodologyForEvaluatingCrashCompatibility.mp4"},
-        {n: "1963 HIGHBALL HIGHWAY", u: "https://archive.org/download/jFw45SHptP3HdVxDWiHzHxf0wr4TtC/jFw45SHptP3HdVxDWiHzHxf0wr4TtC.mp4"},
-        {n: "Commercial 1960 Plymouth Valiant", u: "https://archive.org/download/Commercial1960PlymouthValiant/Commercial1960PlymouthValiant.mp4"},
-        {n: "SCOTTIE DTV: 1969 Plymouth Valiant", u: "https://archive.org/download/1969PlymouthValiantPissedOffWww.newsvideo99.com/1969PlymouthValiantPissedOffWww.newsvideo99.com.mp4"},
-        {n: "1985 Alcohol Of Fame", u: "https://archive.org/download/1985-alcohol-of-fame/1985-alcohol-of-fame.mp4"},
-        {n: "1973 DODGE MONACO & PLYMOUTH FURY FILM", u: "https://archive.org/download/G4ScSgtUKn9oT4auBri0MXBXhxDINF/G4ScSgtUKn9oT4auBri0MXBXhxDINF.mp4"},
-        {n: "KNTV Channel 11 News Reel June 19, 1966", u: "https://archive.org/download/casjhsj_000568/casjhsj_000568.mp4"},
-        {n: "PATROLMAN YOU HAVE A PROBLEM 1970s", u: "https://archive.org/download/mqmRQaHr2Ml1qiQqjxKoU8YSkI7VNG/mqmRQaHr2Ml1qiQqjxKoU8YSkI7VNG.mp4"},
-        {n: "1965 Plymouth Valiant 200 Review", u: "https://archive.org/download/yt-1s.com-1965-plymouth-valiant-200-regular-car-reviews/yt-1s.com-1965-plymouth-valiant-200-regular-car-reviews.mp4"},
-        {n: "Car Chase in Breaking Point - 1976", u: "https://archive.org/download/breaking-point-1976/breaking-point-1976.mp4"},
-        {n: "1965 Plymouth Sport Fury Passenger Side", u: "https://archive.org/download/youtube-fGRCdqK38Yw/youtube-fGRCdqK38Yw.mp4"},
-        {n: "Christine on fire: 1 hour loop", u: "https://archive.org/download/youtube-DVyLhPVRMr0/youtube-DVyLhPVRMr0.mp4"},
-        {n: "Car Chase in Final Score - 1986", u: "https://archive.org/download/final-score-1986/final-score-1986.mp4"},
-        {n: "1958 Plymouth Fury?", u: "https://archive.org/download/youtube-kciQnw8D_fI/youtube-kciQnw8D_fI.mp4"},
-        {n: "1965 Plymouth 426 HEMI Belvedere", u: "https://archive.org/download/youtube-9jla8t7D6Wc/youtube-9jla8t7D6Wc.mp4"},
-        {n: "1965 Plymouth Sport Fury", u: "https://archive.org/download/youtube-hjFgdFJj67o/youtube-hjFgdFJj67o.mp4"},
-        {n: "1969 Plymouth Road Runner 383", u: "https://archive.org/download/youtube-JE6fTVonvRE/youtube-JE6fTVonvRE.mp4"}
+        {n: "43: The Richard Petty Story", u: "https://archive.org/download/43TheRichardPettyStory_201301/43TheRichardPettyStory.mp4"},
+        {n: "43: The Richard Petty Story", u: "https://archive.org/download/43TheRichardPettyStory/43TheRichardPettyStory.mp4"},
+        {n: "Greased Lightning (1977) - Upscaled 1080p", u: "https://archive.org/download/greased-lightning-1977/Greased Lightning (1977).mp4"},
+        {n: "WONDERFUL WORLD OF WHEELS  1960s AUTOMOBILES   SPORTS CARS & CUSTOMS  BIG DADDY ROTH  68014", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"},
+        {n: "Horse Racing - Ted Kennedy", u: "https://archive.org/download/UNKNOWN_1234_008_DIG/UNKNOWN_1234_008_DIG.mp4"},
+        {n: "The Racing Cyclist", u: "https://archive.org/download/TheRacingCyclist/The Racing Cyclist.mp4"},
+        {n: "Miller High Life 500 at Ontario Motor Speedway", u: "https://archive.org/download/con_000052/con_000052_access.HD.mp4"},
+        {n: "CAN AM Racing 1971 LIVE From Watkins Glen", u: "https://archive.org/download/can-am-racing-1971-live-from-watkins-glen/CAN-AM Racing 1971 - LIVE from Watkins Glen.mp4"},
+        {n: "1970 Southern 500", u: "https://archive.org/download/1970-southern-500/1970 Southern 500.mp4"}
     ];
 
     const F = [
-        {n: "Chariots of the Gods", u: "https://archive.org/download/chariots-of-the-gods_202407/Chariots of the Gods.ia.mp4"},
-        {n: "The Outer Space Connection (1975)", u: "https://archive.org/download/the-outer-space-connection-1975/The Outer Space Connection 1975.ia.mp4"},
-        {n: "In Search Of... Ancient Astronauts", u: "https://archive.org/download/insearchofancientastronautsreel1/insearchofancientastronautsreel1.mp4"},
-        {n: "In Search Of... Ancient Mysteries", u: "https://archive.org/download/insearchofancientmysteriesreel1/insearchofancientmysteriesreel1.mp4"},
-        {n: "In Search Of... Dracula", u: "https://archive.org/download/in-search-of-dracula/In Search of Dracula.avi"},
-        {n: "In Search Of... Noahs Ark", u: "https://archive.org/download/in-search-of-noahs-ark-1976/In Search of Noah's Ark 1976.ia.mp4"},
-        {n: "In Search Of... The Money Pit Mystery", u: "https://archive.org/download/in-search-of-s-03-e-16-the-money-pit-mystery/In Search Of S03E16 The Money Pit Mystery.mp4"},
-        {n: "In Search Of... Cryogenics", u: "https://archive.org/download/In-Search-Of-complete-series/In Search Of.../Season 3/S03E06 - Cryogenics.ia.mp4"},
-        {n: "In Search Of... Future Life", u: "https://archive.org/download/in-search-of-s-6-e-14-future-life/In Search Of S6E14 Future Life.mp4"},
-        {n: "In Search Of... The Coming Ice Age", u: "https://archive.org/download/In_Search_of_S02E23_The_Coming_Ice_Age/1978 MAY In Search of... The Coming Ice Age.mp4"},
-        {n: "The Case of the Ancient Astronauts (Nova)", u: "https://archive.org/download/NOVATheCaseOfTheAncientAstronauts/NOVA.S05E09.The.Case.of.the.Ancient.Astronauts.1978.VHSRip.AAC2.0.x264-rattera.ia.mp4"},
-        {n: "Overlords Of The UFO (1976)", u: "https://archive.org/download/OverlordsOfTheUFO1976_201610/Overlords of the UFO - 1976.mp4"},
-        {n: "UFO (Complete Series Ep 24)", u: "https://archive.org/download/UFO.complete/UFO.24.Reflections In The Water.avi"},
-        {n: "Project UFO (1978 Series)", u: "https://archive.org/download/project-ufo-complete-series-1978/Project UFO S01E08 - The Desert Springs Incident.mp4"},
-        {n: "The UFO Incident (1975)", u: "https://archive.org/download/the-ufo-incident-1975-tv/The UFO Incident (1975-TV).mp4"},
-        {n: "Bob Lazar & Area 51", u: "https://archive.org/download/BobLazarAndArea51TechnologyUFODocumentary/Bob Lazar and Area 51 Technology [UFO Documentary].mp4"},
-        {n: "Project Blue Book: Alien Interview", u: "https://archive.org/download/youtube-QTYsigxhjic/QTYsigxhjic.mp4"},
-        {n: "NASA UFO Footages", u: "https://archive.org/download/NASAfootages/UFOs.avi"},
-        {n: "Turkey UFO 2008 (Kumburgaz)", u: "https://archive.org/download/youtube-zVdeM99mkMs/zVdeM99mkMs.mp4"},
-        {n: "UFO Phenomenon 1995 (VHS)", u: "https://archive.org/download/TheVistaGroup-UFOPhenomenon/UFO Phenomenon VHS • 60 FPS 1995.ia.mp4"},
-        {n: "Lanesville TV - UFO", u: "https://archive.org/download/lanesville_tv_ufo/lanesville_tv_ufo.ogv"},
-        {n: "Flying Saucer Daffy (1958)", u: "https://archive.org/download/187.FlyingSaucerDaffy1958LarryMoeJoe/187 Flying Saucer Daffy.avi"},
-        {n: "The Search For The Flying Saucer", u: "https://archive.org/download/Tales_Of_Tomorrow_-_The_Search_For_The_Flying_Saucer/TOT_The_Search_For_The_Flying_Saucer.avi"},
-        {n: "UAP Over Washington (2024)", u: "https://archive.org/download/uap-worldwide-incursions-starting-december2024/12.2.2024 Uap's Over Washington At Sunset.mp4"},
-        {n: "Invasion UFO (1980)", u: "https://archive.org/download/invasionufo1980/Invasion UFO (1980).mp4"},
-        {n: "Extraterrestrial", u: "https://archive.org/download/Extraterrestrial/Extraterrestrial.mp4"},
-        {n: "Heavens Gate Cult Doc", u: "https://archive.org/download/httpswww.youtube.comwatchvo9wlajd_ryi/Heaven's Gate  UFO Cult Documentary.mp4"},
-        {n: "Ghost Story: Circle of Fear", u: "https://archive.org/download/ghost-story-circle-of-fear-complete/Ghost Story-Circle of Fear (1972-1973)/Ghost Story-Circle of Fear 01x04 - Bad Connection.mp4"},
-        {n: "The Tomorrow People", u: "https://archive.org/download/the-tomorrow-people-1973-79/Tomorrow People, The (1973 - 79)/09 Beyond Tomorrow (1997)/Ep02 BEYOND Tomorrow - Extras (1997).mp4"},
-        {n: "Mystery of Stonehenge", u: "https://archive.org/download/themysteryofstonehenge/themysteryofstonehenge/themysteryofstonehengereel2.mp4"}
+        {n: "War of the Worlds", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-10-30WarOfTheWorlds.mp3", audio: true},
+        {n: "Dracula", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-11Dracula.mp3", audio: true},
+        {n: "Treasure Island", u: "https://archive.org/download/OrsonWelles-MercuryTheater-1938Recordings/MercuryTheater38-07-18TreasureIsland.mp3", audio: true}
     ];
 
     const G = [
-        {n: "Farscape S01E01 Premiere", u: "https://archive.org/download/farscape-s-01/Farscape S01E01 Premiere.mp4"},
-        {n: "Farscape S01E02 Exodus from Genesis", u: "https://archive.org/download/farscape-s-01/Farscape S01E02 Exodus from Genesis.mp4"},
-        {n: "Farscape S01E03 Back and Back and Back to the Future", u: "https://archive.org/download/farscape-s-01/Farscape S01E03 Back and Back and Back to the Future.mp4"},
-        {n: "Farscape S01E04 Throne for a Loss", u: "https://archive.org/download/farscape-s-01/Farscape S01E04 Throne for a Loss.mp4"},
-        {n: "Farscape S01E05 PK Tech Girl", u: "https://archive.org/download/farscape-s-01/Farscape S01E05 PK Tech Girl.mp4"},
-        {n: "Farscape S01E06 Thank God it's Friday, Again.", u: "https://archive.org/download/farscape-s-01/Farscape S01E06 Thank God it's Friday, Again..mp4"},
-        {n: "Farscape S01E07 I, E.T.", u: "https://archive.org/download/farscape-s-01/Farscape S01E07 I, E.T..mp4"},
-        {n: "Farscape S01E08 That Old Black Magic", u: "https://archive.org/download/farscape-s-01/Farscape S01E08 That Old Black Magic.mp4"},
-        {n: "Farscape S01E09 DNA Mad Scientist", u: "https://archive.org/download/farscape-s-01/Farscape S01E09 DNA Mad Scientist.mp4"},
-        {n: "Farscape S01E10 They've Got a Secret", u: "https://archive.org/download/farscape-s-01/Farscape S01E10 They've Got a Secret.mp4"},
-        {n: "Farscape S01E11 Till the Blood Runs Clear", u: "https://archive.org/download/farscape-s-01/Farscape S01E11 Till the Blood Runs Clear.mp4"},
-        {n: "Farscape S01E12 The Flax", u: "https://archive.org/download/farscape-s-01/Farscape S01E12 The Flax.mp4"},
-        {n: "Farscape S01E13 Rhapsody in Blue", u: "https://archive.org/download/farscape-s-01/Farscape S01E13 Rhapsody in Blue.mp4"},
-        {n: "Farscape S01E14 Jeremiah Crichton", u: "https://archive.org/download/farscape-s-01/Farscape S01E14 Jeremiah Crichton.mp4"},
-        {n: "Farscape S01E15 Durka Returns", u: "https://archive.org/download/farscape-s-01/Farscape S01E15 Durka Returns.mp4"},
-        {n: "Farscape S01E16 A Human Reaction", u: "https://archive.org/download/farscape-s-01/Farscape S01E16 A Human Reaction.mp4"},
-        {n: "Farscape S01E17 Through the Looking Glass", u: "https://archive.org/download/farscape-s-01/Farscape S01E17 Through the Looking Glass.mp4"},
-        {n: "Farscape S01E18 A Bug's Life", u: "https://archive.org/download/farscape-s-01/Farscape S01E18 A Bug's Life.mp4"},
-        {n: "Farscape S01E19 Nerve (1)", u: "https://archive.org/download/farscape-s-01/Farscape S01E19 Nerve (1).mp4"},
-        {n: "Farscape S01E20 The Hidden Memory (2)", u: "https://archive.org/download/farscape-s-01/Farscape S01E20 The Hidden Memory (2).mp4"},
-        {n: "Farscape S01E21 Bone to be Wild", u: "https://archive.org/download/farscape-s-01/Farscape S01E21 Bone to be Wild.mp4"},
-        {n: "Farscape S01E22 Family Ties", u: "https://archive.org/download/farscape-s-01/Farscape S01E22 Family Ties.mp4"}
-    ];
-
-    const H = [
-        {n: "News Parade: Bombing of Pearl Harbor", u: "https://archive.org/download/NewsPara1942/NewsPara1942_edit.mp4"},
-        {n: "News Parade of 1945", u: "https://archive.org/download/news_parade_of_1945/news_parade_of_1945_edit.mp4"},
-        {n: "Newsreel: 82nd Airborne Victory Parade 5th Ave., NYC, 1/12/1946", u: "https://archive.org/download/ADC-9948/ADC-9948.mp4"},
-        {n: "Newsreels: News Of The Day 1943", u: "https://archive.org/download/NewsOfTheDay1943/NewsOfTheDay1943.mp4"},
-        {n: "Feuertaufe (Baptism Of Fire)", u: "https://archive.org/download/Feuertaufe/Feuertaufe.mp4"},
-        {n: "1942 Captured Japanese Newsreel: Pearl Harbor, Hong Kong", u: "https://archive.org/download/NPC-10134/NPC-10134.mp4"},
-        {n: "German Newsreel (1942)", u: "https://archive.org/download/GermanNewsreel1942/Die Deutsche Wochenschau (567 - 30 - 1941).mp4"},
-        {n: "August 14, 1945 Newsreel V-J Day", u: "https://archive.org/download/August141945NewsreelV-jDay/August141945NewsreelV-jDay.mp4"},
-        {n: "The German Army In Action 1944", u: "https://archive.org/download/BPR-915/BPR-0915 The German Army In Action 1944.mp4"},
-        {n: "French newsreel,  Actualités Derniére Edition, Dieppe Raid", u: "https://archive.org/download/NPC-3908/428-npc-3908 Dieppe Raid 07-01-1949.mp4"},
-        {n: "News Parade of the Year 1942", u: "https://archive.org/download/NewsParadeOfTheYear1942/NewsParadeOfTheYear1942.mp4"},
-        {n: "War Dept. Military IntelIigence Film, Nazi Newsreels", u: "https://archive.org/download/Newsreels/Newsreels.mp4"},
-        {n: "August 29, 1945 Newsreel - Major Boyington Is Found Alive", u: "https://archive.org/download/August291945Newsreel-MajorBoyingtonIsFoundAlive/45_08_29_Newsreel_Major_Boyington_Is_Found_Alive.mp4"},
-        {n: "May/June 1945 Newseel: Norway Liberated; Berlin Declaration; Britain Takes Rangoon; UNRAA; Eisenhower Reviews Parades", u: "https://archive.org/download/ARC-39067/ARC-39067.mp4"},
-        {n: "Japanese Newsreel: Review Of WWII In Pacific On Its 1st Anniversary", u: "https://archive.org/download/ReviewOfWWIIInPacific/428-npc-15462ReviewOfWwIiInPacificOnIts1stAnniversary1940.mp4"},
-        {n: "1944 Newsreel: D-Day!", u: "https://archive.org/download/ARC-39013/ARC-39013.mp4"},
-        {n: "Nazi Film: German Occupation Of France And Belgium, 1940", u: "https://archive.org/download/NPC-16746/428-npc-16746GermanOccupationOfFranceAndBelgium1940.mp4"},
-        {n: "December 1944 Newsreel: Battle of the Bulge; Bastogne; Army Railroads", u: "https://archive.org/download/ARC-39153/ARC-39153.mp4"},
-        {n: "Giornale Luce No 2: Fascist Italy Newsreel", u: "https://archive.org/download/NPC-10398/428-npc-10398_Giornale_Luce_No_2_has_sound_Inspection_of_hospital_super-microscope_Russian_front_and_home_front_1943.mp4"},
-        {n: "U.S. Bombers Blast Japanese Bases – 1942", u: "https://archive.org/download/ARC-38911/US Bombers Blast Jap Bases Etc 1942.mp4"},
-        {n: "September 10, 1945 Newsreel - Nation Welcomes Hero Of Corregidor", u: "https://archive.org/download/September101945Newsreel-NationWelcomesHeroOfCorregidor/45_09_10_Newsreel_Nation_Welcomes_Hero_Of_Corregidor.mp4"},
-        {n: "Combat Bulletin #20:  Flying Bomb Sites, etc., 1944", u: "https://archive.org/download/CB-20-1944/CB-20 Combat Bulletin 20 1944.mp4"},
-        {n: "Newsreel July 1943: Pacific Theater; 7th Army In Italy; FDR", u: "https://archive.org/download/ARC-38969/ARC-38969.mp4"},
-        {n: "News Review Number Two: The War 1941-1944", u: "https://archive.org/download/NewsReviewNumberTwoTheWar19411944/NewsReviewNumberTwo-TheWar1941-1944.mp4"},
-        {n: "Newsreel: U.S. Army Tests V-2 Rockets, 06/24/1946", u: "https://archive.org/download/ADC-10039/ADC-10039.mp4"},
-        {n: "Nazi Film: Germans Capture Dieppe", u: "https://archive.org/download/NPC-2104/428-npc-2104 Germans Capture Dieppe.mp4"},
-        {n: "Combat Bulletin #26, 1944", u: "https://archive.org/download/CB-26/CB-26 Combat Bulletin 26 1944.mp4"},
-        {n: "Die Deutsche Wochenschau Nr 688", u: "https://archive.org/download/NPC-7141/NPC-7141.mp4"},
-        {n: "Captured Nazi Film: Ploesti, Roumania, 09/1944", u: "https://archive.org/download/ADC-10492/ADC-10492.mp4"},
-        {n: "Giornale Luce #340, 1943", u: "https://archive.org/download/NPC-10589/NPC-10589.mp4"},
-        {n: "Nazi Newsreel Die Deutsche Wochenschau: Defense Of Cassino, Monte Cassino Abbey + Russian Front", u: "https://archive.org/download/NPC-4187/NPC-4187.mp4"},
-        {n: "New Blitz Hits London, London, England; 9th U.S. Army On The Offensive, Linnich, Germany, Ca.1941 - Ca.1945", u: "https://archive.org/download/ADC-1702/111-ADC-1702 New Blitz Hits London London England - 9th US Army On The Offensive Linnich Germany ca1941 - ca1945.mp4"},
-        {n: "Japanese Sign Final Surrender, 1945", u: "https://archive.org/download/JapaneseSignFinalSurrender1945/Japanese Sign Final Surrender 1945.mp4"},
-        {n: "September 11, 1945 Newsreel - Japans Warlord Brought To Justice", u: "https://archive.org/download/September111945Newsreel-JapansWarlordBroughtToJustice/September111945Newsreel-JapansWarlordBroughtToJustice.mp4"},
-        {n: "U.S. War Department Military Intelligence Film MID-2580", u: "https://archive.org/download/MID-2580/267.mp4"},
-        {n: "Imperial Japanese Newsreel: Japan Conquers Singapore", u: "https://archive.org/download/NPC-9208/NPC-9208.mp4"},
-        {n: "Combat Bulletin #22: Operations In France etc.", u: "https://archive.org/download/CB-22/CB-22 Combat Bulletin 22 1944.mp4"},
-        {n: "Combat Bulletin #48: Air Support On Western Front Etc, 1945", u: "https://archive.org/download/CB-48/CB-48 Combat Bulletin 48 Air Support On Western Front Etc 1945.mp4"}
-    ];
-
-    const I = [
-        {n: "PBS Nova Documentaries", u: "https://archive.org/download/pbsnovadocs/Mark Twain by Ken Burns 1 of 2.mp4"},
-        {n: "PBS Content (Nova Episodes, Documentaries)", u: "https://archive.org/download/nova-pbs-documentaries/NOVA/NOVA S43 EP15 School Of The Future - Spanish Version.mp4"},
-        {n: "The KGB, the Computer and Me", u: "https://archive.org/download/The_KGB_The_Computer_and_Me_1990/The_KGB_The_Computer_and_Me_1990.mp4"},
-        {n: "Michio Kaku: Physics of the Impossible", u: "https://archive.org/download/MichioKakuPhysicsOfTheImpossible/4140-2008_04_30_512kb.mp4"},
-        {n: "Secrets of Making Money", u: "https://archive.org/download/SecretsofMakingMoney/NOVA.S23E14.Secrets.of.Making.Money.1996.VHSRip.AAC2.0.x264-rattera.mp4"},
-        {n: "Terror in Space", u: "https://archive.org/download/TerrorinSpace/NOVA.S25E15.Terror.in.Space.1998.VHSRip.AAC2.0.x264-krokkers.mp4"},
-        {n: "The Gulf War", u: "https://archive.org/download/TheGulfWar/Frontline.S14E01.The.Gulf.War.(1).1996.VHSRip.AAC2.0.x264-rattera.mp4"},
-        {n: "NOVA Stephen Hawkings Universe Volume 1 The Big Bang 1997 PBS Home Video", u: "https://archive.org/download/NOVA_Stephen_Hawkings_Universe_Volume_1_The_Big_Bang_1997_PBS_Home_Video/NOVA Stephen Hawkings Universe Volume 1 The Big Bang 1997 PBS Home Video.mp4"},
-        {n: "Of Science And Scientists", u: "https://archive.org/download/of-science-and-scientists/Of Science And Scientists 17 Light - Waves Or Bullets.mp4"},
-        {n: "Time Travel", u: "https://archive.org/download/NOVATimeTravel/NOVA.S26E12.Time.Travel.1999.VHSRip.AAC2.0.x264-rattera.mp4"},
-        {n: "NOVA- The Miracle of Life (S10E12)", u: "https://archive.org/download/NOVATheMiracleOfLifeS10E12/NOVA-The-Miracle-of-Life-_S10E12_.mp4"},
-        {n: "A. Einstein", u: "https://archive.org/download/NOVAAEinstein/NOVA.S06E09.A.Einstein.VHSRip.AAC2.0.x264-RATTERA.mp4"},
-        {n: "Resolution on Saturn", u: "https://archive.org/download/ResolutononSaturn/NOVA.S08E10.Resolution.on.Saturn.1981.VHSRip.AAC2.0.x264-astro.mp4"},
-        {n: "Behind the Mask : The IRA and Sinn Fein", u: "https://archive.org/download/BehindtheMaskTheIRAandSinnFein/Frontline.S15E16.Behind.the.Mask.The.IRA.and.Sinn.Fein.1997.VHSRip.AAC2.0.x264-rattera.mp4"},
-        {n: "Lost City of Arabia", u: "https://archive.org/download/LostCityofArabia/NOVA.S23E12.Lost.City.of.Arabia.1996.VHSRip.AAC2.0.x264-rattera.mp4"},
-        {n: "Escape! : Because Accidents Happen", u: "https://archive.org/download/EscapeBecauseAccidentsHappen/NOVA.S26E07.Escape.Because.Accidents.Happen.(4).Abandon.Ship.1999.VHSRip.AAC2.0.x264-rattera.mp4"},
-        {n: "The Brain with David Eagleman", u: "https://archive.org/download/the_brain/01_what_is_reality.mp4"},
-        {n: "Supersonic Spies", u: "https://archive.org/download/SupersonicSpies/NOVA.S25E03.Supersonic.Spies.1998.VHSRip.AAC2.0.x264-rattera.mp4"},
-        {n: "The Man Who Loved Numbers", u: "https://archive.org/download/TheManWhoLovedNumbers/NOVA.S15E09.The.Man.Who.Loved.Numbers.1988.VHSRip.AAC2.0.x264-astro.mp4"},
-        {n: "Ice Mummies", u: "https://archive.org/download/IceMummies/NOVA.S25E18.Ice.Mummies.Return.of.the.Iceman.1998.VHSRip.AAC2.0.x264-rattera.mp4"},
-        {n: "Spy Machines", u: "https://archive.org/download/SpyMachines/NOVA.S14E14.Spy.Machines.1987.VHSRip.AAC2.0.x264-astro.mp4"},
-        {n: "The Fabric of the Cosmos", u: "https://archive.org/download/fabric-cosmos/Fabric Cosmos 2 The Illusion of Time.mp4"},
-        {n: "PBS Nova Why Planes Crash (1987)", u: "https://archive.org/download/nova-why-planes-crash/Nova - Why Planes Crash.avi"},
-        {n: "The Real Life of Ronald Reagan", u: "https://archive.org/download/TheRealLifeofRonaldReagan/Frontline.S07E01.The.Real.Life.of.Ronald.Reagan.1989.VHSRip.AAC2.0.x264-rattera.mp4"},
-        {n: "Voyage of Doom", u: "https://archive.org/download/VoyageofDoom/NOVA.S26E16.Voyage.of.Doom.1998.VHSRip.AAC2.0.x264-rattera.mp4"},
-        {n: "NOVA Wonders", u: "https://archive.org/download/nova-wonders/NOVA Wonders 6 What is Universe made of.mp4"},
-        {n: "Curse of T. Rex", u: "https://archive.org/download/CurseofTRex/NOVA.S24E09.Curse.of.T.Rex.1997.VHSRip.AAC2.0.x264-rattera.mp4"},
-        {n: "Nova", u: "https://archive.org/download/nova_collection/Nova 2015-09-16 Dawn of Humanity (120 min).mp4"},
-        {n: "A Science Odyssey", u: "https://archive.org/download/a-science-odyssey/A Science Odyssey 02 Mysteries Of The Universe.mp4"},
-        {n: "Broken Minds", u: "https://archive.org/download/BrokenMinds/Frontline.S08E24.Broken.Minds.1990.VHSRip.AAC2.0.x264-rattera.mp4"},
-        {n: "PBS TR: The Story of Theodore Roosevelt", u: "https://archive.org/download/american-experience-tr-the-story-of-theodore-roosevelt-episode-1-the-long-campaign/American Experience TR The Story of Theodore Roosevelt Episode 1 The Long Campaign.mp4"},
-        {n: "The Red Planet", u: "https://archive.org/download/TheRedPlanet/NOVA.S04E14.The.Red.Planet.1977.VHSRip.AAC2.0.x264-astro.mp4"},
-        {n: "The Blimp is Back!", u: "https://archive.org/download/TheBlimpisBack/NOVA.S17E14.The.Blimp.is.Back.1990.VHSRip.AAC2.0.x264-rattera.mp4"},
-        {n: "Dirty Bomb", u: "https://archive.org/download/DirtyBomb/NOVA.S30E07.Dirty.Bomb.2003.VHSRip.AAC2.0.x264-rattera.mp4"},
-        {n: "The Planets", u: "https://archive.org/download/NOVAThePlanets/Horizon.S12E07.The.Planets.1975.VHSrip.x264.AAC-RATTERA.mp4"},
-        {n: "Hunt for Alien Worlds", u: "https://archive.org/download/HuntforAlienWorlds/NOVA.S24E08.Hunt.for.Alien.Worlds.1997.VHSRip.AAC2.0.x264-astro.mp4"},
-        {n: "Neanderthals on Trial", u: "https://archive.org/download/NeanderthalsonTrial/NOVA.S29E02.Neanderthals.on.Trial.2002.VHSRip.AAC2.0.x264-rattera.mp4"},
-        {n: "The genius that was China", u: "https://archive.org/download/TheGeniusThatWasChina/NOVA.S17E08.The.Genius.That.Was.China.The.Threat.From.Japan.1990.VHSRip.AAC2.0.x264-astro.mp4"},
-        {n: "Rush Limbaughs America", u: "https://archive.org/download/RushLimbaughsAmerica/Frontline.S13E06.Rush.Limbaughs.America.1995.VHSRip.AAC2.0.x264-rattera.mp4"},
-        {n: "NOVA | The Elegant Universe: Part 1", u: "https://archive.org/download/nova-elegantuniverse-part-1/NOVA-ELEGANTUNIVERSE-PART1.mp4"},
-        {n: "NOVA | The Elegant Universe: Part 2", u: "https://archive.org/download/nova-elegantuniverse-part-2/NOVA-ELEGANTUNIVERSE-PART2.mp4"},
-        {n: "NOVA | The Elegant Universe: Part 3", u: "https://archive.org/download/nova-elegantuniverse-part-3/NOVA-ELEGANTUNIVERSE-PART3.mp4"},
-        {n: "NOVA - Venus Unveiled", u: "https://archive.org/download/NOVA_VenusUnveiled/1995 NOVA - Venus Unveiled.mp4"},
-        {n: "NOVA: Sputnik Declassified (DVD ISO)", u: "https://archive.org/download/sputnik-declassified/Sputnik Declassified.mp4"},
-        {n: "NOVA: First Flower", u: "https://archive.org/download/first-flower/First Flower.mp4"},
-        {n: "Secrets in Your Data", u: "https://archive.org/download/youtube-ih_GGQX_zmM/ih_GGQX_zmM_720p.mp4"},
-        {n: "NOVA: Missing In MiG Alley", u: "https://archive.org/download/missing-in-mig-alley/Missing In Mig Alley.mp4"},
-        {n: "The Vikings (2000) PBS Nova", u: "https://archive.org/download/thvkngs/The Vikings (2000).mp4"},
-        {n: "PBS Nova - Why Planes Burn (1988)", u: "https://archive.org/download/nova-why-planes-burn/Nova - Why Planes Burn.mp4"}
-    ];
-
-    const J = [
-        {n: "The Time of Apollo", u: "https://archive.org/download/TheTimeOfApollo/The Time of Apollo.mp4"},
-        {n: "Alexander The Great (1997)", u: "https://archive.org/download/alexander-the-great-1997-part-1/Alexander The Great (1997) Part 1.mp4"},
-        {n: "Cleopatra (Complete Series)", u: "https://archive.org/download/cleopatra-mini-series-1999/Cleopatra - Mini-Series 1999.mp4"},
-        {n: "Aphrodite: Ancient Goddess of Love", u: "https://archive.org/download/aphrodite-ancient-goddess-of-love/Aphrodite - Ancient Goddess of Love.mp4"},
-        {n: "A Trip To The Planets", u: "https://archive.org/download/ATripToThePlanets-SilentWithAddedSound/ATripToThePlanets-desktop_512kb.mp4"},
-        {n: "Electric Universe (2019)", u: "https://archive.org/download/euniverse/Electric Universe (2019).mp4"},
-        {n: "Terror in Space", u: "https://archive.org/download/TerrorinSpace/NOVA.S25E15.Terror.in.Space.1998.VHSRip.AAC2.0.x264-krokkers.mp4"},
-        {n: "The Planets by PBS", u: "https://archive.org/download/the_planets_pbs/the_planets_4_saturn.mp4"},
-        {n: "NOVA Stephen Hawkings Universe Volume 1 The Big Bang 1997 PBS Home Video", u: "https://archive.org/download/NOVA_Stephen_Hawkings_Universe_Volume_1_The_Big_Bang_1997_PBS_Home_Video/NOVA Stephen Hawkings Universe Volume 1 The Big Bang 1997 PBS Home Video.mp4"},
-        {n: "Fall of The Roman Empire", u: "https://archive.org/download/the-fall-of-the-roman-empire-hollywood-movie-sophia-loren-stephen-boyd/The Fall of the Roman Empire - Hollywood Movie - Sophia Loren, Stephen Boyd.mp4"},
-        {n: "Killuminati - The Infomentary Feature", u: "https://archive.org/download/Killuminati_The_Infomentary/Killuminati.mp4"},
-        {n: "Sophocles: Oedipus Rex", u: "https://archive.org/download/sophocles-oedipus-rex-1957_202012/Sophocles Oedipus Rex 1957.mp4"},
-        {n: "Ancient Greece Discovery Tour", u: "https://archive.org/download/discovery-tour-ancient-greece/Discovery Tour - Ancient Greece.mp4"},
-        {n: "The Myth of Hephaistos (1996)", u: "https://archive.org/download/the-myth-of-hephaistos-1996/The Myth of Hephaistos (1996).mp4"},
-        {n: "The Emperor Caligula", u: "https://archive.org/download/caligula-with-mary-beard/Caligula with Mary Beard.mp4"},
-        {n: "Dionysus: Ancient God of Ecstasy", u: "https://archive.org/download/dionysus-ancient-god-of-ecstasy/Dionysus - Ancient God of Ecstasy.mp4"},
-        {n: "Julius Caesar 2002", u: "https://archive.org/download/julius-caesar-2002/julius caesar 2002.mp4"},
-        {n: "Ancient Rome Video Buffett", u: "https://archive.org/download/virtual-rome-a-digital-reconstruction-of-the-ancient-city/Ancient Rome in Africa.mp4"},
-        {n: "MAN IN SPACE TODAY TOMORROW AND TITAN III", u: "https://archive.org/download/30482ManIntoSpacePart1/30482 Man Into Space part 1.mp4"},
-        {n: "Apollo 17: On The Shoulders Of Giants", u: "https://archive.org/download/Apollo17OnTheShouldersOfGiants/Apollo 17 - On the Shoulders of Giants.mp4"},
-        {n: "Hyperspace - with Sam Neill", u: "https://archive.org/download/hyperspace-bbc/Hyperspace 02 Staying Alive.mp4"},
-        {n: "What Was an Ancient Roman City Like?", u: "https://archive.org/download/david-macaulay-roman-city/David Macaulay - Roman City.mp4"}
+        {n: "Silver Trail, The", u: "https://archive.org/download/the_silver_trail/the_silver_trail.mp4"},
+        {n: "Pot o Gold", u: "https://archive.org/download/pot_o_gold/pot_o_gold.mp4"},
+        {n: "Ghost-Town Gold", u: "https://archive.org/download/three_mesquiteers/three_mesquiteers.mp4"},
+        {n: "Silver Spurs", u: "https://archive.org/download/silver_spurs/silver_spurs.mp4"},
+        {n: "Black Gold", u: "https://archive.org/download/Black_Gold/BlackGold.mp4"},
+        {n: "White Wonder", u: "https://archive.org/download/WhiteWon1958/WhiteWon1958_edit.mp4"},
+        {n: "Silver_Fleet_The", u: "https://archive.org/download/Silver_Fleet_The/Silver_Fleet_The_.mp4"},
+        {n: "South Dakota Saga (Part I)", u: "https://archive.org/download/SouthDak1940/SouthDak1940_edit.mp4"},
+        {n: "1955 commercial for Old Gold filter cigarettes", u: "https://archive.org/download/1955CommercialForOldGoldFilterCigarettes/oldgold1955livecommercial.mp4"},
+        {n: "South Dakota Saga (Part II)", u: "https://archive.org/download/SouthDak1940_2/SouthDak1940_2_edit.mp4"},
+        {n: "Long John Silver  (1954)", u: "https://archive.org/download/LongJohnSilver1954/Long John Silver (1954).mp4"},
+        {n: "Gold", u: "https://archive.org/download/Gold-1932/Gold.mp4"},
+        {n: "Desert Gold", u: "https://archive.org/download/DesertGold/DesertGold.mp4"},
+        {n: "Ten for Gold", u: "https://archive.org/download/gov.archives.arc.614503/gov.archives.arc.614503.mp4"},
+        {n: "The Silver Horde", u: "https://archive.org/download/SilverHorde1930/The_Silver_Horde_1930.mp4"},
+        {n: "Alaskas Silver Millions (Part I)", u: "https://archive.org/download/AlaskasS1936/AlaskasS1936_edit.mp4"},
+        {n: "Colonel March - Silver Curtain", u: "https://archive.org/download/Colonel_March_Silver_Curtain/Colonel_March_Silver_Curtain.mp4"},
+        {n: "Alaskas Silver Millions (Part II)", u: "https://archive.org/download/AlaskasS1936_2/AlaskasS1936_2_edit.mp4"},
+        {n: "Island of the sunken gold / De brandende vulkaan", u: "https://archive.org/download/Island_of_the-sunken_gold/De_brandende_vulkaan_episode_1_to_5_512kb.mp4"},
+        {n: "Bill Sprague Collection : DOO WOP GOLD", u: "https://archive.org/download/BillSporagueCollectionDOOWOPGOLD/Doo Wop Gold Vol 1.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: The Disney Dream Factory: 1933-1938 (Laserdisc)", u: "https://archive.org/download/257AS/The Disney Dream Factory.mp4"},
+        {n: "Acapulco Gold(1976)", u: "https://archive.org/download/acapulco.-gold.-1976.1080p.-blu-ray.-h-264.-aac-rarbg/Acapulco.Gold.1976.1080p.BluRay.H264.AAC-RARBG.ia.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition - Minnie (1984 VHS)", u: "https://archive.org/download/wdcc-lge-minnie-vhsrip/WDCC.LGE.Minnie.VHSRip.mp4"},
+        {n: "Iron Country: Iron Ore and Minnesotas Future", u: "https://archive.org/download/IronCoun1952/IronCoun1952_edit.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: The World According to Goofy (Laserdisc)", u: "https://archive.org/download/256AS/The World According to Goofy.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: How the Best Was Won: 1933-1960 (Laserdisc)", u: "https://archive.org/download/259AS/How the Best Was Won.mp4"},
+        {n: "Flower Angel (Harmony Gold English dub of Hana no Ko Lunlun) 1985 HD Remastered", u: "https://archive.org/download/flowerangel1985_201912/Flower Angel (Harmony Gold) DVD.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: Donalds Bee Pictures (Laserdisc)", u: "https://archive.org/download/255AS/Donald's Bee Pictures (1st pressing).mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: Life with Mickey! (Laserdisc)", u: "https://archive.org/download/260AS/Life with Mickey!.mp4"},
+        {n: "Railway with a Heart of Gold", u: "https://archive.org/download/railway_with_a_heart_of_gold_1965/railway_with_a_heart_of_gold_1965_512kb.mp4"},
+        {n: "Appalachia: Rich Land, Poor People", u: "https://archive.org/download/appalachiarichlandpoorpeople/appalachiarichlandpoorpeople/appalachiarichlandpoorpeoplereel2.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: An Officer and a Duck (Laserdisc)", u: "https://archive.org/download/258AS/An Officer and a Duck.mp4"},
+        {n: "The Leprechauns Christmas Gold (1981)", u: "https://archive.org/download/1981theleprechaunschristmasgold/1981 - The Leprechaun's Christmas Gold.mp4"},
+        {n: "Black Shadows on a Silver Screen", u: "https://archive.org/download/blackshadowsonasilverscreenreel2/blackshadowsonasilverscreenreel2.mp4"},
+        {n: "Walt Disney Home Video Cartoon Classics: Limited Gold Edition II: From Pluto with Love (Laserdisc)", u: "https://archive.org/download/261AS/From Pluto with Love.mp4"},
+        {n: "Christmas In Appalachia, 1965", u: "https://archive.org/download/ChristmasInAppalachia1965/Christmas In Appalachia 1965.mp4"},
+        {n: "The Adventures of Long John Silver - Episode 1: The Necklace", u: "https://archive.org/download/TheAdventuresOfLongJohnSilver-Episode1theNecklace/TheAdventuresOfLongJohnSilver-TheNecklace-limou3okxka.mp4"},
+        {n: "Gold Diggers Of 1933 (1933) 1080p", u: "https://archive.org/download/gold-diggers-of-1933.1933.1080p/Gold.Diggers.Of.1933.1933.1080p.BluRay.x264.DTS-FGT.mp4"},
+        {n: "How Green Was My Valley (1941)", u: "https://archive.org/download/HowGreenWasMyValley1941_201812/How Green was My Valley (1941).mp4"},
+        {n: "Coal Miner, The", u: "https://archive.org/download/coal_miner/coal_miner_512kb.mp4"}
     ];
 
     const categories = [
@@ -1078,10 +537,7 @@
         {name: "D", content: D},
         {name: "E", content: E},
         {name: "F", content: F},
-        {name: "G", content: G},
-        {name: "H", content: H},
-        {name: "I", content: I},
-        {name: "J", content: J}
+        {name: "G", content: G}
     ];
 
     let currentCategoryIndex = 0;
@@ -1090,6 +546,7 @@
     let categoryDeg = 0;
 
     const player = document.getElementById('player');
+    const audioFace = document.getElementById('audio-face');
     const titleDisp = document.getElementById('title-display');
 
     function checkOverflow() {
@@ -1104,8 +561,8 @@
     }
 
     window.onload = () => {
-        makeTicks('t-ring', 100);  // 100 ticks for the top knob
-        makeNumbers('s-ring', 10); // 10 numbers for the bottom knob
+        makeNumbers('t-numbers', 12);
+        makeNumbers('s-numbers', 8);
         loadAndPlay();
     };
 
@@ -1116,7 +573,15 @@
         player.src = item.u;
         player.load();
         
-        titleDisp.innerText = item.n.trim() + ' ';
+        titleDisp.innerText = item.n.trim() + '          ';
+
+        if (item.audio) {
+            player.style.display = 'none';
+            audioFace.style.display = 'flex';
+        } else {
+            player.style.display = 'block';
+            audioFace.style.display = 'none';
+        }
 
         setTimeout(checkOverflow, 100);
 
@@ -1124,8 +589,7 @@
     }
 
     function tune(dir) {
-        // 100 clicks per rotation = 360 / 100 = 3.6 degrees per click
-        tunerDeg += dir * 3.6;
+        tunerDeg += dir * 30;
         document.getElementById('t-knob').style.transform = `rotate(${tunerDeg}deg)`;
         const cat = categories[currentCategoryIndex];
         currentVideoIndex = (currentVideoIndex + dir + cat.content.length) % cat.content.length;
@@ -1133,7 +597,7 @@
     }
 
     function changeCategory(dir) {
-        categoryDeg += dir * 36; // 360 / 10 categories = 36 degrees
+        categoryDeg += dir * 45;
         document.getElementById('s-knob').style.transform = `rotate(${categoryDeg}deg)`;
         currentCategoryIndex = (currentCategoryIndex + dir + categories.length) % categories.length;
         currentVideoIndex = 0;
@@ -1143,38 +607,27 @@
     player.addEventListener('ended', () => tune(1));
     player.addEventListener('error', () => { setTimeout(() => tune(1), 1500); });
 
-    function makeTicks(id, count) {
-        const ring = document.getElementById(id);
-        ring.innerHTML = '';
-        const radius = 52;
-        const step = 360 / count;
-
-        for (let i = 0; i < count; i++) {
-            const angle = i * step;
-            const tick = document.createElement('div');
-            tick.className = 'tick';
-            tick.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-${radius}px)`;
-            ring.appendChild(tick);
-        }
-    }
-
     function makeNumbers(id, count) {
         const ring = document.getElementById(id);
         ring.innerHTML = '';
+
         const radius = 52;
         const step = 360 / count;
 
         for (let i = 0; i < count; i++) {
             const angle = i * step - 90;
             const rad = angle * Math.PI / 180;
+
             const x = radius * Math.cos(rad);
             const y = radius * Math.sin(rad);
+
             const num = document.createElement('div');
             num.className = 'number';
             num.style.left = `calc(50% + ${x}px)`;
-            num.style.top = `calc(50% + ${y}px)`;
+            num.style.top  = `calc(50% + ${y}px)`;
             num.style.transform = `translate(-50%, -50%)`;
             num.innerText = i + 1;
+
             ring.appendChild(num);
         }
     }
