@@ -90,6 +90,33 @@ def test_inspire_relevance_scoring():
     print("✓ INSPIRE relevance scoring test passed")
 
 
+def test_inspire_parse_created_date():
+    """Test created date parsing for valid and invalid inputs."""
+    assert harvest_inspire.parse_created_date(None) is None
+    assert harvest_inspire.parse_created_date("not-a-date") is None
+
+    parsed = harvest_inspire.parse_created_date("2025-01-01T00:00:00Z")
+    assert parsed is not None
+    assert parsed.tzinfo is not None
+
+    parsed_naive = harvest_inspire.parse_created_date("2025-01-01T00:00:00")
+    assert parsed_naive is not None
+    assert parsed_naive.tzinfo is not None
+    print("✓ INSPIRE created date parsing test passed")
+
+
+def test_inspire_paper_key_fallback():
+    """Test deduplication key fallback when control_number is missing."""
+    paper_with_control = {'id': '999', 'metadata': {'control_number': 42}}
+    paper_with_id = {'id': 'abc', 'metadata': {}}
+    paper_missing = {'metadata': {}}
+
+    assert harvest_inspire.get_paper_key(paper_with_control) == "42"
+    assert harvest_inspire.get_paper_key(paper_with_id) == "abc"
+    assert harvest_inspire.get_paper_key(paper_missing) is None
+    print("✓ INSPIRE paper key fallback test passed")
+
+
 def test_atlas_extractor_runs():
     """Test that ATLAS extractor runs without errors"""
     
@@ -124,6 +151,8 @@ if __name__ == '__main__':
     test_inspire_paper_deduplication()
     test_inspire_fetch_with_mock()
     test_inspire_relevance_scoring()
+    test_inspire_parse_created_date()
+    test_inspire_paper_key_fallback()
     test_atlas_extractor_runs()
     test_atlas_chi_calculation_structure()
     
