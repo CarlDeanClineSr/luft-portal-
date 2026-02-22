@@ -4,33 +4,81 @@ on:
   workflow_dispatch:
     inputs:
       dry_run:
-        description: 'Dry run (show what would be executed without running)'
+        description: 'Dry run (show what would be executed)'
         required: false
         type: boolean
         default: false
-      parallel:
-        description: 'Run workflows in parallel (faster but more resource intensive)'
+      sequential_delay:
+        description: 'Delay between workflow triggers (seconds)'
         required: false
-        type: boolean
-        default: false
-  # schedule:
-  #   - cron: '0 2 * * 0'  # Weekly on Sunday at 2 AM UTC (commented out)
+        type: number
+        default: 10
+
+concurrency:
+  group: experimental-runner
+  cancel-in-progress: false
 
 jobs:
   run-experimental-workflows:
     runs-on: ubuntu-latest
     permissions:
       actions: write
-      contents: read
+      contents: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
 
-      - name: List experimental workflows
-        id: list-workflows
+      - name: Setup environment
         run: |
-          echo "Scanning for experimental workflows..."
+          echo "ARCHIVED_DIR=.github/workflows/ARCHIVED/experimental" >> $GITHUB_ENV
+          echo "ACTIVE_DIR=.github/workflows" >> $GITHUB_ENV
+
+      - name: Dry run report
+        if: ${{ inputs.dry_run }}
+        run: |
+          echo "================================"
+          echo "DRY RUN MODE"
+          echo "================================"
+          echo ""
+          echo "Would execute the following steps:"
+          echo "1. Copy 26 workflows from ARCHIVED/experimental to active directory"
+          echo "2. Trigger each workflow with ${{ inputs.sequential_delay }}s delay"
+          echo "3. Wait for all to complete"
+          echo "4. Move workflows back to archive"
+          echo ""
+          echo "$(ls -1 .github/workflows/ARCHIVED/experimental/*.yml | wc -l) workflows found in archive"
+
+      - name: Temporarily activate archived workflows
+        if: ${{ !inputs.dry_run }}
+        run: |
+          echo "Copying archived workflows to active directory..."
+          cp .github/workflows/ARCHIVED/experimental/*.yml .github/workflows/
+          echo "✅ Copied $(ls -1 .github/workflows/ARCHIVED/experimental/*.yml | wc -l) workflows"
+
+          git config user.name "LUFT Bot"
+          git config user.email "bot@luft.local"
+          git add .github/workflows/*.yml
+          git commit -m "temp: activate experimental workflows for batch run" || echo "No changes to commit"
+          git push
+
+      - name: Wait for workflows to be recognized
+        if: ${{ !inputs.dry_run }}
+        run: sleep 30
+
+      - name: Trigger all experimental workflows
+        if: ${{ !inputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "================================"
+          echo "LUFT Portal - Experimental Workflow Runner"
+          echo "================================"
+          echo "Started: $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          echo ""
+
           WORKFLOWS=(
             "append_baseline_watch"
             "auto-append-baseline"
@@ -60,114 +108,82 @@ jobs:
             "teacher_suite"
           )
 
-          echo "Found ${#WORKFLOWS[@]} experimental workflows"
-          echo "WORKFLOW_LIST=${WORKFLOWS[*]}" >> $GITHUB_ENV
-
-      - name: Run experimental workflows
-        if: ${{ !inputs.dry_run }}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "================================"
-          echo "LUFT Portal - Experimental Workflow Runner"
-          echo "================================"
-          echo "Started: $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-          echo ""
-
-          read -r -a WORKFLOWS <<< "$WORKFLOW_LIST"
-
           SUCCESS_COUNT=0
           FAIL_COUNT=0
-          SKIPPED_COUNT=0
 
-          trigger_workflow() {
-            local workflow="$1"
+          for workflow in "${WORKFLOWS[@]}"; do
             echo "---"
             echo "Triggering: ${workflow}.yml"
 
-            if [ ! -f ".github/workflows/ARCHIVED/experimental/${workflow}.yml" ]; then
-              echo "⚠️  SKIPPED: Workflow file not found: ${workflow}.yml"
-              echo "SKIPPED:${workflow}" >> /tmp/workflow_results.txt
-              return
-            fi
-
-            if gh workflow run "${workflow}.yml" --repo ${{ github.repository }} 2>/dev/null; then
-              echo "✅ SUCCESS: Workflow triggered: ${workflow}.yml"
-              echo "SUCCESS:${workflow}" >> /tmp/workflow_results.txt
+            if gh workflow run "${workflow}.yml" --repo ${{ github.repository }}; then
+              echo "✅ SUCCESS: Triggered ${workflow}.yml"
+              ((SUCCESS_COUNT++))
             else
-              echo "❌ FAILED: Could not trigger workflow: ${workflow}.yml"
-              echo "FAILED:${workflow}" >> /tmp/workflow_results.txt
+              echo "❌ FAILED: Could not trigger ${workflow}.yml"
+              ((FAIL_COUNT++))
             fi
-          }
 
-          > /tmp/workflow_results.txt
-
-          if [[ "${{ inputs.parallel }}" == "true" ]]; then
-            echo "Mode: PARALLEL"
-            for workflow in "${WORKFLOWS[@]}"; do
-              trigger_workflow "$workflow" &
-            done
-            wait
-          else
-            echo "Mode: SEQUENTIAL"
-            for workflow in "${WORKFLOWS[@]}"; do
-              trigger_workflow "$workflow"
-              sleep 5  # Rate limiting - wait between triggers
-            done
-          fi
-
-          while IFS=: read -r status _; do
-            case "$status" in
-              SUCCESS)  ((SUCCESS_COUNT++)) ;;
-              FAILED)   ((FAIL_COUNT++)) ;;
-              SKIPPED)  ((SKIPPED_COUNT++)) ;;
-            esac
-          done < /tmp/workflow_results.txt
+            sleep ${{ inputs.sequential_delay }}
+          done
 
           echo ""
           echo "================================"
-          echo "Execution Summary"
+          echo "Trigger Summary"
           echo "================================"
-          echo "Total workflows: ${#WORKFLOWS[@]}"
           echo "✅ Successfully triggered: $SUCCESS_COUNT"
-          echo "❌ Failed: $FAIL_COUNT"
-          echo "⚠️  Skipped: $SKIPPED_COUNT"
+          echo "❌ Failed to trigger: $FAIL_COUNT"
           echo "Completed: $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
 
-      - name: Dry run report
-        if: ${{ inputs.dry_run }}
+      - name: Wait for workflows to complete
+        if: ${{ !inputs.dry_run }}
         run: |
-          echo "================================"
-          echo "DRY RUN MODE - No workflows executed"
-          echo "================================"
-          echo ""
-          echo "Would trigger the following 26 experimental workflows:"
-          echo ""
-          cat << 'EOF'
-          1.  append_baseline_watch.yml
-          2.  auto-append-baseline.yml
-          3.  chi_boundary_monitor.yml
-          4.  cygnus_army_census.yml
-          5.  daily_paper_extraction.yml
-          6.  daily_reconnection_simulation.yml
-          7.  dragnet_distributed.yml
-          8.  fractal_echo_scanner_15min.yml
-          9.  fundamental_correlation.yml
-          10. graviton_sideband_analysis.yml
-          11. imperial_indexer.yml
-          12. imperial_unified_engine.yml
-          13. jwst_intercept.yml
-          14. lightning_analyzer.yml
-          15. link_harvest_daily.yml
-          16. momentum_test.yml
-          17. physics_repairs.yml
-          18. psp_imperial_audit.yml
-          19. run_bio_audit.yml
-          20. run_fft_sideband.yml
-          21. run_rebound_test.yml
-          22. run_visual_affidavit.yml
-          23. scrub_lingo.yml
-          24. sentinel_leader.yml
-          25. star_relay_scanner.yml
-          26. teacher_suite.yml
-          EOF
+          echo "Waiting 5 minutes for workflows to complete..."
+          sleep 300
+
+      - name: Re-archive experimental workflows
+        if: ${{ !inputs.dry_run && always() }}
+        run: |
+          echo "Moving workflows back to archive..."
+
+          WORKFLOWS=(
+            "append_baseline_watch"
+            "auto-append-baseline"
+            "chi_boundary_monitor"
+            "cygnus_army_census"
+            "daily_paper_extraction"
+            "daily_reconnection_simulation"
+            "dragnet_distributed"
+            "fractal_echo_scanner_15min"
+            "fundamental_correlation"
+            "graviton_sideband_analysis"
+            "imperial_indexer"
+            "imperial_unified_engine"
+            "jwst_intercept"
+            "lightning_analyzer"
+            "link_harvest_daily"
+            "momentum_test"
+            "physics_repairs"
+            "psp_imperial_audit"
+            "run_bio_audit"
+            "run_fft_sideband"
+            "run_rebound_test"
+            "run_visual_affidavit"
+            "scrub_lingo"
+            "sentinel_leader"
+            "star_relay_scanner"
+            "teacher_suite"
+          )
+
+          for workflow in "${WORKFLOWS[@]}"; do
+            if [ -f ".github/workflows/${workflow}.yml" ]; then
+              rm ".github/workflows/${workflow}.yml"
+            fi
+          done
+
+          git config user.name "LUFT Bot"
+          git config user.email "bot@luft.local"
+          git add -A
+          git commit -m "temp: re-archive experimental workflows after batch run" || echo "No changes"
+          git push
+
+          echo "✅ Cleanup complete"
