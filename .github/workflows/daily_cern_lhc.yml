@@ -2,6 +2,8 @@ name: Daily CERN LHC Luminosity Ingest
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '7 1 * * *'
 
 jobs:
   fetch:

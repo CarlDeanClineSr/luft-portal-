@@ -1,11 +1,11 @@
 # How to Run Manual Workflows
 
 **Date:** 2026-02-17  
-**Status:** 21 workflows converted to manual dispatch only
+**Status:** 21 workflows scheduled daily with manual dispatch available
 
 ## Overview
 
-To reduce chaos and prevent workflows from "running into each other," we've converted 21 workflows from automatic scheduling to manual dispatch only. This means they will **ONLY** run when you manually trigger them from the GitHub Actions tab.
+To reduce chaos and prevent workflows from "running into each other," we've scheduled 21 workflows to run **once per day** on staggered timers. These workflows still support manual dispatch if you need an extra run.
 
 ## 🛰️ Automated Workflows (Still Running)
 
@@ -38,44 +38,44 @@ These **15 workflows** remain automated because they collect **live/new satellit
 - `manual_deploy.yml` - Manual deployment
 - `pages-deployment.yml` - Auto-deploys website
 
-## 🎯 Manual Workflows (Run When You Want)
+## 🎯 Daily Scheduled Workflows (Automatic + Manual)
 
-These **21 workflows** are now **manual dispatch only**. They will NOT run automatically.
+These **21 workflows** run **once per day** on staggered schedules. You can still run any of them manually.
 
 ### Analysis & Reporting Workflows
 Run these when you want updated summaries or status reports:
 
-- `hourly_summary.yml` - Generate hourly ACE/heartbeat summary
-- `vault_narrator.yml` - Update vault status narration
-- `vault_10row_forecast.yml` - Update 10-row forecast
-- `hourly_dst_index.yml` - Calculate DST lattice index
-- `heartbeat_plot.yml` - Generate CME heartbeat visualization
-- `engine_status.yml` - Create space weather rapid report
+- `hourly_summary.yml` - Daily 05:07 UTC - Generate hourly ACE/heartbeat summary
+- `vault_narrator.yml` - Daily 09:07 UTC - Update vault status narration
+- `vault_10row_forecast.yml` - Daily 10:07 UTC - Update 10-row forecast
+- `hourly_dst_index.yml` - Daily 06:07 UTC - Calculate DST lattice index
+- `heartbeat_plot.yml` - Daily 08:07 UTC - Generate CME heartbeat visualization
+- `engine_status.yml` - Daily 07:07 UTC - Create space weather rapid report
 
 ### Daily Processing Workflows
 Run these when you need daily aggregations or reports:
 
-- `nightly_capsule.yml` - Generate daily capsule report
-- `omni_ingest_daily.yml` - Process OMNIWeb daily data
-- `daily_ml_rebound.yml` - Run ML rebound analysis
-- `daily_noaa_forecast.yml` - Get NOAA 3-day forecast
-- `daily_ligo_gw.yml` - Collect LIGO gravitational wave data
-- `daily_cern_lhc.yml` - Collect CERN LHC luminosity data
-- `nasa_daily_harvest.yml` - Harvest NASA magnetometer data
+- `nightly_capsule.yml` - Daily 11:07 UTC - Generate daily capsule report
+- `omni_ingest_daily.yml` - Daily 03:07 UTC - Process OMNIWeb daily data
+- `daily_ml_rebound.yml` - Daily 04:07 UTC - Run ML rebound analysis
+- `daily_noaa_forecast.yml` - Daily 00:07 UTC - Get NOAA 3-day forecast
+- `daily_ligo_gw.yml` - Daily 02:07 UTC - Collect LIGO gravitational wave data
+- `daily_cern_lhc.yml` - Daily 01:07 UTC - Collect CERN LHC luminosity data
+- `nasa_daily_harvest.yml` - Daily 14:07 UTC - Harvest NASA magnetometer data
 
 ### Paper & Documentation Workflows
 Run these when you want to collect new papers or update docs:
 
-- `physics_paper_harvester.yml` - Harvest arXiv + CERN papers
-- `inspire_harvest.yml` - Collect INSPIRE HEP papers
-- `knowledge_index.yml` - Update repository knowledge index
-- `index-job.yml` - Update capsule index & dashboard
-- `build_papers.yml` - Build LaTeX papers to PDF
-- `compile_paper.yml` - Compile discovery paper
-- `physicist_note_pdf.yml` - Render physicist notes
+- `physics_paper_harvester.yml` - Daily 12:07 UTC - Harvest arXiv + CERN papers
+- `inspire_harvest.yml` - Daily 13:07 UTC - Collect INSPIRE HEP papers
+- `knowledge_index.yml` - Daily 17:07 UTC - Update repository knowledge index
+- `index-job.yml` - Daily 18:07 UTC - Update capsule index & dashboard
+- `build_papers.yml` - Daily 19:07 UTC - Build LaTeX papers to PDF
+- `compile_paper.yml` - Daily 20:07 UTC - Compile discovery paper
+- `physicist_note_pdf.yml` - Daily 21:07 UTC - Render physicist notes
 
 ### Code Quality Workflow
-- `imperial_lexicon_guard.yml` - Scan for forbidden terminology
+- `imperial_lexicon_guard.yml` - Daily 22:07 UTC - Scan for forbidden terminology
 
 ## 📖 How to Run a Manual Workflow
 
@@ -119,23 +119,7 @@ curl -X POST \
 
 ### When to Run Manual Workflows
 
-**Daily (Morning Check):**
-- `engine_status.yml` - Get current space weather status
-- `hourly_summary.yml` - Get latest summary
-- `vault_narrator.yml` - Check vault status
-
-**Weekly (Paper Updates):**
-- `physics_paper_harvester.yml` - Get new papers
-- `inspire_harvest.yml` - Get new INSPIRE papers
-
-**Monthly (Major Updates):**
-- `knowledge_index.yml` - Rebuild knowledge index
-- `index-job.yml` - Update capsule index
-
-**As Needed:**
-- `nightly_capsule.yml` - After major data collection
-- `daily_ligo_gw.yml` - When checking gravitational waves
-- `daily_cern_lhc.yml` - When checking LHC data
+These workflows already run daily. Trigger manual runs only when you need an extra refresh.
 
 ### Batch Running Multiple Workflows
 
@@ -152,9 +136,9 @@ gh workflow run physics_paper_harvester.yml
 gh workflow run inspire_harvest.yml
 ```
 
-## 🔄 Re-enabling Automatic Scheduling
+## 🔄 Adjusting Automatic Scheduling
 
-If you want to restore automatic scheduling for any workflow:
+If you want to adjust the daily schedule for any workflow:
 
 1. Open the workflow file (e.g., `.github/workflows/hourly_summary.yml`)
 2. Add back the schedule trigger:
@@ -166,7 +150,7 @@ If you want to restore automatic scheduling for any workflow:
    ```
 3. Commit and push the change
 
-The workflow will resume automatic execution.
+The workflow will keep running automatically on the updated schedule.
 
 ## 📊 Workflow Status Dashboard
 
@@ -182,23 +166,23 @@ You can view all workflow runs on the Actions tab:
 A: Yes! All 15 satellite data collectors remain automated.
 
 **Q: Do I need to run the manual workflows?**  
-A: No, they're optional. The core data collection continues automatically.
+A: No, they already run once per day. Manual runs are optional.
 
 **Q: Can I run multiple workflows at the same time?**  
-A: Yes, GitHub Actions can run multiple workflows concurrently.
+A: Yes, but the daily schedules are staggered to avoid conflicts.
 
 **Q: What if I forget to run a manual workflow?**  
-A: No problem! The satellite data is still being collected. Manual workflows just provide summaries and analysis.
+A: No problem! The daily schedule will still run automatically.
 
-**Q: Can I automate specific workflows again?**  
-A: Yes, just add back the `schedule:` section to any workflow file.
+**Q: Can I change when a workflow runs?**  
+A: Yes, edit the `schedule:` section in the workflow file.
 
 ## 🎯 Summary
 
 - **19 automated workflows** = Live satellite data + utilities (keep running automatically)
-- **21 manual workflows** = Summaries, analysis, papers (run when you want)
+- **21 daily workflows** = Summaries, analysis, papers (staggered)
 - **No more chaos** = Workflows won't run into each other
-- **Full control** = You decide when to run summaries and reports
+- **Full control** = You can still run extra manual jobs
 
 ---
 

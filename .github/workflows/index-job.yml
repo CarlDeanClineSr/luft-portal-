@@ -2,6 +2,8 @@ name: Capsule Index Job - Master Manifest & Dashboard
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '7 18 * * *'
 
 concurrency:
   group: capsule-index

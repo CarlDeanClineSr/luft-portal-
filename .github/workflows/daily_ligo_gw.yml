@@ -2,6 +2,8 @@ name: Daily LIGO GW Strain Ingest
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '7 2 * * *'
 
 jobs:
   fetch:

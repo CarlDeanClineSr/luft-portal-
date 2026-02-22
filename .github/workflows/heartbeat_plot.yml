@@ -2,6 +2,8 @@ name: LUFT Heartbeat Plot Update
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '7 8 * * *'
 
 jobs:
   plot-heartbeat:

@@ -2,6 +2,8 @@ name: Vault Narrator - Auto Update Latest Status
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '7 9 * * *'
 
 jobs:
   update-vault-status:

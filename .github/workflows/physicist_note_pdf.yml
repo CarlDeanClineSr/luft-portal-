@@ -2,6 +2,8 @@ name: Physicist Note — PDF Render
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '7 21 * * *'
 
 jobs:
   render-pdf:

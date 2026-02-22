@@ -2,6 +2,8 @@ name: Daily OMNIWeb Data Ingest & Merge
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '7 3 * * *'
 
 jobs:
   ingest:
