@@ -2,6 +2,11 @@ name: Daily NOAA 3-Day Forecast Fetch
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '7 0 * * *'
+
+permissions:
+  contents: write
 
 jobs:
   fetch:

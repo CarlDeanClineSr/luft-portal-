@@ -2,6 +2,8 @@ name: Build Papers (PDF)
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '7 19 * * *'
 
 permissions:
   contents: write

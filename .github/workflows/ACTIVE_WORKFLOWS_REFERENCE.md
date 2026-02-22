@@ -32,39 +32,39 @@ This is a quick reference guide for understanding what workflows are currently a
 ## 📊 Periodic Summaries & Analysis (10 workflows)
 **Purpose:** Aggregation, forecasting, and reporting
 
-- `engine_status.yml` - Every 10 min - Rapid status report
-- `hourly_summary.yml` - Every 15 min - ACE/heartbeat summary
-- `vault_narrator.yml` - Every 15 min - Vault status narration
-- `vault_10row_forecast.yml` - Every 15 min - Forecast updates
-- `hourly_dst_index.yml` - Every 30 min - DST lattice index
-- `heartbeat_plot.yml` - On CSV push - Heartbeat visualization
-- `nightly_capsule.yml` - Daily 03:00 - Daily capsule report
-- `omni_ingest_daily.yml` - Daily 12:00 - OMNIWeb data merge
-- `daily_ml_rebound.yml` - Daily 02:30 - ML rebound analysis
-- `daily_noaa_forecast.yml` - Daily 05:00, 17:00 - 3-day forecast
+- `engine_status.yml` - Daily 07:07 UTC - Rapid status report
+- `hourly_summary.yml` - Daily 05:07 UTC - ACE/heartbeat summary
+- `vault_narrator.yml` - Daily 09:07 UTC - Vault status narration
+- `vault_10row_forecast.yml` - Daily 10:07 UTC - Forecast updates
+- `hourly_dst_index.yml` - Daily 06:07 UTC - DST lattice index
+- `heartbeat_plot.yml` - Daily 08:07 UTC - Heartbeat visualization
+- `nightly_capsule.yml` - Daily 11:07 UTC - Daily capsule report
+- `omni_ingest_daily.yml` - Daily 03:07 UTC - OMNIWeb data merge
+- `daily_ml_rebound.yml` - Daily 04:07 UTC - ML rebound analysis
+- `daily_noaa_forecast.yml` - Daily 00:07 UTC - 3-day forecast
 
 ## 📚 Data Harvesting & Knowledge Base (6 workflows)
 **Purpose:** Paper collection and metadata harvesting
 
-- `physics_paper_harvester.yml` - Every 6 hours - arXiv + CERN papers
-- `inspire_harvest.yml` - Daily 00:00 - INSPIRE HEP papers
-- `nasa_daily_harvest.yml` - Daily 21:20 - Multi-mission magnetometer
-- `knowledge_index.yml` - Daily 12:15 - Repository knowledge index
-- `index-job.yml` - Daily 06:15 - Capsule index & dashboard
-- `imperial_lexicon_guard.yml` - On push - Terminology scanning
+- `physics_paper_harvester.yml` - Daily 12:07 UTC - arXiv + CERN papers
+- `inspire_harvest.yml` - Daily 13:07 UTC - INSPIRE HEP papers
+- `nasa_daily_harvest.yml` - Daily 14:07 UTC - Multi-mission magnetometer
+- `knowledge_index.yml` - Daily 17:07 UTC - Repository knowledge index
+- `index-job.yml` - Daily 18:07 UTC - Capsule index & dashboard
+- `imperial_lexicon_guard.yml` - Daily 22:07 UTC - Terminology scanning
 
 ## 🔬 Advanced Analysis (2 workflows)
 **Purpose:** Scientific data collection
 
-- `daily_ligo_gw.yml` - Daily 05:00 - LIGO gravitational waves
-- `daily_cern_lhc.yml` - Daily 05:00 - CERN LHC luminosity
+- `daily_ligo_gw.yml` - Daily 02:07 UTC - LIGO gravitational waves
+- `daily_cern_lhc.yml` - Daily 01:07 UTC - CERN LHC luminosity
 
 ## 🏗️ Build & Publishing (4 workflows)
 **Purpose:** Documentation and website generation
 
-- `build_papers.yml` - On push - LaTeX to PDF
-- `compile_paper.yml` - On push - Discovery paper compilation
-- `physicist_note_pdf.yml` - On push - Note rendering
+- `build_papers.yml` - Daily 19:07 UTC - LaTeX to PDF
+- `compile_paper.yml` - Daily 20:07 UTC - Discovery paper compilation
+- `physicist_note_pdf.yml` - Daily 21:07 UTC - Note rendering
 - `pages-deployment.yml` - Every 15 min + push - GitHub Pages
 
 ## 🔧 Utilities & Control (3 workflows)
@@ -128,7 +128,7 @@ The workflow will automatically become active again.
 
 **After Cleanup:**
 - 40 active workflows (35 archived)
-- 300-400 daily runs
+- 170-270 daily runs
 - Clean, observable execution
 - All core data collection preserved
 

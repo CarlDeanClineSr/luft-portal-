@@ -2,6 +2,8 @@ name: INSPIRE Paper Harvest
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '7 13 * * *'
 
 jobs:
   harvest:

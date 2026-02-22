@@ -2,6 +2,8 @@ name: Hourly DST Lattice Index
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '7 6 * * *'
 
 jobs:
   dst-monitor:

@@ -2,6 +2,8 @@ name: Knowledge Index - Auto-Update Repository Index
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '7 17 * * *'
 
 concurrency:
   group: knowledge-index

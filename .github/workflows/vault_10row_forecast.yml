@@ -2,6 +2,8 @@ name: Hourly Vault 10-Row Forecast Update
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '7 10 * * *'
 
 jobs:
   vault-forecast:

@@ -2,6 +2,8 @@ name: Hourly Summary Update
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '7 5 * * *'
 
 permissions:
   contents: write

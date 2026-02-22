@@ -36,9 +36,9 @@ Successfully cleaned up 75 GitHub Actions workflows that were causing chaos afte
   - 4 one-time use/recovery → `ARCHIVED/one_time_use/`
   - 1 broken/disabled → `ARCHIVED/broken/`
 
-**Phase 2: Convert to Manual Control**
+**Phase 2: Restore Daily Scheduling**
 - ✅ 19 workflows remain automated (live satellite data + utilities)
-- ✅ 21 workflows converted to manual dispatch only
+- ✅ 21 workflows scheduled once per day (staggered to avoid conflicts)
 
 **Automated Runs Per Day:** ~150-250 executions (66% reduction!)
 
@@ -76,9 +76,9 @@ Control and deployment workflows:
 
 ---
 
-## 🎯 Manual Dispatch Workflows (21 total)
+## 🎯 Daily Scheduled Workflows (21 total)
 
-These now **ONLY** run when you manually trigger them:
+These run **once per day** on staggered schedules (manual dispatch still available):
 
 ### Analysis & Reporting (6)
 - hourly_summary.yml
@@ -158,20 +158,20 @@ Recovery and emergency tools:
 
 ### Workflow Execution Reduction
 - **Before:** 500-800+ automated runs per day
-- **After:** 150-250 automated runs per day
-- **Reduction:** ~66% fewer automated runs
+- **After:** 170-270 automated runs per day
+- **Reduction:** ~60% fewer automated runs
 - **Savings:** Significant GitHub Actions minutes saved
 
 ### Organization Improvements
 - ✅ Clean separation: Live data vs. Analysis vs. Archived
-- ✅ Manual control: Run summaries and reports when YOU want
+- ✅ Staggered daily runs to prevent workflows from colliding
 - ✅ No more chaos: Workflows won't collide or "run into each other"
 - ✅ Easy monitoring: 19 automated workflows vs. 75 before
 - ✅ Observable execution: Clear logs, less noise
 
 ### Flexibility
 - ✅ All archived workflows preserved (can be re-enabled anytime)
-- ✅ All manual workflows available on-demand
+- ✅ Daily schedules with manual dispatch still available
 - ✅ Core data collection unaffected
 - ✅ Full history and configuration retained
 
@@ -182,7 +182,7 @@ Recovery and emergency tools:
 ### Automated (No Action Needed)
 The 19 automated workflows will continue collecting satellite data automatically. Just watch the Actions tab to ensure they're running successfully.
 
-### Manual Workflows (Run When You Want)
+### Daily Scheduled Workflows (Run Manually If Needed)
 1. Go to **Actions** tab on GitHub
 2. Select the workflow you want to run
 3. Click **"Run workflow"** button
@@ -191,10 +191,10 @@ The 19 automated workflows will continue collecting satellite data automatically
 
 See `HOW_TO_RUN_MANUAL_WORKFLOWS.md` for detailed instructions.
 
-### Re-enable Automation (If Needed)
-To restore automatic scheduling for any workflow:
+### Adjust Scheduling (If Needed)
+To change a workflow schedule:
 1. Open the workflow file
-2. Add back the `schedule:` section with cron timing
+2. Edit the `schedule:` cron timing
 3. Commit and push
 
 ---
@@ -223,7 +223,7 @@ To restore automatic scheduling for any workflow:
 | Metric | Before | After | Improvement |
 |--------|--------|-------|-------------|
 | Total Workflows | 75 | 40 active | 47% reduction |
-| Automated Runs/Day | 500-800+ | 150-250 | 66% reduction |
+| Automated Runs/Day | 500-800+ | 170-270 | ~60% reduction |
 | Workflow Organization | Mixed/Chaotic | Organized/Clean | 100% improved |
 | Manual Control | Limited | Full | Complete |
 | Data Integrity | 100% | 100% | Maintained |
@@ -235,8 +235,8 @@ To restore automatic scheduling for any workflow:
 
 ### Recommended Actions:
 1. **Monitor**: Watch the 19 automated workflows for 24-48 hours
-2. **Test**: Run a few manual workflows to verify they work
-3. **Adjust**: If needed, re-enable automation for specific workflows
+2. **Validate**: Confirm the daily staggered schedules complete cleanly
+3. **Adjust**: If needed, tweak daily schedule timings
 4. **Clean**: Consider archiving more workflows if still too many
 
 ### Optional Future Improvements:

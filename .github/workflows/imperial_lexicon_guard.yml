@@ -2,6 +2,8 @@ name: Imperial Lexicon Guard
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '7 22 * * *'
 
 jobs:
   audit-terminology:

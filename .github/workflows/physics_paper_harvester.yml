@@ -2,6 +2,8 @@ name: Physics Paper Harvester
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '7 12 * * *'
 
 jobs:
   harvest-papers:
@@ -56,4 +58,3 @@ jobs:
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

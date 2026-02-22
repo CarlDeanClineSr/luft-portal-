@@ -2,6 +2,11 @@ name: NASA Daily Data Harvest (4:20 PM ET)
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '7 14 * * *'
+
+permissions:
+  contents: write
 
 jobs:
   harvest_all_nasa_missions:

@@ -2,6 +2,8 @@ name: Compile Discovery Paper
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '7 20 * * *'
 
 jobs:
   build_latex:
