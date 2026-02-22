@@ -100,7 +100,7 @@ def calculate_relevance_score(paper, reference_time=None):
     citation_score = citation_ratio * CITATION_WEIGHT
 
     authors = metadata.get('authors') or []
-    # Modest weight for collaboration/institutional backing while capping large lists.
+    # Modest weight for collaborative work while capping large author lists.
     author_ratio = min(len(authors), MAX_AUTHOR_COUNT) / MAX_AUTHOR_COUNT if authors else 0.0
     author_score = author_ratio * AUTHOR_WEIGHT
 
@@ -108,7 +108,7 @@ def calculate_relevance_score(paper, reference_time=None):
     abstracts = metadata.get('abstracts') or []
     if isinstance(abstracts, list) and abstracts:
         abstract_text = abstracts[0].get('value') or ""
-    # Reward presence of an abstract without treating length as quality.
+    # Reward presence of an abstract without treating abstract length as quality.
     abstract_score = ABSTRACT_WEIGHT if abstract_text.strip() else 0.0
 
     return recency_score + citation_score + author_score + abstract_score
