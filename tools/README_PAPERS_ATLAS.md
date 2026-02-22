@@ -17,7 +17,10 @@ Fetches plasma physics papers from INSPIRE-HEP (no 403 errors).
   - Heavy ion collisions
   - Particle detector plasma
   - Tokamak plasma
-- Removes duplicate papers
+- Limits to top 10 most relevant papers per topic
+- Adds relevance scoring (recency, citations, authors, abstract quality)
+- Removes duplicate papers by control number
+- Prints summary statistics by topic
 - Saves results to `data/papers/`
 
 **Usage:**
@@ -26,7 +29,6 @@ python tools/harvest_inspire.py
 ```
 
 **Output:**
-- `data/papers/inspire_papers_YYYYMMDD_HHMMSS.json` - Timestamped harvest
 - `data/papers/inspire_latest.json` - Latest harvest (for easy access)
 
 **Automated Collection:**
