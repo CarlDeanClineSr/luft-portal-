@@ -18,12 +18,28 @@ jobs:
         run: python ml/rebound_runner.py
       - name: Chi floor alerts
         run: python tools/alert_chi_floor.py
-      - name: Commit results
+      - name: Commit and push
         run: |
           git config user.name "LUFT Bot"
           git config user.email "bot@luft.local"
-          git add data/extended_heartbeat_log_*.csv results/ reports/ alerts/
-          git diff --quiet && git diff --staged --quiet || git commit -m "ml: daily ML rebound, results/reports/alerts update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-          git push
+
+          # Add files only if they exist
+          shopt -s nullglob
+
+          if ls data/extended_heartbeat_log_*.csv 1> /dev/null 2>&1; then
+            git add data/extended_heartbeat_log_*.csv
+          fi
+
+          [ -d results ] && git add results/ || true
+          [ -d reports ] && git add reports/ || true
+          [ -d alerts ] && git add alerts/ || true
+
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "ml: daily ML rebound, results/reports/alerts update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git pull --rebase origin main --autostash
+            git push
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
