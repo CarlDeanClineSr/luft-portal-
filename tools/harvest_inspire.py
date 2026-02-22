@@ -94,12 +94,13 @@ def calculate_relevance_score(paper, reference_time=None):
         citation_count = max(int(citation_count), 0)
     except (TypeError, ValueError):
         citation_count = 0
-    # Use log scaling to dampen outliers with extremely high citation counts.
+    # Use log1p scaling so zero citations remain valid while dampening outliers
+    # relative to MAX_CITATIONS (a soft saturation point for relevance).
     citation_ratio = min(math.log1p(citation_count) / math.log1p(MAX_CITATIONS), 1.0)
     citation_score = citation_ratio * CITATION_WEIGHT
 
     authors = metadata.get('authors') or []
-    # Modest weight for collaboration while capping large author lists.
+    # Modest weight for collaboration/institutional backing while capping large lists.
     author_ratio = min(len(authors), MAX_AUTHOR_COUNT) / MAX_AUTHOR_COUNT if authors else 0.0
     author_score = author_ratio * AUTHOR_WEIGHT
 
@@ -107,8 +108,8 @@ def calculate_relevance_score(paper, reference_time=None):
     abstracts = metadata.get('abstracts') or []
     if isinstance(abstracts, list) and abstracts:
         abstract_text = abstracts[0].get('value') or ""
-    abstract_ratio = min(len(abstract_text), MAX_ABSTRACT_CHARS) / MAX_ABSTRACT_CHARS if abstract_text else 0.0
-    abstract_score = abstract_ratio * ABSTRACT_WEIGHT
+    # Reward presence of an abstract without treating length as quality.
+    abstract_score = ABSTRACT_WEIGHT if abstract_text.strip() else 0.0
 
     return recency_score + citation_score + author_score + abstract_score
 
