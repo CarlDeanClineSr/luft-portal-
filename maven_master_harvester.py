@@ -109,15 +109,15 @@ def fetch_maven_records(file_limit=None):
 # ---------------------------------------------------------------------------
 # Main harvest entry point
 # ---------------------------------------------------------------------------
-def harvest_maven(clean_old=False):
+def harvest_maven(clean_old=True):
     """
     Run the MAVEN master harvest.
 
     Parameters
     ----------
     clean_old : bool
-        When True, remove all previous maven_master_summary_*.csv files
-        before saving the new one.  Defaults to False.
+        When True (default), remove all previous maven_master_summary_*.csv
+        files before saving the new one.
     """
     os.makedirs(MAVEN_DATA_LAKE_DIR, exist_ok=True)
 

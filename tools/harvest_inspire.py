@@ -94,10 +94,12 @@ def calculate_relevance_score(paper, reference_time=None):
         citation_count = max(int(citation_count), 0)
     except (TypeError, ValueError):
         citation_count = 0
+    # Use log scaling to dampen outliers with extremely high citation counts.
     citation_ratio = min(math.log1p(citation_count) / math.log1p(MAX_CITATIONS), 1.0)
     citation_score = citation_ratio * CITATION_WEIGHT
 
     authors = metadata.get('authors') or []
+    # Modest weight for collaboration while capping large author lists.
     author_ratio = min(len(authors), MAX_AUTHOR_COUNT) / MAX_AUTHOR_COUNT if authors else 0.0
     author_score = author_ratio * AUTHOR_WEIGHT
 
