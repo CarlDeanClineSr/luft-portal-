@@ -5,6 +5,7 @@ Fetches recent papers from plasma physics and related fields.
 """
 
 import math
+import statistics
 import requests
 import json
 from datetime import datetime, timezone
@@ -60,7 +61,10 @@ def parse_created_date(created_value):
     if not created_value:
         return None
     try:
-        parsed = datetime.fromisoformat(created_value.replace('Z', '+00:00'))
+        value = created_value
+        if created_value.endswith('Z'):
+            value = f"{created_value[:-1]}+00:00"
+        parsed = datetime.fromisoformat(value)
     except ValueError:
         return None
     if parsed.tzinfo is None:
@@ -154,7 +158,7 @@ def main():
     )
 
     avg_score = (
-        sum(p.get('relevance_score', 0) for p in all_papers) / len(all_papers)
+        statistics.mean([p.get('relevance_score', 0) for p in all_papers])
         if all_papers else 0.0
     )
     
