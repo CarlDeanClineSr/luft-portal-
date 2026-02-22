@@ -65,6 +65,7 @@ def test_inspire_fetch_with_mock():
 
 def test_inspire_relevance_scoring():
     """Test that relevance scoring favors recent, detailed papers."""
+    old_paper_age_days = 4000
     now = datetime(2026, 1, 1, tzinfo=timezone.utc)
     recent_paper = {
         'created': now.isoformat(),
@@ -75,7 +76,7 @@ def test_inspire_relevance_scoring():
         }
     }
     older_paper = {
-        'created': (now - timedelta(days=4000)).isoformat(),
+        'created': (now - timedelta(days=old_paper_age_days)).isoformat(),
         'metadata': {
             'authors': [{'full_name': 'B. Author'}],
             'abstracts': [{'value': 'Short'}],
