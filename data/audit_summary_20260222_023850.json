@@ -1,0 +1,57 @@
+{
+  "audit_metadata": {
+    "workflow": "LUFT Voyager Audit Superaction",
+    "version": "1.0.0",
+    "timestamp": "2026-02-22T02:38:50Z",
+    "run_id": "22268986553",
+    "run_number": "2436",
+    "triggered_by": "schedule"
+  },
+  "satellite_results": {
+    "ace": {
+      "plasma_status": "success",
+      "mag_status": "success",
+      "data_files": [
+        "data/ace/plasma_audit.json",
+        "data/ace/mag_audit.json"
+      ],
+      "endpoint": "https://services.swpc.noaa.gov/products/solar-wind/"
+    },
+    "dscovr": {
+      "status": "success",
+      "data_files": [
+        "data/dscovr/solar_wind_audit.json"
+      ],
+      "endpoint": "https://services.swpc.noaa.gov/products/solar-wind/mag-7-day.json"
+    },
+    "soho": {
+      "status": "success",
+      "data_files": [
+        "data/soho/audit.json"
+      ],
+      "endpoint": "https://services.swpc.noaa.gov/products/solar-wind/mag-2-hour.json",
+      "note": "Using NOAA magnetometer data as proxy; direct SOHO access requires specialized endpoints"
+    },
+    "stereo_a": {
+      "status": "success",
+      "data_files": [
+        "data/stereo/audit.json"
+      ],
+      "endpoint": "https://services.swpc.noaa.gov/products/solar-wind/plasma-2-hour.json",
+      "note": "Using NOAA plasma data as monitoring proxy; direct STEREO-A public endpoint often unstable"
+    },
+    "goes": {
+      "status": "success",
+      "data_files": [
+        "data/goes/xray_flux_audit.json"
+      ],
+      "endpoint": "https://services.swpc.noaa.gov/json/goes/primary/xrays-6-hour.json",
+      "note": "Endpoint health checked before data fetch"
+    }
+  },
+  "summary": {
+    "total_satellites": 5,
+    "successful_fetches": "see individual satellite statuses",
+    "audit_branch": "voyager-audit-20260222_023850"
+  }
+}
