@@ -25,7 +25,12 @@ jobs:
           git config user.name "LUFT Bot"
           git config user.email "bot@luft.local"
           git add data/ace_*_audit.json 2>/dev/null || echo "No files to add"
-          git diff --quiet && git diff --staged --quiet || git commit -m "data: Solar wind audit update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
-          git push
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "data: Solar wind audit update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git pull --rebase origin main --autostash
+            git push
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
