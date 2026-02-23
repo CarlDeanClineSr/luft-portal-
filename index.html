@@ -274,7 +274,7 @@
     </div>
 </div>
 
- <script>
+<script>
     const A = [
         {n: "BBC LIFE S1 E3", u: "https://dn721204.ca.archive.org/0/items/life_2009_bbc/03_mammals.mp4"},
         {n: "BBC LIFE S1 E2", u: "https://dn721204.ca.archive.org/0/items/life_2009_bbc/02_reptiles%20and_amphibians.mp4"},
@@ -337,7 +337,7 @@
         {n: "S02E12 - Sighting 4026 - The Atlantic Queen Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E12%20-%20Sighting%204026%20-%20The%20Atlantic%20Queen%20Incident.mp4"},
         {n: "S02E12 - Sighting 4026 - The Atlantic Queen Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E12%20-%20Sighting%204026%20-%20The%20Atlantic%20Queen%20Incident.ia.mp4"},
         {n: "S02E13 - Sighting 4025 - The Whitman Tower Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E13%20-%20Sighting%204025%20-%20The%20Whitman%20Tower%20Incident.mp4"},
-        {n: "S02E13 - Sighting 4025 - The Whitman Tower Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E13%20-%20Sighting%204025%20-%20The%20Whitman%20Tower%20Incident.ia.mp4"},
+        {n: "S02E13 - Sighting 4025 - The Whitman Tower Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E13%20-%20Sighting%204025%20-%20The%20Whitman%20Tower%20Incident.ia.mp4"},    
         {n: "Mercury Redstone 1 Launch", u: "https://archive.org/download/project_mercury_mr-1_launch/project_mercury_mr-1_launch.mp4"},
         {n: "Our Solar System", u: "https://archive.org/download/our_solar_system/our_solar_system.mp4"},
         {n: "Skylab: Gyroscopes in Space", u: "https://archive.org/download/skylab_gyroscopes_in_space/skylab_gyroscopes_in_space.mp4"},
@@ -477,8 +477,8 @@
         {n: "Black Christmas 1974", u: "https://archive.org/download/black-christmas-1974_202405/Black Christmas 1974.ia.mp4"},
         {n: "Horror Rises From The Tomb 1973", u: "https://archive.org/download/horror-rises-from-the-tomb-1973/Horror Rises From The Tomb 1973.mp4"},
         {n: "Terror Creaturesfromthe Grave", u: "https://archive.org/download/TerrorCreaturesfromtheGrave_201708/TerrorCreaturesfromtheGrave.mp4"}
-    };
-        
+    ];
+
     const E = [
         {n: "Carrie 1976", u: "https://archive.org/download/carrie-1976_202409/Carrie 1976.mp4"},
         {n: "Arthur C Clarkes Mysterious Universe - Complete Series 1994", u: "https://archive.org/download/arthur-c-clarkes-mysterious-universe-complete-series-1994/Arthur C Clarkes - Mysterious Universe S01E04 - Relics of the Saints.mp4"}
@@ -565,6 +565,7 @@
         {n: "The UFO Incident (1975)", u: "https://archive.org/download/the-ufo-incident-1975-tv/The UFO Incident (1975-TV).mp4"},
         {n: "Bob Lazar & Area 51", u: "https://archive.org/download/BobLazarAndArea51TechnologyUFODocumentary/Bob Lazar and Area 51 Technology [UFO Documentary].mp4"},
         {n: "Project Blue Book: Alien Interview", u: "https://archive.org/download/youtube-QTYsigxhjic/QTYsigxhjic.mp4"},
+        {n: "NASA UFO Footages", u: "https://archive.org/download/NASAfootages/UFOs.avi"},
         {n: "Turkey UFO 2008 (Kumburgaz)", u: "https://archive.org/download/youtube-zVdeM99mkMs/zVdeM99mkMs.mp4"}
     ];
 
@@ -589,6 +590,7 @@
         {n: "CBS RADIO MYSTERY THEATER 1980-PAGE 2", u: "https://archive.org/download/CBSRMTCBSRADIOMYSTERYTHEATER1980_0/1057_The_Deserter_800206.mp3"},
         {n: "CBS Radio Mystery Theater 81 03 18 E 1173 Pretty Polly", u: "https://archive.org/download/cbs-radio-mystery-theater-81-03-18-e-1173-pretty-polly/1981/CBS Radio Mystery Theater 81-03-18 e1173 Pretty Polly.mp3"},
         {n: "CBS Radio Mystery Theater 82 07 02 E 1346 Bring Back My Body", u: "https://archive.org/download/cbs-radio-mystery-theater-82-07-02-e-1346-bring-back-my-body/1982/CBS Radio Mystery Theater 82-07-02 e1346 Bring Back My Body.mp3"},
+        {n: "TREASURE ISLAND FULL Audio Book By Robert Louis Stevenson Adventure Pirate Fiction", u: "https://archive.org/download/TREASUREISLANDFULLAudioBookByRobertLouisStevensonAdventurePirateFiction/TREASURE ISLAND - FULL AudioBook by Robert Louis Stevenson - Adventure - Pirate Fiction.ogv"}
     ];
 
     const categories = [
@@ -613,33 +615,56 @@
     const titleDisp = document.getElementById('title-display');
 
     function checkOverflow() {
-        const title = document.getElementById('title-display');
-        title.classList.remove('scroller-active');
-        void title.offsetWidth; 
-        if (title.scrollWidth > title.clientWidth + 10) {
-            title.classList.add('scroller-active');
+        titleDisp.classList.remove('scroller-active');
+        void titleDisp.offsetWidth; 
+        if (titleDisp.scrollWidth > titleDisp.clientWidth + 10) {
+            titleDisp.classList.add('scroller-active');
         } else {
-            title.style.transform = 'translateX(0)';
+            titleDisp.style.transform = 'translateX(0)';
         }
     }
 
-    window.onload = () => {
-        makeTicks('t-ring', 100);
-        makeNumbers('s-ring', 10);
-        loadAndPlay();
-    };
+    function makeTicks(id, count) {
+        const ring = document.getElementById(id);
+        ring.innerHTML = '';
+        const radius = 52;
+        const step = 360 / count;
+        for (let i = 0; i < count; i++) {
+            const angle = i * step;
+            const tick = document.createElement('div');
+            tick.className = 'tick';
+            tick.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-${radius}px)`;
+            ring.appendChild(tick);
+        }
+    }
+
+    function makeNumbers(id, count) {
+        const ring = document.getElementById(id);
+        ring.innerHTML = '';
+        const radius = 52;
+        const step = 360 / count;
+        for (let i = 0; i < count; i++) {
+            const angle = i * step - 90;
+            const rad = angle * Math.PI / 180;
+            const x = radius * Math.cos(rad);
+            const y = radius * Math.sin(rad);
+            const num = document.createElement('div');
+            num.className = 'number';
+            num.style.left = `calc(50% + ${x}px)`;
+            num.style.top = `calc(50% + ${y}px)`;
+            num.style.transform = `translate(-50%, -50%)`;
+            num.innerText = i + 1;
+            ring.appendChild(num);
+        }
+    }
 
     function loadAndPlay() {
         const cat = categories[currentCategoryIndex];
         const item = cat.content[currentVideoIndex % cat.content.length];
-
         player.src = item.u;
         player.load();
-        
         titleDisp.innerText = item.n.trim() + ' ';
-
         setTimeout(checkOverflow, 100);
-
         player.play().catch(() => {});
     }
 
@@ -659,45 +684,6 @@
         loadAndPlay();
     }
 
-    player.addEventListener('ended', () => tune(1));
-    player.addEventListener('error', () => { setTimeout(() => tune(1), 1500); });
-
-    function makeTicks(id, count) {
-        const ring = document.getElementById(id);
-        ring.innerHTML = '';
-        const radius = 52;
-        const step = 360 / count;
-
-        for (let i = 0; i < count; i++) {
-            const angle = i * step;
-            const tick = document.createElement('div');
-            tick.className = 'tick';
-            tick.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-${radius}px)`;
-            ring.appendChild(tick);
-        }
-    }
-
-    function makeNumbers(id, count) {
-        const ring = document.getElementById(id);
-        ring.innerHTML = '';
-        const radius = 52;
-        const step = 360 / count;
-
-        for (let i = 0; i < count; i++) {
-            const angle = i * step - 90;
-            const rad = angle * Math.PI / 180;
-            const x = radius * Math.cos(rad);
-            const y = radius * Math.sin(rad);
-            const num = document.createElement('div');
-            num.className = 'number';
-            num.style.left = `calc(50% + ${x}px)`;
-            num.style.top = `calc(50% + ${y}px)`;
-            num.style.transform = `translate(-50%, -50%)`;
-            num.innerText = i + 1;
-            ring.appendChild(num);
-        }
-    }
-
     function toggleFS() {
         const elem = document.getElementById('cabinet');
         if (!document.fullscreenElement) {
@@ -707,11 +693,17 @@
             else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
         } else {
             if (document.exitFullscreen) document.exitFullscreen();
-            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-            else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
-            else if (document.msExitFullscreen) document.msExitFullscreen();
         }
     }
+
+    window.onload = () => {
+        makeTicks('t-ring', 100);
+        makeNumbers('s-ring', 10);
+        loadAndPlay();
+    };
+
+    player.addEventListener('ended', () => tune(1));
+    player.addEventListener('error', () => { setTimeout(() => tune(1), 1500); });
 </script>
 </body>
 </html>
