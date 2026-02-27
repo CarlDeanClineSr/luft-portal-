@@ -1,19 +1,19 @@
 # Repository Knowledge Index
 
-**Generated:** 2026-02-26 17:33:32 UTC  
-**Total Files Indexed:** 18966  
+**Generated:** 2026-02-27 17:22:10 UTC  
+**Total Files Indexed:** 19206  
 **TF-IDF Keywords:** ✓ Enabled (scikit-learn)
 
 ---
 
 ## Statistics
 
-- **CSV files:** 15823
-- **TEXT files:** 3143
+- **CSV files:** 16047
+- **TEXT files:** 3159
 
 ---
 
-## CSV Files (15823)
+## CSV Files (16047)
 
 | Path | Title | Rows | Headers |
 |------|-------|------|---------|
@@ -30,8 +30,8 @@
 | [data/cme_heartbeat_log_2025_12_with_phases.csv](data/cme_heartbeat_log_2025_12_with_phases.csv) | Cme Heartbeat Log 2025 12 With Phases | 1148 | timestamp_utc, chi_amplitude, phase_radians, ... (11 total) |
 | [data/cme_heartbeat_log_2026_01.csv](data/cme_heartbeat_log_2026_01.csv) | Cme Heartbeat Log 2026 01 | 1567 | timestamp_utc, chi_amplitude, phase_radians, ... (12 total) |
 | [data/cme_heartbeat_log_2026_01.csv](data/cme_heartbeat_log_2026_01.csv) | Cme Heartbeat Log 2026 01 | 1567 | timestamp_utc, chi_amplitude, phase_radians, ... (12 total) |
-| [data/cme_heartbeat_log_2026_02.csv](data/cme_heartbeat_log_2026_02.csv) | Cme Heartbeat Log 2026 02 | 2120 | timestamp_utc, chi_amplitude, phase_radians, ... (12 total) |
-| [data/cme_heartbeat_log_2026_02.csv](data/cme_heartbeat_log_2026_02.csv) | Cme Heartbeat Log 2026 02 | 2120 | timestamp_utc, chi_amplitude, phase_radians, ... (12 total) |
+| [data/cme_heartbeat_log_2026_02.csv](data/cme_heartbeat_log_2026_02.csv) | Cme Heartbeat Log 2026 02 | 2187 | timestamp_utc, chi_amplitude, phase_radians, ... (12 total) |
+| [data/cme_heartbeat_log_2026_02.csv](data/cme_heartbeat_log_2026_02.csv) | Cme Heartbeat Log 2026 02 | 2187 | timestamp_utc, chi_amplitude, phase_radians, ... (12 total) |
 | [data/gistemp/gistemp_anomalies_20251226_050928.csv](data/gistemp/gistemp_anomalies_20251226_050928.csv) | Gistemp Anomalies 20251226 050928 | 1752 | year, month, anomaly |
 | [data/gistemp/gistemp_anomalies_20251226_050928.csv](data/gistemp/gistemp_anomalies_20251226_050928.csv) | Gistemp Anomalies 20251226 050928 | 1752 | year, month, anomaly |
 | [data/gistemp/gistemp_anomalies_20251228_051125.csv](data/gistemp/gistemp_anomalies_20251228_051125.csv) | Gistemp Anomalies 20251228 051125 | 1752 | year, month, anomaly |
@@ -220,6 +220,8 @@
 | [data/intermagnet_csv/dou_20260224.csv](data/intermagnet_csv/dou_20260224.csv) | Dou 20260224 | 1441 | timestamp, Bx, By, ... (5 total) |
 | [data/intermagnet_csv/dou_20260225.csv](data/intermagnet_csv/dou_20260225.csv) | Dou 20260225 | 1441 | timestamp, Bx, By, ... (5 total) |
 | [data/intermagnet_csv/dou_20260225.csv](data/intermagnet_csv/dou_20260225.csv) | Dou 20260225 | 1441 | timestamp, Bx, By, ... (5 total) |
+| [data/intermagnet_csv/dou_20260226.csv](data/intermagnet_csv/dou_20260226.csv) | Dou 20260226 | 1441 | timestamp, Bx, By, ... (5 total) |
+| [data/intermagnet_csv/dou_20260226.csv](data/intermagnet_csv/dou_20260226.csv) | Dou 20260226 | 1441 | timestamp, Bx, By, ... (5 total) |
 | [data/lightning/may_storm1.csv](data/lightning/may_storm1.csv) | May Storm1 | 32 | timestamp, peak_amplitude, baseline |
 | [data/lightning/may_storm1.csv](data/lightning/may_storm1.csv) | May Storm1 | 32 | timestamp, peak_amplitude, baseline |
 | [data/noaa_solarwind/noaa_mag_20251218_200421.csv](data/noaa_solarwind/noaa_mag_20251218_200421.csv) | Noaa Mag 20251218 200421 | 9139 | time_tag, bx_gsm, by_gsm, ... (7 total) |
@@ -7960,6 +7962,116 @@
 | [data/noaa_solarwind/noaa_mag_20260226_165430.csv](data/noaa_solarwind/noaa_mag_20260226_165430.csv) | Noaa Mag 20260226 165430 | 9700 | time_tag, bx_gsm, by_gsm, ... (7 total) |
 | [data/noaa_solarwind/noaa_mag_20260226_172706.csv](data/noaa_solarwind/noaa_mag_20260226_172706.csv) | Noaa Mag 20260226 172706 | 9700 | time_tag, bx_gsm, by_gsm, ... (7 total) |
 | [data/noaa_solarwind/noaa_mag_20260226_172706.csv](data/noaa_solarwind/noaa_mag_20260226_172706.csv) | Noaa Mag 20260226 172706 | 9700 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_181640.csv](data/noaa_solarwind/noaa_mag_20260226_181640.csv) | Noaa Mag 20260226 181640 | 9700 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_181640.csv](data/noaa_solarwind/noaa_mag_20260226_181640.csv) | Noaa Mag 20260226 181640 | 9700 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_183829.csv](data/noaa_solarwind/noaa_mag_20260226_183829.csv) | Noaa Mag 20260226 183829 | 9700 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_183829.csv](data/noaa_solarwind/noaa_mag_20260226_183829.csv) | Noaa Mag 20260226 183829 | 9700 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_190645.csv](data/noaa_solarwind/noaa_mag_20260226_190645.csv) | Noaa Mag 20260226 190645 | 9700 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_190645.csv](data/noaa_solarwind/noaa_mag_20260226_190645.csv) | Noaa Mag 20260226 190645 | 9700 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_195258.csv](data/noaa_solarwind/noaa_mag_20260226_195258.csv) | Noaa Mag 20260226 195258 | 9701 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_195258.csv](data/noaa_solarwind/noaa_mag_20260226_195258.csv) | Noaa Mag 20260226 195258 | 9701 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_200857.csv](data/noaa_solarwind/noaa_mag_20260226_200857.csv) | Noaa Mag 20260226 200857 | 9701 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_200857.csv](data/noaa_solarwind/noaa_mag_20260226_200857.csv) | Noaa Mag 20260226 200857 | 9701 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_202646.csv](data/noaa_solarwind/noaa_mag_20260226_202646.csv) | Noaa Mag 20260226 202646 | 9718 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_202646.csv](data/noaa_solarwind/noaa_mag_20260226_202646.csv) | Noaa Mag 20260226 202646 | 9718 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_205029.csv](data/noaa_solarwind/noaa_mag_20260226_205029.csv) | Noaa Mag 20260226 205029 | 9743 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_205029.csv](data/noaa_solarwind/noaa_mag_20260226_205029.csv) | Noaa Mag 20260226 205029 | 9743 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_210721.csv](data/noaa_solarwind/noaa_mag_20260226_210721.csv) | Noaa Mag 20260226 210721 | 9759 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_210721.csv](data/noaa_solarwind/noaa_mag_20260226_210721.csv) | Noaa Mag 20260226 210721 | 9759 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_212431.csv](data/noaa_solarwind/noaa_mag_20260226_212431.csv) | Noaa Mag 20260226 212431 | 9776 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_212431.csv](data/noaa_solarwind/noaa_mag_20260226_212431.csv) | Noaa Mag 20260226 212431 | 9776 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_214416.csv](data/noaa_solarwind/noaa_mag_20260226_214416.csv) | Noaa Mag 20260226 214416 | 9796 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_214416.csv](data/noaa_solarwind/noaa_mag_20260226_214416.csv) | Noaa Mag 20260226 214416 | 9796 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_215946.csv](data/noaa_solarwind/noaa_mag_20260226_215946.csv) | Noaa Mag 20260226 215946 | 9812 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_215946.csv](data/noaa_solarwind/noaa_mag_20260226_215946.csv) | Noaa Mag 20260226 215946 | 9812 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_221749.csv](data/noaa_solarwind/noaa_mag_20260226_221749.csv) | Noaa Mag 20260226 221749 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_221749.csv](data/noaa_solarwind/noaa_mag_20260226_221749.csv) | Noaa Mag 20260226 221749 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_223735.csv](data/noaa_solarwind/noaa_mag_20260226_223735.csv) | Noaa Mag 20260226 223735 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_223735.csv](data/noaa_solarwind/noaa_mag_20260226_223735.csv) | Noaa Mag 20260226 223735 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_225654.csv](data/noaa_solarwind/noaa_mag_20260226_225654.csv) | Noaa Mag 20260226 225654 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_225654.csv](data/noaa_solarwind/noaa_mag_20260226_225654.csv) | Noaa Mag 20260226 225654 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_231559.csv](data/noaa_solarwind/noaa_mag_20260226_231559.csv) | Noaa Mag 20260226 231559 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_231559.csv](data/noaa_solarwind/noaa_mag_20260226_231559.csv) | Noaa Mag 20260226 231559 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_233425.csv](data/noaa_solarwind/noaa_mag_20260226_233425.csv) | Noaa Mag 20260226 233425 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_233425.csv](data/noaa_solarwind/noaa_mag_20260226_233425.csv) | Noaa Mag 20260226 233425 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_235028.csv](data/noaa_solarwind/noaa_mag_20260226_235028.csv) | Noaa Mag 20260226 235028 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260226_235028.csv](data/noaa_solarwind/noaa_mag_20260226_235028.csv) | Noaa Mag 20260226 235028 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_000258.csv](data/noaa_solarwind/noaa_mag_20260227_000258.csv) | Noaa Mag 20260227 000258 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_000258.csv](data/noaa_solarwind/noaa_mag_20260227_000258.csv) | Noaa Mag 20260227 000258 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_005054.csv](data/noaa_solarwind/noaa_mag_20260227_005054.csv) | Noaa Mag 20260227 005054 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_005054.csv](data/noaa_solarwind/noaa_mag_20260227_005054.csv) | Noaa Mag 20260227 005054 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_012847.csv](data/noaa_solarwind/noaa_mag_20260227_012847.csv) | Noaa Mag 20260227 012847 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_012847.csv](data/noaa_solarwind/noaa_mag_20260227_012847.csv) | Noaa Mag 20260227 012847 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_032214.csv](data/noaa_solarwind/noaa_mag_20260227_032214.csv) | Noaa Mag 20260227 032214 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_032214.csv](data/noaa_solarwind/noaa_mag_20260227_032214.csv) | Noaa Mag 20260227 032214 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_041446.csv](data/noaa_solarwind/noaa_mag_20260227_041446.csv) | Noaa Mag 20260227 041446 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_041446.csv](data/noaa_solarwind/noaa_mag_20260227_041446.csv) | Noaa Mag 20260227 041446 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_045619.csv](data/noaa_solarwind/noaa_mag_20260227_045619.csv) | Noaa Mag 20260227 045619 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_045619.csv](data/noaa_solarwind/noaa_mag_20260227_045619.csv) | Noaa Mag 20260227 045619 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_053030.csv](data/noaa_solarwind/noaa_mag_20260227_053030.csv) | Noaa Mag 20260227 053030 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_053030.csv](data/noaa_solarwind/noaa_mag_20260227_053030.csv) | Noaa Mag 20260227 053030 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_055628.csv](data/noaa_solarwind/noaa_mag_20260227_055628.csv) | Noaa Mag 20260227 055628 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_055628.csv](data/noaa_solarwind/noaa_mag_20260227_055628.csv) | Noaa Mag 20260227 055628 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_062750.csv](data/noaa_solarwind/noaa_mag_20260227_062750.csv) | Noaa Mag 20260227 062750 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_062750.csv](data/noaa_solarwind/noaa_mag_20260227_062750.csv) | Noaa Mag 20260227 062750 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_065325.csv](data/noaa_solarwind/noaa_mag_20260227_065325.csv) | Noaa Mag 20260227 065325 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_065325.csv](data/noaa_solarwind/noaa_mag_20260227_065325.csv) | Noaa Mag 20260227 065325 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_072007.csv](data/noaa_solarwind/noaa_mag_20260227_072007.csv) | Noaa Mag 20260227 072007 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_072007.csv](data/noaa_solarwind/noaa_mag_20260227_072007.csv) | Noaa Mag 20260227 072007 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_074301.csv](data/noaa_solarwind/noaa_mag_20260227_074301.csv) | Noaa Mag 20260227 074301 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_074301.csv](data/noaa_solarwind/noaa_mag_20260227_074301.csv) | Noaa Mag 20260227 074301 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_080150.csv](data/noaa_solarwind/noaa_mag_20260227_080150.csv) | Noaa Mag 20260227 080150 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_080150.csv](data/noaa_solarwind/noaa_mag_20260227_080150.csv) | Noaa Mag 20260227 080150 | 9816 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_084639.csv](data/noaa_solarwind/noaa_mag_20260227_084639.csv) | Noaa Mag 20260227 084639 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_084639.csv](data/noaa_solarwind/noaa_mag_20260227_084639.csv) | Noaa Mag 20260227 084639 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_090657.csv](data/noaa_solarwind/noaa_mag_20260227_090657.csv) | Noaa Mag 20260227 090657 | 9818 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_090657.csv](data/noaa_solarwind/noaa_mag_20260227_090657.csv) | Noaa Mag 20260227 090657 | 9818 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_092732.csv](data/noaa_solarwind/noaa_mag_20260227_092732.csv) | Noaa Mag 20260227 092732 | 9818 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_092732.csv](data/noaa_solarwind/noaa_mag_20260227_092732.csv) | Noaa Mag 20260227 092732 | 9818 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_095142.csv](data/noaa_solarwind/noaa_mag_20260227_095142.csv) | Noaa Mag 20260227 095142 | 9818 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_095142.csv](data/noaa_solarwind/noaa_mag_20260227_095142.csv) | Noaa Mag 20260227 095142 | 9818 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_100956.csv](data/noaa_solarwind/noaa_mag_20260227_100956.csv) | Noaa Mag 20260227 100956 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_100956.csv](data/noaa_solarwind/noaa_mag_20260227_100956.csv) | Noaa Mag 20260227 100956 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_102819.csv](data/noaa_solarwind/noaa_mag_20260227_102819.csv) | Noaa Mag 20260227 102819 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_102819.csv](data/noaa_solarwind/noaa_mag_20260227_102819.csv) | Noaa Mag 20260227 102819 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_105210.csv](data/noaa_solarwind/noaa_mag_20260227_105210.csv) | Noaa Mag 20260227 105210 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_105210.csv](data/noaa_solarwind/noaa_mag_20260227_105210.csv) | Noaa Mag 20260227 105210 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_110955.csv](data/noaa_solarwind/noaa_mag_20260227_110955.csv) | Noaa Mag 20260227 110955 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_110955.csv](data/noaa_solarwind/noaa_mag_20260227_110955.csv) | Noaa Mag 20260227 110955 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_112749.csv](data/noaa_solarwind/noaa_mag_20260227_112749.csv) | Noaa Mag 20260227 112749 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_112749.csv](data/noaa_solarwind/noaa_mag_20260227_112749.csv) | Noaa Mag 20260227 112749 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_114656.csv](data/noaa_solarwind/noaa_mag_20260227_114656.csv) | Noaa Mag 20260227 114656 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_114656.csv](data/noaa_solarwind/noaa_mag_20260227_114656.csv) | Noaa Mag 20260227 114656 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_120031.csv](data/noaa_solarwind/noaa_mag_20260227_120031.csv) | Noaa Mag 20260227 120031 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_120031.csv](data/noaa_solarwind/noaa_mag_20260227_120031.csv) | Noaa Mag 20260227 120031 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_122415.csv](data/noaa_solarwind/noaa_mag_20260227_122415.csv) | Noaa Mag 20260227 122415 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_122415.csv](data/noaa_solarwind/noaa_mag_20260227_122415.csv) | Noaa Mag 20260227 122415 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_124852.csv](data/noaa_solarwind/noaa_mag_20260227_124852.csv) | Noaa Mag 20260227 124852 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_124852.csv](data/noaa_solarwind/noaa_mag_20260227_124852.csv) | Noaa Mag 20260227 124852 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_132117.csv](data/noaa_solarwind/noaa_mag_20260227_132117.csv) | Noaa Mag 20260227 132117 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_132117.csv](data/noaa_solarwind/noaa_mag_20260227_132117.csv) | Noaa Mag 20260227 132117 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_134825.csv](data/noaa_solarwind/noaa_mag_20260227_134825.csv) | Noaa Mag 20260227 134825 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_134825.csv](data/noaa_solarwind/noaa_mag_20260227_134825.csv) | Noaa Mag 20260227 134825 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_140930.csv](data/noaa_solarwind/noaa_mag_20260227_140930.csv) | Noaa Mag 20260227 140930 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_140930.csv](data/noaa_solarwind/noaa_mag_20260227_140930.csv) | Noaa Mag 20260227 140930 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_142951.csv](data/noaa_solarwind/noaa_mag_20260227_142951.csv) | Noaa Mag 20260227 142951 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_142951.csv](data/noaa_solarwind/noaa_mag_20260227_142951.csv) | Noaa Mag 20260227 142951 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_145314.csv](data/noaa_solarwind/noaa_mag_20260227_145314.csv) | Noaa Mag 20260227 145314 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_145314.csv](data/noaa_solarwind/noaa_mag_20260227_145314.csv) | Noaa Mag 20260227 145314 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_151438.csv](data/noaa_solarwind/noaa_mag_20260227_151438.csv) | Noaa Mag 20260227 151438 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_151438.csv](data/noaa_solarwind/noaa_mag_20260227_151438.csv) | Noaa Mag 20260227 151438 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_153439.csv](data/noaa_solarwind/noaa_mag_20260227_153439.csv) | Noaa Mag 20260227 153439 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_153439.csv](data/noaa_solarwind/noaa_mag_20260227_153439.csv) | Noaa Mag 20260227 153439 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_155444.csv](data/noaa_solarwind/noaa_mag_20260227_155444.csv) | Noaa Mag 20260227 155444 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_155444.csv](data/noaa_solarwind/noaa_mag_20260227_155444.csv) | Noaa Mag 20260227 155444 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_161447.csv](data/noaa_solarwind/noaa_mag_20260227_161447.csv) | Noaa Mag 20260227 161447 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_161447.csv](data/noaa_solarwind/noaa_mag_20260227_161447.csv) | Noaa Mag 20260227 161447 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_163449.csv](data/noaa_solarwind/noaa_mag_20260227_163449.csv) | Noaa Mag 20260227 163449 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_163449.csv](data/noaa_solarwind/noaa_mag_20260227_163449.csv) | Noaa Mag 20260227 163449 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_165706.csv](data/noaa_solarwind/noaa_mag_20260227_165706.csv) | Noaa Mag 20260227 165706 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_165706.csv](data/noaa_solarwind/noaa_mag_20260227_165706.csv) | Noaa Mag 20260227 165706 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_171830.csv](data/noaa_solarwind/noaa_mag_20260227_171830.csv) | Noaa Mag 20260227 171830 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
+| [data/noaa_solarwind/noaa_mag_20260227_171830.csv](data/noaa_solarwind/noaa_mag_20260227_171830.csv) | Noaa Mag 20260227 171830 | 9817 | time_tag, bx_gsm, by_gsm, ... (7 total) |
 | [data/noaa_solarwind/noaa_plasma_20251218_200421.csv](data/noaa_solarwind/noaa_plasma_20251218_200421.csv) | Noaa Plasma 20251218 200421 | 8880 | time_tag, density, speed, ... (4 total) |
 | [data/noaa_solarwind/noaa_plasma_20251218_200421.csv](data/noaa_solarwind/noaa_plasma_20251218_200421.csv) | Noaa Plasma 20251218 200421 | 8880 | time_tag, density, speed, ... (4 total) |
 | [data/noaa_solarwind/noaa_plasma_20251218_210418.csv](data/noaa_solarwind/noaa_plasma_20251218_210418.csv) | Noaa Plasma 20251218 210418 | 8877 | time_tag, density, speed, ... (4 total) |
@@ -15698,6 +15810,116 @@
 | [data/noaa_solarwind/noaa_plasma_20260226_165430.csv](data/noaa_solarwind/noaa_plasma_20260226_165430.csv) | Noaa Plasma 20260226 165430 | 9720 | time_tag, density, speed, ... (4 total) |
 | [data/noaa_solarwind/noaa_plasma_20260226_172706.csv](data/noaa_solarwind/noaa_plasma_20260226_172706.csv) | Noaa Plasma 20260226 172706 | 9720 | time_tag, density, speed, ... (4 total) |
 | [data/noaa_solarwind/noaa_plasma_20260226_172706.csv](data/noaa_solarwind/noaa_plasma_20260226_172706.csv) | Noaa Plasma 20260226 172706 | 9720 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_181639.csv](data/noaa_solarwind/noaa_plasma_20260226_181639.csv) | Noaa Plasma 20260226 181639 | 9719 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_181639.csv](data/noaa_solarwind/noaa_plasma_20260226_181639.csv) | Noaa Plasma 20260226 181639 | 9719 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_183828.csv](data/noaa_solarwind/noaa_plasma_20260226_183828.csv) | Noaa Plasma 20260226 183828 | 9721 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_183828.csv](data/noaa_solarwind/noaa_plasma_20260226_183828.csv) | Noaa Plasma 20260226 183828 | 9721 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_190645.csv](data/noaa_solarwind/noaa_plasma_20260226_190645.csv) | Noaa Plasma 20260226 190645 | 9724 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_190645.csv](data/noaa_solarwind/noaa_plasma_20260226_190645.csv) | Noaa Plasma 20260226 190645 | 9724 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_195258.csv](data/noaa_solarwind/noaa_plasma_20260226_195258.csv) | Noaa Plasma 20260226 195258 | 9722 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_195258.csv](data/noaa_solarwind/noaa_plasma_20260226_195258.csv) | Noaa Plasma 20260226 195258 | 9722 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_200857.csv](data/noaa_solarwind/noaa_plasma_20260226_200857.csv) | Noaa Plasma 20260226 200857 | 9723 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_200857.csv](data/noaa_solarwind/noaa_plasma_20260226_200857.csv) | Noaa Plasma 20260226 200857 | 9723 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_202646.csv](data/noaa_solarwind/noaa_plasma_20260226_202646.csv) | Noaa Plasma 20260226 202646 | 9741 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_202646.csv](data/noaa_solarwind/noaa_plasma_20260226_202646.csv) | Noaa Plasma 20260226 202646 | 9741 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_205029.csv](data/noaa_solarwind/noaa_plasma_20260226_205029.csv) | Noaa Plasma 20260226 205029 | 9763 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_205029.csv](data/noaa_solarwind/noaa_plasma_20260226_205029.csv) | Noaa Plasma 20260226 205029 | 9763 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_210721.csv](data/noaa_solarwind/noaa_plasma_20260226_210721.csv) | Noaa Plasma 20260226 210721 | 9780 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_210721.csv](data/noaa_solarwind/noaa_plasma_20260226_210721.csv) | Noaa Plasma 20260226 210721 | 9780 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_212431.csv](data/noaa_solarwind/noaa_plasma_20260226_212431.csv) | Noaa Plasma 20260226 212431 | 9797 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_212431.csv](data/noaa_solarwind/noaa_plasma_20260226_212431.csv) | Noaa Plasma 20260226 212431 | 9797 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_214416.csv](data/noaa_solarwind/noaa_plasma_20260226_214416.csv) | Noaa Plasma 20260226 214416 | 9817 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_214416.csv](data/noaa_solarwind/noaa_plasma_20260226_214416.csv) | Noaa Plasma 20260226 214416 | 9817 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_215946.csv](data/noaa_solarwind/noaa_plasma_20260226_215946.csv) | Noaa Plasma 20260226 215946 | 9833 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_215946.csv](data/noaa_solarwind/noaa_plasma_20260226_215946.csv) | Noaa Plasma 20260226 215946 | 9833 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_221748.csv](data/noaa_solarwind/noaa_plasma_20260226_221748.csv) | Noaa Plasma 20260226 221748 | 9840 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_221748.csv](data/noaa_solarwind/noaa_plasma_20260226_221748.csv) | Noaa Plasma 20260226 221748 | 9840 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_223735.csv](data/noaa_solarwind/noaa_plasma_20260226_223735.csv) | Noaa Plasma 20260226 223735 | 9841 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_223735.csv](data/noaa_solarwind/noaa_plasma_20260226_223735.csv) | Noaa Plasma 20260226 223735 | 9841 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_225653.csv](data/noaa_solarwind/noaa_plasma_20260226_225653.csv) | Noaa Plasma 20260226 225653 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_225653.csv](data/noaa_solarwind/noaa_plasma_20260226_225653.csv) | Noaa Plasma 20260226 225653 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_231559.csv](data/noaa_solarwind/noaa_plasma_20260226_231559.csv) | Noaa Plasma 20260226 231559 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_231559.csv](data/noaa_solarwind/noaa_plasma_20260226_231559.csv) | Noaa Plasma 20260226 231559 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_233425.csv](data/noaa_solarwind/noaa_plasma_20260226_233425.csv) | Noaa Plasma 20260226 233425 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_233425.csv](data/noaa_solarwind/noaa_plasma_20260226_233425.csv) | Noaa Plasma 20260226 233425 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_235028.csv](data/noaa_solarwind/noaa_plasma_20260226_235028.csv) | Noaa Plasma 20260226 235028 | 9841 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260226_235028.csv](data/noaa_solarwind/noaa_plasma_20260226_235028.csv) | Noaa Plasma 20260226 235028 | 9841 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_000257.csv](data/noaa_solarwind/noaa_plasma_20260227_000257.csv) | Noaa Plasma 20260227 000257 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_000257.csv](data/noaa_solarwind/noaa_plasma_20260227_000257.csv) | Noaa Plasma 20260227 000257 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_005054.csv](data/noaa_solarwind/noaa_plasma_20260227_005054.csv) | Noaa Plasma 20260227 005054 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_005054.csv](data/noaa_solarwind/noaa_plasma_20260227_005054.csv) | Noaa Plasma 20260227 005054 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_012846.csv](data/noaa_solarwind/noaa_plasma_20260227_012846.csv) | Noaa Plasma 20260227 012846 | 9841 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_012846.csv](data/noaa_solarwind/noaa_plasma_20260227_012846.csv) | Noaa Plasma 20260227 012846 | 9841 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_032213.csv](data/noaa_solarwind/noaa_plasma_20260227_032213.csv) | Noaa Plasma 20260227 032213 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_032213.csv](data/noaa_solarwind/noaa_plasma_20260227_032213.csv) | Noaa Plasma 20260227 032213 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_041446.csv](data/noaa_solarwind/noaa_plasma_20260227_041446.csv) | Noaa Plasma 20260227 041446 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_041446.csv](data/noaa_solarwind/noaa_plasma_20260227_041446.csv) | Noaa Plasma 20260227 041446 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_045619.csv](data/noaa_solarwind/noaa_plasma_20260227_045619.csv) | Noaa Plasma 20260227 045619 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_045619.csv](data/noaa_solarwind/noaa_plasma_20260227_045619.csv) | Noaa Plasma 20260227 045619 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_053030.csv](data/noaa_solarwind/noaa_plasma_20260227_053030.csv) | Noaa Plasma 20260227 053030 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_053030.csv](data/noaa_solarwind/noaa_plasma_20260227_053030.csv) | Noaa Plasma 20260227 053030 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_055628.csv](data/noaa_solarwind/noaa_plasma_20260227_055628.csv) | Noaa Plasma 20260227 055628 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_055628.csv](data/noaa_solarwind/noaa_plasma_20260227_055628.csv) | Noaa Plasma 20260227 055628 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_062749.csv](data/noaa_solarwind/noaa_plasma_20260227_062749.csv) | Noaa Plasma 20260227 062749 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_062749.csv](data/noaa_solarwind/noaa_plasma_20260227_062749.csv) | Noaa Plasma 20260227 062749 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_065325.csv](data/noaa_solarwind/noaa_plasma_20260227_065325.csv) | Noaa Plasma 20260227 065325 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_065325.csv](data/noaa_solarwind/noaa_plasma_20260227_065325.csv) | Noaa Plasma 20260227 065325 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_072006.csv](data/noaa_solarwind/noaa_plasma_20260227_072006.csv) | Noaa Plasma 20260227 072006 | 9841 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_072006.csv](data/noaa_solarwind/noaa_plasma_20260227_072006.csv) | Noaa Plasma 20260227 072006 | 9841 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_074300.csv](data/noaa_solarwind/noaa_plasma_20260227_074300.csv) | Noaa Plasma 20260227 074300 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_074300.csv](data/noaa_solarwind/noaa_plasma_20260227_074300.csv) | Noaa Plasma 20260227 074300 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_080150.csv](data/noaa_solarwind/noaa_plasma_20260227_080150.csv) | Noaa Plasma 20260227 080150 | 9841 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_080150.csv](data/noaa_solarwind/noaa_plasma_20260227_080150.csv) | Noaa Plasma 20260227 080150 | 9841 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_084639.csv](data/noaa_solarwind/noaa_plasma_20260227_084639.csv) | Noaa Plasma 20260227 084639 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_084639.csv](data/noaa_solarwind/noaa_plasma_20260227_084639.csv) | Noaa Plasma 20260227 084639 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_090657.csv](data/noaa_solarwind/noaa_plasma_20260227_090657.csv) | Noaa Plasma 20260227 090657 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_090657.csv](data/noaa_solarwind/noaa_plasma_20260227_090657.csv) | Noaa Plasma 20260227 090657 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_092732.csv](data/noaa_solarwind/noaa_plasma_20260227_092732.csv) | Noaa Plasma 20260227 092732 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_092732.csv](data/noaa_solarwind/noaa_plasma_20260227_092732.csv) | Noaa Plasma 20260227 092732 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_095141.csv](data/noaa_solarwind/noaa_plasma_20260227_095141.csv) | Noaa Plasma 20260227 095141 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_095141.csv](data/noaa_solarwind/noaa_plasma_20260227_095141.csv) | Noaa Plasma 20260227 095141 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_100956.csv](data/noaa_solarwind/noaa_plasma_20260227_100956.csv) | Noaa Plasma 20260227 100956 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_100956.csv](data/noaa_solarwind/noaa_plasma_20260227_100956.csv) | Noaa Plasma 20260227 100956 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_102819.csv](data/noaa_solarwind/noaa_plasma_20260227_102819.csv) | Noaa Plasma 20260227 102819 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_102819.csv](data/noaa_solarwind/noaa_plasma_20260227_102819.csv) | Noaa Plasma 20260227 102819 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_105210.csv](data/noaa_solarwind/noaa_plasma_20260227_105210.csv) | Noaa Plasma 20260227 105210 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_105210.csv](data/noaa_solarwind/noaa_plasma_20260227_105210.csv) | Noaa Plasma 20260227 105210 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_110955.csv](data/noaa_solarwind/noaa_plasma_20260227_110955.csv) | Noaa Plasma 20260227 110955 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_110955.csv](data/noaa_solarwind/noaa_plasma_20260227_110955.csv) | Noaa Plasma 20260227 110955 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_112749.csv](data/noaa_solarwind/noaa_plasma_20260227_112749.csv) | Noaa Plasma 20260227 112749 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_112749.csv](data/noaa_solarwind/noaa_plasma_20260227_112749.csv) | Noaa Plasma 20260227 112749 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_114656.csv](data/noaa_solarwind/noaa_plasma_20260227_114656.csv) | Noaa Plasma 20260227 114656 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_114656.csv](data/noaa_solarwind/noaa_plasma_20260227_114656.csv) | Noaa Plasma 20260227 114656 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_120031.csv](data/noaa_solarwind/noaa_plasma_20260227_120031.csv) | Noaa Plasma 20260227 120031 | 9844 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_120031.csv](data/noaa_solarwind/noaa_plasma_20260227_120031.csv) | Noaa Plasma 20260227 120031 | 9844 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_122415.csv](data/noaa_solarwind/noaa_plasma_20260227_122415.csv) | Noaa Plasma 20260227 122415 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_122415.csv](data/noaa_solarwind/noaa_plasma_20260227_122415.csv) | Noaa Plasma 20260227 122415 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_124852.csv](data/noaa_solarwind/noaa_plasma_20260227_124852.csv) | Noaa Plasma 20260227 124852 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_124852.csv](data/noaa_solarwind/noaa_plasma_20260227_124852.csv) | Noaa Plasma 20260227 124852 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_132117.csv](data/noaa_solarwind/noaa_plasma_20260227_132117.csv) | Noaa Plasma 20260227 132117 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_132117.csv](data/noaa_solarwind/noaa_plasma_20260227_132117.csv) | Noaa Plasma 20260227 132117 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_134825.csv](data/noaa_solarwind/noaa_plasma_20260227_134825.csv) | Noaa Plasma 20260227 134825 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_134825.csv](data/noaa_solarwind/noaa_plasma_20260227_134825.csv) | Noaa Plasma 20260227 134825 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_140930.csv](data/noaa_solarwind/noaa_plasma_20260227_140930.csv) | Noaa Plasma 20260227 140930 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_140930.csv](data/noaa_solarwind/noaa_plasma_20260227_140930.csv) | Noaa Plasma 20260227 140930 | 9842 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_142951.csv](data/noaa_solarwind/noaa_plasma_20260227_142951.csv) | Noaa Plasma 20260227 142951 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_142951.csv](data/noaa_solarwind/noaa_plasma_20260227_142951.csv) | Noaa Plasma 20260227 142951 | 9843 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_145313.csv](data/noaa_solarwind/noaa_plasma_20260227_145313.csv) | Noaa Plasma 20260227 145313 | 9845 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_145313.csv](data/noaa_solarwind/noaa_plasma_20260227_145313.csv) | Noaa Plasma 20260227 145313 | 9845 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_151438.csv](data/noaa_solarwind/noaa_plasma_20260227_151438.csv) | Noaa Plasma 20260227 151438 | 9844 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_151438.csv](data/noaa_solarwind/noaa_plasma_20260227_151438.csv) | Noaa Plasma 20260227 151438 | 9844 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_153438.csv](data/noaa_solarwind/noaa_plasma_20260227_153438.csv) | Noaa Plasma 20260227 153438 | 9844 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_153438.csv](data/noaa_solarwind/noaa_plasma_20260227_153438.csv) | Noaa Plasma 20260227 153438 | 9844 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_155443.csv](data/noaa_solarwind/noaa_plasma_20260227_155443.csv) | Noaa Plasma 20260227 155443 | 9844 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_155443.csv](data/noaa_solarwind/noaa_plasma_20260227_155443.csv) | Noaa Plasma 20260227 155443 | 9844 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_161446.csv](data/noaa_solarwind/noaa_plasma_20260227_161446.csv) | Noaa Plasma 20260227 161446 | 9845 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_161446.csv](data/noaa_solarwind/noaa_plasma_20260227_161446.csv) | Noaa Plasma 20260227 161446 | 9845 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_163449.csv](data/noaa_solarwind/noaa_plasma_20260227_163449.csv) | Noaa Plasma 20260227 163449 | 9844 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_163449.csv](data/noaa_solarwind/noaa_plasma_20260227_163449.csv) | Noaa Plasma 20260227 163449 | 9844 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_165706.csv](data/noaa_solarwind/noaa_plasma_20260227_165706.csv) | Noaa Plasma 20260227 165706 | 9845 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_165706.csv](data/noaa_solarwind/noaa_plasma_20260227_165706.csv) | Noaa Plasma 20260227 165706 | 9845 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_171830.csv](data/noaa_solarwind/noaa_plasma_20260227_171830.csv) | Noaa Plasma 20260227 171830 | 9847 | time_tag, density, speed, ... (4 total) |
+| [data/noaa_solarwind/noaa_plasma_20260227_171830.csv](data/noaa_solarwind/noaa_plasma_20260227_171830.csv) | Noaa Plasma 20260227 171830 | 9847 | time_tag, density, speed, ... (4 total) |
 | [data/psp/psp_mag_2023-12-28_2023-12-29.csv](data/psp/psp_mag_2023-12-28_2023-12-29.csv) | Psp Mag 2023-12-28 2023-12-29 | 1441 | , Br, Bt, ... (4 total) |
 | [data/psp/psp_mag_2023-12-28_2023-12-29.csv](data/psp/psp_mag_2023-12-28_2023-12-29.csv) | Psp Mag 2023-12-28 2023-12-29 | 1441 | , Br, Bt, ... (4 total) |
 | [data/psp/psp_mag_2025-12-01_2023-12-29.csv](data/psp/psp_mag_2025-12-01_2023-12-29.csv) | Psp Mag 2025-12-01 2023-12-29 | 1441 | , Br, Bt, ... (4 total) |
@@ -15834,6 +16056,8 @@
 | [results/magnetometer_chi/dou_20260224.csv](results/magnetometer_chi/dou_20260224.csv) | Dou 20260224 | 1441 | timestamp, Bx, By, ... (8 total) |
 | [results/magnetometer_chi/dou_20260225.csv](results/magnetometer_chi/dou_20260225.csv) | Dou 20260225 | 1441 | timestamp, Bx, By, ... (8 total) |
 | [results/magnetometer_chi/dou_20260225.csv](results/magnetometer_chi/dou_20260225.csv) | Dou 20260225 | 1441 | timestamp, Bx, By, ... (8 total) |
+| [results/magnetometer_chi/dou_20260226.csv](results/magnetometer_chi/dou_20260226.csv) | Dou 20260226 | 1441 | timestamp, Bx, By, ... (8 total) |
+| [results/magnetometer_chi/dou_20260226.csv](results/magnetometer_chi/dou_20260226.csv) | Dou 20260226 | 1441 | timestamp, Bx, By, ... (8 total) |
 | [results/magnetometer_chi/magnetometer_chi_2025_12_26.csv](results/magnetometer_chi/magnetometer_chi_2025_12_26.csv) | Magnetometer Chi 2025 12 26 | 1439 | b_total, baseline, chi, ... (5 total) |
 | [results/magnetometer_chi/magnetometer_chi_2025_12_26.csv](results/magnetometer_chi/magnetometer_chi_2025_12_26.csv) | Magnetometer Chi 2025 12 26 | 1439 | b_total, baseline, chi, ... (5 total) |
 | [results/momentum_recoil_events.csv](results/momentum_recoil_events.csv) | Momentum Recoil Events | 2 | start_time, end_time, delta_v_peak, ... (6 total) |
@@ -15841,7 +16065,7 @@
 | [results/rebound_test_v1.csv](results/rebound_test_v1.csv) | Rebound Test V1 | 255 | start, end, R, ... (5 total) |
 | [results/rebound_test_v1.csv](results/rebound_test_v1.csv) | Rebound Test V1 | 255 | start, end, R, ... (5 total) |
 
-## TEXT Files (3143)
+## TEXT Files (3159)
 
 | Path | Title | Lines | Keywords |
 |------|-------|-------|----------|
@@ -17030,6 +17254,14 @@
 | [data/noaa_text/27day_20260226_062140.txt](data/noaa_text/27day_20260226_062140.txt) | Prepared by the US Dept. of Commerce, NOAA, Space Weather Pr | 40 | 2026, 2026 feb, feb, ... |
 | [data/noaa_text/27day_20260226_121403.txt](data/noaa_text/27day_20260226_121403.txt) | Prepared by the US Dept. of Commerce, NOAA, Space Weather Pr | 40 | 2026, 2026 feb, feb, ... |
 | [data/noaa_text/27day_20260226_121403.txt](data/noaa_text/27day_20260226_121403.txt) | Prepared by the US Dept. of Commerce, NOAA, Space Weather Pr | 40 | 2026, 2026 feb, feb, ... |
+| [data/noaa_text/27day_20260226_181904.txt](data/noaa_text/27day_20260226_181904.txt) | Prepared by the US Dept. of Commerce, NOAA, Space Weather Pr | 40 | 2026, 2026 feb, feb, ... |
+| [data/noaa_text/27day_20260226_181904.txt](data/noaa_text/27day_20260226_181904.txt) | Prepared by the US Dept. of Commerce, NOAA, Space Weather Pr | 40 | 2026, 2026 feb, feb, ... |
+| [data/noaa_text/27day_20260227_001953.txt](data/noaa_text/27day_20260227_001953.txt) | Prepared by the US Dept. of Commerce, NOAA, Space Weather Pr | 40 | 2026, 2026 feb, feb, ... |
+| [data/noaa_text/27day_20260227_001953.txt](data/noaa_text/27day_20260227_001953.txt) | Prepared by the US Dept. of Commerce, NOAA, Space Weather Pr | 40 | 2026, 2026 feb, feb, ... |
+| [data/noaa_text/27day_20260227_061802.txt](data/noaa_text/27day_20260227_061802.txt) | Prepared by the US Dept. of Commerce, NOAA, Space Weather Pr | 40 | 2026, 2026 feb, feb, ... |
+| [data/noaa_text/27day_20260227_061802.txt](data/noaa_text/27day_20260227_061802.txt) | Prepared by the US Dept. of Commerce, NOAA, Space Weather Pr | 40 | 2026, 2026 feb, feb, ... |
+| [data/noaa_text/27day_20260227_121029.txt](data/noaa_text/27day_20260227_121029.txt) | Prepared by the US Dept. of Commerce, NOAA, Space Weather Pr | 40 | 2026, 2026 feb, feb, ... |
+| [data/noaa_text/27day_20260227_121029.txt](data/noaa_text/27day_20260227_121029.txt) | Prepared by the US Dept. of Commerce, NOAA, Space Weather Pr | 40 | 2026, 2026 feb, feb, ... |
 | [data/noaa_text/3_day_forecast/20251219.txt](data/noaa_text/3_day_forecast/20251219.txt) | Prepared by the U.S. Dept. of Commerce, NOAA, Space Weather  | 53 | forecast, dec, 19, ... |
 | [data/noaa_text/3_day_forecast/20251219.txt](data/noaa_text/3_day_forecast/20251219.txt) | Prepared by the U.S. Dept. of Commerce, NOAA, Space Weather  | 53 | forecast, dec, 19, ... |
 | [data/noaa_text/3_day_forecast/20251220.txt](data/noaa_text/3_day_forecast/20251220.txt) | Prepared by the U.S. Dept. of Commerce, NOAA, Space Weather  | 55 | dec, 20, 22, ... |
@@ -17790,6 +18022,14 @@
 | [data/noaa_text/forecast_20260226_062140.txt](data/noaa_text/forecast_20260226_062140.txt) | Prepared by the U.S. Dept. of Commerce, NOAA, Space Weather  | 54 | feb, feb 26, 26, ... |
 | [data/noaa_text/forecast_20260226_121403.txt](data/noaa_text/forecast_20260226_121403.txt) | Prepared by the U.S. Dept. of Commerce, NOAA, Space Weather  | 54 | feb, feb 26, 26, ... |
 | [data/noaa_text/forecast_20260226_121403.txt](data/noaa_text/forecast_20260226_121403.txt) | Prepared by the U.S. Dept. of Commerce, NOAA, Space Weather  | 54 | feb, feb 26, 26, ... |
+| [data/noaa_text/forecast_20260226_181904.txt](data/noaa_text/forecast_20260226_181904.txt) | Prepared by the U.S. Dept. of Commerce, NOAA, Space Weather  | 56 | feb, feb 26, 26, ... |
+| [data/noaa_text/forecast_20260226_181904.txt](data/noaa_text/forecast_20260226_181904.txt) | Prepared by the U.S. Dept. of Commerce, NOAA, Space Weather  | 56 | feb, feb 26, 26, ... |
+| [data/noaa_text/forecast_20260227_001953.txt](data/noaa_text/forecast_20260227_001953.txt) | Prepared by the U.S. Dept. of Commerce, NOAA, Space Weather  | 56 | feb, feb 26, 26, ... |
+| [data/noaa_text/forecast_20260227_001953.txt](data/noaa_text/forecast_20260227_001953.txt) | Prepared by the U.S. Dept. of Commerce, NOAA, Space Weather  | 56 | feb, feb 26, 26, ... |
+| [data/noaa_text/forecast_20260227_061802.txt](data/noaa_text/forecast_20260227_061802.txt) | Prepared by the U.S. Dept. of Commerce, NOAA, Space Weather  | 52 | feb, 27, 33, ... |
+| [data/noaa_text/forecast_20260227_061802.txt](data/noaa_text/forecast_20260227_061802.txt) | Prepared by the U.S. Dept. of Commerce, NOAA, Space Weather  | 52 | feb, 27, 33, ... |
+| [data/noaa_text/forecast_20260227_121029.txt](data/noaa_text/forecast_20260227_121029.txt) | Prepared by the U.S. Dept. of Commerce, NOAA, Space Weather  | 52 | feb, 27, 33, ... |
+| [data/noaa_text/forecast_20260227_121029.txt](data/noaa_text/forecast_20260227_121029.txt) | Prepared by the U.S. Dept. of Commerce, NOAA, Space Weather  | 52 | feb, 27, 33, ... |
 | [data/noaa_text/geoalert/20251219.txt](data/noaa_text/geoalert/20251219.txt) | Prepared by the U.S. Dept. of Commerce, NOAA, | 24 | 0330, 20000, 30000, ... |
 | [data/noaa_text/geoalert/20251219.txt](data/noaa_text/geoalert/20251219.txt) | Prepared by the U.S. Dept. of Commerce, NOAA, | 24 | 0330, 20000, 30000, ... |
 | [data/noaa_text/geoalert/20251220.txt](data/noaa_text/geoalert/20251220.txt) | Prepared by the U.S. Dept. of Commerce, NOAA, | 20 | 0330, 51220 0330, 51220, ... |
