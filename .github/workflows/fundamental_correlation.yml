@@ -1,0 +1,38 @@
+name: Run Fundamental Constants Correlation
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Every hour - fundamental correlation analysis
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: repo-push-main
+  cancel-in-progress: false
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install numpy scipy
+      - name: Run script
+        run: python scripts/fundamental_constants_correlation.py > results/fundamental_matches.txt
+      - name: Commit and push results
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bash scripts/ci_commit_push.sh \
+            "results/fundamental_matches.txt" \
+            "Update fundamental matches - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"

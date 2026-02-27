@@ -1,0 +1,110 @@
+name: Auto-Append Daily Baseline Watch — Law #15 Ledger
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Runs daily at 06:00 UTC
+  workflow_dispatch:     # Manual trigger support
+
+env:
+  NOAA_PLASMA_URL: https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json
+  NOAA_MAG_URL: https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json
+  GOES_PRIMARY_URL: https://services.swpc.noaa.gov/json/goes/primary/xrays-6-hour.json
+
+jobs:
+  append-baseline-watch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install numpy
+
+      - name: Create data directories
+        run: mkdir -p data
+
+      - name: Fetch ACE/DSCOVR plasma data
+        id: fetch_plasma
+        run: |
+          echo "🌞 Downloading solar wind plasma data from NOAA SWPC..."
+          if curl --fail --silent --show-error --retry 3 --retry-delay 5 -o data/ace_plasma_latest.json "$NOAA_PLASMA_URL"; then
+            echo "✅ ACE/DSCOVR plasma data: SUCCESS"
+            echo "plasma_success=true" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️  Warning: Failed to download ACE/DSCOVR plasma data."
+            echo "plasma_success=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Fetch ACE/DSCOVR magnetic field data
+        id: fetch_mag
+        run: |
+          echo "🧲 Downloading magnetic field data from NOAA SWPC..."
+          if curl --fail --silent --show-error --retry 3 --retry-delay 5 -o data/ace_mag_latest.json "$NOAA_MAG_URL"; then
+            echo "✅ ACE/DSCOVR magnetic field data: SUCCESS"
+            echo "mag_success=true" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️  Warning: Failed to download ACE/DSCOVR magnetic field data."
+            echo "mag_success=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Fallback to GOES data if needed
+        if: steps.fetch_plasma.outputs.plasma_success != 'true' || steps.fetch_mag.outputs.mag_success != 'true'
+        run: |
+          echo "🛰️  ACE/DSCOVR data incomplete. Attempting GOES fallback..."
+          if curl --fail --silent --show-error --retry 3 --retry-delay 5 -o data/goes_primary_latest.json "$GOES_PRIMARY_URL"; then
+            echo "✅ GOES primary data: SUCCESS (fallback mode)"
+            echo "Note: GOES data is limited. Baseline watch will use available parameters."
+          else
+            echo "❌ Error: Failed to download GOES fallback data."
+            echo "Cannot proceed without any data source."
+            exit 1
+          fi
+
+      - name: Run Auto-Append Baseline Watch Script
+        run: |
+          echo "📊 Running LUFT Auto-Append Baseline Watch..."
+          # Check if we have required data files
+          if [ -f data/ace_plasma_latest.json ] && [ -f data/ace_mag_latest.json ]; then
+            python scripts/auto_append_baseline_watch.py \
+              --plasma data/ace_plasma_latest.json \
+              --mag data/ace_mag_latest.json
+          elif [ -f data/goes_primary_latest.json ]; then
+            echo "⚠️  Using GOES fallback data (limited parameters available)"
+            # GOES data structure is different, may need alternative handling
+            echo "Note: GOES fallback requires additional implementation for proper baseline watch."
+            echo "Skipping baseline update until full ACE/DSCOVR data is available."
+            exit 0
+          else
+            echo "❌ Error: No valid data files available for baseline watch"
+            exit 1
+          fi
+          echo "✅ Baseline watch script completed."
+
+      - name: Check for capsule changes
+        id: check_changes
+        run: |
+          git diff --exit-code capsules/2025_dec_batch/CAPSULE_DECEMBER_BASELINE_SHIFT_WATCH_001.md || echo "changes=true" >> $GITHUB_OUTPUT
+
+      - name: Commit baseline watch capsule change
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add capsules/2025_dec_batch/CAPSULE_DECEMBER_BASELINE_SHIFT_WATCH_001.md
+          git commit -m "Auto-append daily baseline watch — Law #15 ledger eternal. $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          git push
+          echo "✅ Baseline watch capsule committed and pushed successfully."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Report completion
+        if: steps.check_changes.outputs.changes != 'true'
+        run: |
+          echo "ℹ️  No new baseline data to append. Entry for today may already exist."

@@ -1,0 +1,358 @@
+name: Chi Boundary Monitor (χ ≤ 0.15)
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'  # Every 15 minutes - continuous chi boundary monitoring
+  workflow_dispatch:  # Allow manual triggering
+  push:
+    branches: [main]
+    paths:
+      - 'universal_boundary_engine.py'
+      - '.github/workflows/chi_boundary_monitor.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  monitor-boundary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Install dependencies
+        run: |
+          pip install numpy pandas matplotlib scipy
+          echo "✅ Dependencies installed"
+      
+      - name: Fetch DSCOVR Solar Wind Data
+        run: |
+          echo "📡 Fetching DSCOVR L1 solar wind data..."
+          mkdir -p data/chi_monitor
+          
+          # Fetch plasma data (density, velocity, temperature) - using 1-day endpoint for more data points
+          if curl --fail --silent --show-error --retry 3 --retry-delay 5 -o data/chi_monitor/dscovr_plasma_latest.json \
+            "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-day.json"; then
+            # Validate JSON
+            if python3 -m json.tool data/chi_monitor/dscovr_plasma_latest.json > /dev/null 2>&1; then
+              echo "✅ DSCOVR plasma data downloaded and validated"
+            else
+              echo "⚠️ DSCOVR plasma data is invalid JSON, removing..."
+              rm -f data/chi_monitor/dscovr_plasma_latest.json
+            fi
+          else
+            echo "⚠️ DSCOVR plasma fetch failed"
+          fi
+          
+          # Fetch magnetic field data (Bx, By, Bz) - using 1-day endpoint for more data points
+          if curl --fail --silent --show-error --retry 3 --retry-delay 5 -o data/chi_monitor/dscovr_mag_latest.json \
+            "https://services.swpc.noaa.gov/products/solar-wind/mag-1-day.json"; then
+            # Validate JSON
+            if python3 -m json.tool data/chi_monitor/dscovr_mag_latest.json > /dev/null 2>&1; then
+              echo "✅ DSCOVR magnetic field data downloaded and validated"
+            else
+              echo "⚠️ DSCOVR mag data is invalid JSON, removing..."
+              rm -f data/chi_monitor/dscovr_mag_latest.json
+            fi
+          else
+            echo "⚠️ DSCOVR mag fetch failed"
+          fi
+          
+          echo "📊 Data fetch complete"
+      
+      - name: Fetch ACE Solar Wind Data (Backup)
+        run: |
+          echo "📡 Fetching ACE backup data..."
+          
+          # ACE MAG data
+          if curl --fail --silent --show-error --retry 3 --retry-delay 5 -o data/chi_monitor/ace_mag_latest.json \
+            "https://services.swpc.noaa.gov/products/solar-wind/mag-1-day.json"; then
+            # Validate JSON
+            if python3 -m json.tool data/chi_monitor/ace_mag_latest.json > /dev/null 2>&1; then
+              echo "✅ ACE magnetic field data downloaded and validated"
+            else
+              echo "⚠️ ACE mag data is invalid JSON, removing..."
+              rm -f data/chi_monitor/ace_mag_latest.json
+            fi
+          else
+            echo "⚠️ ACE mag fetch failed"
+          fi
+          
+          # ACE SWEPAM data
+          if curl --fail --silent --show-error --retry 3 --retry-delay 5 -o data/chi_monitor/ace_plasma_latest.json \
+            "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-day.json"; then
+            # Validate JSON
+            if python3 -m json.tool data/chi_monitor/ace_plasma_latest.json > /dev/null 2>&1; then
+              echo "✅ ACE plasma data downloaded and validated"
+            else
+              echo "⚠️ ACE plasma data is invalid JSON, removing..."
+              rm -f data/chi_monitor/ace_plasma_latest.json
+            fi
+          else
+            echo "⚠️ ACE plasma fetch failed"
+          fi
+      
+      - name: Calculate Chi (χ) from Solar Wind
+        run: |
+          echo "🔬 Calculating Universal Boundary Condition (χ)..."
+          python3 scripts/chi_boundary_monitor.py
+      
+      - name: Generate Unification Report
+        run: |
+          echo "🌌 Generating fundamental unification report..."
+          
+          python3 << 'PYTHON_SCRIPT'
+          import json
+          from pathlib import Path
+          import sys
+          sys.path.insert(0, '.')
+          from universal_boundary_engine import calculate_fundamental_unifications
+          
+          # Calculate unifications
+          unifications = calculate_fundamental_unifications()
+          
+          print("\n" + "=" * 80)
+          print("FUNDAMENTAL UNIFICATIONS (χ = 0.15)")
+          print("=" * 80)
+          
+          # Gravity
+          grav = unifications['gravity']
+          print(f"\n⚛️  Gravity Synthesis (G ∝ 1/χ):")
+          print(f"   Derived: {grav['derived_G']:.5e} m³/(kg·s²)")
+          print(f"   CODATA:  {grav['codata_G']:.5e} m³/(kg·s²)")
+          print(f"   Error: {grav['error_percent']:.3f}%")
+          
+          # Mass ratio
+          mass = unifications['mass_ratio']
+          print(f"\n🔬 Mass Ratio (χ ≈ (m_e/m_p)^(1/4)):")
+          print(f"   χ from mass: {mass['chi_from_mass']:.6f}")
+          print(f"   χ observed: {unifications['chi_universal']:.6f}")
+          print(f"   Error: {mass['error_percent']:.3f}%")
+          
+          # Coupling
+          coup = unifications['coupling']
+          print(f"\n🔊 Coupling Frequency (χ/α):")
+          print(f"   f = {coup['frequency_hz']:.4f} Hz")
+          print(f"   Application: {coup['application']}")
+          
+          print("=" * 80)
+          
+          # Save to file
+          report_file = Path('data/chi_monitor/fundamental_unifications.json')
+          with open(report_file, 'w') as f:
+              json.dump(unifications, f, indent=2)
+          
+          print(f"\n💾 Unifications saved to: {report_file}")
+          PYTHON_SCRIPT
+      
+      - name: Check for Violations
+        id: check_violations
+        run: |
+          echo "🔍 Checking for boundary violations..."
+          
+          python3 << 'PYTHON_SCRIPT'
+          import json
+          from pathlib import Path
+          
+          latest_file = Path('data/chi_monitor/chi_latest_validation.json')
+          if latest_file.exists():
+              with open(latest_file, 'r') as f:
+                  validation = json.load(f)
+              
+              if not validation['compliance']:
+                  print("=" * 80)
+                  print("⚠️  ALERT: BOUNDARY VIOLATION DETECTED")
+                  print("=" * 80)
+                  print(f"Maximum χ: {validation['max_chi']:.6f}")
+                  print(f"Violations: {validation['violations']}")
+                  print(f"This requires immediate investigation!")
+                  print("=" * 80)
+                  
+                  # Set GitHub Actions output
+                  import os
+                  with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                      f.write('violation=true\n')
+              else:
+                  print("✅ No violations detected - boundary holds")
+                  import os
+                  with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                      f.write('violation=false\n')
+              
+              # Check for harmonic transition
+              if validation.get('is_harmonic_transition', False):
+                  print("\n⚠️  Harmonic transition detected!")
+                  print(f"System operating in mode n={validation['harmonic_mode']}")
+                  import os
+                  with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                      f.write('harmonic=true\n')
+          PYTHON_SCRIPT
+      
+      - name: Generate Hourly Summary
+        run: |
+          echo "📋 Generating hourly χ boundary summary..."
+          
+          python3 << 'PYTHON_SCRIPT'
+          import json
+          from pathlib import Path
+          from datetime import datetime
+          
+          # Read latest validation
+          latest_file = Path('data/chi_monitor/chi_latest_validation.json')
+          if latest_file.exists():
+              with open(latest_file, 'r') as f:
+                  validation = json.load(f)
+              
+              # Read unifications
+              unif_file = Path('data/chi_monitor/fundamental_unifications.json')
+              if unif_file.exists():
+                  with open(unif_file, 'r') as f:
+                      unifications = json.load(f)
+              else:
+                  unifications = None
+              
+              # Generate markdown summary
+              summary_lines = [
+                  "# Universal Boundary Condition (χ ≤ 0.15) - Hourly Monitor",
+                  "",
+                  f"**Last Updated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}",
+                  "",
+                  "## Current Status",
+                  "",
+                  f"- **Source:** {validation['source']}",
+                  f"- **Data Points:** {validation['data_points']:,}",
+                  f"- **Maximum χ:** {validation['max_chi']:.6f}",
+                  f"- **Mean χ:** {validation['mean_chi']:.6f}",
+                  "",
+                  "### Boundary Compliance",
+                  ""
+              ]
+              
+              if validation['compliance']:
+                  summary_lines.append("✅ **BOUNDARY CONFIRMED** - χ ≤ 0.15 holds")
+                  summary_lines.append(f"- Violations: {validation['violations']}")
+              else:
+                  summary_lines.append("❌ **BOUNDARY VIOLATION DETECTED**")
+                  summary_lines.append(f"- Violations: {validation['violations']}")
+                  summary_lines.append(f"- Max χ: {validation['max_chi']:.6f}")
+              
+              summary_lines.extend([
+                  "",
+                  "### Attractor State",
+                  "",
+                  f"- Points at boundary [0.145-0.155]: {validation.get('attractor_percentage', 0):.1f}%",
+              ])
+              
+              if validation.get('attractor_percentage', 0) > 40:
+                  summary_lines.append("- ✅ Attractor confirmed (>40%)")
+              
+              if validation.get('is_harmonic_transition', False):
+                  summary_lines.extend([
+                      "",
+                      "### ⚠️  Harmonic Transition",
+                      "",
+                      f"System operating in elevated mode: **n = {validation['harmonic_mode']}**"
+                  ])
+              
+              if unifications:
+                  grav = unifications['gravity']
+                  mass = unifications['mass_ratio']
+                  coup = unifications['coupling']
+                  
+                  summary_lines.extend([
+                      "",
+                      "## Fundamental Unifications",
+                      "",
+                      "### Gravity (G ∝ 1/χ)",
+                      f"- Derived: {grav['derived_G']:.5e} m³/(kg·s²)",
+                      f"- CODATA: {grav['codata_G']:.5e} m³/(kg·s²)",
+                      f"- Error: {grav['error_percent']:.3f}%",
+                      "",
+                      "### Mass Ratio (χ ≈ (m_e/m_p)^(1/4))",
+                      f"- χ from mass: {mass['chi_from_mass']:.6f}",
+                      f"- χ observed: 0.15",
+                      f"- Error: {mass['error_percent']:.3f}%",
+                      "",
+                      "### Coupling Frequency (χ/α)",
+                      f"- **f = {coup['frequency_hz']:.4f} Hz**",
+                      f"- Application: {coup['application']}",
+                  ])
+              
+              summary_lines.extend([
+                  "",
+                  "---",
+                  "",
+                  "**Repository:** https://github.com/CarlDeanClineSr/luft-portal-",
+                  "**Discovery:** Dr. Carl Dean Cline Sr., January 2026",
+              ])
+              
+              # Save summary
+              summary_file = Path('reports/CHI_BOUNDARY_HOURLY.md')
+              summary_file.parent.mkdir(parents=True, exist_ok=True)
+              with open(summary_file, 'w') as f:
+                  f.write('\n'.join(summary_lines))
+              
+              print(f"✅ Summary saved to: {summary_file}")
+          PYTHON_SCRIPT
+      
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/chi_monitor/*.json data/chi_monitor/*.jsonl reports/CHI_BOUNDARY_HOURLY.md || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🔬 Chi boundary validation - $(date -u +'%Y-%m-%d %H:00 UTC')"
+            git pull --rebase origin main --autostash
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Workflow Summary
+        run: |
+          echo "### 🔬 Chi Boundary Monitor Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Time:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Read latest validation
+          python3 << 'PYTHON_SCRIPT'
+          import json
+          from pathlib import Path
+          import os
+          
+          latest_file = Path('data/chi_monitor/chi_latest_validation.json')
+          if latest_file.exists():
+              with open(latest_file, 'r') as f:
+                  val = json.load(f)
+              
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+                  f.write(f"**Maximum χ:** {val['max_chi']:.6f}\n")
+                  f.write(f"**Data Points:** {val['data_points']:,}\n")
+                  f.write(f"**Attractor %:** {val.get('attractor_percentage', 0):.1f}%\n")
+                  f.write("\n")
+                  
+                  if val['compliance']:
+                      f.write("**Status:** ✅ Boundary confirmed (χ ≤ 0.15)\n")
+                  else:
+                      f.write("**Status:** ❌ VIOLATION DETECTED\n")
+                  
+                  if val.get('is_harmonic_transition', False):
+                      f.write(f"\n**Alert:** ⚠️ Harmonic transition (n={val['harmonic_mode']})\n")
+          PYTHON_SCRIPT
+      
+      - name: Alert on Violation
+        if: steps.check_violations.outputs.violation == 'true'
+        run: |
+          echo "=================================================================="
+          echo "🚨 CRITICAL ALERT: BOUNDARY VIOLATION"
+          echo "=================================================================="
+          echo "The Universal Boundary Condition (χ ≤ 0.15) has been violated!"
+          echo "This is an extremely rare event requiring immediate investigation."
+          echo "=================================================================="
+          # In production, this would trigger additional alerting mechanisms
+          # (email, Slack, PagerDuty, etc.)

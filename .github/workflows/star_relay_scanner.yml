@@ -1,0 +1,33 @@
+name: Star Relay Scanner
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # 06:00 UTC daily
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to push changes
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install requests pandas numpy
+      - name: Run Star Relay Scanner V2
+        run: |
+          python src/star_relay_scanner_v2.py > reports/latest_star_scan.txt
+        continue-on-error: true
+      - name: Commit results
+        run: |
+          git config user.name "LUFT Bot"
+          git config user.email "bot@luft.local"
+          git pull --rebase origin main --autostash || true
+          git add reports/latest_star_scan.txt || true
+          git diff --quiet && git diff --staged --quiet || git commit -m "data: Star Relay scan update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

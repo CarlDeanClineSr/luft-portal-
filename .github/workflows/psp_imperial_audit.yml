@@ -1,0 +1,34 @@
+name: Imperial Sun Audit (PSP)
+
+on:
+  workflow_dispatch:  # This allows you to click "Run" manually
+  schedule:
+    - cron: '0 0 * * 0'  # Runs automatically every Sunday
+
+jobs:
+  audit_the_sun:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Observatory
+      uses: actions/checkout@v4
+
+    - name: Set up Python Imperial
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install Fetcher Dependencies
+      run: |
+        pip install pandas numpy pyspedas pytplot-mpl-temp
+
+    - name: EXECUTE PSP BATCH COMMANDER
+      run: |
+        chmod +x scripts/batch_psp_encounters.sh
+        ./scripts/batch_psp_encounters.sh
+
+    - name: Archive Imperial Findings
+      uses: actions/upload-artifact@v4
+      with:
+        name: PSP-Validation-Results
+        path: results/psp_validation/
