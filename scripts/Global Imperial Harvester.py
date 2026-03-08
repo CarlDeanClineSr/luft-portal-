@@ -38,7 +38,9 @@ def scan_text(text, filepath):
         pillar_hits = []
         for val_regex in criteria["values"]:
             if re.search(val_regex, text):
-                pillar_hits.append(f"VALUE: {val_regex.replace(r'\\b', '').replace(r'\\.', '.')}")
+                # Clean the regex characters outside the f-string to satisfy Python 3.10
+                clean_val = val_regex.replace('\\b', '').replace('\\.', '.')
+                pillar_hits.append(f"VALUE: {clean_val}") 
         for kw in criteria["keywords"]:
             if kw.lower() in text_lower:
                 pillar_hits.append(f"KEYWORD: '{kw}'")
