@@ -34,4 +34,8 @@ jobs:
         mv scripts/MASTER_IMPERIAL_DOSSIER.txt ./MASTER_IMPERIAL_DOSSIER.txt 2>/dev/null || true
         git add MASTER_IMPERIAL_DOSSIER.txt
         git commit -m "docs: Update Master Imperial Dossier" || echo "No changes to commit"
+        
+        # THE FIX: Sync with the other LUFT bots before pushing
+        git pull --rebase origin main
+        
         git push
