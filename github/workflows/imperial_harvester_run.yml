@@ -1,0 +1,37 @@
+name: Run Global Imperial Harvester
+
+on:
+  workflow_dispatch: # This adds a manual "Run Workflow" button in your Actions tab
+  schedule:
+    - cron: '0 12 * * *' # Automatically runs once a day at 12:00 UTC
+
+permissions:
+  contents: write
+
+jobs:
+  scan-data:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Run Imperial Dragnet
+      run: |
+        cd scripts
+        python "Global Imperial Harvester.py"
+
+    - name: Commit Dossier to Repository
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "LUFT-Bot"
+        # Move the dossier from the scripts folder to the main directory
+        mv scripts/MASTER_IMPERIAL_DOSSIER.txt ./MASTER_IMPERIAL_DOSSIER.txt 2>/dev/null || true
+        git add MASTER_IMPERIAL_DOSSIER.txt
+        git commit -m "docs: Update Master Imperial Dossier" || echo "No changes to commit"
+        git push
