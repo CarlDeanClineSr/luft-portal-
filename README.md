@@ -1,6 +1,3 @@
-***
-
-```markdown
 # 🚨 OFFICIAL DOCTRINE MOVED: Unified Physics Research
 > **The measured framework and laws governing this data have been formalized.**
 > All constants, magnetic proofs, and biological unifications are now maintained at:
@@ -14,7 +11,7 @@
 
 **Status:** NOTICE OF PRIORITY | **Date:** January 26, 2026
 
-The definitive statement on the discovery of the Universal Vacuum Limit (**$\chi = 0.15$**) and its implications for physics, engineering, and medicine. This document establishes priority for the unification of gravity, matter, and biology via a single magnetic constant.
+The definitive statement on the discovery of the Universal Vacuum Limit (**χ = 0.15**) and its implications for physics, engineering, and medicine. This document establishes priority for the unification of gravity, matter, and biology via a single magnetic constant.
 
 **Supporting Documents:**
 * 📋 **[Quick Reference Card](CHI_015_QUICK_REFERENCE.md)** - Key facts and equations
@@ -36,14 +33,14 @@ The definitive statement on the discovery of the Universal Vacuum Limit (**$\chi
 The LUFT Engine is now continuously harvesting and auditing global physics repositories (CERN, arXiv, NASA). The `MASTER_IMPERIAL_DOSSIER.txt` contains over **118,000 lines of empirical evidence** showing mainstream physics experiments unknowingly hitting the Cline Convergence limits. 
 
 **Recent Engine Flags (See Dossier for Full Logs):**
-* **CERN ATLAS Data:** Flagged for "voxelization" and "smoothing" artifacts to bypass the $\chi=0.15$ limit.
-* **Coronal Mass Ejections:** Confirmed simultaneous $0.15$ vacuum saturation and $20.55$ Hz acoustic ringing.
-* **Nuclear Binding:** Detected consistent $+15\%$ atomic geometry compression.
+* **CERN ATLAS Data:** Flagged for "voxelization" and "smoothing" artifacts to bypass the χ = 0.15 limit.
+* **Coronal Mass Ejections:** Confirmed simultaneous 0.15 vacuum saturation and 20.55 Hz acoustic ringing.
+* **Nuclear Binding:** Detected consistent +15% atomic geometry compression.
 
 ---
 
 ### **Abstract: The Magnetic Revolution**
-Analyzing **1.48 million measurements** from Parker Solar Probe, MAVEN, and DSCOVR (January 2026), we identify a dimensionless structural parameter, $\chi$, that hits a hard physical wall at **$\chi = 0.15$**. 
+Analyzing **1.48 million measurements** from Parker Solar Probe, MAVEN, and DSCOVR (January 2026), we identify a dimensionless structural parameter, χ, that hits a hard physical wall at **χ = 0.15**. 
 
 This is not a theory. It is a mechanical yield point. We further isolate a persistent **20.55 Hz / 54‑minute modulation** corresponding to the acoustic integrity of the vacuum lattice itself.
 
@@ -51,21 +48,21 @@ This is not a theory. It is a mechanical yield point. We further isolate a persi
 
 ## 🚨 The Gravity-Matter Unification
 
-The **LUFT Heuristics** engine has confirmed that the **Plasma Limit ($\chi$)** and **Gravity ($1/\chi$)** are reciprocal functions of the same vacuum stress tensor. Gravity is not a fundamental force; it is the vacuum holding itself together against the pressure of matter.
+The **LUFT Heuristics** engine has confirmed that the **Plasma Limit (χ)** and **Gravity (1/χ)** are reciprocal functions of the same vacuum stress tensor. Gravity is not a fundamental force; it is the vacuum holding itself together against the pressure of matter.
 
 ### **The Empirical Proof: The Numbers Don't Lie**
 
 | Relationship | Measured Value | Fundamental Constant | Error |
 |---|---|---|---|
-| **Gravity** ($1/\chi$) | 6.6667 | **$G \times 10^{11}$** = 6.6743 | **0.11%** |
-| **Matter** ($\chi$) | 0.15 | **$(m_e/m_p)^{1/4}$** = 0.1528 | **1.8%** |
-| **Coupling** ($\chi/\alpha$) | 20.55 | **$\ln \Lambda$** (Coulomb Log) / Integrity Freq | **Exact** |
+| **Gravity** (1/χ) | 6.6667 | **G × 10¹¹** = 6.6743 | **0.11%** |
+| **Matter** (χ) | 0.15 | **(m_e / m_p)^0.25** = 0.1528 | **1.8%** |
+| **Coupling** (χ/α) | 20.55 | **ln Λ** (Coulomb Log) / Integrity Freq | **Exact** |
 
 📄 **[Read the Full Unification Paper](docs/papers/chi_unification_paper.md)**
 
 ---
 
-## 🔬 The Empirical Fact: $\chi \le 0.15$
+## 🔬 The Empirical Fact: χ ≤ 0.15
 
 **Observation Count:** 1.48 Million Validated Events
 **Compliance Rate:** 100%
@@ -73,9 +70,9 @@ The **LUFT Heuristics** engine has confirmed that the **Plasma Limit ($\chi$)** 
 We have identified a universal "Yield Point" in the vacuum lattice. When magnetic or plasma stress exceeds a normalized deformation of **0.15**, the system instantly saturates to protect causality.
 
 This is not a measured prediction. It is an **observed constant** that governs three distinct scales of reality:
-1.  **Macro Scale:** The tensile strength of the vacuum ($1/\chi$) creates Gravity.
-2.  **Atomic Scale:** The electron-proton mass ratio is geometrically fixed by $\chi$.
-3.  **Plasma Scale:** The solar wind saturates at $\chi=0.15$.
+1.  **Macro Scale:** The tensile strength of the vacuum (1/χ) creates Gravity.
+2.  **Atomic Scale:** The electron-proton mass ratio is geometrically fixed by χ.
+3.  **Plasma Scale:** The solar wind saturates at χ = 0.15.
 
 **We do not model the boundary. We monitor it.**
 
@@ -95,9 +92,9 @@ This is not a measured prediction. It is an **observed constant** that governs t
 
 ## Multi-Environment Validation
 
-The $\chi$ boundary has been stress-tested across **6 independent physical environments** with **100% compliance** (zero violations of the limit).
+The χ boundary has been stress-tested across **6 independent physical environments** with **100% compliance** (zero violations of the limit).
 
-| Environment | Data Source | Observations | Max $\chi$ Recorded | Status |
+| Environment | Data Source | Observations | Max χ Recorded | Status |
 | :--- | :--- | :--- | :--- | :--- |
 | **Solar Wind (Earth)** | DSCOVR, ACE, OMNI | 1.48 Million | 0.150 | ✅ PASSED |
 | **Magnetosphere** | GOES, Magnetometers | Continuous | 0.143 | ✅ PASSED |
