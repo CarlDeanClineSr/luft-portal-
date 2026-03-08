@@ -1,0 +1,100 @@
+# luft_queries_automated_v3.yml
+# Ultra-Automated LUFT Engine Suite
+# Version: 3.0 - March 2026
+# New: Built-in Actions workflow, AI query gen, cloud sync, self-healing
+
+workflow:
+  name: LUFT Auto Runner
+  on:
+    schedule: ['0 * * * *']  # Hourly
+    push: {branches: [main]}
+    workflow_dispatch: {}
+  jobs:
+    execute:
+      runs-on: ubuntu-latest
+      steps:
+        - checkout: true
+        - setup_python: '3.10'
+        - install_deps: pip install pyyaml requests smtplib pygithub  # + pyosf for OSF API
+        - run_loader: python run_automated_v3.py
+        - upload_outputs: |  # Example OSF upload
+          python -c "from osfclient import OSF; osf = OSF(username='${{secrets.OSF_USER}}', password='${{secrets.OSF_PASS}}'); project = osf.project('${{secrets.OSF_PROJECT_ID}}'); project.upload('results/*')"
+        - commit_changes: |  # Auto-commit dashboard
+          git add results/ dashboard.html
+          git commit -m "Auto-update from LUFT [skip ci]" || echo "No changes"
+          git push
+
+runner:
+  mode: batch
+  auto_run: true
+  interval_minutes: 60
+  email_alerts:
+    enabled: false  # Set true with secrets
+    smtp_server: smtp.gmail.com
+    smtp_port: 587
+    sender: your.email@gmail.com
+  log_level: info
+  error_retry: 5
+  osf:
+    project_id: x5m2t
+    auto_upload: true  # After runs
+
+global:
+  base_path: ./data/
+  scripts_dir: ./scripts/
+  output_dir: ./results/
+  log_file: ./logs/engine_runs.log
+  dashboard_file: dashboard.html  # Auto-generated
+  default_chi_limit: 0.15
+  alert_on_violation: true
+  github_repo: https://github.com/CarlDeanClineSr/luft-portal-
+  osf_doi: 10.17605/OSF.IO/X5M2T
+
+meta_queries:
+  - trigger: "χ spike > 0.145 in boundary_validation"
+    generate: recoil_scan
+    params_override:
+      confidence_threshold: 0.95
+
+queries:
+  - id: boundary_validation
+    title: "Latest DSCOVR χ Check (24h)"
+    script: chi_validator.py
+    auto_run: true
+    schedule: hourly
+    params:
+      data_source: dscovr_solar_wind_audit.json
+      window_hours: 24
+      chi_threshold: "{{global.default_chi_limit}}"
+      fallback_data: chi_at_boundary_timeseries.csv  # Self-healing
+    expected:
+      max_chi: "<= 0.1500"
+      violations: 0
+    outputs:
+      - type: csv
+        path: "{{global.output_dir}}/chi_boundary_latest.csv"
+      - type: chart
+        path: "{{global.output_dir}}/chi_timeseries_latest.png"
+      - type: alert
+        condition: "violations > 0"
+        message: "χ VIOLATION! Max = {max_chi}"
+        channels: [console, log, email]
+
+  # ... (Add all previous queries here, same format)
+
+  - id: dashboard_update
+    title: "Generate/Update HTML Dashboard"
+    script: dashboard_generator.py  # New script: compile outputs into HTML
+    auto_run: true
+    dependencies: all  # Runs last
+    params:
+      template: dashboard_template.html
+      include: ["chi_timeseries_latest.png", "g_vs_chi_comparison.png"]
+      osf_sync: true
+    outputs:
+      - type: html
+        path: "{{global.dashboard_file}}"
+      - type: upload
+        target: osf
+        path: "{{global.dashboard_file}}"
+        
