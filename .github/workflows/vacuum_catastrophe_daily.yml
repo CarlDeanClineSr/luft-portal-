@@ -1,0 +1,63 @@
+name: Vacuum Catastrophe ZPE Bounding (Daily)
+
+on:
+  schedule:
+    - cron: '7 8 * * *'   # Daily at 08:07 UTC (staggered from other daily workflows)
+  workflow_dispatch:
+
+jobs:
+  zpe-bound:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install numpy scipy matplotlib pandas
+
+      - name: Prepare output directories
+        run: mkdir -p results figures
+
+      - name: Run Vacuum Catastrophe Bounding
+        run: |
+          # Prefer the latest GOES magnetometer summary if it exists,
+          # otherwise the script falls back gracefully to χ=0.15
+          TELEMETRY=""
+          shopt -s nullglob
+          for f in data/goes/*.csv data/dscovr/*.csv; do
+            [ -f "$f" ] && TELEMETRY="$f" && break
+          done
+
+          if [ -n "$TELEMETRY" ]; then
+            echo "[INFO] Using telemetry file: $TELEMETRY"
+            python scripts/vacuum_catastrophe_bound.py \
+              --telemetry "$TELEMETRY" \
+              --output_dir results
+          else
+            echo "[INFO] No telemetry CSV found — using default χ=0.15"
+            python scripts/vacuum_catastrophe_bound.py \
+              --chi 0.15 \
+              --output_dir results
+          fi
+
+      - name: Copy chart to figures/
+        run: |
+          if [ -f results/zpe_integral_vs_chi.png ]; then
+            cp results/zpe_integral_vs_chi.png figures/
+          fi
+
+      - name: Commit and push results
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bash scripts/ci_commit_push.sh \
+            "results/zpe_bound_report.md results/zpe_modes_latest.csv results/zpe_integral_vs_chi.png figures/zpe_integral_vs_chi.png" \
+            "data: vacuum catastrophe ZPE bounding $(date -u +'%Y-%m-%d %H:%M:%S UTC')"

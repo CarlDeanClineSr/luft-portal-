@@ -1,0 +1,145 @@
+# luft_queries_automated_v4.yml
+# Ultra-Automated LUFT Engine Suite
+# Version: 4.0 - March 2026
+# New: Vacuum Catastrophe Bounding (Live ZPE Calc) query
+
+workflow:
+  name: LUFT Auto Runner
+  on:
+    schedule: ['0 * * * *']  # Hourly
+    push: {branches: [main]}
+    workflow_dispatch: {}
+  jobs:
+    execute:
+      runs-on: ubuntu-latest
+      steps:
+        - checkout: true
+        - setup_python: '3.11'
+        - install_deps: pip install -r requirements.txt
+        - run_loader: python run_automated_v4.py
+        - upload_outputs: |
+          python -c "from osfclient import OSF; osf = OSF(username='${{secrets.OSF_USER}}', password='${{secrets.OSF_PASS}}'); project = osf.project('${{secrets.OSF_PROJECT_ID}}'); project.upload('results/*')"
+        - commit_changes: |
+          git add results/ figures/ dashboard.html
+          git commit -m "Auto-update from LUFT [skip ci]" || echo "No changes"
+          git push
+
+runner:
+  mode: batch
+  auto_run: true
+  interval_minutes: 60
+  email_alerts:
+    enabled: false  # Set true with secrets
+    smtp_server: smtp.gmail.com
+    smtp_port: 587
+    sender: your.email@gmail.com
+  log_level: info
+  error_retry: 5
+  osf:
+    project_id: x5m2t
+    auto_upload: true
+
+global:
+  base_path: ./data/
+  scripts_dir: ./scripts/
+  output_dir: ./results/
+  log_file: ./logs/engine_runs.log
+  dashboard_file: dashboard.html
+  default_chi_limit: 0.15
+  alert_on_violation: true
+  github_repo: https://github.com/CarlDeanClineSr/luft-portal-
+  osf_doi: 10.17605/OSF.IO/X5M2T
+
+meta_queries:
+  - trigger: "χ spike > 0.145 in boundary_validation"
+    generate: recoil_scan
+    params_override:
+      confidence_threshold: 0.95
+
+queries:
+  - id: boundary_validation
+    title: "Latest DSCOVR χ Check (24h)"
+    script: chi_validator.py
+    auto_run: true
+    schedule: hourly
+    params:
+      data_source: dscovr_solar_wind_audit.json
+      window_hours: 24
+      chi_threshold: "{{global.default_chi_limit}}"
+      fallback_data: chi_at_boundary_timeseries.csv
+    expected:
+      max_chi: "<= 0.1500"
+      violations: 0
+    outputs:
+      - type: csv
+        path: "{{global.output_dir}}/chi_boundary_latest.csv"
+      - type: chart
+        path: "{{global.output_dir}}/chi_timeseries_latest.png"
+      - type: alert
+        condition: "violations > 0"
+        message: "χ VIOLATION! Max = {max_chi}"
+        channels: [console, log, email]
+
+  - id: data_discovery
+    title: "Discover Latest GOES/USGS Telemetry Files"
+    script: run_discovery_engine.py
+    auto_run: true
+    schedule: daily
+    params:
+      search_dirs: ["data/goes", "data/usgs", "data/dscovr"]
+      file_patterns: ["*.csv", "*.json"]
+      max_age_hours: 48
+    outputs:
+      - type: json
+        path: "{{global.output_dir}}/discovery_latest.json"
+
+  - id: vacuum_catastrophe_bound
+    title: "Vacuum Catastrophe Bounding (Live ZPE Calc)"
+    description: "Bound QFT zero-point energy integral using live χ modes; compare to observed Λ"
+    script: vacuum_catastrophe_bound.py
+    auto_run: true
+    schedule: daily  # Or hourly for high-activity periods
+    dependencies: [boundary_validation, data_discovery]  # Needs live χ + fresh telemetry
+    params:
+      telemetry_source: "{{data_discovery.outputs.new_files[0]}}"  # Dynamic: latest discovered file
+      chi_current: "{{boundary_validation.outputs.max_chi}}"  # Live from validation
+      harmonic_modes: [0.15, 0.30, 0.45, 0.60]  # Quantized steps
+      cutoff_scale: planck  # Planck energy ~1.22e19 GeV
+      observed_lambda: 1.1056e-52  # m^-2 (CODATA cosmological constant)
+    expected:
+      bounded_density: "< 1e-9 J/m^3"  # Finite, matching observed
+      error_vs_standard: "~1e120 reduction"  # Catastrophe fixed
+      mode_snap: "if chi >= 0.15"
+    outputs:
+      - type: report
+        path: "{{global.output_dir}}/zpe_bound_report.md"
+      - type: chart
+        path: "{{global.output_dir}}/zpe_integral_vs_chi.png"
+      - type: csv
+        path: "{{global.output_dir}}/zpe_modes_latest.csv"
+      - type: alert
+        condition: "bounded_density > observed_lambda * 1e3"
+        message: "ZPE mismatch! Bounded = {bounded_density}, Observed Λ equiv = {observed_lambda}"
+        channels: [console, log, email]
+      - type: upload
+        target: osf
+        path: "{{global.output_dir}}/zpe_bound_report.md"
+
+  - id: dashboard_update
+    title: "Generate/Update HTML Dashboard"
+    script: dashboard_generator.py
+    auto_run: true
+    dependencies: all
+    params:
+      template: dashboard_template.html
+      include:
+        - "chi_timeseries_latest.png"
+        - "zpe_integral_vs_chi.png"
+        - "g_vs_chi_comparison.png"
+      osf_sync: true
+    outputs:
+      - type: html
+        path: "{{global.dashboard_file}}"
+      - type: upload
+        target: osf
+        path: "{{global.dashboard_file}}"
