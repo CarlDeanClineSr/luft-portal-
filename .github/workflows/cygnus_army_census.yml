@@ -1,0 +1,36 @@
+name: Cygnus Army Census
+
+on:
+  schedule:
+    - cron: '0 12 * * *'  # 12:00 UTC daily
+  workflow_dispatch:
+
+# Prevent concurrent runs to avoid race conditions
+concurrency:
+  group: cygnus-army-census
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to push changes
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for rebase
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install requests pandas numpy
+      - name: Run Cygnus Army Census
+        run: |
+          python src/cygnus_army_census.py
+      - name: Commit results
+        run: |
+          bash scripts/ci_commit_push.sh \
+            "reports/CYGNUS_ARMY_CENSUS.txt" \
+            "data: Cygnus Army Census update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

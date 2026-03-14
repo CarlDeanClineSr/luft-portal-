@@ -1,0 +1,143 @@
+name: LUFT Link Harvest Daily
+
+on:
+  schedule:
+    # Run daily at 3:00 AM UTC
+    - cron: '0 3 * * *'
+  workflow_dispatch:  # Allow manual trigger
+
+permissions:
+  contents: write
+
+concurrency:
+  group: repo-push-main
+  cancel-in-progress: false
+
+jobs:
+  harvest-links:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for comprehensive scanning
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # No additional dependencies needed for link harvester
+
+      - name: Create data directory
+        run: |
+          mkdir -p data/link_intelligence
+          echo "📂 Data directory created"
+
+      - name: Run Link Harvester
+        run: |
+          echo "🔍 Starting LUFT Link Harvester..."
+          python link_harvester_core.py \
+            --output-json data/link_intelligence/links_$(date +%Y%m%d).json \
+            --output-csv data/link_intelligence/links_$(date +%Y%m%d).csv
+          
+          echo "✅ Link harvesting complete"
+
+      - name: Run Link Graph Analyzer
+        run: |
+          echo "📊 Building link network graph..."
+          python link_graph_analyzer.py \
+            --input data/link_intelligence/links_$(date +%Y%m%d).json \
+            --output data/link_intelligence/link_network_$(date +%Y%m%d).json \
+            --type file-domain
+          
+          # Also create current symlinks
+          cd data/link_intelligence
+          ln -sf links_$(date +%Y%m%d).json links_current.json
+          ln -sf links_$(date +%Y%m%d).csv links_current.csv
+          ln -sf link_network_$(date +%Y%m%d).json link_network.json
+          cd ../..
+          
+          echo "✅ Network graph analysis complete"
+
+      - name: Generate Report
+        run: |
+          echo "📝 Generating link intelligence report..."
+          
+          # Extract statistics and create markdown report
+          CURRENT_DATE=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          DATE_TAG=$(date +%Y%m%d)
+          
+          cat > data/link_intelligence/LATEST_HARVEST_REPORT.md << EOF
+          # LUFT Link Intelligence Report
+          ## Latest Harvest: ${CURRENT_DATE}
+          
+          ### Repository Scan Results
+          
+          This automated report shows the latest link harvesting results from the LUFT Portal repository.
+          
+          **Files Scanned:** See JSON output  
+          **Links Harvested:** See JSON output  
+          **Unique Domains:** See JSON output  
+          
+          ### Data Files Generated
+          
+          - \`links_${DATE_TAG}.json\` - Complete link harvest data
+          - \`links_${DATE_TAG}.csv\` - CSV export for spreadsheet analysis
+          - \`link_network_${DATE_TAG}.json\` - Network graph data
+          - \`links_current.json\` - Symlink to latest harvest
+          - \`link_network.json\` - Symlink to latest network graph
+          
+          ### Quick Stats
+          
+          Run the link harvester locally for detailed statistics:
+          \`\`\`bash
+          python link_harvester_core.py --scan-repo
+          \`\`\`
+          
+          ### Visualization
+          
+          Open \`link_intelligence_dashboard.html\` in your browser to explore the network interactively.
+          
+          ### External Data Sources
+          
+          See \`external_data_sources_registry.yaml\` for the complete catalog of 43+ scientific data sources.
+          
+          ---
+          
+          **LUFT Portal** - Universal Link Intelligence Network  
+          *Connecting Carl Dean Cline Sr.'s discovery to the global scientific ecosystem*
+          
+          EOF
+          
+          echo "✅ Report generated"
+
+      - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bash scripts/ci_commit_push.sh \
+            "data/link_intelligence/" \
+            "🔗 Daily link harvest $(date -u +%Y-%m-%d)"
+
+      - name: Summary
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "🌐 LUFT Link Intelligence Harvest Complete"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+          echo "✅ Repository scanned for links"
+          echo "✅ Network graph built and analyzed"
+          echo "✅ Reports generated"
+          echo "✅ Data committed to repository"
+          echo ""
+          echo "📊 View results:"
+          echo "   - Data: data/link_intelligence/"
+          echo "   - Dashboard: link_intelligence_dashboard.html"
+          echo "   - Registry: external_data_sources_registry.yaml"
+          echo ""
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

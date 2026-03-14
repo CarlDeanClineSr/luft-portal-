@@ -1,0 +1,36 @@
+name: Graviton Sideband Analysis
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '0 0 * * *'  # Daily at midnight UTC (changed from weekly)
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name:  Install dependencies
+        run: pip install pandas numpy scipy matplotlib
+      
+      - name:  Run FFT graviton sideband analysis
+        run: python tools/fft_graviton_sideband_test.py
+        continue-on-error: true
+      
+      - name:  Commit results
+        run: |
+          git config user.name "LUFT Bot"
+          git config user.email "luft-bot@users.noreply.github.com"
+          git add results/graviton_sideband_analysis.json
+          git add results/chi_fft_spectrum.png
+          git diff --quiet && git diff --staged --quiet || git commit -m "data:  graviton sideband FFT analysis $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
