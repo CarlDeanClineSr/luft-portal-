@@ -48,6 +48,7 @@ jobs:
 
       - name: Generate QGP Capsules
         run: python scripts/generate_qgp_capsule.py
+        
 
       - name: Commit capsules
         env:
