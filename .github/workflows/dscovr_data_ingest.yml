@@ -5,6 +5,9 @@ on:
     - cron: '*/2 * * * *'  # Every 2 minutes - DSCOVR L1 primary source
   workflow_dispatch:  # Manual trigger support
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   ingest-dscovr-data:
     runs-on: ubuntu-latest

@@ -5,6 +5,9 @@ on:
     - cron: '0 12 * * *'  # Once daily at noon UTC
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   ingest-psp:
     runs-on: ubuntu-latest

@@ -3,6 +3,9 @@ name: RESTORE FILES - Fix .gitignore
 on:
   workflow_dispatch:  # Manual trigger only
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   restore:
     runs-on: ubuntu-latest

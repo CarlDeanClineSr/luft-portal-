@@ -12,6 +12,9 @@ concurrency:
   group: cme-detection
   cancel-in-progress: false
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   monitor-cme:
     runs-on: ubuntu-latest

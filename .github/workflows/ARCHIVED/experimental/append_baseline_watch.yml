@@ -5,6 +5,9 @@ on:
     - cron: '0 12 * * *'  # Daily at 12:00 UTC
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   append-baseline-watch:
     runs-on: ubuntu-latest

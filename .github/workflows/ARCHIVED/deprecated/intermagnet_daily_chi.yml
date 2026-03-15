@@ -9,6 +9,9 @@ name: INTERMAGNET Daily χ Validation
 permissions:
   contents: write
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   fetch-and-analyze:
     runs-on: ubuntu-latest

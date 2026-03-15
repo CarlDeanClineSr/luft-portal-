@@ -8,6 +8,9 @@ on:
       - '.github/workflows/run_visual_affidavit.yml'
   workflow_dispatch: # Allows you to click "Run Now" manually
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   render-proof:
     runs-on: ubuntu-latest

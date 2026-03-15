@@ -5,6 +5,9 @@ on:
   schedule:
     - cron: '0 0 * * 0'  # Runs automatically every Sunday
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   audit_the_sun:
     runs-on: ubuntu-latest

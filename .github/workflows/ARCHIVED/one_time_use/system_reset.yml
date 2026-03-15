@@ -5,6 +5,9 @@ on: workflow_dispatch  # Runs only when you click the button
 permissions:
   contents: write
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   the-great-filter:
     runs-on: ubuntu-latest
