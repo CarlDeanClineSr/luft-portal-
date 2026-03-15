@@ -46,11 +46,14 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Install dependencies
+        run: pip install requests
+
       - name: Generate QGP Capsules
         run: python scripts/generate_qgp_capsule.py
-        
 
       - name: Commit capsules
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bash scripts/ci_commit_push.sh "results/papers/" "results: new QGP capsules from harvest"
+        
