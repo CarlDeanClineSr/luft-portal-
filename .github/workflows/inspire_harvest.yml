@@ -27,9 +27,9 @@ jobs:
         run: python tools/harvest_inspire.py
 
       - name: Commit results
-        run: bash scripts/ci_commit_push.sh "data/papers/" "docs: weekly INSPIRE paper harvest"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash scripts/ci_commit_push.sh "data/papers/" "docs: weekly INSPIRE paper harvest"
 
   capsule:
     needs: harvest
@@ -50,6 +50,6 @@ jobs:
         run: python scripts/generate_qgp_capsule.py
 
       - name: Commit capsules
-        run: bash scripts/ci_commit_push.sh "results/papers/" "results: new QGP capsules from harvest"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash scripts/ci_commit_push.sh "results/papers/" "results: new QGP capsules from harvest"
