@@ -10,6 +10,9 @@ concurrency:
   group: cygnus-army-census
   cancel-in-progress: false
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   scan:
     runs-on: ubuntu-latest

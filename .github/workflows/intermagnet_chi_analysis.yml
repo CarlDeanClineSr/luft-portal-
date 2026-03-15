@@ -5,6 +5,9 @@ on:
     - cron: '15 6 * * *'  # Daily at 06:15 UTC
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   compute-chi:
     runs-on: ubuntu-latest

@@ -8,6 +8,9 @@ on:
       - 'scripts/IMPERIAL_BIO-RESONANCE_AUDIT.py'
       - '.github/workflows/run_bio_audit.yml'
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   verify-biology:
     runs-on: ubuntu-latest

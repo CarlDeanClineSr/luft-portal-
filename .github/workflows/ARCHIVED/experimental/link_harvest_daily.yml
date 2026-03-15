@@ -13,6 +13,9 @@ concurrency:
   group: repo-push-main
   cancel-in-progress: false
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   harvest-links:
     runs-on: ubuntu-latest

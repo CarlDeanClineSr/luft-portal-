@@ -3,6 +3,9 @@ name: Run Terminology Scrubber
 on:
   workflow_dispatch: # This puts a button in the Actions tab for you to click
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   scrub_and_commit:
     runs-on: ubuntu-latest

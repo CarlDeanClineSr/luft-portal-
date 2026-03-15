@@ -6,6 +6,7 @@ on:
   workflow_dispatch:       # Manual trigger support
 
 env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
   NOAA_PLASMA_URL: https://services.swpc.noaa.gov/products/solar-wind/plasma-5-minute.json
   NOAA_MAG_URL: https://services.swpc.noaa.gov/products/solar-wind/mag-5-minute.json
 

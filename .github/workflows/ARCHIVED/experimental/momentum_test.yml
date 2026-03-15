@@ -12,6 +12,9 @@ on:
       - "cline_pack_correlation.py"
       - "agent_task_orchestrator.sh"
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   momentum-test:
     runs-on: ubuntu-latest

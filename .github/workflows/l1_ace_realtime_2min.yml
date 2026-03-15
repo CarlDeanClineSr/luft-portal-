@@ -12,6 +12,9 @@ concurrency:
   group: l1-ace-realtime
   cancel-in-progress: false
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   ingest-ace-l1:
     runs-on: ubuntu-latest

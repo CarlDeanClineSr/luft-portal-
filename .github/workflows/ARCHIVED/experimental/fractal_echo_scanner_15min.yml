@@ -12,6 +12,9 @@ concurrency:
   group: fractal-echo-scanner
   cancel-in-progress: false
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   scan_fractal_echo:
     runs-on: ubuntu-latest

@@ -5,6 +5,9 @@ on:
     - cron: '*/5 * * * *'  # Runs every 5 minutes
   workflow_dispatch:      # Allows manual click-to-run
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   intercept:
     runs-on: ubuntu-latest

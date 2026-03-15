@@ -5,6 +5,9 @@ on:
     - cron: '4,9,14,19,24,29,34,39,44,49,54,59 * * * *'  # Every 5 minutes starting at :04 - GOES realtime X-ray and particle data
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   goes-ingest:
     runs-on: ubuntu-latest
