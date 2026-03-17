@@ -46,28 +46,24 @@
             display: flex;
             align-items: center; 
             justify-content: center;
+            position: relative;
         }
-        video { 
+        video, audio { 
             width: 100%; 
             height: 100%; 
             object-fit: contain; 
             background: #000; 
-            display: block; 
         }
-        /* Customizing the audio player to fit the TV theme */
         audio {
-            width: 80%;
-            height: 40px;
+            height: 60px;
+            width: 90%;
             filter: invert(80%) sepia(10%) saturate(1000%) hue-rotate(180deg) brightness(80%) contrast(90%);
-            border-radius: 5px;
+            border-radius: 8px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
-            display: none; /* Hidden by default, shown when audio is playing */
         }
-        /* Hide default video controls for audio to rely on custom audio element */
-        video.audio-mode {
-             display: none;
+        #audio-player {
+            display: none;
         }
-        
         .right-panel { 
             width: 100%; 
             height: auto; 
@@ -260,7 +256,7 @@
 <body>
 
 <button class="fs-toggle" onclick="toggleFS()">[ FULL SCREEN ]</button>
-<div class="version">V164</div>
+<div class="version">V163</div>
 
 <div id="cabinet">
     <div class="glass-tube">
@@ -290,8 +286,6 @@
 </div>
 
 <script>
-    // Organized alphabetically within categories, removing obvious duplicates/broken links
-
     const A = [
         {n: "A. Einstein", u: "https://archive.org/download/NOVAAEinstein/NOVA.S06E09.A.Einstein.VHSRip.AAC2.0.x264-RATTERA.mp4"},
         {n: "NASA UFO Footages", u: "https://archive.org/download/NASAfootages/UFOs.avi"},
@@ -533,7 +527,7 @@
     }
 
     function isAudio(url) {
-        return url.toLowerCase().endsWith('.mp3');
+        return url.toLowerCase().endsWith('.mp3') || url.toLowerCase().endsWith('.ogg') || url.toLowerCase().endsWith('.wav');
     }
 
     function loadAndPlay() {
@@ -544,29 +538,31 @@
         player.pause();
         audioPlayer.pause();
         
-        titleDisp.innerText = item.n.trim() + ' ';
+        // Reset displays
+        player.style.display = 'none';
+        audioPlayer.style.display = 'none';
+        
+        titleDisp.innerText = item.n.trim() + '          ';
         setTimeout(checkOverflow, 100);
 
         if (isAudio(item.u)) {
-            // It's an audio file
-            player.classList.add('audio-mode');
-            player.src = ''; // Clear video source
-            
             audioPlayer.style.display = 'block';
             audioPlayer.src = item.u;
             audioPlayer.load();
             audioPlayer.volume = volumeKnob.value;
-            audioPlayer.play().catch(() => {});
+            audioPlayer.play().catch(err => {
+                console.log("Audio play blocked:", err);
+                titleDisp.innerText += " (tap to play)";
+            });
         } else {
-            // It's a video file
-            player.classList.remove('audio-mode');
-            audioPlayer.style.display = 'none';
-            audioPlayer.src = ''; // Clear audio source
-
+            player.style.display = 'block';
             player.src = item.u;
             player.load();
             player.volume = volumeKnob.value;
-            player.play().catch(() => {});
+            player.play().catch(err => {
+                console.log("Video play blocked:", err);
+                titleDisp.innerText += " (tap to play)";
+            });
         }
     }
 
@@ -594,12 +590,9 @@
     function toggleFS() {
         const elem = document.getElementById('cabinet');
         if (!document.fullscreenElement) {
-            if (elem.requestFullscreen) elem.requestFullscreen();
-            else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-            else if (elem.mozRequestFullScreen) elem.mozRequestFullScreen();
-            else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+            elem.requestFullscreen?.() || elem.webkitRequestFullscreen?.() || elem.mozRequestFullScreen?.() || elem.msRequestFullscreen?.();
         } else {
-            if (document.exitFullscreen) document.exitFullscreen();
+            document.exitFullscreen?.() || document.webkitExitFullscreen?.() || document.mozCancelFullScreen?.() || document.msExitFullscreen?.();
         }
     }
 
