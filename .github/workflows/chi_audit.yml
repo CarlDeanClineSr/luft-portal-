@@ -27,10 +27,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install pandas numpy matplotlib
 
-    # 4. Execute the Chi Interrogator
-    - name: Run Substrate Braking Interrogation
+    # 4. Execute the Chi Interrogators
+    - name: Run Substrate Interrogations
       run: |
         python chi_mach_interrogator.py
+        python mass_converter_diagnostic.py
 
     # 5. Upload the results (FIXED: Updated to v4 to bypass the deprecation block)
     - name: Archive Diagnostic Outputs
