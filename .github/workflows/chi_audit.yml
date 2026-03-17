@@ -11,13 +11,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Grab your repository files
+    # 1. Grab your repository files (Updated to v4)
     - name: Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
-    # 2. Set up the Python environment
+    # 2. Set up the Python environment (Updated to v5)
     - name: Set up Python 3.10
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
@@ -32,9 +32,9 @@ jobs:
       run: |
         python chi_mach_interrogator.py
 
-    # 5. Upload the results so you can download the charts and logs
+    # 5. Upload the results (FIXED: Updated to v4 to bypass the deprecation block)
     - name: Archive Diagnostic Outputs
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Chi_Math_Diagnostics
         path: diagnostic_outputs/
