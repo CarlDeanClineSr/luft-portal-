@@ -54,6 +54,20 @@
             background: #000; 
             display: block; 
         }
+        /* Customizing the audio player to fit the TV theme */
+        audio {
+            width: 80%;
+            height: 40px;
+            filter: invert(80%) sepia(10%) saturate(1000%) hue-rotate(180deg) brightness(80%) contrast(90%);
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+            display: none; /* Hidden by default, shown when audio is playing */
+        }
+        /* Hide default video controls for audio to rely on custom audio element */
+        video.audio-mode {
+             display: none;
+        }
+        
         .right-panel { 
             width: 100%; 
             height: auto; 
@@ -246,11 +260,12 @@
 <body>
 
 <button class="fs-toggle" onclick="toggleFS()">[ FULL SCREEN ]</button>
-<div class="version">V163</div>
+<div class="version">V164</div>
 
 <div id="cabinet">
     <div class="glass-tube">
         <video id="player" autoplay controls playsinline webkit-playsinline></video>
+        <audio id="audio-player" controls></audio>
     </div>
 
     <div class="right-panel">
@@ -264,7 +279,7 @@
         </div>
 
         <div class="volume-container">
-            <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider" id="volume-knob" oninput="player.volume = this.value">
+            <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider" id="volume-knob" oninput="changeVolume(this.value)">
         </div>
 
         <div class="dial-housing">
@@ -275,162 +290,109 @@
 </div>
 
 <script>
+    // Organized alphabetically within categories, removing obvious duplicates/broken links
+
     const A = [
+        {n: "A. Einstein", u: "https://archive.org/download/NOVAAEinstein/NOVA.S06E09.A.Einstein.VHSRip.AAC2.0.x264-RATTERA.mp4"},
         {n: "NASA UFO Footages", u: "https://archive.org/download/NASAfootages/UFOs.avi"},
-        {n: "Unacknowledged", u: "https://ia601407.us.archive.org/8/items/unacknowledged.-2017.308p/Unacknowledged%20%282017%29/Unacknowledged.2017.308p.mp4"},
         {n: "Pink Panther: Olympinks", u: "https://archive.org/download/ThePinkPanther-cartoons/The Pink Panther in -OLYMPINKS!.mp4"},
-        {n: "A. Einstein", u: "https://archive.org/download/NOVAAEinstein/NOVA.S06E09.A.Einstein.VHSRip.AAC2.0.x264-RATTERA.mp4"}
+        {n: "Unacknowledged", u: "https://ia601407.us.archive.org/8/items/unacknowledged.-2017.308p/Unacknowledged%20%282017%29/Unacknowledged.2017.308p.mp4"}
     ];
 
     const B = [
-        {n: "S01E01 - Sighting 4001 - The Washington DC Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E01%20-%20Sighting%204001%20-%20The%20Washington%20DC%20Incident.mp4"},
-        {n: "Arthur C Clarkes World of Strange Powers - Complete Series 1985", u: "https://archive.org/download/arthur-c-clarkes-world-of-strange-powers-complete-series-1985/Arthur C Clarkes - World of Strange Powers S01E03 - From Mind to Mind.mp4"},
-        {n: "S01E01 - Sighting 4001 - The Washington DC Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E01%20-%20Sighting%204001%20-%20The%20Washington%20DC%20Incident.ia.mp4"},
-        {n: "S01E02 - Sighting 4002 - The Joshua Flats Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E02%20-%20Sighting%204002%20-%20The%20Joshua%20Flats%20Incident.mp4"},
-        {n: "NASA UFO Footages", u: "https://archive.org/download/NASAfootages/UFOs.avi"},
-        {n: "S01E02 - Sighting 4002 - The Joshua Flats Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E02%20-%20Sighting%204002%20-%20The%20Joshua%20Flats%20Incident.ia.mp4"},
-        {n: "S01E03 - Sighting 4003 - The Fremont Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E03%20-%20Sighting%204003%20-%20The%20Fremont%20Incident.mp4"},
-        {n: "S01E03 - Sighting 4003 - The Fremont Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E03%20-%20Sighting%204003%20-%20The%20Fremont%20Incident.ia.mp4"},
-        {n: "S01E04 - Sighting 4004 - The Howard Crossing Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E04%20-%20Sighting%204004%20-%20The%20Howard%20Crossing%20Incident.mp4"},
-        {n: "S01E04 - Sighting 4004 - The Howard Crossing Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E04%20-%20Sighting%204004%20-%20The%20Howard%20Crossing%20Incident.ia.mp4"},
-        {n: "S01E05 - Sighting 4005 - The Medicine Bow Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E05%20-%20Sighting%204005%20-%20The%20Medicine%20Bow%20Incident.mp4"},
-        {n: "S01E05 - Sighting 4005 - The Medicine Bow Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E05%20-%20Sighting%204005%20-%20The%20Medicine%20Bow%20Incident.ia.mp4"},
-        {n: "S01E06 - Sighting 4006 - The Nevada Desert Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E06%20-%20Sighting%204006%20-%20The%20Nevada%20Desert%20Incident.mp4"},
-        {n: "S01E06 - Sighting 4006 - The Nevada Desert Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E06%20-%20Sighting%204006%20-%20The%20Nevada%20Desert%20Incident.ia.mp4"},
-        {n: "S01E07 - Sighting 4007 - Sighting The Forest City Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E07%20-%20Sighting%204007%20-%20Sighting%20The%20Forest%20City%20Incident.mp4"},
-        {n: "S01E07 - Sighting 4007 - Sighting The Forest City Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E07%20-%20Sighting%204007%20-%20Sighting%20The%20Forest%20City%20Incident.ia.mp4"},
-        {n: "S01E08 - Sighting 4008 - The Desert Springs Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E08%20-%20Sighting%204008%20-%20The%20Desert%20Springs%20Incident.mp4"},
-        {n: "S01E08 - Sighting 4008 - The Desert Springs Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E08%20-%20Sighting%204008%20-%20The%20Desert%20Springs%20Incident.ia.mp4"},
-        {n: "S01E09 - Sighting 4009 - The French Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E09%20-%20Sighting%204009%20-%20The%20French%20Incident.mp4"},
-        {n: "S01E09 - Sighting 4009 - The French Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E09%20-%20Sighting%204009%20-%20The%20French%20Incident.ia.mp4"},
-        {n: "S01E10 - Sighting 4010 - The Waterford Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E10%20-%20Sighting%204010%20-%20The%20Waterford%20Incident.mp4"},
-        {n: "S01E10 - Sighting 4010 - The Waterford Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E10%20-%20Sighting%204010%20-%20The%20Waterford%20Incident.ia.mp4"},
-        {n: "S01E11 - Sighting 4011 - The Doll House Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E11%20-%20Sighting%204011%20-%20The%20Doll%20House%20Incident.mp4"},
-        {n: "S01E11 - Sighting 4011 - The Doll House Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E11%20-%20Sighting%204011%20-%20The%20Doll%20House%20Incident.ia.mp4"},
-        {n: "S01E12 - Sighting 4012 - The Rock and Hard Place Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E12%20-%20Sighting%204012%20-%20The%20Rock%20and%20Hard%20Place%20Incident.mp4"},
-        {n: "S01E12 - Sighting 4012 - The Rock and Hard Place Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E12%20-%20Sighting%204012%20-%20The%20Rock%20and%20Hard%20Place%20Incident.ia.mp4"},
-        {n: "S01E13 - Sighting 4025 - The Whitman Tower Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E13%20-%20Sighting%204025%20-%20The%20Whitman%20Tower%20Incident.mp4"},
-        {n: "S01E13 - Sighting 4025 - The Whitman Tower Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E13%20-%20Sighting%204025%20-%20The%20Whitman%20Tower%20Incident.ia.mp4"},
-        {n: "S02E01 - Sighting 4015 - The Underwater Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E01%20-%20Sighting%204015%20-%20The%20Underwater%20Incident.mp4"},
-        {n: "S02E01 - Sighting 4015 - The Underwater Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E01%20-%20Sighting%204015%20-%20The%20Underwater%20Incident.ia.mp4"},
-        {n: "S02E02 - Sighting 4016 - The Pipeline Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E02%20-%20Sighting%204016%20-%20The%20Pipeline%20Incident.mp4"},
-        {n: "S02E02 - Sighting 4016 - The Pipeline Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E02%20-%20Sighting%204016%20-%20The%20Pipeline%20Incident.ia.mp4"},
-        {n: "S02E03 - Sighting 4017 - The Devilish Davidson Lights Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E03%20-%20Sighting%204017%20-%20The%20Devilish%20Davidson%20Lights%20Incident.mp4"},
-        {n: "S02E03 - Sighting 4017 - The Devilish Davidson Lights Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E03%20-%20Sighting%204017%20-%20The%20Devilish%20Davidson%20Lights%20Incident.ia.mp4"},
-        {n: "S02E04 - Sighting 4018 - The Incident On The Cliffs", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E04%20-%20Sighting%204018%20-%20The%20Incident%20On%20The%20Cliffs.mp4"},
-        {n: "S02E04 - Sighting 4018 - The Incident On The Cliffs.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E04%20-%20Sighting%204018%20-%20The%20Incident%20On%20The%20Cliffs.ia.mp4"},
-        {n: "S02E05 - Sighting 4014 - The Wild Blue Yonder Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E05%20-%20Sighting%204014%20-%20The%20Wild%20Blue%20Yonder%20Incident.mp4"},
-        {n: "S02E05 - Sighting 4014 - The Wild Blue Yonder Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E05%20-%20Sighting%204014%20-%20The%20Wild%20Blue%20Yonder%20Incident.ia.mp4"},
-        {n: "S02E06 - Sighting 4019 - The Believe It Or Not Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E06%20-%20Sighting%204019%20-%20The%20Believe%20It%20Or%20Not%20Incident.mp4"},
-        {n: "S02E06 - Sighting 4019 - The Believe It Or Not Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E06%20-%20Sighting%204019%20-%20The%20Believe%20It%20Or%20Not%20Incident.ia.mp4"},
-        {n: "S02E07 - Sighting 4022 - The Camoflauge Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E07%20-%20Sighting%204022%20-%20The%20Camoflauge%20Incident.mp4"},
-        {n: "S02E07 - Sighting 4022 - The Camoflauge Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E07%20-%20Sighting%204022%20-%20The%20Camoflauge%20Incident.ia.mp4"},
-        {n: "S02E08 - Sighting 4020 - The Island Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E08%20-%20Sighting%204020%20-%20The%20Island%20Incident.mp4"},
-        {n: "S02E08 - Sighting 4020 - The Island Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E08%20-%20Sighting%204020%20-%20The%20Island%20Incident.ia.mp4"},
-        {n: "S02E09 - Sighting 4021 - The Superstition Mountain Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E09%20-%20Sighting%204021%20-%20The%20Superstition%20Mountain%20Incident.mp4"},
-        {n: "S02E09 - Sighting 4021 - The Superstition Mountain Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E09%20-%20Sighting%204021%20-%20The%20Superstition%20Mountain%20Incident.ia.mp4"},
-        {n: "S02E10 - Sighting 4023 - The I-Man Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E10%20-%20Sighting%204023%20-%20The%20I-Man%20Incident.mp4"},
-        {n: "S02E10 - Sighting 4023 - The I-Man Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E10%20-%20Sighting%204023%20-%20The%20I-Man%20Incident.ia.mp4"},
-        {n: "S02E10 - Sighting 4024 - The Scoutmaster Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E10%20-%20Sighting%204024%20-%20The%20Scoutmaster%20Incident.mp4"},
-        {n: "S02E10 - Sighting 4024 - The Scoutmaster Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E10%20-%20Sighting%204024%20-%20The%20Scoutmaster%20Incident.ia.mp4"},
-        {n: "S02E12 - Sighting 4026 - The Atlantic Queen Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E12%20-%20Sighting%204026%20-%20The%20Atlantic%20Queen%20Incident.mp4"},
-        {n: "S02E12 - Sighting 4026 - The Atlantic Queen Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E12%20-%20Sighting%204026%20-%20The%20Atlantic%20Queen%20Incident.ia.mp4"},
-        {n: "S02E13 - Sighting 4025 - The Whitman Tower Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E13%20-%20Sighting%204025%20-%20The%20Whitman%20Tower%20Incident.mp4"},
-        {n: "S02E13 - Sighting 4025 - The Whitman Tower Incident.ia", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E13%20-%20Sighting%204025%20-%20The%20Whitman%20Tower%20Incident.ia.mp4"},    
+        {n: "Arthur C Clarkes World of Strange Powers - From Mind to Mind", u: "https://archive.org/download/arthur-c-clarkes-world-of-strange-powers-complete-series-1985/Arthur C Clarkes - World of Strange Powers S01E03 - From Mind to Mind.mp4"},
+        {n: "Project UFO S01E01 - The Washington DC Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E01%20-%20Sighting%204001%20-%20The%20Washington%20DC%20Incident.mp4"},
+        {n: "Project UFO S01E02 - The Joshua Flats Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E02%20-%20Sighting%204002%20-%20The%20Joshua%20Flats%20Incident.mp4"},
+        {n: "Project UFO S01E03 - The Fremont Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E03%20-%20Sighting%204003%20-%20The%20Fremont%20Incident.mp4"},
+        {n: "Project UFO S01E04 - The Howard Crossing Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E04%20-%20Sighting%204004%20-%20The%20Howard%20Crossing%20Incident.mp4"},
+        {n: "Project UFO S01E05 - The Medicine Bow Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E05%20-%20Sighting%204005%20-%20The%20Medicine%20Bow%20Incident.mp4"},
+        {n: "Project UFO S01E06 - The Nevada Desert Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E06%20-%20Sighting%204006%20-%20The%20Nevada%20Desert%20Incident.mp4"},
+        {n: "Project UFO S01E07 - Sighting The Forest City Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E07%20-%20Sighting%204007%20-%20Sighting%20The%20Forest%20City%20Incident.mp4"},
+        {n: "Project UFO S01E08 - The Desert Springs Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E08%20-%20Sighting%204008%20-%20The%20Desert%20Springs%20Incident.mp4"},
+        {n: "Project UFO S01E09 - The French Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E09%20-%20Sighting%204009%20-%20The%20French%20Incident.mp4"},
+        {n: "Project UFO S01E10 - The Waterford Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E10%20-%20Sighting%204010%20-%20The%20Waterford%20Incident.mp4"},
+        {n: "Project UFO S01E11 - The Doll House Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E11%20-%20Sighting%204011%20-%20The%20Doll%20House%20Incident.mp4"},
+        {n: "Project UFO S01E12 - The Rock and Hard Place Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E12%20-%20Sighting%204012%20-%20The%20Rock%20and%20Hard%20Place%20Incident.mp4"},
+        {n: "Project UFO S01E13 - The Whitman Tower Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E13%20-%20Sighting%204025%20-%20The%20Whitman%20Tower%20Incident.mp4"},
+        {n: "Project UFO S02E01 - The Underwater Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E01%20-%20Sighting%204015%20-%20The%20Underwater%20Incident.mp4"},
+        {n: "Project UFO S02E02 - The Pipeline Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E02%20-%20Sighting%204016%20-%20The%20Pipeline%20Incident.mp4"},
+        {n: "Project UFO S02E03 - The Devilish Davidson Lights Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E03%20-%20Sighting%204017%20-%20The%20Devilish%20Davidson%20Lights%20Incident.mp4"},
+        {n: "Project UFO S02E04 - The Incident On The Cliffs", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E04%20-%20Sighting%204018%20-%20The%20Incident%20On%20The%20Cliffs.mp4"},
+        {n: "Project UFO S02E05 - The Wild Blue Yonder Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E05%20-%20Sighting%204014%20-%20The%20Wild%20Blue%20Yonder%20Incident.mp4"},
+        {n: "Project UFO S02E06 - The Believe It Or Not Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E06%20-%20Sighting%204019%20-%20The%20Believe%20It%20Or%20Not%20Incident.mp4"},
+        {n: "Project UFO S02E07 - The Camoflauge Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E07%20-%20Sighting%204022%20-%20The%20Camoflauge%20Incident.mp4"},
+        {n: "Project UFO S02E08 - The Island Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E08%20-%20Sighting%204020%20-%20The%20Island%20Incident.mp4"},
+        {n: "Project UFO S02E09 - The Superstition Mountain Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E09%20-%20Sighting%204021%20-%20The%20Superstition%20Mountain%20Incident.mp4"},
+        {n: "Project UFO S02E10 - The I-Man Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E10%20-%20Sighting%204023%20-%20The%20I-Man%20Incident.mp4"},
+        {n: "Project UFO S02E10 - The Scoutmaster Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E10%20-%20Sighting%204024%20-%20The%20Scoutmaster%20Incident.mp4"},
+        {n: "Project UFO S02E12 - The Atlantic Queen Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E12%20-%20Sighting%204026%20-%20The%20Atlantic%20Queen%20Incident.mp4"}
     ];
 
     const C = [
         {n: "Arthur C Clarke | Fractals | The Colors Of Infinity", u: "https://archive.org/download/youtube-IptmGRQiZg0/IptmGRQiZg0.mp4"},
-        {n: "NASA UFO Footages", u: "https://archive.org/download/NASAfootages/UFOs.avi"},
-        {n: "1995  The Private Life of Plants/The Private Life of Plants - 01 - Travelling", u: "https://archive.org/download/bbcdavidattenborough/1995  The Private Life of Plants/The Private Life of Plants - 01 - Travelling.mp4"},
-        {n: "1995  The Private Life of Plants/The Private Life of Plants - 02 - Growing", u: "https://archive.org/download/bbcdavidattenborough/1995  The Private Life of Plants/The Private Life of Plants - 02 - Growing.mp4"},
-        {n: "1995  The Private Life of Plants/The Private Life of Plants - 03 - Flowering", u: "https://archive.org/download/bbcdavidattenborough/1995  The Private Life of Plants/The Private Life of Plants - 03 - Flowering.mp4"},
-        {n: "Arthur C Clarkes Mysterious World - Complete Series 1980", u: "https://archive.org/download/arthur-c-clarkes-mysterious-world-complete-series-1980/Arthur C. Clarke's Mysterious World - Ep10 - UFOs.mp4"},
-        {n: "1995  The Private Life of Plants/The Private Life of Plants - 04 - The Social Struggle", u: "https://archive.org/download/bbcdavidattenborough/1995  The Private Life of Plants/The Private Life of Plants - 04 - The Social Struggle.mp4"},
-        {n: "1995  The Private Life of Plants/The Private Life of Plants - 05 - Living Together", u: "https://archive.org/download/bbcdavidattenborough/1995  The Private Life of Plants/The Private Life of Plants - 05 - Living Together.mp4"},
-        {n: "1995  The Private Life of Plants/The Private Life of Plants - 06 - Surviving", u: "https://archive.org/download/bbcdavidattenborough/1995  The Private Life of Plants/The Private Life of Plants - 06 - Surviving.mp4"},
-        {n: "1998 - The Life of Birds -[KRISH]/01 To Fly or Not to Fly", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/01 To Fly or Not to Fly.mp4"},
-        {n: "1998 - The Life of Birds -[KRISH]/02 Mastery of Flight", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/02 Mastery of Flight.mp4"},
-        {n: "1998 - The Life of Birds -[KRISH]/04 Meat-Eaters", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/04 Meat-Eaters.mp4"},
-        {n: "1998 - The Life of Birds -[KRISH]/05 Fishing for a Living", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/05 Fishing for a Living.mp4"},
-        {n: "1998 - The Life of Birds -[KRISH]/06 Signals and Songs", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/06 Signals and Songs.mp4"},
-        {n: "1998 - The Life of Birds -[KRISH]/07 Finding Partners", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/07 Finding Partners.mp4"},
-        {n: "1998 - The Life of Birds -[KRISH]/08 Demands of the Egg", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/08 Demands of the Egg.mp4"},
-        {n: "1998 - The Life of Birds -[KRISH]/10 Limits of Endurance", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/10 Limits of Endurance.mp4"},
-        {n: "2002 - The Life of Mammals/The Life of Mammals - 01 - A Winning Design", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 01 - A Winning Design.mp4"},
-        {n: "2002 - The Life of Mammals/The Life of Mammals - 02 - Insect Hunters", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 02 - Insect Hunters.mp4"},
-        {n: "2002 - The Life of Mammals/The Life of Mammals - 03 - Plant Predators", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 03 - Plant Predators.mp4"},
-        {n: "2002 - The Life of Mammals/The Life of Mammals - 04 - Chisellers", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 04 - Chisellers.mp4"},
-        {n: "2002 - The Life of Mammals/The Life of Mammals - 05 - Meat Eaters", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 05 - Meat Eaters.mp4"},
-        {n: "2002 - The Life of Mammals/The Life of Mammals - 06 - Opportunists", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 06 - Opportunists.mp4"},
-        {n: "2002 - The Life of Mammals/The Life of Mammals - 07 - Return to the Water", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 07 - Return to the Water.mp4"},
-        {n: "2002 - The Life of Mammals/The Life of Mammals - 08 - Life in the Trees", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 08 - Life in the Trees.mp4"},
-        {n: "2002 - The Life of Mammals/The Life of Mammals - 09 - Social Climbers", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 09 - Social Climbers.mp4"},
-        {n: "2002 - The Life of Mammals/The Life of Mammals - 10 - Food for Thought", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 10 - Food for Thought.mp4"},
-        {n: "BBC - Frozen Planet [720p]/Frozen Planet S01E01 720p HDTV x264 YIFY", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E01.720p.HDTV.x264.YIFY.mp4"},
-        {n: "BBC - Frozen Planet [720p]/Frozen Planet S01E02 720p HDTV x264 YIFY", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E02.720p.HDTV.x264.YIFY.mp4"},
-        {n: "BBC - Frozen Planet [720p]/Frozen Planet S01E03 720p HDTV x264 YIFY", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E03.720p.HDTV.x264.YIFY.mp4"},
-        {n: "BBC - Frozen Planet [720p]/Frozen Planet S01E04 720p HDTV x264 YIFY", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E04.720p.HDTV.x264.YIFY.mp4"},
-        {n: "BBC - Frozen Planet [720p]/Frozen Planet S01E05 720p HDTV x264 YIFY", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E05.720p.HDTV.x264.YIFY.mp4"},
-        {n: "BBC - Frozen Planet [720p]/Frozen Planet S01E06 720p HDTV x264 YIFY", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E06.720p.HDTV.x264.YIFY.mp4"},
-        {n: "BBC - Frozen Planet [720p]/Frozen Planet S01E07 720p HDTV x264 YIFY", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E07.720p.HDTV.x264.YIFY.mp4"},
-        {n: "BBC Africa H 264 1080p AC3/BBC Africa E01 Kalahari  1080p x264 AC3", u: "https://archive.org/download/bbcdavidattenborough/BBC Africa H.264 1080p AC3/BBC Africa E01 Kalahari  1080p x264 AC3.mp4"},
-        {n: "BBC Africa H 264 1080p AC3/BBC Africa E02 Savannah 1080p x264 AC3", u: "https://archive.org/download/bbcdavidattenborough/BBC Africa H.264 1080p AC3/BBC Africa E02 Savannah 1080p x264 AC3.mp4"},
-        {n: "BBC Africa H 264 1080p AC3/BBC Africa E03 Congo  1080p x264 AC3", u: "https://archive.org/download/bbcdavidattenborough/BBC Africa H.264 1080p AC3/BBC Africa E03 Congo  1080p x264 AC3.mp4"},
-        {n: "BBC Africa H 264 1080p AC3/BBC Africa E04 Cape 1080p x264 AC3", u: "https://archive.org/download/bbcdavidattenborough/BBC Africa H.264 1080p AC3/BBC Africa E04 Cape 1080p x264 AC3.mp4"},
-        {n: "BBC Africa H 264 1080p AC3/BBC Africa E05 Sahara  1080p x264 AC3", u: "https://archive.org/download/bbcdavidattenborough/BBC Africa H.264 1080p AC3/BBC Africa E05 Sahara  1080p x264 AC3.mp4"},
-        {n: "BBC Africa H 264 1080p AC3/BBC Africa E06 The Future 1080p x264 AC3", u: "https://archive.org/download/bbcdavidattenborough/BBC Africa H.264 1080p AC3/BBC Africa E06 The Future 1080p x264 AC3.mp4"},
-        {n: "BBC Madagascar (2011) Season 1/Madagascar (2011) - S01e01 - Island Of Marvels (1080P Bluray X265)", u: "https://archive.org/download/bbcdavidattenborough/BBC Madagascar (2011) Season 1/Madagascar (2011) - S01e01 - Island Of Marvels (1080P Bluray X265).mp4"},
-        {n: "BBC Madagascar (2011) Season 1/Madagascar (2011) - S01e02 - Lost Worlds (1080P Bluray X265 )", u: "https://archive.org/download/bbcdavidattenborough/BBC Madagascar (2011) Season 1/Madagascar (2011) - S01e02 - Lost Worlds (1080P Bluray X265 ).mp4"},
-        {n: "BBC Madagascar (2011) Season 1/Madagascar (2011) - S01e03 - Land Of Heat And Dust (1080P Bluray X265 )-3", u: "https://archive.org/download/bbcdavidattenborough/BBC Madagascar (2011) Season 1/Madagascar (2011) - S01e03 - Land Of Heat And Dust (1080P Bluray X265 )-3.mp4"},
-        {n: "BBC The Hunt (2015) Season 1 S01 + Extras (1080p BluRay x265 HEVC 10bit AAC 5 1 RZeroX)/BBC The Hunt (2015) - S01E01 - The Hardest Challenge (1080p BluRay x265 RZeroX)", u: "https://archive.org/download/bbcdavidattenborough/BBC The Hunt (2015) Season 1 S01 + Extras (1080p BluRay x265 HEVC 10bit AAC 5.1 RZeroX)/BBC The Hunt (2015) - S01E01 - The Hardest Challenge (1080p BluRay x265 RZeroX).mp4"},
-        {n: "BBC The Hunt (2015) Season 1 S01 + Extras (1080p BluRay x265 HEVC 10bit AAC 5 1 RZeroX)/BBC The Hunt (2015) - S01E02 - In the Grip of the Seasons (1080p BluRay x265 RZeroX)", u: "https://archive.org/download/bbcdavidattenborough/BBC The Hunt (2015) Season 1 S01 + Extras (1080p BluRay x265 HEVC 10bit AAC 5.1 RZeroX)/BBC The Hunt (2015) - S01E02 - In the Grip of the Seasons (1080p BluRay x265 RZeroX).mp4"},
-        {n: "BBC The Hunt (2015) Season 1 S01 + Extras (1080p BluRay x265 HEVC 10bit AAC 5 1 RZeroX)/BBC The Hunt (2015) - S01E03 - Hide and Seek (1080p BluRay x265 RZeroX)", u: "https://archive.org/download/bbcdavidattenborough/BBC The Hunt (2015) Season 1 S01 + Extras (1080p BluRay x265 HEVC 10bit AAC 5.1 RZeroX)/BBC The Hunt (2015) - S01E03 - Hide and Seek (1080p BluRay x265 RZeroX).mp4"},
-        {n: "BBC The Hunt (2015) Season 1 S01 + Extras (1080p BluRay x265 HEVC 10bit AAC 5 1 RZeroX)/BBC The Hunt (2015) - S01E04 - Hunger at Sea (1080p BluRay x265 RZeroX)", u: "https://archive.org/download/bbcdavidattenborough/BBC The Hunt (2015) Season 1 S01 + Extras (1080p BluRay x265 HEVC 10bit AAC 5.1 RZeroX)/BBC The Hunt (2015) - S01E04 - Hunger at Sea (1080p BluRay x265 RZeroX).mp4"},
-        {n: "BBC The Hunt (2015) Season 1 S01 + Extras (1080p BluRay x265 HEVC 10bit AAC 5 1 RZeroX)/BBC The Hunt (2015) - S01E05 - Nowhere to Hide (1080p BluRay x265 RZeroX)", u: "https://archive.org/download/bbcdavidattenborough/BBC The Hunt (2015) Season 1 S01 + Extras (1080p BluRay x265 HEVC 10bit AAC 5.1 RZeroX)/BBC The Hunt (2015) - S01E05 - Nowhere to Hide (1080p BluRay x265 RZeroX).mp4"},
-        {n: "David Attenborough/1993 - Life in the Freezer-[KRISH]/01 The Bountiful Sea", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/1993 - Life in the Freezer-[KRISH]/01 The Bountiful Sea.mp4"},
-        {n: "David Attenborough/1993 - Life in the Freezer-[KRISH]/02 The Ice Retreats", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/1993 - Life in the Freezer-[KRISH]/02 The Ice Retreats.mp4"},
-        {n: "David Attenborough/1993 - Life in the Freezer-[KRISH]/03 The Race to Breed", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/1993 - Life in the Freezer-[KRISH]/03 The Race to Breed.mp4"},
-        {n: "David Attenborough/1993 - Life in the Freezer-[KRISH]/04 The Door Closes", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/1993 - Life in the Freezer-[KRISH]/04 The Door Closes.mp4"},
-        {n: "David Attenborough/1993 - Life in the Freezer-[KRISH]/05 The Big Freeze", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/1993 - Life in the Freezer-[KRISH]/05 The Big Freeze.mp4"},
-        {n: "David Attenborough/1993 - Life in the Freezer-[KRISH]/06 Footsteps in the Snow", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/1993 - Life in the Freezer-[KRISH]/06 Footsteps in the Snow.mp4"},
-        {n: "David Attenborough/2005 - Life in the Undergrowth -KRISH/01 Invasion of the Land", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/2005 - Life in the Undergrowth -KRISH/01 Invasion of the Land.mp4"},
-        {n: "David Attenborough/2005 - Life in the Undergrowth -KRISH/02 Taking to the Air", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/2005 - Life in the Undergrowth -KRISH/02 Taking to the Air.mp4"},
-        {n: "David Attenborough/2005 - Life in the Undergrowth -KRISH/03 The Silk Spinners", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/2005 - Life in the Undergrowth -KRISH/03 The Silk Spinners.mp4"},
-        {n: "David Attenborough/2005 - Life in the Undergrowth -KRISH/04 Intimate Relations", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/2005 - Life in the Undergrowth -KRISH/04 Intimate Relations.mp4"},
-        {n: "David Attenborough/2005 - Life in the Undergrowth -KRISH/05 Supersocieties", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/2005 - Life in the Undergrowth -KRISH/05 Supersocieties.mp4"},
-        {n: "David Attenborough/Planet Earth II S01 720p BRRip 3GB MkvCage/Planet Earth II S01E01 720p BRRip 500MB MkvCage", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/Planet.Earth.II.S01.720p.BRRip.3GB.MkvCage/Planet.Earth.II.S01E01.720p.BRRip.500MB.MkvCage.mp4"},
-        {n: "David Attenborough/Planet Earth II S01 720p BRRip 3GB MkvCage/Planet Earth II S01E02 720p BRRip 500MB MkvCage", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/Planet.Earth.II.S01.720p.BRRip.3GB.MkvCage/Planet.Earth.II.S01E02.720p.BRRip.500MB.MkvCage.mp4"},
-        {n: "David Attenborough/Planet Earth II S01 720p BRRip 3GB MkvCage/Planet Earth II S01E03 720p BRRip 500MB MkvCage", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/Planet.Earth.II.S01.720p.BRRip.3GB.MkvCage/Planet.Earth.II.S01E03.720p.BRRip.500MB.MkvCage.mp4"},
-        {n: "David Attenborough/Planet Earth II S01 720p BRRip 3GB MkvCage/Planet Earth II S01E04 720p BRRip 550MB MkvCage", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/Planet.Earth.II.S01.720p.BRRip.3GB.MkvCage/Planet.Earth.II.S01E04.720p.BRRip.550MB.MkvCage.mp4"},
-        {n: "David Attenborough/Planet Earth II S01 720p BRRip 3GB MkvCage/Planet Earth II S01E05 720p BRRip 550MB MkvCage", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/Planet.Earth.II.S01.720p.BRRip.3GB.MkvCage/Planet.Earth.II.S01E05.720p.BRRip.550MB.MkvCage.mp4"},
-        {n: "David Attenborough/Planet Earth II S01 720p BRRip 3GB MkvCage/Planet Earth II S01E06 720p BRRip 550MB MkvCage", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/Planet.Earth.II.S01.720p.BRRip.3GB.MkvCage/Planet.Earth.II.S01E06.720p.BRRip.550MB.MkvCage.mp4"},
-        {n: "Life In Cold Blood/BBC Life In Cold Blood 1of5 The Cold-Blooded Truth XviD AC3 MVGroup org", u: "https://archive.org/download/bbcdavidattenborough/Life In Cold Blood/BBC.Life.In.Cold.Blood.1of5.The.Cold-Blooded.Truth.XviD.AC3.MVGroup.org.mp4"},
-        {n: "Life In Cold Blood/BBC Life In Cold Blood 2of5 Land Invaders XviD AC3 MVGroup org", u: "https://archive.org/download/bbcdavidattenborough/Life In Cold Blood/BBC.Life.In.Cold.Blood.2of5.Land.Invaders.XviD.AC3.MVGroup.org.mp4"},
-        {n: "Life In Cold Blood/BBC Life In Cold Blood 3of5 Dragons Of The Dry XviD AC3 MVGroup org", u: "https://archive.org/download/bbcdavidattenborough/Life In Cold Blood/BBC.Life.In.Cold.Blood.3of5.Dragons.Of.The.Dry.XviD.AC3.MVGroup.org.mp4"},
-        {n: "Life In Cold Blood/BBC Life In Cold Blood 4of5 Sophisticated Serpents XviD AC3 MVGroup org", u: "https://archive.org/download/bbcdavidattenborough/Life In Cold Blood/BBC.Life.In.Cold.Blood.4of5.Sophisticated.Serpents.XviD.AC3.MVGroup.org.mp4"},
-        {n: "Life In Cold Blood/BBC Life In Cold Blood 5of5 Armoured Giants XviD AC3 MVGroup org", u: "https://archive.org/download/bbcdavidattenborough/Life In Cold Blood/BBC.Life.In.Cold.Blood.5of5.Armoured.Giants.XviD.AC3.MVGroup.org.mp4"},
-        {n: "Nature's Great Events (2009) Season 1 S01 (1080p BluRay x265 HEVC 10bit AAC 2 0 Silence)/Nature's Great Events (2009) - S01E01 - The Great Melt (1080p BluRay x265 Silence)", u: "https://archive.org/download/bbcdavidattenborough/Nature's Great Events (2009) Season 1 S01 (1080p BluRay x265 HEVC 10bit AAC 2.0 Silence)/Nature's Great Events (2009) - S01E01 - The Great Melt (1080p BluRay x265 Silence).mp4"},
-        {n: "Nature's Great Events (2009) Season 1 S01 (1080p BluRay x265 HEVC 10bit AAC 2 0 Silence)/Nature's Great Events (2009) - S01E02 - The Great Salmon Run (1080p BluRay x265 Silence)", u: "https://archive.org/download/bbcdavidattenborough/Nature's Great Events (2009) Season 1 S01 (1080p BluRay x265 HEVC 10bit AAC 2.0 Silence)/Nature's Great Events (2009) - S01E02 - The Great Salmon Run (1080p BluRay x265 Silence).mp4"},
-        {n: "Nature's Great Events (2009) Season 1 S01 (1080p BluRay x265 HEVC 10bit AAC 2 0 Silence)/Nature's Great Events (2009) - S01E03 - The Great Migration (1080p BluRay x265 Silence)", u: "https://archive.org/download/bbcdavidattenborough/Nature's Great Events (2009) Season 1 S01 (1080p BluRay x265 HEVC 10bit AAC 2.0 Silence)/Nature's Great Events (2009) - S01E03 - The Great Migration (1080p BluRay x265 Silence).mp4"},
-        {n: "Nature's Great Events (2009) Season 1 S01 (1080p BluRay x265 HEVC 10bit AAC 2 0 Silence)/Nature's Great Events (2009) - S01E04 - The Great Tide (1080p BluRay x265 Silence)", u: "https://archive.org/download/bbcdavidattenborough/Nature's Great Events (2009) Season 1 S01 (1080p BluRay x265 HEVC 10bit AAC 2.0 Silence)/Nature's Great Events (2009) - S01E04 - The Great Tide (1080p BluRay x265 Silence).mp4"},
-        {n: "Nature's Great Events (2009) Season 1 S01 (1080p BluRay x265 HEVC 10bit AAC 2 0 Silence)/Nature's Great Events (2009) - S01E05 - The Great Flood (1080p BluRay x265 Silence)", u: "https://archive.org/download/bbcdavidattenborough/Nature's Great Events (2009) Season 1 S01 (1080p BluRay x265 HEVC 10bit AAC 2.0 Silence)/Nature's Great Events (2009) - S01E05 - The Great Flood (1080p BluRay x265 Silence).mp4"},
-        {n: "Nature's Great Events (2009) Season 1 S01 (1080p BluRay x265 HEVC 10bit AAC 2 0 Silence)/Nature's Great Events (2009) - S01E06 - The Great Feast (1080p BluRay x265 Silence)", u: "https://archive.org/download/bbcdavidattenborough/Nature's Great Events (2009) Season 1 S01 (1080p BluRay x265 HEVC 10bit AAC 2.0 Silence)/Nature's Great Events (2009) - S01E06 - The Great Feast (1080p BluRay x265 Silence).mp4"}
+        {n: "Arthur C Clarkes Mysterious World - UFOs", u: "https://archive.org/download/arthur-c-clarkes-mysterious-world-complete-series-1980/Arthur C. Clarke's Mysterious World - Ep10 - UFOs.mp4"},
+        {n: "David Attenborough: Frozen Planet S01E01", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E01.720p.HDTV.x264.YIFY.mp4"},
+        {n: "David Attenborough: Frozen Planet S01E02", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E02.720p.HDTV.x264.YIFY.mp4"},
+        {n: "David Attenborough: Frozen Planet S01E03", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E03.720p.HDTV.x264.YIFY.mp4"},
+        {n: "David Attenborough: Frozen Planet S01E04", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E04.720p.HDTV.x264.YIFY.mp4"},
+        {n: "David Attenborough: Frozen Planet S01E05", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E05.720p.HDTV.x264.YIFY.mp4"},
+        {n: "David Attenborough: Frozen Planet S01E06", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E06.720p.HDTV.x264.YIFY.mp4"},
+        {n: "David Attenborough: Frozen Planet S01E07", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E07.720p.HDTV.x264.YIFY.mp4"},
+        {n: "David Attenborough: Life in the Freezer - The Bountiful Sea", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/1993 - Life in the Freezer-[KRISH]/01 The Bountiful Sea.mp4"},
+        {n: "David Attenborough: Life in the Freezer - The Ice Retreats", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/1993 - Life in the Freezer-[KRISH]/02 The Ice Retreats.mp4"},
+        {n: "David Attenborough: Life in the Freezer - The Race to Breed", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/1993 - Life in the Freezer-[KRISH]/03 The Race to Breed.mp4"},
+        {n: "David Attenborough: Life in the Freezer - The Door Closes", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/1993 - Life in the Freezer-[KRISH]/04 The Door Closes.mp4"},
+        {n: "David Attenborough: Life in the Freezer - The Big Freeze", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/1993 - Life in the Freezer-[KRISH]/05 The Big Freeze.mp4"},
+        {n: "David Attenborough: Life in the Freezer - Footsteps in the Snow", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/1993 - Life in the Freezer-[KRISH]/06 Footsteps in the Snow.mp4"},
+        {n: "David Attenborough: Life in the Undergrowth - Invasion of the Land", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/2005 - Life in the Undergrowth -KRISH/01 Invasion of the Land.mp4"},
+        {n: "David Attenborough: Life in the Undergrowth - Taking to the Air", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/2005 - Life in the Undergrowth -KRISH/02 Taking to the Air.mp4"},
+        {n: "David Attenborough: Life in the Undergrowth - The Silk Spinners", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/2005 - Life in the Undergrowth -KRISH/03 The Silk Spinners.mp4"},
+        {n: "David Attenborough: Life in the Undergrowth - Intimate Relations", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/2005 - Life in the Undergrowth -KRISH/04 Intimate Relations.mp4"},
+        {n: "David Attenborough: Life in the Undergrowth - Supersocieties", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/2005 - Life in the Undergrowth -KRISH/05 Supersocieties.mp4"},
+        {n: "David Attenborough: Planet Earth II S01E01", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/Planet.Earth.II.S01.720p.BRRip.3GB.MkvCage/Planet.Earth.II.S01E01.720p.BRRip.500MB.MkvCage.mp4"},
+        {n: "David Attenborough: Planet Earth II S01E02", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/Planet.Earth.II.S01.720p.BRRip.3GB.MkvCage/Planet.Earth.II.S01E02.720p.BRRip.500MB.MkvCage.mp4"},
+        {n: "David Attenborough: Planet Earth II S01E03", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/Planet.Earth.II.S01.720p.BRRip.3GB.MkvCage/Planet.Earth.II.S01E03.720p.BRRip.500MB.MkvCage.mp4"},
+        {n: "David Attenborough: Planet Earth II S01E04", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/Planet.Earth.II.S01.720p.BRRip.3GB.MkvCage/Planet.Earth.II.S01E04.720p.BRRip.550MB.MkvCage.mp4"},
+        {n: "David Attenborough: Planet Earth II S01E05", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/Planet.Earth.II.S01.720p.BRRip.3GB.MkvCage/Planet.Earth.II.S01E05.720p.BRRip.550MB.MkvCage.mp4"},
+        {n: "David Attenborough: Planet Earth II S01E06", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/Planet.Earth.II.S01.720p.BRRip.3GB.MkvCage/Planet.Earth.II.S01E06.720p.BRRip.550MB.MkvCage.mp4"},
+        {n: "David Attenborough: The Life of Birds - To Fly or Not to Fly", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/01 To Fly or Not to Fly.mp4"},
+        {n: "David Attenborough: The Life of Birds - Mastery of Flight", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/02 Mastery of Flight.mp4"},
+        {n: "David Attenborough: The Life of Birds - Meat-Eaters", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/04 Meat-Eaters.mp4"},
+        {n: "David Attenborough: The Life of Birds - Fishing for a Living", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/05 Fishing for a Living.mp4"},
+        {n: "David Attenborough: The Life of Birds - Signals and Songs", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/06 Signals and Songs.mp4"},
+        {n: "David Attenborough: The Life of Birds - Finding Partners", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/07 Finding Partners.mp4"},
+        {n: "David Attenborough: The Life of Birds - Demands of the Egg", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/08 Demands of the Egg.mp4"},
+        {n: "David Attenborough: The Life of Birds - Limits of Endurance", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/10 Limits of Endurance.mp4"},
+        {n: "David Attenborough: The Life of Mammals - A Winning Design", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 01 - A Winning Design.mp4"},
+        {n: "David Attenborough: The Life of Mammals - Insect Hunters", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 02 - Insect Hunters.mp4"},
+        {n: "David Attenborough: The Life of Mammals - Plant Predators", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 03 - Plant Predators.mp4"},
+        {n: "David Attenborough: The Life of Mammals - Chisellers", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 04 - Chisellers.mp4"},
+        {n: "David Attenborough: The Life of Mammals - Meat Eaters", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 05 - Meat Eaters.mp4"},
+        {n: "David Attenborough: The Life of Mammals - Opportunists", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 06 - Opportunists.mp4"},
+        {n: "David Attenborough: The Life of Mammals - Return to the Water", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 07 - Return to the Water.mp4"},
+        {n: "David Attenborough: The Life of Mammals - Life in the Trees", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 08 - Life in the Trees.mp4"},
+        {n: "David Attenborough: The Life of Mammals - Social Climbers", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 09 - Social Climbers.mp4"},
+        {n: "David Attenborough: The Life of Mammals - Food for Thought", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 10 - Food for Thought.mp4"},
+        {n: "David Attenborough: The Private Life of Plants - Travelling", u: "https://archive.org/download/bbcdavidattenborough/1995  The Private Life of Plants/The Private Life of Plants - 01 - Travelling.mp4"},
+        {n: "David Attenborough: The Private Life of Plants - Growing", u: "https://archive.org/download/bbcdavidattenborough/1995  The Private Life of Plants/The Private Life of Plants - 02 - Growing.mp4"},
+        {n: "David Attenborough: The Private Life of Plants - Flowering", u: "https://archive.org/download/bbcdavidattenborough/1995  The Private Life of Plants/The Private Life of Plants - 03 - Flowering.mp4"},
+        {n: "David Attenborough: The Private Life of Plants - The Social Struggle", u: "https://archive.org/download/bbcdavidattenborough/1995  The Private Life of Plants/The Private Life of Plants - 04 - The Social Struggle.mp4"},
+        {n: "David Attenborough: The Private Life of Plants - Living Together", u: "https://archive.org/download/bbcdavidattenborough/1995  The Private Life of Plants/The Private Life of Plants - 05 - Living Together.mp4"},
+        {n: "David Attenborough: The Private Life of Plants - Surviving", u: "https://archive.org/download/bbcdavidattenborough/1995  The Private Life of Plants/The Private Life of Plants - 06 - Surviving.mp4"}
     ];
 
     const D = [
-        {n: "NASA UFO Footages", u: "https://archive.org/download/NASAfootages/UFOs.avi"},
         {n: "John Carpenters The Thing", u: "https://archive.org/download/the-thing_202010/The Thing.mp4"}
     ];
 
     const E = [
-        {n: "Carrie 1976", u: "https://archive.org/download/carrie-1976_202409/Carrie 1976.mp4"},
-        {n: "Arthur C Clarkes Mysterious Universe - Complete Series 1994", u: "https://archive.org/download/arthur-c-clarkes-mysterious-universe-complete-series-1994/Arthur C Clarkes - Mysterious Universe S01E04 - Relics of the Saints.mp4"}
+        {n: "Arthur C Clarkes Mysterious Universe - Relics of the Saints", u: "https://archive.org/download/arthur-c-clarkes-mysterious-universe-complete-series-1994/Arthur C Clarkes - Mysterious Universe S01E04 - Relics of the Saints.mp4"},
+        {n: "Carrie 1976", u: "https://archive.org/download/carrie-1976_202409/Carrie 1976.mp4"}
     ];
 
     const F = [
-        {n: "In Search Of... Ancient Astronauts", u: "https://archive.org/download/insearchofancientastronautsreel1/insearchofancientastronautsreel1.mp4"}, 
-        {n: "1960s TRUE ADVENTURE TV SHOW DIVING FOR TREASURE", u: "https://archive.org/download/22974TrueAdventureScubaDiving/22974 True Adventure Scuba Diving.mp4"}
+        {n: "1960s TRUE ADVENTURE TV SHOW DIVING FOR TREASURE", u: "https://archive.org/download/22974TrueAdventureScubaDiving/22974 True Adventure Scuba Diving.mp4"},
+        {n: "In Search Of... Ancient Astronauts", u: "https://archive.org/download/insearchofancientastronautsreel1/insearchofancientastronautsreel1.mp4"}
     ];
 
     const G = [
@@ -461,51 +423,46 @@
     ];
 
     const I = [
+        {n: "Bob Lazar & Area 51", u: "https://archive.org/download/BobLazarAndArea51TechnologyUFODocumentary/Bob Lazar and Area 51 Technology [UFO Documentary].mp4"},
         {n: "Farscape S01E21 Bone to be Wild", u: "https://archive.org/download/farscape-s-01/Farscape S01E21 Bone to be Wild.mp4"},
         {n: "Farscape S01E22 Family Ties", u: "https://archive.org/download/farscape-s-01/Farscape S01E22 Family Ties.mp4"},
-        {n: "Chariots of the Gods", u: "https://archive.org/download/chariots-of-the-gods_202407/Chariots of the Gods.ia.mp4"},
-        {n: "The Outer Space Connection (1975)", u: "https://archive.org/download/the-outer-space-connection-1975/The Outer Space Connection 1975.ia.mp4"},
-        {n: "In Search Of... Ancient Astronauts", u: "https://archive.org/download/insearchofancientastronautsreel1/insearchofancientastronautsreel1.mp4"},
         {n: "In Search Of... Ancient Mysteries", u: "https://archive.org/download/insearchofancientmysteriesreel1/insearchofancientmysteriesreel1.mp4"},
-        {n: "In Search Of... Dracula", u: "https://archive.org/download/in-search-of-dracula/In Search of Dracula.avi"},
-        {n: "In Search Of... Noahs Ark", u: "https://archive.org/download/in-search-of-noahs-ark-1976/In Search of Noah's Ark 1976.ia.mp4"},
-        {n: "In Search Of... The Money Pit Mystery", u: "https://archive.org/download/in-search-of-s-03-e-16-the-money-pit-mystery/In Search Of S03E16 The Money Pit Mystery.mp4"},
         {n: "In Search Of... Cryogenics", u: "https://archive.org/download/In-Search-Of-complete-series/In Search Of.../Season 3/S03E06 - Cryogenics.ia.mp4"},
+        {n: "In Search Of... Dracula", u: "https://archive.org/download/in-search-of-dracula/In Search of Dracula.avi"},
         {n: "In Search Of... Future Life", u: "https://archive.org/download/in-search-of-s-6-e-14-future-life/In Search Of S6E14 Future Life.mp4"},
+        {n: "In Search Of... Noahs Ark", u: "https://archive.org/download/in-search-of-noahs-ark-1976/In Search of Noah's Ark 1976.ia.mp4"},
         {n: "In Search Of... The Coming Ice Age", u: "https://archive.org/download/In_Search_of_S02E23_The_Coming_Ice_Age/1978 MAY In Search of... The Coming Ice Age.mp4"},
-        {n: "The Case of the Ancient Astronauts (Nova)", u: "https://archive.org/download/NOVATheCaseOfTheAncientAstronauts/NOVA.S05E09.The.Case.of.the.Ancient.Astronauts.1978.VHSRip.AAC2.0.x264-rattera.ia.mp4"},
+        {n: "In Search Of... The Money Pit Mystery", u: "https://archive.org/download/in-search-of-s-03-e-16-the-money-pit-mystery/In Search Of S03E16 The Money Pit Mystery.mp4"},
         {n: "Overlords Of The UFO (1976)", u: "https://archive.org/download/OverlordsOfTheUFO1976_201610/Overlords of the UFO - 1976.mp4"},
-        {n: "UFO (Complete Series Ep 24)", u: "https://archive.org/download/UFO.complete/UFO.24.Reflections In The Water.avi"},
-        {n: "Project UFO (1978 Series)", u: "https://archive.org/download/project-ufo-complete-series-1978/Project UFO S01E08 - The Desert Springs Incident.mp4"},
-        {n: "The UFO Incident (1975)", u: "https://archive.org/download/the-ufo-incident-1975-tv/The UFO Incident (1975-TV).mp4"},
-        {n: "Bob Lazar & Area 51", u: "https://archive.org/download/BobLazarAndArea51TechnologyUFODocumentary/Bob Lazar and Area 51 Technology [UFO Documentary].mp4"},
         {n: "Project Blue Book: Alien Interview", u: "https://archive.org/download/youtube-QTYsigxhjic/QTYsigxhjic.mp4"},
-        {n: "NASA UFO Footages", u: "https://archive.org/download/NASAfootages/UFOs.avi"},
-        {n: "Turkey UFO 2008 (Kumburgaz)", u: "https://archive.org/download/youtube-zVdeM99mkMs/zVdeM99mkMs.mp4"}
+        {n: "The Case of the Ancient Astronauts (Nova)", u: "https://archive.org/download/NOVATheCaseOfTheAncientAstronauts/NOVA.S05E09.The.Case.of.the.Ancient.Astronauts.1978.VHSRip.AAC2.0.x264-rattera.ia.mp4"},
+        {n: "The Outer Space Connection (1975)", u: "https://archive.org/download/the-outer-space-connection-1975/The Outer Space Connection 1975.ia.mp4"},
+        {n: "The UFO Incident (1975)", u: "https://archive.org/download/the-ufo-incident-1975-tv/The UFO Incident (1975-TV).mp4"},
+        {n: "Turkey UFO 2008 (Kumburgaz)", u: "https://archive.org/download/youtube-zVdeM99mkMs/zVdeM99mkMs.mp4"},
+        {n: "UFO Complete Series Ep 24", u: "https://archive.org/download/UFO.complete/UFO.24.Reflections In The Water.avi"}
     ];
 
     const J = [
-        {n: "CBS RADIO MYSTERY THEATER", u: "https://archive.org/download/CBSRMT/CBSRMT_740113__44m18s__Cold_Storage.mp3"},
-        {n: "CBS Radio Mystery Theater 74 01 29 E 0024 The Man Who Heard Voices", u: "https://archive.org/download/cbs-radio-mystery-theater-74-01-29-e-0024-the-man-who-heard-voices/1974/CBS Radio Mystery Theater 74-01-29 e0024 The Man Who Heard Voices.mp3"},
-        {n: "CBS Radio Mystery Theater 74 01 29 E 0024 The Man Who Heard Voices", u: "https://archive.org/download/cbs-radio-mystery-theater-74-01-29-e-0024-the-man-who-heard-voices_202512/1974/CBS Radio Mystery Theater 74-01-29 e0024 The Man Who Heard Voices.mp3"},
-        {n: "CBS Radio Mystery Theater - Ken Long/JC Collection", u: "https://archive.org/download/cbsrmt-ken-long-jc-collection/CBSRMT - 750404 0251 Roses Are For Funerals vbr kb2_jc.mp3"},
-        {n: "CBS Radio Mystery Theater - David Oxford’s Best of Available Collection", u: "https://archive.org/download/cbsrmt-david-oxford-boa-collection/CBSRMT-800521-1087-A-Private-Demon-(AFRTS)-(256-44)-{BoA}.mp3"},
-        {n: "CBS Radio Mystery Theater - Ken Long/JL Collection", u: "https://archive.org/download/cbsrmt-ken-long-jl-collection/CBSRMT - 790402 0967 Voyage To Intrastar_jl.mp3"},
-        {n: "CBS Radio Mystery Theater - Select Ad-Free Episodes", u: "https://archive.org/download/cbsrmt-nrl-ad-free-collection/0058 740609 Sea Of Troubles WOR (no ads).mp3"},
-        {n: "CBS Radio Mystery Theater - Select Vinyl Transfers", u: "https://archive.org/download/cbsrmt-vinyl-afrts/CBSRMT-810513-1197-Diogenes-Inc_afrts.mp3"},
-        {n: "CBS Radio Mystery Theater - Ken Long/DLG Collection", u: "https://archive.org/download/cbsrmt-ken-long-dlg-collection/CBSRMT - 750326 0245 Death Is a Dream.mp3"},
-        {n: "CBS Radio Mystery Theater 75 01 31 E 0216 The Disembodied Voice", u: "https://archive.org/download/cbs-radio-mystery-theater-75-01-31-e-0216-the-disembodied-voice/1975/CBS Radio Mystery Theater 75-01-31 e0216 The Disembodied Voice.mp3"},
-        {n: "CBS RADIO MYSTERY THEATER 1976", u: "https://archive.org/download/CBSRMTCBSRADIOMYSTERYTHEATER1976/0572_The_Mark_of_Cain_761227.mp3"},
-        {n: "CBS Radio Mystery Theater 76 08 05 E 0504 Lovers And Killers", u: "https://archive.org/download/cbs-radio-mystery-theater-76-08-05-e-0504-lovers-and-killers/1976/CBS Radio Mystery Theater 76-08-05 e0504 Lovers and Killers.mp3"},
-        {n: "CBS Radio Mystery Theater 77 03 25 E 0623 A Study In Scarlet", u: "https://archive.org/download/cbs-radio-mystery-theater-77-03-25-e-0623-a-study-in-scarlet/1977/CBS Radio Mystery Theater 77-03-25 e0623 A Study in Scarlet.mp3"},
-        {n: "CBS RADIO MYSTERY THEATER 1978-PAGE 1", u: "https://archive.org/download/CBSRMTCBSRADIOMYSTERYTHEATER1978PAGE1/0769_The_Forgetful_Ghost_012378.mp3"},
-        {n: "A Christmas Carol  CBS Radio Mystery Theater", u: "https://archive.org/download/AChristmasCarolCbsRadioMysteryTheater/Cbsrmt7512240402AChristmasCarol_wbbm_rec12_24_78.mp3"},
-        {n: "CBS Radio Mystery Theater 1979-WBBM", u: "https://archive.org/download/CBSRadioMysteryTheater1979WBBM/Cbsrmt7903260965EnemyFromSpace_wbbm_repaired.mp3"},
-        {n: "CBS RADIO MYSTERY THEATER 1980-PAGE 1", u: "https://archive.org/download/CBSRMTCBSRADIOMYSTERYTHEATER1980/1044_Revenge_Is_Not_Sweet_800102.mp3"},
-        {n: "CBS RADIO MYSTERY THEATER 1980-PAGE 2", u: "https://archive.org/download/CBSRMTCBSRADIOMYSTERYTHEATER1980_0/1057_The_Deserter_800206.mp3"},
-        {n: "CBS Radio Mystery Theater 81 03 18 E 1173 Pretty Polly", u: "https://archive.org/download/cbs-radio-mystery-theater-81-03-18-e-1173-pretty-polly/1981/CBS Radio Mystery Theater 81-03-18 e1173 Pretty Polly.mp3"},
-        {n: "CBS Radio Mystery Theater 82 07 02 E 1346 Bring Back My Body", u: "https://archive.org/download/cbs-radio-mystery-theater-82-07-02-e-1346-bring-back-my-body/1982/CBS Radio Mystery Theater 82-07-02 e1346 Bring Back My Body.mp3"},
-        {n: "TREASURE ISLAND FULL Audio Book By Robert Louis Stevenson Adventure Pirate Fiction", u: "https://archive.org/download/TREASUREISLANDFULLAudioBookByRobertLouisStevensonAdventurePirateFiction/TREASURE ISLAND - FULL AudioBook by Robert Louis Stevenson - Adventure - Pirate Fiction.ogv"}
+        {n: "A Christmas Carol", u: "https://archive.org/download/AChristmasCarolCbsRadioMysteryTheater/Cbsrmt7512240402AChristmasCarol_wbbm_rec12_24_78.mp3"},
+        {n: "CBSRMT - 1974 Cold Storage", u: "https://archive.org/download/CBSRMT/CBSRMT_740113__44m18s__Cold_Storage.mp3"},
+        {n: "CBSRMT - 1974 Sea Of Troubles", u: "https://archive.org/download/cbsrmt-nrl-ad-free-collection/0058 740609 Sea Of Troubles WOR (no ads).mp3"},
+        {n: "CBSRMT - 1974 The Man Who Heard Voices", u: "https://archive.org/download/cbs-radio-mystery-theater-74-01-29-e-0024-the-man-who-heard-voices/1974/CBS Radio Mystery Theater 74-01-29 e0024 The Man Who Heard Voices.mp3"},
+        {n: "CBSRMT - 1975 Death Is a Dream", u: "https://archive.org/download/cbsrmt-ken-long-dlg-collection/CBSRMT - 750326 0245 Death Is a Dream.mp3"},
+        {n: "CBSRMT - 1975 Roses Are For Funerals", u: "https://archive.org/download/cbsrmt-ken-long-jc-collection/CBSRMT - 750404 0251 Roses Are For Funerals vbr kb2_jc.mp3"},
+        {n: "CBSRMT - 1975 The Disembodied Voice", u: "https://archive.org/download/cbs-radio-mystery-theater-75-01-31-e-0216-the-disembodied-voice/1975/CBS Radio Mystery Theater 75-01-31 e0216 The Disembodied Voice.mp3"},
+        {n: "CBSRMT - 1976 Lovers And Killers", u: "https://archive.org/download/cbs-radio-mystery-theater-76-08-05-e-0504-lovers-and-killers/1976/CBS Radio Mystery Theater 76-08-05 e0504 Lovers and Killers.mp3"},
+        {n: "CBSRMT - 1976 The Mark of Cain", u: "https://archive.org/download/CBSRMTCBSRADIOMYSTERYTHEATER1976/0572_The_Mark_of_Cain_761227.mp3"},
+        {n: "CBSRMT - 1977 A Study In Scarlet", u: "https://archive.org/download/cbs-radio-mystery-theater-77-03-25-e-0623-a-study-in-scarlet/1977/CBS Radio Mystery Theater 77-03-25 e0623 A Study in Scarlet.mp3"},
+        {n: "CBSRMT - 1978 The Forgetful Ghost", u: "https://archive.org/download/CBSRMTCBSRADIOMYSTERYTHEATER1978PAGE1/0769_The_Forgetful_Ghost_012378.mp3"},
+        {n: "CBSRMT - 1979 Enemy From Space", u: "https://archive.org/download/CBSRadioMysteryTheater1979WBBM/Cbsrmt7903260965EnemyFromSpace_wbbm_repaired.mp3"},
+        {n: "CBSRMT - 1979 Voyage To Intrastar", u: "https://archive.org/download/cbsrmt-ken-long-jl-collection/CBSRMT - 790402 0967 Voyage To Intrastar_jl.mp3"},
+        {n: "CBSRMT - 1980 A Private Demon", u: "https://archive.org/download/cbsrmt-david-oxford-boa-collection/CBSRMT-800521-1087-A-Private-Demon-(AFRTS)-(256-44)-{BoA}.mp3"},
+        {n: "CBSRMT - 1980 Revenge Is Not Sweet", u: "https://archive.org/download/CBSRMTCBSRADIOMYSTERYTHEATER1980/1044_Revenge_Is_Not_Sweet_800102.mp3"},
+        {n: "CBSRMT - 1980 The Deserter", u: "https://archive.org/download/CBSRMTCBSRADIOMYSTERYTHEATER1980_0/1057_The_Deserter_800206.mp3"},
+        {n: "CBSRMT - 1981 Diogenes Inc", u: "https://archive.org/download/cbsrmt-vinyl-afrts/CBSRMT-810513-1197-Diogenes-Inc_afrts.mp3"},
+        {n: "CBSRMT - 1981 Pretty Polly", u: "https://archive.org/download/cbs-radio-mystery-theater-81-03-18-e-1173-pretty-polly/1981/CBS Radio Mystery Theater 81-03-18 e1173 Pretty Polly.mp3"},
+        {n: "CBSRMT - 1982 Bring Back My Body", u: "https://archive.org/download/cbs-radio-mystery-theater-82-07-02-e-1346-bring-back-my-body/1982/CBS Radio Mystery Theater 82-07-02 e1346 Bring Back My Body.mp3"},
+        {n: "TREASURE ISLAND FULL Audio Book", u: "https://archive.org/download/TREASUREISLANDFULLAudioBookByRobertLouisStevensonAdventurePirateFiction/TREASURE ISLAND - FULL AudioBook by Robert Louis Stevenson - Adventure - Pirate Fiction.ogv"}
     ];
 
     const categories = [
@@ -527,7 +484,9 @@
     let categoryDeg = 0;
 
     const player = document.getElementById('player');
+    const audioPlayer = document.getElementById('audio-player');
     const titleDisp = document.getElementById('title-display');
+    const volumeKnob = document.getElementById('volume-knob');
 
     function checkOverflow() {
         titleDisp.classList.remove('scroller-active');
@@ -573,14 +532,47 @@
         }
     }
 
+    function isAudio(url) {
+        return url.toLowerCase().endsWith('.mp3');
+    }
+
     function loadAndPlay() {
         const cat = categories[currentCategoryIndex];
         const item = cat.content[currentVideoIndex % cat.content.length];
-        player.src = item.u;
-        player.load();
+        
+        // Pause both players
+        player.pause();
+        audioPlayer.pause();
+        
         titleDisp.innerText = item.n.trim() + ' ';
         setTimeout(checkOverflow, 100);
-        player.play().catch(() => {});
+
+        if (isAudio(item.u)) {
+            // It's an audio file
+            player.classList.add('audio-mode');
+            player.src = ''; // Clear video source
+            
+            audioPlayer.style.display = 'block';
+            audioPlayer.src = item.u;
+            audioPlayer.load();
+            audioPlayer.volume = volumeKnob.value;
+            audioPlayer.play().catch(() => {});
+        } else {
+            // It's a video file
+            player.classList.remove('audio-mode');
+            audioPlayer.style.display = 'none';
+            audioPlayer.src = ''; // Clear audio source
+
+            player.src = item.u;
+            player.load();
+            player.volume = volumeKnob.value;
+            player.play().catch(() => {});
+        }
+    }
+
+    function changeVolume(val) {
+        player.volume = val;
+        audioPlayer.volume = val;
     }
 
     function tune(dir) {
@@ -619,6 +611,9 @@
 
     player.addEventListener('ended', () => tune(1));
     player.addEventListener('error', () => { setTimeout(() => tune(1), 1500); });
+    
+    audioPlayer.addEventListener('ended', () => tune(1));
+    audioPlayer.addEventListener('error', () => { setTimeout(() => tune(1), 1500); });
 </script>
 </body>
 </html>
