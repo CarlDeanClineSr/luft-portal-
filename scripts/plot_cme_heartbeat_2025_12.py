@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+df["color"] = map_colors(df["storm_phase"])
 """
 Plot LUFT CME Heartbeat Log for 2025-12 with dynamic pressure and χ amplitude.
 
