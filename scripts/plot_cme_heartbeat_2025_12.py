@@ -24,7 +24,6 @@ DATA_PATH = Path("data") / "cme_heartbeat_log_2025_12.csv"
 OUT_PATH = Path("results")
 OUT_PATH.mkdir(exist_ok=True, parents=True)
 
-
 def compute_dynamic_pressure(df: pd.DataFrame) -> pd.Series:
     """
     Compute dynamic pressure P_dyn in nPa from density (p/cm^3) and speed (km/s).
@@ -40,7 +39,6 @@ def compute_dynamic_pressure(df: pd.DataFrame) -> pd.Series:
     v = df["speed_km_s"]
     return 1.6726e-6 * n * v * v
 
-
 def map_colors(storm_phase: pd.Series) -> pd.Series:
     """
     Map storm_phase to colors:
@@ -55,12 +53,38 @@ def map_colors(storm_phase: pd.Series) -> pd.Series:
     }
     return storm_phase.map(mapping).fillna("grey")
 
-
 def main():
-    # Load CSV
+    # Load CSV (tab-separated)
     df = pd.read_csv(DATA_PATH, sep="\t")
+
+    # Normalize column names (strip whitespace)
+    df.columns = [c.strip() for c in df.columns]
+
+    # Accept alternate timestamp column names produced by other loggers
+    if "timestamp_utc" not in df.columns:
+        candidates = [
+            "timestamp",
+            "time_utc",
+            "datetime_utc",
+            "utc_timestamp",
+            "utc_time",
+            "time",
+            "date_utc",
+            "datetime",
+            "Timestamp",
+            "DateTime",
+        ]
+        found = next((c for c in candidates if c in df.columns), None)
+        if found is None:
+            raise KeyError(
+                "Missing timestamp column. Expected 'timestamp_utc' (or an accepted alias). "
+                f"Available columns: {list(df.columns)}"
+            )
+        df = df.rename(columns={found: "timestamp_utc"})
+
     # Parse timestamps
-    df["timestamp_utc"] = pd.to_datetime(df["timestamp_utc"])
+    df["timestamp_utc"] = pd.to_datetime(df["timestamp_utc"], errors="coerce")
+    df = df.dropna(subset=["timestamp_utc"])
 
     # Sort by time
     df = df.sort_values("timestamp_utc")
@@ -74,7 +98,7 @@ def main():
     df["chi_pred"] = 0.0032 * df["P_dyn_nPa"] + 0.054
 
     # Color mapping
-    df["color"] = map_colors(df["storm_phase"])
+    df["color"] = map_colors(df["storm_phase")
 
     # Create figure
     fig, ax1 = plt.subplots(figsize=(12, 6))
