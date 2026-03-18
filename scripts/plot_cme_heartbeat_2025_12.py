@@ -1,4 +1,4 @@
-df["color"] = map_colors(df["storm_phase"])
+#!/usr/bin/env python3
 """
 Plot LUFT CME Heartbeat Log for 2025-12 with dynamic pressure and χ amplitude.
 
@@ -24,6 +24,7 @@ DATA_PATH = Path("data") / "cme_heartbeat_log_2025_12.csv"
 OUT_PATH = Path("results")
 OUT_PATH.mkdir(exist_ok=True, parents=True)
 
+
 def compute_dynamic_pressure(df: pd.DataFrame) -> pd.Series:
     """
     Compute dynamic pressure P_dyn in nPa from density (p/cm^3) and speed (km/s).
@@ -39,6 +40,7 @@ def compute_dynamic_pressure(df: pd.DataFrame) -> pd.Series:
     v = df["speed_km_s"]
     return 1.6726e-6 * n * v * v
 
+
 def map_colors(storm_phase: pd.Series) -> pd.Series:
     """
     Map storm_phase to colors:
@@ -52,6 +54,7 @@ def map_colors(storm_phase: pd.Series) -> pd.Series:
         "pre": "grey",
     }
     return storm_phase.map(mapping).fillna("grey")
+
 
 def main():
     # Load CSV (tab-separated)
@@ -82,7 +85,7 @@ def main():
             )
         df = df.rename(columns={found: "timestamp_utc"})
 
-    # Parse timestamps
+    # Parse timestamps (drop rows that don't parse)
     df["timestamp_utc"] = pd.to_datetime(df["timestamp_utc"], errors="coerce")
     df = df.dropna(subset=["timestamp_utc"])
 
@@ -98,7 +101,7 @@ def main():
     df["chi_pred"] = 0.0032 * df["P_dyn_nPa"] + 0.054
 
     # Color mapping
-    df["color"] = map_colors(df["storm_phase")
+    df["color"] = map_colors(df["storm_phase"])
 
     # Create figure
     fig, ax1 = plt.subplots(figsize=(12, 6))
@@ -162,3 +165,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+  
