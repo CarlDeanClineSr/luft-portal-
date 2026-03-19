@@ -39,6 +39,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git add data/academic_vs_imperial_storm_log.csv
           bash scripts/ci_commit_push.sh \
             "data/academic_vs_imperial_storm_log.csv" \
             "data: Dual-Read Academic vs Imperial update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
