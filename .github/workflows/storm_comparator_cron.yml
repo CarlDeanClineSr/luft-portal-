@@ -1,0 +1,44 @@
+name: Academic vs Imperial Storm Comparator
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'  # Runs every 15 minutes to catch speed spikes
+  workflow_dispatch:         # Allows manual trigger from the Actions tab
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+concurrency:
+  group: repo-push-main
+  cancel-in-progress: false
+
+jobs:
+  run-comparator:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout LUFT Portal Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run Academic vs Imperial Dual-Read Script
+        run: python scripts/academic_vs_imperial_comparator.py
+
+      - name: Commit and push updated CSV
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          bash scripts/ci_commit_push.sh \
+            "data/academic_vs_imperial_storm_log.csv" \
+            "data: Dual-Read Academic vs Imperial update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
