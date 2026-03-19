@@ -39,7 +39,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git add data/academic_vs_imperial_storm_log.csv
-          bash scripts/ci_commit_push.sh \
-            "data/academic_vs_imperial_storm_log.csv" \
-            "data: Dual-Read Academic vs Imperial update $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          git config --global user.name "engine-bot"
+          git config --global user.email "engine-bot@luft-portal.local"
+          git add -f data/academic_vs_imperial_storm_log.csv
+          git commit -m "data: Dual-Read Academic vs Imperial update $(date -u +'%Y-%m-%d %H:%M:%S UTC')" || echo "No changes to commit"
+          git push
