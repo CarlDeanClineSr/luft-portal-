@@ -5,40 +5,52 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+# Fix Node.js 20 deprecation warning
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   run-math-audit:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Checkout repository
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    # 2. Set up Python
     - name: Set up Python 3.10
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
-    # 3. Install dependencies
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install pandas numpy matplotlib scipy
 
-    # 4. Run Chi Mach Interrogator
-    #    Uses continue-on-error so a missing data file does not
-    #    block the mass audit from running.
+    # 1 — Mach interrogator (no data yet — non-blocking)
     - name: Run Chi Mach Interrogator
       continue-on-error: true
       run: python chi_mach_interrogator.py
 
-    # 5. Run Mass Conversion Audit (corrected four-route version)
+    # 2 — Four-route vacuum energy audit
     - name: Run Mass Conversion Audit
       run: python mass_conversion_audit.py
 
-    # 6. Upload diagnostic outputs
-    - name: Archive Diagnostic Outputs
+    # 3 — Two-mechanism suppression factor
+    - name: Run Vacuum Suppression Factor
+      continue-on-error: true
+      run: python vacuum_suppression_factor.py
+             --telemetry data/cme_heartbeat_log_2025_12.csv
+
+    # 4 — Master constants register + cross-validation
+    - name: Run LUFT Constant Analysis
+      run: python luft_constant_analysis.py
+
+    # 5 — Live chi time-series analysis (all data files)
+    - name: Run Chi Data Analysis
+      run: python chi_data_analysis.py --plot
+
+    - name: Archive All Diagnostic Outputs
       uses: actions/upload-artifact@v4
       with:
         name: Chi_Math_Diagnostics
