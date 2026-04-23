@@ -303,7 +303,7 @@ def harmonic_clustering_test(chi: np.ndarray) -> dict:
         (CHI_BOUNDARY * 4,   "binary_octave_2_0.60"),
     ]
 
-    for level, name in harmonic_levels:
+    for idx, (level, name) in enumerate(harmonic_levels):
         window  = CHI_WINDOW
         in_win  = np.sum((chi >= level - window) & (chi <= level + window))
         obs_pct = 100 * in_win / len(chi)
@@ -311,7 +311,7 @@ def harmonic_clustering_test(chi: np.ndarray) -> dict:
         excess  = obs_pct / exp_pct if exp_pct > 0 else 0
         results[name] = {
             "level":        level,
-            "octave":       f"χ × 2^{harmonic_levels.index((level, name))}",
+            "octave":       f"χ × 2^{idx}",
             "n_in_window":  int(in_win),
             "observed_pct": round(obs_pct, 2),
             "expected_pct": round(exp_pct, 2),
