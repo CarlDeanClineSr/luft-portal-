@@ -9,8 +9,8 @@ If symmetric sidebands are present with error < 5%, the oscillating
 lens hypothesis has instrumental support.
 
 Usage:
-    python wav_sideband_scan.py --file HDSDR_20250806_135410Z_7468kHz_RF.wav
-    python wav_sideband_scan.py --all   # scan all HDSDR files in current dir
+    python wav_sideband_scan.py --file data/sdr/HDSDR_20250806_135410Z_7468kHz_RF.wav
+    python wav_sideband_scan.py --all   # scan all HDSDR files in data/sdr/
 """
 
 import numpy as np
@@ -68,18 +68,16 @@ def read_wav_samples(filepath):
     else:
         raise ValueError(f"Unsupported bit depth: {bits}")
     
-    # If stereo, take left channel (IQ: I = left)
+    # If stereo, take left channel
     if n_channels == 2:
         samples = samples[::2]
     
     return samples, sample_rate
 
-
 def compute_envelope(samples, sample_rate, block_size=None):
     """
     Compute amplitude envelope via RMS in sliding blocks.
-    This gives us the low-frequency modulation of the RF signal.
-    Block size ~0.05s gives resolution down to ~10 Hz.
+    This isolates the low-frequency modulation of the RF signal.
     """
     if block_size is None:
         block_size = max(1, int(sample_rate * 0.025))  # 25ms blocks
@@ -89,14 +87,12 @@ def compute_envelope(samples, sample_rate, block_size=None):
         np.sqrt(np.mean(samples[i*block_size:(i+1)*block_size]**2))
         for i in range(n_blocks)
     ])
-    envelope_rate = sample_rate / block_size  # effective sample rate of envelope
+    envelope_rate = sample_rate / block_size
     return envelope, envelope_rate
-
 
 def scan_for_sideband(filepath):
     """
     Full pipeline: load WAV → envelope → FFT → search for 20.55 Hz sideband.
-    Returns result dict.
     """
     result = {
         "file": str(filepath),
@@ -117,23 +113,22 @@ def scan_for_sideband(filepath):
         result["sample_rate_hz"] = fs
         result["duration_seconds"] = len(samples) / fs
         
-        # Step 1: Get amplitude envelope
+        # Get amplitude envelope
         envelope, env_rate = compute_envelope(samples, fs)
         result["envelope_sample_rate"] = env_rate
         
-        # Nyquist check — can we see 20.55 Hz?
+        # Nyquist check
         nyquist = env_rate / 2
         if nyquist < F_RING * 1.5:
             result["note"] = f"Nyquist ({nyquist:.1f} Hz) too low for {F_RING} Hz detection"
             return result
         
-        # Step 2: FFT of envelope
+        # FFT of envelope
         n = len(envelope)
         fft_mag = np.abs(np.fft.rfft(envelope - np.mean(envelope)))
         freqs   = np.fft.rfftfreq(n, d=1.0/env_rate)
         
-        # Step 3: Find dominant carrier in envelope (strongest low-freq component)
-        # Search below 5 Hz for the modulation carrier
+        # Find dominant carrier in envelope (below 5 Hz)
         carrier_mask = (freqs > 0.01) & (freqs < 5.0)
         if np.any(carrier_mask):
             carrier_idx = np.where(carrier_mask)[0][np.argmax(fft_mag[carrier_mask])]
@@ -142,35 +137,19 @@ def scan_for_sideband(filepath):
             result["carrier_freq_hz"] = float(carrier_freq)
             result["carrier_amplitude"] = float(carrier_amp)
         
-        # Step 4: Search for 20.55 Hz peak in envelope spectrum
-        ring_mask = (freqs > F_RING - SIDEBAND_TOL) & (freqs < F_RING + SIDEBAND_TOL)
-        if not np.any(ring_mask):
-            result["note"] = "20.55 Hz band not resolvable at this envelope rate"
-            return result
-        
-        ring_peak_idx = np.where(ring_mask)[0][np.argmax(fft_mag[ring_mask])]
-        ring_freq     = freqs[ring_peak_idx]
-        ring_amp      = fft_mag[ring_peak_idx]
-        
-        # Step 5: If carrier found, look for sidebands AT carrier ± 20.55 Hz
+        # Check for sidebands AT carrier ± 20.55 Hz
         if result["carrier_freq_hz"]:
             f_c = result["carrier_freq_hz"]
             
-            # Upper sideband: f_c + 20.55
             up_target = f_c + F_RING
-            up_mask   = (freqs > up_target - SIDEBAND_TOL) & \
-                        (freqs < up_target + SIDEBAND_TOL)
+            up_mask   = (freqs > up_target - SIDEBAND_TOL) & (freqs < up_target + SIDEBAND_TOL)
             
-            # Lower sideband: f_c - 20.55 (if > 0)
             lo_target = f_c - F_RING
-            lo_mask   = (freqs > max(0.01, lo_target - SIDEBAND_TOL)) & \
-                        (freqs < lo_target + SIDEBAND_TOL) & (freqs > 0)
+            lo_mask   = (freqs > max(0.01, lo_target - SIDEBAND_TOL)) & (freqs < lo_target + SIDEBAND_TOL) & (freqs > 0)
             
             if np.any(up_mask) and np.any(lo_mask):
-                up_amp = float(fft_mag[np.where(up_mask)[0]
-                                       [np.argmax(fft_mag[up_mask])]])
-                lo_amp = float(fft_mag[np.where(lo_mask)[0]
-                                       [np.argmax(fft_mag[lo_mask])]])
+                up_amp = float(fft_mag[np.where(up_mask)[0][np.argmax(fft_mag[up_mask])]])
+                lo_amp = float(fft_mag[np.where(lo_mask)[0][np.argmax(fft_mag[lo_mask])]])
                 
                 sym_err = abs(up_amp - lo_amp) / max(up_amp, lo_amp)
                 
@@ -183,49 +162,27 @@ def scan_for_sideband(filepath):
                 result["confirmed"]          = sym_err < SYM_ERR_MAX
                 
                 if result["confirmed"]:
-                    result["note"] = (
-                        f"CONFIRMED: Symmetric sidebands at f_c ± {F_RING} Hz "
-                        f"(symmetry error {sym_err*100:.2f}% < 5%) — "
-                        f"oscillating lens signature present"
-                    )
+                    result["note"] = f"CONFIRMED: Symmetric sidebands at f_c ± {F_RING} Hz (symmetry error {sym_err*100:.2f}% < 5%)"
                 else:
-                    result["note"] = (
-                        f"Sidebands present but asymmetric "
-                        f"(symmetry error {sym_err*100:.2f}% > 5%) — "
-                        f"possible partial signature"
-                    )
-        
-        # Also report the raw 20.55 Hz power regardless of carrier
-        result["f_ring_amplitude"] = float(ring_amp)
-        result["f_ring_detected_hz"] = float(ring_freq)
-        
-        # Background noise floor for SNR
-        noise_mask = (freqs > 1.0) & (freqs < 100.0)
-        noise_floor = np.median(fft_mag[noise_mask]) if np.any(noise_mask) else 1.0
-        result["f_ring_snr"] = float(ring_amp / noise_floor) if noise_floor > 0 else 0
+                    result["note"] = f"Sidebands present but asymmetric (symmetry error {sym_err*100:.2f}% > 5%)"
         
     except Exception as e:
         result["note"] = f"Error: {str(e)}"
     
     return result
 
-
 def main():
-    parser = argparse.ArgumentParser(
-        description="Scan HDSDR WAV files for 20.55 Hz LUFT integrity frequency sideband"
-    )
+    parser = argparse.ArgumentParser(description="Scan HDSDR WAV files for 20.55 Hz LUFT sideband")
     parser.add_argument('--file', type=str, help='Single WAV file to scan')
-    parser.add_argument('--all',  action='store_true',
-                        help='Scan all HDSDR_*.wav files in current directory')
-    parser.add_argument('--output', type=str, default='sideband_scan_results.json',
-                        help='Output JSON file (default: sideband_scan_results.json)')
+    parser.add_argument('--all',  action='store_true', help='Scan all HDSDR_*.wav files in data/sdr/')
+    parser.add_argument('--output', type=str, default='diagnostic_outputs/wav_sideband_scan_results.json')
     args = parser.parse_args()
     
     files = []
     if args.all:
-        files = sorted(glob.glob('HDSDR_*.wav'))
+        files = sorted(glob.glob('data/sdr/HDSDR_*.wav'))
         if not files:
-            print("No HDSDR_*.wav files found in current directory.")
+            print("No HDSDR_*.wav files found in data/sdr/.")
             return
     elif args.file:
         files = [args.file]
@@ -233,50 +190,40 @@ def main():
         parser.print_help()
         return
     
-    print(f"\n{'='*60}")
-    print(f"  LUFT WAV SIDEBAND SCANNER")
-    print(f"  Target: {F_RING} Hz integrity frequency")
-    print(f"  Confirmation threshold: symmetry error < {SYM_ERR_MAX*100:.0f}%")
-    print(f"{'='*60}\n")
+    Path("diagnostic_outputs").mkdir(exist_ok=True)
+    
+    print("="*70)
+    print(f"LUFT WAV SIDEBAND SCANNER")
+    print(f"Target: {F_RING} Hz integrity frequency")
+    print("="*70)
     
     all_results = []
     confirmed_count = 0
     
     for fpath in files:
-        print(f"Scanning: {Path(fpath).name}")
+        print(f"\nScanning: {Path(fpath).name}")
         r = scan_for_sideband(fpath)
         all_results.append(r)
         
-        status = "✅ CONFIRMED" if r["confirmed"] else \
-                 ("⚡ DETECTED"  if r["sideband_detected"] else "— not detected")
+        status = "✅ CONFIRMED" if r["confirmed"] else ("⚡ DETECTED"  if r["sideband_detected"] else "— not detected")
+        sym_str = f"  sym_err: {r['symmetry_error']*100:.1f}%" if r.get('symmetry_error') is not None else ""
         
-        snr_str = f"  SNR@20.55Hz: {r.get('f_ring_snr', 0):.1f}" \
-                  if r.get('f_ring_snr') else ""
-        sym_str = f"  sym_err: {r['symmetry_error']*100:.1f}%" \
-                  if r.get('symmetry_error') is not None else ""
-        
-        print(f"  {status}{snr_str}{sym_str}")
+        print(f"  {status}{sym_str}")
         if r["note"]:
             print(f"  → {r['note']}")
-        print()
         
         if r["confirmed"]:
             confirmed_count += 1
     
-    # Summary
-    print(f"{'='*60}")
-    print(f"  SCAN COMPLETE: {len(files)} files")
-    print(f"  Confirmed signatures: {confirmed_count} / {len(files)}")
+    print("\n" + "="*70)
+    print(f"SCAN COMPLETE: {len(files)} files")
+    print(f"Confirmed signatures: {confirmed_count} / {len(files)}")
     if confirmed_count > 0:
-        print(f"  ✅ 20.55 Hz oscillating lens signature present in data")
-    else:
-        print(f"  No confirmed symmetric sidebands found")
-    print(f"  Full results → {args.output}")
-    print(f"{'='*60}\n")
+        print(f"✅ 20.55 Hz oscillating lens signature present in data")
+    print("="*70)
     
     with open(args.output, 'w') as f:
         json.dump(all_results, f, indent=2)
-
 
 if __name__ == "__main__":
     main()
