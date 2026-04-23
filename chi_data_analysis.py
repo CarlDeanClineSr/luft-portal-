@@ -271,15 +271,21 @@ def harmonic_clustering_test(chi: np.ndarray) -> dict:
     PATCHED 2026-04-23 — Binary Harmonic Clustering Test (Powers of 2)
 
     Tests whether chi values cluster at binary octaves of the fundamental:
-      Fundamental:      χ = 0.15       (χ × 2^0)
-      Binary octave 1:  χ = 0.30       (χ × 2^1)
-      Binary octave 2:  χ = 0.60       (χ × 2^2)
-
-    Evidence basis: Binary scaling chart shows 6h-mode / T_ci ratio
-    tracks magnetic field strength at exactly 2^10 → 2^11 → 2^12 steps,
-    and all 13 temporal modes at B=7 nT land on binary power levels
-    (2^11 through 2^14+). The substrate appears to organise in binary
-    octaves, NOT linear multiples (0.15 → 0.30 → 0.45).
+ # ── PRIORITY 1: Data Provenance / Scale Check ────────────────────────
+    # If median chi > 1.0 this is raw magnetic field data (nT), not a
+    # normalized Imperial χ ratio (which lives in [0.0, 0.15]).
+    # Flagging and skipping prevents these files from corrupting aggregate stats.
+    chi_median = float(np.median(chi))
+    chi_maximum = float(chi.max())
+    
+    if chi_median > 1.0 or chi_maximum > 1.0:
+        return {
+            "file":        filepath,
+            "chi_col":     chi_col,
+            "n_loaded":    n_loaded,
+            "chi_median":  round(chi_median, 4),
+            "status":      f"WRONG_SCALE — Raw data detected (median: {chi_median:.3f}, max: {chi_maximum:.3f}). Skipping.",
+        }
 
     Previous test used linear multiples (0.45 = 3× fundamental).
     This patch tests binary octaves (0.60 = 4× fundamental = 2^2 × fundamental).
