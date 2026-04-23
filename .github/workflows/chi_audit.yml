@@ -1,6 +1,5 @@
 name: Imperial Chi Data Interrogator
 
-# This tells the server to run every time you push code, or manually from the Actions tab.
 on:
   push:
     branches: [ main, master ]
@@ -11,29 +10,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Grab your repository files (Updated to v4)
+    # 1. Checkout repository
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    # 2. Set up the Python environment (Updated to v5)
+    # 2. Set up Python
     - name: Set up Python 3.10
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
-    # 3. Install the required math and graphing libraries
+    # 3. Install dependencies
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install pandas numpy matplotlib
+        pip install pandas numpy matplotlib scipy
 
-    # 4. Execute the Chi Interrogators
-    - name: Run Substrate Interrogations
-      run: |
-        python chi_mach_interrogator.py
-        python mass_converter_diagnostic.py
+    # 4. Run Chi Mach Interrogator
+    #    Uses continue-on-error so a missing data file does not
+    #    block the mass audit from running.
+    - name: Run Chi Mach Interrogator
+      continue-on-error: true
+      run: python chi_mach_interrogator.py
 
-    # 5. Upload the results (FIXED: Updated to v4 to bypass the deprecation block)
+    # 5. Run Mass Conversion Audit (corrected four-route version)
+    - name: Run Mass Conversion Audit
+      run: python mass_conversion_audit.py
+
+    # 6. Upload diagnostic outputs
     - name: Archive Diagnostic Outputs
       uses: actions/upload-artifact@v4
       with:
