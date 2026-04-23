@@ -48,8 +48,12 @@ KEY TESTS
 ---------
   ATTRACTOR TEST:    occupation in [0.145, 0.155] vs uniform baseline
                      Confirm: excess ratio > 3× (your result: ~6×)
-  HARMONIC TEST:     occupation near 0.30, 0.45 vs uniform baseline
-                     Confirm: excess ratio > 3× at each harmonic
+  BINARY HARMONIC:   occupation near 0.30 (2¹×χ), 0.60 (2²×χ) vs uniform
+                     Evidence: binary scaling chart shows 2^n mode structure
+                     Confirm: excess ratio > 3× at binary octave levels
+  SCALE CHECK:       files with median chi > 1.0 are flagged WRONG_SCALE
+                     and excluded from aggregate — prevents raw nT data
+                     from corrupting the normalized chi statistics
   VIOLATION TEST:    any χ > 0.15?
                      Confirm: 0 violations (your result: 0.0%)
   CLUSTERING TEST:   is chi distribution peaked AT 0.15 (attractor)
@@ -264,40 +268,58 @@ def violation_audit(chi: np.ndarray, timestamps=None) -> dict:
 
 def harmonic_clustering_test(chi: np.ndarray) -> dict:
     """
-    Test 3: Do chi values cluster at 0.30 and 0.45 (harmonics)?
+    PATCHED 2026-04-23 — Binary Harmonic Clustering Test (Powers of 2)
 
-    This is the test that detect_harmonic_modes.py does NOT perform.
-    Binning into mode categories ≠ testing for attractor clustering.
+    Tests whether chi values cluster at binary octaves of the fundamental:
+      Fundamental:      χ = 0.15       (χ × 2^0)
+      Binary octave 1:  χ = 0.30       (χ × 2^1)
+      Binary octave 2:  χ = 0.60       (χ × 2^2)
 
-    For each harmonic level, compute:
-      - Observed occupation fraction in [level ± 0.005]
-      - Expected fraction if chi were uniform in [0, 0.45]
-      - Excess ratio: observed / expected
-      - If excess ratio > 3× → real harmonic attractor
+    Evidence basis: Binary scaling chart shows 6h-mode / T_ci ratio
+    tracks magnetic field strength at exactly 2^10 → 2^11 → 2^12 steps,
+    and all 13 temporal modes at B=7 nT land on binary power levels
+    (2^11 through 2^14+). The substrate appears to organise in binary
+    octaves, NOT linear multiples (0.15 → 0.30 → 0.45).
+
+    Previous test used linear multiples (0.45 = 3× fundamental).
+    This patch tests binary octaves (0.60 = 4× fundamental = 2^2 × fundamental).
+
+    For each level:
+      - Count observations in [level - 0.005, level + 0.005]
+      - Compare to uniform baseline expectation
+      - Excess ratio > 3× → real attractor at that level
     """
     results = {}
-    chi_range = min(chi.max(), 0.50) - chi.min()
+    # Cap chi_range at 1.0 — values above 1.0 are wrong-scale data
+    # that should have been caught by the scale check in analyze_file.
+    # This cap is a safety net.
+    chi_range = min(chi.max(), 1.0) - chi.min()
     if chi_range <= 0:
-        chi_range = 0.50
+        chi_range = 1.0
 
-    for level, name in [(CHI_BOUNDARY, "fundamental_0.15"),
-                         (CHI_HARMONIC_2, "harmonic_1st_0.30"),
-                         (CHI_HARMONIC_3, "harmonic_2nd_0.45")]:
-        window   = CHI_WINDOW
-        in_win   = np.sum((chi >= level - window) & (chi <= level + window))
-        obs_pct  = 100 * in_win / len(chi)
-        exp_pct  = 100 * (2 * window) / chi_range
-        excess   = obs_pct / exp_pct if exp_pct > 0 else 0
+    harmonic_levels = [
+        (CHI_BOUNDARY,       "fundamental_0.15"),
+        (CHI_BOUNDARY * 2,   "binary_octave_1_0.30"),
+        (CHI_BOUNDARY * 4,   "binary_octave_2_0.60"),
+    ]
+
+    for idx, (level, name) in enumerate(harmonic_levels):
+        window  = CHI_WINDOW
+        in_win  = np.sum((chi >= level - window) & (chi <= level + window))
+        obs_pct = 100 * in_win / len(chi)
+        exp_pct = 100 * (2 * window) / chi_range
+        excess  = obs_pct / exp_pct if exp_pct > 0 else 0
         results[name] = {
-            "level":         level,
-            "n_in_window":   int(in_win),
-            "observed_pct":  round(obs_pct, 2),
-            "expected_pct":  round(exp_pct, 2),
-            "excess_ratio":  round(excess, 2),
-            "is_attractor":  excess > 3.0,
-            "status":        "✅ ATTRACTOR" if excess > 3.0
-                             else ("⚡ WEAK" if excess > 1.5
-                                   else "— no clustering"),
+            "level":        level,
+            "octave":       f"χ × 2^{idx}",
+            "n_in_window":  int(in_win),
+            "observed_pct": round(obs_pct, 2),
+            "expected_pct": round(exp_pct, 2),
+            "excess_ratio": round(excess, 2),
+            "is_attractor": excess > 3.0,
+            "status":       "✅ BINARY ATTRACTOR" if excess > 3.0
+                            else ("⚡ WEAK" if excess > 1.5
+                                  else "— no clustering"),
         }
     return results
 
@@ -458,6 +480,21 @@ def analyze_file(file_info: dict) -> dict:
     if chi is None or len(chi) < 10:
         return {"file": filepath, "status": "SKIPPED — insufficient data"}
 
+    # ── PRIORITY 1: Data Provenance / Scale Check ────────────────────────
+    # If median chi > 1.0 this is raw magnetic field data (nT), not a
+    # normalized Imperial χ ratio (which lives in [0.0, 0.15]).
+    # Flagging and skipping prevents these files from corrupting aggregate stats.
+    chi_median = float(np.median(chi))
+    if chi_median > 1.0:
+        return {
+            "file":        filepath,
+            "chi_col":     chi_col,
+            "n_loaded":    n_loaded,
+            "chi_median":  round(chi_median, 4),
+            "status":      "WRONG_SCALE — Raw data detected (median > 1.0). "
+                           "This file contains raw field values, not normalized χ. Skipping.",
+        }
+
     dt_hours = estimate_dt(timestamps)
 
     result = {
@@ -508,11 +545,11 @@ def aggregate_results(file_results: list) -> dict:
     # Harmonic summary
     harm_2_attractors = sum(
         1 for r in valid
-        if r["harmonics"].get("harmonic_1st_0.30", {}).get("is_attractor", False)
+        if r["harmonics"].get("binary_octave_1_0.30", {}).get("is_attractor", False)
     )
     harm_3_attractors = sum(
         1 for r in valid
-        if r["harmonics"].get("harmonic_2nd_0.45", {}).get("is_attractor", False)
+        if r["harmonics"].get("binary_octave_2_0.60", {}).get("is_attractor", False)
     )
     fund_attractors = sum(
         1 for r in valid
@@ -569,9 +606,9 @@ def print_file_summary(r: dict):
     print(f"  VIOLATIONS {v['status']}  (χ_max={v['chi_max']:.6f})")
     print()
     print(f"  HARMONICS")
-    for key, hname in [("fundamental_0.15", "χ=0.15"),
-                        ("harmonic_1st_0.30", "χ=0.30"),
-                        ("harmonic_2nd_0.45", "χ=0.45")]:
+    for key, hname in [("fundamental_0.15",    "χ=0.15 (fundamental)"),
+                        ("binary_octave_1_0.30", "χ=0.30 (2¹×χ)"),
+                        ("binary_octave_2_0.60", "χ=0.60 (2²×χ)")]:
         hd = h.get(key, {})
         print(f"    {hname}:  {hd.get('observed_pct',0):.1f}% obs  "
               f"/{hd.get('expected_pct',0):.1f}% exp  "
@@ -668,8 +705,8 @@ def generate_plot(file_results: list, agg: dict, output_path: str):
 
     # ── Panel 2: Excess ratio per file & harmonic level ───────────────────
     ax2 = axes[0, 1]
-    h_keys  = ["fundamental_0.15", "harmonic_1st_0.30", "harmonic_2nd_0.45"]
-    h_names = ["χ=0.15", "χ=0.30", "χ=0.45"]
+    h_keys  = ["fundamental_0.15", "binary_octave_1_0.30", "binary_octave_2_0.60"]
+    h_names = ["χ=0.15 (fund.)", "χ=0.30 (2¹×χ)", "χ=0.60 (2²×χ)"]
     colors  = ['steelblue', 'green', 'orange']
     for hi, (hk, hn, hc) in enumerate(zip(h_keys, h_names, colors)):
         excesses = [r["harmonics"].get(hk, {}).get("excess_ratio", 0)
@@ -681,7 +718,7 @@ def generate_plot(file_results: list, agg: dict, output_path: str):
     ax2.set_xticks(list(range(len(valid))))
     ax2.set_xticklabels(names, rotation=30, ha='right', fontsize=7)
     ax2.set_ylabel("Excess ratio (obs/uniform)")
-    ax2.set_title("Harmonic Clustering Excess Ratios")
+    ax2.set_title("Binary Octave Clustering Excess Ratios")
     ax2.legend(fontsize=8)
     ax2.grid(axis='y', alpha=0.3)
 
@@ -823,12 +860,13 @@ Examples:
             f"Attractor: {agg.get('aggregate_boundary_pct', 0):.1f}% "
             f"(target {ATTRACTOR_TARGET}%). "
             f"Violations: {agg.get('aggregate_violation_pct', 0):.4f}%. "
-            f"Harmonic 0.30 confirmed in "
+            f"Binary octave 0.30 (2¹×χ) confirmed in "
             f"{agg.get('files_confirming_harmonic_2', 0)}/"
             f"{agg.get('n_files_analyzed', 0)} files. "
-            f"Harmonic 0.45 confirmed in "
+            f"Binary octave 0.60 (2²×χ) confirmed in "
             f"{agg.get('files_confirming_harmonic_3', 0)}/"
-            f"{agg.get('n_files_analyzed', 0)} files."
+            f"{agg.get('n_files_analyzed', 0)} files. "
+            f"Wrong-scale files excluded from aggregate."
         )
     }
 
