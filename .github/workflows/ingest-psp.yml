@@ -1,0 +1,34 @@
+name: PSP Data Ingest (Batch)
+
+on:
+  schedule:
+    - cron: '0 3 * * *'   # Runs daily at 03:00 UTC
+  workflow_dispatch:      # Allows manual trigger
+
+jobs:
+  ingest-psp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run PSP Batch Ingest
+        run: python scripts/ingest_psp_batch.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main --autostash
+          git add data/psp/psp_daily.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "PSP batch ingest $(date -u +'%Y-%m-%d')"
+            git push
+          fi
