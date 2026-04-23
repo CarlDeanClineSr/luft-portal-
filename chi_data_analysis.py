@@ -268,17 +268,17 @@ def violation_audit(chi: np.ndarray, timestamps=None) -> dict:
 
 def harmonic_clustering_test(chi: np.ndarray) -> dict:
     """
-    PATCHED 2026-04-23 — Binary Harmonic Clustering Test (Powers of 2)
-
-    Tests whether chi values cluster at binary octaves of the fundamental:
- # ── PRIORITY 1: Data Provenance / Scale Check ────────────────────────
-    # If median chi > 1.0 this is raw magnetic field data (nT), not a
-    # normalized Imperial χ ratio (which lives in [0.0, 0.15]).
-    # Flagging and skipping prevents these files from corrupting aggregate stats.
     chi_median = float(np.median(chi))
     chi_maximum = float(chi.max())
     
     if chi_median > 1.0 or chi_maximum > 1.0:
+        return {
+            "file":        filepath,
+            "chi_col":     chi_col,
+            "n_loaded":    n_loaded,
+            "chi_median":  round(chi_median, 4),
+            "status":      f"WRONG_SCALE — Raw data detected (median: {chi_median:.3f}, max: {chi_maximum:.3f}). Skipping.",
+        } 
         return {
             "file":        filepath,
             "chi_col":     chi_col,
