@@ -1,275 +1,104 @@
 #!/usr/bin/env python3
 """
-Repository Knowledge Index Builder — v2
-Scans the full LUFT Portal repo and builds a clean, searchable index.
-Now handles JSON reports, physics keywords, timestamps, and better previews.
-
-Author: LUFT Portal System (updated by Grok for Carl Dean Cline Sr.)
-Usage: python3 scripts/build_repo_knowledge_v2.py
+LUFT Knowledge Index — v3
+Imperial-style repo scanner. 
+No bloat. Just indexes what matters and spits out clean JSON + MD.
+For Carl Dean Cline Sr. — Imperial Physics Observatory
 """
 
 import os
 import json
 import hashlib
-import re
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, List
 
-# Optional TF-IDF
-SKLEARN_AVAILABLE = False
-try:
-    from sklearn.feature_extraction.text import TfidfVectorizer
-    SKLEARN_AVAILABLE = True
-except ImportError:
-    pass
+REPO_ROOT = Path(__file__).resolve().parent.parent
 
-# Expanded scan paths (covers everything in your repo)
-SCAN_PATHS = [
-    ".", "docs", "papers", "results", "figures", "data", "reports",
-    "capsules", "analyses", "scripts", "constants", "measurements",
-]
+SCAN_PATHS = [".", "docs", "papers", "results", "reports", "capsules", "analyses", "data", "scripts"]
+TEXT_EXT = {".md", ".txt"}
+JSON_EXT = {".json"}
+CSV_EXT = {".csv"}
 
-# File patterns
-TEXT_PATTERNS = ["*.md", "*.txt"]
-CSV_PATTERN = "*.csv"
-JSON_PATTERN = "*.json"
+EXCLUDE = {".git", ".github", "__pycache__", "venv", ".venv", "node_modules"}
 
-# Exclusions
-EXCLUDE_DIRS = {".git", ".github", "node_modules", "__pycache__", ".venv", "venv"}
-EXCLUDE_FILES = {"index.json", "KNOWLEDGE_INDEX.md", "KNOWLEDGE_INDEX_v2.md"}
-
-# Output
-OUTPUT_JSON = "data/knowledge/index.json"
-OUTPUT_MD = "docs/KNOWLEDGE_INDEX_v2.md"
-
-MAX_PREVIEW_LEN = 300
-MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024
-
-# Physics boost terms
-PHYSICS_BOOST = {"chi", "χ", "f_ring", "mode 8", "attractor", "substrate", "vacuum", "cme", "psp", "luft", "cline"}
+MAX_PREVIEW = 300
 
 
-def should_skip(path: Path) -> bool:
-    for part in path.parts:
-        if part in EXCLUDE_DIRS:
-            return True
-    if path.name in EXCLUDE_FILES:
-        return True
-    if path.suffix.lower() in {".wav", ".h5", ".mp4", ".png", ".jpg", ".jpeg", ".gif", ".pdf"}:
-        return True
-    return False
+def hash_file(p: Path) -> str:
+    h = hashlib.sha256()
+    with open(p, "rb") as f:
+        for chunk in iter(lambda: f.read(8192), b""):
+            h.update(chunk)
+    return h.hexdigest()
 
 
-def compute_sha256(filepath: Path) -> str:
-    sha256_hash = hashlib.sha256()
+def get_preview(p: Path) -> str:
     try:
-        with open(filepath, "rb") as f:
-            for byte_block in iter(lambda: f.read(4096), b""):
-                sha256_hash.update(byte_block)
-        return sha256_hash.hexdigest()
-    except Exception:
-        return "error"
+        with open(p, "r", encoding="utf-8", errors="ignore") as f:
+            text = f.read(MAX_PREVIEW * 5)
+        # Remove YAML frontmatter if present
+        if text.startswith("---"):
+            text = text.split("---", 2)[-1]
+        return text[:MAX_PREVIEW].replace("\n", " ").strip() + ("..." if len(text) > MAX_PREVIEW else "")
+    except:
+        return ""
 
 
-def get_last_modified(filepath: Path) -> str:
-    try:
-        return datetime.fromtimestamp(filepath.stat().st_mtime).astimezone().isoformat()
-    except Exception:
-        return "unknown"
-
-
-def extract_title(content: str, filename: str) -> str:
-    lines = content.strip().split("\n")
-    for line in lines[:30]:
-        line = line.strip()
-        if line.startswith("# "):
-            return line.lstrip("# ").strip()
-        if line.startswith("title:") or line.startswith("Title:"):
-            return line.split(":", 1)[1].strip().strip('"\'')
-    return filename.replace("_", " ").title()
-
-
-def extract_preview(content: str) -> str:
-    lines = content.strip().split("\n")
-    # Skip YAML frontmatter
-    start = 0
-    if lines and lines[0].strip() == "---":
-        for i, line in enumerate(lines[1:], 1):
-            if line.strip() == "---":
-                start = i + 1
-                break
-    preview = " ".join([line.strip() for line in lines[start:start+15] if line.strip()])
-    if len(preview) > MAX_PREVIEW_LEN:
-        return preview[:MAX_PREVIEW_LEN] + "..."
-    return preview
-
-
-def extract_keywords(content: str, n_keywords: int = 8) -> List[str]:
-    # Simple frequency + physics boost
-    words = re.findall(r'\b[a-z0-9_χ]{3,}\b', content.lower())
-    word_freq = {}
-    for w in words:
-        if w in PHYSICS_BOOST:
-            word_freq[w] = word_freq.get(w, 0) + 10  # boost
-        elif len(w) >= 3:
-            word_freq[w] = word_freq.get(w, 0) + 1
-
-    sorted_words = sorted(word_freq.items(), key=lambda x: x[1], reverse=True)
-    return [word for word, _ in sorted_words[:n_keywords]]
-
-
-def index_text_file(filepath: Path, repo_root: Path) -> Dict:
-    try:
-        with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
-            content = f.read()
-        rel_path = str(filepath.relative_to(repo_root))
-        return {
-            "path": rel_path,
-            "name": filepath.name,
-            "kind": "text",
-            "title": extract_title(content, filepath.name),
-            "preview": extract_preview(content),
-            "line_count": len(content.split("\n")),
-            "size_bytes": filepath.stat().st_size,
-            "last_modified": get_last_modified(filepath),
-            "sha256": compute_sha256(filepath),
-            "keywords": extract_keywords(content),
-            "indexed_at": datetime.now().astimezone().isoformat()
-        }
-    except Exception as e:
-        return {"path": str(filepath.relative_to(repo_root)), "error": str(e)}
-
-
-def index_csv_file(filepath: Path, repo_root: Path) -> Dict:
-    try:
-        with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
-            lines = f.readlines()
-        headers = [h.strip() for h in lines[0].split(",")] if lines else []
-        return {
-            "path": str(filepath.relative_to(repo_root)),
-            "name": filepath.name,
-            "kind": "csv",
-            "title": filepath.stem.replace("_", " ").title(),
-            "headers": headers[:10],
-            "line_count": len(lines),
-            "size_bytes": filepath.stat().st_size,
-            "last_modified": get_last_modified(filepath),
-            "sha256": compute_sha256(filepath),
-            "indexed_at": datetime.now().astimezone().isoformat()
-        }
-    except Exception as e:
-        return {"path": str(filepath.relative_to(repo_root)), "error": str(e)}
-
-
-def index_json_file(filepath: Path, repo_root: Path) -> Dict:
-    try:
-        with open(filepath, 'r', encoding='utf-8', errors='ignore') as f:
-            data = json.load(f)
-        preview = json.dumps(data, indent=2)[:MAX_PREVIEW_LEN] + "..." if isinstance(data, dict) else str(data)[:MAX_PREVIEW_LEN]
-        return {
-            "path": str(filepath.relative_to(repo_root)),
-            "name": filepath.name,
-            "kind": "json",
-            "title": filepath.stem.replace("_", " ").title(),
-            "preview": preview,
-            "size_bytes": filepath.stat().st_size,
-            "last_modified": get_last_modified(filepath),
-            "sha256": compute_sha256(filepath),
-            "keywords": ["json", "report", "chi", "luft"] + extract_keywords(str(data)),
-            "indexed_at": datetime.now().astimezone().isoformat()
-        }
-    except Exception as e:
-        return {"path": str(filepath.relative_to(repo_root)), "error": str(e)}
-
-
-def scan_repository(repo_root: Path) -> List[Dict]:
-    indexed_files = []
-    for scan_path in SCAN_PATHS:
-        search_dir = repo_root / scan_path
-        if not search_dir.exists():
-            continue
-        # Text & Markdown
-        for pattern in TEXT_PATTERNS:
-            for filepath in search_dir.rglob(pattern):
-                if should_skip(filepath) or filepath.stat().st_size > MAX_FILE_SIZE_BYTES:
-                    continue
-                entry = index_text_file(filepath, repo_root)
-                indexed_files.append(entry)
-        # CSV
-        for filepath in search_dir.rglob(CSV_PATTERN):
-            if should_skip(filepath) or filepath.stat().st_size > MAX_FILE_SIZE_BYTES:
-                continue
-            entry = index_csv_file(filepath, repo_root)
-            indexed_files.append(entry)
-        # JSON reports
-        for filepath in search_dir.rglob(JSON_PATTERN):
-            if should_skip(filepath) or filepath.stat().st_size > MAX_FILE_SIZE_BYTES:
-                continue
-            entry = index_json_file(filepath, repo_root)
-            indexed_files.append(entry)
-    indexed_files.sort(key=lambda x: x.get("path", ""))
-    return indexed_files
-
-
-def write_json_index(indexed_files: List[Dict], output_path: Path):
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    index_data = {
-        "generated_at": datetime.now().astimezone().isoformat(),
-        "total_files": len(indexed_files),
-        "files": indexed_files
+def index_file(p: Path) -> dict:
+    rel = str(p.relative_to(REPO_ROOT))
+    stat = p.stat()
+    return {
+        "path": rel,
+        "name": p.name,
+        "kind": p.suffix.lower().lstrip(".") or "unknown",
+        "size": stat.st_size,
+        "modified": datetime.fromtimestamp(stat.st_mtime).isoformat(),
+        "sha256": hash_file(p),
+        "preview": get_preview(p) if p.suffix.lower() in TEXT_EXT | JSON_EXT else "",
+        "indexed": datetime.now().astimezone().isoformat()
     }
-    with open(output_path, 'w', encoding='utf-8') as f:
-        json.dump(index_data, f, indent=2, ensure_ascii=False)
-    print(f"✅ JSON index written: {output_path} ({len(indexed_files)} files)")
 
 
-def write_markdown_index(indexed_files: List[Dict], output_path: Path):
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    lines = [
-        "# LUFT Repository Knowledge Index — v2",
-        f"**Generated:** {datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')}",
-        f"**Total Files Indexed:** {len(indexed_files)}",
-        "",
-        "---",
-        ""
-    ]
-    for entry in indexed_files:
-        path = entry.get("path", "")
-        title = entry.get("title", entry.get("name", "Untitled"))
-        preview = entry.get("preview", "")[:200] + "..." if entry.get("preview") else ""
-        lines.append(f"### [{title}]({path})")
-        lines.append(f"**Path:** `{path}`  ")
-        if preview:
-            lines.append(f"**Preview:** {preview}")
+def build_index():
+    print("🔍 Building LUFT Knowledge Index v3 — Imperial style")
+    files = []
+
+    for path_str in SCAN_PATHS:
+        for item in (REPO_ROOT / path_str).rglob("*"):
+            if any(ex in item.parts for ex in EXCLUDE):
+                continue
+            if item.is_file() and item.suffix.lower() in TEXT_EXT | JSON_EXT | CSV_EXT:
+                if item.stat().st_size > 10_000_000:  # 10 MB skip
+                    continue
+                files.append(index_file(item))
+
+    files.sort(key=lambda x: x["path"])
+
+    # JSON
+    index_data = {
+        "generated": datetime.now().astimezone().isoformat(),
+        "total": len(files),
+        "files": files
+    }
+    json_out = REPO_ROOT / "data/knowledge/index.json"
+    json_out.parent.mkdir(parents=True, exist_ok=True)
+    json_out.write_text(json.dumps(index_data, indent=2), encoding="utf-8")
+    print(f"✅ JSON index → {json_out} ({len(files)} files)")
+
+    # Simple Markdown
+    md_out = REPO_ROOT / "docs/KNOWLEDGE_INDEX_v3.md"
+    lines = ["# LUFT Knowledge Index v3", f"Generated {datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S')}", f"Total files: {len(files)}", "", "---", ""]
+    for f in files:
+        lines.append(f"**{f['name']}**  ")
+        lines.append(f"`{f['path']}`  ")
+        if f.get("preview"):
+            lines.append(f"Preview: {f['preview']}")
         lines.append("")
-    lines.append("---")
-    lines.append("*Auto-generated by `scripts/build_repo_knowledge_v2.py`*")
-    with open(output_path, 'w', encoding='utf-8') as f:
-        f.write("\n".join(lines))
-    print(f"✅ Markdown index written: {output_path}")
+    md_out.write_text("\n".join(lines), encoding="utf-8")
+    print(f"✅ Markdown index → {md_out}")
 
-
-def main():
-    print("🔍 LUFT Repository Knowledge Index Builder — v2")
-    print("=" * 70)
-    repo_root = Path(__file__).resolve().parent.parent
-    print(f"Repository root: {repo_root}")
-    print()
-
-    print("Scanning repository...")
-    indexed_files = scan_repository(repo_root)
-    print(f"Found and indexed {len(indexed_files)} files")
-
-    json_path = repo_root / OUTPUT_JSON
-    md_path = repo_root / OUTPUT_MD
-
-    write_json_index(indexed_files, json_path)
-    write_markdown_index(indexed_files, md_path)
-
-    print("\n✅ Knowledge index update complete!")
-    print("   Run this script daily via GitHub Actions or manually.")
+    print("Done. Index is fresh and distinct.")
 
 
 if __name__ == "__main__":
-    main()
+    build_index()
