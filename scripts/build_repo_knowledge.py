@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-LUFT Knowledge Index — v3
+LUFT Knowledge Index — v3.1 (Unrestricted)
 Imperial-style repo scanner. 
-No bloat. Just indexes what matters and spits out clean JSON + MD.
+No bloat. Indexes the entire vault including code, telemetry, and workflows.
 For Carl Dean Cline Sr. — Imperial Physics Observatory
 """
 
@@ -14,15 +14,19 @@ from datetime import datetime
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
-SCAN_PATHS = [".", "docs", "papers", "results", "reports", "capsules", "analyses", "data", "scripts"]
+# Just scan from the root. rglob("*") will hit everything.
+SCAN_PATHS = ["."] 
+
+# Expanded to include the engineering backbone
 TEXT_EXT = {".md", ".txt"}
 JSON_EXT = {".json"}
 CSV_EXT = {".csv"}
+CODE_EXT = {".py", ".yml", ".yaml", ".sh"}
+TELEMETRY_EXT = {".wav"} # Include HDSDR files (hashes/sizes are still useful)
 
-EXCLUDE = {".git", ".github", "__pycache__", "venv", ".venv", "node_modules"}
+EXCLUDE = {".git", ".github/ISSUE_TEMPLATE", "__pycache__", "venv", ".venv", "node_modules"}
 
 MAX_PREVIEW = 300
-
 
 def hash_file(p: Path) -> str:
     h = hashlib.sha256()
@@ -31,18 +35,18 @@ def hash_file(p: Path) -> str:
             h.update(chunk)
     return h.hexdigest()
 
-
 def get_preview(p: Path) -> str:
+    # Don't try to preview binary wav files
+    if p.suffix.lower() in TELEMETRY_EXT:
+        return "[BINARY TELEMETRY FILE]"
     try:
         with open(p, "r", encoding="utf-8", errors="ignore") as f:
             text = f.read(MAX_PREVIEW * 5)
-        # Remove YAML frontmatter if present
         if text.startswith("---"):
             text = text.split("---", 2)[-1]
         return text[:MAX_PREVIEW].replace("\n", " ").strip() + ("..." if len(text) > MAX_PREVIEW else "")
     except:
         return ""
-
 
 def index_file(p: Path) -> dict:
     rel = str(p.relative_to(REPO_ROOT))
@@ -54,20 +58,22 @@ def index_file(p: Path) -> dict:
         "size": stat.st_size,
         "modified": datetime.fromtimestamp(stat.st_mtime).isoformat(),
         "sha256": hash_file(p),
-        "preview": get_preview(p) if p.suffix.lower() in TEXT_EXT | JSON_EXT else "",
+        "preview": get_preview(p) if p.suffix.lower() in TEXT_EXT | JSON_EXT | CODE_EXT | TELEMETRY_EXT else "",
         "indexed": datetime.now().astimezone().isoformat()
     }
 
-
 def build_index():
-    print("🔍 Building LUFT Knowledge Index v3 — Imperial style")
+    print("🔍 Building LUFT Knowledge Index v3.1 — Imperial style")
     files = []
+
+    # Combined all acceptable extensions
+    ALLOWED_EXT = TEXT_EXT | JSON_EXT | CSV_EXT | CODE_EXT | TELEMETRY_EXT
 
     for path_str in SCAN_PATHS:
         for item in (REPO_ROOT / path_str).rglob("*"):
             if any(ex in item.parts for ex in EXCLUDE):
                 continue
-            if item.is_file() and item.suffix.lower() in TEXT_EXT | JSON_EXT | CSV_EXT:
+            if item.is_file() and item.suffix.lower() in ALLOWED_EXT:
                 if item.stat().st_size > 10_000_000:  # 10 MB skip
                     continue
                 files.append(index_file(item))
@@ -87,9 +93,9 @@ def build_index():
 
     # Simple Markdown
     md_out = REPO_ROOT / "docs/KNOWLEDGE_INDEX_v3.md"
-    lines = ["# LUFT Knowledge Index v3", f"Generated {datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S')}", f"Total files: {len(files)}", "", "---", ""]
+    lines = ["# LUFT Knowledge Index v3.1", f"Generated {datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S')}", f"Total files: {len(files)}", "", "---", ""]
     for f in files:
-        lines.append(f"**{f['name']}**  ")
+        lines.append(f"**{f['name']}** ")
         lines.append(f"`{f['path']}`  ")
         if f.get("preview"):
             lines.append(f"Preview: {f['preview']}")
@@ -97,8 +103,7 @@ def build_index():
     md_out.write_text("\n".join(lines), encoding="utf-8")
     print(f"✅ Markdown index → {md_out}")
 
-    print("Done. Index is fresh and distinct.")
-
+    print("Done. Index is fresh, distinct, and complete.")
 
 if __name__ == "__main__":
     build_index()
