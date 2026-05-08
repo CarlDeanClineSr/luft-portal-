@@ -1,0 +1,43 @@
+name: LUFT Daily Data Harvester
+
+on:
+  schedule:
+    - cron: '0 6 * * *'          # Every day at 6 AM UTC
+  workflow_dispatch:             # Manual trigger button
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo (full current state)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0          # needed for git log recent commits
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install pandas
+
+      - name: Run Daily Harvester
+        run: python scripts/luft_daily_harvester.py
+
+      - name: Upload harvest artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: luft-daily-harvest-${{ github.run_id }}
+          path: daily_harvest/
+          retention-days: 7
+
+      # Optional: commit the new manifest back to repo
+      - name: Commit new daily manifest
+        run: |
+          git config --global user.name "LUFT Harvester Bot"
+          git config --global user.email "bot@luft-portal.org"
+          git add daily_harvest/
+          git commit -m "Daily harvest $(date -u +'%Y-%m-%d %H:%M UTC')" || echo "No changes"
+          git push
