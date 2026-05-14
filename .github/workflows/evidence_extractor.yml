@@ -1,0 +1,181 @@
+name: Evidence Package Extractor
+
+# Scans repository files and git history for three priority evidence packages:
+#   A — 122,079 Observations → G = 6.6667×10⁻¹¹ and 20.55 Hz Ring Frequency
+#   B — Mode 8 Fractures and CME Attractor Spikes
+#   C — chi=0.15 Boundary and Seismic Event Correlations
+#
+# Incremental: each run processes commits since the last checkpoint, stored
+# in the Actions cache and committed to the repo.
+
+on:
+  schedule:
+    # Every 30 minutes — balanced between freshness and Actions-minute budget.
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+    inputs:
+      max_commits:
+        description: 'Max new commits to process this run (default 500)'
+        required: false
+        default: '500'
+      packages:
+        description: 'Packages to extract — space-separated A B C (default all)'
+        required: false
+        default: 'A B C'
+      reset_checkpoint:
+        description: 'Reset checkpoint and rescan from beginning? (true/false)'
+        required: false
+        default: 'false'
+      files_only:
+        description: 'Scan files only, skip git history? (true/false)'
+        required: false
+        default: 'false'
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  OUTPUT_DIR: results/evidence_packages
+
+permissions:
+  contents: write
+
+jobs:
+  extract-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+
+    steps:
+
+      # ------------------------------------------------------------------ #
+      # 1. Full history checkout so git log can walk all commits            #
+      # ------------------------------------------------------------------ #
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ------------------------------------------------------------------ #
+      # 2. Python (no third-party packages needed — stdlib only)           #
+      # ------------------------------------------------------------------ #
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # ------------------------------------------------------------------ #
+      # 3. Resolve run parameters                                           #
+      # ------------------------------------------------------------------ #
+      - name: Resolve parameters
+        id: params
+        run: |
+          MAX="${{ github.event.inputs.max_commits || '500' }}"
+          PKGS="${{ github.event.inputs.packages || 'A B C' }}"
+          RESET="${{ github.event.inputs.reset_checkpoint || 'false' }}"
+          FONLY="${{ github.event.inputs.files_only || 'false' }}"
+
+          echo "max=$MAX"     >> "$GITHUB_OUTPUT"
+          echo "pkgs=$PKGS"   >> "$GITHUB_OUTPUT"
+          echo "reset=$RESET" >> "$GITHUB_OUTPUT"
+          echo "fonly=$FONLY" >> "$GITHUB_OUTPUT"
+
+          echo "| Param | Value |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|-------|-------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| max_commits | $MAX |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| packages | $PKGS |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| reset | $RESET |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| files_only | $FONLY |" >> "$GITHUB_STEP_SUMMARY"
+
+      # ------------------------------------------------------------------ #
+      # 4. Restore checkpoint cache                                         #
+      # ------------------------------------------------------------------ #
+      - name: Restore checkpoint
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.OUTPUT_DIR }}/.checkpoint.json
+          key: evidence-checkpoint-${{ github.ref_name }}-${{ github.run_number }}
+          restore-keys: |
+            evidence-checkpoint-${{ github.ref_name }}-
+
+      # ------------------------------------------------------------------ #
+      # 5. Run extractor                                                    #
+      # ------------------------------------------------------------------ #
+      - name: Run evidence_extractor.py
+        run: |
+          ARGS="--max-commits ${{ steps.params.outputs.max }}"
+          ARGS="$ARGS --output-dir $OUTPUT_DIR"
+          ARGS="$ARGS --packages ${{ steps.params.outputs.pkgs }}"
+
+          if [ "${{ steps.params.outputs.reset }}" = "true" ]; then
+            ARGS="$ARGS --reset-checkpoint"
+          fi
+          if [ "${{ steps.params.outputs.fonly }}" = "true" ]; then
+            ARGS="$ARGS --files-only"
+          fi
+
+          echo "python evidence_extractor.py $ARGS"
+          python evidence_extractor.py $ARGS
+
+      # ------------------------------------------------------------------ #
+      # 6. Save updated checkpoint                                          #
+      # ------------------------------------------------------------------ #
+      - name: Save checkpoint
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ env.OUTPUT_DIR }}/.checkpoint.json
+          key: evidence-checkpoint-${{ github.ref_name }}-${{ github.run_number }}
+
+      # ------------------------------------------------------------------ #
+      # 7. Upload reports as workflow artifacts                             #
+      # ------------------------------------------------------------------ #
+      - name: Upload evidence artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidence-reports-${{ github.run_number }}
+          path: ${{ env.OUTPUT_DIR }}/
+          retention-days: 90
+
+      # ------------------------------------------------------------------ #
+      # 8. Commit report files back to the repo                            #
+      # ------------------------------------------------------------------ #
+      - name: Commit reports
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Stage JSON and Markdown outputs; exclude the checkpoint file
+          git add "$OUTPUT_DIR"/*.json "$OUTPUT_DIR"/*.md 2>/dev/null || true
+
+          if git diff --cached --quiet; then
+            echo "No report changes to commit."
+          else
+            TS=$(date -u +'%Y-%m-%d %H:%M UTC')
+            git commit -m "🔬 AUTO: Evidence packages updated — $TS"
+            git pull --rebase origin "${{ github.ref_name }}" --autostash
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ------------------------------------------------------------------ #
+      # 9. Summary                                                          #
+      # ------------------------------------------------------------------ #
+      - name: Job summary
+        if: always()
+        run: |
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Evidence Extraction Results" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Completed:** $(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          for pkg in A B C; do
+            JSON="$OUTPUT_DIR/evidence_package_${pkg}.json"
+            if [ -f "$JSON" ]; then
+              TOTAL=$(python3 -c \
+                "import json; d=json.load(open('$JSON')); print(d.get('total_entries',0))" \
+                2>/dev/null || echo "?")
+              echo "- **Package ${pkg}:** ${TOTAL} entries" >> "$GITHUB_STEP_SUMMARY"
+            fi
+          done
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Artifacts: \`evidence-reports-${{ github.run_number }}\` (90-day retention)" \
+            >> "$GITHUB_STEP_SUMMARY"
