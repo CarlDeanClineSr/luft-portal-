@@ -1,6 +1,6 @@
 # LUFT Engine Priority Evidence Report
 
-**Generated:** 2026-05-14T16:07:17Z  
+**Generated:** 2026-05-14T17:13:13Z  
 **Last commit processed:** `None`  
 **Total extraction runs:** 0  
 
@@ -10,9 +10,9 @@
 
 | Package | Title | Entries |
 |---------|-------|---------|
-| **A** | 122,079 Observations → G = 6.6667×10⁻¹¹ and 20.55 Hz Ring Frequency | 150 |
-| **B** | Mode 8 Fractures and CME Attractor Spikes | 674 |
-| **C** | chi=0.15 Boundary and Seismic Event Correlations | 1297 |
+| **A** | 122,079 Observations → G = 6.6667×10⁻¹¹ and 20.55 Hz Ring Frequency | 229 |
+| **B** | Mode 8 Fractures and CME Attractor Spikes | 1005 |
+| **C** | chi=0.15 Boundary and Seismic Event Correlations | 1461 |
 
 ---
 
@@ -21,7 +21,7 @@
 _Evidence linking 122,079 real-world stress observations to the derivation of Newton's gravitational constant G and the 20.55 Hz vacuum-integrity ring frequency via the chi-VSK pipeline._
 
 **Search terms:** `122,079`, `6.6667e-11`, `20.55 Hz`, `chi-VSK`, `ring frequency`, `Route 3B`, `G_derived`  
-**Total entries:** 150
+**Total entries:** 229
 
 ### Top Evidence (up to 20 entries)
 
@@ -57,7 +57,7 @@ _Evidence linking 122,079 real-world stress observations to the derivation of Ne
 _Evidence for Mode 8 substrate fractures and CME attractor spikes visible in raw telemetry, including baseline, onset, peak, and ringdown windows._
 
 **Search terms:** `Mode 8`, `fracture`, `CME attractor`, `attractor spike`, `heartbeat`, `harmonic`, `ringdown`, `fractal echo`  
-**Total entries:** 674
+**Total entries:** 1005
 
 ### Top Evidence (up to 20 entries)
 
@@ -93,7 +93,7 @@ _Evidence for Mode 8 substrate fractures and CME attractor spikes visible in raw
 _Evidence connecting chi=0.15 magnetic-medium boundary-hit events (ACE/DSCOVR telemetry) to seismic events from USGS, testing cross-scale structural correlation._
 
 **Search terms:** `chi=0.15`, `AT_BOUNDARY`, `chi_amplitude`, `seismic`, `earthquake`, `USGS`, `DSCOVR`, `ACE`, `temporal correlation`  
-**Total entries:** 1297
+**Total entries:** 1461
 
 ### Top Evidence (up to 20 entries)
 
