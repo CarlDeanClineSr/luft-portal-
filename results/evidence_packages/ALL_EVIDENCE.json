@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-14T17:13:13Z",
-  "total_entries": 2695,
+  "generated_at": "2026-05-14T18:10:58Z",
+  "total_entries": 2702,
   "packages": [
     "A",
     "B",
@@ -14814,6 +14814,54 @@
       "commit_sha": "38336b47a01baa95c17ea046496a78f627d4e523",
       "commit_timestamp": "2026-05-09T15:08:23Z",
       "scanned_at": "2026-05-14T17:13:10Z"
+    },
+    {
+      "source": "file",
+      "category": "B",
+      "file_path": "docs/IMPERIAL_GATEKEEPER_LOG.md",
+      "line": 10,
+      "matched_term": "attractor state",
+      "matched_pattern": "attractor\\s*state",
+      "snippet": "ard academic filtering models only look for \"errors\" rather than mechanical limits, the engine processed these unscaled files as valid χ data. * **The Result:** The true physical attractor state (the geometric lock of matter to the vacuum) was mathematically diluted from >50% down to a weak 2.25%. * **The Contamination:** A single file containing raw formatting errors gen",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-05-14T18:10:56Z"
+    },
+    {
+      "source": "file",
+      "category": "B",
+      "file_path": "docs/IMPERIAL_GATEKEEPER_LOG.md",
+      "line": 14,
+      "matched_term": "harmonic",
+      "matched_pattern": "[Hh]armonic",
+      "snippet": "netic substrate. ## 2. The Solution: The Imperial Gatekeeper To prevent unvoxelized noise from breaking the aggregate math, the engine's logic was mechanically updated in `detect_harmonic_modes.py`. Instead of trusting the file format, the engine now checks the physical boundaries first: ```python chi_max = df[chi_col].abs().max() if chi_max < 0.01 or chi_max > 1",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-05-14T18:10:56Z"
+    },
+    {
+      "source": "file",
+      "category": "B",
+      "file_path": "docs/IMPERIAL_GATEKEEPER_LOG.md",
+      "line": 14,
+      "matched_term": "harmonic_mode",
+      "matched_pattern": "harmonic_mode",
+      "snippet": "netic substrate. ## 2. The Solution: The Imperial Gatekeeper To prevent unvoxelized noise from breaking the aggregate math, the engine's logic was mechanically updated in `detect_harmonic_modes.py`. Instead of trusting the file format, the engine now checks the physical boundaries first: ```python chi_max = df[chi_col].abs().max() if chi_max < 0.01 or chi_max > 10.0:",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-05-14T18:10:56Z"
+    },
+    {
+      "source": "file",
+      "category": "B",
+      "file_path": "docs/IMPERIAL_GATEKEEPER_LOG.md",
+      "line": 14,
+      "matched_term": "detect_harmonic",
+      "matched_pattern": "detect_harmonic",
+      "snippet": "the magnetic substrate. ## 2. The Solution: The Imperial Gatekeeper To prevent unvoxelized noise from breaking the aggregate math, the engine's logic was mechanically updated in `detect_harmonic_modes.py`. Instead of trusting the file format, the engine now checks the physical boundaries first: ```python chi_max = df[chi_col].abs().max() if chi_max < 0.01 or chi_max > 1",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-05-14T18:10:56Z"
     },
     {
       "source": "file",
@@ -32346,6 +32394,42 @@
       "commit_sha": "9c5356858521582e4182b8d55633c26d883183ff",
       "commit_timestamp": "2026-02-02T16:17:29Z",
       "scanned_at": "2026-05-14T17:13:13Z"
+    },
+    {
+      "source": "commit_message",
+      "category": "C",
+      "file_path": null,
+      "line": null,
+      "matched_term": "DSCOVR",
+      "matched_pattern": "\\bDSCOVR\\b",
+      "snippet": "Update DSCOVR solar wind data 2026-05-14 17:28:45 UTC",
+      "commit_sha": "b62395c568609c8f65f24397cbb67954714e49fb",
+      "commit_timestamp": "2026-05-14T17:28:45Z",
+      "scanned_at": "2026-05-14T18:10:58Z"
+    },
+    {
+      "source": "commit_file",
+      "category": "C",
+      "file_path": "data/dscovr/dscovr_realtime.json",
+      "line": null,
+      "matched_term": "DSCOVR",
+      "matched_pattern": "\\bDSCOVR\\b",
+      "snippet": "[b62395c5] Update DSCOVR solar wind data 2026-05-14 17:28:45 UTC | data/dscovr/dscovr_realtime.json",
+      "commit_sha": "b62395c568609c8f65f24397cbb67954714e49fb",
+      "commit_timestamp": "2026-05-14T17:28:45Z",
+      "scanned_at": "2026-05-14T18:10:58Z"
+    },
+    {
+      "source": "commit_message",
+      "category": "C",
+      "file_path": null,
+      "line": null,
+      "matched_term": "ACE",
+      "matched_pattern": "\\bACE\\b",
+      "snippet": "data: ACE L1 realtime update 2026-05-14 17:51:23 UTC",
+      "commit_sha": "d135d450d68aa9b3cade3f30b60876886fffa089",
+      "commit_timestamp": "2026-05-14T17:51:23Z",
+      "scanned_at": "2026-05-14T18:10:58Z"
     }
   ]
 }
