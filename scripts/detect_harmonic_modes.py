@@ -14,8 +14,7 @@ Carl's discovery: Under extreme energy conditions (solar storms), the vacuum
 lattice doesn't break—it shifts to higher harmonic modes (0.30, 0.45) rather
 than violating χ > 0.45.
 
-Author: Carl Dean Cline Sr. + Copilot Agent Task
-Date: January 17, 2026
+Author: Carl Dean Cline Sr. + Copilot Agent Task + Imperial Gatekeeper Update
 """
 
 import pandas as pd
@@ -33,15 +32,7 @@ MODE_3_MAX = 0.45  # Second harmonic (3x fundamental)
 
 
 def classify_mode(chi_value):
-    """
-    Classify a chi value into its harmonic mode.
-    
-    Args:
-        chi_value: The χ value to classify
-        
-    Returns:
-        int: Mode number (1, 2, 3, or 4 for violation)
-    """
+    """Classify a chi value into its harmonic mode."""
     if chi_value <= MODE_1_MAX:
         return 1
     elif chi_value <= MODE_2_MAX:
@@ -53,16 +44,7 @@ def classify_mode(chi_value):
 
 
 def detect_mode_transitions(df, chi_col='chi'):
-    """
-    Detect transitions between harmonic modes in the time series.
-    
-    Args:
-        df: DataFrame with chi values and timestamps
-        chi_col: Name of the chi column
-        
-    Returns:
-        list: List of transition events
-    """
+    """Detect transitions between harmonic modes in the time series."""
     if chi_col not in df.columns:
         raise ValueError(f"Column '{chi_col}' not found in dataframe")
     
@@ -100,16 +82,7 @@ def detect_mode_transitions(df, chi_col='chi'):
 
 
 def compute_mode_statistics(df, chi_col='chi'):
-    """
-    Compute statistics for each harmonic mode.
-    
-    Args:
-        df: DataFrame with chi values
-        chi_col: Name of the chi column
-        
-    Returns:
-        dict: Statistics for each mode
-    """
+    """Compute statistics for each harmonic mode."""
     if chi_col not in df.columns:
         raise ValueError(f"Column '{chi_col}' not found in dataframe")
     
@@ -145,30 +118,100 @@ def compute_mode_statistics(df, chi_col='chi'):
     return stats
 
 
-def analyze_harmonic_structure(file_path, chi_col='chi', output_json=None):
+def test_harmonic_clustering(chi_series, harmonic_levels=[0.15, 0.30, 0.45], window=0.02):
     """
-    Analyze the harmonic mode structure in a chi dataset.
+    LUFT HARMONIC CLUSTERING TEST
+    -----------------------------
+    The real test: Do chi values physically lock (CLUSTER) at the mechanical 
+    harmonic levels (0.15, 0.30, 0.45), or just randomly pass through them?
+    """
+    results = {}
+    n = len(chi_series)
     
-    Args:
-        file_path: Path to the chi_processed.csv file
-        chi_col: Name of the chi column
-        output_json: Optional path to save JSON report
+    if n == 0:
+        return results
         
-    Returns:
-        dict: Analysis results
-    """
+    chi_min = min(chi_series)
+    chi_max = max(chi_series)
+    chi_range = chi_max - chi_min
+    
+    if chi_range > 0:
+        expected_frac = (2 * window) / chi_range
+    else:
+        expected_frac = 0.0
+        
+    for level in harmonic_levels:
+        in_window = np.sum(
+            (chi_series >= level - window) & 
+            (chi_series <= level + window)
+        )
+        
+        observed_frac = in_window / n
+        
+        if expected_frac > 0:
+            excess_ratio = observed_frac / expected_frac
+        else:
+            excess_ratio = 0.0
+            
+        is_attractor = excess_ratio > 3.0  
+        
+        results[level] = {
+            'count':         int(in_window),
+            'observed_pct':  round(100 * observed_frac, 2),
+            'expected_pct':  round(100 * expected_frac, 2),
+            'excess_ratio':  round(excess_ratio, 2),
+            'attractor':     is_attractor
+        }
+        
+        status_flag = "✅ ATTRACTOR CONFIRMED" if is_attractor else "— no clustering"
+        print(f"  χ = {level:.2f}:  {observed_frac*100:5.1f}% observed vs "
+              f"{expected_frac*100:5.1f}% expected  "
+              f"(ratio: {excess_ratio:5.1f}x)  {status_flag}")
+              
+    return results
+
+
+def analyze_harmonic_structure(file_path, chi_col='chi', output_json=None):
+    """Analyze the harmonic mode structure in a chi dataset."""
     # Load data
     df = pd.read_csv(file_path)
     
     if chi_col not in df.columns:
-        # Try to find chi column
         possible_cols = [col for col in df.columns if 'chi' in col.lower()]
         if possible_cols:
             chi_col = possible_cols[0]
             print(f"ℹ️  Using column: {chi_col}")
         else:
             raise ValueError(f"No chi column found. Available columns: {df.columns.tolist()}")
+
+    # =========================================================================
+    # IMPERIAL GATEKEEPER: PREVENT UNVOXELIZED NOISE FROM DILUTING THE ENGINE
+    # =========================================================================
+    chi_max = df[chi_col].abs().max()
+    chi_median = df[chi_col].median()
     
+    # If max chi is microscopic (< 0.01) or massive (> 10.0), it's unscaled raw data.
+    if chi_max < 0.01 or chi_max > 10.0:
+        status_msg = f"WRONG_SCALE — Raw data detected (median: {chi_median:.5f}, max: {chi_max:.5f}). Skipping."
+        print(f"⚠️  {status_msg}")
+        
+        report = {
+            'file': str(file_path),
+            'chi_col': chi_col,
+            'n_loaded': len(df),
+            'chi_median': float(chi_median),
+            'status': status_msg
+        }
+        
+        if output_json:
+            output_path = Path(output_json)
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(output_path, 'w') as f:
+                json.dump(report, f, indent=2)
+        
+        return report
+    # =========================================================================
+
     # Compute statistics
     stats = compute_mode_statistics(df, chi_col)
     
@@ -231,7 +274,7 @@ Examples:
     
     print("╔════════════════════════════════════════════════════════════════════╗")
     print("║  HARMONIC MODE DETECTION                                           ║")
-    print("║  Carl Dean Cline Sr.'s Discovery: χ Resonates in Modes            ║")
+    print("║  Carl Dean Cline Sr.'s Discovery: χ Resonates in Modes             ║")
     print("╚════════════════════════════════════════════════════════════════════╝")
     print()
     
@@ -241,6 +284,17 @@ Examples:
             chi_col=args.chi_col,
             output_json=args.output
         )
+        
+        # =========================================================================
+        # GATEKEEPER CATCH: Stop processing if unscaled raw data was detected
+        # =========================================================================
+        if 'WRONG_SCALE' in report.get('status', ''):
+            print("╔════════════════════════════════════════════════════════════════════╗")
+            print("║  🛑 FILE REJECTED: UNSCALED RAW DATA PREVENTED FROM DILUTING ENGINE║")
+            print("╚════════════════════════════════════════════════════════════════════╝")
+            print(f"  File: {args.file} bypassed to protect aggregate data integrity.")
+            return 0
+        # =========================================================================
         
         # Display results
         stats = report['resonance_profile']
