@@ -1,8 +1,8 @@
 # LUFT Engine Priority Evidence Report
 
-**Generated:** 2026-05-19T04:52:33Z  
-**Last commit processed:** `4711fe1da2b987d45597880a37cff9a4c6632323`  
-**Total extraction runs:** 127  
+**Generated:** 2026-05-19T06:28:32Z  
+**Last commit processed:** `4e58823cf20f378fca6df667af3804db6fc7d62f`  
+**Total extraction runs:** 128  
 
 ---
 
@@ -11,8 +11,8 @@
 | Package | Title | Entries |
 |---------|-------|---------|
 | **A** | 122,079 Observations → G = 6.6667×10⁻¹¹ and 20.55 Hz Ring Frequency | 229 |
-| **B** | Mode 8 Fractures and CME Attractor Spikes | 1313 |
-| **C** | chi=0.15 Boundary and Seismic Event Correlations | 1938 |
+| **B** | Mode 8 Fractures and CME Attractor Spikes | 1315 |
+| **C** | chi=0.15 Boundary and Seismic Event Correlations | 1941 |
 
 ---
 
@@ -57,7 +57,7 @@ _Evidence linking 122,079 real-world stress observations to the derivation of Ne
 _Evidence for Mode 8 substrate fractures and CME attractor spikes visible in raw telemetry, including baseline, onset, peak, and ringdown windows._
 
 **Search terms:** `Mode 8`, `fracture`, `CME attractor`, `attractor spike`, `heartbeat`, `harmonic`, `ringdown`, `fractal echo`  
-**Total entries:** 1313
+**Total entries:** 1315
 
 ### Top Evidence (up to 20 entries)
 
@@ -93,7 +93,7 @@ _Evidence for Mode 8 substrate fractures and CME attractor spikes visible in raw
 _Evidence connecting chi=0.15 magnetic-medium boundary-hit events (ACE/DSCOVR telemetry) to seismic events from USGS, testing cross-scale structural correlation._
 
 **Search terms:** `chi=0.15`, `AT_BOUNDARY`, `chi_amplitude`, `seismic`, `earthquake`, `USGS`, `DSCOVR`, `ACE`, `temporal correlation`  
-**Total entries:** 1938
+**Total entries:** 1941
 
 ### Top Evidence (up to 20 entries)
 
