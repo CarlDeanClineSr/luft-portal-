@@ -1,8 +1,8 @@
 # LUFT Engine Priority Evidence Report
 
-**Generated:** 2026-05-24T12:31:37Z  
-**Last commit processed:** `ee7f748f64e82d6c1491af0903450c3f84bae12a`  
-**Total extraction runs:** 249  
+**Generated:** 2026-05-24T12:58:47Z  
+**Last commit processed:** `c3a73799ecce530866d287278ab7940d4fb454a6`  
+**Total extraction runs:** 250  
 
 ---
 
@@ -11,7 +11,7 @@
 | Package | Title | Entries |
 |---------|-------|---------|
 | **A** | 122,079 Observations → G = 6.6667×10⁻¹¹ and 20.55 Hz Ring Frequency | 229 |
-| **B** | Mode 8 Fractures and CME Attractor Spikes | 1587 |
+| **B** | Mode 8 Fractures and CME Attractor Spikes | 1589 |
 | **C** | chi=0.15 Boundary and Seismic Event Correlations | 2000 |
 
 ---
@@ -57,7 +57,7 @@ _Evidence linking 122,079 real-world stress observations to the derivation of Ne
 _Evidence for Mode 8 substrate fractures and CME attractor spikes visible in raw telemetry, including baseline, onset, peak, and ringdown windows._
 
 **Search terms:** `Mode 8`, `fracture`, `CME attractor`, `attractor spike`, `heartbeat`, `harmonic`, `ringdown`, `fractal echo`  
-**Total entries:** 1587
+**Total entries:** 1589
 
 ### Top Evidence (up to 20 entries)
 
