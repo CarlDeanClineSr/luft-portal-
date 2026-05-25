@@ -20,7 +20,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install Imperial Dependencies
-        run: pip install cdasws pandas numpy
+        run: pip install cdasws pandas numpy cdflib xarray
 
       - name: Harvest PSP Archival Data
         run: |
