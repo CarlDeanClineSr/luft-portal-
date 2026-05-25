@@ -12,8 +12,8 @@
     "ringdown",
     "fractal echo"
   ],
-  "generated_at": "2026-05-25T10:39:10Z",
-  "total_entries": 1650,
+  "generated_at": "2026-05-25T12:22:01Z",
+  "total_entries": 1652,
   "entries": [
     {
       "source": "file",
@@ -19814,6 +19814,30 @@
       "commit_sha": "93fed8e3b087275a58daf7cff6a04a9174df0082",
       "commit_timestamp": "2026-05-25T09:41:05Z",
       "scanned_at": "2026-05-25T10:39:10Z"
+    },
+    {
+      "source": "file",
+      "category": "B",
+      "file_path": ".github/workflows/LUFT_L1_Master_Ingest.yml",
+      "line": 34,
+      "matched_term": "HEARTBEAT",
+      "matched_pattern": "[Hh]eartbeat",
+      "snippet": "\\ -o data/l1_telemetry/plasma_1_day.json || echo \"⚠️ Plasma Feed Unavailable\" # Pulling the 1-day magnetometer feed (Bt, Bz) - CRITICAL FOR CME HEARTBEAT curl --fail --silent --show-error --retry 3 \\ \"https://services.swpc.noaa.gov/products/solar-wind/mag-1-day.json\" \\ -o data/l1_telemetry/mag_1_da",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-05-25T12:21:50Z"
+    },
+    {
+      "source": "file",
+      "category": "B",
+      "file_path": ".github/workflows/LUFT_L1_Master_Ingest.yml",
+      "line": 34,
+      "matched_term": "CME HEARTBEAT",
+      "matched_pattern": "CME\\s*heartbeat",
+      "snippet": "son\" \\ -o data/l1_telemetry/plasma_1_day.json || echo \"⚠️ Plasma Feed Unavailable\" # Pulling the 1-day magnetometer feed (Bt, Bz) - CRITICAL FOR CME HEARTBEAT curl --fail --silent --show-error --retry 3 \\ \"https://services.swpc.noaa.gov/products/solar-wind/mag-1-day.json\" \\ -o data/l1_telemetry/mag_1_da",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-05-25T12:21:50Z"
     }
   ]
 }
