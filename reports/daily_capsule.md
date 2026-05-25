@@ -1,10 +1,6 @@
 # Nightly Capsule
 
-<<<<<<< Updated upstream
-Generated: 2026-05-24T11:37:56.739419+00:00
-=======
-Generated: 2026-05-24T11:59:13.508296+00:00
->>>>>>> Stashed changes
+Generated: 2026-05-25T12:15:50.247770+00:00
 
 Events processed: 0
 
