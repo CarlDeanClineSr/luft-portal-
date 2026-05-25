@@ -56,7 +56,7 @@ jobs:
                       
                       # Extract the raw magnetic flux arrays
                       b_rtn = data['psp_fld_l2_mag_RTN']
-                      times = data['EPOCH']
+                      times = data['epoch_mag_RTN']
                       
                       # Format into a clean CSV for the Imperial Vault
                       df = pd.DataFrame(b_rtn, columns=['B_R', 'B_T', 'B_N'])
