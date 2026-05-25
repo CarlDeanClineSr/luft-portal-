@@ -20,49 +20,62 @@ jobs:
           python-version: '3.11'
 
       - name: Install Imperial Dependencies
-        run: pip install requests pandas
+        run: pip install cdasws pandas numpy
 
       - name: Harvest PSP Archival Data
         run: |
-          import requests
-          import json
+          from cdasws import CdasWs
           from datetime import datetime, timedelta
+          import pandas as pd
           import os
-          import time
 
-          print("Initiating Imperial PSP Archival Harvest...")
+          print("Initiating Imperial PSP Archival Harvest via CDAWeb...")
           os.makedirs("data/psp", exist_ok=True)
+          
+          # Initialize the official NASA API client
+          cdas = CdasWs()
 
-          # Auto-rewind logic to bypass strict/variable NASA embargoes
           days_back = 120
           success = False
 
           while days_back <= 2000 and not success:
-              target_date = datetime.utcnow() - timedelta(days=days_back)
-              date_str = target_date.strftime('%Y%m%d')
-              url = f"https://sscweb.gsfc.nasa.gov/WS/sscr/2/locations/psp/{date_str},{date_str}/json"
+              start_time = datetime.utcnow() - timedelta(days=days_back)
+              end_time = start_time + timedelta(days=1)
               
-              print(f"Probe Date T-minus {days_back} days ({date_str})...")
+              t0 = start_time.strftime('%Y-%m-%dT00:00:00Z')
+              t1 = end_time.strftime('%Y-%m-%dT00:00:00Z')
+              
+              print(f"Querying CDAWeb for Probe Date: {t0}...")
               
               try:
-                  response = requests.get(url, timeout=10)
-                  if response.status_code == 200:
-                      data = response.json()
-                      filepath = f"data/psp/psp_telemetry_{date_str}.json"
-                      with open(filepath, 'w') as f:
-                          json.dump(data, f)
-                      print(f"SUCCESS: Archival data secured at {filepath}")
+                  # Target: Parker Solar Probe L2 Magnetic Field (RTN Coordinates)
+                  status, data = cdas.get_data('PSP_FLD_L2_MAG_RTN', ['psp_fld_l2_mag_RTN'], t0, t1)
+                  
+                  if data is not None and 'psp_fld_l2_mag_RTN' in data:
+                      print(f"SUCCESS: CDAWeb lock established for {t0}")
+                      
+                      # Extract the raw magnetic flux arrays
+                      b_rtn = data['psp_fld_l2_mag_RTN']
+                      times = data['EPOCH']
+                      
+                      # Format into a clean CSV for the Imperial Vault
+                      df = pd.DataFrame(b_rtn, columns=['B_R', 'B_T', 'B_N'])
+                      df['timestamp'] = times
+                      
+                      filepath = f"data/psp/psp_mag_{start_time.strftime('%Y%m%d')}.csv"
+                      df.to_csv(filepath, index=False)
+                      
+                      print(f"Data secured: {len(df)} physical measurements written to {filepath}")
                       success = True
                   else:
-                      print(f"  -> 404 (Embargoed). Rewinding 30 days deeper...")
+                      print("  -> No data published for this window. Rewinding 30 days...")
                       days_back += 30
-                      time.sleep(2) # Avoid NASA rate-limits
               except Exception as e:
-                  print(f"  -> Connection Error: {e}")
-                  break
+                  print(f"  -> Connection/Embargo Error: {e}")
+                  days_back += 30
                   
           if not success:
-              print("CRITICAL: Reached maximum rewind (500 days). No data found.")
+              print("CRITICAL: Reached maximum rewind (2000 days). No data found.")
         shell: python
 
       - name: Commit to Imperial Vault
@@ -71,7 +84,7 @@ jobs:
         run: |
           git config user.name "Imperial Harvester"
           git config user.email "harvester@imperial.local"
-          git add data/psp/*.json || true
+          git add data/psp/*.csv || true
           if git diff --cached --quiet; then
             echo "No new PSP data to commit."
           else
