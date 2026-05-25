@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-25T12:22:01Z",
-  "total_entries": 3884,
+  "generated_at": "2026-05-25T13:43:42Z",
+  "total_entries": 3885,
   "packages": [
     "A",
     "B",
@@ -22614,6 +22614,18 @@
       "commit_sha": null,
       "commit_timestamp": null,
       "scanned_at": "2026-05-25T12:21:50Z"
+    },
+    {
+      "source": "commit_message",
+      "category": "B",
+      "file_path": null,
+      "line": null,
+      "matched_term": "harmonic",
+      "matched_pattern": "[Hh]armonic",
+      "snippet": "Delete batch_harmonic_scan.sh",
+      "commit_sha": "6f6a9b24d6a9d6935149843bbb455c7089afbbca",
+      "commit_timestamp": "2026-05-25T07:37:05-05:00",
+      "scanned_at": "2026-05-25T13:43:42Z"
     },
     {
       "source": "file",
