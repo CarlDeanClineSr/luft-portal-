@@ -37,7 +37,7 @@ jobs:
           days_back = 120
           success = False
 
-          while days_back <= 500 and not success:
+          while days_back <= 2000 and not success:
               target_date = datetime.utcnow() - timedelta(days=days_back)
               date_str = target_date.strftime('%Y%m%d')
               url = f"https://sscweb.gsfc.nasa.gov/WS/sscr/2/locations/psp/{date_str},{date_str}/json"
