@@ -1,0 +1,66 @@
+name: LUFT L1 Master Ingest (Unified Solar Wind)
+
+on:
+  schedule:
+    # Runs every 15 minutes. This is optimal to catch CME shocks without spamming APIs.
+    - cron: '*/15 * * * *'
+  workflow_dispatch: # Allows you to run it manually from the button
+
+jobs:
+  ingest_l1_data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout LUFT Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python Engine
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Dependencies
+        run: pip install requests pandas
+
+      - name: Harvest Unified NOAA L1 Telemetry
+        run: |
+          echo "📡 Initiating Unified L1 Sweep (DSCOVR/ACE)..."
+          mkdir -p data/l1_telemetry
+          
+          # Pulling the 1-day unified plasma feed (Speed, Density, Temp)
+          curl --fail --silent --show-error --retry 3 \
+            "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-day.json" \
+            -o data/l1_telemetry/plasma_1_day.json || echo "⚠️ Plasma Feed Unavailable"
+            
+          # Pulling the 1-day magnetometer feed (Bt, Bz) - CRITICAL FOR CME HEARTBEAT
+          curl --fail --silent --show-error --retry 3 \
+            "https://services.swpc.noaa.gov/products/solar-wind/mag-1-day.json" \
+            -o data/l1_telemetry/mag_1_day.json || echo "⚠️ Mag Feed Unavailable"
+
+      - name: Validate Telemetry Packets
+        run: |
+          echo "Validating downloaded JSON structures..."
+          for file in data/l1_telemetry/*.json; do
+            if [ -f "$file" ]; then
+              if grep -q "\[" "$file"; then
+                echo "✅ Valid Data: $(basename $file)"
+              else
+                echo "⚠️ Invalid Data - Deleting corrupted payload: $(basename $file)"
+                rm -f "$file"
+              fi
+            fi
+          done
+
+      - name: Commit to LUFT Vault
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "LUFT L1 Master"
+          git config user.email "l1-master@luft.local"
+          git add data/l1_telemetry/*.json || true
+          if git diff --cached --quiet; then
+            echo "No new L1 data to commit."
+          else
+            git commit -m "Auto-Ingest: Unified L1 Telemetry $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+            echo "✅ L1 Telemetry Secured in Vault."
+          fi
