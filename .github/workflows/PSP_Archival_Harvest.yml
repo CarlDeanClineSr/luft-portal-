@@ -1,0 +1,68 @@
+name: PSP Archival Harvest (Imperial Validation)
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'  # Runs once a week on Sunday at Midnight UTC
+  workflow_dispatch:     # Manual trigger enabled
+
+jobs:
+  psp-archive-harvest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python Engine (Pinned to 3.11 for NASA API stability)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Imperial Dependencies
+        run: pip install requests pandas
+
+      - name: Harvest PSP Archival Data
+        run: |
+          import requests
+          import json
+          from datetime import datetime, timedelta
+          import os
+
+          print("Initiating Imperial PSP Archival Harvest...")
+          os.makedirs("data/psp", exist_ok=True)
+
+          # NASA Embargo Bypass: Look 120 days in the past for published data
+          target_date = datetime.utcnow() - timedelta(days=120)
+          date_str = target_date.strftime('%Y%m%d')
+          
+          url = f"https://sscweb.gsfc.nasa.gov/WS/sscr/2/locations/psp/{date_str},{date_str}/json"
+          print(f"Querying NASA SSCWeb for published telemetry: {url}")
+          
+          try:
+              response = requests.get(url, timeout=15)
+              response.raise_for_status()
+              data = response.json()
+              
+              filepath = f"data/psp/psp_telemetry_{date_str}.json"
+              with open(filepath, 'w') as f:
+                  json.dump(data, f)
+              print(f"SUCCESS: Archival data secured at {filepath}")
+          except Exception as e:
+              print(f"NASA API Error or Data Embargo still active: {e}")
+        shell: python
+
+      - name: Commit to Imperial Vault
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "Imperial Harvester"
+          git config user.email "harvester@imperial.local"
+          git add data/psp/*.json || true
+          if git diff --cached --quiet; then
+            echo "No new PSP data to commit."
+          else
+            git commit -m "Auto-Ingest: PSP Archival Data $(date -u +'%Y-%m-%d')"
+            git push
+            echo "✅ PSP Telemetry Secured in Vault."
+          fi
