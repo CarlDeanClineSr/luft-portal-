@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-05-26T15:12:41Z",
-  "total_entries": 3885,
+  "generated_at": "2026-05-26T16:49:09Z",
+  "total_entries": 3887,
   "packages": [
     "A",
     "B",
@@ -22626,6 +22626,30 @@
       "commit_sha": "6f6a9b24d6a9d6935149843bbb455c7089afbbca",
       "commit_timestamp": "2026-05-25T07:37:05-05:00",
       "scanned_at": "2026-05-25T13:43:42Z"
+    },
+    {
+      "source": "file",
+      "category": "B",
+      "file_path": "IMPERIAL PHYSICS AGENT DIRECTIVE.md",
+      "line": 5,
+      "matched_term": "Fracture",
+      "matched_pattern": "[Ff]racture",
+      "snippet": "This script performs structural forensic analysis on the magnetic substrate. # Logic: # 1. Compute χ = std(|B|) / mean(|B|) # 2. Yield threshold: χ > 0.15 indicates a Structural Fracture Event. # 3. Harmonic correlation: Identify 1.6 GHz rings coincident with yield breaches. # 4. Output: Structured event log of field fractures. # ----------------------------------",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-05-26T16:49:00Z"
+    },
+    {
+      "source": "file",
+      "category": "B",
+      "file_path": "IMPERIAL PHYSICS AGENT DIRECTIVE.md",
+      "line": 6,
+      "matched_term": "Harmonic",
+      "matched_pattern": "[Hh]armonic",
+      "snippet": "structural forensic analysis on the magnetic substrate. # Logic: # 1. Compute χ = std(|B|) / mean(|B|) # 2. Yield threshold: χ > 0.15 indicates a Structural Fracture Event. # 3. Harmonic correlation: Identify 1.6 GHz rings coincident with yield breaches. # 4. Output: Structured event log of field fractures. # ----------------------------------------",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-05-26T16:49:00Z"
     },
     {
       "source": "file",
