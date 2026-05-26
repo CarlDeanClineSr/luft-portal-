@@ -12,8 +12,8 @@
     "ringdown",
     "fractal echo"
   ],
-  "generated_at": "2026-05-26T16:49:09Z",
-  "total_entries": 1655,
+  "generated_at": "2026-05-26T16:59:07Z",
+  "total_entries": 1660,
   "entries": [
     {
       "source": "file",
@@ -19874,6 +19874,66 @@
       "commit_sha": null,
       "commit_timestamp": null,
       "scanned_at": "2026-05-26T16:49:00Z"
+    },
+    {
+      "source": "file",
+      "category": "B",
+      "file_path": "chi_015_directive.yaml",
+      "line": 57,
+      "matched_term": "fracture",
+      "matched_pattern": "[Ff]racture",
+      "snippet": "0.145 <= chi <= 0.155\" interpretation: \"Attractor state, optimal coupling\" alert_level: info VIOLATION: condition: \"chi > 0.15\" interpretation: \"Structural fracture event (a filamentary breakdown condition)\" alert_level: warning UNKNOWN: condition: \"chi is NaN or invalid\" interpretation: \"Data quality issue\" alert_leve",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-05-26T16:58:57Z"
+    },
+    {
+      "source": "file",
+      "category": "B",
+      "file_path": "substrate_telemetry_engine.py",
+      "line": 117,
+      "matched_term": "Attractor state",
+      "matched_pattern": "attractor\\s*state",
+      "snippet": "STRUCTURAL_SCAN] Near-integer mode detected: mode {structural_event['mode']}\") if structural_event['attractor_near_boundary']: print(\"[STRUCTURAL_SCAN] Attractor state: X remains near 0.15 boundary\") return pd.DataFrame(results) def _flag_yield_event(self, timestamp, chi, b_stress, n_stress, v_stress): \"\"\" Quarantin",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-05-26T16:59:06Z"
+    },
+    {
+      "source": "file",
+      "category": "B",
+      "file_path": "substrate_telemetry_engine.py",
+      "line": 59,
+      "matched_term": "harmonic",
+      "matched_pattern": "[Hh]armonic",
+      "snippet": "b_values = telemetry_df['B_raw'].astype(float).values if 'B_raw' in telemetry_df.columns else np.array([]) x_metric = calculate_structural_scan_metric(b_values) harmonic_col = next( (col for col in ['harmonic_1_6ghz_power', 'power_1_6ghz', 'harmonic_power_1_6ghz'] if col in telemetry_df.columns), None )",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-05-26T16:59:06Z"
+    },
+    {
+      "source": "file",
+      "category": "B",
+      "file_path": "test_universal_boundary_engine.py",
+      "line": 259,
+      "matched_term": "fracture",
+      "matched_pattern": "[Ff]racture",
+      "snippet": "t Exception as e: print(f\"❌ Structural scan metric failed: {e}\") return False def test_structural_event_threshold(): \"\"\"Test that X > 0.15 becomes structural fracture.\"\"\" print(\"\\n\" + \"=\" * 60) print(\"TEST 9: Structural Fracture Threshold\") print(\"=\" * 60) try: from universal_boundary_engine import classify_structural_sc",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-05-26T16:59:06Z"
+    },
+    {
+      "source": "file",
+      "category": "B",
+      "file_path": "universal_boundary_engine.py",
+      "line": 244,
+      "matched_term": "fracture",
+      "matched_pattern": "[Ff]racture",
+      "snippet": ": nearest_mode if near_integer_mode else None, 'near_integer_mode': bool(near_integer_mode), 'attractor_near_boundary': bool(near_boundary), 'is_structural_fracture': bool(x_value > boundary), 'classification': 'Structural Fracture Event' if x_value > boundary else 'Lattice Stable' } def build_structural_event_log( x_value:",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-05-26T16:59:07Z"
     }
   ]
 }
