@@ -1,8 +1,8 @@
 # LUFT Engine Priority Evidence Report
 
-**Generated:** 2026-05-26T19:20:38Z  
-**Last commit processed:** `53243616d20cbc1cee742c95bf018a7e903c4230`  
-**Total extraction runs:** 303  
+**Generated:** 2026-05-26T20:23:06Z  
+**Last commit processed:** `40110319dc1742bc6a6bf1d43dd1fad18ac14de9`  
+**Total extraction runs:** 304  
 
 ---
 
