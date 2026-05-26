@@ -21,6 +21,8 @@ def test_imports():
             detect_harmonic_mode,
             detect_binary_scaling,
             calculate_fundamental_unifications,
+            calculate_structural_scan_metric,
+            classify_structural_scan,
             CHI_UNIVERSAL,
             COUPLING_FREQUENCY
         )
@@ -226,6 +228,57 @@ def test_unifications():
         return False
 
 
+def test_structural_scan_metric():
+    """Test structural scan X metric and classification."""
+    print("\n" + "=" * 60)
+    print("TEST 8: Structural Scan Metric")
+    print("=" * 60)
+    try:
+        from universal_boundary_engine import calculate_structural_scan_metric, classify_structural_scan
+
+        B_values = np.array([10.0, 11.0, 9.0, 10.5, 9.5])
+        x_metric = calculate_structural_scan_metric(B_values)
+        structural = classify_structural_scan(x_metric)
+
+        print(f"Computed X: {x_metric:.6f}")
+        print(f"Boundary: {structural['boundary']:.3f}")
+        print(f"Mode ratio X/0.15: {structural['mode_ratio']:.3f}")
+        print(f"Classification: {structural['classification']}")
+
+        assert x_metric >= 0, "X should be non-negative"
+        assert 'mode_ratio' in structural, "Mode ratio missing"
+
+        print("✅ Structural scan metric works")
+        return True
+    except Exception as e:
+        print(f"❌ Structural scan metric failed: {e}")
+        return False
+
+
+def test_structural_event_threshold():
+    """Test that X > 0.15 becomes structural fracture."""
+    print("\n" + "=" * 60)
+    print("TEST 9: Structural Fracture Threshold")
+    print("=" * 60)
+    try:
+        from universal_boundary_engine import classify_structural_scan
+
+        stable = classify_structural_scan(0.14)
+        fracture = classify_structural_scan(0.16)
+
+        print(f"X=0.14 classification: {stable['classification']}")
+        print(f"X=0.16 classification: {fracture['classification']}")
+
+        assert stable['is_structural_fracture'] is False, "0.14 should be stable"
+        assert fracture['is_structural_fracture'] is True, "0.16 should be fracture"
+
+        print("✅ Structural threshold classification works")
+        return True
+    except Exception as e:
+        print(f"❌ Structural threshold test failed: {e}")
+        return False
+
+
 def main():
     """Run all tests."""
     print("\n" + "=" * 60)
@@ -240,7 +293,9 @@ def main():
         test_boundary_validation,
         test_harmonic_detection,
         test_binary_scaling,
-        test_unifications
+        test_unifications,
+        test_structural_scan_metric,
+        test_structural_event_threshold
     ]
     
     results = []

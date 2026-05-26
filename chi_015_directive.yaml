@@ -35,8 +35,10 @@ thresholds:
   chi_boundary:  0.15
   chi_tolerance: 0.01
   attractor_threshold: 0.50        # >50% at boundary = attractor state
-  violation_alert:  0.155           # Alert if exceeded
+  violation_alert:  0.15            # Alert if exceeded
   violation_tolerance: 0.01        # Max acceptable violation rate
+  sideband_detection: 0.05         # 1.6 GHz power spike marker
+  mode_integer_tolerance: 0.10     # |X/0.15 - round(X/0.15)| threshold
 
 # Classification Logic
 classification:
@@ -51,8 +53,8 @@ classification:
     alert_level: info
     
   VIOLATION: 
-    condition: "chi > 0.155"
-    interpretation: "Filamentary breakdown detected"
+    condition: "chi > 0.15"
+    interpretation: "Structural fracture event"
     alert_level: warning
     
   UNKNOWN: 
@@ -67,7 +69,7 @@ detection:
     output: boolean
     
   chi_violation: 
-    formula: "chi > 0.155"
+    formula: "chi > 0.15"
     output: boolean
     
   attractor_state:

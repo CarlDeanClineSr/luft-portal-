@@ -38,6 +38,11 @@ import numpy as np
 from pathlib import Path
 import argparse
 import sys
+from universal_boundary_engine import (
+    load_chi_directive,
+    calculate_structural_scan_metric,
+    classify_structural_scan
+)
 
 def compute_chi(file_path, time_col='TT2000', bx='BX-OUTB', by='BY-OUTB', bz='BZ-OUTB'):
     """
@@ -117,12 +122,16 @@ def compute_chi(file_path, time_col='TT2000', bx='BX-OUTB', by='BY-OUTB', bz='BZ
     # 24-hour rolling baseline (centered window)
     # This removes long-term trends while preserving short-term fluctuations
     print("Computing 24-hour rolling baseline...")
-    df['B_baseline'] = df['B_mag'].rolling(window='24H', min_periods=1, center=True).mean()
+    df['B_baseline'] = df['B_mag'].rolling(window='24h', min_periods=1, center=True).mean()
     
     # χ = normalized perturbation (Carl's discovery metric)
     # This is the key metric that reveals the universal χ ≤ 0.15 boundary
     print("Calculating χ = |B - B_baseline| / B_baseline...")
     df['chi'] = np.abs(df['B_mag'] - df['B_baseline']) / df['B_baseline']
+
+    directive = load_chi_directive()
+    structural_x = calculate_structural_scan_metric(df['B_mag'].values)
+    structural = classify_structural_scan(structural_x, directive=directive)
     
     # Statistical summary
     stats = {
@@ -131,9 +140,16 @@ def compute_chi(file_path, time_col='TT2000', bx='BX-OUTB', by='BY-OUTB', bz='BZ
         'chi_mean': df['chi'].mean(),
         'chi_median': df['chi'].median(),
         'chi_std': df['chi'].std(),
-        'violations_above_015': (df['chi'] > 0.15).sum(),
+        'violations_above_015': (df['chi'] > structural['boundary']).sum(),
         'at_boundary_0145_0155': ((df['chi'] >= 0.145) & (df['chi'] <= 0.155)).sum(),
-        'boundary_percentage': 100 * ((df['chi'] >= 0.145) & (df['chi'] <= 0.155)).sum() / len(df)
+        'boundary_percentage': 100 * ((df['chi'] >= 0.145) & (df['chi'] <= 0.155)).sum() / len(df),
+        'x_metric': structural['x_metric'],
+        'x_boundary': structural['boundary'],
+        'x_mode_ratio': structural['mode_ratio'],
+        'x_mode': structural['mode'],
+        'x_near_integer_mode': structural['near_integer_mode'],
+        'x_attractor_near_boundary': structural['attractor_near_boundary'],
+        'x_classification': structural['classification']
     }
     
     return df, stats
@@ -154,6 +170,14 @@ def print_results(stats, filename=""):
     print("-" * 70)
     print(f"Violations (χ > 0.15): {stats['violations_above_015']}")
     print(f"At boundary (0.145-0.155): {stats['at_boundary_0145_0155']} ({stats['boundary_percentage']:.1f}%)")
+    print(f"X metric std(|B|)/mean(|B|): {stats['x_metric']:.6f}")
+    print(f"X boundary: {stats['x_boundary']:.3f}")
+    print(f"Mode ratio X/0.15: {stats['x_mode_ratio']:.3f}")
+    print(f"Structural classification: {stats['x_classification']}")
+    if stats['x_near_integer_mode'] and stats['x_mode'] is not None:
+        print(f"Near-integer mode: {stats['x_mode']}")
+    if stats['x_attractor_near_boundary']:
+        print("Attractor state: X remains near the 0.15 bound")
     print("=" * 70)
     
     # Validation messages

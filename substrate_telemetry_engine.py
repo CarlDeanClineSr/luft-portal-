@@ -12,6 +12,12 @@ import numpy as np
 import pandas as pd
 import json
 from datetime import datetime
+from universal_boundary_engine import (
+    load_chi_directive,
+    get_directive_thresholds,
+    calculate_structural_scan_metric,
+    build_structural_event_log
+)
 
 class MagneticSubstrateEngine:
     """
@@ -21,11 +27,14 @@ class MagneticSubstrateEngine:
     
     def __init__(self):
         # The fundamental empirical limits of the magnetic substrate
-        self.chi_yield_limit = 0.15
+        self.directive = load_chi_directive()
+        self.thresholds = get_directive_thresholds(self.directive)
+        self.chi_yield_limit = self.thresholds['boundary']
         self.vacuum_compression_factor = 1.15
         
         # Log to store raw artifacts without smoothing
         self.yield_event_log = []
+        self.structural_event_log = []
 
     def compute_chi_stress(self, baseline, current):
         """
@@ -43,6 +52,28 @@ class MagneticSubstrateEngine:
         """
         print(f"[{datetime.now().isoformat()}] INGESTING TELEMETRY BATCH: {len(telemetry_df)} observations.")
         
+        b_values = telemetry_df['B_raw'].astype(float).values if 'B_raw' in telemetry_df.columns else np.array([])
+        x_metric = calculate_structural_scan_metric(b_values)
+
+        harmonic_col = next(
+            (col for col in ['harmonic_1_6ghz_power', 'power_1_6ghz', 'harmonic_power_1_6ghz']
+             if col in telemetry_df.columns),
+            None
+        )
+        harmonic_power = float(telemetry_df[harmonic_col].max()) if harmonic_col else None
+        harmonic_spike = bool(
+            harmonic_power is not None and harmonic_power >= self.thresholds['harmonic_spike_threshold']
+        )
+
+        structural_event = build_structural_event_log(
+            x_value=x_metric,
+            source='substrate_telemetry_engine',
+            timestamp=str(telemetry_df.iloc[-1]['timestamp']) if len(telemetry_df) else None,
+            harmonic_spike_1_6ghz=harmonic_spike,
+            harmonic_power_1_6ghz=harmonic_power,
+            directive=self.directive
+        )
+
         results = []
         
         for index, row in telemetry_df.iterrows():
@@ -66,10 +97,24 @@ class MagneticSubstrateEngine:
                 'timestamp': row['timestamp'],
                 'chi_stress': round(chi_current, 4),
                 'status': status,
+                'x_metric': round(structural_event['x_metric'], 6),
+                'mode_ratio': round(structural_event['mode_ratio'], 6),
+                'structural_scan_classification': structural_event['event_type'],
                 # Apply the 1.15 background compression enhancement factor to the baseline metric
                 'adjusted_baseline_energy': row['B_baseline'] * self.vacuum_compression_factor
             })
-            
+
+        if structural_event['failure_log'] or structural_event['attractor_near_boundary']:
+            self.structural_event_log.append(structural_event)
+            print(
+                f"[STRUCTURAL_SCAN] {structural_event['event_type']} | "
+                f"X={structural_event['x_metric']:.6f} | mode_ratio={structural_event['mode_ratio']:.3f}"
+            )
+            if structural_event['near_integer_mode'] and structural_event['mode'] is not None:
+                print(f"[STRUCTURAL_SCAN] Near-integer mode detected: mode {structural_event['mode']}")
+            if structural_event['attractor_near_boundary']:
+                print("[STRUCTURAL_SCAN] Attractor state: X remains near 0.15 boundary")
+             
         return pd.DataFrame(results)
 
     def _flag_yield_event(self, timestamp, chi, b_stress, n_stress, v_stress):
@@ -95,6 +140,14 @@ class MagneticSubstrateEngine:
             json.dump(self.yield_event_log, f, indent=4)
         print(f"Successfully exported {len(self.yield_event_log)} yield events to {filepath}")
 
+    def export_structural_log(self, filepath="substrate_structural_scan_events.json"):
+        """
+        Exports structured LUFT structural scan events for forensic review.
+        """
+        with open(filepath, 'w') as f:
+            json.dump(self.structural_event_log, f, indent=4)
+        print(f"Successfully exported {len(self.structural_event_log)} structural events to {filepath}")
+
 # ==========================================
 # USAGE EXAMPLE FOR DIRECT REPOSITORY COMMIT
 # ==========================================
@@ -114,3 +167,4 @@ if __name__ == "__main__":
     
     processed_feed = engine.process_telemetry_batch(sample_data)
     engine.export_yield_log()
+    engine.export_structural_log()
