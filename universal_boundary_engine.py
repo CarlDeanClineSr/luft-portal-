@@ -595,10 +595,12 @@ def print_validation_summary(report: Dict):
 
     structural = report.get('structural_scan_event')
     if structural:
+        boundary_value = structural['boundary']
+        boundary_label = f"{boundary_value:.3f}"
         print(f"\n🧭 STRUCTURAL SCAN (X = std(|B|)/mean(|B|)):")
         print(f"   X metric: {structural['x_metric']:.6f}")
-        print(f"   Boundary: {structural['boundary']:.6f}")
-        print(f"   Mode ratio X/0.15: {structural['mode_ratio']:.3f}")
+        print(f"   Boundary: {boundary_value:.6f}")
+        print(f"   Mode ratio X/{boundary_label}: {structural['mode_ratio']:.3f}")
         print(f"   Event: {structural['event_type']}")
         if structural.get('near_integer_mode') and structural.get('mode') is not None:
             print(f"   Near-integer mode: {structural['mode']}")
@@ -647,6 +649,7 @@ def process_space_weather_data(file_path: str,
     directive = load_chi_directive()
 
     # Structural scan metric X = std(|B|) / mean(|B|)
+    # Accept pandas Series (from DataFrame columns) or numpy arrays for structural metric input.
     x_metric = calculate_structural_scan_metric(B.values if hasattr(B, 'values') else B)
     harmonic_col = 'harmonic_1_6ghz_power' if 'harmonic_1_6ghz_power' in df.columns else None
     harmonic_power = float(df[harmonic_col].max()) if harmonic_col else None
@@ -665,7 +668,7 @@ def process_space_weather_data(file_path: str,
     structural_event = build_structural_event_log(
         x_value=x_metric,
         source=Path(file_path).name,
-        timestamp=str(timestamps[-1]) if timestamps is not None and len(timestamps) else None,
+        timestamp=str(timestamps[-1]) if timestamps is not None and len(timestamps) > 0 else None,
         harmonic_spike_1_6ghz=harmonic_spike,
         harmonic_power_1_6ghz=harmonic_power,
         directive=directive

@@ -24,14 +24,14 @@ class MagneticSubstrateEngine:
     Core engine for processing telemetry through the real-valued geometric manifold.
     Replaces standard void assumptions with dynamic substrate tension mechanics.
     """
-    
+
     def __init__(self):
         # The fundamental empirical limits of the magnetic substrate
         self.directive = load_chi_directive()
         self.thresholds = get_directive_thresholds(self.directive)
         self.chi_yield_limit = self.thresholds['boundary']
         self.vacuum_compression_factor = 1.15
-        
+
         # Log to store raw artifacts without smoothing
         self.yield_event_log = []
         self.structural_event_log = []
@@ -51,7 +51,8 @@ class MagneticSubstrateEngine:
         Expects columns: ['timestamp', 'B_baseline', 'B_raw', 'n_baseline', 'n_raw', 'V_baseline', 'V_raw']
         """
         print(f"[{datetime.now().isoformat()}] INGESTING TELEMETRY BATCH: {len(telemetry_df)} observations.")
-        
+
+        # X is defined over the analysis window, so it is intentionally computed once per batch.
         b_values = telemetry_df['B_raw'].astype(float).values if 'B_raw' in telemetry_df.columns else np.array([])
         x_metric = calculate_structural_scan_metric(b_values)
 
@@ -68,23 +69,23 @@ class MagneticSubstrateEngine:
         structural_event = build_structural_event_log(
             x_value=x_metric,
             source='substrate_telemetry_engine',
-            timestamp=str(telemetry_df.iloc[-1]['timestamp']) if len(telemetry_df) else None,
+            timestamp=str(telemetry_df.iloc[-1]['timestamp']) if not telemetry_df.empty else None,
             harmonic_spike_1_6ghz=harmonic_spike,
             harmonic_power_1_6ghz=harmonic_power,
             directive=self.directive
         )
 
         results = []
-        
+
         for index, row in telemetry_df.iterrows():
             # 1. Calculate individual field stress vectors
             delta_b = self.compute_chi_stress(row['B_baseline'], row['B_raw'])
             delta_n = self.compute_chi_stress(row['n_baseline'], row['n_raw'])
             delta_v = self.compute_chi_stress(row['V_baseline'], row['V_raw'])
-            
+
             # 2. Determine maximum localized geometric tension (χ)
             chi_current = max(delta_b, delta_n, delta_v)
-            
+
             # 3. Apply the Substrate Yield Logic (|ω(x, Jy)| <= 0.15 * g(x,y))
             if chi_current > self.chi_yield_limit:
                 # The substrate has saturated. Do NOT smooth this data.
@@ -92,7 +93,7 @@ class MagneticSubstrateEngine:
                 status = "YIELD_FRACTURE"
             else:
                 status = "STABLE_COMPRESSION"
-                
+
             results.append({
                 'timestamp': row['timestamp'],
                 'chi_stress': round(chi_current, 4),
@@ -114,7 +115,7 @@ class MagneticSubstrateEngine:
                 print(f"[STRUCTURAL_SCAN] Near-integer mode detected: mode {structural_event['mode']}")
             if structural_event['attractor_near_boundary']:
                 print("[STRUCTURAL_SCAN] Attractor state: X remains near 0.15 boundary")
-             
+
         return pd.DataFrame(results)
 
     def _flag_yield_event(self, timestamp, chi, b_stress, n_stress, v_stress):
@@ -153,7 +154,7 @@ class MagneticSubstrateEngine:
 # ==========================================
 if __name__ == "__main__":
     engine = MagneticSubstrateEngine()
-    
+
     # Example simulated raw feed (Replace with live DSCOVR/MAVEN data pipeline)
     sample_data = pd.DataFrame({
         'timestamp': ['2026-04-22T10:00:00', '2026-04-22T10:01:00', '2026-04-22T10:02:00'],
@@ -164,7 +165,7 @@ if __name__ == "__main__":
         'V_baseline': [400, 400, 400],
         'V_raw': [405, 410, 405]
     })
-    
+
     processed_feed = engine.process_telemetry_batch(sample_data)
     engine.export_yield_log()
     engine.export_structural_log()

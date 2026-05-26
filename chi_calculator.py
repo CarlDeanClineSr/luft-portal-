@@ -119,7 +119,7 @@ def compute_chi(file_path, time_col='TT2000', bx='BX-OUTB', by='BY-OUTB', bz='BZ
     print(f"Computing B magnitude from components: {bx}, {by}, {bz}")
     df['B_mag'] = np.sqrt(df[bx]**2 + df[by]**2 + df[bz]**2)
     
-    # 24-hour rolling baseline (centered window)
+    # 24-hour rolling baseline (centered window, pandas uses lowercase offset alias)
     # This removes long-term trends while preserving short-term fluctuations
     print("Computing 24-hour rolling baseline...")
     df['B_baseline'] = df['B_mag'].rolling(window='24h', min_periods=1, center=True).mean()
@@ -172,7 +172,8 @@ def print_results(stats, filename=""):
     print(f"At boundary (0.145-0.155): {stats['at_boundary_0145_0155']} ({stats['boundary_percentage']:.1f}%)")
     print(f"X metric std(|B|)/mean(|B|): {stats['x_metric']:.6f}")
     print(f"X boundary: {stats['x_boundary']:.3f}")
-    print(f"Mode ratio X/0.15: {stats['x_mode_ratio']:.3f}")
+    boundary_label = f"{stats['x_boundary']:.3f}"
+    print(f"Mode ratio X/{boundary_label}: {stats['x_mode_ratio']:.3f}")
     print(f"Structural classification: {stats['x_classification']}")
     if stats['x_near_integer_mode'] and stats['x_mode'] is not None:
         print(f"Near-integer mode: {stats['x_mode']}")
