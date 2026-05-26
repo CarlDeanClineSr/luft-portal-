@@ -21,6 +21,8 @@ thresholds:
   chi_tolerance: 0.01
   sideband_detection: 0.05
   coherence_loss: 0.15
+  attractor_threshold: 0.50
+  mode_integer_tolerance: 0.10
   
 detection_criteria:
   chi_at_boundary: "chi >= 0.145 and chi <= 0.155"

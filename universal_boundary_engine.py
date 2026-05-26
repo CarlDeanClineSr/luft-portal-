@@ -34,6 +34,7 @@ from datetime import datetime, timedelta
 import json
 import sys
 from typing import Dict, Tuple, List, Optional
+import yaml
 
 # ============================================================================
 # FUNDAMENTAL CONSTANTS
@@ -62,6 +63,12 @@ C_LIGHT = 299792458  # m/s
 # Numerical constants
 EPSILON = 1e-10  # Small value for division by zero protection
 DEFAULT_BASELINE_WINDOW = 24  # Default window size for baseline calculation
+
+# Directive paths (repo root first, then directives folder)
+DIRECTIVE_PATHS = [
+    Path("chi_015_directive.yaml"),
+    Path("directives/chi_015_directive.yaml")
+]
 
 # ============================================================================
 # DERIVED CONSTANTS (From χ = 0.15)
@@ -158,7 +165,119 @@ def calculate_chi(B: np.ndarray, B_baseline: Optional[np.ndarray] = None,
     return chi
 
 
-def validate_boundary(chi: np.ndarray) -> Dict:
+def load_chi_directive(directive_path: Optional[str] = None) -> Dict:
+    """
+    Load χ = 0.15 directive settings from YAML.
+    """
+    candidates = [Path(directive_path)] if directive_path else DIRECTIVE_PATHS
+
+    for path in candidates:
+        if path.exists():
+            with open(path, 'r', encoding='utf-8') as f:
+                return yaml.safe_load(f) or {}
+
+    return {}
+
+
+def get_directive_thresholds(directive: Optional[Dict] = None) -> Dict:
+    """
+    Extract threshold values from directive with safe fallbacks.
+    """
+    directive = directive or load_chi_directive()
+    thresholds = directive.get('thresholds', {})
+    physics = directive.get('physics', {})
+
+    boundary = float(thresholds.get('chi_boundary', physics.get('chi_cap', CHI_UNIVERSAL)))
+    tolerance = float(thresholds.get('chi_tolerance', physics.get('tolerance', CHI_TOLERANCE)))
+    mode_tolerance = float(thresholds.get('mode_integer_tolerance', 0.10))
+    attractor_threshold = float(thresholds.get('attractor_threshold', 0.50))
+    attractor_min = float(physics.get('chi_min', boundary - tolerance))
+    attractor_max = float(physics.get('chi_max', boundary + tolerance))
+    harmonic_spike_threshold = float(thresholds.get('sideband_detection', 0.05))
+
+    return {
+        'boundary': boundary,
+        'tolerance': tolerance,
+        'mode_tolerance': mode_tolerance,
+        'attractor_threshold': attractor_threshold,
+        'attractor_min': attractor_min,
+        'attractor_max': attractor_max,
+        'harmonic_spike_threshold': harmonic_spike_threshold
+    }
+
+
+def calculate_structural_scan_metric(B_magnitude: np.ndarray) -> float:
+    """
+    Calculate structural scan metric X = std(|B|) / mean(|B|) over a window.
+    """
+    values = np.asarray(B_magnitude, dtype=float)
+    if values.size == 0:
+        return 0.0
+
+    abs_values = np.abs(values)
+    mean_abs = float(np.mean(abs_values))
+    if mean_abs <= EPSILON:
+        return 0.0
+
+    std_abs = float(np.std(abs_values))
+    return std_abs / mean_abs
+
+
+def classify_structural_scan(x_value: float, directive: Optional[Dict] = None) -> Dict:
+    """
+    Classify a structural scan event using directive-driven thresholds.
+    """
+    limits = get_directive_thresholds(directive)
+    boundary = limits['boundary']
+    mode_ratio = x_value / boundary if boundary > EPSILON else 0.0
+    nearest_mode = int(round(mode_ratio))
+    near_integer_mode = nearest_mode > 0 and abs(mode_ratio - nearest_mode) <= limits['mode_tolerance']
+    near_boundary = abs(x_value - boundary) <= limits['tolerance']
+
+    return {
+        'x_metric': float(x_value),
+        'boundary': float(boundary),
+        'mode_ratio': float(mode_ratio),
+        'mode': nearest_mode if near_integer_mode else None,
+        'near_integer_mode': bool(near_integer_mode),
+        'attractor_near_boundary': bool(near_boundary),
+        'is_structural_fracture': bool(x_value > boundary),
+        'classification': 'Structural Fracture Event' if x_value > boundary else 'Lattice Stable'
+    }
+
+
+def build_structural_event_log(
+    x_value: float,
+    source: str,
+    timestamp: Optional[str] = None,
+    harmonic_spike_1_6ghz: Optional[bool] = None,
+    harmonic_power_1_6ghz: Optional[float] = None,
+    coordinates: Optional[str] = None,
+    directive: Optional[Dict] = None
+) -> Dict:
+    """
+    Build a structured LUFT structural-scan event record.
+    """
+    classification = classify_structural_scan(x_value, directive)
+
+    return {
+        'timestamp': timestamp or datetime.now().isoformat(),
+        'source': source,
+        'event_type': classification['classification'],
+        'x_metric': round(classification['x_metric'], 6),
+        'boundary': round(classification['boundary'], 6),
+        'mode_ratio': round(classification['mode_ratio'], 6),
+        'mode': classification['mode'],
+        'near_integer_mode': classification['near_integer_mode'],
+        'attractor_near_boundary': classification['attractor_near_boundary'],
+        'harmonic_spike_1_6ghz': harmonic_spike_1_6ghz,
+        'harmonic_power_1_6ghz': harmonic_power_1_6ghz,
+        'coordinates': coordinates,
+        'failure_log': classification['is_structural_fracture']
+    }
+
+
+def validate_boundary(chi: np.ndarray, directive: Optional[Dict] = None) -> Dict:
     """
     Validate the Universal Boundary Condition (χ ≤ 0.15).
     
@@ -173,12 +292,17 @@ def validate_boundary(chi: np.ndarray) -> Dict:
             - attractor_percentage: Percentage in attractor region
             - compliance: Boolean indicating full compliance
     """
+    limits = get_directive_thresholds(directive)
+    boundary = limits['boundary']
+    attractor_min = limits['attractor_min']
+    attractor_max = limits['attractor_max']
+
     total_points = len(chi)
-    violations = np.sum(chi > CHI_UNIVERSAL)
+    violations = np.sum(chi > boundary)
     max_chi = np.max(chi)
     
     # Attractor state analysis
-    in_attractor = np.sum((chi >= ATTRACTOR_MIN) & (chi <= ATTRACTOR_MAX))
+    in_attractor = np.sum((chi >= attractor_min) & (chi <= attractor_max))
     attractor_percentage = (in_attractor / total_points) * 100 if total_points > 0 else 0
     
     # Check compliance
@@ -194,13 +318,13 @@ def validate_boundary(chi: np.ndarray) -> Dict:
         'attractor_count': int(in_attractor),
         'attractor_percentage': float(attractor_percentage),
         'compliance': compliance,
-        'boundary_limit': CHI_UNIVERSAL
+        'boundary_limit': float(boundary)
     }
     
     return validation
 
 
-def detect_harmonic_mode(chi_values: np.ndarray) -> Dict:
+def detect_harmonic_mode(chi_values: np.ndarray, directive: Optional[Dict] = None) -> Dict:
     """
     Detect if system is operating in a harmonic mode (χ_n = n × 0.15).
     
@@ -213,13 +337,16 @@ def detect_harmonic_mode(chi_values: np.ndarray) -> Dict:
     Returns:
         harmonic_info: Dictionary with detected mode information
     """
+    limits = get_directive_thresholds(directive)
+    boundary = limits['boundary']
     max_chi = np.max(chi_values)
+    harmonic_targets = [boundary * n for n in HARMONIC_MODES]
     
     # Check which harmonic mode we're closest to
     mode_detected = 1
     min_deviation = float('inf')
     
-    for n, chi_harmonic in enumerate(CHI_HARMONICS, 1):
+    for n, chi_harmonic in enumerate(harmonic_targets, 1):
         deviation = abs(max_chi - chi_harmonic) / chi_harmonic
         if deviation < min_deviation:
             min_deviation = deviation
@@ -228,7 +355,7 @@ def detect_harmonic_mode(chi_values: np.ndarray) -> Dict:
     harmonic_info = {
         'max_chi': float(max_chi),
         'harmonic_mode': HARMONIC_MODES[mode_detected - 1],
-        'theoretical_chi': CHI_HARMONICS[mode_detected - 1],
+        'theoretical_chi': harmonic_targets[mode_detected - 1],
         'deviation': float(min_deviation),
         'is_harmonic': min_deviation < 0.10  # Within 10% of harmonic
     }
@@ -338,7 +465,9 @@ def calculate_fundamental_unifications() -> Dict:
 
 def generate_validation_report(chi_data: np.ndarray, 
                                source: str = "Unknown",
-                               timestamps: Optional[np.ndarray] = None) -> Dict:
+                               timestamps: Optional[np.ndarray] = None,
+                               directive: Optional[Dict] = None,
+                               structural_event: Optional[Dict] = None) -> Dict:
     """
     Generate comprehensive validation report for χ analysis.
     
@@ -351,10 +480,10 @@ def generate_validation_report(chi_data: np.ndarray,
         report: Complete validation report
     """
     # Basic validation
-    validation = validate_boundary(chi_data)
+    validation = validate_boundary(chi_data, directive=directive)
     
     # Harmonic mode detection
-    harmonic = detect_harmonic_mode(chi_data)
+    harmonic = detect_harmonic_mode(chi_data, directive=directive)
     
     # Fundamental unifications
     unifications = calculate_fundamental_unifications()
@@ -377,7 +506,8 @@ def generate_validation_report(chi_data: np.ndarray,
             'boundary_confirmed': validation['compliance'],
             'attractor_state': validation['attractor_percentage'] > 40.0,
             'harmonic_transition': harmonic['is_harmonic'] and harmonic['harmonic_mode'] > 1
-        }
+        },
+        'structural_scan_event': structural_event
     }
     
     return report
@@ -462,6 +592,22 @@ def print_validation_summary(report: Dict):
     
     if status['harmonic_transition']:
         print("   🔊 HARMONIC TRANSITION: System in elevated mode")
+
+    structural = report.get('structural_scan_event')
+    if structural:
+        boundary_value = structural['boundary']
+        boundary_label = f"{boundary_value:.3f}"
+        print(f"\n🧭 STRUCTURAL SCAN (X = std(|B|)/mean(|B|)):")
+        print(f"   X metric: {structural['x_metric']:.6f}")
+        print(f"   Boundary: {boundary_value:.6f}")
+        print(f"   Mode ratio X/{boundary_label}: {structural['mode_ratio']:.3f}")
+        print(f"   Event: {structural['event_type']}")
+        if structural.get('near_integer_mode') and structural.get('mode') is not None:
+            print(f"   Near-integer mode: {structural['mode']}")
+        if structural.get('attractor_near_boundary'):
+            print("   Attractor state: Near 0.15 boundary")
+        if structural.get('harmonic_spike_1_6ghz'):
+            print("   1.6 GHz: Harmonic spike detected")
     
     print("=" * 80 + "\n")
 
@@ -500,6 +646,15 @@ def process_space_weather_data(file_path: str,
     
     # Calculate χ
     chi = calculate_chi(B)
+    directive = load_chi_directive()
+
+    # Structural scan metric X = std(|B|) / mean(|B|)
+    # Accept pandas Series (from DataFrame columns) or numpy arrays for structural metric input.
+    x_metric = calculate_structural_scan_metric(B.values if hasattr(B, 'values') else B)
+    harmonic_col = 'harmonic_1_6ghz_power' if 'harmonic_1_6ghz_power' in df.columns else None
+    harmonic_power = float(df[harmonic_col].max()) if harmonic_col else None
+    spike_threshold = get_directive_thresholds(directive)['harmonic_spike_threshold']
+    harmonic_spike = bool(harmonic_power is not None and harmonic_power >= spike_threshold)
     
     # Parse timestamps if available
     timestamps = None
@@ -510,7 +665,21 @@ def process_space_weather_data(file_path: str,
             pass
     
     # Generate report
-    report = generate_validation_report(chi, source=Path(file_path).name, timestamps=timestamps)
+    structural_event = build_structural_event_log(
+        x_value=x_metric,
+        source=Path(file_path).name,
+        timestamp=str(timestamps[-1]) if timestamps is not None and len(timestamps) > 0 else None,
+        harmonic_spike_1_6ghz=harmonic_spike,
+        harmonic_power_1_6ghz=harmonic_power,
+        directive=directive
+    )
+    report = generate_validation_report(
+        chi,
+        source=Path(file_path).name,
+        timestamps=timestamps,
+        directive=directive,
+        structural_event=structural_event
+    )
     
     return chi, report
 
