@@ -12,8 +12,8 @@
     "ringdown",
     "fractal echo"
   ],
-  "generated_at": "2026-05-31T20:30:14Z",
-  "total_entries": 1660,
+  "generated_at": "2026-05-31T20:55:19Z",
+  "total_entries": 1661,
   "entries": [
     {
       "source": "file",
@@ -19934,6 +19934,18 @@
       "commit_sha": null,
       "commit_timestamp": null,
       "scanned_at": "2026-05-26T16:59:07Z"
+    },
+    {
+      "source": "file",
+      "category": "B",
+      "file_path": "reports/CYGNUS_NETWORK_MATH_NOTES.md",
+      "line": 137,
+      "matched_term": "harmonic",
+      "matched_pattern": "[Hh]armonic",
+      "snippet": "d → 80% - 5/5 locked → 100% - 2/5 locked → 40% then you could compare lock-rate changes against: - reported transient events - timing windows (8-day, 16-day, etc.) - any claimed harmonic injections such as 20.56 Hz ## Caution on the refractive-index interpretation If you want to describe a “window closure” mathematically, the safest way is to phrase it as a **wo",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-05-31T20:55:18Z"
     }
   ]
 }
