@@ -1,8 +1,8 @@
 # LUFT Engine Priority Evidence Report
 
-**Generated:** 2026-06-01T12:25:22Z  
-**Last commit processed:** `20b35e36c1af71d8ee8fe61e4061f71de5b51def`  
-**Total extraction runs:** 429  
+**Generated:** 2026-06-01T14:36:04Z  
+**Last commit processed:** `12688488cf7be1802619810af74035c2f95269c6`  
+**Total extraction runs:** 430  
 
 ---
 
@@ -10,8 +10,8 @@
 
 | Package | Title | Entries |
 |---------|-------|---------|
-| **A** | 122,079 Observations → G = 6.6667×10⁻¹¹ and 20.55 Hz Ring Frequency | 232 |
-| **B** | Mode 8 Fractures and CME Attractor Spikes | 1661 |
+| **A** | 122,079 Observations → G = 6.6667×10⁻¹¹ and 20.55 Hz Ring Frequency | 244 |
+| **B** | Mode 8 Fractures and CME Attractor Spikes | 1685 |
 | **C** | chi=0.15 Boundary and Seismic Event Correlations | 2000 |
 
 ---
@@ -21,7 +21,7 @@
 _Evidence linking 122,079 real-world stress observations to the derivation of Newton's gravitational constant G and the 20.55 Hz vacuum-integrity ring frequency via the chi-VSK pipeline._
 
 **Search terms:** `122,079`, `6.6667e-11`, `20.55 Hz`, `chi-VSK`, `ring frequency`, `Route 3B`, `G_derived`  
-**Total entries:** 232
+**Total entries:** 244
 
 ### Top Evidence (up to 20 entries)
 
@@ -57,7 +57,7 @@ _Evidence linking 122,079 real-world stress observations to the derivation of Ne
 _Evidence for Mode 8 substrate fractures and CME attractor spikes visible in raw telemetry, including baseline, onset, peak, and ringdown windows._
 
 **Search terms:** `Mode 8`, `fracture`, `CME attractor`, `attractor spike`, `heartbeat`, `harmonic`, `ringdown`, `fractal echo`  
-**Total entries:** 1661
+**Total entries:** 1685
 
 ### Top Evidence (up to 20 entries)
 
