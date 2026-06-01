@@ -23,6 +23,8 @@ on:
 jobs:
   intake-new-text-docs:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout repository

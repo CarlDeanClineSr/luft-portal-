@@ -138,6 +138,8 @@ def build_document_record(
     repeated_numbers_limit = int(settings.get("repeated_numbers_limit", 10))
     case_sensitive = bool(settings.get("keyword_case_sensitive", False))
 
+    line_count = text.count("\n") + 1 if text else 0
+
     return {
         "path": document["path"],
         "type": document.get("type", "unknown"),
@@ -146,7 +148,7 @@ def build_document_record(
         "exists": exists,
         "error": error,
         "size_bytes": path.stat().st_size if exists else 0,
-        "line_count": text.count("\n") + (1 if text else 0),
+        "line_count": line_count,
         "word_count": len(WORD_PATTERN.findall(text)),
         "character_count": len(text),
         "summary": summarize_text(text, summary_preview_chars) if text else "",
