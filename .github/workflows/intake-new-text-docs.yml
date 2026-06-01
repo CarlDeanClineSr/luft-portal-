@@ -1,0 +1,51 @@
+name: Intake New Text Documents
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "New Text Document (351).txt"
+      - "New Text Document (352).txt"
+      - "New Text Document (353).txt"
+      - "New Text Document (354).txt"
+      - "New Text Document (355).txt"
+      - "New Text Document (356).txt"
+      - "New Text Document (358).txt"
+      - "New Text Document (359).txt"
+      - "New Text Document (360).txt"
+      - "NEW_TEXT_DOCUMENTS_INTAKE.md"
+      - "configs/new_text_documents_manifest.yaml"
+      - "scripts/intake_new_text_docs.py"
+      - ".github/workflows/intake-new-text-docs.yml"
+  schedule:
+    - cron: "17 */6 * * *"
+
+jobs:
+  intake-new-text-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install PyYAML
+
+      - name: Run intake script
+        run: python scripts/intake_new_text_docs.py
+
+      - name: Upload intake artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: new-text-documents-intake
+          path: |
+            reports/intake/new_text_documents_summary.md
+            results/intake/new_text_documents_index.json
+          if-no-files-found: error

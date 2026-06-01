@@ -1,0 +1,78 @@
+documents:
+  - path: "New Text Document (351).txt"
+    type: "chat_backup"
+    role: "intake"
+    enabled: true
+
+  - path: "New Text Document (352).txt"
+    type: "chat_backup"
+    role: "intake"
+    enabled: true
+
+  - path: "New Text Document (353).txt"
+    type: "child_file"
+    role: "intake"
+    enabled: true
+
+  - path: "New Text Document (354).txt"
+    type: "child_file"
+    role: "intake"
+    enabled: true
+
+  - path: "New Text Document (355).txt"
+    type: "results"
+    role: "intake"
+    enabled: true
+
+  - path: "New Text Document (356).txt"
+    type: "results"
+    role: "intake"
+    enabled: true
+
+  - path: "New Text Document (358).txt"
+    type: "chat_backup"
+    role: "intake"
+    enabled: true
+
+  - path: "New Text Document (359).txt"
+    type: "results"
+    role: "intake"
+    enabled: true
+
+  - path: "New Text Document (360).txt"
+    type: "results"
+    role: "intake"
+    enabled: true
+
+settings:
+  output_markdown: "reports/intake/new_text_documents_summary.md"
+  output_json: "results/intake/new_text_documents_index.json"
+  summary_preview_chars: 600
+  top_words_limit: 15
+  numbers_preview_limit: 25
+  repeated_numbers_limit: 10
+  keyword_case_sensitive: false
+
+keywords:
+  - "chat"
+  - "child"
+  - "result"
+  - "results"
+  - "intake"
+  - "engine"
+  - "script"
+  - "workflow"
+  - "report"
+  - "dataset"
+  - "telemetry"
+  - "chi"
+  - "chi=0.15"
+  - "0.15"
+  - "20.55 hz"
+  - "mode 8"
+  - "fracture"
+  - "cme"
+  - "boundary"
+  - "seismic"
+  - "compliance"
+  - "observations"
