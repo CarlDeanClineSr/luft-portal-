@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>CLINE CLASSIC TV | MAN CAVE V163</title>
+    <style>
+        body { 
+            background: #0a0a0a; 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+            height: 100vh; 
+            width: 100vw; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            font-family: 'Courier New', Courier, monospace;
+        }
+        #cabinet { 
+            width: min(96vw, 1200px); 
+            height: min(92vh, 900px); 
+            max-width: 100%; 
+            max-height: 100%; 
+            background: #0f0f0f;
+            border: clamp(18px, 4vw, 28px) solid #0a0a0a;
+            border-radius: 28px; 
+            box-shadow: 0 60px 100px #000, inset 0 0 140px #000; 
+            display: flex; 
+            flex-direction: column; 
+            padding: clamp(20px, 5vw, 50px) clamp(30px, 6vw, 80px); 
+            position: relative; 
+            overflow: hidden; 
+            box-sizing: border-box;
+        }
+        .glass-tube { 
+            width: 100%; 
+            height: clamp(50%, 60vh, 70%); 
+            background: #000; 
+            border-radius: 14px; 
+            overflow: hidden; 
+            border: clamp(14px, 3vw, 22px) solid #1c1c1c; 
+            box-shadow: inset 0 0 90px #000, 0 0 50px #000; 
+            margin-bottom: clamp(12px, 3vw, 24px);
+            display: flex;
+            align-items: center; 
+            justify-content: center;
+            position: relative;
+        }
+        video, audio { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain; 
+            background: #000; 
+        }
+        audio {
+            height: 60px;
+            width: 90%;
+            filter: invert(80%) sepia(10%) saturate(1000%) hue-rotate(180deg) brightness(80%) contrast(90%);
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+        }
+        #audio-player {
+            display: none;
+        }
+        .right-panel { 
+            width: 100%; 
+            height: auto; 
+            background: linear-gradient(#4d4d4d, #2a2a2a); 
+            border: clamp(10px, 2vw, 14px) solid #111; 
+            border-radius: 10px; 
+            padding: clamp(12px, 3vw, 20px); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: clamp(14px, 3.5vw, 22px); 
+            box-shadow: inset 0 0 40px #000; 
+            box-sizing: border-box;
+        }
+        .title-grille { 
+            width: 100%; 
+            height: clamp(44px, 10vw, 60px); 
+            background: repeating-linear-gradient(45deg, #222, #222 5px, #1a1a1a 5px, #1a1a1a 14px); 
+            border: 8px solid #111; 
+            border-radius: 8px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: flex-start; 
+            padding: 0 12px; 
+            box-sizing: border-box; 
+            overflow: hidden;
+            position: relative;
+        }
+        #title-display {
+            color: #e0e0e0;
+            font-size: clamp(13px, 3.2vw, 16px);
+            font-weight: bold;
+            text-transform: uppercase;
+            text-shadow: 0 0 6px #444, 1px 1px 2px #000;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
+            padding: 0 40px 0 0;
+            box-sizing: border-box;
+            will-change: transform;
+        }
+        #title-display.scroller-active {
+            animation: marquee 32s linear infinite;
+        }
+        #title-display:hover, #title-display:active {
+            animation-play-state: paused;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        .dial-housing { 
+            position: relative; 
+            width: clamp(100px, 40vw, 140px); 
+            height: clamp(120px, 36vw, 160px); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+        }
+        .knob { 
+            width: clamp(60px, 22vw, 74px); 
+            height: clamp(60px, 22vw, 74px); 
+            background: #1f1f1f; 
+            border: clamp(8px, 3vw, 10px) solid #0f0f0f; 
+            border-radius: 50%; 
+            cursor: pointer; 
+            box-shadow: 0 8px 20px #000; 
+            position: relative; 
+            touch-action: manipulation;
+        }
+        .knob::after { 
+            content: ''; 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            width: 4px; 
+            height: 28px; 
+            background: #ddd; 
+            transform: translate(-50%, -50%); 
+            transform-origin: center top;
+        }
+        .number-ring { 
+            position: absolute; 
+            width: clamp(140px, 50vw, 200px); 
+            height: clamp(140px, 50vw, 200px); 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            pointer-events: none; 
+        }
+        .tick {
+            position: absolute;
+            width: 2px;
+            height: 8px;
+            background: #777;
+            top: 50%;
+            left: 50%;
+            transform-origin: center center;
+            opacity: 0.8;
+        }
+        .number { 
+            position: absolute; 
+            width: clamp(26px, 6vw, 32px); 
+            height: clamp(26px, 6vw, 32px); 
+            text-align: center; 
+            line-height: clamp(26px, 6vw, 32px); 
+            font-size: clamp(10px, 3vw, 13px); 
+            color: #eee; 
+            text-shadow: 0 0 5px #000; 
+            transform: translate(-50%, -50%); 
+            pointer-events: none; 
+        }
+        .volume-container { 
+            width: clamp(70px, 25vw, 82px); 
+            height: 32px; 
+            background: #222; 
+            border: 5px solid #111; 
+            border-radius: 20px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin: 6px auto 0;
+        }
+        .volume-slider { 
+            width: clamp(50px, 20vw, 62px); 
+            height: 6px; 
+            background: #444; 
+            border-radius: 3px; 
+            outline: none; 
+        }
+        .volume-slider::-webkit-slider-thumb { 
+            width: 22px; 
+            height: 22px; 
+            background: #ccc; 
+            border-radius: 50%; 
+            border: 4px solid #111; 
+        }
+        .fs-toggle { 
+            position: absolute; 
+            top: clamp(15px, 4vw, 25px); 
+            left: clamp(15px, 4vw, 25px); 
+            background: #111; 
+            color: #fff; 
+            border: 1px solid #444; 
+            padding: clamp(8px, 2vw, 10px) clamp(12px, 3vw, 16px); 
+            cursor: pointer; 
+            font-size: clamp(9px, 2.5vw, 10px); 
+            z-index: 100; 
+            font-weight: bold; 
+            border-radius: 8px; 
+        }
+        .version { 
+            position: absolute; 
+            top: clamp(15px, 4vw, 25px); 
+            right: clamp(15px, 4vw, 25px); 
+            color: #ff6600; 
+            font-size: clamp(9px, 2.5vw, 10px); 
+            font-weight: bold; 
+        }
+
+        @media (min-width: 769px) {
+            body { flex-direction: row; }
+            #cabinet { 
+                flex-direction: row; 
+                padding: 50px 80px; 
+            }
+            .glass-tube { 
+                width: 74%; 
+                height: 100%; 
+                margin-bottom: 0;
+            }
+            .right-panel { 
+                width: 24%; 
+                height: 100%; 
+                margin-left: 20px;
+            }
+            .dial-housing { 
+                height: clamp(140px, 38vw, 180px); 
+            }
+            .title-grille {
+                height: 56px;
+            }
+            #title-display {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<button class="fs-toggle" onclick="toggleFS()">[ FULL SCREEN ]</button>
+<div class="version">V163</div>
+
+<div id="cabinet">
+    <div class="glass-tube">
+        <video id="player" autoplay controls playsinline webkit-playsinline></video>
+        <audio id="audio-player" controls></audio>
+    </div>
+
+    <div class="right-panel">
+        <div class="title-grille">
+            <div id="title-display">STANDBY</div>
+        </div>
+
+        <div class="dial-housing">
+            <div class="number-ring" id="t-ring"></div>
+            <div class="knob" id="t-knob" onclick="tune(1)" oncontextmenu="event.preventDefault(); tune(-1);"></div>
+        </div>
+
+        <div class="volume-container">
+            <input type="range" min="0" max="1" step="0.01" value="0.7" class="volume-slider" id="volume-knob" oninput="changeVolume(this.value)">
+        </div>
+
+        <div class="dial-housing">
+            <div class="number-ring" id="s-ring"></div>
+            <div class="knob" id="s-knob" onclick="changeCategory(1)" oncontextmenu="event.preventDefault(); changeCategory(-1);"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const A = [
+        {n: "A. Einstein", u: "https://archive.org/download/NOVAAEinstein/NOVA.S06E09.A.Einstein.VHSRip.AAC2.0.x264-RATTERA.mp4"},
+        {n: "NASA UFO Footages", u: "https://archive.org/download/NASAfootages/UFOs.avi"},
+        {n: "Pink Panther: Olympinks", u: "https://archive.org/download/ThePinkPanther-cartoons/The Pink Panther in -OLYMPINKS!.mp4"},
+        {n: "Unacknowledged", u: "https://ia601407.us.archive.org/8/items/unacknowledged.-2017.308p/Unacknowledged%20%282017%29/Unacknowledged.2017.308p.mp4"}
+    ];
+
+    const B = [
+        {n: "Arthur C Clarkes World of Strange Powers - From Mind to Mind", u: "https://archive.org/download/arthur-c-clarkes-world-of-strange-powers-complete-series-1985/Arthur C Clarkes - World of Strange Powers S01E03 - From Mind to Mind.mp4"},
+        {n: "Project UFO S01E01 - The Washington DC Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E01%20-%20Sighting%204001%20-%20The%20Washington%20DC%20Incident.mp4"},
+        {n: "Project UFO S01E02 - The Joshua Flats Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E02%20-%20Sighting%204002%20-%20The%20Joshua%20Flats%20Incident.mp4"},
+        {n: "Project UFO S01E03 - The Fremont Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E03%20-%20Sighting%204003%20-%20The%20Fremont%20Incident.mp4"},
+        {n: "Project UFO S01E04 - The Howard Crossing Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E04%20-%20Sighting%204004%20-%20The%20Howard%20Crossing%20Incident.mp4"},
+        {n: "Project UFO S01E05 - The Medicine Bow Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E05%20-%20Sighting%204005%20-%20The%20Medicine%20Bow%20Incident.mp4"},
+        {n: "Project UFO S01E06 - The Nevada Desert Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E06%20-%20Sighting%204006%20-%20The%20Nevada%20Desert%20Incident.mp4"},
+        {n: "Project UFO S01E07 - Sighting The Forest City Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E07%20-%20Sighting%204007%20-%20Sighting%20The%20Forest%20City%20Incident.mp4"},
+        {n: "Project UFO S01E08 - The Desert Springs Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E08%20-%20Sighting%204008%20-%20The%20Desert%20Springs%20Incident.mp4"},
+        {n: "Project UFO S01E09 - The French Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E09%20-%20Sighting%204009%20-%20The%20French%20Incident.mp4"},
+        {n: "Project UFO S01E10 - The Waterford Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E10%20-%20Sighting%204010%20-%20The%20Waterford%20Incident.mp4"},
+        {n: "Project UFO S01E11 - The Doll House Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E11%20-%20Sighting%204011%20-%20The%20Doll%20House%20Incident.mp4"},
+        {n: "Project UFO S01E12 - The Rock and Hard Place Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E12%20-%20Sighting%204012%20-%20The%20Rock%20and%20Hard%20Place%20Incident.mp4"},
+        {n: "Project UFO S01E13 - The Whitman Tower Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S01E13%20-%20Sighting%204025%20-%20The%20Whitman%20Tower%20Incident.mp4"},
+        {n: "Project UFO S02E01 - The Underwater Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E01%20-%20Sighting%204015%20-%20The%20Underwater%20Incident.mp4"},
+        {n: "Project UFO S02E02 - The Pipeline Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E02%20-%20Sighting%204016%20-%20The%20Pipeline%20Incident.mp4"},
+        {n: "Project UFO S02E03 - The Devilish Davidson Lights Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E03%20-%20Sighting%204017%20-%20The%20Devilish%20Davidson%20Lights%20Incident.mp4"},
+        {n: "Project UFO S02E04 - The Incident On The Cliffs", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E04%20-%20Sighting%204018%20-%20The%20Incident%20On%20The%20Cliffs.mp4"},
+        {n: "Project UFO S02E05 - The Wild Blue Yonder Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E05%20-%20Sighting%204014%20-%20The%20Wild%20Blue%20Yonder%20Incident.mp4"},
+        {n: "Project UFO S02E06 - The Believe It Or Not Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E06%20-%20Sighting%204019%20-%20The%20Believe%20It%20Or%20Not%20Incident.mp4"},
+        {n: "Project UFO S02E07 - The Camoflauge Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E07%20-%20Sighting%204022%20-%20The%20Camoflauge%20Incident.mp4"},
+        {n: "Project UFO S02E08 - The Island Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E08%20-%20Sighting%204020%20-%20The%20Island%20Incident.mp4"},
+        {n: "Project UFO S02E09 - The Superstition Mountain Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E09%20-%20Sighting%204021%20-%20The%20Superstition%20Mountain%20Incident.mp4"},
+        {n: "Project UFO S02E10 - The I-Man Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E10%20-%20Sighting%204023%20-%20The%20I-Man%20Incident.mp4"},
+        {n: "Project UFO S02E10 - The Scoutmaster Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E10%20-%20Sighting%204024%20-%20The%20Scoutmaster%20Incident.mp4"},
+        {n: "Project UFO S02E12 - The Atlantic Queen Incident", u: "https://archive.org/download/Project-UFO-1978-Series/Project%20UFO%20%2826%20of%2026%29/S02E12%20-%20Sighting%204026%20-%20The%20Atlantic%20Queen%20Incident.mp4"}
+    ];
+
+    const C = [
+        {n: "Plymouth Fury 1968 Ad", u: "https://archive.org/download/classic-car-commercials/Plymouth_Fury_1968.mp4"},
+        {n: "Dodge Charger 1969 Commercial", u: "https://archive.org/download/classic-car-commercials/Dodge_Charger_1969.mp4"},
+        {n: "Chrysler 1970 Muscle Spot", u: "https://archive.org/download/classic-car-commercials/Chrysler_1970.mp4"},
+        {n: "Drive-In Theater Commercials Reel", u: "https://archive.org/download/drive-in-commercials-1960s/DriveInCommercials1960s.mp4"},
+        {n: "Arthur C Clarke | Fractals | The Colors Of Infinity", u: "https://archive.org/download/youtube-IptmGRQiZg0/IptmGRQiZg0.mp4"},
+        {n: "Arthur C Clarkes Mysterious World - UFOs", u: "https://archive.org/download/arthur-c-clarkes-mysterious-world-complete-series-1980/Arthur C. Clarke's Mysterious World - Ep10 - UFOs.mp4"},
+        {n: "David Attenborough: Frozen Planet S01E01", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E01.720p.HDTV.x264.YIFY.mp4"},
+        {n: "David Attenborough: Frozen Planet S01E02", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E02.720p.HDTV.x264.YIFY.mp4"},
+        {n: "David Attenborough: Frozen Planet S01E03", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E03.720p.HDTV.x264.YIFY.mp4"},
+        {n: "David Attenborough: Frozen Planet S01E04", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E04.720p.HDTV.x264.YIFY.mp4"},
+        {n: "David Attenborough: Frozen Planet S01E05", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E05.720p.HDTV.x264.YIFY.mp4"},
+        {n: "David Attenborough: Frozen Planet S01E06", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E06.720p.HDTV.x264.YIFY.mp4"},
+        {n: "David Attenborough: Frozen Planet S01E07", u: "https://archive.org/download/bbcdavidattenborough/BBC - Frozen Planet [720p]/Frozen.Planet.S01E07.720p.HDTV.x264.YIFY.mp4"},
+        {n: "David Attenborough: Life in the Freezer - The Bountiful Sea", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/1993 - Life in the Freezer-[KRISH]/01 The Bountiful Sea.mp4"},
+        {n: "David Attenborough: Life in the Freezer - The Ice Retreats", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/1993 - Life in the Freezer-[KRISH]/02 The Ice Retreats.mp4"},
+        {n: "David Attenborough: Life in the Freezer - The Race to Breed", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/1993 - Life in the Freezer-[KRISH]/03 The Race to Breed.mp4"},
+        {n: "David Attenborough: Life in the Freezer - The Door Closes", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/1993 - Life in the Freezer-[KRISH]/04 The Door Closes.mp4"},
+        {n: "David Attenborough: Life in the Freezer - The Big Freeze", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/1993 - Life in the Freezer-[KRISH]/05 The Big Freeze.mp4"},
+        {n: "David Attenborough: Life in the Freezer - Footsteps in the Snow", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/1993 - Life in the Freezer-[KRISH]/06 Footsteps in the Snow.mp4"},
+        {n: "David Attenborough: Life in the Undergrowth - Invasion of the Land", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/2005 - Life in the Undergrowth -KRISH/01 Invasion of the Land.mp4"},
+        {n: "David Attenborough: Life in the Undergrowth - Taking to the Air", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/2005 - Life in the Undergrowth -KRISH/02 Taking to the Air.mp4"},
+        {n: "David Attenborough: Life in the Undergrowth - The Silk Spinners", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/2005 - Life in the Undergrowth -KRISH/03 The Silk Spinners.mp4"},
+        {n: "David Attenborough: Life in the Undergrowth - Intimate Relations", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/2005 - Life in the Undergrowth -KRISH/04 Intimate Relations.mp4"},
+        {n: "David Attenborough: Life in the Undergrowth - Supersocieties", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/2005 - Life in the Undergrowth -KRISH/05 Supersocieties.mp4"},
+        {n: "David Attenborough: Planet Earth II S01E01", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/Planet.Earth.II.S01.720p.BRRip.3GB.MkvCage/Planet.Earth.II.S01E01.720p.BRRip.500MB.MkvCage.mp4"},
+        {n: "David Attenborough: Planet Earth II S01E02", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/Planet.Earth.II.S01.720p.BRRip.3GB.MkvCage/Planet.Earth.II.S01E02.720p.BRRip.500MB.MkvCage.mp4"},
+        {n: "David Attenborough: Planet Earth II S01E03", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/Planet.Earth.II.S01.720p.BRRip.3GB.MkvCage/Planet.Earth.II.S01E03.720p.BRRip.500MB.MkvCage.mp4"},
+        {n: "David Attenborough: Planet Earth II S01E04", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/Planet.Earth.II.S01.720p.BRRip.3GB.MkvCage/Planet.Earth.II.S01E04.720p.BRRip.550MB.MkvCage.mp4"},
+        {n: "David Attenborough: Planet Earth II S01E05", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/Planet.Earth.II.S01.720p.BRRip.3GB.MkvCage/Planet.Earth.II.S01E05.720p.BRRip.550MB.MkvCage.mp4"},
+        {n: "David Attenborough: Planet Earth II S01E06", u: "https://archive.org/download/bbcdavidattenborough/David Attenborough/Planet.Earth.II.S01.720p.BRRip.3GB.MkvCage/Planet.Earth.II.S01E06.720p.BRRip.550MB.MkvCage.mp4"},
+        {n: "David Attenborough: The Life of Birds - To Fly or Not to Fly", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/01 To Fly or Not to Fly.mp4"},
+        {n: "David Attenborough: The Life of Birds - Mastery of Flight", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/02 Mastery of Flight.mp4"},
+        {n: "David Attenborough: The Life of Birds - Meat-Eaters", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/04 Meat-Eaters.mp4"},
+        {n: "David Attenborough: The Life of Birds - Fishing for a Living", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/05 Fishing for a Living.mp4"},
+        {n: "David Attenborough: The Life of Birds - Signals and Songs", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/06 Signals and Songs.mp4"},
+        {n: "David Attenborough: The Life of Birds - Finding Partners", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/07 Finding Partners.mp4"},
+        {n: "David Attenborough: The Life of Birds - Demands of the Egg", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/08 Demands of the Egg.mp4"},
+        {n: "David Attenborough: The Life of Birds - Limits of Endurance", u: "https://archive.org/download/bbcdavidattenborough/1998 - The Life of Birds -[KRISH]/10 Limits of Endurance.mp4"},
+        {n: "David Attenborough: The Life of Mammals - A Winning Design", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 01 - A Winning Design.mp4"},
+        {n: "David Attenborough: The Life of Mammals - Insect Hunters", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 02 - Insect Hunters.mp4"},
+        {n: "David Attenborough: The Life of Mammals - Plant Predators", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 03 - Plant Predators.mp4"},
+        {n: "David Attenborough: The Life of Mammals - Chisellers", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 04 - Chisellers.mp4"},
+        {n: "David Attenborough: The Life of Mammals - Meat Eaters", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 05 - Meat Eaters.mp4"},
+        {n: "David Attenborough: The Life of Mammals - Opportunists", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 06 - Opportunists.mp4"},
+        {n: "David Attenborough: The Life of Mammals - Return to the Water", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 07 - Return to the Water.mp4"},
+        {n: "David Attenborough: The Life of Mammals - Life in the Trees", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 08 - Life in the Trees.mp4"},
+        {n: "David Attenborough: The Life of Mammals - Social Climbers", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 09 - Social Climbers.mp4"},
+        {n: "David Attenborough: The Life of Mammals - Food for Thought", u: "https://archive.org/download/bbcdavidattenborough/2002 - The Life of Mammals/The Life of Mammals - 10 - Food for Thought.mp4"},
+        {n: "David Attenborough: The Private Life of Plants - Travelling", u: "https://archive.org/download/bbcdavidattenborough/1995  The Private Life of Plants/The Private Life of Plants - 01 - Travelling.mp4"},
+        {n: "David Attenborough: The Private Life of Plants - Growing", u: "https://archive.org/download/bbcdavidattenborough/1995  The Private Life of Plants/The Private Life of Plants - 02 - Growing.mp4"},
+        {n: "David Attenborough: The Private Life of Plants - Flowering", u: "https://archive.org/download/bbcdavidattenborough/1995  The Private Life of Plants/The Private Life of Plants - 03 - Flowering.mp4"},
+        {n: "David Attenborough: The Private Life of Plants - The Social Struggle", u: "https://archive.org/download/bbcdavidattenborough/1995  The Private Life of Plants/The Private Life of Plants - 04 - The Social Struggle.mp4"},
+        {n: "David Attenborough: The Private Life of Plants - Living Together", u: "https://archive.org/download/bbcdavidattenborough/1995  The Private Life of Plants/The Private Life of Plants - 05 - Living Together.mp4"},
+        {n: "David Attenborough: The Private Life of Plants - Surviving", u: "https://archive.org/download/bbcdavidattenborough/1995  The Private Life of Plants/The Private Life of Plants - 06 - Surviving.mp4"}
+    ];
+
+    const D = [
+        {n: "43: The Richard Petty Story", u: "https://archive.org/download/43TheRichardPettyStory_201301/43TheRichardPettyStory.mp4"},
+        {n: "Ingenuity in Action (Part II)", u: "https://archive.org/download/Ingenuit1958_2/Ingenuit1958_2_edit.mp4"},
+        {n: "Ingenuity in Action (Part I)", u: "https://archive.org/download/Ingenuit1958/Ingenuit1958_edit.mp4"},
+        {n: "The Hospital", u: "https://archive.org/download/thehospital/thehospital.mp4"},
+        {n: "25 Years Ago, 1960/05/19", u: "https://archive.org/download/1960-05-19_25_years_ago/1960-05-19_25_years_ago.mp4"},
+        {n: "The Blob I/II", u: "https://archive.org/download/the-blob-iii-19581972/1. The Blob (1958).mp4"},
+        {n: "Catastrophe 1977", u: "https://archive.org/download/catastrophe-1977/Catastrophe 1977.mp4"},
+        {n: "Scenes from the Altamont Speedway Free Festival 1969", u: "https://archive.org/download/KCRASP025ALTAMONT/KCRA Daily Reel December 6 1969 ALTAMONT.mp4"},
+        {n: "ALCF Leonard Wood Sizemore Home Movies Clip 9716", u: "https://archive.org/download/ALCFLeonardWoodSizemoreHomeMoviesClip9716/ALCF_LeonardWoodSizemore_HomeMovies_Clip9716.mp4"},
+        {n: "Dominican Truce. Cease-Fire Brings Calm To Island, 1965/05/06", u: "https://archive.org/download/1965-05-06_Dominican_Truce/1965-05-06_Dominican_Truce.mp4"},
+        {n: "ROLLING STONES, Altamont Festival, documentary", u: "https://archive.org/download/rolling-stones-altamont-part-1/ROLLING STONES, Altamont Part 2.mp4"},
+        {n: "On Any Sunday (1971)", u: "https://archive.org/download/on-any-sunday-1971-1080p/On.Any.Sunday.1971.1080p.WEBRip.x265-RARBG.mp4"},
+        {n: "43: The Richard Petty Story", u: "https://archive.org/download/43TheRichardPettyStory/43TheRichardPettyStory.mp4"},
+        {n: "David Hall Story, The", u: "https://archive.org/download/0423_David_Hall_Story_The_E00834_00_22_40_00/0423_David_Hall_Story_The_E00834_00_22_40_00.mp4"},
+        {n: "Greased Lightning (1977) - Upscaled 1080p", u: "https://archive.org/download/greased-lightning-1977/Greased Lightning (1977).mp4"},
+        {n: "WONDERFUL WORLD OF WHEELS  1960s AUTOMOBILES   SPORTS CARS & CUSTOMS  BIG DADDY ROTH  68014", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"},
+        {n: "Ghost of Dragstrip Hollow [1959] - Trailer", u: "https://archive.org/download/sinema-trailer_ghost-of-dragstrip-hollow/Ghost of Dragstrip Hollow 1959 trailer (480p_30fps_H264-128kbit_AAC).mp4"},
+        {n: "Fireball 500 [1966] - Trailer", u: "https://archive.org/download/sinema-trailer_fireball-500/Fireball 500 (1966) Official Trailer - Frankie Avalon Movie HD (720p_30fps_H264-192kbit_AAC).mp4"},
+        {n: "California 500 at Ontario Motor Speedway, 1972", u: "https://archive.org/download/con_000051/con_000051_access.HD.mp4"},
+        {n: "The Grim Reaper (1976)", u: "https://archive.org/download/the-grim-reaper-1976/The Grim Reaper (1976).mp4"},
+        {n: "Rolling Stones at Altamont (Home Movie)", u: "https://archive.org/download/rolling-stones-at-altamont-home-movie/service-mbrs-ntscrm-02628023-02628023.mp4"},
+        {n: "Pit Stop [1969] - Trailer", u: "https://archive.org/download/sinema-trailer_pit-stop/Pit Stop (480p_25fps_H264-128kbit_AAC).mp4"},
+        {n: "Trailer for Speedway", u: "https://archive.org/download/trailer-for-speedway/Trailer for Speedway.mp4"},
+        {n: "Speed Racer (1967-68) aka Mahha GoGoGo", u: "https://archive.org/download/speed-racer-tv/03 Challenge of the Masked Racer 1.mp4"},
+        {n: "Reel 685", u: "https://archive.org/download/WMARReel685/WMARReel685.mp4"},
+        {n: "Commercials & Beaver On TV", u: "https://archive.org/download/commercials-beaver-on-tv/Walt The Man Behind The Myth &  Commercials.mp4"},
+        {n: "California 500 at Ontario Motor Speedway, 1970", u: "https://archive.org/download/con_000050/con_000050_access.HD.mp4"},
+        {n: "Miller High Life 500 at Ontario Motor Speedway", u: "https://archive.org/download/con_000052/con_000052_access.HD.mp4"},
+        {n: "KNTV Channel 11 News Reels May 26, 1969", u: "https://archive.org/download/casjhsj_000241/casjhsj_000241_r01_access.HD.mp4"},
+        {n: "KNTV Channel 11 News Reels May 16, 1969", u: "https://archive.org/download/casjhsj_000234/casjhsj_000234_r02_access.HD.mp4"},
+        {n: "Programa di dragrace vol. 1 - Koral Tabak", u: "https://archive.org/download/ana-dig-da-silva-19/ANA-DIG-DaSilva-19.mp4"},
+        {n: "CAN AM Racing 1971 LIVE From Watkins Glen", u: "https://archive.org/download/can-am-racing-1971-live-from-watkins-glen/CAN-AM Racing 1971 - LIVE from Watkins Glen.mp4"},
+        {n: "KNTV Channel 11 News Reels May 29, 1969", u: "https://archive.org/download/casjhsj_000245/casjhsj_000245_r01_access.HD.mp4"},
+        {n: "Programa di dragrace vol. 2", u: "https://archive.org/download/ana-dig-da-silva-20/ANA-DIG-DaSilva-20.mp4"},
+        {n: "KNTV Channel 11 News Reels April 24, 1966", u: "https://archive.org/download/casjhsj_000512/casjhsj_000512_r02_access.HD.mp4"},
+        {n: "KNTV Channel 11 News Reels May 13, 1969", u: "https://archive.org/download/casjhsj_000232/casjhsj_000232_r03_access.HD.mp4"},
+        {n: "Spiegel van Nederland (62712)", u: "https://archive.org/download/62712_1411108732_s01_Spiegel_van_Nederland_62712/62712_1411108732_s01_Spiegel_van_Nederland_62712.mp4"},
+        {n: "KNTV Channel 11 News Reels May 2, 1969", u: "https://archive.org/download/casjhsj_000226/casjhsj_000226_r05_access.HD.mp4"},
+        {n: "KNTV Channel 11 News Reels May 23, 1969", u: "https://archive.org/download/casjhsj_000233/casjhsj_000233_r02_access.HD.mp4"},
+        {n: "Australian Movie Magazine #7321", u: "https://archive.org/download/7321_20210301/7321.mp4"},
+        {n: "KNTV Channel 11 News Broadcast (circa May 21, 1976)", u: "https://archive.org/download/hsj1983-68-1716A/hsj1983-68-1716A.mp4"},
+        {n: "KNTV Channel 11 News Reels September 16, 1966", u: "https://archive.org/download/casjhsj_000629/casjhsj_000629_r01_access.HD.mp4"},
+        {n: "Pink Pistons", u: "https://archive.org/download/pink-pistons-s-01-ep-16/Pink Pistons S01Ep16.mp4"},
+        {n: "1970 Southern 500", u: "https://archive.org/download/1970-southern-500/1970 Southern 500.mp4"},
+        {n: "KNTV Channel 11 News Reels November 3, 1966", u: "https://archive.org/download/casjhsj_000676/casjhsj_000676_r04_access.HD.mp4"},
+        {n: "e_history_StreamRoot_DH_0159_19580408_01", u: "https://archive.org/download/e_history_StreamRoot_DH_0159_19580408_01/e_history_StreamRoot_DH_0159_19580408_01.mp4"},
+        {n: "e_history_StreamRoot_DH_0167_19580610_01", u: "https://archive.org/download/e_history_StreamRoot_DH_0167_19580610_01/e_history_StreamRoot_DH_0167_19580610_01.mp4"},
+        {n: "e_history_StreamRoot_DH_0155_19580311_01", u: "https://archive.org/download/e_history_StreamRoot_DH_0155_19580311_01/e_history_StreamRoot_DH_0155_19580311_01.mp4"},
+        {n: "KCRA-TV Daily News Reel: October 26, 1976 #4", u: "https://archive.org/download/kcra-news-10-26-1976-4_20240801/KCRA DAILY NEWS REEL 10_26_1976 reel 4 HD.mp4"},
+        {n: "e_history_StreamRoot_DH_0166_19580603_01", u: "https://archive.org/download/e_history_StreamRoot_DH_0166_19580603_01/e_history_StreamRoot_DH_0166_19580603_01.mp4"},
+        {n: "Wonderful World of Wheels", u: "https://archive.org/download/68014-wonderful-world-of-wheels-vwr_202412/68014+Wonderful+World+Of+Wheels_vwr.mp4"},
+        {n: "Star Trek - Where No Man Has Gone Before", u: "https://archive.org/download/JimmyAndTheFederationGang/1x02-WhereNoManHasGoneBefore.mp4"},
+        {n: "Star Trek - The Corbomite Maneuver", u: "https://archive.org/download/JimmyAndTheFederationGang/1x03-TheCorbomiteManeuver.mp4"},
+        {n: "Star Trek - Mudd's Women", u: "https://archive.org/download/JimmyAndTheFederationGang/1x04-MuddsWomen.mp4"},
+        {n: "Star Trek - The Galileo Seven", u: "https://archive.org/download/JimmyAndTheFederationGang/1x14-TheGalileoSeven.mp4"},
+        {n: "Popeye for President", u: "https://archive.org/download/Popeye_forPresident/Popeye_forPresident_512kb.mp4"},
+        {n: "Patriotic Popeye", u: "https://archive.org/download/popeye_patriotic_popeye/popeye_patriotic_popeye_512kb.mp4"},
+        {n: "Private Eye Popeye", u: "https://archive.org/download/popeye_private_eye_popeye/popeye_private_eye_popeye_512kb.mp4"},
+        {n: "Shuteye Popeye", u: "https://archive.org/download/popeye_shuteye_popeye/popeye_shuteye_popeye_512kb.mp4"},
+        {n: "Popeye: I Dont Scare", u: "https://archive.org/download/popeye_i_dont_scare/popeye_i_dont_scare_512kb.mp4"},
+        {n: "Popeye the Sailor: Nearlyweds", u: "https://archive.org/download/Popeye_Nearlyweds/Popeye_Nearlyweds_512kb.mp4"},
+        {n: "Modern Guide to Health", u: "https://archive.org/download/modern_guide_to_health_TNA/modern_guide_to_health_TNA_512kb.mp4"},
+        {n: "Popeye: Taxi-Turvy", u: "https://archive.org/download/popeye_taxi-turvey/popeye_taxi-turvey_512kb.mp4"},
+        {n: "Popeye The Sailor: Big Bad Sinbad", u: "https://archive.org/download/popeye_big_bad_sinbad/popeye_big_bad_sinbad_512kb.mp4"},
+        {n: "Alvin & The Chipmunks 1983 Complete Series + Bonus", u: "https://archive.org/download/1983-alvin-and-the-chipmunks-complete/Chipmunks S07E11b Princess and the Pig Custom English Restoration with Subtitles.mp4"},
+        {n: "How The Grinch Stole Christmas", u: "https://archive.org/download/HowTheGrinchStoleChristmas_201812/How the Grinch Stole Christmas.mp4"},
+        {n: "Noveltoon: Caspar The Friendly Ghost in Theres Good Boos Tonight", u: "https://archive.org/download/noveltoon_casper_tfg_theres_good_boos_tonight/noveltoon_casper_tfg_theres_good_boos_tonight_512kb.mp4"},
+        {n: "The Pink Panther (cartoons)", u: "https://archive.org/download/ThePinkPanther-cartoons/The Pink Panther in -OLYMPINKS!.mp4"},
+        {n: "Noveltoon: Tarts and Flowers", u: "https://archive.org/download/noveltoon_tarts_and_flowers/noveltoon_tarts_and_flowers_512kb.mp4"},
+        {n: "Gullivers Travels [720p]", u: "https://archive.org/download/GulliversTravels720p_652/GulliversTravels.mp4"},
+        {n: "Gabby: Alls Well", u: "https://archive.org/download/gabby_alls_well/gabby_alls_well_512kb.mp4"},
+        {n: "Hectors Hectic Life", u: "https://archive.org/download/hectors_hectic_life/hectors_hectic_life_512kb.mp4"},
+        {n: "Reading Rainbow - TV Series (1983)", u: "https://archive.org/download/ReadingRainbowTVSeries/Reading.Rainbow.S01E10.The.Gift.of.the.Sacred.Dog.480p.AMZN.WEB-DL.DD.2.0.x264-RTN.mp4"},
+        {n: "Snow Foolin", u: "https://archive.org/download/SnowFoolin/ClaCinOnl_an_SnowFoolin_512kb.mp4"},
+        {n: "Popeye the Sailor Meets Aladdin and His Wonderful Lamp", u: "https://archive.org/download/Popeye_the_Sailor_Meets_Aladdin_and_His_Wonderful_Lamp/Popeye_-_Aladdin_and_His_Wonderful_Lamp_512kb.mp4"},
+        {n: "Noveltoon: The Stupidstitious Cat", u: "https://archive.org/download/noveltoon_the_stupidstitious_cat/noveltoon_the_stupidstitious_cat_512kb.mp4"},
+        {n: "Popeye: Bride and Gloom", u: "https://archive.org/download/Popeye_BrideandGloom/Popeye_BrideandGloom_512kb.mp4"},
+        {n: "The Friendly Ghost", u: "https://archive.org/download/TheFriendlyGhost/TheFriendlyGhost_512kb.mp4"},
+        {n: "Cheese Burglar featuring Herman", u: "https://archive.org/download/Herman_CheeseBurglar/Herman_CheeseBurglar_512kb.mp4"},
+        {n: "Hep Cat Symphony", u: "https://archive.org/download/HepCatSymphony/HepCatSymphony_512kb.mp4"},
+        {n: "Superman The Magnetic Telescope", u: "https://archive.org/download/Superman_The_Magnetic_Telescope/Superman_The_Magnetic_Telescope_512kb.mp4"},
+        {n: "The Pink Panther Cartoon Collection", u: "https://archive.org/download/the-pink-panther-cartoon-collection/003 We Give Pink Stamps (Feb 12, 1965).ia.mp4"},
+        {n: "Betty Boop: Musical Mountaineers", u: "https://archive.org/download/bb_musical_mountaineers/bb_musical_mountaineers_512kb.mp4"},
+        {n: "Tarzoon, Shame Of The Jungle [1975]", u: "https://archive.org/download/Tarzoon1975/Shame.of.the.Jungle.1975.mp4"},
+        {n: "Little Lulu: Bargain Counter Attack", u: "https://archive.org/download/little_lulu_bargain_counter_attack/little_lulu_bargain_counter_attack_512kb.mp4"},
+        {n: "Little Audrey In Butterscotch and Soda", u: "https://archive.org/download/LittleAudreyInbutterscotchAndSoda1948/ButterscotchAndSoda_512kb.mp4"},
+        {n: "All The Beatles Cartoon", u: "https://archive.org/download/thebeatlescartoon_201910/01-A hard day's night - I want to hold your hand.mp4"},
+        {n: "Do It! Yasujis Pornorama (1971) (nsfw)", u: "https://archive.org/download/pornorama/pornorama.mp4"},
+        {n: "Scrub Me Mama With A Boogie Beat", u: "https://archive.org/download/ScrubMeMamaWithABoogieBeat/ScrubMeMamaWithABoogieBeat.mp4"},
+        {n: "Nu Pogodi- Complete Era", u: "https://archive.org/download/nu-pogodi-complete/Season 1/Episode 15.ia.mp4"},
+        {n: "Peter Pan (1953) [captured from the 1990 Walt Disney Classics VHS]", u: "https://archive.org/download/peterpan1953capturedfromthe1990classicsvhs/Peter Pan (1953) [captured from the 1990 Classics VHS].mp4"},
+        {n: "A Kockásfülű Nyúl (The Rabbit With Checkered Ears)", u: "https://archive.org/download/a-kockasfulu-nyul/A kockásfülű nyúl - Süt a nap (21. rész).mp4"},
+        {n: "Il Nano E La Strega", u: "https://archive.org/download/Gibba1974IlNanoELaStrega_201902/[Gibba, 1974] Il nano e la strega.mp4"},
+        {n: "The 1000 Looney Tunes & Merrie Melodies", u: "https://archive.org/download/the-1000-looney-tunes-merrie-melodies/1942/s1942e11 - Horton Hatches the Egg.mp4"},
+        {n: "John Carpenters The Thing", u: "https://archive.org/download/the-thing_202010/The Thing.mp4"}
+    ];
+
+    const E = [
+        {n: "NFL Films - The Best of the 70s", u: "https://archive.org/download/nfl-films-1970s-highlights/NFL_Films_1970s.mp4"},
+        {n: "Super Bowl 1970s Highlights Reel", u: "https://archive.org/download/super-bowl-1970s-highlights/SuperBowl1970s.mp4"},
+        {n: "Joe Namath 1970s Clips", u: "https://archive.org/download/joe-namath-1970s/Namath_1970s.mp4"},
+        {n: "Bill Dance Bass Fishing 1970s", u: "https://archive.org/download/bill-dance-bass-1970s/Bill_Dance_Bass_1970s.mp4"},
+        {n: "Al Lindner 1970s Fishing Tips", u: "https://archive.org/download/al-lindner-1970s/Al_Lindner_1970s.mp4"},
+        {n: "Roland Martin Bass Tournament 1970s", u: "https://archive.org/download/roland-martin-bass-1970s/Roland_Martin_1970s.mp4"},
+        {n: "Arthur C Clarkes Mysterious Universe - Relics of the Saints", u: "https://archive.org/download/arthur-c-clarkes-mysterious-universe-complete-series-1994/Arthur C Clarkes - Mysterious Universe S01E04 - Relics of the Saints.mp4"},
+        {n: "Carrie 1976", u: "https://archive.org/download/carrie-1976_202409/Carrie 1976.mp4"}
+    ];
+
+    const F = [
+        {n: "1960s TRUE ADVENTURE TV SHOW DIVING FOR TREASURE", u: "https://archive.org/download/22974TrueAdventureScubaDiving/22974 True Adventure Scuba Diving.mp4"},
+        {n: "In Search Of... Ancient Astronauts", u: "https://archive.org/download/insearchofancientastronautsreel1/insearchofancientastronautsreel1.mp4"}
+    ];
+
+    const G = [
+        {n: "Chariots of the Gods", u: "https://archive.org/download/chariots-of-the-gods_202407/Chariots of the Gods.ia.mp4"},
+        {n: "Day the Earth Stood Still (1951)", u: "https://archive.org/download/day-the-earth-stood-still-1951/Day%20the%20Earth%20Stood%20Still%201951.mp4"}
+    ];
+
+    const H = [
+        {n: "Farscape S01E01 Premiere", u: "https://archive.org/download/farscape-s-01/Farscape S01E01 Premiere.mp4"},
+        {n: "Farscape S01E02 Exodus from Genesis", u: "https://archive.org/download/farscape-s-01/Farscape S01E02 Exodus from Genesis.mp4"},
+        {n: "Farscape S01E03 Back and Back and Back to the Future", u: "https://archive.org/download/farscape-s-01/Farscape S01E03 Back and Back and Back to the Future.mp4"},
+        {n: "Farscape S01E04 Throne for a Loss", u: "https://archive.org/download/farscape-s-01/Farscape S01E04 Throne for a Loss.mp4"},
+        {n: "Farscape S01E05 PK Tech Girl", u: "https://archive.org/download/farscape-s-01/Farscape S01E05 PK Tech Girl.mp4"},
+        {n: "Farscape S01E06 Thank God it's Friday, Again.", u: "https://archive.org/download/farscape-s-01/Farscape S01E06 Thank God it's Friday, Again..mp4"},
+        {n: "Farscape S01E07 I, E.T.", u: "https://archive.org/download/farscape-s-01/Farscape S01E07 I, E.T..mp4"},
+        {n: "Farscape S01E08 That Old Black Magic", u: "https://archive.org/download/farscape-s-01/Farscape S01E08 That Old Black Magic.mp4"},
+        {n: "Farscape S01E09 DNA Mad Scientist", u: "https://archive.org/download/farscape-s-01/Farscape S01E09 DNA Mad Scientist.mp4"},
+        {n: "Farscape S01E10 They've Got a Secret", u: "https://archive.org/download/farscape-s-01/Farscape S01E10 They've Got a Secret.mp4"},
+        {n: "Farscape S01E11 Till the Blood Runs Clear", u: "https://archive.org/download/farscape-s-01/Farscape S01E11 Till the Blood Runs Clear.mp4"},
+        {n: "Farscape S01E12 The Flax", u: "https://archive.org/download/farscape-s-01/Farscape S01E12 The Flax.mp4"},
+        {n: "Farscape S01E13 Rhapsody in Blue", u: "https://archive.org/download/farscape-s-01/Farscape S01E13 Rhapsody in Blue.mp4"},
+        {n: "Farscape S01E14 Jeremiah Crichton", u: "https://archive.org/download/farscape-s-01/Farscape S01E14 Jeremiah Crichton.mp4"},
+        {n: "Farscape S01E15 Durka Returns", u: "https://archive.org/download/farscape-s-01/Farscape S01E15 Durka Returns.mp4"},
+        {n: "Farscape S01E16 A Human Reaction", u: "https://archive.org/download/farscape-s-01/Farscape S01E16 A Human Reaction.mp4"},
+        {n: "Farscape S01E17 Through the Looking Glass", u: "https://archive.org/download/farscape-s-01/Farscape S01E17 Through the Looking Glass.mp4"},
+        {n: "Farscape S01E18 A Bug's Life", u: "https://archive.org/download/farscape-s-01/Farscape S01E18 A Bug's Life.mp4"},
+        {n: "Farscape S01E19 Nerve (1)", u: "https://archive.org/download/farscape-s-01/Farscape S01E19 Nerve (1).mp4"}
+    ];
+
+    const I = [
+        {n: "Bob Lazar & Area 51", u: "https://archive.org/download/BobLazarAndArea51TechnologyUFODocumentary/Bob Lazar and Area 51 Technology [UFO Documentary].mp4"},
+        {n: "Farscape S01E21 Bone to be Wild", u: "https://archive.org/download/farscape-s-01/Farscape S01E21 Bone to be Wild.mp4"},
+        {n: "Farscape S01E22 Family Ties", u: "https://archive.org/download/farscape-s-01/Farscape S01E22 Family Ties.mp4"},
+        {n: "In Search Of... Ancient Mysteries", u: "https://archive.org/download/insearchofancientmysteriesreel1/insearchofancientmysteriesreel1.mp4"},
+        {n: "In Search Of... Cryogenics", u: "https://archive.org/download/In-Search-Of-complete-series/In Search Of.../Season 3/S03E06 - Cryogenics.ia.mp4"},
+        {n: "In Search Of... Dracula", u: "https://archive.org/download/in-search-of-dracula/In Search of Dracula.avi"},
+        {n: "In Search Of... Future Life", u: "https://archive.org/download/in-search-of-s-6-e-14-future-life/In Search Of S6E14 Future Life.mp4"},
+        {n: "In Search Of... Noahs Ark", u: "https://archive.org/download/in-search-of-noahs-ark-1976/In Search of Noah's Ark 1976.ia.mp4"},
+        {n: "In Search Of... The Coming Ice Age", u: "https://archive.org/download/In_Search_of_S02E23_The_Coming_Ice_Age/1978 MAY In Search of... The Coming Ice Age.mp4"},
+        {n: "In Search Of... The Money Pit Mystery", u: "https://archive.org/download/in-search-of-s-03-e-16-the-money-pit-mystery/In Search Of S03E16 The Money Pit Mystery.mp4"},
+        {n: "Overlords Of The UFO (1976)", u: "https://archive.org/download/OverlordsOfTheUFO1976_201610/Overlords of the UFO - 1976.mp4"},
+        {n: "Project Blue Book: Alien Interview", u: "https://archive.org/download/youtube-QTYsigxhjic/QTYsigxhjic.mp4"},
+        {n: "The Case of the Ancient Astronauts (Nova)", u: "https://archive.org/download/NOVATheCaseOfTheAncientAstronauts/NOVA.S05E09.The.Case.of.the.Ancient.Astronauts.1978.VHSRip.AAC2.0.x264-rattera.ia.mp4"},
+        {n: "The Outer Space Connection (1975)", u: "https://archive.org/download/the-outer-space-connection-1975/The Outer Space Connection 1975.ia.mp4"},
+        {n: "The UFO Incident (1975)", u: "https://archive.org/download/the-ufo-incident-1975-tv/The UFO Incident (1975-TV).mp4"},
+        {n: "Turkey UFO 2008 (Kumburgaz)", u: "https://archive.org/download/youtube-zVdeM99mkMs/zVdeM99mkMs.mp4"},
+        {n: "UFO Complete Series Ep 24", u: "https://archive.org/download/UFO.complete/UFO.24.Reflections In The Water.avi"}
+    ];
+
+    const J = [
+        {n: "A Christmas Carol", u: "https://archive.org/download/AChristmasCarolCbsRadioMysteryTheater/Cbsrmt7512240402AChristmasCarol_wbbm_rec12_24_78.mp3"},
+        {n: "CBSRMT - 1974 Cold Storage", u: "https://archive.org/download/CBSRMT/CBSRMT_740113__44m18s__Cold_Storage.mp3"},
+        {n: "CBSRMT - 1974 Sea Of Troubles", u: "https://archive.org/download/cbsrmt-nrl-ad-free-collection/0058 740609 Sea Of Troubles WOR (no ads).mp3"},
+        {n: "CBSRMT - 1974 The Man Who Heard Voices", u: "https://archive.org/download/cbs-radio-mystery-theater-74-01-29-e-0024-the-man-who-heard-voices/1974/CBS Radio Mystery Theater 74-01-29 e0024 The Man Who Heard Voices.mp3"},
+        {n: "CBSRMT - 1975 Death Is a Dream", u: "https://archive.org/download/cbsrmt-ken-long-dlg-collection/CBSRMT - 750326 0245 Death Is a Dream.mp3"},
+        {n: "CBSRMT - 1975 Roses Are For Funerals", u: "https://archive.org/download/cbsrmt-ken-long-jc-collection/CBSRMT - 750404 0251 Roses Are For Funerals vbr kb2_jc.mp3"},
+        {n: "CBSRMT - 1975 The Disembodied Voice", u: "https://archive.org/download/cbs-radio-mystery-theater-75-01-31-e-0216-the-disembodied-voice/1975/CBS Radio Mystery Theater 75-01-31 e0216 The Disembodied Voice.mp3"},
+        {n: "CBSRMT - 1976 Lovers And Killers", u: "https://archive.org/download/cbs-radio-mystery-theater-76-08-05-e-0504-lovers-and-killers/1976/CBS Radio Mystery Theater 76-08-05 e0504 Lovers and Killers.mp3"},
+        {n: "CBSRMT - 1976 The Mark of Cain", u: "https://archive.org/download/CBSRMTCBSRADIOMYSTERYTHEATER1976/0572_The_Mark_of_Cain_761227.mp3"},
+        {n: "CBSRMT - 1977 A Study In Scarlet", u: "https://archive.org/download/cbs-radio-mystery-theater-77-03-25-e-0623-a-study-in-scarlet/1977/CBS Radio Mystery Theater 77-03-25 e0623 A Study in Scarlet.mp3"},
+        {n: "CBSRMT - 1978 The Forgetful Ghost", u: "https://archive.org/download/CBSRMTCBSRADIOMYSTERYTHEATER1978PAGE1/0769_The_Forgetful_Ghost_012378.mp3"},
+        {n: "CBSRMT - 1979 Enemy From Space", u: "https://archive.org/download/CBSRadioMysteryTheater1979WBBM/Cbsrmt7903260965EnemyFromSpace_wbbm_repaired.mp3"},
+        {n: "CBSRMT - 1979 Voyage To Intrastar", u: "https://archive.org/download/cbsrmt-ken-long-jl-collection/CBSRMT - 790402 0967 Voyage To Intrastar_jl.mp3"},
+        {n: "CBSRMT - 1980 A Private Demon", u: "https://archive.org/download/cbsrmt-david-oxford-boa-collection/CBSRMT-800521-1087-A-Private-Demon-(AFRTS)-(256-44)-{BoA}.mp3"},
+        {n: "CBSRMT - 1980 Revenge Is Not Sweet", u: "https://archive.org/download/CBSRMTCBSRADIOMYSTERYTHEATER1980/1044_Revenge_Is_Not_Sweet_800102.mp3"},
+        {n: "CBSRMT - 1980 The Deserter", u: "https://archive.org/download/CBSRMTCBSRADIOMYSTERYTHEATER1980_0/1057_The_Deserter_800206.mp3"},
+        {n: "CBSRMT - 1981 Diogenes Inc", u: "https://archive.org/download/cbsrmt-vinyl-afrts/CBSRMT-810513-1197-Diogenes-Inc_afrts.mp3"},
+        {n: "CBSRMT - 1981 Pretty Polly", u: "https://archive.org/download/cbs-radio-mystery-theater-81-03-18-e-1173-pretty-polly/1981/CBS Radio Mystery Theater 81-03-18 e1173 Pretty Polly.mp3"},
+        {n: "CBSRMT - 1982 Bring Back My Body", u: "https://archive.org/download/cbs-radio-mystery-theater-82-07-02-e-1346-bring-back-my-body/1982/CBS Radio Mystery Theater 82-07-02 e1346 Bring Back My Body.mp3"},
+        {n: "TREASURE ISLAND FULL Audio Book", u: "https://archive.org/download/TREASUREISLANDFULLAudioBookByRobertLouisStevensonAdventurePirateFiction/TREASURE ISLAND - FULL AudioBook by Robert Louis Stevenson - Adventure - Pirate Fiction.ogv"}
+    ];
+
+    const categories = [
+        {name: "A", content: A},
+        {name: "B", content: B},
+        {name: "C", content: C},
+        {name: "D", content: D},
+        {name: "E", content: E},
+        {name: "F", content: F},
+        {name: "G", content: G},
+        {name: "H", content: H},
+        {name: "I", content: I},
+        {name: "J", content: J}
+    ];
+
+    let currentCategoryIndex = 0;
+    let currentVideoIndex = 0;
+    let tunerDeg = 0;
+    let categoryDeg = 0;
+
+    const player = document.getElementById('player');
+    const audioPlayer = document.getElementById('audio-player');
+    const titleDisp = document.getElementById('title-display');
+    const volumeKnob = document.getElementById('volume-knob');
+
+    function checkOverflow() {
+        titleDisp.classList.remove('scroller-active');
+        void titleDisp.offsetWidth; 
+        if (titleDisp.scrollWidth > titleDisp.clientWidth + 10) {
+            titleDisp.classList.add('scroller-active');
+        } else {
+            titleDisp.style.transform = 'translateX(0)';
+        }
+    }
+
+    function makeTicks(id, count) {
+        const ring = document.getElementById(id);
+        ring.innerHTML = '';
+        const radius = 52;
+        const step = 360 / count;
+        for (let i = 0; i < count; i++) {
+            const angle = i * step;
+            const tick = document.createElement('div');
+            tick.className = 'tick';
+            tick.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-${radius}px)`;
+            ring.appendChild(tick);
+        }
+    }
+
+    function makeNumbers(id, count) {
+        const ring = document.getElementById(id);
+        ring.innerHTML = '';
+        const radius = 52;
+        const step = 360 / count;
+        for (let i = 0; i < count; i++) {
+            const angle = i * step - 90;
+            const rad = angle * Math.PI / 180;
+            const x = radius * Math.cos(rad);
+            const y = radius * Math.sin(rad);
+            const num = document.createElement('div');
+            num.className = 'number';
+            num.style.left = `calc(50% + ${x}px)`;
+            num.style.top = `calc(50% + ${y}px)`;
+            num.style.transform = `translate(-50%, -50%)`;
+            num.innerText = i + 1;
+            ring.appendChild(num);
+        }
+    }
+
+    function isAudio(url) {
+        return url.toLowerCase().endsWith('.mp3') || url.toLowerCase().endsWith('.ogg') || url.toLowerCase().endsWith('.wav');
+    }
+
+    function loadAndPlay() {
+        const cat = categories[currentCategoryIndex];
+        const item = cat.content[currentVideoIndex % cat.content.length];
+        
+        // Pause both players
+        player.pause();
+        audioPlayer.pause();
+        
+        // Reset displays
+        player.style.display = 'none';
+        audioPlayer.style.display = 'none';
+        
+        titleDisp.innerText = item.n.trim() + '          ';
+        setTimeout(checkOverflow, 100);
+
+        if (isAudio(item.u)) {
+            audioPlayer.style.display = 'block';
+            audioPlayer.src = item.u;
+            audioPlayer.load();
+            audioPlayer.volume = volumeKnob.value;
+            audioPlayer.play().catch(err => {
+                console.log("Audio play blocked:", err);
+                titleDisp.innerText += " (tap to play)";
+            });
+        } else {
+            player.style.display = 'block';
+            player.src = item.u;
+            player.load();
+            player.volume = volumeKnob.value;
+            player.play().catch(err => {
+                console.log("Video play blocked:", err);
+                titleDisp.innerText += " (tap to play)";
+            });
+        }
+    }
+
+    function changeVolume(val) {
+        player.volume = val;
+        audioPlayer.volume = val;
+    }
+
+    function tune(dir) {
+        tunerDeg += dir * 3.6;
+        document.getElementById('t-knob').style.transform = `rotate(${tunerDeg}deg)`;
+        const cat = categories[currentCategoryIndex];
+        currentVideoIndex = (currentVideoIndex + dir + cat.content.length) % cat.content.length;
+        loadAndPlay();
+    }
+
+    function changeCategory(dir) {
+        categoryDeg += dir * 36;
+        document.getElementById('s-knob').style.transform = `rotate(${categoryDeg}deg)`;
+        currentCategoryIndex = (currentCategoryIndex + dir + categories.length) % categories.length;
+        currentVideoIndex = 0;
+        loadAndPlay();
+    }
+
+    function toggleFS() {
+        const elem = document.getElementById('cabinet');
+        if (!document.fullscreenElement) {
+            elem.requestFullscreen?.() || elem.webkitRequestFullscreen?.() || elem.mozRequestFullScreen?.() || elem.msRequestFullscreen?.();
+        } else {
+            document.exitFullscreen?.() || document.webkitExitFullscreen?.() || document.mozCancelFullScreen?.() || document.msExitFullscreen?.();
+        }
+    }
+
+    window.onload = () => {
+        makeTicks('t-ring', 100);
+        makeNumbers('s-ring', 10);
+        loadAndPlay();
+    };
+
+    player.addEventListener('ended', () => tune(1));
+    player.addEventListener('error', () => { setTimeout(() => tune(1), 1500); });
+    
+    audioPlayer.addEventListener('ended', () => tune(1));
+    audioPlayer.addEventListener('error', () => { setTimeout(() => tune(1), 1500); });
+</script>
+</body>
+</html>

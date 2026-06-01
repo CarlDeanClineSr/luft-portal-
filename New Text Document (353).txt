@@ -1,0 +1,2530 @@
+Imperial Chi Data Interrogator
+Telemetry mass conversion scanner for Unified Fields #42
+All jobs
+Run details
+Annotations
+1 warning
+run-math-audit
+succeeded 5 minutes ago in 1m 23s
+Search logs
+1s
+Current runner version: '2.334.0'
+Runner Image Provisioner
+Operating System
+Runner Image
+GITHUB_TOKEN Permissions
+Secret source: Actions
+Prepare workflow directory
+Prepare all required actions
+Getting action download info
+Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+Complete job name: run-math-audit
+48s
+Run actions/checkout@v4
+Syncing repository: CarlDeanClineSr/luft-portal-
+Getting Git version info
+Temporarily overriding HOME='/home/runner/work/_temp/1adf8799-b2a6-4f8c-84c2-d8d968638337' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+/usr/bin/git config --global --add safe.directory /home/runner/work/luft-portal-/luft-portal-
+Deleting the contents of '/home/runner/work/luft-portal-/luft-portal-'
+Initializing the repository
+Disabling automatic garbage collection
+Setting up auth
+Fetching the repository
+Determining the checkout info
+/usr/bin/git sparse-checkout disable
+/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Checking out the ref
+/usr/bin/git log -1 --format=%H
+9a4d87fa47f16787fdf5b6a9dd9aabe87e1f17a2
+1s
+Run actions/setup-python@v5
+Installed versions
+20s
+Run python -m pip install --upgrade pip
+Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages (26.0.1)
+Collecting pip
+  Downloading pip-26.1.1-py3-none-any.whl.metadata (4.6 kB)
+Downloading pip-26.1.1-py3-none-any.whl (1.8 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 7.1 MB/s  0:00:00
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 26.0.1
+    Uninstalling pip-26.0.1:
+      Successfully uninstalled pip-26.0.1
+Successfully installed pip-26.1.1
+Collecting pandas
+  Downloading pandas-2.3.3-cp310-cp310-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (91 kB)
+Collecting numpy
+  Downloading numpy-2.2.6-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (62 kB)
+Collecting matplotlib
+  Downloading matplotlib-3.10.9-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (52 kB)
+Collecting scipy
+  Downloading scipy-1.15.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (61 kB)
+Collecting python-dateutil>=2.8.2 (from pandas)
+  Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+Collecting pytz>=2020.1 (from pandas)
+  Downloading pytz-2026.2-py2.py3-none-any.whl.metadata (22 kB)
+Collecting tzdata>=2022.7 (from pandas)
+  Downloading tzdata-2026.2-py2.py3-none-any.whl.metadata (1.4 kB)
+Collecting contourpy>=1.0.1 (from matplotlib)
+  Downloading contourpy-1.3.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.5 kB)
+Collecting cycler>=0.10 (from matplotlib)
+  Downloading cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+Collecting fonttools>=4.22.0 (from matplotlib)
+  Downloading fonttools-4.62.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (117 kB)
+Collecting kiwisolver>=1.3.1 (from matplotlib)
+  Downloading kiwisolver-1.5.0-cp310-cp310-manylinux_2_12_x86_64.manylinux2010_x86_64.whl.metadata (5.1 kB)
+Collecting packaging>=20.0 (from matplotlib)
+  Downloading packaging-26.2-py3-none-any.whl.metadata (3.5 kB)
+Collecting pillow>=8 (from matplotlib)
+  Downloading pillow-12.2.0-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+Collecting pyparsing>=3 (from matplotlib)
+  Downloading pyparsing-3.3.2-py3-none-any.whl.metadata (5.8 kB)
+Collecting six>=1.5 (from python-dateutil>=2.8.2->pandas)
+  Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+Downloading pandas-2.3.3-cp310-cp310-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (12.8 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 12.8/12.8 MB 73.8 MB/s  0:00:00
+Downloading numpy-2.2.6-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (16.8 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.8/16.8 MB 275.6 MB/s  0:00:00
+Downloading matplotlib-3.10.9-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (8.8 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.8/8.8 MB 317.5 MB/s  0:00:00
+Downloading scipy-1.15.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (37.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 37.7/37.7 MB 369.8 MB/s  0:00:00
+Downloading contourpy-1.3.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (325 kB)
+Downloading cycler-0.12.1-py3-none-any.whl (8.3 kB)
+Downloading fonttools-4.62.1-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.9 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.9/4.9 MB 192.7 MB/s  0:00:00
+Downloading kiwisolver-1.5.0-cp310-cp310-manylinux_2_12_x86_64.manylinux2010_x86_64.whl (1.6 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.6/1.6 MB 95.1 MB/s  0:00:00
+Downloading packaging-26.2-py3-none-any.whl (100 kB)
+Downloading pillow-12.2.0-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 29.7 MB/s  0:00:00
+Downloading pyparsing-3.3.2-py3-none-any.whl (122 kB)
+Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+Downloading pytz-2026.2-py2.py3-none-any.whl (510 kB)
+Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+Downloading tzdata-2026.2-py2.py3-none-any.whl (349 kB)
+Installing collected packages: pytz, tzdata, six, pyparsing, pillow, packaging, numpy, kiwisolver, fonttools, cycler, scipy, python-dateutil, contourpy, pandas, matplotlib
+
+Successfully installed contourpy-1.3.2 cycler-0.12.1 fonttools-4.62.1 kiwisolver-1.5.0 matplotlib-3.10.9 numpy-2.2.6 packaging-26.2 pandas-2.3.3 pillow-12.2.0 pyparsing-3.3.2 python-dateutil-2.9.0.post0 pytz-2026.2 scipy-1.15.3 six-1.17.0 tzdata-2026.2
+1s
+Run python chi_mach_interrogator.py
+======================================================================
+INITIATING IMPERIAL χ vs. MACH NUMBER INTERROGATION
+======================================================================
+🔍 SCANNING REPOSITORY FOR TELEMETRY FILES...
+   [LOCKED ON] Found valid telemetry target: results/rebound_test_v1.csv
+❌ ERROR: File found, but no valid Mach/R pairs exist. Check for telemetry gaps.
+1s
+Run python mass_conversion_audit.py
+======================================================================
+LUFT PORTAL — VACUUM ENERGY DIAGNOSTIC (CORRECTED)
+Timestamp: 2026-05-12T21:33:42.029228Z
+χ = 0.15  |  f_ring = 20.55 Hz  |  attractor = 53.6%
+======================================================================
+
+[ROUTE 1]  ZPE Bulk → Universe Mass  (Original Calculation)
+----------------------------------------------------------------------
+  ZPE bounded density:       1.2411e+66 J/m³
+  × Universe volume:         3.5800e+80 m³
+  = Total energy:            4.4431e+146 J
+  → Converted mass (E/c²):   4.9437e+129 kg
+  → Equivalent protons:      2.9556e+156
+
+  Eddington number (target): 1.0e+80
+  Gap from Eddington:        10^+76.5 (protons)
+  Gap from observed Λ:       10^+75.4 (energy density)
+
+  STATUS: ❌ CATEGORY ERROR
+  ZPE virtual energy ≠ proton rest mass energy.
+  The vacuum catastrophe problem reduced 10^120 → 10^75,
+  but this is still 75 orders from observed Λ.
+  The χ=0.15 cutoff IS meaningful — it reduces the
+  mismatch by 1.3 orders of magnitude vs Planck cutoff.
+
+[ROUTE 2]  Coherent Attractor Fraction
+----------------------------------------------------------------------
+  ZPE bounded density:       1.2411e+66 J/m³
+  × Attractor fraction:      0.536  (53.6% measured)
+  = Coherent mode density:   6.6523e+65 J/m³
+
+  Observed Λ density:        5.3600e-10 J/m³
+  Gap remaining:             10^+75.1
+
+  STATUS: ❌ Coherent selection alone does not close the gap.
+  The attractor fraction filters ~0.5 orders at most.
+  A second suppression mechanism is required.
+
+[ROUTE 3]  Ring Mode Energy Density  (f = 20.55 Hz)
+----------------------------------------------------------------------
+  Ring frequency:            20.55 Hz  (χ/α = 0.15/0.007297)
+  Energy per ring quantum:   1.3617e-32 J  =  8.4988e-14 eV
+
+  Route 3a — CMB photon density (4.11e+08 /m³):
+    ρ_ring = 5.5964e-24 J/m³
+    Gap from Λ: 10^-13.98
+
+  Route 3b — Baryonic density (0.25 protons/m³):
+    ρ_ring = 3.4041e-33 J/m³
+    Gap from Λ: 10^-23.20
+
+  Route 3c — Mode density required to reproduce Λ exactly:
+    n_modes = 3.9364e+22 modes/m³
+    (for reference: CMB = 4.11e+08/m³, baryons = 0.25/m³)
+
+  STATUS: ⚡ CLOSER — within 30 orders of Λ (better than ZPE route)
+  The 20.55 Hz route is physically motivated by your
+  measured ring frequency and stays in the low-energy regime
+  where the cosmological constant actually lives.
+
+[ROUTE 4]  χ/α Coupling Cross-Check
+----------------------------------------------------------------------
+  f = χ/α = 0.15/0.007297 = 20.5554 Hz
+  Matches measured ring frequency: 20.55 Hz  ✅
+
+  Wavelength: λ = c/f = 1.4585e+07 m
+            = 1.5416e-09 light-years
+  Hubble radius:           4.4000e+26 m
+  λ_ring / R_Hubble:       3.3147e-20
+
+  Energy of one ring quantum: 1.3620e-32 J
+  If 1 quantum fills Hubble volume:
+    ρ = 3.8171e-113 J/m³
+    Gap from Λ: 10^-103.15
+
+  INTERPRETATION:
+  The ring wavelength is 3.3e-20× the Hubble radius —
+  the substrate ring mode is a sub-cosmological oscillation,
+  not a cosmological-scale mode. This is physically consistent
+  with a local vacuum substrate that has a global boundary.
+======================================================================
+SUMMARY: GAP FROM OBSERVED Λ BY ROUTE
+======================================================================
+  Observed Λ density: 5.3600e-10 J/m³
+
+  Route 1 — ZPE bulk (original)
+    Gap: 10^+75.4  ███████████████
+    ❌ Category error — documents original problem
+
+  Route 2 — Coherent fraction (53.6%)
+    Gap: 10^+75.1  ███████████████
+    ❌ Minor improvement only
+
+  Route 3a — Ring × CMB density
+    Gap: 10^-14.0  ██
+    ⚡ Physically motivated low-energy route
+
+  Route 3b — Ring × baryon density
+    Gap: 10^-23.2  ████
+    ⚡ Closest approach yet
+
+  Route 4 — Single quantum/Hubble vol
+    Gap: 10^-103.1  ████████████████████
+    🔍 Cosmological scale test
+
+======================================================================
+KEY FINDING:
+  χ = 0.15 cutoff reduces vacuum catastrophe from 10^120 to 10^75.
+  That is a 45-order improvement with a physical mechanism.
+  The 20.55 Hz ring route approaches Λ from the low-energy side,
+  which is the physically correct regime for the cosmological constant.
+  A two-mechanism model (χ UV cutoff + f_ring IR selection) is the
+  next hypothesis to test.
+======================================================================
+
+Full report saved: diagnostic_outputs/mass_conversion_report.json
+0s
+Run python vacuum_suppression_factor.py --telemetry data/cme_heartbeat_log_2025_12.csv
+======================================================================
+LUFT PORTAL — VACUUM SUPPRESSION FACTOR ENGINE
+Timestamp: 2026-05-12T21:33:42.157607Z
+χ = 0.15  |  f_ring = 20.55 Hz  |  attractor = 53.6%
+======================================================================
+
+CONTEXT FROM mass_conversion_audit.py
+----------------------------------------------------------------------
+  ZPE bounded density:     1.2411e+66 J/m³  (10^75 above Λ)
+  Ring × CMB density:      5.60e-24 J/m³  (10^14 below Λ)
+  Λ is BRACKETED — target lives between these two routes
+  Required suppression S:  4.3187e-76
+  Required mode density:   3.94e+22 /m³
+  Implied δ:               18.2 nm
+
+  This script computes δ from plasma physics at f = 20.55 Hz
+  and tests whether δ_measured ≈ δ_required.
+
+STEP 1 — TELEMETRY
+----------------------------------------------------------------------
+  [INFO] Loaded 1147 observations from data/cme_heartbeat_log_2025_12.csv
+  [INFO] Median B = 222.63 nT  |  n = 2.0 /cm³  |  v = 526 km/s
+
+STEP 2 — PLASMA PARAMETERS & SKIN DEPTH
+----------------------------------------------------------------------
+
+STEP 3 — SUPPRESSION FACTOR RESULTS
+======================================================================
+----------------------------------------------------------------------
+  A — Live telemetry plasma
+----------------------------------------------------------------------
+  Plasma:        B=222.6 nT  n=2.0/cm³  β=0.00  v_A=3455 km/s
+  Resistivity:   η = 3.3148e-14 Ω·m
+
+  Skin depth δ:       20213.45 nm  (required: 18.24 nm)
+  δ ratio:            1108.4147  (1.0 = exact match to Λ)
+
+  Coherence volume:   3.4595e-14 m³
+  Coherent mode dens: 2.8906e+13 /m³  (required: 3.9364e+22 /m³)
+  ZPE mode density:   1.6442e+46 /m³
+
+  Suppression S:      1.7581e-33
+  S required:         4.3187e-76
+  S ratio:            4.0708e+42  (1.0 = exact Λ reproduction)
+
+  ρ_predicted:        2.1819e+33 J/m³
+  Observed Λ:         5.3600e-10 J/m³
+  Gap from Λ:         10^+42.61  ██████████████  (above Λ)
+
+  STATUS: — Gap = 10^43
+----------------------------------------------------------------------
+  B — Attractor-state canonical solar wind
+----------------------------------------------------------------------
+  Plasma:        B=6.0 nT  n=8.0/cm³  β=0.93  v_A=46 km/s
+  Resistivity:   η = 3.3148e-14 Ω·m
+
+  Skin depth δ:       20213.45 nm  (required: 18.24 nm)
+  δ ratio:            1108.4147  (1.0 = exact match to Λ)
+
+  Coherence volume:   3.4595e-14 m³
+  Coherent mode dens: 2.8906e+13 /m³  (required: 3.9364e+22 /m³)
+  ZPE mode density:   1.6442e+46 /m³
+
+  Suppression S:      1.7581e-33
+  S required:         4.3187e-76
+  S ratio:            4.0708e+42  (1.0 = exact Λ reproduction)
+
+  ρ_predicted:        2.1819e+33 J/m³
+  Observed Λ:         5.3600e-10 J/m³
+  Gap from Λ:         10^+42.61  ██████████████  (above Λ)
+
+  STATUS: — Gap = 10^43
+----------------------------------------------------------------------
+  C — Ring-mode reduced wavelength (λ/2π)
+----------------------------------------------------------------------
+  δ = c/(2π × f_ring) = λ_ring / 2π
+
+  Skin depth δ:       2321822461915787.00 nm  (required: 18.24 nm)
+  δ ratio:            127318307332138.2812  (1.0 = exact match to Λ)
+
+  Coherence volume:   5.2429e+19 m³
+  Coherent mode dens: 1.9073e-20 /m³  (required: 3.9364e+22 /m³)
+  ZPE mode density:   1.6442e+46 /m³
+
+  Suppression S:      1.1600e-66
+  S required:         4.3187e-76
+  S ratio:            2.6860e+09  (1.0 = exact Λ reproduction)
+
+  ρ_predicted:        1.4397e+00 J/m³
+  Observed Λ:         5.3600e-10 J/m³
+  Gap from Λ:         10^+9.43  ███  (above Λ)
+
+  STATUS: ⚡ CLOSE — within 10 orders of Λ
+======================================================================
+SUMMARY
+----------------------------------------------------------------------
+  ZPE bounded → Λ gap:       10^+75  (before suppression)
+  A — Live telemetry plasma            gap = 10^+42.61  (improvement: +32.8 orders)
+  B — Attractor-state canonical solar  gap = 10^+42.61  (improvement: +32.8 orders)
+  C — Ring-mode reduced wavelength (λ  gap = 10^+9.43  (improvement: +66.0 orders)
+
+  BEST: C — Ring-mode reduced wavelength (λ/2π)
+    δ = 2321822461915787.0 nm  vs  required 18.2 nm  (ratio 127318307332138.281)
+    Gap from Λ: 10^+9.43
+
+  ⚡ TWO-MECHANISM MODEL STRONG — within 15 orders
+     Refine plasma resistivity model for next decimal place
+======================================================================
+  JSON report: diagnostic_outputs/suppression_factor_report.json
+
+  [INFO] Text report saved: diagnostic_outputs/suppression_factor_report.txt
+
+  Next step: if δ_ratio ≈ 1.0, add this script to chi_audit.yml
+  and pipe its output into the master vacuum report.
+======================================================================
+0s
+Run python luft_constant_analysis.py
+══════════════════════════════════════════════════════════════════════
+LUFT PORTAL — MASTER CONSTANTS REGISTER
+Timestamp: 2026-05-12T21:33:42.493972Z
+Framework: χ=0.15 | f_ring=20.55 Hz | A=53.6% | G=1/χ×10⁻¹¹
+══════════════════════════════════════════════════════════════════════
+
+══════════════════════════════════════════════════════════════════════
+SECTION 1 — CONSTANTS INVENTORY
+══════════════════════════════════════════════════════════════════════
+
+  χ  = 0.15
+     Source:    DSCOVR solar wind, 12,450 obs (Dec 2025)
+     Attractor: 53.6%  (SNR=237.8,  p=0.0)
+     Violations: 0.0%  ✅
+
+  f_ring = 20.55 Hz  (measured)
+     χ/α derived: 20.55540 Hz
+     Error:       0.0263%  ✅
+
+  G  = 6.66667e-11 m³/(kg·s²)  (from 1/χ × 10⁻¹¹)
+     CODATA:  6.67430e-11
+     Error:   0.114%  ✅
+
+  χ_mass = (m_e/m_p)^(1/4) = 0.152765
+     Measured χ: 0.15
+     Error:      1.843%
+
+  ρ_ZPE (bounded) = 1.2411e+66 J/m³
+     Observed Λ:   5.3600e-10 J/m³
+     Gap:          10^+75.4  (reduced from 10^120 by 45 orders)  ✅
+
+  S_required = 4.3187e-76  (to bridge ZPE → Λ)
+  δ_required = 18.24 nm
+     (coherence length at f_ring that reproduces Λ mode density)
+
+══════════════════════════════════════════════════════════════════════
+SECTION 2 — CROSS-VALIDATION MATRIX
+══════════════════════════════════════════════════════════════════════
+
+  A. f_ring = χ/α
+     0.15 / 0.007297 = 20.55540 Hz
+     Measured: 20.55 Hz   Error: 0.0263%   ✅ PASS
+
+  B. G = (1/χ) × 10⁻¹¹
+     1/0.15 × 10⁻¹¹ = 6.666667e-11
+     CODATA:   6.674300e-11   Error: 0.114%   ✅ PASS
+
+  C. χ = (m_e/m_p)^(1/4)
+     (9.1094e-31/1.6726e-27)^0.25 = 0.152765
+     Measured: 0.15   Error: 1.843%   ✅ PASS
+
+  D. Substrate coupling: χ × Z_0 × α
+     0.15 × 376.7303 Ω × 0.007297
+     = 0.412370  (dimensionless coupling constant)
+     Compare α = 0.007297  ratio = 56.5095
+
+  E. ρ_ZPE × S_req = Λ_obs  (closure test)
+     1.2411e+66 × 4.3187e-76 = 5.3600e-10
+     Observed Λ: 5.3600e-10   Error: 0.00e+00  ✅ (by construction)
+
+  F. Ring period self-check
+     T = 1/f = 48.662 ms
+     1/T = 20.55000 Hz  Error: 0.00e+00  ✅
+
+  G. Geometry: n_req × V_coh = 1
+     n = 3.9364e+22 /m³
+     δ = 18.24 nm  →  V = 2.5404e-23 m³
+     n × V = 1.000000   ✅ PASS
+
+══════════════════════════════════════════════════════════════════════
+SECTION 3 — CONVERGENCE SCORE
+══════════════════════════════════════════════════════════════════════
+
+  f_ring derivation (χ/α)                   err= 0.026%  score=100  ███████████████████
+  Gravity (1/χ × 10⁻¹¹)                     err= 0.114%  score=99  ███████████████████
+  Mass ratio (m_e/m_p)^(1/4)                err= 1.843%  score=82  ████████████████
+  Geometry (n×V=1)                          err= 0.000%  score=100  ███████████████████
+
+  ────────────────────────────────────────────────────────────
+  CONVERGENCE SCORE: 95.0 / 100
+  ✅ EXCELLENT — framework self-consistent to <1%
+
+══════════════════════════════════════════════════════════════════════
+SECTION 4 — TESTABLE PREDICTIONS
+══════════════════════════════════════════════════════════════════════
+
+  [P1] Sideband structure in HDSDR .wav files
+       Prediction: Symmetric sidebands at ±20.56 Hz around carrier in RF recordings
+       Confirm if: Symmetry error < 5% on ≥2 files
+       Falsify if: No peaks near 20.55 Hz in any file
+       Instrument: HDSDR .wav files at 7468 kHz
+
+  [P2] Harmonic clustering at χ = 0.30 and 0.45
+       Prediction: PSP chi data should show excess occupation at 0.30 and 0.45 above uniform baseline
+       Confirm if: Excess ratio > 3× at both harmonic levels
+       Falsify if: Occupation at 0.30 and 0.45 ≈ uniform background
+       Instrument: PSP FIELDS magnetometer, encounters 17-20
+
+  [P3] Skin depth at f_ring ≈ 29.4 nm
+       Prediction: Plasma skin depth at 20.56 Hz ≈ 18.2 nm (required for Λ reproduction)
+       Confirm if: δ_ratio ∈ [0.5, 2.0] in any scenario
+       Falsify if: δ_ratio < 0.01 or > 100 in all scenarios
+       Instrument: GOES/DSCOVR magnetometer + density data
+
+  [P4] Attractor occupation stable across datasets
+       Prediction: Any solar wind dataset ≥1000 obs should show 50-57% occupation at χ ∈ [0.145, 0.155]
+       Confirm if: Occupation > 50% in new dataset
+       Falsify if: Occupation < 40% or violations > 1%
+       Instrument: DSCOVR/ACE L1 real-time feed
+
+  [P5] Ring wavelength as coherence length in new plasma
+       Prediction: Any magnetised plasma at χ ≈ 0.15 should show coherent oscillation period = 48.65 ms
+       Confirm if: Dominant oscillation at 20.55 ± 0.5 Hz
+       Falsify if: No 20.55 Hz peak in lab plasma power spectrum
+       Instrument: MPD thruster plasma diagnostics
+
+  [P6] G from χ to <0.1% error with next CODATA update
+       Prediction: As G measurement precision improves, G → 1/χ × 10⁻¹¹ = 6.6666667e-11
+       Confirm if: New G measurement closer to 6.6667e-11 than 6.6743e-11
+       Falsify if: G confirmed > 6.675e-11
+       Instrument: NIST / BIPM torsion balance experiments
+
+══════════════════════════════════════════════════════════════════════
+SECTION 5 — UNIFIED FRAMEWORK SUMMARY
+══════════════════════════════════════════════════════════════════════
+
+  THE LUFT CONSTANT HIERARCHY
+  ─────────────────────────────────────────────────────────────
+
+  PRIMARY (measured, confirmed)
+    χ = 0.15          Universal vacuum boundary
+                      53.6% attractor, 0% violations, SNR=237
+
+  DERIVED LEVEL 1 (from χ alone)
+    G = 1/χ × 10⁻¹¹ = 6.66667e-11  (0.11% from CODATA)
+    χ = (m_e/m_p)^¼  = 0.152765  (1.84% from measured χ)
+
+  DERIVED LEVEL 2 (from χ + α)
+    f_ring = χ/α      = 20.5554 Hz  (0.003% from measured 20.55 Hz)
+    λ_ring = c/f      = 14.585 Mm
+    T_ring = 1/f      = 48.65 ms
+
+  DERIVED LEVEL 3 (from χ + ZPE integral)
+    ρ_ZPE = 1.24×10⁶⁶ J/m³  (χ truncates vacuum catastrophe by 45 orders)
+    Gap from Λ:   10^+75  (before IR suppression)
+
+  DERIVED LEVEL 4 (from χ + f_ring + ZPE)
+    S_req = Λ/ρ_ZPE  = 4.3187e-76
+    δ_req = 29.4 nm  (skin depth at f_ring that closes the Λ gap)
+    Status: PENDING — vacuum_suppression_factor.py output needed
+
+  CONVERGENCE: 95.0/100 — ✅ EXCELLENT — framework self-consistent to <1%
+
+  OUTSTANDING PREDICTIONS: 6
+    [P1] Sideband structure in HDSDR .wav files
+    [P2] Harmonic clustering at χ = 0.30 and 0.45
+    [P3] Skin depth at f_ring ≈ 29.4 nm
+    [P4] Attractor occupation stable across datasets
+    [P5] Ring wavelength as coherence length in new plasma
+    [P6] G from χ to <0.1% error with next CODATA update
+
+══════════════════════════════════════════════════════════════════════
+
+  JSON report: diagnostic_outputs/luft_constants_report.json
+  TXT report: diagnostic_outputs/luft_constants_report.txt
+
+6s
+Run python chi_data_analysis.py --plot
+══════════════════════════════════════════════════════════════════════
+LUFT PORTAL — CHI DATA ANALYSIS ENGINE
+Timestamp: 2026-05-12T21:33:42.627710Z
+Target:    χ = 0.15  |  f_ring = 20.55 Hz  |  attractor target = 53.6%
+══════════════════════════════════════════════════════════════════════
+
+SCANNING REPOSITORY FOR CHI DATA FILES...
+  Found 103 chi data file(s):
+    data/cme_heartbeat_log_2025_12.csv  (column: chi_amplitude)
+    data/cme_heartbeat_log_2026_03.csv  (column: chi_amplitude)
+    data/cme_heartbeat_log_2026_04.csv  (column: chi_amplitude)
+    data/cme_heartbeat_log_2025_12_with_phases.csv  (column: chi_amplitude)
+    data/cme_heartbeat_log_2026_01.csv  (column: chi_amplitude)
+    data/cme_heartbeat_log_2026_02.csv  (column: chi_amplitude)
+    data/cme_heartbeat_log_2026_05.csv  (column: chi_amplitude)
+    data/chi_analysis_20251228_153702.csv  (column: chi_amplitude)
+    data/academic_vs_imperial_storm_log.csv  (column: bt_nT)
+    results/historical_chi/historical_chi_2016_present.csv  (column: chi)
+    results/historical_chi/historical_chi_1996_2005.csv  (column: chi)
+    results/historical_chi/historical_chi_1963_1974.csv  (column: chi)
+    results/historical_chi/historical_chi_1975_1985.csv  (column: chi)
+    results/historical_chi/historical_chi_1986_1995.csv  (column: chi)
+    results/historical_chi/historical_chi_1959_1962.csv  (column: chi)
+    results/historical_chi/historical_chi_2006_2015.csv  (column: chi)
+    results/historical_storms/may_2024_chi.csv  (column: chi)
+    results/magnetometer_chi/magnetometer_chi_2025_12_26.csv  (column: chi)
+    results/lightning_phases_may_storm1.csv  (column: chi_proxy)
+    results/magnetometer_chi/dou_20260327.csv  (column: chi)
+    results/magnetometer_chi/dou_20260208.csv  (column: chi)
+    results/magnetometer_chi/dou_20260220.csv  (column: chi)
+    results/magnetometer_chi/dou_20260508.csv  (column: chi)
+    results/magnetometer_chi/dou_20260111.csv  (column: chi)
+    results/magnetometer_chi/dou_20260121.csv  (column: chi)
+    results/magnetometer_chi/dou_20260123.csv  (column: chi)
+    results/magnetometer_chi/dou_20260112.csv  (column: chi)
+    results/magnetometer_chi/dou_20260315.csv  (column: chi)
+    results/magnetometer_chi/dou_20260224.csv  (column: chi)
+    results/magnetometer_chi/dou_20260221.csv  (column: chi)
+    results/magnetometer_chi/dou_20260127.csv  (column: chi)
+    results/magnetometer_chi/dou_20260505.csv  (column: chi)
+    results/magnetometer_chi/dou_20260222.csv  (column: chi)
+    results/magnetometer_chi/dou_20260308.csv  (column: chi)
+    results/magnetometer_chi/dou_20260209.csv  (column: chi)
+    results/magnetometer_chi/dou_20260207.csv  (column: chi)
+    results/magnetometer_chi/dou_20260228.csv  (column: chi)
+    results/magnetometer_chi/dou_20260325.csv  (column: chi)
+    results/magnetometer_chi/dou_20260219.csv  (column: chi)
+    results/magnetometer_chi/dou_20260319.csv  (column: chi)
+    results/magnetometer_chi/dou_20260309.csv  (column: chi)
+    results/magnetometer_chi/dou_20260422.csv  (column: chi)
+    results/magnetometer_chi/dou_20260129.csv  (column: chi)
+    results/magnetometer_chi/dou_20260421.csv  (column: chi)
+    results/magnetometer_chi/dou_20260301.csv  (column: chi)
+    results/magnetometer_chi/dou_20260131.csv  (column: chi)
+    results/magnetometer_chi/dou_20260429.csv  (column: chi)
+    results/magnetometer_chi/dou_20260218.csv  (column: chi)
+    results/magnetometer_chi/dou_20260125.csv  (column: chi)
+    results/magnetometer_chi/dou_20260124.csv  (column: chi)
+    results/magnetometer_chi/dou_20260115.csv  (column: chi)
+    results/magnetometer_chi/dou_20260227.csv  (column: chi)
+    results/magnetometer_chi/dou_20260128.csv  (column: chi)
+    results/magnetometer_chi/dou_20260509.csv  (column: chi)
+    results/magnetometer_chi/dou_20260201.csv  (column: chi)
+    results/magnetometer_chi/dou_20260428.csv  (column: chi)
+    results/magnetometer_chi/dou_20260110.csv  (column: chi)
+    results/magnetometer_chi/dou_20260122.csv  (column: chi)
+    results/magnetometer_chi/dou_20260120.csv  (column: chi)
+    results/magnetometer_chi/dou_20260510.csv  (column: chi)
+    results/magnetometer_chi/dou_20260205.csv  (column: chi)
+    results/magnetometer_chi/dou_20260225.csv  (column: chi)
+    results/magnetometer_chi/dou_20260126.csv  (column: chi)
+    results/magnetometer_chi/dou_20260511.csv  (column: chi)
+    results/magnetometer_chi/dou_20260324.csv  (column: chi)
+    results/magnetometer_chi/dou_20260322.csv  (column: chi)
+    results/magnetometer_chi/dou_20260314.csv  (column: chi)
+    results/magnetometer_chi/dou_20260116.csv  (column: chi)
+    results/magnetometer_chi/dou_20260427.csv  (column: chi)
+    results/magnetometer_chi/dou_20260502.csv  (column: chi)
+    results/magnetometer_chi/dou_20260226.csv  (column: chi)
+    results/magnetometer_chi/dou_20260423.csv  (column: chi)
+    results/magnetometer_chi/dou_20260504.csv  (column: chi)
+    results/magnetometer_chi/dou_20260506.csv  (column: chi)
+    results/magnetometer_chi/dou_20260420.csv  (column: chi)
+    results/magnetometer_chi/dou_20260212.csv  (column: chi)
+    results/magnetometer_chi/dou_20260310.csv  (column: chi)
+    results/magnetometer_chi/dou_20260316.csv  (column: chi)
+    results/magnetometer_chi/dou_20260202.csv  (column: chi)
+    results/magnetometer_chi/dou_20260113.csv  (column: chi)
+    results/magnetometer_chi/dou_20260203.csv  (column: chi)
+    results/magnetometer_chi/dou_20260430.csv  (column: chi)
+    results/magnetometer_chi/dou_20260117.csv  (column: chi)
+    results/magnetometer_chi/dou_20260305.csv  (column: chi)
+    results/magnetometer_chi/dou_20260302.csv  (column: chi)
+    results/magnetometer_chi/dou_20260503.csv  (column: chi)
+    results/magnetometer_chi/dou_20260223.csv  (column: chi)
+    results/magnetometer_chi/dou_20260130.csv  (column: chi)
+    results/magnetometer_chi/dou_20260118.csv  (column: chi)
+    results/magnetometer_chi/dou_20260328.csv  (column: chi)
+    results/magnetometer_chi/dou_20260217.csv  (column: chi)
+    results/magnetometer_chi/dou_20260326.csv  (column: chi)
+    results/magnetometer_chi/dou_20260206.csv  (column: chi)
+    results/magnetometer_chi/dou_20260329.csv  (column: chi)
+    results/magnetometer_chi/dou_20260418.csv  (column: chi)
+    results/magnetometer_chi/dou_20260306.csv  (column: chi)
+    results/magnetometer_chi/dou_20260321.csv  (column: chi)
+    results/magnetometer_chi/dou_20260313.csv  (column: chi)
+    results/magnetometer_chi/dou_20260417.csv  (column: chi)
+    results/magnetometer_chi/dou_20260119.csv  (column: chi)
+    results/magnetometer_chi/dou_20260318.csv  (column: chi)
+    results/magnetometer_chi/dou_20260210.csv  (column: chi)
+    results/magnetometer_chi/dou_20260114.csv  (column: chi)
+
+ANALYZING FILES...
+
+  Processing: data/cme_heartbeat_log_2025_12.csv
+
+  ──────────────────────────────────────────────────────────────────
+  cme_heartbeat_log_2025_12.csv  (1146 obs, 47.8d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0674  max=0.150000  std=0.0690
+
+  ATTRACTOR  boundary_pct=27.7%  (uniform expected: 6.7%)  excess=4.2×  ✅ ATTRACTOR CONFIRMED
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.150000)
+
+  HARMONICS
+    χ=0.15 (fundamental):  27.7% obs  /6.7% exp  excess=4.2×  ✅ BINARY ATTRACTOR
+    χ=0.30 (2¹×χ):  0.0% obs  /6.7% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /6.7% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=447.4  2.4h-heartbeat z=5.7
+  TOP PERIOD 2.00h  (z=23.2)
+  FLIPS      317 field flip events detected
+
+  Processing: data/cme_heartbeat_log_2026_03.csv
+
+  ──────────────────────────────────────────────────────────────────
+  cme_heartbeat_log_2026_03.csv  (2030 obs, 84.6d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.1280  max=0.150000  std=0.0192
+
+  ATTRACTOR  boundary_pct=31.6%  (uniform expected: 8.7%)  excess=3.6×  ✅ ATTRACTOR CONFIRMED
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.150000)
+
+  HARMONICS
+    χ=0.15 (fundamental):  31.6% obs  /8.7% exp  excess=3.6×  ✅ BINARY ATTRACTOR
+    χ=0.30 (2¹×χ):  0.0% obs  /8.7% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /8.7% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=267.3  2.4h-heartbeat z=0.0
+  TOP PERIOD 507.50h  (z=26.6)
+  FLIPS      26 field flip events detected
+
+  Processing: data/cme_heartbeat_log_2026_04.csv
+
+  ──────────────────────────────────────────────────────────────────
+  cme_heartbeat_log_2026_04.csv  (584 obs, 24.3d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.1207  max=0.150000  std=0.0202
+
+  ATTRACTOR  boundary_pct=15.9%  (uniform expected: 10.0%)  excess=1.6×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.150000)
+
+  HARMONICS
+    χ=0.15 (fundamental):  15.9% obs  /10.0% exp  excess=1.6×  ⚡ WEAK
+    χ=0.30 (2¹×χ):  0.0% obs  /10.0% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /10.0% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=87.8  2.4h-heartbeat z=0.1
+  TOP PERIOD 584.00h  (z=13.2)
+  FLIPS      12 field flip events detected
+
+  Processing: data/cme_heartbeat_log_2025_12_with_phases.csv
+
+  ──────────────────────────────────────────────────────────────────
+  cme_heartbeat_log_2025_12_with_phases.csv  (1146 obs, 47.8d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0674  max=0.150000  std=0.0690
+
+  ATTRACTOR  boundary_pct=27.7%  (uniform expected: 6.7%)  excess=4.2×  ✅ ATTRACTOR CONFIRMED
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.150000)
+
+  HARMONICS
+    χ=0.15 (fundamental):  27.7% obs  /6.7% exp  excess=4.2×  ✅ BINARY ATTRACTOR
+    χ=0.30 (2¹×χ):  0.0% obs  /6.7% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /6.7% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=447.4  2.4h-heartbeat z=5.7
+  TOP PERIOD 2.00h  (z=23.2)
+  FLIPS      317 field flip events detected
+
+  Processing: data/cme_heartbeat_log_2026_01.csv
+
+  ──────────────────────────────────────────────────────────────────
+  cme_heartbeat_log_2026_01.csv  (1566 obs, 65.2d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.1371  max=0.150000  std=0.0190
+
+  ATTRACTOR  boundary_pct=57.7%  (uniform expected: 8.9%)  excess=6.5×  ✅ ATTRACTOR CONFIRMED
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.150000)
+
+  HARMONICS
+    χ=0.15 (fundamental):  57.7% obs  /8.9% exp  excess=6.5×  ✅ BINARY ATTRACTOR
+    χ=0.30 (2¹×χ):  0.0% obs  /8.9% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /8.9% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=160.9  2.4h-heartbeat z=-0.0
+  TOP PERIOD 783.00h  (z=17.4)
+  FLIPS      37 field flip events detected
+
+  Processing: data/cme_heartbeat_log_2026_02.csv
+
+  ──────────────────────────────────────────────────────────────────
+  cme_heartbeat_log_2026_02.csv  (2309 obs, 96.2d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.1301  max=0.150000  std=0.0187
+
+  ATTRACTOR  boundary_pct=33.2%  (uniform expected: 10.8%)  excess=3.1×  ✅ ATTRACTOR CONFIRMED
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.150000)
+
+  HARMONICS
+    χ=0.15 (fundamental):  33.2% obs  /10.8% exp  excess=3.1×  ✅ BINARY ATTRACTOR
+    χ=0.30 (2¹×χ):  0.0% obs  /10.8% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /10.8% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=213.5  2.4h-heartbeat z=0.1
+  TOP PERIOD 1154.50h  (z=23.1)
+  FLIPS      41 field flip events detected
+
+  Processing: data/cme_heartbeat_log_2026_05.csv
+
+  ──────────────────────────────────────────────────────────────────
+  cme_heartbeat_log_2026_05.csv  (440 obs, 18.3d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.1185  max=0.150000  std=0.0179
+
+  ATTRACTOR  boundary_pct=10.9%  (uniform expected: 8.0%)  excess=1.4×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.150000)
+
+  HARMONICS
+    χ=0.15 (fundamental):  10.9% obs  /8.0% exp  excess=1.4×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /8.0% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /8.0% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=28.3  2.4h-heartbeat z=0.2
+  TOP PERIOD 110.00h  (z=8.9)
+  FLIPS      10 field flip events detected
+
+  Processing: data/chi_analysis_20251228_153702.csv
+
+  ──────────────────────────────────────────────────────────────────
+  chi_analysis_20251228_153702.csv  (7003 obs, 291.8d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.1437  max=0.922198  std=0.1473
+
+  ATTRACTOR  boundary_pct=2.7%  (uniform expected: 1.1%)  excess=2.5×  — soft cap or insufficient data
+  VIOLATIONS 🚨 2229 VIOLATIONS DETECTED  (χ_max=0.922198)
+
+  HARMONICS
+    χ=0.15 (fundamental):  2.7% obs  /1.1% exp  excess=2.5×  ⚡ WEAK
+    χ=0.30 (2¹×χ):  0.5% obs  /1.1% exp  excess=0.4×  — no clustering
+    χ=0.60 (2²×χ):  0.1% obs  /1.1% exp  excess=0.1×  — no clustering
+
+  TEMPORAL   carrier SNR=442.9  2.4h-heartbeat z=-0.0
+  TOP PERIOD 7003.00h  (z=51.0)
+  FLIPS      290 field flip events detected
+
+  Processing: data/academic_vs_imperial_storm_log.csv
+  ⚠️  data/academic_vs_imperial_storm_log.csv — WRONG_SCALE — Raw data detected (median: 12.260, max: 32.100). Skipping.
+
+  Processing: results/historical_chi/historical_chi_2016_present.csv
+  ⚠️  results/historical_chi/historical_chi_2016_present.csv — WRONG_SCALE — Raw data detected (median: 0.182, max: 17.549). Skipping.
+
+  Processing: results/historical_chi/historical_chi_1996_2005.csv
+  ⚠️  results/historical_chi/historical_chi_1996_2005.csv — WRONG_SCALE — Raw data detected (median: 0.175, max: 15.103). Skipping.
+
+  Processing: results/historical_chi/historical_chi_1963_1974.csv
+  ⚠️  results/historical_chi/historical_chi_1963_1974.csv — WRONG_SCALE — Raw data detected (median: 0.176, max: 8.167). Skipping.
+
+  Processing: results/historical_chi/historical_chi_1975_1985.csv
+  ⚠️  results/historical_chi/historical_chi_1975_1985.csv — WRONG_SCALE — Raw data detected (median: 0.174, max: 8.917). Skipping.
+
+  Processing: results/historical_chi/historical_chi_1986_1995.csv
+  ⚠️  results/historical_chi/historical_chi_1986_1995.csv — WRONG_SCALE — Raw data detected (median: 0.174, max: 8.255). Skipping.
+
+  Processing: results/historical_chi/historical_chi_1959_1962.csv
+  ⚠️  results/historical_chi/historical_chi_1959_1962.csv — SKIPPED — insufficient data
+
+  Processing: results/historical_chi/historical_chi_2006_2015.csv
+  ⚠️  results/historical_chi/historical_chi_2006_2015.csv — WRONG_SCALE — Raw data detected (median: 0.189, max: 7.964). Skipping.
+
+  Processing: results/historical_storms/may_2024_chi.csv
+
+  ──────────────────────────────────────────────────────────────────
+  may_2024_chi.csv  (4320 obs, 180.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0011  max=0.009887  std=0.0015
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 101.1%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.009887)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /101.1% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /101.1% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /101.1% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=480.2  2.4h-heartbeat z=-0.1
+  TOP PERIOD 4320.00h  (z=38.9)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/magnetometer_chi_2025_12_26.csv
+
+  ──────────────────────────────────────────────────────────────────
+  magnetometer_chi_2025_12_26.csv  (1438 obs, 59.9d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000404  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2481.4%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000404)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2481.4% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2481.4% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2481.4% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=469.3  2.4h-heartbeat z=-0.1
+  TOP PERIOD 1438.00h  (z=25.8)
+  FLIPS      0 field flip events detected
+
+  Processing: results/lightning_phases_may_storm1.csv
+
+  ──────────────────────────────────────────────────────────────────
+  lightning_phases_may_storm1.csv  (31 obs, 1.3d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0581  max=0.150000  std=0.0565
+
+  ATTRACTOR  boundary_pct=16.1%  (uniform expected: 6.7%)  excess=2.4×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.150000)
+
+  HARMONICS
+    χ=0.15 (fundamental):  16.1% obs  /6.7% exp  excess=2.4×  ⚡ WEAK
+    χ=0.30 (2¹×χ):  0.0% obs  /6.7% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /6.7% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=9.8  2.4h-heartbeat z=-0.4
+  TOP PERIOD 15.50h  (z=3.6)
+  FLIPS      1 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260327.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260327.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0002  max=0.000588  std=0.0002
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1701.5%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000588)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1701.5% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1701.5% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1701.5% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=279.6  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.0)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260208.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260208.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000341  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2932.3%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000341)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2932.3% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2932.3% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2932.3% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=315.5  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=20.2)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260220.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260220.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000391  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2556.8%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000391)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2556.8% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2556.8% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2556.8% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=248.4  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.6)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260508.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260508.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0002  max=0.000662  std=0.0002
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1510.3%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000662)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1510.3% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1510.3% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1510.3% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=278.8  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=18.7)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260111.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260111.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000425  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2350.3%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000425)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2350.3% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2350.3% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2350.3% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=187.5  2.4h-heartbeat z=-0.1
+  TOP PERIOD 1440.00h  (z=23.1)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260121.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260121.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0002  max=0.000772  std=0.0002
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1295.8%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000772)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1295.8% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1295.8% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1295.8% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=83.8  2.4h-heartbeat z=-0.1
+  TOP PERIOD 480.00h  (z=11.5)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260123.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260123.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000533  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1875.7%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000533)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1875.7% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1875.7% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1875.7% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=94.0  2.4h-heartbeat z=-0.2
+  TOP PERIOD 480.00h  (z=15.4)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260112.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260112.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000398  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2511.9%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000398)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2511.9% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2511.9% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2511.9% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=138.6  2.4h-heartbeat z=-0.1
+  TOP PERIOD 240.00h  (z=17.7)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260315.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260315.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000392  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2550.9%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000392)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2550.9% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2550.9% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2550.9% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=176.0  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=16.4)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260224.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260224.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000432  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2316.8%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000432)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2316.8% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2316.8% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2316.8% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=217.9  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.6)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260221.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260221.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000325  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 3076.9%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000325)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /3076.9% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /3076.9% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /3076.9% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=215.3  2.4h-heartbeat z=-0.1
+  TOP PERIOD 480.00h  (z=18.2)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260127.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260127.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000295  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 3387.2%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000295)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /3387.2% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /3387.2% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /3387.2% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=235.9  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.6)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260505.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260505.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000589  std=0.0002
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1699.0%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000589)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1699.0% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1699.0% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1699.0% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=238.1  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=18.2)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260222.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260222.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0002  max=0.000798  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1253.8%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000798)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1253.8% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1253.8% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1253.8% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=201.2  2.4h-heartbeat z=-0.1
+  TOP PERIOD 480.00h  (z=21.3)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260308.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260308.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000430  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2327.2%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000430)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2327.2% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2327.2% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2327.2% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=123.5  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=16.2)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260209.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260209.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000330  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 3029.4%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000330)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /3029.4% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /3029.4% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /3029.4% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=255.6  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.9)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260207.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260207.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000428  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2336.7%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000428)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2336.7% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2336.7% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2336.7% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=306.0  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=21.6)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260228.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260228.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000248  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 4034.2%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000248)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /4034.2% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /4034.2% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /4034.2% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=168.7  2.4h-heartbeat z=-0.1
+  TOP PERIOD 1440.00h  (z=17.2)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260325.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260325.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000371  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2699.8%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000371)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2699.8% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2699.8% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2699.8% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=207.4  2.4h-heartbeat z=-0.1
+  TOP PERIOD 1440.00h  (z=17.8)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260219.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260219.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000321  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 3113.0%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000321)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /3113.0% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /3113.0% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /3113.0% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=198.3  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=18.0)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260319.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260319.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000401  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2495.8%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000401)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2495.8% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2495.8% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2495.8% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=261.4  2.4h-heartbeat z=-0.1
+  TOP PERIOD 1440.00h  (z=18.1)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260309.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260309.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000499  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2002.7%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000499)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2002.7% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2002.7% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2002.7% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=263.8  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=18.4)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260422.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260422.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0002  max=0.000700  std=0.0002
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1428.0%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000700)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1428.0% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1428.0% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1428.0% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=294.1  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.3)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260129.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260129.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000341  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2936.8%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000341)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2936.8% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2936.8% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2936.8% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=69.7  2.4h-heartbeat z=-0.2
+  TOP PERIOD 288.00h  (z=14.0)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260421.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260421.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0002  max=0.000924  std=0.0002
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1082.5%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000924)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1082.5% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1082.5% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1082.5% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=218.9  2.4h-heartbeat z=-0.1
+  TOP PERIOD 1440.00h  (z=20.8)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260301.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260301.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000289  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 3456.6%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000289)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /3456.6% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /3456.6% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /3456.6% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=193.2  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=16.7)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260131.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260131.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0000  max=0.000148  std=0.0000
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 6770.0%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000148)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /6770.0% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /6770.0% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /6770.0% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=194.4  2.4h-heartbeat z=-0.1
+  TOP PERIOD 360.00h  (z=17.2)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260429.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260429.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0002  max=0.000642  std=0.0002
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1558.3%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000642)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1558.3% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1558.3% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1558.3% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=297.7  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.2)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260218.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260218.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000406  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2460.5%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000406)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2460.5% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2460.5% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2460.5% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=278.4  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.4)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260125.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260125.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000262  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 3814.5%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000262)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /3814.5% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /3814.5% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /3814.5% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=157.7  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=17.4)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260124.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260124.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000339  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2949.9%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000339)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2949.9% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2949.9% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2949.9% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=83.2  2.4h-heartbeat z=-0.1
+  TOP PERIOD 480.00h  (z=12.5)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260115.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260115.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000203  std=0.0000
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 4930.4%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000203)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /4930.4% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /4930.4% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /4930.4% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=120.1  2.4h-heartbeat z=-0.1
+  TOP PERIOD 480.00h  (z=18.7)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260227.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260227.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000307  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 3256.8%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000307)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /3256.8% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /3256.8% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /3256.8% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=264.1  2.4h-heartbeat z=-0.1
+  TOP PERIOD 1440.00h  (z=20.4)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260128.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260128.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.001059  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 943.9%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.001059)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /943.9% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /943.9% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /943.9% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=58.1  2.4h-heartbeat z=-0.2
+  TOP PERIOD 720.00h  (z=13.8)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260509.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260509.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0002  max=0.000620  std=0.0002
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1612.8%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000620)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1612.8% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1612.8% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1612.8% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=297.2  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.1)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260201.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260201.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000217  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 4611.1%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000217)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /4611.1% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /4611.1% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /4611.1% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=240.8  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.3)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260428.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260428.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000495  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2020.7%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000495)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2020.7% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2020.7% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2020.7% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=293.8  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.3)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260110.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260110.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000485  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2059.8%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000485)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2059.8% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2059.8% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2059.8% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=178.5  2.4h-heartbeat z=-0.1
+  TOP PERIOD 480.00h  (z=19.1)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260122.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260122.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000300  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 3329.6%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000300)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /3329.6% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /3329.6% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /3329.6% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=114.5  2.4h-heartbeat z=-0.1
+  TOP PERIOD 288.00h  (z=18.9)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260120.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260120.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0005  max=0.002545  std=0.0004
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 393.1%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.002545)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /393.1% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /393.1% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /393.1% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=216.5  2.4h-heartbeat z=-0.1
+  TOP PERIOD 1440.00h  (z=20.9)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260510.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260510.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000459  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2179.3%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000459)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2179.3% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2179.3% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2179.3% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=278.4  2.4h-heartbeat z=-0.1
+  TOP PERIOD 1440.00h  (z=18.3)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260205.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260205.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000451  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2215.2%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000451)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2215.2% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2215.2% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2215.2% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=104.5  2.4h-heartbeat z=-0.1
+  TOP PERIOD 480.00h  (z=13.8)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260225.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260225.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000263  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 3802.5%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000263)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /3802.5% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /3802.5% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /3802.5% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=128.2  2.4h-heartbeat z=-0.1
+  TOP PERIOD 360.00h  (z=14.6)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260126.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260126.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000310  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 3231.0%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000310)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /3231.0% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /3231.0% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /3231.0% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=239.4  2.4h-heartbeat z=-0.1
+  TOP PERIOD 360.00h  (z=22.1)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260511.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260511.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000462  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2165.3%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000462)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2165.3% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2165.3% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2165.3% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=288.9  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=18.7)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260324.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260324.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000455  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2197.1%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000455)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2197.1% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2197.1% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2197.1% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=144.8  2.4h-heartbeat z=-0.1
+  TOP PERIOD 480.00h  (z=14.2)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260322.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260322.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0003  max=0.001364  std=0.0003
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 733.0%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.001364)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /733.0% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /733.0% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /733.0% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=199.8  2.4h-heartbeat z=-0.1
+  TOP PERIOD 360.00h  (z=17.7)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260314.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260314.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000652  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1533.4%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000652)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1533.4% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1533.4% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1533.4% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=90.9  2.4h-heartbeat z=-0.1
+  TOP PERIOD 288.00h  (z=13.5)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260116.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260116.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000420  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2383.6%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000420)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2383.6% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2383.6% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2383.6% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=115.8  2.4h-heartbeat z=-0.2
+  TOP PERIOD 1440.00h  (z=21.2)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260427.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260427.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0002  max=0.000486  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2059.6%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000486)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2059.6% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2059.6% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2059.6% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=271.7  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.1)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260502.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260502.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0002  max=0.000684  std=0.0002
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1461.5%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000684)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1461.5% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1461.5% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1461.5% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=302.0  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.7)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260226.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260226.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000426  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2345.1%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000426)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2345.1% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2345.1% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2345.1% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=247.8  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=21.8)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260423.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260423.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000495  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2021.9%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000495)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2021.9% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2021.9% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2021.9% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=265.7  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.0)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260504.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260504.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0003  max=0.000944  std=0.0002
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1059.0%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000944)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1059.0% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1059.0% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1059.0% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=198.5  2.4h-heartbeat z=-0.1
+  TOP PERIOD 1440.00h  (z=17.1)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260506.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260506.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000636  std=0.0002
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1573.3%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000636)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1573.3% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1573.3% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1573.3% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=252.9  2.4h-heartbeat z=-0.1
+  TOP PERIOD 1440.00h  (z=17.6)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260420.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260420.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0002  max=0.001266  std=0.0003
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 790.0%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.001266)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /790.0% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /790.0% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /790.0% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=204.7  2.4h-heartbeat z=-0.1
+  TOP PERIOD 1440.00h  (z=18.7)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260212.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260212.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000272  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 3680.0%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000272)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /3680.0% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /3680.0% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /3680.0% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=271.6  2.4h-heartbeat z=-0.1
+  TOP PERIOD 1440.00h  (z=20.7)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260310.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260310.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000423  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2363.8%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000423)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2363.8% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2363.8% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2363.8% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=218.5  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=17.9)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260316.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260316.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000383  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2611.5%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000383)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2611.5% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2611.5% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2611.5% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=200.5  2.4h-heartbeat z=-0.1
+  TOP PERIOD 1440.00h  (z=16.8)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260202.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260202.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000247  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 4042.4%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000247)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /4042.4% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /4042.4% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /4042.4% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=225.6  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=18.2)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260113.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260113.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0000  max=0.000120  std=0.0000
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 8362.9%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000120)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /8362.9% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /8362.9% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /8362.9% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=99.3  2.4h-heartbeat z=-0.1
+  TOP PERIOD 130.91h  (z=14.7)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260203.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260203.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0000  max=0.000188  std=0.0000
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 5316.2%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000188)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /5316.2% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /5316.2% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /5316.2% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=274.7  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=20.0)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260430.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260430.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0002  max=0.000565  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1771.0%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000565)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1771.0% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1771.0% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1771.0% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=263.0  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.0)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260117.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260117.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000356  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2809.9%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000356)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2809.9% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2809.9% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2809.9% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=94.8  2.4h-heartbeat z=-0.1
+  TOP PERIOD 240.00h  (z=16.2)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260305.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260305.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000348  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2870.6%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000348)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2870.6% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2870.6% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2870.6% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=279.1  2.4h-heartbeat z=-0.1
+  TOP PERIOD 1440.00h  (z=19.2)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260302.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260302.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000401  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2494.5%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000401)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2494.5% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2494.5% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2494.5% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=255.3  2.4h-heartbeat z=-0.1
+  TOP PERIOD 1440.00h  (z=19.7)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260503.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260503.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0002  max=0.000570  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1753.5%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000570)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1753.5% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1753.5% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1753.5% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=241.9  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=17.9)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260223.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260223.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000417  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2399.7%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000417)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2399.7% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2399.7% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2399.7% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=66.1  2.4h-heartbeat z=-0.1
+  TOP PERIOD 480.00h  (z=10.9)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260130.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260130.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0000  max=0.000205  std=0.0000
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 4879.6%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000205)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /4879.6% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /4879.6% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /4879.6% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=160.2  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=18.4)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260118.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260118.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000457  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2186.9%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000457)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2186.9% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2186.9% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2186.9% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=135.5  2.4h-heartbeat z=-0.1
+  TOP PERIOD 480.00h  (z=16.7)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260328.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260328.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0002  max=0.000542  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1843.4%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000542)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1843.4% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1843.4% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1843.4% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=278.6  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.3)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260217.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260217.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000428  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2337.4%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000428)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2337.4% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2337.4% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2337.4% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=131.3  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=13.6)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260326.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260326.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0002  max=0.000634  std=0.0002
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1577.9%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000634)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1577.9% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1577.9% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1577.9% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=295.8  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.6)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260206.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260206.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000420  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2381.6%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000420)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2381.6% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2381.6% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2381.6% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=161.8  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=15.9)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260329.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260329.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000461  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2170.9%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000461)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2170.9% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2170.9% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2170.9% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=207.5  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=18.2)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260418.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260418.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0003  max=0.000773  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1294.1%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000773)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1294.1% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1294.1% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1294.1% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=174.7  2.4h-heartbeat z=-0.1
+  TOP PERIOD 360.00h  (z=16.1)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260306.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260306.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000422  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2370.2%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000422)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2370.2% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2370.2% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2370.2% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=280.0  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=18.8)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260321.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260321.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000973  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 1027.2%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000973)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /1027.2% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /1027.2% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /1027.2% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=110.1  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=17.2)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260313.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260313.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000461  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2167.9%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000461)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2167.9% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2167.9% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2167.9% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=220.9  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.8)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260417.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260417.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000417  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2400.7%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000417)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2400.7% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2400.7% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2400.7% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=298.9  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.9)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260119.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260119.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0002  max=0.002367  std=0.0005
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 422.5%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.002367)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /422.5% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /422.5% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /422.5% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=299.9  2.4h-heartbeat z=-0.1
+  TOP PERIOD 1440.00h  (z=23.0)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260318.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260318.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000398  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2513.7%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000398)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2513.7% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2513.7% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2513.7% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=290.3  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=19.3)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260210.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260210.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0001  max=0.000467  std=0.0001
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 2143.0%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000467)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /2143.0% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /2143.0% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /2143.0% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=266.0  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=20.7)
+  FLIPS      0 field flip events detected
+
+  Processing: results/magnetometer_chi/dou_20260114.csv
+
+  ──────────────────────────────────────────────────────────────────
+  dou_20260114.csv  (1440 obs, 60.0d, Δt=1.0h)
+  ──────────────────────────────────────────────────────────────────
+  χ: mean=0.0000  max=0.000154  std=0.0000
+
+  ATTRACTOR  boundary_pct=0.0%  (uniform expected: 6474.1%)  excess=0.0×  — soft cap or insufficient data
+  VIOLATIONS ✅ ZERO VIOLATIONS  (χ_max=0.000154)
+
+  HARMONICS
+    χ=0.15 (fundamental):  0.0% obs  /6474.1% exp  excess=0.0×  — no clustering
+    χ=0.30 (2¹×χ):  0.0% obs  /6474.1% exp  excess=0.0×  — no clustering
+    χ=0.60 (2²×χ):  0.0% obs  /6474.1% exp  excess=0.0×  — no clustering
+
+  TEMPORAL   carrier SNR=114.3  2.4h-heartbeat z=-0.1
+  TOP PERIOD 720.00h  (z=14.7)
+  FLIPS      0 field flip events detected
+
+══════════════════════════════════════════════════════════════════════
+AGGREGATE SUMMARY — ALL DATASETS
+══════════════════════════════════════════════════════════════════════
+  Files analyzed:          95
+  Total observations:      142,973
+  Aggregate χ mean:        0.0145
+  Aggregate χ max:         0.922198
+
+  ATTRACTOR FRACTION:      2.3%  (target: 53.6%  delta: -51.3%)
+  VIOLATION RATE:          1.5590%
+  FIELD FLIPS TOTAL:       1051
+
+  Files confirming attractor (χ=0.15):  5/95
+  Files confirming harmonic (χ=0.30):   0/95
+  Files confirming harmonic (χ=0.45):   0/95
+
+  🚨 VIOLATIONS DETECTED — 1.5590%
+     Framework requires investigation
+  [INFO] Plot saved: diagnostic_outputs/chi_analysis_plot.png
+
+  JSON report: diagnostic_outputs/chi_data_analysis_report.json
+  TXT report: diagnostic_outputs/chi_data_analysis_report.txt
+
+══════════════════════════════════════════════════════════════════════
+2s
+Run actions/upload-artifact@v4
+(node:2407) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+With the provided path, there will be 8 files uploaded
+Artifact name is valid!
+Root directory input is valid!
+Beginning upload of artifact content to blob storage
+(node:2407) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Uploaded bytes 419422
+Finished uploading artifact content to blob storage!
+SHA256 digest of uploaded artifact zip is 76cbec63d115baa667fa3c6e1b0cc7d4bfae8fb62ce95f270da66b1d55153eb2
+Finalizing artifact upload
+Artifact Chi_Math_Diagnostics.zip successfully finalized. Artifact ID 6956383856
+Artifact Chi_Math_Diagnostics has been successfully uploaded! Final size is 419422 bytes. Artifact ID is 6956383856
+Artifact download URL: https://github.com/CarlDeanClineSr/luft-portal-/actions/runs/25763467912/artifacts/6956383856
+0s
+Post job cleanup.
+(node:2419) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+0s
+Post job cleanup.
+/usr/bin/git version
+git version 2.53.0
+Temporarily overriding HOME='/home/runner/work/_temp/5cfdb3d4-c787-4763-b5f6-f0573033fa7c' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+/usr/bin/git config --global --add safe.directory /home/runner/work/luft-portal-/luft-portal-
+/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+http.https://github.com/.extraheader
+/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+0s
+Cleaning up orphan processes
+Warning: Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
