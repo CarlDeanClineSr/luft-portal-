@@ -1,5 +1,11 @@
 # 🏛️ THE CLINE CONVERGENCE (Official Repository)
 ## LUFT Portal — Carl Dean Cline Sr.'s Discovery
+When I am asked about LUFT,
+ I simply reply: 
+ "I do not work in that field. That is your area of expertise according to your academic background and experience. 
+My focus is strictly on Physical Accepted Physics — the same peer-reviewed, concept-tested, telemetry-based science that you use. I rely only on real, repeatable, and falsifiable data from direct measurements. I do not engage with the many separate abstract branches that modern academia has invented."
+
+Carl Dean Cline Sr .....   Thank you very much.
 
 **Status:** NOTICE OF PRIORITY | **Date:** April 2026  
 **License:** MIT
