@@ -1,4 +1,4 @@
- #!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Parse NOAA Solar Region Summary into CSV + latest MD summary.
 Deps: pandas, requests
@@ -12,10 +12,11 @@ from pathlib import Path
 import pandas as pd
 import requests
 
-# Primary URL and fallback endpoints
-PRIMARY_URL = "https://services.swpc.noaa.gov/text/solar-region-summary.txt"
+# Updated Primary URL to the correct active text endpoint
+PRIMARY_URL = "https://services.swpc.noaa.gov/text/srs.txt"
+# Optional fallback (though NOAA is deprecating legacy text for JSON, this keeps the architecture intact)
 FALLBACK_URLS = [
-    "https://www.swpc.noaa.gov/products/solar-region-summary",
+    "https://services.swpc.noaa.gov/text/solar-region-summary.txt",
 ]
 OUT_CSV = Path("data/noaa_parsed/srs_daily.csv")
 OUT_MD = Path("reports/latest_srs.md")
@@ -114,4 +115,4 @@ def main():
     print(f"Parsed regions: {len(df)}")
 
 if __name__ == "__main__":
-    main() 
+    main()
