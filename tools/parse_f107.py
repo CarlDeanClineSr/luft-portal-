@@ -13,7 +13,8 @@ import sys
 import pandas as pd
 import requests
 
-URL = "https://services.swpc.noaa.gov/text/solar_radio_flux.txt"
+# Updated URL to the correct daily geomagnetic and solar indices text endpoint
+URL = "https://services.swpc.noaa.gov/text/daily-geomagnetic-indices.txt"
 OUT_CSV = Path("data/noaa_parsed/solar_radio_flux.csv")
 OUT_MD = Path("reports/latest_f107.md")
 OUT_CSV.parent.mkdir(parents=True, exist_ok=True)
