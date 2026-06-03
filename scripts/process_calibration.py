@@ -1,21 +1,21 @@
-import numpy as np
-import matplotlib.pyplot as plt
-from astropy.io import fits
-import yaml
 import os
+import numpy as np
+from astropy.io import fits
 
-with open("config/constants.yaml", "r") as f:
-    cfg = yaml.safe_load(f)
+ROOT_DIR = os.getcwd()
+DATA_PATH = os.path.join(ROOT_DIR, "data", "science_segment.fits")
+OUTPUT_DIR = os.path.join(ROOT_DIR, "output")
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# Load data with memmap=False as established
-with fits.open("data/science_segment.fits", memmap=cfg['processing']['memmap']) as hdul:
+if not os.path.exists(DATA_PATH):
+    raise FileNotFoundError(f"Pipeline failure: File not found at {DATA_PATH}")
+
+with fits.open(DATA_PATH, memmap=False) as hdul:
     data = hdul['SCI'].data
-    # 2D Median collapse
+    # 2D Median collapse (Integrations, Groups, Y, X) -> (Y, X)
     s_data = np.nanmedian(data, axis=(0, 1))
 
-# Save the calibrated residual map as a FITS file for long-term storage
 hdu = fits.PrimaryHDU(s_data)
-os.makedirs("output", exist_ok=True)
-hdu.writeto("output/residual_map.fits", overwrite=True)
+hdu.writeto(os.path.join(OUTPUT_DIR, "residual_map.fits"), overwrite=True)
 
-print("Calibration layer applied: Residual map generated.")
+print(f"Calibration complete. Residual map written to {OUTPUT_DIR}")
