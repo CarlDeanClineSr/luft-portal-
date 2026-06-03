@@ -1,0 +1,37 @@
+name: JWST Science Pipeline
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+          
+      - name: Install dependencies
+        run: |
+          pip install numpy matplotlib astropy astroquery
+          
+      - name: Run Fetcher
+        run: python scripts/fetch_mast.py
+        
+      - name: Run Calibration
+        run: python scripts/process_calibration.py
+        
+      - name: Run Transit Analysis
+        run: python scripts/analyze_transit.py
+        
+      - name: Upload Plots
+        uses: actions/upload-artifact@v3
+        with:
+          name: science-artifacts
+          path: |
+            output/*.png
+            output/*.fits
