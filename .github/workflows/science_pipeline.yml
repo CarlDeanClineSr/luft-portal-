@@ -9,29 +9,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
-      - name: Set up Python
+
+      - name: Set up Python 3.12
         uses: actions/setup-python@v4
         with:
           python-version: '3.12'
-          
+
+      # The "Slick" Part: Caching the environment
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: Install dependencies
         run: |
-          pip install numpy matplotlib astropy astroquery
-          
-      - name: Run Fetcher
-        run: python scripts/fetch_mast.py
-        
-      - name: Run Calibration
-        run: python scripts/process_calibration.py
-        
-      - name: Run Transit Analysis
-        run: python scripts/analyze_transit.py
-        
-      - name: Upload Plots
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Pipeline (Automated)
+        run: |
+          python scripts/fetch_mast.py
+          python scripts/process_calibration.py
+          python scripts/analyze_transit.py
+
+      - name: Upload Results
         uses: actions/upload-artifact@v3
         with:
           name: science-artifacts
-          path: |
-            output/*.png
-            output/*.fits
+          path: output/
