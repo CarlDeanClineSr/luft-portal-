@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-04T23:34:03Z",
-  "total_entries": 3929,
+  "generated_at": "2026-06-05T01:01:27Z",
+  "total_entries": 3934,
   "packages": [
     "A",
     "B",
@@ -23154,6 +23154,66 @@
       "commit_sha": null,
       "commit_timestamp": null,
       "scanned_at": "2026-06-01T14:36:03Z"
+    },
+    {
+      "source": "file",
+      "category": "B",
+      "file_path": "PHASE_COHERENCE_MINER.py",
+      "line": 3,
+      "matched_term": "heartbeat",
+      "matched_pattern": "[Hh]eartbeat",
+      "snippet": "\"\"\" PHASE_COHERENCE_MINER.py Target: cme_heartbeat_log_*.csv Purpose: Mining the 2.4h phase relationship against χ-boundary contact. \"\"\" import pandas as pd import numpy as np def mine_coherence(file_path): df = pd.read_csv(",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-06-05T01:01:17Z"
+    },
+    {
+      "source": "file",
+      "category": "B",
+      "file_path": "PHASE_COHERENCE_MINER.py",
+      "line": 20,
+      "matched_term": "Harmonic",
+      "matched_pattern": "[Hh]armonic",
+      "snippet": "xtract Phase Cluster # We are looking for the phase distribution at the moment of boundary contact phases = boundary_events['phase_radians'].values # 3. Calculate Harmonic Drift # If the system is in lock, phase variance should be minimal mean_phase = np.mean(phases) phase_variance = np.var(phases) print(f\"--- ARCHITECT'S DATA M",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-06-05T01:01:17Z"
+    },
+    {
+      "source": "commit_message",
+      "category": "B",
+      "file_path": null,
+      "line": null,
+      "matched_term": "heartbeat",
+      "matched_pattern": "[Hh]eartbeat",
+      "snippet": "Remove automated schedule from heartbeat logger workflow Removed automated scheduling for the workflow, keeping only manual trigger support.",
+      "commit_sha": "3b801ff6d932e4c68972e2d499b10ec45fe25c41",
+      "commit_timestamp": "2026-06-04T19:55:17-05:00",
+      "scanned_at": "2026-06-05T01:01:27Z"
+    },
+    {
+      "source": "commit_file",
+      "category": "B",
+      "file_path": ".github/workflows/cme_heartbeat_logger.yml",
+      "line": null,
+      "matched_term": "heartbeat",
+      "matched_pattern": "[Hh]eartbeat",
+      "snippet": "[3b801ff6] Remove automated schedule from heartbeat logger workflow | .github/workflows/cme_heartbeat_logger.yml",
+      "commit_sha": "3b801ff6d932e4c68972e2d499b10ec45fe25c41",
+      "commit_timestamp": "2026-06-04T19:55:17-05:00",
+      "scanned_at": "2026-06-05T01:01:27Z"
+    },
+    {
+      "source": "commit_message",
+      "category": "B",
+      "file_path": null,
+      "line": null,
+      "matched_term": "heartbeat",
+      "matched_pattern": "[Hh]eartbeat",
+      "snippet": "PHASE_COHERENCE_MINER.py for phase analysis This script mines phase coherence data from CME heartbeat logs, focusing on boundary events and calculating phase statistics.",
+      "commit_sha": "e4abe17c7dd0bc192e98f9988dfbbb2cd0055bdc",
+      "commit_timestamp": "2026-06-04T19:45:31-05:00",
+      "scanned_at": "2026-06-05T01:01:27Z"
     },
     {
       "source": "file",
