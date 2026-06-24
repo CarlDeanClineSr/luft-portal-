@@ -12,8 +12,8 @@
     "ringdown",
     "fractal echo"
   ],
-  "generated_at": "2026-06-24T18:11:03Z",
-  "total_entries": 1691,
+  "generated_at": "2026-06-24T19:06:51Z",
+  "total_entries": 1692,
   "entries": [
     {
       "source": "file",
@@ -20306,6 +20306,18 @@
       "commit_sha": null,
       "commit_timestamp": null,
       "scanned_at": "2026-06-24T15:02:50Z"
+    },
+    {
+      "source": "file",
+      "category": "B",
+      "file_path": "data/swfo_l1_telemetry/stream.csv",
+      "line": 6,
+      "matched_term": "FRACTURE",
+      "matched_pattern": "[Ff]racture",
+      "snippet": "39:54.650806+00:00,0.0212,-0.62,12.97,475.6,COMPLIANT 2026-06-24T17:26:31.404556+00:00,0.0422,-1.00,17.36,507.0,COMPLIANT 2026-06-24T18:55:55.325315+00:00,0.1665,-3.52,22.59,497.5,FRACTURE",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-06-24T19:06:48Z"
     }
   ]
 }
