@@ -1,21 +1,23 @@
-name: SWFO-L1 Automated Intercept
+name: SWFO Ingest
 
 on:
   schedule:
-    - cron: '*/5 * * * *' # 5-minute capture
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
 
 jobs:
-  ingest:
+  harvest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Fetch Raw Bytes
+      - name: Run Telemetry Intercept
         run: |
           python3 scripts/swfo_l1_direct_ingest.py
-          python3 scripts/swfo_l1_positioning_harvester.py  # <--- THIS IS THE ADDITION
-      - name: Auto-Action to Repo
+          python3 scripts/swfo_l1_positioning_harvester.py
+      - name: Push Data
         run: |
-          git config user.name "LUFT L1 Master"
+          git config user.name "LUFT-Portal-Bot"
+          git config user.email "bot@luft.com"
           git add data/swfo_l1_telemetry/
-          git commit -m "data: Raw L1 ingest + attitude [$(date +'%Y-%m-%d %H:%M:%S')]"
+          git diff --staged --quiet || git commit -m "data: Raw L1 ingest + attitude [$(date +'%Y-%m-%d %H:%M:%S')]"
           git push
