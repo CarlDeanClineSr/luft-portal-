@@ -12,8 +12,8 @@
     "ringdown",
     "fractal echo"
   ],
-  "generated_at": "2026-06-24T13:52:12Z",
-  "total_entries": 1690,
+  "generated_at": "2026-06-24T15:02:51Z",
+  "total_entries": 1691,
   "entries": [
     {
       "source": "file",
@@ -20294,6 +20294,18 @@
       "commit_sha": "e4abe17c7dd0bc192e98f9988dfbbb2cd0055bdc",
       "commit_timestamp": "2026-06-04T19:45:31-05:00",
       "scanned_at": "2026-06-05T01:01:27Z"
+    },
+    {
+      "source": "file",
+      "category": "B",
+      "file_path": "scripts/swfo_l1_direct_ingest.py",
+      "line": 19,
+      "matched_term": "FRACTURE",
+      "matched_pattern": "[Ff]racture",
+      "snippet": "0]), fetch(URLS[1]) chi = round((abs(float(m[3])) * math.sqrt(float(p[1])) * float(p[2])) / DIV, 4) row = [datetime.now(timezone.utc).isoformat(), chi, m[3], p[1], p[2], (\"FRACTURE\" if chi >= LIMIT else \"COMPLIANT\")] path = \"data/swfo_l1_telemetry/stream.csv\" os.makedirs(os.path.dirname(path), exist_ok=True) with open(path, 'a') as f:",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-06-24T15:02:50Z"
     }
   ]
 }
