@@ -1,0 +1,18 @@
+name: SWFO Ingest
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  harvest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: python3 scripts/swfo_l1_direct_ingest.py
+      - run: |
+          git config user.name "LUFT-Portal-Bot"
+          git config user.email "bot@carldeancline.com"
+          git add data/swfo_l1_telemetry/stream.csv
+          git commit -m "data: swfo-l1 raw ingest [$(date)]"
+          git push
