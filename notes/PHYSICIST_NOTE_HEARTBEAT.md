@@ -14,8 +14,8 @@ date: "2025-12-05"
 
 ## Abstract
 
-Einstein’s mass–energy equivalence, \(E = mc^2\), established the universality of matter and energy.  
-LUFT experiments extend this law into plasma boundary physics, showing that lattice modulation amplitude (\(\chi\)) responds linearly to solar wind dynamic pressure.  
+Einstein’s mass–energy equivalence, $E = mc^2$, established the universality of matter and energy.  
+LUFT experiments extend this law into plasma boundary physics, showing that lattice modulation amplitude ($\chi$) responds linearly to solar wind dynamic pressure.  
 This note summarizes the empirical boundary recoil law, spectral heartbeat signature, and correction term, with all data open and auditable.
 
 ---
@@ -24,7 +24,7 @@ This note summarizes the empirical boundary recoil law, spectral heartbeat signa
 
 ![Heartbeat plot](results/cme_heartbeat_2025_12_chi_pdyn.png)
 
-*χ amplitude vs dynamic pressure, colored by storm phase. Orange dashed line shows boundary recoil fit.*
+*$\chi$ amplitude vs dynamic pressure, colored by storm phase. Orange dashed line shows boundary recoil fit.*
 
 ---
 
@@ -32,7 +32,7 @@ This note summarizes the empirical boundary recoil law, spectral heartbeat signa
 
 | Parameter | Value |
 |-----------|-------|
-| Slope (Δχ / P_dyn) | 0.0032 |
+| Slope ($\Delta\chi$ / $P_{\text{dyn}}$) | 0.0032 |
 | Intercept | 0.054 |
 | R² | 0.91 |
 | Dataset | CME Heartbeat Log, Dec 2025 |
@@ -41,17 +41,15 @@ This note summarizes the empirical boundary recoil law, spectral heartbeat signa
 
 ## Narrative
 
-- **First Space (Einstein):** Mass–energy equivalence, \(E = mc^2\).  
-- **Second Space (LUFT):** Lattice boundary recoil, χ responding to solar wind pressure.  
+- **First Space (Einstein):** Mass–energy equivalence, $E = mc^2$.  
+- **Second Space (LUFT):** Lattice boundary recoil, $\chi$ responding to solar wind pressure.  
 - **Heartbeat:** Modulation period ~2.4 h, spectral peak confirmed.  
-- **Boundary recoil law:**  
-  \[
+- **Boundary recoil law:** $$
   \Delta \chi = 0.0032 \cdot P_{\text{dyn}} + 0.054
-  \]  
-- **Correction term:**  
-  \[
+  $$  
+- **Correction term:** $$
   E = mc^2 + f(\chi, P_{\text{dyn}}, B_z, B_t)
-  \]
+  $$
 
 ---
 
