@@ -1,23 +1,45 @@
-name: SWFO Ingest
+name: SWFO Ingest (L1 Telemetry)
 
 on:
   schedule:
     - cron: '*/5 * * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   harvest:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Run Telemetry Intercept
-        run: |
-          python3 scripts/swfo_l1_direct_ingest.py
-          python3 scripts/swfo_l1_positioning_harvester.py
-      - name: Push Data
+      - name: Checkout Vault
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          
+      - name: Install Dependencies
+        run: pip install requests pandas
+
+      - name: Run SWFO Ingest Engine
+        run: python3 scripts/swfo_l1_direct_ingest.py
+
+      - name: Secure Data to Vault
         run: |
           git config user.name "LUFT-Portal-Bot"
-          git config user.email "bot@luft.com"
-          git add data/swfo_l1_telemetry/
-          git diff --staged --quiet || git commit -m "data: Raw L1 ingest + attitude [$(date +'%Y-%m-%d %H:%M:%S')]"
-          git push
+          git config user.email "bot@carldeancline.com"
+          git add data/swfo_l1_telemetry/stream.csv
+          
+          # Safety Check: Only commit if there is actual new data
+          if git diff --cached --quiet; then
+            echo "No new valid telemetry. Aborting commit to protect ledger."
+          else
+            git commit -m "data: swfo-l1 raw ingest [$(date -u +'%Y-%m-%d %H:%M:%S UTC')]"
+            git push
+            echo "SUCCESS: New SWFO telemetry secured."
+          fi
