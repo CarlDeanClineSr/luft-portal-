@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 # The New NOAA RTSW (Real-Time Solar Wind) Endpoints
 PLASMA_URL = "https://services.swpc.noaa.gov/json/rtsw/rtsw_wind_1m.json"
@@ -15,7 +15,7 @@ HEADERS = {
 }
 
 def fetch_and_validate():
-    print(f"[{datetime.now(datetime.UTC).isoformat()}] Initiating L1 RTSW Telemetry Pull...")
+    print(f"[{datetime.now(timezone.utc).isoformat()}] Initiating L1 RTSW Telemetry Pull...")
     
     try:
         plasma_res = requests.get(PLASMA_URL, headers=HEADERS, timeout=10)
