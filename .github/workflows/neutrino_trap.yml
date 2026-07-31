@@ -1,0 +1,46 @@
+name: IceCube Neutrino Trap
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  hunt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          
+      - name: Install NASA GCN Client
+        run: npm install gcn-kafka@^1.0.0
+        
+      - name: Run Kafka Trap
+        env:
+          GCN_CLIENT_ID: ${{ secrets.GCN_CLIENT_ID }}
+          GCN_CLIENT_SECRET: ${{ secrets.GCN_CLIENT_SECRET }}
+        run: node scripts/icecube_trap.js
+
+      - name: Commit Strikes to Ledger
+        run: |
+          git config user.name "LUFT-Portal-Bot"
+          git config user.email "bot@carldeancline.com"
+          git add data/neutrino_events/*.csv || true
+          
+          if git diff --cached --quiet; then
+            echo "No new kinetic strikes. Aborting commit."
+          else
+            git commit -m "data: IceCube Neutrino Strike Logged [$(date -u +'%Y-%m-%d %H:%M:%S UTC')]"
+            git push
+            echo "SUCCESS: Strike secured in vault."
+          fi
