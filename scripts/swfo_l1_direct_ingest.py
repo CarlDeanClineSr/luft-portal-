@@ -1,78 +1,64 @@
-import urllib.request
-import urllib.error
-import json
-import sys
+import requests
+import pandas as pd
 import os
 from datetime import datetime
 
-# Primary SWFO-L1 endpoints (The ones currently throwing 404s)
-URLS = [
-    "https://services.swpc.noaa.gov/json/swfo/mag-1-day.json",
-    "https://services.swpc.noaa.gov/json/swfo/plasma-1-day.json"
-]
+# NOAA's real-time JSON endpoints for L1 Spacecraft (DSCOVR/SWFO)
+PLASMA_URL = "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-day.json"
+MAG_URL = "https://services.swpc.noaa.gov/products/solar-wind/mag-1-day.json"
+CSV_FILE = "data/swfo_l1_telemetry/stream.csv"
 
-# DSCOVR/ACE Fallbacks - Keeps the engine fed if SWFO is moved/restricted
-FALLBACK_URLS = [
-    "https://services.swpc.noaa.gov/products/solar-wind/mag-1-day.json",
-    "https://services.swpc.noaa.gov/products/solar-wind/plasma-1-day.json"
-]
-
-def fetch(url):
-    """
-    Hardened fetch protocol. Catches 404s and connection errors 
-    without crashing the main LUFT workflow.
-    """
-    # Custom User-Agent identifies your crawler professionally
-    req = urllib.request.Request(url, headers={'User-Agent': 'LUFT-Engine/4.0 (Imperial Physics)'})
+def fetch_and_validate():
+    print(f"[{datetime.utcnow()}] Initiating SWFO-L1 Telemetry Pull...")
     
     try:
-        with urllib.request.urlopen(req, timeout=15) as r:
-            return json.loads(r.read().decode('utf-8'))
+        plasma_res = requests.get(PLASMA_URL, timeout=10)
+        mag_res = requests.get(MAG_URL, timeout=10)
+        
+        if plasma_res.status_code != 200 or mag_res.status_code != 200:
+            print("API Error: Spacecraft feed unresponsive.")
+            return
             
-    except urllib.error.HTTPError as e:
-        print(f"[!] HTTP Error {e.code} for URL: {url}")
-        return None
+        plasma_data = plasma_res.json()
+        mag_data = mag_res.json()
+        
+        # Grab the absolute newest row of data (index -1)
+        # JSON structure: [time, density, speed, temp]
+        latest_plasma = plasma_data[-1] 
+        # JSON structure: [time, bx, by, bz, lon, lat, bt]
+        latest_mag = mag_data[-1]
+        
+        # 1. FILTER TRAP: Ensure data is not blank/uncalibrated
+        density = latest_plasma[1]
+        speed = latest_plasma[2]
+        bz = latest_mag[3]
+        bt = latest_mag[6]
+        
+        if None in [density, speed, bz, bt]:
+            print("CRITICAL: NOAA transmitted calibration blanks. Rejecting data.")
+            return
+
+        # 2. Package the valid data
+        new_record = pd.DataFrame([{
+            'timestamp': latest_plasma[0],
+            'density_cm3': float(density),
+            'speed_km_s': float(speed),
+            'bz_nt': float(bz),
+            'bt_nt': float(bt)
+        }])
+        
+        # 3. APPEND MODE ('a'): Never overwrite the historical ledger
+        # If the file doesn't exist, write the header. If it does, just append the row.
+        file_exists = os.path.isfile(CSV_FILE)
+        new_record.to_csv(CSV_FILE, mode='a', index=False, header=not file_exists)
+        
+        print(f"SUCCESS: Valid SWFO record appended at {latest_plasma[0]}")
+        print(f"Bt: {bt} nT | Bz: {bz} nT | Speed: {speed} km/s | Density: {density}")
+
     except Exception as e:
-        print(f"[!] Connection Error: {e} for URL: {url}")
-        return None
-
-def process_and_append(mag_data, plasma_data):
-    """
-    Placeholder for your existing data extraction and stream.csv append logic.
-    Aligns magnetic and plasma data by timestamp, calculates Chi (X), 
-    and determines COMPLIANT/FRACTURE status.
-    """
-    # This is where your existing logic to parse the JSON and write to stream.csv goes.
-    # The crucial part is that the script only reaches here if data is successfully fetched.
-    print(f"[*] Processing {len(mag_data)} mag records and {len(plasma_data)} plasma records...")
-    
-    # ... [Insert your existing CSV write logic here] ...
-    
-    print("[*] LUFT Stream append successful.")
-
-def run():
-    print(f"[{datetime.utcnow().isoformat()}] Initiating L1 Telemetry Ingest...")
-    
-    # 1. Attempt Primary SWFO-L1 Fetch
-    print("[*] Targeting Primary SWFO Endpoints...")
-    m = fetch(URLS[0])
-    p = fetch(URLS[1])
-    
-    # 2. Check for 404 / Missing Data
-    if m is None or p is None:
-        print("[!] Primary endpoints offline or relocated (404).")
-        print("[*] Engaging proxy fallback telemetry (DSCOVR/ACE)...")
-        m = fetch(FALLBACK_URLS[0])
-        p = fetch(FALLBACK_URLS[1])
-        
-    # 3. Final Integrity Check
-    if m is None or p is None:
-        print("[X] CRITICAL: Both primary and fallback endpoints failed.")
-        print("[X] Aborting ingest to preserve data integrity. No false rows written.")
-        sys.exit(1) # Fails cleanly so GitHub Actions logs it without breaking downstream processes
-        
-    # 4. Route to Processing
-    process_and_append(m, p)
+        print(f"Ingest Engine Failed: {e}")
 
 if __name__ == "__main__":
-    run()
+    # Ensure directory exists
+    os.makedirs(os.path.dirname(CSV_FILE), exist_ok=True)
+    fetch_and_validate()
