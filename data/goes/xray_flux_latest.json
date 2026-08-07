@@ -1,509 +1,5 @@
 [
     {
-        "time_tag": "2026-08-06T14:02:00Z",
-        "satellite": 18,
-        "flux": 1.152679285354452e-09,
-        "observed_flux": 8.256387573624124e-09,
-        "electron_correction": 7.1037078441804624e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:02:00Z",
-        "satellite": 18,
-        "flux": 3.046187657673727e-07,
-        "observed_flux": 3.1765287644702767e-07,
-        "electron_correction": 1.303409824515711e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:03:00Z",
-        "satellite": 18,
-        "flux": 3.288997740824584e-09,
-        "observed_flux": 1.0416298046322936e-08,
-        "electron_correction": 7.127300083453747e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:03:00Z",
-        "satellite": 18,
-        "flux": 3.0311164778140665e-07,
-        "observed_flux": 3.1620345453120535e-07,
-        "electron_correction": 1.3091815631582904e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:04:00Z",
-        "satellite": 18,
-        "flux": 9.999999717180685e-10,
-        "observed_flux": 7.246982569597549e-09,
-        "electron_correction": 7.2420696106689775e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:04:00Z",
-        "satellite": 18,
-        "flux": 2.9995948125360883e-07,
-        "observed_flux": 3.131652874799329e-07,
-        "electron_correction": 1.3205806226324057e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:05:00Z",
-        "satellite": 18,
-        "flux": 1.9624748492930166e-09,
-        "observed_flux": 9.150248558853491e-09,
-        "electron_correction": 7.187773931605079e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:05:00Z",
-        "satellite": 18,
-        "flux": 2.97527492421068e-07,
-        "observed_flux": 3.106295594079711e-07,
-        "electron_correction": 1.3102058105118886e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:06:00Z",
-        "satellite": 18,
-        "flux": 9.999999717180685e-10,
-        "observed_flux": 7.42699945988079e-09,
-        "electron_correction": 7.094942411356442e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:06:00Z",
-        "satellite": 18,
-        "flux": 2.9607230089823133e-07,
-        "observed_flux": 3.091923872489133e-07,
-        "electron_correction": 1.3120077468897762e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:07:00Z",
-        "satellite": 18,
-        "flux": 9.999999717180685e-10,
-        "observed_flux": 6.714591993528529e-09,
-        "electron_correction": 7.232456411543353e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:07:00Z",
-        "satellite": 18,
-        "flux": 2.943045842584979e-07,
-        "observed_flux": 3.0739303724658384e-07,
-        "electron_correction": 1.3088458317156437e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:08:00Z",
-        "satellite": 18,
-        "flux": 9.999999717180685e-10,
-        "observed_flux": 7.249138622711371e-09,
-        "electron_correction": 7.2062817935147905e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:08:00Z",
-        "satellite": 18,
-        "flux": 2.935995553343673e-07,
-        "observed_flux": 3.0680823215334385e-07,
-        "electron_correction": 1.3208691029831243e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:09:00Z",
-        "satellite": 18,
-        "flux": 9.999999717180685e-10,
-        "observed_flux": 7.671014934373943e-09,
-        "electron_correction": 7.157285430992033e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:09:00Z",
-        "satellite": 18,
-        "flux": 2.927979210198828e-07,
-        "observed_flux": 3.0618144819527515e-07,
-        "electron_correction": 1.3383534280819731e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:10:00Z",
-        "satellite": 18,
-        "flux": 9.999999717180685e-10,
-        "observed_flux": 6.263379148663262e-09,
-        "electron_correction": 7.175254168600986e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:10:00Z",
-        "satellite": 18,
-        "flux": 2.93585600275037e-07,
-        "observed_flux": 3.066367639803502e-07,
-        "electron_correction": 1.305116192895639e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:11:00Z",
-        "satellite": 18,
-        "flux": 2.0861905536406766e-09,
-        "observed_flux": 9.432695513567069e-09,
-        "electron_correction": 7.346505181970997e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:11:00Z",
-        "satellite": 18,
-        "flux": 2.942480250567314e-07,
-        "observed_flux": 3.0752420343560516e-07,
-        "electron_correction": 1.3276181043408997e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:12:00Z",
-        "satellite": 18,
-        "flux": 1.981301789300005e-09,
-        "observed_flux": 9.197782979697422e-09,
-        "electron_correction": 7.216481190397417e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:12:00Z",
-        "satellite": 18,
-        "flux": 2.9424143122014357e-07,
-        "observed_flux": 3.075147105846554e-07,
-        "electron_correction": 1.3273280252690256e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:13:00Z",
-        "satellite": 18,
-        "flux": 1.3631900053212576e-09,
-        "observed_flux": 8.543145746386926e-09,
-        "electron_correction": 7.179955741065669e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:13:00Z",
-        "satellite": 18,
-        "flux": 2.948464441487886e-07,
-        "observed_flux": 3.080050987591676e-07,
-        "electron_correction": 1.3158651057665338e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:14:00Z",
-        "satellite": 18,
-        "flux": 1.5613419446225407e-09,
-        "observed_flux": 9.00153906968626e-09,
-        "electron_correction": 7.440197347108324e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:14:00Z",
-        "satellite": 18,
-        "flux": 2.9447548399730294e-07,
-        "observed_flux": 3.076096959375718e-07,
-        "electron_correction": 1.3134219933874647e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:15:00Z",
-        "satellite": 18,
-        "flux": 1.1357891294139222e-09,
-        "observed_flux": 8.599742251647058e-09,
-        "electron_correction": 7.463953011210833e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:15:00Z",
-        "satellite": 18,
-        "flux": 2.9278535862431454e-07,
-        "observed_flux": 3.061131792492233e-07,
-        "electron_correction": 1.3327801973161968e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:16:00Z",
-        "satellite": 18,
-        "flux": 9.999999717180685e-10,
-        "observed_flux": 7.079655972574983e-09,
-        "electron_correction": 7.504916688105823e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:16:00Z",
-        "satellite": 18,
-        "flux": 2.9142168500584376e-07,
-        "observed_flux": 3.0461754363386717e-07,
-        "electron_correction": 1.3195857739844996e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:17:00Z",
-        "satellite": 18,
-        "flux": 1.1596068549835081e-09,
-        "observed_flux": 8.646054538985481e-09,
-        "electron_correction": 7.486447017868159e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:17:00Z",
-        "satellite": 18,
-        "flux": 2.9184300842644006e-07,
-        "observed_flux": 3.0510921078530373e-07,
-        "electron_correction": 1.3266229004216257e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:18:00Z",
-        "satellite": 18,
-        "flux": 1.3352002836697352e-09,
-        "observed_flux": 8.882645730068361e-09,
-        "electron_correction": 7.547446223554743e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:18:00Z",
-        "satellite": 18,
-        "flux": 2.9145039093236846e-07,
-        "observed_flux": 3.046290544261865e-07,
-        "electron_correction": 1.3178677704672737e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:19:00Z",
-        "satellite": 18,
-        "flux": 9.999999717180685e-10,
-        "observed_flux": 7.635387433424512e-09,
-        "electron_correction": 7.373189170323258e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:19:00Z",
-        "satellite": 18,
-        "flux": 2.914350147875666e-07,
-        "observed_flux": 3.0444425647147e-07,
-        "electron_correction": 1.3009232802119186e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:20:00Z",
-        "satellite": 18,
-        "flux": 9.999999717180685e-10,
-        "observed_flux": 8.450053101682897e-09,
-        "electron_correction": 7.541576252378945e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:20:00Z",
-        "satellite": 18,
-        "flux": 2.916504513450491e-07,
-        "observed_flux": 3.047251482257707e-07,
-        "electron_correction": 1.3074689775294246e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:21:00Z",
-        "satellite": 18,
-        "flux": 1.6273041802961075e-09,
-        "observed_flux": 8.908207504987331e-09,
-        "electron_correction": 7.280903435713526e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:21:00Z",
-        "satellite": 18,
-        "flux": 2.911681065143057e-07,
-        "observed_flux": 3.0436464726335544e-07,
-        "electron_correction": 1.3196554071726041e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:22:00Z",
-        "satellite": 18,
-        "flux": 9.999999717180685e-10,
-        "observed_flux": 7.719742178835531e-09,
-        "electron_correction": 7.588263351010482e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:22:00Z",
-        "satellite": 18,
-        "flux": 2.9118416478013387e-07,
-        "observed_flux": 3.0443516152445227e-07,
-        "electron_correction": 1.3250986974355783e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:23:00Z",
-        "satellite": 18,
-        "flux": 9.999999717180685e-10,
-        "observed_flux": 8.416646934961136e-09,
-        "electron_correction": 7.77622943815004e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:23:00Z",
-        "satellite": 18,
-        "flux": 2.9088135988786235e-07,
-        "observed_flux": 3.0421563224081183e-07,
-        "electron_correction": 1.333428034655526e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:24:00Z",
-        "satellite": 18,
-        "flux": 9.999999717180685e-10,
-        "observed_flux": 8.572299314835163e-09,
-        "electron_correction": 7.730451834220275e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:24:00Z",
-        "satellite": 18,
-        "flux": 2.913257333148067e-07,
-        "observed_flux": 3.0445889365182666e-07,
-        "electron_correction": 1.3133170995160981e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:25:00Z",
-        "satellite": 18,
-        "flux": 1.2281743400066603e-09,
-        "observed_flux": 8.754709845959496e-09,
-        "electron_correction": 7.526534950841324e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:25:00Z",
-        "satellite": 18,
-        "flux": 2.921377699749428e-07,
-        "observed_flux": 3.05607528616747e-07,
-        "electron_correction": 1.3469775517194194e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:26:00Z",
-        "satellite": 18,
-        "flux": 9.999999717180685e-10,
-        "observed_flux": 8.060442091561981e-09,
-        "electron_correction": 7.577960481341961e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:26:00Z",
-        "satellite": 18,
-        "flux": 2.921054544913204e-07,
-        "observed_flux": 3.056303512494196e-07,
-        "electron_correction": 1.3524911857132338e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:27:00Z",
-        "satellite": 18,
-        "flux": 1.6637075050951466e-09,
-        "observed_flux": 9.288057434275743e-09,
-        "electron_correction": 7.624350040202899e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:27:00Z",
-        "satellite": 18,
-        "flux": 2.9283714297889674e-07,
-        "observed_flux": 3.061205404719658e-07,
-        "electron_correction": 1.3283423250243231e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:28:00Z",
-        "satellite": 18,
-        "flux": 9.999999717180685e-10,
-        "observed_flux": 8.419998032138665e-09,
-        "electron_correction": 7.854969119591715e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:28:00Z",
-        "satellite": 18,
-        "flux": 2.9254559308355965e-07,
-        "observed_flux": 3.0585465538024437e-07,
-        "electron_correction": 1.330907828389627e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:29:00Z",
-        "satellite": 18,
-        "flux": 1.064855092991479e-09,
-        "observed_flux": 8.698854969679815e-09,
-        "electron_correction": 7.63399921055452e-09,
-        "electron_contaminaton": true,
-        "energy": "0.05-0.4nm"
-    },
-    {
-        "time_tag": "2026-08-06T14:29:00Z",
-        "satellite": 18,
-        "flux": 2.929175764165848e-07,
-        "observed_flux": 3.0637008308076474e-07,
-        "electron_correction": 1.3452493341503668e-08,
-        "electron_contaminaton": false,
-        "energy": "0.1-0.8nm"
-    },
-    {
         "time_tag": "2026-08-06T14:30:00Z",
         "satellite": 18,
         "flux": 9.999999717180685e-10,
@@ -25880,6 +25376,510 @@
         "flux": 3.066846829824499e-07,
         "observed_flux": 3.1504140451943385e-07,
         "electron_correction": 8.356742853266041e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:00:00Z",
+        "satellite": 18,
+        "flux": 3.0117268678964138e-09,
+        "observed_flux": 9.6151104855835e-09,
+        "electron_correction": 6.603384061776296e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:00:00Z",
+        "satellite": 18,
+        "flux": 3.1154516477727157e-07,
+        "observed_flux": 3.19800619763555e-07,
+        "electron_correction": 8.255440775428724e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:01:00Z",
+        "satellite": 18,
+        "flux": 3.052306407624883e-09,
+        "observed_flux": 9.695090952277496e-09,
+        "electron_correction": 6.6427845446526135e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:01:00Z",
+        "satellite": 18,
+        "flux": 3.1447387982552755e-07,
+        "observed_flux": 3.2252467008220265e-07,
+        "electron_correction": 8.050782263069323e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:02:00Z",
+        "satellite": 18,
+        "flux": 3.755977306951763e-09,
+        "observed_flux": 1.0625950785936311e-08,
+        "electron_correction": 6.869973478984548e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:02:00Z",
+        "satellite": 18,
+        "flux": 3.1241657438840775e-07,
+        "observed_flux": 3.206540668543312e-07,
+        "electron_correction": 8.237512894027077e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:03:00Z",
+        "satellite": 18,
+        "flux": 2.604447990606218e-09,
+        "observed_flux": 9.416953439256304e-09,
+        "electron_correction": 6.812505226605481e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:03:00Z",
+        "satellite": 18,
+        "flux": 3.0858726063343056e-07,
+        "observed_flux": 3.168784132867586e-07,
+        "electron_correction": 8.291128672510695e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:04:00Z",
+        "satellite": 18,
+        "flux": 1.3668920439968701e-09,
+        "observed_flux": 8.172631460467983e-09,
+        "electron_correction": 6.805739527493415e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:04:00Z",
+        "satellite": 18,
+        "flux": 3.0538498663190694e-07,
+        "observed_flux": 3.1380736231767514e-07,
+        "electron_correction": 8.422400554763954e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:05:00Z",
+        "satellite": 18,
+        "flux": 2.850656155573006e-09,
+        "observed_flux": 9.439161452462486e-09,
+        "electron_correction": 6.58850529688948e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:05:00Z",
+        "satellite": 18,
+        "flux": 3.028985418040975e-07,
+        "observed_flux": 3.1118779020289367e-07,
+        "electron_correction": 8.289243957904091e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:06:00Z",
+        "satellite": 18,
+        "flux": 3.0367997005953384e-09,
+        "observed_flux": 9.819013158107737e-09,
+        "electron_correction": 6.782213901601608e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:06:00Z",
+        "satellite": 18,
+        "flux": 2.9976217774674296e-07,
+        "observed_flux": 3.079058217281272e-07,
+        "electron_correction": 8.143619112388478e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:07:00Z",
+        "satellite": 18,
+        "flux": 9.999999717180685e-10,
+        "observed_flux": 7.698013781975988e-09,
+        "electron_correction": 6.81375134092832e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:07:00Z",
+        "satellite": 18,
+        "flux": 2.9716059657403093e-07,
+        "observed_flux": 3.054155399695446e-07,
+        "electron_correction": 8.254943395513692e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:08:00Z",
+        "satellite": 18,
+        "flux": 3.351113608829337e-09,
+        "observed_flux": 1.0199343591921206e-08,
+        "electron_correction": 6.848229983091869e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:08:00Z",
+        "satellite": 18,
+        "flux": 2.9438825777106103e-07,
+        "observed_flux": 3.0275398898993444e-07,
+        "electron_correction": 8.365710790769754e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:09:00Z",
+        "satellite": 18,
+        "flux": 1.6365702126819315e-09,
+        "observed_flux": 8.572299314835163e-09,
+        "electron_correction": 6.935729324197837e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:09:00Z",
+        "satellite": 18,
+        "flux": 2.9343900109779497e-07,
+        "observed_flux": 3.0161851327648037e-07,
+        "electron_correction": 8.179514843220659e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:10:00Z",
+        "satellite": 18,
+        "flux": 2.536047594148272e-09,
+        "observed_flux": 9.627321162497537e-09,
+        "electron_correction": 7.091273346304661e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:10:00Z",
+        "satellite": 18,
+        "flux": 2.9245754262774426e-07,
+        "observed_flux": 3.007455120496161e-07,
+        "electron_correction": 8.287977415477599e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:11:00Z",
+        "satellite": 18,
+        "flux": 4.1287879781748416e-09,
+        "observed_flux": 1.0832488683831798e-08,
+        "electron_correction": 6.7037002615677466e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:11:00Z",
+        "satellite": 18,
+        "flux": 2.9230125164758647e-07,
+        "observed_flux": 3.006960014317883e-07,
+        "electron_correction": 8.394744455131331e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:12:00Z",
+        "satellite": 18,
+        "flux": 2.550276212431868e-09,
+        "observed_flux": 9.529199651581166e-09,
+        "electron_correction": 6.978923217104693e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:12:00Z",
+        "satellite": 18,
+        "flux": 2.914831327416323e-07,
+        "observed_flux": 2.9974103199492674e-07,
+        "electron_correction": 8.257887706974998e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:13:00Z",
+        "satellite": 18,
+        "flux": 2.3149957506518604e-09,
+        "observed_flux": 9.013033874794019e-09,
+        "electron_correction": 6.698038568231368e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:13:00Z",
+        "satellite": 18,
+        "flux": 2.9254866262817814e-07,
+        "observed_flux": 3.0054681587898813e-07,
+        "electron_correction": 7.998155915345251e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:14:00Z",
+        "satellite": 18,
+        "flux": 4.168013045813268e-09,
+        "observed_flux": 1.1057884385934358e-08,
+        "electron_correction": 6.8898717842103e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:14:00Z",
+        "satellite": 18,
+        "flux": 2.919802000178606e-07,
+        "observed_flux": 3.0026922104298137e-07,
+        "electron_correction": 8.289018360585487e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:15:00Z",
+        "satellite": 18,
+        "flux": 3.0060138822562976e-09,
+        "observed_flux": 9.610139350968439e-09,
+        "electron_correction": 6.604125246667536e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:15:00Z",
+        "satellite": 18,
+        "flux": 2.9283191338436154e-07,
+        "observed_flux": 3.0127355898912356e-07,
+        "electron_correction": 8.441646492940436e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:16:00Z",
+        "satellite": 18,
+        "flux": 4.427555655439619e-09,
+        "observed_flux": 1.1335064442619114e-08,
+        "electron_correction": 6.907509231268705e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:16:00Z",
+        "satellite": 18,
+        "flux": 2.8886088898616435e-07,
+        "observed_flux": 2.9731177164649125e-07,
+        "electron_correction": 8.450870225829021e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:17:00Z",
+        "satellite": 18,
+        "flux": 2.938301824073619e-09,
+        "observed_flux": 9.710174886379264e-09,
+        "electron_correction": 6.771873284350249e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:17:00Z",
+        "satellite": 18,
+        "flux": 2.884498258026724e-07,
+        "observed_flux": 2.9679745239263866e-07,
+        "electron_correction": 8.347622149074141e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:18:00Z",
+        "satellite": 18,
+        "flux": 1.2073729793726784e-09,
+        "observed_flux": 8.087200242812287e-09,
+        "electron_correction": 6.879827374461911e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:18:00Z",
+        "satellite": 18,
+        "flux": 2.877591498418042e-07,
+        "observed_flux": 2.960859148970485e-07,
+        "electron_correction": 8.326766831601162e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:19:00Z",
+        "satellite": 18,
+        "flux": 1.845226638153008e-09,
+        "observed_flux": 8.74231709246942e-09,
+        "electron_correction": 6.8970904543164124e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:19:00Z",
+        "satellite": 18,
+        "flux": 2.855609864127473e-07,
+        "observed_flux": 2.939711407634604e-07,
+        "electron_correction": 8.410174778816781e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:20:00Z",
+        "satellite": 18,
+        "flux": 9.999999717180685e-10,
+        "observed_flux": 8.129465101092137e-09,
+        "electron_correction": 7.173048377495661e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:20:00Z",
+        "satellite": 18,
+        "flux": 2.834939323292929e-07,
+        "observed_flux": 2.9178644922467356e-07,
+        "electron_correction": 8.29250534906123e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:21:00Z",
+        "satellite": 18,
+        "flux": 9.999999717180685e-10,
+        "observed_flux": 7.913645738710784e-09,
+        "electron_correction": 7.141458535642187e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:21:00Z",
+        "satellite": 18,
+        "flux": 2.8443224664442823e-07,
+        "observed_flux": 2.928634614818293e-07,
+        "electron_correction": 8.431229936434192e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:22:00Z",
+        "satellite": 18,
+        "flux": 9.999999717180685e-10,
+        "observed_flux": 7.237758392619753e-09,
+        "electron_correction": 7.2546160190256614e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:22:00Z",
+        "satellite": 18,
+        "flux": 2.825970284447976e-07,
+        "observed_flux": 2.908980718530074e-07,
+        "electron_correction": 8.301069165383979e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:23:00Z",
+        "satellite": 18,
+        "flux": 9.999999717180685e-10,
+        "observed_flux": 7.51757145422971e-09,
+        "electron_correction": 7.062815665648259e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:23:00Z",
+        "satellite": 18,
+        "flux": 2.876188602840557e-07,
+        "observed_flux": 2.9591444672405487e-07,
+        "electron_correction": 8.295574893679714e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:24:00Z",
+        "satellite": 18,
+        "flux": 2.13549511407507e-09,
+        "observed_flux": 9.242737242232124e-09,
+        "electron_correction": 7.107241906112449e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:24:00Z",
+        "satellite": 18,
+        "flux": 2.8558227427311067e-07,
+        "observed_flux": 2.937996725904668e-07,
+        "electron_correction": 8.217396540999289e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:25:00Z",
+        "satellite": 18,
+        "flux": 1.4537833159522506e-09,
+        "observed_flux": 8.66927774012538e-09,
+        "electron_correction": 7.21549398008392e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:25:00Z",
+        "satellite": 18,
+        "flux": 2.860191443687654e-07,
+        "observed_flux": 2.943616550510342e-07,
+        "electron_correction": 8.342525781301902e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:26:00Z",
+        "satellite": 18,
+        "flux": 9.999999717180685e-10,
+        "observed_flux": 8.112760241374417e-09,
+        "electron_correction": 7.206691687855482e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:26:00Z",
+        "satellite": 18,
+        "flux": 2.8669262519542826e-07,
+        "observed_flux": 2.9505002885343856e-07,
+        "electron_correction": 8.35739744076136e-09,
+        "electron_contaminaton": false,
+        "energy": "0.1-0.8nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:27:00Z",
+        "satellite": 18,
+        "flux": 2.5828841287989235e-09,
+        "observed_flux": 9.898333708235896e-09,
+        "electron_correction": 7.315450023526182e-09,
+        "electron_contaminaton": true,
+        "energy": "0.05-0.4nm"
+    },
+    {
+        "time_tag": "2026-08-07T14:27:00Z",
+        "satellite": 18,
+        "flux": 2.868749504614243e-07,
+        "observed_flux": 2.9542573543039907e-07,
+        "electron_correction": 8.550767205406373e-09,
         "electron_contaminaton": false,
         "energy": "0.1-0.8nm"
     }
