@@ -35,4 +35,6 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add LUFT_HISTORY_SKIM_REPORT.md commit_heatmap.png || true
           git commit -m "docs: auto-generate full history skim and heatmap" || echo "No changes to commit"
+          # Pull latest changes with rebase to prevent conflicts with other bots
+          git pull --rebase origin main
           git push
