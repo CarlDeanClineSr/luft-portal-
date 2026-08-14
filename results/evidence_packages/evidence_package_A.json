@@ -11,8 +11,8 @@
     "Route 3B",
     "G_derived"
   ],
-  "generated_at": "2026-07-23T16:56:25Z",
-  "total_entries": 244,
+  "generated_at": "2026-08-14T19:23:53Z",
+  "total_entries": 245,
   "entries": [
     {
       "source": "file",
@@ -2941,6 +2941,18 @@
       "commit_sha": null,
       "commit_timestamp": null,
       "scanned_at": "2026-06-01T14:36:03Z"
+    },
+    {
+      "source": "file",
+      "category": "A",
+      "file_path": "scripts/vacuum_catastrophe_bound.py",
+      "line": 57,
+      "matched_term": "20.55 Hz",
+      "matched_pattern": "20\\.55\\s*[Hh][Zz]",
+      "snippet": ".36e-10 # J/m^3 OBSERVED_LAMBDA_M2 = 1.1056e-52 # m^-2 (cosmological constant, CODATA) # Imperial LUFT Substrate Filters IR_SKIN_DEPTH_EXPONENT = -65.57 # Step 2: 20.55 Hz integrity routing removes 65.57 orders BARYON_COUPLING_EXPONENT = -9.43 # Step 3: 10^9 waves per particle maps to ring-mode # ---------------------------------------------",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-08-14T19:23:44Z"
     }
   ]
 }
