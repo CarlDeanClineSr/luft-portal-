@@ -12,8 +12,8 @@
     "ringdown",
     "fractal echo"
   ],
-  "generated_at": "2026-08-16T23:06:11Z",
-  "total_entries": 1705,
+  "generated_at": "2026-08-16T23:38:50Z",
+  "total_entries": 1706,
   "entries": [
     {
       "source": "file",
@@ -20474,6 +20474,18 @@
       "commit_sha": "1fd11100051ded881fe211822f5efc435ffae801",
       "commit_timestamp": "2026-07-27T10:15:47-05:00",
       "scanned_at": "2026-08-14T19:23:48Z"
+    },
+    {
+      "source": "file",
+      "category": "B",
+      "file_path": "GOES-18 telemetry.py",
+      "line": 24,
+      "matched_term": "attractor state",
+      "matched_pattern": "attractor\\s*state",
+      "snippet": "x'].iloc[:10].mean() # Calculate normalized perturbation chi df_long['chi'] = np.abs(df_long['flux'] - baseline) / baseline # Identify boundary crossings and attractor states chi_cap = 0.15 df_long['near_boundary'] = np.abs(df_long['chi'] - chi_cap) <= 0.02 return df_long, baseline # Example usage with telemetry dataframe: # df_proce",
+      "commit_sha": null,
+      "commit_timestamp": null,
+      "scanned_at": "2026-08-16T23:38:40Z"
     }
   ]
 }
