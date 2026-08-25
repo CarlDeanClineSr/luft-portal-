@@ -1,0 +1,93 @@
+name: CLINE L1 Historical CDAWeb Smoke
+
+on:
+  push:
+    branches: [rebuild-v1-clean]
+    paths:
+      - ".github/workflows/rebuild_v1_historical_smoke.yml"
+      - "rebuild/v1/historical/**"
+      - "rebuild/v1/cline_l1_chain_v1.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rebuild-v1-historical-smoke-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  historical-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Sparse checkout historical rebuild code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            rebuild/v1
+            .github/workflows/rebuild_v1_historical_smoke.yml
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install historical dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy pandas matplotlib PyYAML requests cdasws cdflib xarray
+          python - <<'PY'
+          import cdasws, cdflib, xarray
+          print('cdasws', getattr(cdasws, '__version__', 'unknown'))
+          print('cdflib', getattr(cdflib, '__version__', 'unknown'))
+          print('xarray', xarray.__version__)
+          PY
+      - name: Download 26-hour definitive DSCOVR sample
+        working-directory: rebuild/v1
+        run: |
+          python historical/download_dscovr_cdaweb.py \
+            --start 2024-05-10T00:00:00Z \
+            --end 2024-05-10T02:00:00Z \
+            --warmup-hours 24 \
+            --outdir validation/historical_smoke
+      - name: Run frozen 24-hour magnetic protocol
+        working-directory: rebuild/v1
+        run: |
+          python cline_l1_chain_v1.py \
+            --mag validation/historical_smoke/canonical/dscovr_mag_1m_gse.csv \
+            --plasma validation/historical_smoke/canonical/dscovr_plasma_1m.csv \
+            --outdir validation/historical_smoke/analysis \
+            --label "CDAWeb historical smoke 2024-05-10"
+      - name: Record smoke summary
+        working-directory: rebuild/v1
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path('validation/historical_smoke/download_manifest.json').read_text())
+          summary = json.loads(Path('validation/historical_smoke/analysis/cline_l1_summary.json').read_text())
+          result = summary['results']['all_baseline_valid']
+          report = [
+              '# Historical CDAWeb Smoke Result',
+              '',
+              f"- Analysis protocol: `{summary['protocol']['id']}`",
+              f"- Ingest protocol: `{manifest['ingest_protocol']}`",
+              f"- Magnetic rows: `{manifest['magnetic']['canonical_rows']}`",
+              f"- Plasma rows: `{manifest['plasma']['canonical_rows']}`",
+              f"- Baseline-valid rows: `{result['n']}`",
+              f"- Median chi: `{result['median']}`",
+              f"- Maximum chi: `{result['max']}`",
+              f"- Fraction chi > 0.15: `{result['above_0p15_fraction']}`",
+              '',
+              'Result: **LIVE CDAWEB SMOKE PASS**',
+          ]
+          Path('validation/historical_smoke/HISTORICAL_SMOKE_STATUS.md').write_text('\n'.join(report) + '\n')
+          print('\n'.join(report))
+          PY
+      - name: Upload immutable smoke artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cline-l1-cdaweb-historical-smoke
+          path: rebuild/v1/validation/historical_smoke
+          if-no-files-found: error
+          retention-days: 90
