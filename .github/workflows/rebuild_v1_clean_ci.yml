@@ -9,23 +9,47 @@ on:
   pull_request:
     paths:
       - "rebuild/v1/**"
+      - ".github/workflows/rebuild_v1_clean_ci.yml"
 
 permissions:
   contents: read
+
+concurrency:
+  group: rebuild-v1-clean-ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test-rebuild:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Sparse checkout audited package and tagged consumers
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            rebuild/v1
+            cme_heartbeat_analysis.py
+            cme_hysteresis_fit.py
+            universal_boundary_engine.py
+            scripts/validate_fractal_regulator.py
+            scripts/blind_transient_test.py
+            scripts/validate_causality_precursor.py
+            scripts/chi_boundary_monitor.py
+            scripts/luft_solar_wind_audit.py
+            scripts/calculate_chi_all_missions.py
+            scripts/chi_calculator.py
+            .github/workflows/rebuild_v1_clean_ci.yml
+          sparse-checkout-cone-mode: false
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Install test dependencies
         run: pip install numpy pandas matplotlib pytest PyYAML requests
-      - name: Run clean rebuild tests
+      - name: Compile and run clean rebuild tests
         working-directory: rebuild/v1
-        run: python -m pytest -q tests
+        run: |
+          python -m compileall -q .
+          python -m pytest -q tests
       - name: Audit downstream manifest
         working-directory: rebuild/v1
         run: |
@@ -33,3 +57,12 @@ jobs:
             --repo-root ../.. \
             --manifest DOWNSTREAM_RERUN_MANIFEST.yaml \
             --report downstream_manifest_audit.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('downstream_manifest_audit.json').read_text())
+          missing = [m['path'] for m in report['modules'] if not m['exists']]
+          if missing:
+              raise SystemExit(f"Tagged downstream modules missing from audit checkout: {missing}")
+          print(f"Audited {len(report['modules'])} downstream modules")
+          PY
