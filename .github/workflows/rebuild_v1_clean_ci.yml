@@ -1,0 +1,35 @@
+name: CLINE L1 Rebuild Clean CI
+
+on:
+  push:
+    branches: [rebuild-v1-clean]
+    paths:
+      - "rebuild/v1/**"
+      - ".github/workflows/rebuild_v1_clean_ci.yml"
+  pull_request:
+    paths:
+      - "rebuild/v1/**"
+
+permissions:
+  contents: read
+
+jobs:
+  test-rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install test dependencies
+        run: pip install numpy pandas matplotlib pytest PyYAML requests
+      - name: Run clean rebuild tests
+        working-directory: rebuild/v1
+        run: python -m pytest -q tests
+      - name: Audit downstream manifest
+        working-directory: rebuild/v1
+        run: |
+          python downstream_input_guard.py \
+            --repo-root ../.. \
+            --manifest DOWNSTREAM_RERUN_MANIFEST.yaml \
+            --report downstream_manifest_audit.json
