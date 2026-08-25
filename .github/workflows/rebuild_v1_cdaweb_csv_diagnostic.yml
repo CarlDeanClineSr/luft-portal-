@@ -1,0 +1,73 @@
+name: CLINE L1 CDAWeb CSV Diagnostic
+
+on:
+  push:
+    branches: [rebuild-v1-clean]
+    paths:
+      - ".github/workflows/rebuild_v1_cdaweb_csv_diagnostic.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect-generated-csv:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Sparse checkout historical fetch code
+        uses: actions/checkout@v4
+        with:
+          ref: rebuild-v1-clean
+          fetch-depth: 1
+          sparse-checkout: |
+            rebuild/v1
+            .github/workflows/rebuild_v1_cdaweb_csv_diagnostic.yml
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install REST dependencies
+        run: python -m pip install pandas numpy requests
+      - name: Fetch and print exact CDAWeb generated CSV structures
+        working-directory: rebuild/v1
+        run: |
+          mkdir -p validation/cdaweb_csv_diagnostic
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from historical.download_dscovr_cdaweb import (
+              fetch_cdaweb_csv,
+              MAG_DATASET,
+              MAG_VARIABLES,
+              PLASMA_DATASET,
+              PLASMA_VARIABLES,
+          )
+
+          cases = [
+              ('mag', MAG_DATASET, MAG_VARIABLES, '2017-09-06T00:00:00Z', '2017-09-06T00:10:00Z'),
+              ('plasma', PLASMA_DATASET, PLASMA_VARIABLES, '2017-09-06T00:00:00Z', '2017-09-06T00:10:00Z'),
+              ('mag_2024', MAG_DATASET, MAG_VARIABLES, '2024-05-10T00:00:00Z', '2024-05-10T00:10:00Z'),
+          ]
+          root = Path('validation/cdaweb_csv_diagnostic')
+          for label, dataset, variables, start, end in cases:
+              print('\n' + '=' * 100)
+              print('CASE', label, dataset, start, end)
+              payload, metadata = fetch_cdaweb_csv(dataset, variables, start, end)
+              (root / f'{label}.csv.raw').write_bytes(payload)
+              (root / f'{label}.descriptor.json').write_text(json.dumps(metadata, indent=2), encoding='utf-8')
+              text = payload.decode('utf-8-sig', errors='replace')
+              print('BYTE_LENGTH', len(payload))
+              print('SHA256', metadata['files'][0]['sha256'])
+              print('GENERATED_URL', metadata['files'][0]['url'])
+              print('FIRST_80_LINES_BEGIN')
+              for index, line in enumerate(text.splitlines()[:80]):
+                  print(f'{index:03d}: {line!r}')
+              print('FIRST_80_LINES_END')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cline-l1-cdaweb-csv-diagnostic
+          path: rebuild/v1/validation/cdaweb_csv_diagnostic
+          if-no-files-found: error
+          retention-days: 30
