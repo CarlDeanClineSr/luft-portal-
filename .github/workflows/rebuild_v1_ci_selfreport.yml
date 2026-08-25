@@ -1,0 +1,110 @@
+name: CLINE L1 — CI Self Report
+
+on:
+  push:
+    branches: [rebuild-v1-clean]
+    paths:
+      - "rebuild/v1/**"
+      - ".github/workflows/rebuild_v1_ci_selfreport.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cline-l1-ci-selfreport
+  cancel-in-progress: true
+
+jobs:
+  validate-and-record:
+    if: github.actor != 'CLINE Historical Audit Bot' && github.actor != 'CLINE CI Audit Bot'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout audited branch
+        uses: actions/checkout@v4
+        with:
+          ref: rebuild-v1-clean
+          fetch-depth: 1
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install validation dependencies
+        working-directory: rebuild/v1
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy pandas matplotlib pytest PyYAML requests
+
+      - name: Run all tests
+        id: tests
+        continue-on-error: true
+        working-directory: rebuild/v1
+        run: python -m pytest -q tests 2>&1 | tee CI_LATEST_TEST_OUTPUT.txt
+
+      - name: Check protocol identity and quarantine manifest
+        id: protocol
+        continue-on-error: true
+        working-directory: rebuild/v1
+        run: |
+          grep -q "CLINE-L1-B24M-TRAIL-v1" CLINE_L1_BASELINE_PROTOCOL_V1.md
+          grep -q "CDAWEB-DSCOVR-1M-MEAN-v1" HISTORICAL_INGEST_PROTOCOL_V1.md
+          grep -q "legacy_composite_score_v1" DOWNSTREAM_RERUN_MANIFEST.yaml
+          grep -q "PENDING_RERUN" DOWNSTREAM_RERUN_MANIFEST.yaml
+          python downstream_input_guard.py --self-test
+
+      - name: Write branch validation status
+        if: always()
+        working-directory: rebuild/v1
+        env:
+          TEST_OUTCOME: ${{ steps.tests.outcome }}
+          PROTOCOL_OUTCOME: ${{ steps.protocol.outcome }}
+        run: |
+          mkdir -p run_status
+          if [[ "$TEST_OUTCOME" == "success" && "$PROTOCOL_OUTCOME" == "success" ]]; then
+            verdict="PASS"
+          else
+            verdict="FAIL"
+          fi
+          {
+            echo "# CLINE L1 Rebuild V1 — Latest CI Status"
+            echo
+            echo "- Verdict: **${verdict}**"
+            echo "- Commit tested: \`${GITHUB_SHA}\`"
+            echo "- Workflow run: \`${GITHUB_RUN_ID}\`"
+            echo "- Test outcome: \`${TEST_OUTCOME}\`"
+            echo "- Protocol/quarantine outcome: \`${PROTOCOL_OUTCOME}\`"
+            echo "- Analysis protocol: \`CLINE-L1-B24M-TRAIL-v1\`"
+            echo "- Historical ingest protocol: \`CDAWEB-DSCOVR-1M-MEAN-v1\`"
+            echo "- Checked UTC: \`$(date -u +'%Y-%m-%dT%H:%M:%SZ')\`"
+            echo
+            echo '```text'
+            cat CI_LATEST_TEST_OUTPUT.txt 2>/dev/null || echo "No test output produced."
+            echo '```'
+          } > run_status/CI_LATEST_STATUS.md
+          {
+            echo "verdict=${verdict}"
+            echo "test_outcome=${TEST_OUTCOME}"
+            echo "protocol_outcome=${PROTOCOL_OUTCOME}"
+            echo "github_sha=${GITHUB_SHA}"
+            echo "github_run_id=${GITHUB_RUN_ID}"
+          } > run_status/CI_LATEST_STATUS.env
+
+      - name: Commit compact validation status
+        if: always()
+        working-directory: rebuild/v1
+        run: |
+          git config user.name "CLINE CI Audit Bot"
+          git config user.email "cline-ci-audit@users.noreply.github.com"
+          git add run_status/CI_LATEST_STATUS.md run_status/CI_LATEST_STATUS.env
+          git commit -m "rebuild(v1): record latest CI validation [skip ci]" || true
+          git pull --rebase origin rebuild-v1-clean
+          git push origin HEAD:rebuild-v1-clean
+
+      - name: Enforce verdict
+        if: always()
+        working-directory: rebuild/v1
+        run: |
+          source run_status/CI_LATEST_STATUS.env
+          test "$verdict" = "PASS"
