@@ -41,7 +41,9 @@ jobs:
           CHUNKS=(
             "$CHUNK_DIR/chunk_00.b64part"
             "$CHUNK_DIR/chunk_01.b64part"
-            "$CHUNK_DIR/chunk_02.b64part"
+            "$CHUNK_DIR/chunk_02a.b64part"
+            "$CHUNK_DIR/chunk_02b.b64part"
+            "$CHUNK_DIR/chunk_02c.b64part"
             "$CHUNK_DIR/chunk_03.b64part"
             "$CHUNK_DIR/chunk_04.b64part"
             "$CHUNK_DIR/chunk_05.b64part"
@@ -50,7 +52,9 @@ jobs:
           EXPECTED_CHUNK_SHA256=(
             "332b61d0f9b44e86bb0b4be588e924595e9c9f49c5dbaa7682a80a8810d3e870"
             "0f804dcdfd880543f883babcb2052d12da6332c7e3b194447318bc5428ba2d55"
-            "63a2bcf4e112fdb209ccc77fb9281b1408121059b177f94ba29bbac810efcd66"
+            "184ed5f6d5511117115344e63b33dddff4d98f3e29b73540060c48e04f749e63"
+            "a2cc52c69c83a0ab9a37f646a48b55c39981e792af3ef0d69a46ca09c12143fe"
+            "7ace9d75d8fea1fd478196c90bec637a5978610f2712069ebcfc1e32ecfb81e4"
             "f99818487c13ebf0871fac1b1d44fba6e3d1cc3466a2c5af932150f179e59929"
             "056d0f6287a43d398e8308663859bc1aa836ed229942c8d41f1994006fadea9c"
             "50b68743837d2c591b9e402a199c080d3a360701b8b455efc8fa2e30c990d15e"
@@ -101,7 +105,7 @@ jobs:
             echo "- Branch: \`rebuild-v1-clean\`"
             echo "- Analysis protocol: \`CLINE-L1-B24M-TRAIL-v1\`"
             echo "- Historical ingest protocol: \`CDAWEB-DSCOVR-1M-MEAN-v1\`"
-            echo "- Archive SHA-256: \`${EXPECTED_ARCHIVE_SHA256:-ebd3db5b830276fceb01210604e5d3caf8b51009155d4c5f27217d78bd195074}\`"
+            echo "- Archive SHA-256: \`ebd3db5b830276fceb01210604e5d3caf8b51009155d4c5f27217d78bd195074\`"
             echo "- Result: **PASS**"
             echo
             echo '```text'
