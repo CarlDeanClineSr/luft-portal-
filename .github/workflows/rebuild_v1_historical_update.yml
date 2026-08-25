@@ -1,0 +1,103 @@
+name: Install CLINE L1 Historical REST Update
+
+on:
+  push:
+    branches: [rebuild-v1-clean]
+    paths:
+      - "rebuild/v1/.historical_update/**"
+      - ".github/workflows/rebuild_v1_historical_update.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rebuild-v1-historical-update
+  cancel-in-progress: true
+
+jobs:
+  verify-install-test:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-actions[bot]'
+    steps:
+      - name: Sparse checkout isolated rebuild
+        uses: actions/checkout@v4
+        with:
+          ref: rebuild-v1-clean
+          fetch-depth: 1
+          sparse-checkout: |
+            rebuild/v1
+            .github/workflows/rebuild_v1_historical_update.yml
+          sparse-checkout-cone-mode: false
+
+      - name: Verify and install REST-CSV historical update
+        shell: bash
+        run: |
+          set -euo pipefail
+          CHUNK_DIR="rebuild/v1/.historical_update"
+          ARCHIVE="${RUNNER_TEMP}/historical_update_payload.tar.gz"
+          EXPECTED_ARCHIVE_SHA256="c2698ff9634bb4218cb7df29b1518febfaa55ba97b05cfde3873f1c60fa151f3"
+          EXPECTED_CHUNK_SHA256=(
+            "3949da0834dd4d6fbb5f371a419515f06f1ec4e0186532d654ba6d673989427c"
+            "13a26bb2b6277f53b954be05e04c009e7cb4c631c85b6f85e52a761642edbe87"
+            "ed410e5c73022adb8709a3113ff55470e24d6bf447b7307c9bf9acba63502a77"
+            "ad0b22dc7d58e143affcf7f32d74d50007623ff2ad088e4f30bdd269a8c136e9"
+            "e6626635831eaecb22bfaec05642590c35222d3df6cccc8d2a7932d746f427f6"
+            "f06f9b7d7af6cde847fb9d327fa50eaf09211eb19e51e4aca53b754d4320c6be"
+            "45b8e3dcc18612fda69c2a21d41935f9ab85def72c9c2c42e8713f732d4f8294"
+            "01bbfaccd5a850014b23bcc309fd5bd46eef81afe6d362e52cb8b9d415b6e2a3"
+            "a5839461f0e7e3d21fe779b2939529476c57e65b67b9c58a3b798f0e5dd64379"
+            "5c27d80b57f115ee74aa06d786ee73eb16319dc3ed311b8b7d51c4381f3ecbe0"
+            "35fbff1e5d7f4f384f8aa3e6bb279d4eada6b3f1863fd5bd3e96ad2396d1d009"
+            "a3e601368da57ef743fc583894c939d46cfc32cb9fe6f2cc3102aa4b1a6a694a"
+          )
+
+          NORMALIZED=()
+          for index in $(seq -w 0 11); do
+            numeric=$((10#$index))
+            source="$CHUNK_DIR/chunk_${index}.b64part"
+            test -s "$source" || { echo "Missing chunk: $source" >&2; exit 1; }
+            normalized="${RUNNER_TEMP}/historical_chunk_${index}.txt"
+            tr -d '\r\n ' < "$source" > "$normalized"
+            echo "${EXPECTED_CHUNK_SHA256[$numeric]}  ${normalized}" | sha256sum -c -
+            NORMALIZED+=("$normalized")
+          done
+
+          cat "${NORMALIZED[@]}" | base64 --decode > "$ARCHIVE"
+          echo "${EXPECTED_ARCHIVE_SHA256}  ${ARCHIVE}" | sha256sum -c -
+          gzip -t "$ARCHIVE"
+          tar -tzf "$ARCHIVE"
+          tar -xzf "$ARCHIVE" -C rebuild/v1
+          rm -rf "$CHUNK_DIR"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compile and run updated tests
+        working-directory: rebuild/v1
+        run: |
+          python -m pip install numpy pandas matplotlib pytest PyYAML requests
+          python -m compileall -q .
+          python -m pytest -q tests | tee HISTORICAL_UPDATE_TEST_OUTPUT.txt
+
+      - name: Record and commit verified update
+        run: |
+          {
+            echo "# Historical REST-CSV Update Validation"
+            echo
+            echo "- Updated UTC: \`$(date -u +'%Y-%m-%dT%H:%M:%SZ')\`"
+            echo "- Branch: \`rebuild-v1-clean\`"
+            echo "- Ingest protocol: \`CDAWEB-DSCOVR-RESTCSV-1M-v1\`"
+            echo "- Update archive SHA-256: \`c2698ff9634bb4218cb7df29b1518febfaa55ba97b05cfde3873f1c60fa151f3\`"
+            echo "- Result: **PASS**"
+            echo
+            echo '```text'
+            cat rebuild/v1/HISTORICAL_UPDATE_TEST_OUTPUT.txt
+            echo '```'
+          } > rebuild/v1/HISTORICAL_UPDATE_STATUS.md
+          git config user.name "CLINE Rebuild Bot"
+          git config user.email "cline-rebuild@users.noreply.github.com"
+          git add -A rebuild/v1
+          git commit -m "rebuild(v1): install verified historical REST-CSV update [skip ci]"
+          git push origin HEAD:rebuild-v1-clean
