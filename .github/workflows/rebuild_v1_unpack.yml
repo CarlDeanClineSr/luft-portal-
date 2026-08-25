@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: rebuild-v1-unpack
+  group: rebuild-v1-unpack-shallow-v2
   cancel-in-progress: true
 
 jobs:
