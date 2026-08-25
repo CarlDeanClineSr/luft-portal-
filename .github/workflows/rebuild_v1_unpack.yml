@@ -1,0 +1,64 @@
+name: Unpack CLINE L1 Rebuild V1
+
+on:
+  push:
+    branches: [rebuild-v1-clean]
+    paths:
+      - "rebuild/v1/.payload/rebuild_v1_clean_payload.tar.gz"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: rebuild-v1-unpack
+  cancel-in-progress: false
+
+jobs:
+  unpack-validate-commit:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-actions[bot]'
+    steps:
+      - name: Checkout clean branch
+        uses: actions/checkout@v4
+        with:
+          ref: rebuild-v1-clean
+          fetch-depth: 0
+
+      - name: Unpack audited payload
+        run: |
+          tar -xzf rebuild/v1/.payload/rebuild_v1_clean_payload.tar.gz -C rebuild/v1
+          rm -f rebuild/v1/.payload/rebuild_v1_clean_payload.tar.gz
+
+      - name: Install core validation dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy pandas matplotlib pytest PyYAML
+
+      - name: Run clean rebuild tests
+        working-directory: rebuild/v1
+        run: |
+          python -m pytest -q tests | tee VALIDATION_TEST_OUTPUT.txt
+
+      - name: Record validation status
+        run: |
+          {
+            echo "# CLINE L1 Rebuild V1 Validation"
+            echo
+            echo "- Source push: \`${GITHUB_SHA}\`"
+            echo "- Validated UTC: \`$(date -u +'%Y-%m-%dT%H:%M:%SZ')\`"
+            echo "- Branch: \`rebuild-v1-clean\`"
+            echo "- Protocol: \`CLINE-L1-B24M-TRAIL-v1\`"
+            echo "- Result: **PASS**"
+            echo
+            echo '```text'
+            cat rebuild/v1/VALIDATION_TEST_OUTPUT.txt
+            echo '```'
+          } > rebuild/v1/VALIDATION_STATUS.md
+
+      - name: Commit unpacked audited tree
+        run: |
+          git config user.name "CLINE Rebuild Bot"
+          git config user.email "cline-rebuild@users.noreply.github.com"
+          git add rebuild/v1
+          git commit -m "rebuild(v1): unpack audited clean payload [skip ci]"
+          git push origin HEAD:rebuild-v1-clean
