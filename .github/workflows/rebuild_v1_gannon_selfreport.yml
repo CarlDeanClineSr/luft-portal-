@@ -1,4 +1,4 @@
-name: CLINE L1 — Gannon Storm Self-Reporting Run
+name: CLINE L1 — Gannon DSCOVR Magnetic Self-Reporting Run
 
 on:
   push:
@@ -44,7 +44,7 @@ jobs:
         working-directory: rebuild/v1
         run: python -m pytest -q tests | tee SELFREPORT_TEST_LOG.txt
 
-      - name: Run frozen May 2024 interval
+      - name: Run frozen May 2024 DSCOVR magnetic-only interval
         id: historical
         continue-on-error: true
         working-directory: rebuild/v1
@@ -53,14 +53,16 @@ jobs:
         shell: bash
         run: |
           set +e
-          rm -rf runs/historical/gannon_storm_may_2024
-          mkdir -p runs/historical/gannon_storm_may_2024
+          run_name="gannon_may_2024_dscovr_mag_only"
+          run_dir="runs/historical/${run_name}"
+          rm -rf "$run_dir"
+          mkdir -p "$run_dir"
           python historical/run_epoch_batch.py \
-            --run gannon_storm_may_2024 \
+            --run "$run_name" \
             --outdir runs/historical \
-            2>&1 | tee runs/historical/gannon_storm_may_2024/RUN_LOG.txt
+            2>&1 | tee "$run_dir/RUN_LOG.txt"
           code=${PIPESTATUS[0]}
-          echo "$code" > runs/historical/gannon_storm_may_2024/RUN_EXIT_CODE.txt
+          echo "$code" > "$run_dir/RUN_EXIT_CODE.txt"
           exit "$code"
 
       - name: Write compact branch status
@@ -74,7 +76,8 @@ jobs:
         run: |
           set -u
           status_dir="run_status"
-          run_dir="runs/historical/gannon_storm_may_2024"
+          run_name="gannon_may_2024_dscovr_mag_only"
+          run_dir="runs/historical/${run_name}"
           mkdir -p "$status_dir" "$run_dir"
           exit_code="missing"
           test -f "$run_dir/RUN_EXIT_CODE.txt" && exit_code="$(cat "$run_dir/RUN_EXIT_CODE.txt")"
@@ -84,22 +87,25 @@ jobs:
             verdict="FAIL"
           fi
           {
-            echo "# CLINE L1 Gannon Storm Run Status"
+            echo "# CLINE L1 Gannon DSCOVR Magnetic Run Status"
             echo
             echo "- Verdict: **${verdict}**"
             echo "- Install outcome: \`${INSTALL_OUTCOME}\`"
             echo "- Test outcome: \`${TEST_OUTCOME}\`"
             echo "- Historical outcome: \`${HISTORICAL_OUTCOME}\`"
             echo "- Historical exit code: \`${exit_code}\`"
+            echo "- Run name: \`${run_name}\`"
             echo "- Run ID: \`${GITHUB_RUN_ID}\`"
             echo "- Commit tested: \`${GITHUB_SHA}\`"
             echo "- Analysis protocol: \`CLINE-L1-B24M-TRAIL-v1\`"
-            echo "- Ingest protocol: \`CDAWEB-DSCOVR-1M-MEAN-v1\`"
+            echo "- Ingest protocol: \`CDAWEB-DSCOVR-RESTCSV-1M-v1\`"
+            echo "- Source dataset: \`DSCOVR_H0_MAG\`"
+            echo "- Paired plasma: \`false\`"
             echo "- Completed UTC: \`$(date -u +'%Y-%m-%dT%H:%M:%SZ')\`"
             echo
             echo "## Output files"
             echo '```text'
-            find "$run_dir" -maxdepth 3 -type f -printf '%P\t%s bytes\n' 2>/dev/null | sort || true
+            find "$run_dir" -maxdepth 4 -type f -printf '%P\t%s bytes\n' 2>/dev/null | sort || true
             echo '```'
             echo
             echo "## Run log tail"
@@ -109,12 +115,14 @@ jobs:
           } > "$status_dir/GANNON_LATEST_STATUS.md"
 
           {
-            echo "run_id=gannon_storm_may_2024"
+            echo "run_id=${run_name}"
             echo "verdict=${verdict}"
             echo "install_outcome=${INSTALL_OUTCOME}"
             echo "test_outcome=${TEST_OUTCOME}"
             echo "historical_outcome=${HISTORICAL_OUTCOME}"
             echo "historical_exit_code=${exit_code}"
+            echo "source_dataset=DSCOVR_H0_MAG"
+            echo "paired_plasma=false"
             echo "github_run_id=${GITHUB_RUN_ID}"
             echo "github_sha=${GITHUB_SHA}"
             echo "utc=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
@@ -127,7 +135,7 @@ jobs:
           git config user.name "CLINE Historical Audit Bot"
           git config user.email "cline-historical@users.noreply.github.com"
           git add run_status/GANNON_LATEST_STATUS.md run_status/GANNON_LATEST_STATUS.env
-          git commit -m "rebuild(v1): record Gannon stress-run status [skip ci]" || true
+          git commit -m "rebuild(v1): record Gannon magnetic stress-run status [skip ci]" || true
           git pull --rebase origin rebuild-v1-clean
           git push origin HEAD:rebuild-v1-clean
 
@@ -135,7 +143,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cline-l1-gannon-selfreport-${{ github.run_number }}
+          name: cline-l1-gannon-magnetic-selfreport-${{ github.run_number }}
           path: |
             rebuild/v1/runs/historical/
             rebuild/v1/SELFREPORT_TEST_LOG.txt
