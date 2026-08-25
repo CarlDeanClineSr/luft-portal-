@@ -5,8 +5,10 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import pytest
 
 from physical_transition_analysis import (
+    TransitionInputError,
     add_derived_metrics,
     compute_alfven_speed_kms,
     compute_dynamic_pressure_npa,
@@ -15,6 +17,7 @@ from physical_transition_analysis import (
     rank_correlation,
     resolve_columns,
     run_analysis,
+    validate_transition_input,
 )
 
 
@@ -34,7 +37,7 @@ def test_derived_plasma_metrics_are_finite_and_positive():
     assert (beta > 0).all()
     assert (pdyn > 0).all()
     assert (va > 0).all()
-    assert beta.iloc[0] > beta.iloc[1]  # beta scales as 1/B^2
+    assert beta.iloc[0] > beta.iloc[1]
     assert pdyn.iloc[1] > pdyn.iloc[0]
 
 
@@ -56,12 +59,41 @@ def test_column_resolver_requires_canonical_chi_not_generic_chi():
             "temperature_K": [1.0e5],
         }
     )
-    try:
+    with pytest.raises(KeyError, match="chi"):
         resolve_columns(df)
-    except KeyError as exc:
-        assert "chi" in str(exc)
-    else:
-        raise AssertionError("Generic legacy chi column must not be accepted")
+
+
+def test_transition_guard_rejects_ground_total_field_even_if_chi_is_renamed():
+    ground = pd.DataFrame(
+        {
+            "time": ["2024-05-10T00:00:00Z", "2024-05-10T00:01:00Z"],
+            "F": [51312.699, 51312.644],
+            "B_vector_nT": [51312.699, 51312.644],
+            "baseline": [51315.388, 51315.382],
+            "chi_B24M": [5.24e-5, 5.34e-5],
+            "density_p_cm3": [5.0, 5.0],
+            "speed_km_s": [400.0, 400.0],
+            "temperature_K": [1.0e5, 1.0e5],
+        }
+    )
+    columns = resolve_columns(ground)
+    with pytest.raises(TransitionInputError, match="terrestrial total-field"):
+        validate_transition_input(ground, columns)
+
+
+def test_transition_guard_rejects_wrong_scale_without_f_column():
+    wrong_scale = pd.DataFrame(
+        {
+            "chi_B24M": [0.01, 0.02],
+            "B_vector_nT": [51300.0, 51700.0],
+            "density_p_cm3": [5.0, 6.0],
+            "speed_km_s": [400.0, 450.0],
+            "temperature_K": [1.0e5, 1.2e5],
+        }
+    )
+    columns = resolve_columns(wrong_scale)
+    with pytest.raises(TransitionInputError, match="source-review ceiling"):
+        validate_transition_input(wrong_scale, columns)
 
 
 def test_add_derived_metrics_preserves_unclipped_chi():
@@ -115,8 +147,10 @@ def test_full_analysis_writes_provenance_and_does_not_clip(tmp_path: Path):
 
     manifest = run_analysis(input_path, output_dir)
     assert manifest["analysis_protocol"] == "CLINE-L1-B24M-TRAIL-v1"
-    assert manifest["transition_analysis_version"] == "CLINE-L1-TRANSITIONS-v1"
+    assert manifest["transition_analysis_version"] == "CLINE-L1-TRANSITIONS-v1.1"
     assert manifest["chi_clipped"] is False
+    assert manifest["source_identity_guard"]["verdict"] == "PASS"
+    assert manifest["source_identity_guard"]["data_clipped"] is False
     assert np.isclose(manifest["chi_input_max"], 2.0)
     assert np.isclose(manifest["chi_output_max"], 2.0)
 
