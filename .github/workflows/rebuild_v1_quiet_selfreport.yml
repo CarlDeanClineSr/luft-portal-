@@ -1,0 +1,154 @@
+name: CLINE L1 — Quiet Solar-Minimum Self-Reporting Run
+
+on:
+  push:
+    branches: [rebuild-v1-clean]
+    paths:
+      - ".github/workflows/rebuild_v1_quiet_selfreport.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cline-l1-quiet-selfreport-v1
+  cancel-in-progress: false
+
+jobs:
+  quiet-selfreport:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - name: Checkout audited branch
+        uses: actions/checkout@v4
+        with:
+          ref: rebuild-v1-clean
+          fetch-depth: 1
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        id: install
+        continue-on-error: true
+        working-directory: rebuild/v1
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Run audited tests
+        id: tests
+        continue-on-error: true
+        working-directory: rebuild/v1
+        run: python -m pytest -q tests | tee QUIET_SELFREPORT_TEST_LOG.txt
+
+      - name: Select and run quiet 30-day interval
+        id: historical
+        continue-on-error: true
+        working-directory: rebuild/v1
+        env:
+          PYTHONUNBUFFERED: "1"
+        shell: bash
+        run: |
+          set +e
+          rm -rf runs/historical/quiet_solar_minimum_scan
+          mkdir -p runs/historical/quiet_solar_minimum_scan
+          python historical/run_epoch_batch.py \
+            --run quiet_solar_minimum_scan \
+            --outdir runs/historical \
+            2>&1 | tee runs/historical/quiet_solar_minimum_scan/RUN_LOG.txt
+          code=${PIPESTATUS[0]}
+          echo "$code" > runs/historical/quiet_solar_minimum_scan/RUN_EXIT_CODE.txt
+          exit "$code"
+
+      - name: Write compact branch status
+        if: always()
+        working-directory: rebuild/v1
+        env:
+          INSTALL_OUTCOME: ${{ steps.install.outcome }}
+          TEST_OUTCOME: ${{ steps.tests.outcome }}
+          HISTORICAL_OUTCOME: ${{ steps.historical.outcome }}
+        shell: bash
+        run: |
+          set -u
+          status_dir="run_status"
+          run_dir="runs/historical/quiet_solar_minimum_scan"
+          mkdir -p "$status_dir" "$run_dir"
+          exit_code="missing"
+          test -f "$run_dir/RUN_EXIT_CODE.txt" && exit_code="$(cat "$run_dir/RUN_EXIT_CODE.txt")"
+          if [[ "$INSTALL_OUTCOME" == "success" && "$TEST_OUTCOME" == "success" && "$HISTORICAL_OUTCOME" == "success" ]]; then
+            verdict="PASS"
+          else
+            verdict="FAIL"
+          fi
+          {
+            echo "# CLINE L1 Quiet Solar-Minimum Run Status"
+            echo
+            echo "- Verdict: **${verdict}**"
+            echo "- Install outcome: \`${INSTALL_OUTCOME}\`"
+            echo "- Test outcome: \`${TEST_OUTCOME}\`"
+            echo "- Historical outcome: \`${HISTORICAL_OUTCOME}\`"
+            echo "- Historical exit code: \`${exit_code}\`"
+            echo "- Run ID: \`${GITHUB_RUN_ID}\`"
+            echo "- Commit tested: \`${GITHUB_SHA}\`"
+            echo "- Selection rule: kinetics only; χ excluded from window selection"
+            echo "- Analysis protocol: \`CLINE-L1-B24M-TRAIL-v1\`"
+            echo "- Ingest protocol: \`CDAWEB-DSCOVR-1M-MEAN-v1\`"
+            echo "- Completed UTC: \`$(date -u +'%Y-%m-%dT%H:%M:%SZ')\`"
+            echo
+            echo "## Output files"
+            echo '```text'
+            find "$run_dir" -maxdepth 4 -type f -printf '%P\t%s bytes\n' 2>/dev/null | sort || true
+            echo '```'
+            echo
+            echo "## Run log tail"
+            echo '```text'
+            tail -n 180 "$run_dir/RUN_LOG.txt" 2>/dev/null || echo "No quiet-run log was produced."
+            echo '```'
+          } > "$status_dir/QUIET_LATEST_STATUS.md"
+
+          {
+            echo "run_id=quiet_solar_minimum_scan"
+            echo "verdict=${verdict}"
+            echo "install_outcome=${INSTALL_OUTCOME}"
+            echo "test_outcome=${TEST_OUTCOME}"
+            echo "historical_outcome=${HISTORICAL_OUTCOME}"
+            echo "historical_exit_code=${exit_code}"
+            echo "github_run_id=${GITHUB_RUN_ID}"
+            echo "github_sha=${GITHUB_SHA}"
+            echo "utc=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          } > "$status_dir/QUIET_LATEST_STATUS.env"
+
+      - name: Commit compact status record
+        if: always()
+        working-directory: rebuild/v1
+        run: |
+          git config user.name "CLINE Historical Audit Bot"
+          git config user.email "cline-historical@users.noreply.github.com"
+          git add run_status/QUIET_LATEST_STATUS.md run_status/QUIET_LATEST_STATUS.env
+          git commit -m "rebuild(v1): record quiet-window stress-run status [skip ci]" || true
+          git pull --rebase origin rebuild-v1-clean
+          git push origin HEAD:rebuild-v1-clean
+
+      - name: Upload complete run artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cline-l1-quiet-selfreport-${{ github.run_number }}
+          path: |
+            rebuild/v1/runs/historical/
+            rebuild/v1/QUIET_SELFREPORT_TEST_LOG.txt
+            rebuild/v1/run_status/QUIET_LATEST_STATUS.md
+            rebuild/v1/run_status/QUIET_LATEST_STATUS.env
+          retention-days: 60
+          if-no-files-found: warn
+
+      - name: Enforce final result
+        if: always()
+        working-directory: rebuild/v1
+        shell: bash
+        run: |
+          source run_status/QUIET_LATEST_STATUS.env
+          test "$verdict" = "PASS"
