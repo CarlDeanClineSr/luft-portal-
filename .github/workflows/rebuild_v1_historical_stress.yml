@@ -1,0 +1,84 @@
+name: CLINE L1 Historical Stress Runs
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Historical run defined in rebuild/v1/historical/epochs.yaml
+        required: true
+        type: choice
+        options:
+          - gannon_storm_may_2024
+          - quiet_solar_minimum_scan
+      retain_days:
+        description: Artifact retention days
+        required: true
+        default: "30"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rebuild-v1-historical-${{ inputs.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  historical-stress-run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Checkout audited branch
+        uses: actions/checkout@v4
+        with:
+          ref: rebuild-v1-clean
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: rebuild/v1/requirements.txt
+
+      - name: Install historical ingest dependencies
+        working-directory: rebuild/v1
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Validate source before network run
+        working-directory: rebuild/v1
+        run: python -m pytest -q tests
+
+      - name: Run frozen historical protocol
+        working-directory: rebuild/v1
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: |
+          mkdir -p runs/historical
+          python historical/run_epoch_batch.py \
+            --run "${{ inputs.run_id }}" \
+            --outdir runs/historical
+
+      - name: Build provenance manifest
+        if: always()
+        working-directory: rebuild/v1
+        run: |
+          {
+            echo "run_id=${{ inputs.run_id }}"
+            echo "branch=rebuild-v1-clean"
+            echo "commit=${GITHUB_SHA}"
+            echo "analysis_protocol=CLINE-L1-B24M-TRAIL-v1"
+            echo "ingest_protocol=CDAWEB-DSCOVR-1M-MEAN-v1"
+            echo "utc_finished=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            python --version
+            python -m pip freeze
+          } > runs/historical/RUN_PROVENANCE.txt
+
+      - name: Upload complete run artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cline-l1-${{ inputs.run_id }}-${{ github.run_number }}
+          path: rebuild/v1/runs/historical/
+          retention-days: ${{ fromJSON(inputs.retain_days) }}
+          if-no-files-found: error
