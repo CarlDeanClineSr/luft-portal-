@@ -5,6 +5,7 @@ on:
     branches: [rebuild-v1-clean]
     paths:
       - "rebuild/v1/.payload/rebuild_v1_clean_payload.tar.gz"
+      - ".github/workflows/rebuild_v1_unpack.yml"
 
 permissions:
   contents: write
@@ -24,15 +25,36 @@ jobs:
           ref: rebuild-v1-clean
           fetch-depth: 0
 
-      - name: Unpack audited payload
+      - name: Normalize and unpack audited payload
+        shell: bash
         run: |
-          tar -xzf rebuild/v1/.payload/rebuild_v1_clean_payload.tar.gz -C rebuild/v1
-          rm -f rebuild/v1/.payload/rebuild_v1_clean_payload.tar.gz
+          set -euo pipefail
+          SOURCE="rebuild/v1/.payload/rebuild_v1_clean_payload.tar.gz"
+          NORMALIZED="${RUNNER_TEMP}/rebuild_v1_clean_payload.tar.gz"
+
+          if [ ! -f "$SOURCE" ]; then
+            echo "Missing payload: $SOURCE" >&2
+            exit 1
+          fi
+
+          # The connector may preserve base64 text rather than decoding it to
+          # binary. Accept either representation, validate it, then unpack.
+          if [ "$(head -c 4 "$SOURCE")" = "H4sI" ]; then
+            echo "Detected base64-encoded gzip payload; decoding transport layer."
+            tr -d '\r\n ' < "$SOURCE" | base64 --decode > "$NORMALIZED"
+          else
+            echo "Detected binary gzip payload."
+            cp "$SOURCE" "$NORMALIZED"
+          fi
+
+          gzip -t "$NORMALIZED"
+          tar -xzf "$NORMALIZED" -C rebuild/v1
+          rm -f "$SOURCE"
 
       - name: Install core validation dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install numpy pandas matplotlib pytest PyYAML
+          python -m pip install numpy pandas matplotlib pytest PyYAML requests
 
       - name: Run clean rebuild tests
         working-directory: rebuild/v1
