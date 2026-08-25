@@ -49,10 +49,16 @@ jobs:
         working-directory: rebuild/v1
         run: |
           grep -q "CLINE-L1-B24M-TRAIL-v1" CLINE_L1_BASELINE_PROTOCOL_V1.md
-          grep -q "CDAWEB-DSCOVR-1M-MEAN-v1" HISTORICAL_INGEST_PROTOCOL_V1.md
+          grep -q "CDAWEB-DSCOVR-RESTCSV-1M-v1" HISTORICAL_INGEST_PROTOCOL_V1.md
           grep -q "legacy_composite_score_v1" DOWNSTREAM_RERUN_MANIFEST.yaml
           grep -q "PENDING_RERUN" DOWNSTREAM_RERUN_MANIFEST.yaml
           python downstream_input_guard.py --self-test
+          python - <<'PY'
+          from historical.source_identity_guard import EXPECTED_MAGNETIC_DATASET, EXPECTED_INGEST_PROTOCOL
+          assert EXPECTED_MAGNETIC_DATASET == "DSCOVR_H0_MAG"
+          assert EXPECTED_INGEST_PROTOCOL == "CDAWEB-DSCOVR-RESTCSV-1M-v1"
+          print("Source identity protocol: PASS")
+          PY
 
       - name: Write branch validation status
         if: always()
@@ -76,7 +82,8 @@ jobs:
             echo "- Test outcome: \`${TEST_OUTCOME}\`"
             echo "- Protocol/quarantine outcome: \`${PROTOCOL_OUTCOME}\`"
             echo "- Analysis protocol: \`CLINE-L1-B24M-TRAIL-v1\`"
-            echo "- Historical ingest protocol: \`CDAWEB-DSCOVR-1M-MEAN-v1\`"
+            echo "- Historical ingest protocol: \`CDAWEB-DSCOVR-RESTCSV-1M-v1\`"
+            echo "- Magnetic source contract: \`DSCOVR_H0_MAG / GSE / header-based parsing\`"
             echo "- Checked UTC: \`$(date -u +'%Y-%m-%dT%H:%M:%SZ')\`"
             echo
             echo '```text'
@@ -87,6 +94,9 @@ jobs:
             echo "verdict=${verdict}"
             echo "test_outcome=${TEST_OUTCOME}"
             echo "protocol_outcome=${PROTOCOL_OUTCOME}"
+            echo "analysis_protocol=CLINE-L1-B24M-TRAIL-v1"
+            echo "historical_ingest_protocol=CDAWEB-DSCOVR-RESTCSV-1M-v1"
+            echo "source_dataset=DSCOVR_H0_MAG"
             echo "github_sha=${GITHUB_SHA}"
             echo "github_run_id=${GITHUB_RUN_ID}"
           } > run_status/CI_LATEST_STATUS.env
