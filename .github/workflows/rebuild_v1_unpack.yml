@@ -12,7 +12,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: rebuild-v1-unpack-chunks-v4
+  group: rebuild-v1-unpack-explicit-v5
   cancel-in-progress: true
 
 jobs:
@@ -37,20 +37,28 @@ jobs:
           CHUNK_DIR="rebuild/v1/.payload_chunks"
           NORMALIZED="${RUNNER_TEMP}/rebuild_v1_source.tar.gz"
           EXPECTED_SHA256="a670e0140d57634ce1f3fb8dccf25b62a611122a7812183c673cdfe3ddd56c35"
+          CHUNKS=(
+            "$CHUNK_DIR/payload_00.b64part"
+            "$CHUNK_DIR/payload_01.b64part"
+            "$CHUNK_DIR/payload_02.b64part"
+            "$CHUNK_DIR/payload_03.b64part"
+            "$CHUNK_DIR/payload_04.b64part"
+            "$CHUNK_DIR/payload_05.b64part"
+            "$CHUNK_DIR/payload_06.b64part"
+            "$CHUNK_DIR/payload_07a.b64part"
+            "$CHUNK_DIR/payload_07b.b64part"
+          )
 
-          mapfile -t CHUNKS < <(find "$CHUNK_DIR" -maxdepth 1 -type f -name 'payload_*.b64part' | sort)
-          if [ "${#CHUNKS[@]}" -ne 8 ]; then
-            echo "Expected 8 payload chunks, found ${#CHUNKS[@]}" >&2
-            printf '%s\n' "${CHUNKS[@]}" >&2
-            exit 1
-          fi
+          for chunk in "${CHUNKS[@]}"; do
+            test -s "$chunk" || { echo "Missing or empty chunk: $chunk" >&2; exit 1; }
+          done
 
           cat "${CHUNKS[@]}" | tr -d '\r\n ' | base64 --decode > "$NORMALIZED"
           echo "${EXPECTED_SHA256}  ${NORMALIZED}" | sha256sum -c -
           gzip -t "$NORMALIZED"
           tar -xzf "$NORMALIZED" -C rebuild/v1
 
-          # Remove transport-only material after successful verification.
+          # Remove transport-only material only after checksum and extraction pass.
           rm -rf "$CHUNK_DIR"
           rm -f rebuild/v1/.payload/rebuild_v1_clean_payload.tar.gz
           rmdir rebuild/v1/.payload 2>/dev/null || true
