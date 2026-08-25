@@ -20,7 +20,10 @@ from cline_l1_chain_v1 import run_chain
 from historical.download_dscovr_cdaweb import (
     IngestConfig,
     download_interval,
+    download_magnetic_interval,
     download_plasma_interval,
+    iso_utc,
+    parse_utc,
 )
 from historical.select_quiet_window import select_quiet_window
 
@@ -54,6 +57,47 @@ def run_fixed(name: str, spec: dict[str, Any], root: Path, warmup: int) -> dict:
         "result": summary["results"]["all_baseline_valid"],
     }
 
+
+
+def run_magnetic_only(name: str, spec: dict[str, Any], root: Path, warmup: int) -> dict:
+    """Run canonical magnetic χ without pretending a kinetic split exists."""
+    run_root = root / name
+    download_root = run_root / "download"
+    analysis_start = parse_utc(spec["analysis_start"])
+    analysis_end = parse_utc(spec["analysis_end"])
+    retrieval_start = analysis_start - pd.Timedelta(hours=warmup)
+    mag_path, mag_summary = download_magnetic_interval(
+        retrieval_start, analysis_end, download_root
+    )
+    download_manifest = {
+        "analysis_start": iso_utc(analysis_start),
+        "analysis_end": iso_utc(analysis_end),
+        "retrieval_start": iso_utc(retrieval_start),
+        "baseline_warmup_hours": warmup,
+        "paired_plasma": False,
+        "reason": spec.get("limitation"),
+        "magnetic": mag_summary,
+        "canonical_files": {"magnetic": str(mag_path), "plasma": None},
+    }
+    download_manifest_path = download_root / "download_manifest.json"
+    download_manifest_path.write_text(
+        json.dumps(download_manifest, indent=2), encoding="utf-8"
+    )
+    analysis_root = run_root / "analysis"
+    _, summary = run_chain(
+        magnetic_path=mag_path,
+        plasma_path=None,
+        output_dir=analysis_root,
+        label=name,
+    )
+    return {
+        "name": name,
+        "kind": "magnetic_only",
+        "download_manifest": str(download_manifest_path),
+        "analysis_summary": str(analysis_root / "cline_l1_summary.json"),
+        "kinetic_interpretation": "UNAVAILABLE_NO_PAIRED_DEFINITIVE_DSCOVR_PLASMA",
+        "result": summary["results"]["all_baseline_valid"],
+    }
 
 def run_quiet_scan(name: str, spec: dict[str, Any], root: Path, warmup: int) -> dict:
     run_root = root / name
@@ -108,6 +152,8 @@ def run_named(config_path: str | Path, name: str, output_root: str | Path) -> di
     warmup = int(config.get("baseline_warmup_hours", 24))
     if spec.get("kind") == "fixed":
         result = run_fixed(name, spec, root, warmup)
+    elif spec.get("kind") == "magnetic_only":
+        result = run_magnetic_only(name, spec, root, warmup)
     elif spec.get("kind") == "quiet_scan":
         result = run_quiet_scan(name, spec, root, warmup)
     else:

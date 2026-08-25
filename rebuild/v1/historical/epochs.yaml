@@ -1,29 +1,37 @@
-manifest_version: 1
+manifest_version: 2
 canonical_protocol: CLINE-L1-B24M-TRAIL-v1
-ingest_protocol: CDAWEB-DSCOVR-1M-MEAN-v1
+ingest_protocol: CDAWEB-DSCOVR-RESTCSV-1M-v1
 baseline_warmup_hours: 24
 sources:
   magnetic:
     dataset: DSCOVR_H0_MAG
     variables: [B1GSE, B1F1, FLAG1]
-    cadence: 1 second reduced to 1-minute arithmetic means
+    cadence: 1 second reduced to 1-minute arithmetic component means
     frame: GSE
+    archive_years_observed_for_v1: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
   plasma:
     dataset: DSCOVR_H1_FC
     variables: [V_GSE, Np, THERMAL_TEMP, DQF]
     cadence: 1 minute
     frame: GSE
+    archive_years_observed_for_v1: [2016, 2017, 2018, 2019]
 runs:
-  gannon_storm_may_2024:
-    kind: fixed
+  gannon_may_2024_dscovr_mag_only:
+    kind: magnetic_only
     analysis_start: "2024-05-08T00:00:00Z"
     analysis_end: "2024-05-15T00:00:00Z"
-    purpose: major CME and G5 geomagnetic-storm stress interval
-  quiet_solar_minimum_scan:
+    purpose: magnetic-only stress test across the May 2024 severe/G5 storm interval
+    limitation: no definitive DSCOVR H1 Faraday-cup plasma exists for this epoch under V1
+  september_2017_dscovr_full:
+    kind: fixed
+    analysis_start: "2017-09-05T00:00:00Z"
+    analysis_end: "2017-09-12T00:00:00Z"
+    purpose: paired definitive DSCOVR magnetic-plus-plasma active-event stress interval
+  quiet_dscovr_scan:
     kind: quiet_scan
-    candidate_start: "2020-04-01T00:00:00Z"
-    candidate_end: "2021-01-01T00:00:00Z"
+    candidate_start: "2018-04-01T00:00:00Z"
+    candidate_end: "2020-01-01T00:00:00Z"
     window_days: 30
     stride_days: 1
     minimum_coverage_fraction: 0.95
-    purpose: select the quietest complete 30-day window from kinetics only
+    purpose: select the quietest complete 30-day paired DSCOVR window from kinetics only
