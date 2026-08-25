@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: rebuild-v1-unpack-shallow-v2
+  group: rebuild-v1-unpack-sparse-v3
   cancel-in-progress: true
 
 jobs:
@@ -19,11 +19,15 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor != 'github-actions[bot]'
     steps:
-      - name: Checkout clean branch
+      - name: Checkout only the isolated rebuild paths
         uses: actions/checkout@v4
         with:
           ref: rebuild-v1-clean
           fetch-depth: 1
+          sparse-checkout: |
+            rebuild/v1
+            .github/workflows/rebuild_v1_unpack.yml
+          sparse-checkout-cone-mode: false
 
       - name: Normalize and unpack audited payload
         shell: bash
