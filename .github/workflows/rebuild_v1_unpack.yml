@@ -1,21 +1,22 @@
-name: Unpack CLINE L1 Rebuild V1
+name: Install CLINE L1 Rebuild V1 Source
 
 on:
   push:
     branches: [rebuild-v1-clean]
     paths:
-      - "rebuild/v1/.payload/rebuild_v1_clean_payload.tar.gz"
+      - "rebuild/v1/.payload_chunks/**"
       - ".github/workflows/rebuild_v1_unpack.yml"
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: rebuild-v1-unpack-sparse-v3
+  group: rebuild-v1-unpack-chunks-v4
   cancel-in-progress: true
 
 jobs:
-  unpack-validate-commit:
+  reconstruct-validate-commit:
     runs-on: ubuntu-latest
     if: github.actor != 'github-actions[bot]'
     steps:
@@ -29,31 +30,30 @@ jobs:
             .github/workflows/rebuild_v1_unpack.yml
           sparse-checkout-cone-mode: false
 
-      - name: Normalize and unpack audited payload
+      - name: Reconstruct and verify audited source package
         shell: bash
         run: |
           set -euo pipefail
-          SOURCE="rebuild/v1/.payload/rebuild_v1_clean_payload.tar.gz"
-          NORMALIZED="${RUNNER_TEMP}/rebuild_v1_clean_payload.tar.gz"
+          CHUNK_DIR="rebuild/v1/.payload_chunks"
+          NORMALIZED="${RUNNER_TEMP}/rebuild_v1_source.tar.gz"
+          EXPECTED_SHA256="a670e0140d57634ce1f3fb8dccf25b62a611122a7812183c673cdfe3ddd56c35"
 
-          if [ ! -f "$SOURCE" ]; then
-            echo "Missing payload: $SOURCE" >&2
+          mapfile -t CHUNKS < <(find "$CHUNK_DIR" -maxdepth 1 -type f -name 'payload_*.b64part' | sort)
+          if [ "${#CHUNKS[@]}" -ne 8 ]; then
+            echo "Expected 8 payload chunks, found ${#CHUNKS[@]}" >&2
+            printf '%s\n' "${CHUNKS[@]}" >&2
             exit 1
           fi
 
-          # The connector may preserve base64 text rather than decoding it to
-          # binary. Accept either representation, validate it, then unpack.
-          if [ "$(head -c 4 "$SOURCE")" = "H4sI" ]; then
-            echo "Detected base64-encoded gzip payload; decoding transport layer."
-            tr -d '\r\n ' < "$SOURCE" | base64 --decode > "$NORMALIZED"
-          else
-            echo "Detected binary gzip payload."
-            cp "$SOURCE" "$NORMALIZED"
-          fi
-
+          cat "${CHUNKS[@]}" | tr -d '\r\n ' | base64 --decode > "$NORMALIZED"
+          echo "${EXPECTED_SHA256}  ${NORMALIZED}" | sha256sum -c -
           gzip -t "$NORMALIZED"
           tar -xzf "$NORMALIZED" -C rebuild/v1
-          rm -f "$SOURCE"
+
+          # Remove transport-only material after successful verification.
+          rm -rf "$CHUNK_DIR"
+          rm -f rebuild/v1/.payload/rebuild_v1_clean_payload.tar.gz
+          rmdir rebuild/v1/.payload 2>/dev/null || true
 
       - name: Install core validation dependencies
         run: |
@@ -73,7 +73,9 @@ jobs:
             echo "- Source push: \`${GITHUB_SHA}\`"
             echo "- Validated UTC: \`$(date -u +'%Y-%m-%dT%H:%M:%SZ')\`"
             echo "- Branch: \`rebuild-v1-clean\`"
-            echo "- Protocol: \`CLINE-L1-B24M-TRAIL-v1\`"
+            echo "- Analysis protocol: \`CLINE-L1-B24M-TRAIL-v1\`"
+            echo "- Historical ingest protocol: \`CDAWEB-DSCOVR-1M-MEAN-v1\`"
+            echo "- Transport SHA-256: \`a670e0140d57634ce1f3fb8dccf25b62a611122a7812183c673cdfe3ddd56c35\`"
             echo "- Result: **PASS**"
             echo
             echo '```text'
@@ -81,10 +83,10 @@ jobs:
             echo '```'
           } > rebuild/v1/VALIDATION_STATUS.md
 
-      - name: Commit unpacked audited tree
+      - name: Commit validated source tree
         run: |
           git config user.name "CLINE Rebuild Bot"
           git config user.email "cline-rebuild@users.noreply.github.com"
-          git add rebuild/v1
-          git commit -m "rebuild(v1): unpack audited clean payload [skip ci]"
+          git add -A rebuild/v1
+          git commit -m "rebuild(v1): install checksum-verified audited source [skip ci]"
           git push origin HEAD:rebuild-v1-clean
