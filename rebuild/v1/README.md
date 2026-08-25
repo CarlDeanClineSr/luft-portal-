@@ -20,6 +20,8 @@ This isolated branch carries the corrected NOAA/DSCOVR-to-CME chain without over
 - The old composite score is tagged `legacy_composite_score_v1`.
 - Downstream users of the old score are listed in `DOWNSTREAM_RERUN_MANIFEST.yaml`.
 - `downstream_input_guard.py` fails closed when a canonical analysis is pointed at a legacy-only or generic `chi` column.
+- `historical/source_identity_guard.py` rejects terrestrial `F` layouts, generic `B/baseline/chi` layouts, wrong dataset declarations, inconsistent coordinate frames, and wrong-scale L1 fields before the baseline is calculated.
+- The 1000 nT automated review ceiling is a quarantine trigger, not a physical boundary; it never clips or replaces data.
 - Source coverage is checked before epochs are paired.
 
 ## Test
@@ -29,7 +31,7 @@ python -m pip install -r requirements.txt
 python -m pytest -q tests
 ```
 
-The current package passes **23 tests**.
+The current package passes **35 tests**, including explicit rejection of the surfaced 51,300 nT ground-magnetometer-like layout and preservation of unclipped `chi_B24M` values.
 
 ## Historical stress runs
 
@@ -48,7 +50,7 @@ python historical/run_epoch_batch.py \
   --outdir runs/historical
 ```
 
-No kinetic label is invented for this run.
+No kinetic label, proton beta, or Alfvén result is invented for this run.
 
 ### 2. September 2017 paired active-event test
 
@@ -75,6 +77,7 @@ The historical downloader uses NASA CDAWeb REST CSV, preserves request descripto
 - `EXAMINATION_PASS_2.md`
 - `CLINE_L1_BASELINE_PROTOCOL_V1.md`
 - `audit/legacy_estimator_audit.md`
+- `audit/GROUND_MAGNETOMETER_MISROUTE_AUDIT_2026-08-25.md`
 - `runs/regression_7day_v11/`
 
 The original timestamped V1 ZIP is preserved separately in the `LUFT_CLINE/rebuild_v1_audit` Google Drive folder. This clean package is commit-ready for `rebuild-v1-clean`; `main` remains untouched.
