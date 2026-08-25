@@ -18,7 +18,6 @@ sys.path.insert(0, str(ROOT))
 
 from cline_l1_chain_v1 import run_chain
 from historical.download_dscovr_cdaweb import (
-    IngestConfig,
     download_interval,
     download_magnetic_interval,
     download_plasma_interval,
@@ -26,11 +25,24 @@ from historical.download_dscovr_cdaweb import (
     parse_utc,
 )
 from historical.select_quiet_window import select_quiet_window
+from historical.source_identity_guard import validate_dscovr_l1_magnetic_file
 
 
 def load_config(path: str | Path) -> dict[str, Any]:
     with Path(path).open("r", encoding="utf-8") as handle:
         return yaml.safe_load(handle) or {}
+
+
+def _write_augmented_download_manifest(
+    download_root: Path,
+    manifest: dict[str, Any],
+    source_identity: dict[str, Any],
+) -> Path:
+    """Persist the identity-gate result next to the download provenance."""
+    manifest["source_identity_guard"] = source_identity
+    manifest_path = download_root / "download_manifest.json"
+    manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    return manifest_path
 
 
 def run_fixed(name: str, spec: dict[str, Any], root: Path, warmup: int) -> dict:
@@ -42,9 +54,15 @@ def run_fixed(name: str, spec: dict[str, Any], root: Path, warmup: int) -> dict:
         download_root,
         baseline_warmup_hours=warmup,
     )
+    magnetic_path = manifest["canonical_files"]["magnetic"]
+    source_identity = validate_dscovr_l1_magnetic_file(magnetic_path)
+    manifest_path = _write_augmented_download_manifest(
+        download_root, manifest, source_identity
+    )
+
     analysis_root = run_root / "analysis"
     _, summary = run_chain(
-        magnetic_path=manifest["canonical_files"]["magnetic"],
+        magnetic_path=magnetic_path,
         plasma_path=manifest["canonical_files"]["plasma"],
         output_dir=analysis_root,
         label=name,
@@ -52,15 +70,15 @@ def run_fixed(name: str, spec: dict[str, Any], root: Path, warmup: int) -> dict:
     return {
         "name": name,
         "kind": "fixed",
-        "download_manifest": str(download_root / "download_manifest.json"),
+        "download_manifest": str(manifest_path),
+        "source_identity_guard": source_identity,
         "analysis_summary": str(analysis_root / "cline_l1_summary.json"),
         "result": summary["results"]["all_baseline_valid"],
     }
 
 
-
 def run_magnetic_only(name: str, spec: dict[str, Any], root: Path, warmup: int) -> dict:
-    """Run canonical magnetic χ without pretending a kinetic split exists."""
+    """Run canonical magnetic chi without pretending a kinetic split exists."""
     run_root = root / name
     download_root = run_root / "download"
     analysis_start = parse_utc(spec["analysis_start"])
@@ -69,6 +87,7 @@ def run_magnetic_only(name: str, spec: dict[str, Any], root: Path, warmup: int) 
     mag_path, mag_summary = download_magnetic_interval(
         retrieval_start, analysis_end, download_root
     )
+    source_identity = validate_dscovr_l1_magnetic_file(mag_path)
     download_manifest = {
         "analysis_start": iso_utc(analysis_start),
         "analysis_end": iso_utc(analysis_end),
@@ -78,6 +97,7 @@ def run_magnetic_only(name: str, spec: dict[str, Any], root: Path, warmup: int) 
         "reason": spec.get("limitation"),
         "magnetic": mag_summary,
         "canonical_files": {"magnetic": str(mag_path), "plasma": None},
+        "source_identity_guard": source_identity,
     }
     download_manifest_path = download_root / "download_manifest.json"
     download_manifest_path.write_text(
@@ -94,10 +114,12 @@ def run_magnetic_only(name: str, spec: dict[str, Any], root: Path, warmup: int) 
         "name": name,
         "kind": "magnetic_only",
         "download_manifest": str(download_manifest_path),
+        "source_identity_guard": source_identity,
         "analysis_summary": str(analysis_root / "cline_l1_summary.json"),
         "kinetic_interpretation": "UNAVAILABLE_NO_PAIRED_DEFINITIVE_DSCOVR_PLASMA",
         "result": summary["results"]["all_baseline_valid"],
     }
+
 
 def run_quiet_scan(name: str, spec: dict[str, Any], root: Path, warmup: int) -> dict:
     run_root = root / name
@@ -124,9 +146,15 @@ def run_quiet_scan(name: str, spec: dict[str, Any], root: Path, warmup: int) -> 
         download_root,
         baseline_warmup_hours=warmup,
     )
+    magnetic_path = manifest["canonical_files"]["magnetic"]
+    source_identity = validate_dscovr_l1_magnetic_file(magnetic_path)
+    manifest_path = _write_augmented_download_manifest(
+        download_root, manifest, source_identity
+    )
+
     analysis_root = run_root / "analysis"
     _, summary = run_chain(
-        magnetic_path=manifest["canonical_files"]["magnetic"],
+        magnetic_path=magnetic_path,
         plasma_path=manifest["canonical_files"]["plasma"],
         output_dir=analysis_root,
         label=name,
@@ -136,7 +164,8 @@ def run_quiet_scan(name: str, spec: dict[str, Any], root: Path, warmup: int) -> 
         "kind": "quiet_scan",
         "selection": selection,
         "candidate_plasma_manifest": plasma_manifest,
-        "download_manifest": str(download_root / "download_manifest.json"),
+        "download_manifest": str(manifest_path),
+        "source_identity_guard": source_identity,
         "analysis_summary": str(analysis_root / "cline_l1_summary.json"),
         "result": summary["results"]["all_baseline_valid"],
     }
@@ -146,7 +175,8 @@ def run_named(config_path: str | Path, name: str, output_root: str | Path) -> di
     config = load_config(config_path)
     spec = config.get("runs", {}).get(name)
     if not spec:
-        raise KeyError(f"run {name!r} is not defined")
+        available = sorted((config.get("runs") or {}).keys())
+        raise KeyError(f"run {name!r} is not defined; available runs: {available}")
     root = Path(output_root)
     root.mkdir(parents=True, exist_ok=True)
     warmup = int(config.get("baseline_warmup_hours", 24))
