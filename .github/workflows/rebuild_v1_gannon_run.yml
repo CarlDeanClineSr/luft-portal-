@@ -1,4 +1,4 @@
-name: CLINE L1 — May 2024 Gannon Storm Stress Run
+name: CLINE L1 — May 2024 Gannon DSCOVR Magnetic Stress Run
 
 on:
   push:
@@ -41,15 +41,15 @@ jobs:
         working-directory: rebuild/v1
         run: python -m pytest -q tests
 
-      - name: Run May 2024 storm interval
+      - name: Run May 2024 DSCOVR magnetic-only interval
         working-directory: rebuild/v1
         env:
           PYTHONUNBUFFERED: "1"
         run: |
-          rm -rf runs/historical/gannon_storm_may_2024
+          rm -rf runs/historical/gannon_may_2024_dscovr_mag_only
           mkdir -p runs/historical
           python historical/run_epoch_batch.py \
-            --run gannon_storm_may_2024 \
+            --run gannon_may_2024_dscovr_mag_only \
             --outdir runs/historical
 
       - name: Record immutable run provenance
@@ -58,11 +58,13 @@ jobs:
         run: |
           mkdir -p runs/historical
           {
-            echo "run_id=gannon_storm_may_2024"
+            echo "run_id=gannon_may_2024_dscovr_mag_only"
             echo "branch=rebuild-v1-clean"
             echo "commit=${GITHUB_SHA}"
             echo "analysis_protocol=CLINE-L1-B24M-TRAIL-v1"
-            echo "ingest_protocol=CDAWEB-DSCOVR-1M-MEAN-v1"
+            echo "ingest_protocol=CDAWEB-DSCOVR-RESTCSV-1M-v1"
+            echo "source_dataset=DSCOVR_H0_MAG"
+            echo "paired_plasma=false"
             echo "workflow_run=${GITHUB_RUN_ID}"
             echo "utc_finished=$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
             python --version
@@ -75,7 +77,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cline-l1-gannon-storm-may-2024-${{ github.run_number }}
+          name: cline-l1-gannon-dscovr-mag-may-2024-${{ github.run_number }}
           path: rebuild/v1/runs/historical/
           retention-days: 60
           if-no-files-found: error
