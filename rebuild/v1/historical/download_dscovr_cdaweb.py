@@ -308,9 +308,16 @@ def _find_scalar_column(frame: pd.DataFrame, base: str) -> str:
 
 
 def _find_vector_columns(frame: pd.DataFrame, base: str) -> tuple[str, str, str]:
-    candidates = [column for column in frame.columns if base.lower() in column.lower()]
+    # Extract the first letter (e.g., 'b' or 'v') to dynamically catch NASA's BX_GSE or VX_GSE naming
+    prefix = base[0].lower()
+    
+    candidates = [
+        column for column in frame.columns 
+        if base.lower() in column.lower() or column.lower().startswith(prefix)
+    ]
+    
     if len(candidates) < 3:
-        raise DownloadError(f"vector variable {base!r} has fewer than 3 columns: {candidates}")
+        raise DownloadError(f"vector variable {base!r} has fewer than 3 candidates: {candidates}. All columns: {list(frame.columns)}")
 
     def component_score(column: str, component: str) -> int:
         normalized = re.sub(r"[^a-z0-9]", "", column.lower())
@@ -325,6 +332,11 @@ def _find_vector_columns(frame: pd.DataFrame, base: str) -> tuple[str, str, str]
                 score += 10
             if re.search(rf"(?:_|\[|\(|\s){re.escape(suffix)}(?:\]|\)|$)", column.lower()):
                 score += 20
+        
+        # Heavy boost if it catches 'bx', 'vx', 'b1y', etc. right at the front
+        if re.search(rf"^{prefix}[_1]?{component}", column.lower()):
+            score += 50
+            
         return score
 
     chosen: list[str] = []
@@ -337,13 +349,15 @@ def _find_vector_columns(frame: pd.DataFrame, base: str) -> tuple[str, str, str]
         else:
             chosen = []
             break
+            
     if len(chosen) == 3:
         return tuple(chosen)  # type: ignore[return-value]
 
     # CDAWeb commonly emits vector columns in their source component order.
     if len(candidates) == 3:
         return tuple(candidates)  # type: ignore[return-value]
-    raise DownloadError(f"vector variable {base!r} is ambiguous: {candidates}")
+        
+    raise DownloadError(f"vector variable {base!r} is ambiguous among candidates {candidates}. All columns: {list(frame.columns)}")
 
 
 def normalize_magnetic_csv(raw: pd.DataFrame, config: IngestConfig | None = None) -> pd.DataFrame:
