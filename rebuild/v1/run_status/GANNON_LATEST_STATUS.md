@@ -12,12 +12,12 @@
 - Ingest protocol: `CDAWEB-DSCOVR-RESTCSV-1M-v1`
 - Source dataset: `DSCOVR_H0_MAG`
 - Paired plasma: `false`
-- Completed UTC: `2026-08-26T00:25:14Z`
+- Completed UTC: `2026-08-26T01:36:31Z`
 
 ## Output files
 ```text
 RUN_EXIT_CODE.txt	2 bytes
-RUN_LOG.txt	1785 bytes
+RUN_LOG.txt	1864 bytes
 download/raw/magnetic/dscovr_h0_mag_20240507T0000_20240508T0000.csv	5296404 bytes
 download/raw/magnetic/dscovr_h0_mag_20240507T0000_20240508T0000.descriptor.json	1200 bytes
 ```
@@ -37,13 +37,13 @@ Traceback (most recent call last):
   File "/home/runner/work/luft-portal-/luft-portal-/rebuild/v1/historical/run_epoch_batch.py", line 87, in run_magnetic_only
     mag_path, mag_summary = download_magnetic_interval(
                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/luft-portal-/luft-portal-/rebuild/v1/historical/download_dscovr_cdaweb.py", line 476, in download_magnetic_interval
+  File "/home/runner/work/luft-portal-/luft-portal-/rebuild/v1/historical/download_dscovr_cdaweb.py", line 490, in download_magnetic_interval
     raw = normalize_magnetic_csv(read_cdaweb_csv(csv_bytes), config)
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/luft-portal-/luft-portal-/rebuild/v1/historical/download_dscovr_cdaweb.py", line 352, in normalize_magnetic_csv
-    bx_col, by_col, bz_col = _find_vector_columns(raw, "B1GSE")
-                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/luft-portal-/luft-portal-/rebuild/v1/historical/download_dscovr_cdaweb.py", line 313, in _find_vector_columns
-    raise DownloadError(f"vector variable {base!r} has fewer than 3 columns: {candidates}")
-historical.download_dscovr_cdaweb.DownloadError: vector variable 'B1GSE' has fewer than 3 columns: []
+  File "/home/runner/work/luft-portal-/luft-portal-/rebuild/v1/historical/download_dscovr_cdaweb.py", line 367, in normalize_magnetic_csv
+    magnitude_col = _find_scalar_column(raw, "B1F1")
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/luft-portal-/luft-portal-/rebuild/v1/historical/download_dscovr_cdaweb.py", line 307, in _find_scalar_column
+    raise DownloadError(f"scalar variable {base!r} not uniquely found in {list(frame.columns)}")
+historical.download_dscovr_cdaweb.DownloadError: scalar variable 'B1F1' not uniquely found in ['EPOCH_yyyy-mm-ddThh:mm:ss.sssZ', 'B_nT', 'QUALITY_FLAG_', 'BX_(GSE)_nT', 'BY_(GSE)_nT', 'BZ_(GSE)_nT']
 ```
