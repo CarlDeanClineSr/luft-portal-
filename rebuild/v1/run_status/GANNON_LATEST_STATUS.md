@@ -12,7 +12,7 @@
 - Ingest protocol: `CDAWEB-DSCOVR-RESTCSV-1M-v1`
 - Source dataset: `DSCOVR_H0_MAG`
 - Paired plasma: `false`
-- Completed UTC: `2026-08-25T23:35:47Z`
+- Completed UTC: `2026-08-26T00:25:14Z`
 
 ## Output files
 ```text
