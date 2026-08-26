@@ -8,9 +8,9 @@
 - Analysis protocol: `CLINE-L1-B24M-TRAIL-v1`
 - Historical ingest protocol: `CDAWEB-DSCOVR-RESTCSV-1M-v1`
 - Magnetic source contract: `DSCOVR_H0_MAG / GSE / header-based parsing`
-- Checked UTC: `2026-08-25T23:44:25Z`
+- Checked UTC: `2026-08-26T00:36:51Z`
 
 ```text
 .....................................                                    [100%]
-37 passed in 0.92s
+37 passed in 0.97s
 ```
